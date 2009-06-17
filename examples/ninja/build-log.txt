@@ -1,0 +1,72 @@
+# ooc v0.2 codename ninja, built on 2009-06-17 20:20
+Started ooc compiler daemon at port 14269 Wed Jun 17 20:22:04 GMT 2009
+Got connection to ooc compiler daemon from /127.0.0.1:46905
+Got remote command to compile 'downcasting'
+class-tests/downcasting.c: In function ‘main’:
+class-tests/downcasting.c:49: attention : initialization from incompatible pointer type
+Finished compilation in 271ms.
+Got remote command to compile 'fromkeyword'
+Finished compilation in 119ms.
+Got remote command to compile 'sizeofclass'
+Finished compilation in 110ms.
+Got remote command to compile 'upcasting'
+class-tests/upcasting.c: In function ‘main’:
+class-tests/upcasting.c:49: attention : initialization from incompatible pointer type
+Finished compilation in 116ms.
+Got remote command to compile 'string-length'
+Finished compilation in 192ms.
+Got remote command to compile 'funcwithargs'
+Finished compilation in 119ms.
+Got remote command to compile 'implicitreturn'
+Finished compilation in 100ms.
+Got remote command to compile 'memberarginference'
+Finished compilation in 109ms.
+Got remote command to compile 'newnoparen'
+Finished compilation in 101ms.
+Got remote command to compile 'nonvoidfunc'
+Finished compilation in 97ms.
+Got remote command to compile 'noparenthesiscall'
+Finished compilation in 87ms.
+Got remote command to compile 'returnlastvalue'
+Finished compilation in 123ms.
+Got remote command to compile 'returntypeinference'
+Finished compilation in 165ms.
+Got remote command to compile 'simplefunc'
+Finished compilation in 91ms.
+Got remote command to compile 'staticnoparencall'
+Finished compilation in 97ms.
+Got remote command to compile 'transparentgetter'
+Finished compilation in 105ms.
+Got remote command to compile 'simple'
+pointer-tests/simple.c: In function ‘main’:
+pointer-tests/simple.c:11: attention : déclaration sasn effet
+Finished compilation in 104ms.
+Got remote command to compile 'static-func'
+pointer-tests/static-func.c: In function ‘main’:
+pointer-tests/static-func.c:44: attention : déclaration sasn effet
+Finished compilation in 103ms.
+Got remote command to compile 'static-pointer'
+java.lang.NullPointerException
+	at org.ooc.nodes.reference.FunctionReference.writeToCSource(FunctionReference.java:95)
+	at org.ooc.structures.Member.writeDefinition(Member.java:82)
+	at org.ooc.nodes.clazz.ClassDef.writeStaticFieldsDefinitions(ClassDef.java:450)
+	at org.ooc.nodes.clazz.ClassDef.writeToCSource(ClassDef.java:142)
+	at org.ooc.nodes.RootNode.writeToCSource(RootNode.java:70)
+	at org.ooc.structures.Source.writeToCSource(Source.java:73)
+	at org.ooc.outputting.CachedFileOutputter.write(CachedFileOutputter.java:32)
+	at org.ooc.outputting.FileOutputter.write(FileOutputter.java:65)
+	at org.ooc.outputting.FileOutputter.output(FileOutputter.java:40)
+	at org.ooc.backends.GccBackend.compile(GccBackend.java:162)
+	at org.ooc.compiler.Compiler.compile(Compiler.java:67)
+	at org.ooc.compiler.CompilerDaemon$1.run(CompilerDaemon.java:109)
+	at java.lang.Thread.run(Thread.java:619)
+Finished compilation in 7ms.
+Got remote command to compile 'static-pointer-static-init'
+pointer-tests/static-pointer-static-init.c: In function ‘main’:
+pointer-tests/static-pointer-static-init.c:57: attention : déclaration sasn effet
+Finished compilation in 142ms.
+Got remote command to compile 'undernumbers'
+Finished compilation in 107ms.
+java.lang.NullPointerException
+	at org.ooc.compiler.CompilerDaemon$1.run(CompilerDaemon.java:85)
+	at java.lang.Thread.run(Thread.java:619)

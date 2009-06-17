@@ -1,0 +1,150 @@
+# ooc v0.2 codename ninja, built on 2009-06-17 20:20
+Started ooc compiler daemon at port 14269 Wed Jun 17 20:29:24 GMT 2009
+Got connection to ooc compiler daemon from /127.0.0.1:38625
+Got remote command to compile 'example1'
+Finished compilation in 268ms.
+Got remote command to compile 'example2'
+Finished compilation in 175ms.
+Got remote command to compile 'example3'
+basic-tests/example3.c: In function ‘main’:
+basic-tests/example3.c:116: attention : initialization from incompatible pointer type
+basic-tests/example3.c:117: attention : initialization from incompatible pointer type
+Finished compilation in 169ms.
+Got remote command to compile 'example4'
+ /blue/Dev/ooc/razor-examples/basic-tests/example4.ooc:10:3, WARNING: Passing a pointer to function which is not static. 'this' parameter could be garbage when called from C code.
+basic-tests/example4.c: In function ‘__LikeWise_swoosh’:
+basic-tests/example4.c:24: attention : déclaration sasn effet
+Finished compilation in 127ms.
+Got remote command to compile 'example5'
+Finished compilation in 234ms.
+Got remote command to compile 'timetest'
+basic-tests/timetest.c: In function ‘main’:
+basic-tests/timetest.c:13: attention : implicit declaration of function ‘usleep’
+Finished compilation in 290ms.
+Got remote command to compile 'member-func-pointer'
+Finished compilation in 144ms.
+Got remote command to compile 'fac'
+Finished compilation in 157ms.
+Got remote command to compile 'cascadeCalls'
+Finished compilation in 149ms.
+Got remote command to compile 'funcAsForeachLimit'
+Finished compilation in 121ms.
+Got remote command to compile 'animals'
+Finished compilation in 116ms.
+Got remote command to compile 'dog'
+ /blue/Dev/ooc/razor-examples/oo-tests/dog.ooc:32:15: Hoping for next [Name] at  /blue/Dev/ooc/razor-examples/oo-tests/dog.ooc:32:15 to assemble more
+ /blue/Dev/ooc/razor-examples/oo-tests/dog.ooc:32:14: Hoping for next [Name] at  /blue/Dev/ooc/razor-examples/oo-tests/dog.ooc:32:15 to assemble more
+Finished compilation in 173ms.
+Got remote command to compile 'funcArg'
+Finished compilation in 132ms.
+Got remote command to compile 'inherit'
+Finished compilation in 180ms.
+Got remote command to compile 'memberAccess'
+Finished compilation in 101ms.
+Got remote command to compile 'scannerTest'
+ /blue/Dev/ooc/razor-examples/./../sdk/io/StringReader.ooc:14:6, WARNING: Passing a pointer to function which is not static. 'this' parameter could be garbage when called from C code.
+oo-tests/scannerTest.c: In function ‘main’:
+oo-tests/scannerTest.c:34: attention : passing argument 1 of ‘__io_Scanner_new_Reader’ from incompatible pointer type
+oo-tests/scannerTest.c:36: attention : passing argument 1 of ‘__io_Scanner_new_Reader’ from incompatible pointer type
+oo-tests/scannerTest.c: In function ‘__printData’:
+oo-tests/scannerTest.c:57: attention : passing argument 1 of ‘__io_Scanner_new_Reader’ from incompatible pointer type
+Finished compilation in 558ms.
+Got remote command to compile 'glut'
+ /blue/Dev/ooc/razor-examples/opengl-tests/glut.ooc:34:19, WARNING: Passing a pointer to function which is not static. 'this' parameter could be garbage when called from C code.
+ /blue/Dev/ooc/razor-examples/opengl-tests/glut.ooc:51:3, WARNING: Passing a pointer to function which is not static. 'this' parameter could be garbage when called from C code.
+Couldn't locate header file <windows.h>
+opengl-tests/glut.c: In function ‘__Window_show’:
+opengl-tests/glut.c:48: erreur: ‘struct Window__class’ has no member named ‘__displayWrapper’
+opengl-tests/glut.c: In function ‘__Window_displayWrapper’:
+opengl-tests/glut.c:67: erreur: ‘instance’ undeclared (first use in this function)
+opengl-tests/glut.c:67: erreur: (Each undeclared identifier is reported only once
+opengl-tests/glut.c:67: erreur: for each function it appears in.)
+opengl-tests/glut.c: In function ‘__Window_display’:
+opengl-tests/glut.c:74: attention : déclaration sasn effet
+org.ooc.backends.GccBackend$CommandFailedException: gcc failed with return code 1
+	at org.ooc.backends.GccBackend.launchGCC(GccBackend.java:325)
+	at org.ooc.backends.GccBackend.compile(GccBackend.java:226)
+	at org.ooc.compiler.Compiler.compile(Compiler.java:67)
+	at org.ooc.compiler.CompilerDaemon$1.run(CompilerDaemon.java:109)
+	at java.lang.Thread.run(Thread.java:619)
+Finished compilation in 373ms.
+Got remote command to compile 'class-name'
+Finished compilation in 101ms.
+Got remote command to compile 'foreach-range'
+Finished compilation in 133ms.
+Got remote command to compile 'include-legacy'
+Finished compilation in 129ms.
+Got remote command to compile 'include-new-many'
+Finished compilation in 112ms.
+Got remote command to compile 'include-new'
+Finished compilation in 92ms.
+Got remote command to compile 'initializer-class'
+Finished compilation in 173ms.
+Got remote command to compile 'initializer-instance'
+Finished compilation in 115ms.
+Got remote command to compile 'initializer-scope'
+Finished compilation in 132ms.
+Got remote command to compile 'main'
+Finished compilation in 116ms.
+Got remote command to compile 'mangling-class1'
+Finished compilation in 102ms.
+Got remote command to compile 'mangling-class2'
+Finished compilation in 129ms.
+Got remote command to compile 'mangling-static1'
+Finished compilation in 133ms.
+Got remote command to compile 'mangling-static2'
+Finished compilation in 105ms.
+Got remote command to compile 'static-access-from-many'
+AssemblyManager caught a 'Error', printing and continuing.
+java.lang.Error: Trying to replace a MemberAccess with a StaticMemberAccess, but the first doesn't have a parent!
+	at org.ooc.nodes.others.SyntaxNode.replaceWith(SyntaxNode.java:443)
+	at org.ooc.nodes.clazz.MemberAccess.assembleImpl(MemberAccess.java:85)
+	at org.ooc.nodes.others.SyntaxNode.assemble(SyntaxNode.java:151)
+	at org.ooc.errors.AssemblyManager.doPass(AssemblyManager.java:347)
+	at org.ooc.errors.AssemblyManager.assemble(AssemblyManager.java:80)
+	at org.ooc.parsers.SourceParser.parse(SourceParser.java:137)
+	at org.ooc.compiler.Compiler.compile(Compiler.java:56)
+	at org.ooc.compiler.CompilerDaemon$1.run(CompilerDaemon.java:109)
+	at java.lang.Thread.run(Thread.java:619)
+Was in queue because Turned a Name into a MemberAccess
+AssemblyManager caught a 'Error', printing and continuing.
+java.lang.Error: Trying to replace a MemberAccess with a StaticMemberAccess, but the first doesn't have a parent!
+	at org.ooc.nodes.others.SyntaxNode.replaceWith(SyntaxNode.java:443)
+	at org.ooc.nodes.clazz.MemberAccess.assembleImpl(MemberAccess.java:85)
+	at org.ooc.nodes.others.SyntaxNode.assemble(SyntaxNode.java:151)
+	at org.ooc.errors.AssemblyManager.doPass(AssemblyManager.java:347)
+	at org.ooc.errors.AssemblyManager.assemble(AssemblyManager.java:80)
+	at org.ooc.parsers.SourceParser.parse(SourceParser.java:137)
+	at org.ooc.compiler.Compiler.compile(Compiler.java:56)
+	at org.ooc.compiler.CompilerDaemon$1.run(CompilerDaemon.java:109)
+	at java.lang.Thread.run(Thread.java:619)
+Was in queue because Turned a Name into a MemberAccess
+regression-tests/candy/CandyGiver.c: In function ‘__candy_CandyGiver_new’:
+regression-tests/candy/CandyGiver.c:45: attention : operation on ‘candy_CandyGiver_candyCounter’ may be undefined
+Finished compilation in 366ms.
+Got remote command to compile 'static-variable-via-class'
+Finished compilation in 131ms.
+Got remote command to compile 'static-variable-via-member'
+Finished compilation in 122ms.
+Got remote command to compile 'null-shouldfail'
+Finished compilation in 148ms.
+Got remote command to compile 'Anagrams'
+ /blue/Dev/ooc/razor-examples/sugar-tests/Anagrams.ooc:38:13: Hoping for next [Parenthesis] at  /blue/Dev/ooc/razor-examples/sugar-tests/Anagrams.ooc:38:15 to assemble more
+ /blue/Dev/ooc/razor-examples/sugar-tests/Anagrams.ooc:38:15: Lower of a Range and still not finished assembling
+ /blue/Dev/ooc/razor-examples/sugar-tests/Anagrams.ooc:38:30: Lower (a Parenthesis with 3 nodes [VariableAccess, Plus, IntLiteral] nodes) not finished assembling.
+Finished compilation in 68ms.
+Got remote command to compile 'Fibonnaci'
+/blue/Dev/ooc/razor-examples/sugar-tests/Fibonnaci.ooc:8:9: Invalid type name int. Types must start with an upper-case letter
+Finished compilation in 2ms.
+Got remote command to compile 'HanoiTower'
+ /blue/Dev/ooc/razor-examples/sugar-tests/HanoiTower.ooc:7:33: Expected name after type 'char' in function definition
+Finished compilation in 4ms.
+Got remote command to compile 'Sieve'
+/blue/Dev/ooc/razor-examples/sugar-tests/Sieve.ooc:9:9: Invalid type name int. Types must start with an upper-case letter
+Finished compilation in 8ms.
+Got remote command to compile 'sugar1'
+ /blue/Dev/ooc/razor-examples/sugar-tests/sugar1.ooc:14:8: The (=*) syntax has been removed from ooc since v0.2, as it was considered dangerous. Use (=field1, =field2, =field3) instead.
+Finished compilation in 2ms.
+java.lang.NullPointerException
+	at org.ooc.compiler.CompilerDaemon$1.run(CompilerDaemon.java:85)
+	at java.lang.Thread.run(Thread.java:619)

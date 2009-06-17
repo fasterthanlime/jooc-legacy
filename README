@@ -1,0 +1,36 @@
+ooc
+===
+
+An ooc compiler, written in Java.
+
+This is the initial prototype implementation of the ooc programming language.
+It's been proven stable enough to compile a 60+ classes project throughout its
+development. So it's a good starting point.
+
+However, another effort is going on at the moment to implement an ooc
+compiler in ooc itself. The goals are to go slowly and carefully to implement
+it as correctly as possible. "Testing first =)"
+
+Getting Started
+===============
+
+The 'executable' is dist/ooc.jar. You can launch it like that:
+	java -jar dist/ooc.jar
+
+But for convenience, you can also use the launch-ooc.sh script
+
+OOC_DIST:
+	The OOC_DIST environment variable, if set to the directory
+	where you installed ooc (e.g. directory with "libs", "sdk",
+	"dist", "examples", etc.) it allows the compiler to set the
+	libpath etc. by itself, if empty.
+
+backends:
+	ooc now defaults to the gcc backend, with clean=on, and
+	outpath in the current directory. It allows for the quick
+	and dirty.
+
+commandline:
+	you can "ln -s $OOC_DIST/launch-ooc.sh /usr/bin/ooc" or
+	wherever you want, if you want to be able to launch ooc
+	easily

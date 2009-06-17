@@ -1,0 +1,322 @@
+# ooc v0.2 codename ninja, built on 2009-06-10 04:18
+ ./vector2f-test.ooc:20:3 assembling name x
+replaced with memberAccess
+ ./vector2f-test.ooc:21:3 assembling name y
+replaced with memberAccess
+ ./vector2f-test.ooc:42:2 assembling name Animal
+Replaced with a variable declaration of name animal
+ ./vector2f-test.ooc:46:13 assembling name animal
+didn't resolve to anything!
+ ./vector2f-test.ooc:46:20 assembling name x
+prev isn't null and it's a dot, returning..
+ ./vector2f-test.ooc:46:24 assembling name Prey
+replaced with a ClassReference
+ ./vector2f-test.ooc:46:29 assembling name PERCEPTION
+prev isn't null and it's a dot, returning..
+ ./vector2f-test.ooc:47:13 assembling name animal
+didn't resolve to anything!
+ ./vector2f-test.ooc:47:20 assembling name x
+prev isn't null and it's a dot, returning..
+ ./vector2f-test.ooc:47:24 assembling name Prey
+replaced with a ClassReference
+ ./vector2f-test.ooc:47:29 assembling name PERCEPTION
+prev isn't null and it's a dot, returning..
+ ./vector2f-test.ooc:48:13 assembling name animal
+didn't resolve to anything!
+ ./vector2f-test.ooc:48:20 assembling name y
+prev isn't null and it's a dot, returning..
+ ./vector2f-test.ooc:48:24 assembling name Prey
+replaced with a ClassReference
+ ./vector2f-test.ooc:48:29 assembling name PERCEPTION
+prev isn't null and it's a dot, returning..
+ ./vector2f-test.ooc:49:13 assembling name animal
+didn't resolve to anything!
+ ./vector2f-test.ooc:49:20 assembling name y
+prev isn't null and it's a dot, returning..
+ ./vector2f-test.ooc:49:24 assembling name Prey
+replaced with a ClassReference
+ ./vector2f-test.ooc:49:29 assembling name PERCEPTION
+prev isn't null and it's a dot, returning..
+ ./vector2f-test.ooc:51:13 assembling name minX
+replaced with variableaccess
+ ./vector2f-test.ooc:51:19 assembling name maxX
+replaced with variableaccess
+ ./vector2f-test.ooc:52:14 assembling name minY
+replaced with variableaccess
+ ./vector2f-test.ooc:52:20 assembling name maxY
+replaced with variableaccess
+ ./vector2f-test.ooc:54:18 assembling name numPredators
+replaced with variableaccess
+ ./vector2f-test.ooc:55:5 assembling name vec
+replaced with variableaccess
+ ./vector2f-test.ooc:56:5 assembling name count
+replaced with variableaccess
+ ./vector2f-test.ooc:61:2 assembling name Vector2f
+Replaced with a variable declaration of name direction
+ ./vector2f-test.ooc:62:5 assembling name count
+replaced with variableaccess
+ ./vector2f-test.ooc:64:3 assembling name direction
+didn't resolve to anything!
+ ./vector2f-test.ooc:68:3 assembling name direction
+didn't resolve to anything!
+ ./vector2f-test.ooc:68:18 assembling name Float
+didn't resolve to anything!
+ ./vector2f-test.ooc:68:25 assembling name count
+replaced with variableaccess
+ ./vector2f-test.ooc:69:3 assembling name direction
+didn't resolve to anything!
+ ./vector2f-test.ooc:69:24 assembling name animal
+didn't resolve to anything!
+ ./vector2f-test.ooc:69:31 assembling name lifeLevel
+prev isn't null and it's a dot, returning..
+ ./vector2f-test.ooc:69:43 assembling name Animal
+replaced with a ClassReference
+ ./vector2f-test.ooc:69:50 assembling name ENERGY_MOVE
+prev isn't null and it's a dot, returning..
+ ./vector2f-test.ooc:70:3 assembling name direction
+didn't resolve to anything!
+ ./vector2f-test.ooc:73:35 assembling name direction
+didn't resolve to anything!
+ ./vector2f-test.ooc:73:45 assembling name squaredLength
+prev isn't null and it's a dot, returning..
+ ./vector2f-test.ooc:64:3 assembling name direction
+didn't resolve to anything!
+ ./vector2f-test.ooc:68:3 assembling name direction
+didn't resolve to anything!
+ ./vector2f-test.ooc:69:3 assembling name direction
+didn't resolve to anything!
+ ./vector2f-test.ooc:70:3 assembling name direction
+didn't resolve to anything!
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:11:3 assembling name x
+replaced with memberAccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:12:3 assembling name y
+replaced with memberAccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:18:3 assembling name x
+replaced with memberAccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:18:7 assembling name copy
+replaced with variableaccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:18:12 assembling name x
+prev isn't null and it's a dot, returning..
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:19:3 assembling name y
+replaced with memberAccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:19:7 assembling name copy
+replaced with variableaccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:19:12 assembling name y
+prev isn't null and it's a dot, returning..
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:23:4 assembling name x
+replaced with memberAccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:23:8 assembling name x
+replaced with memberAccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:23:12 assembling name y
+replaced with memberAccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:23:16 assembling name y
+replaced with memberAccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:27:8 assembling name x
+replaced with memberAccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:27:12 assembling name x
+replaced with memberAccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:27:16 assembling name y
+replaced with memberAccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:27:20 assembling name y
+replaced with memberAccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:31:3 assembling name x
+replaced with memberAccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:31:8 assembling name x
+replaced with memberAccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:32:3 assembling name y
+replaced with memberAccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:32:8 assembling name y
+replaced with memberAccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:37:6 assembling name _length
+replaced with variableaccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:38:7 assembling name _length
+replaced with variableaccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:38:18 assembling name EPSILON
+replaced with memberAccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:42:7 assembling name _length
+replaced with variableaccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:42:17 assembling name EPSILON
+replaced with memberAccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:46:3 assembling name x
+replaced with memberAccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:46:8 assembling name _length
+replaced with variableaccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:47:3 assembling name y
+replaced with memberAccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:47:8 assembling name _length
+replaced with variableaccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:52:6 assembling name _length
+replaced with variableaccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:53:7 assembling name _length
+replaced with variableaccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:53:18 assembling name EPSILON
+replaced with memberAccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:57:7 assembling name _length
+replaced with variableaccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:57:17 assembling name EPSILON
+replaced with memberAccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:61:3 assembling name x
+replaced with memberAccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:61:8 assembling name _length
+replaced with variableaccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:61:18 assembling name newLength
+replaced with variableaccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:62:3 assembling name y
+replaced with memberAccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:62:8 assembling name _length
+replaced with variableaccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:62:18 assembling name newLength
+replaced with variableaccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:68:3 assembling name x
+replaced with memberAccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:68:7 assembling name t
+replaced with variableaccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:68:9 assembling name x
+prev isn't null and it's a dot, returning..
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:69:3 assembling name y
+replaced with memberAccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:69:7 assembling name t
+replaced with variableaccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:69:9 assembling name y
+prev isn't null and it's a dot, returning..
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:73:3 assembling name x
+replaced with memberAccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:73:8 assembling name t
+replaced with variableaccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:73:10 assembling name x
+prev isn't null and it's a dot, returning..
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:74:3 assembling name y
+replaced with memberAccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:74:8 assembling name t
+replaced with variableaccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:74:10 assembling name y
+prev isn't null and it's a dot, returning..
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:78:3 assembling name x
+replaced with memberAccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:78:8 assembling name t
+replaced with variableaccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:78:10 assembling name x
+prev isn't null and it's a dot, returning..
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:79:3 assembling name y
+replaced with memberAccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:79:8 assembling name t
+replaced with variableaccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:79:10 assembling name y
+prev isn't null and it's a dot, returning..
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:83:3 assembling name x
+replaced with memberAccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:83:8 assembling name f
+replaced with variableaccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:84:3 assembling name y
+replaced with memberAccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:84:8 assembling name f
+replaced with variableaccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:88:3 assembling name x
+replaced with memberAccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:88:8 assembling name f
+replaced with variableaccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:89:3 assembling name y
+replaced with memberAccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:89:8 assembling name f
+replaced with variableaccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:93:3 assembling name this
+replaced with variableaccess to this
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:93:8 assembling name x
+prev isn't null and it's a dot, returning..
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:93:13 assembling name x
+replaced with variableaccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:94:3 assembling name this
+replaced with variableaccess to this
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:94:8 assembling name y
+prev isn't null and it's a dot, returning..
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:94:13 assembling name y
+replaced with variableaccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:98:3 assembling name this
+replaced with variableaccess to this
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:98:8 assembling name x
+prev isn't null and it's a dot, returning..
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:98:13 assembling name x
+replaced with variableaccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:99:3 assembling name this
+replaced with variableaccess to this
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:99:8 assembling name y
+prev isn't null and it's a dot, returning..
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:99:13 assembling name y
+replaced with variableaccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:103:3 assembling name this
+replaced with variableaccess to this
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:103:8 assembling name x
+prev isn't null and it's a dot, returning..
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:103:13 assembling name x
+replaced with variableaccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:104:3 assembling name this
+replaced with variableaccess to this
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:104:8 assembling name y
+prev isn't null and it's a dot, returning..
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:104:13 assembling name y
+replaced with variableaccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:108:3 assembling name this
+replaced with variableaccess to this
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:108:8 assembling name x
+prev isn't null and it's a dot, returning..
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:108:13 assembling name x
+replaced with variableaccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:109:3 assembling name this
+replaced with variableaccess to this
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:109:8 assembling name y
+prev isn't null and it's a dot, returning..
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:109:13 assembling name y
+replaced with variableaccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:114:26 assembling name BUFFER_SIZE
+replaced with variableaccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:115:12 assembling name buffer
+replaced with variableaccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:115:20 assembling name BUFFER_SIZE
+replaced with variableaccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:115:49 assembling name x
+replaced with memberAccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:115:52 assembling name y
+replaced with memberAccess
+ /blue/Dev/ooc/sdk/math/Vector2f.ooc:116:10 assembling name buffer
+replaced with variableaccess
+ /blue/Dev/ooc/sdk/OocLib.ooc:18:25 assembling name nmemb
+replaced with variableaccess
+ /blue/Dev/ooc/sdk/OocLib.ooc:18:33 assembling name size
+replaced with variableaccess
+ /blue/Dev/ooc/sdk/OocLib.ooc:19:9 assembling name tmp
+replaced with variableaccess
+ /blue/Dev/ooc/sdk/OocLib.ooc:19:17 assembling name nmemb
+replaced with variableaccess
+ /blue/Dev/ooc/sdk/OocLib.ooc:19:25 assembling name size
+replaced with variableaccess
+ /blue/Dev/ooc/sdk/OocLib.ooc:20:9 assembling name tmp
+replaced with variableaccess
+ ./vector2f-test.ooc:64:3 assembling name direction
+didn't resolve to anything!
+ ./vector2f-test.ooc:68:3 assembling name direction
+didn't resolve to anything!
+ ./vector2f-test.ooc:69:3 assembling name direction
+didn't resolve to anything!
+ ./vector2f-test.ooc:70:3 assembling name direction
+didn't resolve to anything!
+ ./vector2f-test.ooc:64:3 assembling name direction
+replaced with variableaccess
+ ./vector2f-test.ooc:68:3 assembling name direction
+replaced with variableaccess
+ ./vector2f-test.ooc:69:3 assembling name direction
+replaced with variableaccess
+ ./vector2f-test.ooc:70:3 assembling name direction
+replaced with variableaccess
+ooc_tmp/vector2f-test.c: In function ‘main’:
+ooc_tmp/vector2f-test.c:81: erreur: request for member ‘x’ in something not a structure or union
+ooc_tmp/vector2f-test.c:82: erreur: request for member ‘x’ in something not a structure or union
+ooc_tmp/vector2f-test.c:83: erreur: request for member ‘y’ in something not a structure or union
+ooc_tmp/vector2f-test.c:84: erreur: request for member ‘y’ in something not a structure or union
+ooc_tmp/vector2f-test.c:99: attention : implicit declaration of function ‘rand’
+ooc_tmp/vector2f-test.c:107: erreur: request for member ‘lifeLevel’ in something not a structure or union
+ooc_tmp/vector2f-test.c:110: erreur: request for member ‘squaredLength’ in something not a structure or union
+org.ooc.backends.GccBackend$CommandFailedException: gcc failed with return code 1
+	at org.ooc.backends.GccBackend.launchGCC(GccBackend.java:325)
+	at org.ooc.backends.GccBackend.compile(GccBackend.java:226)
+	at org.ooc.compiler.Compiler.compile(Compiler.java:67)
+	at org.ooc.compiler.CommandLineInterface.main(CommandLineInterface.java:165)

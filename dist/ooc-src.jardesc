@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<jardesc>
+    <jar path="/blue/Dev/releases/ooc/ooc-src-0.1-razor.jar"/>
+    <options buildIfNeeded="true" compress="true" descriptionLocation="/ooc/ooc-src.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+    <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
+    <selectedProjects/>
+    <manifest generateManifest="true" manifestLocation="" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
+        <sealing sealJar="false">
+            <packagesToSeal/>
+            <packagesToUnSeal/>
+        </sealing>
+    </manifest>
+    <selectedElements exportClassFiles="true" exportJavaFiles="true" exportOutputFolder="false">
+        <file path="/ooc/README"/>
+        <folder path="/ooc/third-party"/>
+        <folder path="/ooc/art"/>
+        <file path="/ooc/.classpath"/>
+        <file path="/ooc/.project"/>
+        <folder path="/ooc/libs"/>
+        <file path="/ooc/.checkstyle"/>
+        <javaElement handleIdentifier="=ooc/src"/>
+        <folder path="/ooc/sdk"/>
+        <folder path="/ooc/build"/>
+        <folder path="/ooc/doc"/>
+        <folder path="/ooc/examples"/>
+        <file path="/ooc/launch-ooc.sh"/>
+        <file path="/ooc/create-dist-jar.xml"/>
+        <folder path="/ooc/dist"/>
+        <file path="/ooc/manifest.mf"/>
+    </selectedElements>
+    <fatjar builder="org.eclipse.jdt.ui.plain_jar_builder" launchConfig=""/>
+</jardesc>

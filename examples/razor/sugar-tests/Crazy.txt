@@ -1,0 +1,154 @@
+#summary What crazy language features are in the make for ooc v0.2, codename ninja?
+
+= Introduction =
+
+Until now, we had mostly a C-like syntax with a bit of Java here and there. Now is the time to take our independance.
+
+This content is still under construction, and it concerns a not-yet-released version of ooc. You're very welcome if you want to discuss about it, but don't be surprised if it doesn't compile under ooc v0.1 <> For an overview of the language ooc v0.1 supports, see LanguageSummary
+
+= Type names =
+
+Up until 0.1, ooc maintained a difference between primitive and class/object types, and also in syntax, violating the CamelCase rules for types. As a consequence, base types are now removed to: Int, Bool, Char, String, Float, Double, etc. They are otherwise handled exactly the same
+
+= Function definitions =
+
+Function definitions now begin with 'func', e.g.
+{{{
+func myVoidFunction {
+  // Do stuff
+}
+
+func getTwo = Int {
+  return 2;
+}
+
+func setToTwo(Int t) {
+  t = 2;
+}
+}}}
+
+Return types are either not specified (void), or specified with ' = T' after the name of the function. Parenthesis are optional for functions that do not take arguments.
+
+There is no difference between a 'function' a 'method', a 'procedure', or a 'routine' in ooc. Keep It Simple, Stupid! it's basically all the same thing. Implementation details go to the compiler
+
+= Function calling =
+Function that take no parameters can now be called without parenthesis, ie.
+{{{
+Int id = generateID;
+}}}
+is the same as:
+{{{
+Int id = generateID();
+}}}
+
+What does it imply? That this:
+{{{
+func myCallback {}
+func registerCallback(Func ) {}
+
+registerCallback(myCallback);
+}}}
+..is actually not valid anymore. It would actually result in a compile error, since myCallback, which (in this example) return void. The correct way to do it.
+
+= Type inference =
+Other languages, e.g. D, do:
+{{{
+auto finder = new Finder();
+auto a = 4;
+}}}
+They got it all.. wrong! Maybe we want a to be a double, not an int. The type of the variable should be absolutely specified, but the type of the constructor may be implicit, if there is no ambiguity.
+{{{
+Finder finder = new();
+double a = 4; // Not much more typing
+}}}
+
+Of course:
+{{{
+AbstractFinder incorrect = new(); // ERROR: can't instantiate abstract class
+AbstractFinder correct = new Finder(); // Alright, the classic way of doing it =)
+}}}
+
+= Returning with '!' =
+
+In simple methods, we can return values/objects with an exclamation point "!" in place of the semicolon ";", e.g.
+{{{
+func getTwo = int {
+  print("Really, should we get two?");
+  2 !
+}
+}}}
+
+= The '=field' syntax =
+
+In ooc razor, the =field syntax was used like this:
+{{{
+class Class {
+  int field;
+
+  =field getField();
+  setField(=field);
+}
+
+Class c = new Class();
+c.setField(3);
+printf("%d\n", c.getField());
+}}}
+
+Which was equivalent to:
+{{{
+class Class {
+  int field;
+
+  int getField() {
+    return this.field;
+  }
+  void setField(int field) {
+    this.field = field;
+  }
+}
+
+Class c = new Class();
+c.setField(3);
+printf("%d\n", c.getField());
+}}}
+
+In ooc ninja, it's used like this:
+{{{
+class Class {
+  int field;
+
+  func field {
+    // accessor: do whatever you want
+    // and then return field. If you return
+    // nothing, it will be done for you
+  }
+
+  func =field {
+    // either assign this.field or do
+    // 'return something', which will be
+    // assigned to this.field automatically
+  };
+}
+
+Class c = new();
+c.field = 3;
+printf("%d\n", c.field);
+}}}
+
+Which is equivalent to:
+
+= Interfaces =
+
+First off, trade the `extends` and `implements` keywords for the `from` keyword, which is not only shorter, but also explicit and more generic. E.g.
+{{{
+class Rectangle from Shape, Serializable {
+  // Is Shape an abstract class? An interface? We don't know, we don't care.
+}
+}}}
+
+= The `with` keyword =
+
+
+
+= Adding functions to other classes =
+
