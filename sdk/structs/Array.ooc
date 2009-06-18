@@ -4,17 +4,21 @@ import structs.Iterator;
 
 class Array from Iterable {
 
-	Int length;
+	Int size;
 	Object* data;
 	
-	new(=length, =data);
+	new(=size, =data);
 	
 	func get(Int i) -> Object {
-		if(i < 0 || i >= length) {
-			printf("Out of bounds exception: Attempting to access an array of size %d at index %d\n", length, i);
+		if(i < 0 || i >= size) {
+			printf("Out of bounds exception: Attempting to access an array of size %d at index %d\n", size, i);
 			exit(1);
 		}
 		return data[i];
+	}
+	
+	static func alloc(Int numElem, Int typeSize) -> Array {
+		return new Array(numElem, malloc(numElem * typeSize));
 	}
 	
 	implement iterator {
@@ -31,7 +35,7 @@ class ArrayIterator from Iterator {
 	new(=array);
 	
 	implement hasNext {
-		i < array.length;
+		i < array.size;
 	}
 	
 	implement next {

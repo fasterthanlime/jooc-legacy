@@ -85,6 +85,16 @@ class OperatorsParser implements Parser {
 	        context.add(new RawCode(reader.getLocation(), ">= "));
 	        success = true;
 	
+	    } else if (reader.matches("<<", true)) {
+	
+	        context.add(new RawCode(reader.getLocation(), "<< "));
+	        success = true;
+	
+	    } else if (reader.matches(">>", true)) {
+	
+	        context.add(new RawCode(reader.getLocation(), ">> "));
+	        success = true;
+	
 	    } else if (reader.matches("<", true)) {
 	
 	        context.add(new RawCode(reader.getLocation(), "< "));
@@ -120,6 +130,11 @@ class OperatorsParser implements Parser {
 	        context.add(new RawCode(reader.getLocation(), "|| "));
 	        success = true;
 	
+	    } else if (reader.matches("|=", true)) {
+
+	        context.add(new RawCode(reader.getLocation(), "|= "));
+	        success = true;
+	
 	    } else if (reader.matches("|", true)) {
 	
 	        context.add(new RawCode(reader.getLocation(), "| "));
@@ -128,6 +143,11 @@ class OperatorsParser implements Parser {
 	    } else if (reader.matches("&&", true)) {
 	
 	        context.add(new RawCode(reader.getLocation(), "&& "));
+	        success = true;
+	
+	    } else if (reader.matches("&=", true)) {
+	
+	        context.add(new RawCode(reader.getLocation(), "&= "));
 	        success = true;
 	
 	    } else if (reader.matches("&", true)) {
@@ -143,6 +163,11 @@ class OperatorsParser implements Parser {
 	    } else if (reader.matches(":", true)) {
 	
 	        context.add(new RawCode(reader.getLocation(), ": "));
+	        success = true;
+	
+	    } else if (reader.matches("~", true)) {
+	
+	        context.add(new RawCode(reader.getLocation(), "~"));
 	        success = true;
 	
 	    } else {

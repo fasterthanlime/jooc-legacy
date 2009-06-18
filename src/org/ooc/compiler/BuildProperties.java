@@ -112,6 +112,16 @@ public class BuildProperties {
     		sourcePath.add(oocDist+"/sdk/");
     	}
     	
+    	String cIncludePath = System.getenv("C_INCLUDE_PATH");
+    	if(cIncludePath != null) {
+    		incPath.add(cIncludePath);
+    	}
+    	
+    	String libraryPath = System.getenv("LIBRARY_PATH");
+    	if(libraryPath != null) {
+    		libPath.add(libraryPath);
+    	}
+    	
     }
 	
 }
