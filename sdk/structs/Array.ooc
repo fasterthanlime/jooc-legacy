@@ -22,7 +22,7 @@ class Array from Iterable {
 	}
 	
 	implement iterator {
-		new ArrayIterator(this);
+		(Iterator) new ArrayIterator(this);
 	}
 
 }
