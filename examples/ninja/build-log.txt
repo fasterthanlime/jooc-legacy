@@ -1,51 +1,106 @@
-# ooc v0.2 codename ninja, built on 2009-06-17 20:20
-Started ooc compiler daemon at port 14269 Wed Jun 17 20:22:04 GMT 2009
-Got connection to ooc compiler daemon from /127.0.0.1:46905
-Got remote command to compile 'downcasting'
-class-tests/downcasting.c: In function ‘main’:
-class-tests/downcasting.c:49: attention : initialization from incompatible pointer type
-Finished compilation in 271ms.
-Got remote command to compile 'fromkeyword'
-Finished compilation in 119ms.
-Got remote command to compile 'sizeofclass'
-Finished compilation in 110ms.
-Got remote command to compile 'upcasting'
-class-tests/upcasting.c: In function ‘main’:
-class-tests/upcasting.c:49: attention : initialization from incompatible pointer type
-Finished compilation in 116ms.
-Got remote command to compile 'string-length'
-Finished compilation in 192ms.
-Got remote command to compile 'funcwithargs'
-Finished compilation in 119ms.
-Got remote command to compile 'implicitreturn'
-Finished compilation in 100ms.
-Got remote command to compile 'memberarginference'
-Finished compilation in 109ms.
-Got remote command to compile 'newnoparen'
-Finished compilation in 101ms.
-Got remote command to compile 'nonvoidfunc'
-Finished compilation in 97ms.
-Got remote command to compile 'noparenthesiscall'
-Finished compilation in 87ms.
-Got remote command to compile 'returnlastvalue'
-Finished compilation in 123ms.
-Got remote command to compile 'returntypeinference'
-Finished compilation in 165ms.
-Got remote command to compile 'simplefunc'
-Finished compilation in 91ms.
-Got remote command to compile 'staticnoparencall'
-Finished compilation in 97ms.
-Got remote command to compile 'transparentgetter'
-Finished compilation in 105ms.
-Got remote command to compile 'simple'
-pointer-tests/simple.c: In function ‘main’:
-pointer-tests/simple.c:11: attention : déclaration sasn effet
+# ooc v0.2 codename ninja, built on 2009-06-19 19:45
+Started ooc compiler daemon at port 14269 Fri Jun 19 19:53:30 GMT 2009
+Got connection to ooc compiler daemon from /127.0.0.1:47352
+Got remote command to compile 'downcasting'. SourcePath = {/blue/Dev/ooc/examples/ninja/class-tests=/blue/Dev/ooc/examples/ninja/class-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
+Compiling source 'downcasting'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/ninja/class-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/ninja/class-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/ninja/class-tests/downcasting.c /blue/Dev/ooc/examples/ninja/class-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/ninja/class-tests/downcasting /blue/Dev/ooc/libs/linux/libgc.a 
+/blue/Dev/ooc/examples/ninja/class-tests/downcasting.c: In function ‘main’:
+/blue/Dev/ooc/examples/ninja/class-tests/downcasting.c:49: attention : initialization from incompatible pointer type
+Finished compilation in 268ms.
+Got remote command to compile 'fromkeyword'. SourcePath = {/blue/Dev/ooc/examples/ninja/class-tests=/blue/Dev/ooc/examples/ninja/class-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
+Compiling source 'fromkeyword'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/ninja/class-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/ninja/class-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/ninja/class-tests/fromkeyword.c /blue/Dev/ooc/examples/ninja/class-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/ninja/class-tests/fromkeyword /blue/Dev/ooc/libs/linux/libgc.a 
 Finished compilation in 104ms.
-Got remote command to compile 'static-func'
-pointer-tests/static-func.c: In function ‘main’:
-pointer-tests/static-func.c:44: attention : déclaration sasn effet
-Finished compilation in 103ms.
-Got remote command to compile 'static-pointer'
+Got remote command to compile 'sizeofclass'. SourcePath = {/blue/Dev/ooc/examples/ninja/class-tests=/blue/Dev/ooc/examples/ninja/class-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
+Compiling source 'sizeofclass'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/ninja/class-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/ninja/class-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/ninja/class-tests/sizeofclass.c /blue/Dev/ooc/examples/ninja/class-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/ninja/class-tests/sizeofclass /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 116ms.
+Got remote command to compile 'upcasting'. SourcePath = {/blue/Dev/ooc/examples/ninja/class-tests=/blue/Dev/ooc/examples/ninja/class-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
+Compiling source 'upcasting'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/ninja/class-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/ninja/class-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/ninja/class-tests/upcasting.c /blue/Dev/ooc/examples/ninja/class-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/ninja/class-tests/upcasting /blue/Dev/ooc/libs/linux/libgc.a 
+/blue/Dev/ooc/examples/ninja/class-tests/upcasting.c: In function ‘main’:
+/blue/Dev/ooc/examples/ninja/class-tests/upcasting.c:49: attention : initialization from incompatible pointer type
+Finished compilation in 96ms.
+Got remote command to compile 'string-length'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/ninja/cover-tests=/blue/Dev/ooc/examples/ninja/cover-tests}
+Compiling source 'string-length'
+Found dependency lang.String' imported from 'string-length, importing...
+Compiling source 'lang.String'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/ninja/cover-tests/lang/String.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/ninja/cover-tests/lang/String.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/ninja/cover-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/ninja/cover-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/ninja/cover-tests/string-length.c /blue/Dev/ooc/examples/ninja/cover-tests/lang/String.o /blue/Dev/ooc/examples/ninja/cover-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/ninja/cover-tests/string-length /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 278ms.
+Got remote command to compile 'funcwithargs'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/ninja/func-tests=/blue/Dev/ooc/examples/ninja/func-tests}
+Compiling source 'funcwithargs'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/ninja/func-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/ninja/func-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/ninja/func-tests/funcwithargs.c /blue/Dev/ooc/examples/ninja/func-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/ninja/func-tests/funcwithargs /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 185ms.
+Got remote command to compile 'implicitreturn'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/ninja/func-tests=/blue/Dev/ooc/examples/ninja/func-tests}
+Compiling source 'implicitreturn'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/ninja/func-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/ninja/func-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/ninja/func-tests/implicitreturn.c /blue/Dev/ooc/examples/ninja/func-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/ninja/func-tests/implicitreturn /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 96ms.
+Got remote command to compile 'memberarginference'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/ninja/func-tests=/blue/Dev/ooc/examples/ninja/func-tests}
+Compiling source 'memberarginference'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/ninja/func-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/ninja/func-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/ninja/func-tests/memberarginference.c /blue/Dev/ooc/examples/ninja/func-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/ninja/func-tests/memberarginference /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 95ms.
+Got remote command to compile 'newnoparen'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/ninja/func-tests=/blue/Dev/ooc/examples/ninja/func-tests}
+Compiling source 'newnoparen'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/ninja/func-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/ninja/func-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/ninja/func-tests/newnoparen.c /blue/Dev/ooc/examples/ninja/func-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/ninja/func-tests/newnoparen /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 188ms.
+Got remote command to compile 'nonvoidfunc'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/ninja/func-tests=/blue/Dev/ooc/examples/ninja/func-tests}
+Compiling source 'nonvoidfunc'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/ninja/func-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/ninja/func-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/ninja/func-tests/nonvoidfunc.c /blue/Dev/ooc/examples/ninja/func-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/ninja/func-tests/nonvoidfunc /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 109ms.
+Got remote command to compile 'noparenthesiscall'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/ninja/func-tests=/blue/Dev/ooc/examples/ninja/func-tests}
+Compiling source 'noparenthesiscall'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/ninja/func-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/ninja/func-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/ninja/func-tests/noparenthesiscall.c /blue/Dev/ooc/examples/ninja/func-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/ninja/func-tests/noparenthesiscall /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 94ms.
+Got remote command to compile 'returnlastvalue'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/ninja/func-tests=/blue/Dev/ooc/examples/ninja/func-tests}
+Compiling source 'returnlastvalue'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/ninja/func-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/ninja/func-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/ninja/func-tests/returnlastvalue.c /blue/Dev/ooc/examples/ninja/func-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/ninja/func-tests/returnlastvalue /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 90ms.
+Got remote command to compile 'returntypeinference'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/ninja/func-tests=/blue/Dev/ooc/examples/ninja/func-tests}
+Compiling source 'returntypeinference'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/ninja/func-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/ninja/func-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/ninja/func-tests/returntypeinference.c /blue/Dev/ooc/examples/ninja/func-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/ninja/func-tests/returntypeinference /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 91ms.
+Got remote command to compile 'simplefunc'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/ninja/func-tests=/blue/Dev/ooc/examples/ninja/func-tests}
+Compiling source 'simplefunc'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/ninja/func-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/ninja/func-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/ninja/func-tests/simplefunc.c /blue/Dev/ooc/examples/ninja/func-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/ninja/func-tests/simplefunc /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 112ms.
+Got remote command to compile 'staticnoparencall'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/ninja/func-tests=/blue/Dev/ooc/examples/ninja/func-tests}
+Compiling source 'staticnoparencall'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/ninja/func-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/ninja/func-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/ninja/func-tests/staticnoparencall.c /blue/Dev/ooc/examples/ninja/func-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/ninja/func-tests/staticnoparencall /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 98ms.
+Got remote command to compile 'transparentgetter'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/ninja/func-tests=/blue/Dev/ooc/examples/ninja/func-tests}
+Compiling source 'transparentgetter'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/ninja/func-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/ninja/func-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/ninja/func-tests/transparentgetter.c /blue/Dev/ooc/examples/ninja/func-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/ninja/func-tests/transparentgetter /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 112ms.
+Got remote command to compile 'simple'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/ninja/pointer-tests=/blue/Dev/ooc/examples/ninja/pointer-tests}
+Compiling source 'simple'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/ninja/pointer-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/ninja/pointer-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/ninja/pointer-tests/simple.c /blue/Dev/ooc/examples/ninja/pointer-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/ninja/pointer-tests/simple /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 127ms.
+Got remote command to compile 'static-func'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/ninja/pointer-tests=/blue/Dev/ooc/examples/ninja/pointer-tests}
+Compiling source 'static-func'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/ninja/pointer-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/ninja/pointer-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/ninja/pointer-tests/static-func.c /blue/Dev/ooc/examples/ninja/pointer-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/ninja/pointer-tests/static-func /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 88ms.
+Got remote command to compile 'static-pointer'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/ninja/pointer-tests=/blue/Dev/ooc/examples/ninja/pointer-tests}
+Compiling source 'static-pointer'
 java.lang.NullPointerException
 	at org.ooc.nodes.reference.FunctionReference.writeToCSource(FunctionReference.java:95)
 	at org.ooc.structures.Member.writeDefinition(Member.java:82)
@@ -56,17 +111,21 @@ java.lang.NullPointerException
 	at org.ooc.outputting.CachedFileOutputter.write(CachedFileOutputter.java:32)
 	at org.ooc.outputting.FileOutputter.write(FileOutputter.java:65)
 	at org.ooc.outputting.FileOutputter.output(FileOutputter.java:40)
-	at org.ooc.backends.GccBackend.compile(GccBackend.java:162)
+	at org.ooc.backends.GccBackend.compile(GccBackend.java:168)
 	at org.ooc.compiler.Compiler.compile(Compiler.java:67)
 	at org.ooc.compiler.CompilerDaemon$1.run(CompilerDaemon.java:109)
 	at java.lang.Thread.run(Thread.java:619)
-Finished compilation in 7ms.
-Got remote command to compile 'static-pointer-static-init'
-pointer-tests/static-pointer-static-init.c: In function ‘main’:
-pointer-tests/static-pointer-static-init.c:57: attention : déclaration sasn effet
-Finished compilation in 142ms.
-Got remote command to compile 'undernumbers'
-Finished compilation in 107ms.
+Finished compilation in 5ms.
+Got remote command to compile 'static-pointer-static-init'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/ninja/pointer-tests=/blue/Dev/ooc/examples/ninja/pointer-tests}
+Compiling source 'static-pointer-static-init'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/ninja/pointer-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/ninja/pointer-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/ninja/pointer-tests/static-pointer-static-init.c /blue/Dev/ooc/examples/ninja/pointer-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/ninja/pointer-tests/static-pointer-static-init /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 109ms.
+Got remote command to compile 'undernumbers'. SourcePath = {/blue/Dev/ooc/examples/ninja/sugar-tests=/blue/Dev/ooc/examples/ninja/sugar-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
+Compiling source 'undernumbers'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/ninja/sugar-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/ninja/sugar-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/ninja/sugar-tests/undernumbers.c /blue/Dev/ooc/examples/ninja/sugar-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/ninja/sugar-tests/undernumbers /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 140ms.
 java.lang.NullPointerException
 	at org.ooc.compiler.CompilerDaemon$1.run(CompilerDaemon.java:85)
 	at java.lang.Thread.run(Thread.java:619)

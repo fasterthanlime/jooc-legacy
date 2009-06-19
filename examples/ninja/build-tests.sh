@@ -1,0 +1,1 @@
+../../utils/build-tests.sh
