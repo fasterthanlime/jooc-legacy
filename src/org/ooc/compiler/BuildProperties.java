@@ -1,5 +1,6 @@
 package org.ooc.compiler;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,7 +102,7 @@ public class BuildProperties {
     	libPath = new ArrayList<String>();
     	incPath = new ArrayList<String>();
     	outPath = DEFAULT_OUTPATH;
-    	prefix = "..";
+    	prefix = ""; // No prefix by default.
     	
     	pkgInfos = new ArrayList<PkgInfo>();
     	
@@ -123,5 +124,35 @@ public class BuildProperties {
     	}
     	
     }
+
+    /**
+     * @return the output path, corrected by the prefix
+     */
+	public String getPrefixedOutPath() {
+
+		if(prefix.isEmpty()) {
+			return outPath;
+		}
+		
+		if(outPath.isEmpty()) {
+			return prefix;
+		}
+
+		return outPath + File.separator + prefix;
+		
+	}
+
+	/**
+	 * @return the output path, followed by a File.separator if non-empty
+	 */
+	public String getSeparatedOutPath() {
+
+		if(outPath.isEmpty()) {
+			return "";
+		}
+		
+		return outPath + File.separator;
+		
+	}
 	
 }

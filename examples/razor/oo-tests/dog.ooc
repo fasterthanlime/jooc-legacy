@@ -29,8 +29,13 @@ func main {
 	for(Int i: 0..4) {
 		dogs[i] = new Dog((i * 3) + 7, "Random Dog");
 	}
+	/*
 	for(Dog dog: dogs) {
 		dog.bark;
+	}
+	*/
+	for(Int i: 0..4) {
+		dog[i].bark;
 	}
 	
 }

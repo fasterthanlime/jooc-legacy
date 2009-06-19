@@ -1,5 +1,6 @@
 package org.ooc.compiler.libraries;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +48,7 @@ public class LibraryManager {
 			glu.deps.add("gl");
 			glu.libNames.put(Target.LINUX, "GLU");
 			glu.libNames.put(Target.SOLARIS, "GLU");
+			glu.libNames.put(Target.WIN32, "glu32");
 			libs.put(glu.name, glu);
 		}
 		
@@ -58,6 +60,16 @@ public class LibraryManager {
 			glut.libNames.put(Target.LINUX, "glut");
 			glut.libNames.put(Target.SOLARIS, "glut");
 			glut.libNames.put(Target.WIN32, "freeglut");
+			libs.put(glut.name, glut);
+		}
+		
+		{
+			Library glut = new Library("sdl");
+			glut.incs.add("SDL/SDL.h");
+			glut.libNames.put(Target.LINUX, "SDL");
+			glut.libNames.put(Target.SOLARIS, "SDL");
+			glut.libNames.put(Target.WIN32, "SDLmain");
+			glut.libNames.put(Target.WIN32, "SDL");
 			libs.put(glut.name, glut);
 		}
 		
@@ -121,8 +133,10 @@ public class LibraryManager {
 					// FIXME ugly hack. There should be a mechanism to find where
 					// is the library instead of just assuming it's in the last element of libPath
 					// maybe org.ooc.compiler.SourcePath can be transformed in something more generic?
-					String staticLibPath = props.libPath.get(props.libPath.size() - 1) + "/" + Target.guessHost() + "/lib" + path + ".a";
-					addOnce(staticLibPath.replace("//", "/"), staticLibraries);
+					String staticLibPath = props.libPath.get(props.libPath.size() - 1)
+					+ File.separator + Target.guessHost() + File.separator + "lib" + path + ".a";
+					addOnce(staticLibPath.replace(File.separator + File.separator, File.separator),
+							staticLibraries);
 				} else {
 					addOnce(path, dynamicLibraries);
 				}

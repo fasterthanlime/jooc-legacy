@@ -56,8 +56,8 @@ class GccBackend extends Backend {
 		
 		cFlags = new ArrayList<String> ();
 		cFlags.add("-std=c99");
-		cFlags.add("-Wall");
-		cFlags.add("-pedantic");
+		//cFlags.add("-Wall");
+		//cFlags.add("-pedantic");
 		
 		// defaults
 		clean = true;
@@ -68,6 +68,8 @@ class GccBackend extends Backend {
 			String token = tokenizer.nextToken();
 			if(token.startsWith("-clean=")) {
 				clean = parseYesNo(token, "-clean=", clean);
+			} else if(token.startsWith("-v")) {
+				verbose = true;
 			} else if(token.startsWith("-verbose=")) {
 				verbose = parseYesNo(token, "-verbose=", verbose);
 			} else {
@@ -151,6 +153,10 @@ class GccBackend extends Backend {
 	@Override
 	public int compile(ProjectInfo info, BuildProperties props) throws IOException, InterruptedException {
 
+		if(props.isVerbose) {
+			verbose = true; // General parameters override backend-specific ones
+		}
+		
 		List<String> args = new ArrayList<String>();
 		List<String> toClean = new ArrayList<String>();
 		List<String> toMove = new ArrayList<String>();
@@ -168,16 +174,19 @@ class GccBackend extends Backend {
 				addFlags(args, props);
 				
 				args.add("-c");
-				String cPath = info.getRelativePath(module, ".c");
+				//String cPath = info.getRelativePath(module, ".c");
+				String cPath = info.getOutPath(module, ".c");
 				args.add(cPath);
 				toClean.add(cPath);
-				String hPath = info.getRelativePath(module, ".h");
+				//String hPath = info.getRelativePath(module, ".h");
+				String hPath = info.getOutPath(module, ".h");
 				toClean.add(hPath);
 				
 				addIncludePaths(info, props, args);
 				
 				args.add("-o");
-				String oPath = info.getRelativePath(module, ".o");
+				//String oPath = info.getRelativePath(module, ".o");
+				String oPath = info.getOutPath(module, ".o");
 				args.add(oPath);
 				toClean.add(oPath);
 				
@@ -191,8 +200,10 @@ class GccBackend extends Backend {
 				args.clear();
 				addFlags(args, props);
 				
-				String cPath = info.getRelativePath(executableName, ".c");
-				String hPath = info.getRelativePath(executableName, ".h");
+				//String cPath = info.getRelativePath(executableName, ".c");
+				//String hPath = info.getRelativePath(executableName, ".h");
+				String cPath = info.getOutPath(executableName, ".c");
+				String hPath = info.getOutPath(executableName, ".h");
 				args.add(cPath);
 				toClean.add(cPath);
 				toClean.add(hPath);
@@ -260,7 +271,8 @@ class GccBackend extends Backend {
 	private void addDependenciesRecursive(ProjectInfo info, List<String> args, SourceContext source) {
 
 		for(SourceContext dependency: source.getDependencies()) {
-			String path = info.getRelativePath(dependency.source.getInfo().fullName, ".o");
+			//String path = info.getRelativePath(dependency.source.getInfo().fullName, ".o");
+			String path = info.getOutPath(dependency.source.getInfo().fullName, ".o");
 			if(!args.contains(path)) {
 				args.add(path);
 				addDependenciesRecursive(info, args, dependency);

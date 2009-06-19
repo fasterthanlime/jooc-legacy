@@ -9,6 +9,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import org.ooc.backends.compilers.AbstractCompiler;
+import org.ooc.backends.compilers.Gcc4;
+import org.ooc.backends.compilers.Icc;
 import org.ooc.compiler.BuildProperties;
 import org.ooc.compiler.libraries.Target;
 import org.ooc.compiler.pkgconfig.PkgInfo;
@@ -34,6 +37,8 @@ public class MakeBackend extends Backend {
 	private String userCflags;
 	private List<String> userStaticLibs;
 	private FileOutputter outputter;
+	
+	private AbstractCompiler cc;
 
 	protected MakeBackend(String params) {
 		
@@ -48,9 +53,22 @@ public class MakeBackend extends Backend {
 			String token = st.nextToken();
 			if(token.startsWith("-link=")) {
 				userStaticLibs.add(token.substring("-link=".length()));
+			} else if(token.startsWith("-cc=")) {
+				String compiler = token.substring("-cc=".length());
+				if(compiler.startsWith("gcc")) {
+					cc = new Gcc4();
+				} else if(compiler.equals("icl")) {
+					cc = new Gcc4(); // FIXME implement Icl
+				} else if(compiler.equals("icc")) {
+					cc = new Icc();
+				}
 			} else {
 				userCflags += token + " ";
 			}
+		}
+		
+		if(cc == null) {
+			cc = new Gcc4();
 		}
 		
 		outputter = new CachedFileOutputter();
@@ -85,13 +103,12 @@ public class MakeBackend extends Backend {
 		try {
 		
 			BufferedWriter writer = new BufferedWriter(new FileWriter(
-					new File(props.outPath + File.separator + props.prefix
+					new File(props.getPrefixedOutPath()
 							+ File.separator + "Makefile")));
 			writer.append("# Generated on "+new Date().toString()+" by ooc's make backend. (by Amos Wenger, 2009)\n\n");
 			
 			/* ?= means define if undefined. It allows the user to override our default settings */
-			writer.append("CC?=gcc\n"); 
-			writer.append("CXX?=g++\n");
+			writer.append("CC=gcc\n");
 			
 			/* Dynamic libraries */
 			writer.append("DYNAMIC_LIBS+=");
@@ -111,16 +128,6 @@ public class MakeBackend extends Backend {
 			
 			/* Static libraries */
 			writer.append("STATIC_LIBS+=");
-			/*
-			for(String library: info.staticLibraries) {
-				writer.append(library.trim());
-				writer.append(' ');
-			}
-			for(String library: userStaticLibs) {
-				writer.append(library.trim());
-				writer.append(' ');
-			}
-			*/
 			for(String library: staticLibsRealPath) {
 				writer.append(library.trim());
 				writer.append(' ');
@@ -129,25 +136,26 @@ public class MakeBackend extends Backend {
 			writer.append('\n');
 			
 			/* C flags */
-			writer.append("CFLAGS+=-std=c99 ");
+			writer.append("CFLAGS+=");
+			writer.append(cc.getC99());
+			writer.append(" ");
 			writer.append(userCflags);
 			writer.append(' ');
 			for(String path: props.libPath) {
-				writer.append("-L");
-				writer.append(path);
+				writer.append(cc.getLibraryPath(path));
 				writer.append(" ");
 			}
 			for(String path: props.incPath) {
-				writer.append("-I");
+				writer.append(cc.getIncludePath(path));
 				writer.append(path);
 				writer.append(" ");
 			}
 			if(!props.pkgInfos.isEmpty()) {
-				writer.append("`pkg-config --cflags ");
+				writer.append("$(pkg-config --cflags ");
 				for(PkgInfo pkginfo: props.pkgInfos) {
 					writer.append(pkginfo.name+" ");
 				}
-				writer.append("` ");
+				writer.append(") ");
 			}
 			writer.append("\n\n");
 			
@@ -232,30 +240,29 @@ public class MakeBackend extends Backend {
 		File libFile = new File(staticLib);
 		
 		File src = new File(staticLib);
-		File dst = new File(new File(props.outPath, props.prefix), "libs" + File.separator
+		File dst = new File(new File(props.getPrefixedOutPath()), "libs" + File.separator
 				+ Target.guessHost().toString() + File.separator + libFile.getName());
 		dst = FileUtils.resolveRedundancies(dst);
 		
-		File toTrim = new File(props.outPath, props.prefix);
+		File toTrim = new File(props.getPrefixedOutPath());
 		toTrim = FileUtils.resolveRedundancies(toTrim);
 		
 		if(!dst.getParentFile().mkdirs()) {
 			System.err.println("Couldn't create directory '"+dst.getParent()+"', necessary for exporting static libs.");
 		}
 		
-		System.out.println("Copying static lib.. from '"+src.getCanonicalPath()+"' to '"+dst.getCanonicalPath()+"'");
-		System.out.println("(relative paths from '"+src.getPath()+"' to '"+dst.getPath()+"')");
-		System.out.println("(outpath = '"+props.outPath+"', prefix = '"+props.prefix+"'");
-		System.out.println("(to trim = '"+toTrim.getPath()+"'");
+		//System.out.println("Copying static lib.. from '"+src.getCanonicalPath()+"' to '"+dst.getCanonicalPath()+"'");
+		//System.out.println("(relative paths from '"+src.getPath()+"' to '"+dst.getPath()+"')");
+		//System.out.println("(outpath = '"+props.outPath+"', prefix = '"+props.prefix+"'");
+		//System.out.println("(to trim = '"+toTrim.getPath()+"'");
 		FileUtils.copy(src, dst);
 		
 		String relPath = dst.getPath().substring(toTrim.getPath().length());
 		if(relPath.startsWith(File.separator)) {
 			relPath = relPath.substring(1);
 		}
-		System.out.println("(relPath = '"+relPath+"'");
+		//System.out.println("(relPath = '"+relPath+"'");
 		
-		//return dst.getPath();
 		return relPath;
 		
 	}
@@ -264,14 +271,14 @@ public class MakeBackend extends Backend {
 			throws IOException {
 		
 		List<String> wittyPaths = new ArrayList<String>();
-		String fuzzyPath = new File(props.outPath, props.prefix).getCanonicalPath();
-		System.out.println("Fuzzy path: "+fuzzyPath);
-		System.out.println("CPP modules: "+info.cppModules);
+		String fuzzyPath = new File(props.getPrefixedOutPath()).getCanonicalPath();
+		//System.out.println("Fuzzy path: "+fuzzyPath);
+		//System.out.println("CPP modules: "+info.cppModules);
 
 		for(File cppModule: info.cppModules) {
 			
 			String tweenyPath = cppModule.getCanonicalPath();
-			System.out.println("Tweeny path: "+tweenyPath);
+			//System.out.println("Tweeny path: "+tweenyPath);
 			String wittyPath = tweenyPath.substring(fuzzyPath.length());
 			if(wittyPath.startsWith(File.separator)) {
 				wittyPath = wittyPath.substring(1);
@@ -279,7 +286,7 @@ public class MakeBackend extends Backend {
 			if(wittyPath.endsWith(".cpp")) {
 				wittyPath = wittyPath.substring(0, wittyPath.length() - ".cpp".length());
 			}
-			System.out.println("Witty path: "+wittyPath);
+			//System.out.println("Witty path: "+wittyPath);
 			wittyPaths.add(wittyPath);
 			
 		}

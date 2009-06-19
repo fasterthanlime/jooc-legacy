@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.ooc.compiler.BuildProperties;
 import org.ooc.errors.SourceContext;
+import org.ooc.outputting.FileUtils;
 
 /**
  * Project information, more explicitly a set of modules and executables.
@@ -55,15 +56,11 @@ public class ProjectInfo {
 	 * Default consructor
 	 * @param props The build properties
 	 */
-	public ProjectInfo(BuildProperties props) throws IOException {
+	public ProjectInfo(BuildProperties props) {
 		
-		String canonicalPrefix = new File(props.outPath, props.prefix).getCanonicalPath();
-		String absoluteOutpath = new File(props.outPath).getCanonicalPath();
-		
-		if(canonicalPrefix.length() >= absoluteOutpath.length()) {
-			relativeOutPath = "";
-		} else {
-			relativeOutPath = absoluteOutpath.substring(canonicalPrefix.length() + 1) + "/";	
+		relativeOutPath = FileUtils.resolveRedundancies(new File(props.getPrefixedOutPath())).getPath();
+		if(!relativeOutPath.isEmpty()) {
+			relativeOutPath += File.separatorChar;
 		}
 		this.props = props;
 		
@@ -86,7 +83,8 @@ public class ProjectInfo {
 	 */
 	public String getRelativePath(String moduleName, String extension) {
 
-		return (relativeOutPath + "/" + moduleName.replace('.', '/') + extension).replace("//", "/");
+		return (relativeOutPath + moduleName.replace('.', File.separatorChar)
+				+ extension).replace(File.separator + File.separator, File.separator);
 		
 	}
 	
@@ -100,7 +98,8 @@ public class ProjectInfo {
 	 */
 	public String getOutPath(String moduleName, String extension) {
 
-		return (props.outPath +  "/" + moduleName.replace('.', '/') + extension).replace("//", "/");
+		return (props.getSeparatedOutPath() + moduleName.replace('.', File.separatorChar)
+				+ extension).replace(File.separator + File.separator, File.separator);
 		
 	}
 

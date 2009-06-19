@@ -96,7 +96,7 @@ public class CompilerDaemon {
 						} else if(command.startsWith("compile")) {
 							
 							String path = command.substring("compile".length() + 1).trim();
-							System.out.println("Got remote command to compile '"+path+"'");
+							System.out.println("Got remote command to compile '"+path+"'. SourcePath = "+props.sourcePath);
 							int returnCode;
 							if(props.sourcePath.isEmpty()) {
 								System.err.println("Can't compile: Empty sourcePath ! Doesn't make sense with a compiler daemon. sourcepath-add, sourcepath-remove, or sourcepath-clear");

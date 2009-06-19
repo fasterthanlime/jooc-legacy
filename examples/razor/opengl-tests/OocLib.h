@@ -18,7 +18,8 @@ typedef long Long;
 typedef long long LLong;
 typedef void Void;
 typedef int (*Func)();
-Object GC_calloc(size_t, size_t);
+typedef size_t SizeT;
+Object GC_calloc(Int, SizeT);
 
 
 #endif // OocLib_h

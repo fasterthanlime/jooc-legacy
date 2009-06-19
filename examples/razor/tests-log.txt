@@ -8,10 +8,10 @@ Hi dude, my name is Smith, and I'm happy to meet you!
 Pizza Allegro Tomato, of diameter 0.500000, color red, and tomato percentage 60.000000
 Pizza Royale Grande, of diameter 1.000000, color green, and tomato percentage 40.000000
 Printing 30 numbers between 0 and 5 and a max of 500
-9324169268441083804492134410821639720210745746293343158475341358173240197372443340
+3674893912661417627940629111624632374973192201411359181221378374202276384207291242144
 That's all, folks =)
 sleeping a while...
-we slept for 702 milli-seconds
+we slept for 789 milli-seconds
 aaaaaaaahhh TCHOOOOOH!
 res = 1
 I shout 42 
@@ -102,25 +102,19 @@ Hay, I'm the candy giver, I just a gave a kinder, total is now 2
 Hay, I'm the candy giver, I just a gave a kinder, total is now 3
 Hay, I'm the candy giver, I just a gave a kinder, total is now 4
 Hay, I'm the candy giver, I just a gave a kinder, total is now 5
-Hay, I'm the candy giver, I just a gave a kinder, total is now 6
-Hay, I'm the candy giver, I just a gave a kinder, total is now 7
 Hayo, I'm a kid and I'm asking for candyyyy!
+Hay, I'm the candy giver, I just a gave a lollypop, total is now 6
+Hay, I'm the candy giver, I just a gave a lollypop, total is now 7
 Hay, I'm the candy giver, I just a gave a lollypop, total is now 8
 Hay, I'm the candy giver, I just a gave a lollypop, total is now 9
 Hay, I'm the candy giver, I just a gave a lollypop, total is now 10
-Hay, I'm the candy giver, I just a gave a lollypop, total is now 11
-Hay, I'm the candy giver, I just a gave a lollypop, total is now 12
-Hay, I'm the candy giver, I just a gave a lollypop, total is now 13
-Hay, I'm the candy giver, I just a gave a lollypop, total is now 14
 Hayo, I'm a kid and I'm asking for candyyyy!
+Hay, I'm the candy giver, I just a gave a chewing gum, total is now 11
+Hay, I'm the candy giver, I just a gave a chewing gum, total is now 12
+Hay, I'm the candy giver, I just a gave a chewing gum, total is now 13
+Hay, I'm the candy giver, I just a gave a chewing gum, total is now 14
 Hay, I'm the candy giver, I just a gave a chewing gum, total is now 15
-Hay, I'm the candy giver, I just a gave a chewing gum, total is now 16
-Hay, I'm the candy giver, I just a gave a chewing gum, total is now 17
-Hay, I'm the candy giver, I just a gave a chewing gum, total is now 18
-Hay, I'm the candy giver, I just a gave a chewing gum, total is now 19
-Hay, I'm the candy giver, I just a gave a chewing gum, total is now 20
-Hay, I'm the candy giver, I just a gave a chewing gum, total is now 21
-As a grand total, 21 candies have been distributed
+As a grand total, 15 candies have been distributed
 Beginning to proliferate...
 Just created ant #0
 Just created ant #1

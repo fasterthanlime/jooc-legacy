@@ -10,10 +10,6 @@ OPTIONS
 	exist), and do not compile anything
 	
 	--help: this message
-	
-ENVIRONMENT VARIABLES
-	OOC_DIR: the path of ooc.jar. Usually not set at all and determined automatically
-	by build-all
 	"
 	exit 0
 fi
@@ -22,16 +18,14 @@ fi
 rm -f "tests-log.txt"
 
 basePath=`pwd`/`dirname $0`
-#echo "basePath = $basePath"
-if [[ $OOC_DIR == "" ]]; then
-	OOC_DIR="$basePath/../dist/ooc.jar"
-fi
-
-if [[ ! -e $OOC_DIR ]]; then
-	echo "Error, OOC_DIR=$OOC_DIR does not exist!"
+echo "basePath = $basePath"
+if [[ $OOC_DIST == "" ]]; then
+	echo "OOC_DIST environment variable not set. Set it to the location of
+	your ooc distribution (e.g. the directory with libs/, sdk/, dist/ooc.jar, etc."
 	exit 1
 fi
-libpath="$basePath/../sdk"
+
+libpath="$OOC_DIST/sdk"
 
 total=0
 compiled=0
@@ -58,11 +52,9 @@ done
 
 if [[ $mode == "compile" ]]; then
 
-#echo "launching ooc from $OOC_DIR"
-
 tries=0
 # launch the daemon
-java -jar $OOC_DIR -daemon:14269 &> "build-log.txt" &
+java -jar $OOC_DIST/dist/ooc.jar -daemon:14269 &> "build-log.txt" &
 sleep 0.3
 
 # connect to the compiler daemon
@@ -78,7 +70,8 @@ done
 
 echo "timing-on" 1>&3
 echo "backend-set gcc" 1>&3
-echo "libpath-add ../libs/" 1>&3
+echo "verbose-on" 1>&3
+echo "libpath-add $OOC_DIST/libs" 1>&3
 
 fi
 

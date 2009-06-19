@@ -38,6 +38,7 @@ public class SourceParser {
         		new BlocksParser(),
         		new PunctuationParser(),
         		new DependenciesParser(),
+        		new CTypeParser(),
         		new KeywordsParser(),
         		new ClassDefParser(),
         		new StructDefParser(),

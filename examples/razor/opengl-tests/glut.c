@@ -45,7 +45,7 @@ Void __Window_show(struct Window*  this) {
 	glutInitWindowPosition(0, 0);
 	glutInitWindowSize(this->width, this->height);
 	glutCreateWindow(this->name);
-	glutDisplayFunc(this->class->__displayWrapper);
+	glutDisplayFunc(((Func) __Window_displayWrapper));
 	this->clearColor = __Color_new_Double_Double_Double_Double(1.0, 0.5, 0.2, 0.0);
 
 

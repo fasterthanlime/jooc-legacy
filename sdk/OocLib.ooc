@@ -13,9 +13,11 @@ typedef long Long;
 typedef long long LLong;
 typedef void Void;
 typedef int (*Func)();
+typedef size_t SizeT;
 
-unmangled func GC_calloc(size_t nmemb, size_t size) -> Object {
-	Object tmp = GC_malloc(nmemb * size);
-	memset(tmp, 0, nmemb * size);
+unmangled func GC_calloc(Int nmemb, SizeT size) -> Object {
+	SizeT memsize = nmemb * size;
+	Object tmp = GC_malloc(memsize);
+	memset(tmp, 0, memsize);
 	return tmp;
 }

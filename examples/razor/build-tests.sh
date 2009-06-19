@@ -1,1 +1,1 @@
-../utils/build-tests.sh
+../../utils/build-tests.sh

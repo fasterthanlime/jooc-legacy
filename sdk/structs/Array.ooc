@@ -18,7 +18,7 @@ class Array from Iterable {
 	}
 	
 	static func alloc(Int numElem, Int typeSize) -> Array {
-		return new Array(numElem, malloc(numElem * typeSize));
+		return new Array(numElem, calloc(numElem, typeSize));
 	}
 	
 	implement iterator {
