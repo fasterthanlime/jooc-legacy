@@ -8,10 +8,10 @@ Hi dude, my name is Smith, and I'm happy to meet you!
 Pizza Allegro Tomato, of diameter 0.500000, color red, and tomato percentage 60.000000
 Pizza Royale Grande, of diameter 1.000000, color green, and tomato percentage 40.000000
 Printing 30 numbers between 0 and 5 and a max of 500
-3674893912661417627940629111624632374973192201411359181221378374202276384207291242144
+13043427529927419015922726574228126702614311251317320816225964193285450137361334300
 That's all, folks =)
 sleeping a while...
-we slept for 789 milli-seconds
+we slept for 724 milli-seconds
 aaaaaaaahhh TCHOOOOOH!
 res = 1
 I shout 42 
@@ -51,6 +51,14 @@ Meooowww, my name is Grok and I'm a sweet 12-year-old cat.
 ## Storing in array and making shout
 Woof woof! I'm Lassie the dog, and I'm 18 years old.
 Meooowww, my name is Grok and I'm a sweet 12-year-old cat.
+Hi, my name is Lassie and I'm 18 years old.
+Done barking ! Another one ?
+Hi, my name is Rex and I'm 21 years old.
+Now a dog array =D
+Hi, my name is Random Dog and I'm 7 years old.
+Hi, my name is Random Dog and I'm 10 years old.
+Hi, my name is Random Dog and I'm 13 years old.
+Hi, my name is Random Dog and I'm 16 years old.
 Value = 42
 Finished initializing p3, casting...
 Casted!, now p2.shouting
@@ -100,21 +108,15 @@ Hayo, I'm a kid and I'm asking for candyyyy!
 Hay, I'm the candy giver, I just a gave a kinder, total is now 1
 Hay, I'm the candy giver, I just a gave a kinder, total is now 2
 Hay, I'm the candy giver, I just a gave a kinder, total is now 3
-Hay, I'm the candy giver, I just a gave a kinder, total is now 4
-Hay, I'm the candy giver, I just a gave a kinder, total is now 5
 Hayo, I'm a kid and I'm asking for candyyyy!
+Hay, I'm the candy giver, I just a gave a lollypop, total is now 4
+Hay, I'm the candy giver, I just a gave a lollypop, total is now 5
 Hay, I'm the candy giver, I just a gave a lollypop, total is now 6
-Hay, I'm the candy giver, I just a gave a lollypop, total is now 7
-Hay, I'm the candy giver, I just a gave a lollypop, total is now 8
-Hay, I'm the candy giver, I just a gave a lollypop, total is now 9
-Hay, I'm the candy giver, I just a gave a lollypop, total is now 10
 Hayo, I'm a kid and I'm asking for candyyyy!
-Hay, I'm the candy giver, I just a gave a chewing gum, total is now 11
-Hay, I'm the candy giver, I just a gave a chewing gum, total is now 12
-Hay, I'm the candy giver, I just a gave a chewing gum, total is now 13
-Hay, I'm the candy giver, I just a gave a chewing gum, total is now 14
-Hay, I'm the candy giver, I just a gave a chewing gum, total is now 15
-As a grand total, 15 candies have been distributed
+Hay, I'm the candy giver, I just a gave a chewing gum, total is now 7
+Hay, I'm the candy giver, I just a gave a chewing gum, total is now 8
+Hay, I'm the candy giver, I just a gave a chewing gum, total is now 9
+As a grand total, 9 candies have been distributed
 Beginning to proliferate...
 Just created ant #0
 Just created ant #1

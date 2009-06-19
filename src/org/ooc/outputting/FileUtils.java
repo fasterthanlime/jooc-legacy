@@ -126,6 +126,7 @@ public class FileUtils {
 		String path = dst.getPath();
 		List<String> elems = new ArrayList<String>();
 		StringTokenizer st = new StringTokenizer(path, File.separator);
+		boolean startsWithSeparator = path.startsWith(File.separator);
 		while(st.hasMoreTokens()) {
 			String elem = st.nextToken();
 			if(elem.equals("..")) {
@@ -141,6 +142,9 @@ public class FileUtils {
 			}
 		}
 		StringBuffer buffer = new StringBuffer(path.length());
+		if(startsWithSeparator) {
+			buffer.append(File.separator);
+		}
 		int size = elems.size();
 		int count = 0;
 		for(String elem: elems) {

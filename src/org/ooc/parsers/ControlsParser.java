@@ -7,6 +7,7 @@ import org.ooc.nodes.control.Else;
 import org.ooc.nodes.control.For;
 import org.ooc.nodes.control.Goto;
 import org.ooc.nodes.control.If;
+import org.ooc.nodes.others.RawCode;
 import org.ubi.SourceReader;
 
 class ControlsParser implements Parser {
@@ -31,6 +32,12 @@ class ControlsParser implements Parser {
             reader.skipWhitespace();
             String label = reader.readName();
             context.add(new Goto(reader.getLocation(), label));
+            result = true;
+            
+        } if(reader.matches("case", true)) {
+        	
+            reader.skipWhitespace();
+            context.add(new RawCode(reader.getLocation(), "case "));
             result = true;
             
         } else if(reader.matches("if", true)) {
