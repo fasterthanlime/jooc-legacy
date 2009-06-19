@@ -35,7 +35,8 @@ func main {
 	}
 	*/
 	for(Int i: 0..4) {
-		dog[i].bark;
+		Dog dog = dogs[i];
+		dog.bark;
 	}
 	
 }
