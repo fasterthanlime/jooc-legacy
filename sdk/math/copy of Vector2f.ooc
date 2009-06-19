@@ -1,9 +1,9 @@
 use m; // libm is actually the math library
 include math, stdio;
-import Vector;
 
-class Vector2f from Vector{
+class Vector2f {
 
+	static const Float EPSILON = 0.000001f;
 	Float x;
 	Float y;
 
@@ -19,27 +19,27 @@ class Vector2f from Vector{
 		y = copy.y;
 	}
 
-	implement squaredLength {
+	func squaredLength -> Float {
 		(x * x + y * y);
 	}
 
-	implement length {
+	func length -> Float {
 		sqrt(x * x + y * y);
 	}
 	
-	implement reverse {
+	func reverse {
 		x = -x;
 		y = -y;
 	}
 	
-	implement normalize {
+	func normalize {
 		Float _length = length();
 		if(_length < 0) {
-			if(_length > -Vector.EPSILON) {
+			if(_length > -EPSILON) {
 				return;
 			}
 		} else {
-			if(_length < Vector.EPSILON) {
+			if(_length < EPSILON) {
 				return;
 			}
 		}
@@ -47,14 +47,14 @@ class Vector2f from Vector{
 		y /= _length;
 	}
 	
-	implement scale {
+	func scale(Float newLength) {
 		Float _length = length();
 		if(_length < 0) {
-			if(_length > -Vector.EPSILON) {
+			if(_length > -EPSILON) {
 				return;
 			}
 		} else {
-			if(_length < Vector.EPSILON) {
+			if(_length < EPSILON) {
 				return;
 			}
 		}
@@ -109,7 +109,7 @@ class Vector2f from Vector{
 		this.y -= y;
 	}
 	
-	implement repr {
+	func repr -> String {
 		const Int BUFFER_SIZE = 50;
 		String buffer = malloc(BUFFER_SIZE);
 		snprintf(buffer, BUFFER_SIZE, "(%.3f, %.3f)", x, y);

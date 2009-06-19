@@ -2,34 +2,38 @@ use m; // libm is actually the math library
 include math, stdio;
 import Vector;
 
-class Vector2f from Vector{
+class Vector3f from Vector{
 
 	Float x;
 	Float y;
+	Float z;
 
 	new() {
 		x = 0;
 		y = 0;
+		z = 0;
 	}
 
-	new(=x, =y);
+	new(=x, =y, =z);
 	
 	new(This copy) {
 		x = copy.x;
 		y = copy.y;
+		z = copy.z;
 	}
 
 	implement squaredLength {
-		(x * x + y * y);
+		(x * x + y * y + z * z);
 	}
 
 	implement length {
-		sqrt(x * x + y * y);
+		sqrt(x * x + y * y + z * z);
 	}
 	
 	implement reverse {
 		x = -x;
 		y = -y;
+		z = -z;
 	}
 	
 	implement normalize {
@@ -45,6 +49,7 @@ class Vector2f from Vector{
 		}
 		x /= _length;
 		y /= _length;
+		z /= _length;
 	}
 	
 	implement scale {
@@ -60,59 +65,69 @@ class Vector2f from Vector{
 		}
 		x /= _length / newLength;
 		y /= _length / newLength;
+		z /= _length / newLength;
 	}
 	
-	func set(=x, =y);
+	func set(=x, =y, =z);
 	
 	func set(This t) {
 		x = t.x;
 		y = t.y;
+		z = t.z;
 	}
 	
 	func add(This t) {
 		x += t.x;
 		y += t.y;
+		z += t.z;
 	}
 	
 	func sub(This t) {
 		x -= t.x;
 		y -= t.y;
+		z -= t.z;
 	}
 	
 	func mul(Float f) {
 		x *= f;
 		y *= f;
+		z *= f;
 	}
 	
 	func div(Float f) {
 		x /= f;
 		y /= f;
+		z /= f;
 	}
 	
 	func add(Float x, Float y) {
 		this.x += x;
 		this.y += y;
+		this.z += z;
 	}
 	
 	func add(Int x, Int y) {
 		this.x += x;
 		this.y += y;
+		this.z += z;
 	}
 	
 	func sub(Float x, Float y) {
 		this.x -= x;
 		this.y -= y;
+		this.z -= z;
 	}
 	
 	func sub(Int x, Int y) {
 		this.x -= x;
 		this.y -= y;
+		this.z -= z;
 	}
 	
 	implement repr {
 		const Int BUFFER_SIZE = 50;
 		String buffer = malloc(BUFFER_SIZE);
-		snprintf(buffer, BUFFER_SIZE, "(%.3f, %.3f)", x, y);
+		snprintf(buffer, BUFFER_SIZE, "(%.3f, %.3f, %.3f)", x, y, z);
 		return buffer;
 	}
 

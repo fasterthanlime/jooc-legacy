@@ -102,7 +102,11 @@ cover String {
 			max = index;
 		}
 		else if(index >= 0 && index < this.length){
-			return this[index];
+			String s = malloc(2);
+			s[0] = this[index];
+			s[1] = '\0';
+			
+			return s;
 		}
 		else{
 			printf("String: out of bound exception\n");
