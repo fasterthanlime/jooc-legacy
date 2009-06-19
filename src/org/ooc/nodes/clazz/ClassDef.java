@@ -163,7 +163,7 @@ public class ClassDef extends Scope implements PotentiallyAbstract {
                 // Forget it.
             } else {
 				throw new CompilationFailedError(node.location, "Unexpected node "
-                		+node.getClass().getSimpleName()+"which looks like '"
+                		+node.getClass().getSimpleName()+" which looks like '"
                 		+node+"', in doubt, no writing");
             }
             

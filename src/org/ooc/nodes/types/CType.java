@@ -17,7 +17,7 @@ import org.ubi.FileLocation;
  */
 public class CType extends SyntaxNode {
 
-	private String name;
+	private final String name;
 
 	/**
 	 * Default constructor
@@ -36,5 +36,14 @@ public class CType extends SyntaxNode {
 		// Hahahaha. As if.
 		
 	}
+	
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+
 	
 }
