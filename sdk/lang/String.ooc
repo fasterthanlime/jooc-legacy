@@ -1,4 +1,5 @@
 include stdio;
+include math;
 
 cover String {
 	
@@ -83,6 +84,39 @@ cover String {
 		
 		return -1;
 		
+	}
+	
+	//TODO eagle2com: Add negative indexes!!!
+	func subrange(Int index, Int range) -> String {
+		
+		String substr = malloc(abs(range) + 1);
+		Int min;
+		Int max;
+		
+		if(range > 0){
+			min = index;
+			max = index + range ;
+		}
+		else if(range < 0){
+			min = index + range;
+			max = index;
+		}
+		else if(index >= 0 && index < this.length){
+			return this[index];
+		}
+		else{
+			printf("String: out of bound exception\n");
+			Int x = 0;
+			x = x/x;
+		}
+		
+		for(Int i:min..max){
+			if(i >= 0 && i < this.length){
+				substr[i-min] = this[i];
+			}
+		}
+		substr[max+1]='\0';
+		return substr;
 	}
 	
 }
