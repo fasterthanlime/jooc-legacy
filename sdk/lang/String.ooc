@@ -37,6 +37,41 @@ cover String {
 		return true;
 		
 	}
+
+	/**
+	 * @return this String parsed as an Int
+	 */
+	func toInt -> Int {
+		return atoi(this);
+	}
+	
+	/**
+	 * @return this String parsed as a Long
+	 */
+	func toLong -> Long {
+		return atol(this);
+	}
+	
+	/**
+	 * @return this String parsed as a LLong (long long)
+	 */
+	func toLong -> LLong {
+		return atol(this);
+	}
+	
+	/**
+	 * @return this String parsed as a Double
+	 */
+	func toDouble -> Double {
+		return atof(this);
+	}
+	
+	/**
+	 * @return true if this String is empty
+	 */
+	func isEmpty -> Bool {
+		return this == null || this[0] == '\0';
+	}
 	
 	/**
 	 * Tests if this string starts with the specified prefix. 
@@ -148,6 +183,29 @@ cover String {
 		}
 		substr[max+1]='\0';
 		return substr;
+	}
+	
+	/**
+	 * @return a reversed copy of this String
+	 */
+	func reverse -> String {
+	
+		if(this.isEmpty) { // No empty strings, please! 
+			return null;
+		}
+	
+		Char c;g;
+		String p, q;
+		q = malloc(this.length);
+		memcpy(q, this, this.length);
+		while (*(++q)); // points q at '\0' terminator;
+		for (p = this; p < --q; p++) { // ignores middle character when strlen is odd
+			c = *p;
+			*p = *q;
+			*q = c;
+		}		
+		return q;
+		
 	}
 	
 }

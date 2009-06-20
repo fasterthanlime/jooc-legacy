@@ -5,24 +5,7 @@ import text.StringTokenizer;
 import io.Scanner;
 import io.FileReader;
 import io.StringReader;
-
-func reverse(String s) -> String {
-	
-	Char c;
-	String p, q;
-	if (s!=NULL && *s!=0) { // No empty strings, please! 
-		q = s;
-		while (*(++q)) ; // points q at '0' terminator;
-		for (p=s; p < --q; p++) { // ignores middle character when strlen is odd
-			c = *p;
-			*p = *q;
-			*q = c;
-		}
-	}
-	
-	return s;
-	
-}
+import lang.String;
 
 func main {
 
@@ -51,15 +34,14 @@ func printData {
 	printf("Now reading lines from a file\n");
 	Scanner s = new Scanner(new FileReader("reader2.txt"));
 	while(s.hasNext) {
-		String line = s.readLine;
-		reverse(line);
-		if(strlen(line) == 0) {
+		String line = s.readLine.reverse;
+		if(line.isEmpty) {
 			continue;
 		}
 		StringTokenizer tk = new StringTokenizer(line, "\t");
 		//FIXME: Tokens are reversed, since C calls the functions from right to left, as opposed to Java. This should be fixed in the compiler.
-		printf("Name: %s, Age: %s, Profession: %s\n", reverse(tk.nextToken()), reverse(tk.nextToken()), reverse(tk.nextToken()));
-		//printf("Name: %s, Age: %s, Profession: %s\n", tk.nextToken(), tk.nextToken(), tk.nextToken());
+		printf("Name: %s, Age: %s, Profession: %s\n", tk.nextToken.reverse, tk.nextToken.reverse, tk.nextToken.reverse);
+		//printf("Name: %s, Age: %s, Profession: %s\n", tk.nextToken, tk.nextToken, tk.nextToken);
 	}
 
 }
