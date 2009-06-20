@@ -127,7 +127,7 @@ public class SourceInfo {
     	} else {
     		
     		if(info.pakage.size() >= pakage.size()) {
-    			for(int i = 0; i < info.pakage.size(); i++) {
+    			for(int i = 0; i < pakage.size(); i++) {
 	    			String depPart = info.pakage.get(i);
 	    			String ourPart = pakage.get(i);
 	    			if(!depPart.equals(ourPart)) {
