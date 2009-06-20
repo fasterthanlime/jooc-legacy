@@ -7,6 +7,10 @@ cover String {
 		return strlen(this);
 	}
 	
+	func isEmpty -> Bool {
+		return this == null || this[0] == '\0';
+	}
+	
 	func equals(String s) -> Bool {
 
 		Int l1 = this.length;
@@ -121,6 +125,26 @@ cover String {
 		}
 		substr[max+1]='\0';
 		return substr;
+	}
+	
+	func reverse -> String {
+	
+		if(this.isEmpty) { // No empty strings, please! 
+			return null;
+		}
+	
+		Char c;
+		String p, q;
+		q = malloc(this.length);
+		memcpy(q, this, this.length);
+		while (*(++q)); // points q at '\0' terminator;
+		for (p = this; p < --q; p++) { // ignores middle character when strlen is odd
+			c = *p;
+			*p = *q;
+			*q = c;
+		}		
+		return q;
+		
 	}
 	
 }

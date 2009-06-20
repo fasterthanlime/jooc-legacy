@@ -63,9 +63,9 @@ class Vector3f from Vector{
 				return;
 			}
 		}
-		x /= _length / newLength;
-		y /= _length / newLength;
-		z /= _length / newLength;
+		x = (x / _length) * newLength;
+		y = (y / _length) * newLength;
+		z = (z / _length) * newLength;
 	}
 	
 	func set(=x, =y, =z);
