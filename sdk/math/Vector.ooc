@@ -11,12 +11,6 @@ abstract class Vector {
 	
 	abstract func normalize;
 	
-	abstract func scale(Float newLength);
-	
-	abstract func mul(Float f);
-	
-	abstract func div(Float f);
-	
 	abstract func repr -> String;
 
 }

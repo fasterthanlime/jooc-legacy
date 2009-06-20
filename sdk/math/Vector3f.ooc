@@ -52,7 +52,7 @@ class Vector3f from Vector{
 		z /= _length;
 	}
 	
-	implement scale {
+	func scale(Float newLength) {
 		Float _length = length();
 		if(_length < 0) {
 			if(_length > -Vector.EPSILON) {
