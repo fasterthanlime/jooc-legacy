@@ -27,7 +27,7 @@ class SparseList from List {
 	
 	func add(Object element) {
 		Int slot = getFreeSlot(-1);
-		printf("Adding to SparseList, capacity=%d, size=%d, free slot found at %d\n", capacity, size, slot);
+		//printf("Adding to SparseList, capacity=%d, size=%d, free slot found at %d\n", capacity, size, slot);
 		data[slot] = element;
 		size++;
 	}
@@ -45,7 +45,7 @@ class SparseList from List {
 		
 		Int slot = indexToSlot(index);
 		if(slot == -1) {
-			printf("Trying to retrieve index #%d, slot not found, fuck you?\n", index);
+			//printf("Trying to retrieve index #%d, slot not found, fuck you?\n", index);
 			fflush(stdout);
 			Int x = 0;
 			x = x / x;
@@ -221,7 +221,7 @@ class SparseList from List {
 		Double temp2 = temp1 * 1.1;
 		Int temp3 = temp2;
 		capacity = temp3 + 10;
-		printf("SparseList: Trying to grow temp1=%.2f, temp2=%2.f, temp3=%d, now capacity=%d\n", temp1, temp2, temp3, capacity);
+		//printf("SparseList: Trying to grow temp1=%.2f, temp2=%2.f, temp3=%d, now capacity=%d\n", temp1, temp2, temp3, capacity);
 		Object* tmpData = realloc(data, capacity * sizeof(Object));
 		if(tmpData != null) {
 			data = tmpData;

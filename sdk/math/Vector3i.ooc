@@ -99,7 +99,7 @@ class Vector3i from Vector{
 	implement repr {
 		const Int BUFFER_SIZE = 50;
 		String buffer = malloc(BUFFER_SIZE);
-		snprintf(buffer, BUFFER_SIZE, "(%i, %i, %i)", x, y, z);
+		snprintf(buffer, BUFFER_SIZE, "(%d, %d, %d)", x, y, z);
 		return buffer;
 	}
 
