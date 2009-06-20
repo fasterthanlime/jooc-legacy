@@ -107,7 +107,6 @@ public class MakeBackend extends Backend {
 							+ File.separator + "Makefile")));
 			writer.append("# Generated on "+new Date().toString()+" by ooc's make backend. (by Amos Wenger, 2009)\n\n");
 			
-			/* ?= means define if undefined. It allows the user to override our default settings */
 			writer.append("CC=gcc\n");
 			
 			/* Dynamic libraries */

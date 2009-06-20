@@ -8,6 +8,11 @@ package org.ooc.backends.compilers;
 public class Icc implements AbstractCompiler {
 
 	@Override
+	public String getCommand() {
+		return "icc";
+	}
+	
+	@Override
 	public String getC99() {
 		return "/Qstd=c99";
 	}

@@ -7,6 +7,9 @@ package org.ooc.backends.compilers;
  */
 public interface AbstractCompiler {
 
+	/** Must return the compiler's command */
+	public String getCommand();
+	
 	/** Must return the option to pass to the compiler to compile to C99 */
 	public String getC99();
 	

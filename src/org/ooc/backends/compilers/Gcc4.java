@@ -8,6 +8,11 @@ package org.ooc.backends.compilers;
 public class Gcc4 implements AbstractCompiler {
 
 	@Override
+	public String getCommand() {
+		return "gcc";
+	}
+	
+	@Override
 	public String getC99() {
 		return "-std=c99";
 	}

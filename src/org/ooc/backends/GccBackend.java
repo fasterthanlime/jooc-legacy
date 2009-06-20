@@ -10,6 +10,7 @@ import java.util.StringTokenizer;
 import org.ooc.ShellUtils;
 import org.ooc.compiler.BuildProperties;
 import org.ooc.compiler.ProcessUtils;
+import org.ooc.compiler.libraries.Target;
 import org.ooc.compiler.pkgconfig.PkgInfo;
 import org.ooc.errors.SourceContext;
 import org.ooc.outputting.CachedFileOutputter;
@@ -36,6 +37,7 @@ class GccBackend extends Backend {
 	private List<String> cFlags;
 	private boolean clean;
 	private boolean verbose;
+	private boolean shout;
 	private FileOutputter fileOutputter;
 	
 	private class CommandFailedException extends Exception {
@@ -62,13 +64,18 @@ class GccBackend extends Backend {
 		// defaults
 		clean = true;
 		verbose = false;
+		shout = false;
 		
 		StringTokenizer tokenizer = new StringTokenizer(parameters, ",");
 		while(tokenizer.hasMoreTokens()) {
 			String token = tokenizer.nextToken();
 			if(token.startsWith("-clean=")) {
 				clean = parseYesNo(token, "-clean=", clean);
-			} else if(token.startsWith("-v")) {
+			} else if(token.equals("-s")) {
+				shout = true;
+			} else if(token.startsWith("-shout=")) {
+				shout = parseYesNo(token, "-shout=", shout);
+			} else if(token.equals("-v")) {
 				verbose = true;
 			} else if(token.startsWith("-verbose=")) {
 				verbose = parseYesNo(token, "-verbose=", verbose);
@@ -174,18 +181,15 @@ class GccBackend extends Backend {
 				addFlags(args, props);
 				
 				args.add("-c");
-				//String cPath = info.getRelativePath(module, ".c");
 				String cPath = info.getOutPath(module, ".c");
 				args.add(cPath);
 				toClean.add(cPath);
-				//String hPath = info.getRelativePath(module, ".h");
 				String hPath = info.getOutPath(module, ".h");
 				toClean.add(hPath);
 				
 				addIncludePaths(info, props, args);
 				
 				args.add("-o");
-				//String oPath = info.getRelativePath(module, ".o");
 				String oPath = info.getOutPath(module, ".o");
 				args.add(oPath);
 				toClean.add(oPath);
@@ -200,8 +204,6 @@ class GccBackend extends Backend {
 				args.clear();
 				addFlags(args, props);
 				
-				//String cPath = info.getRelativePath(executableName, ".c");
-				//String hPath = info.getRelativePath(executableName, ".h");
 				String cPath = info.getOutPath(executableName, ".c");
 				String hPath = info.getOutPath(executableName, ".h");
 				args.add(cPath);
@@ -255,7 +257,13 @@ class GccBackend extends Backend {
 			
 		} catch (CommandFailedException e) {
 			
-			e.printStackTrace();
+			if(shout) {
+				if(Target.guessHost() == Target.LINUX) {
+					System.out.println("\033[1;31m[FAIL]\033[m");
+				} else {
+					System.out.println("[FAIL]");
+				}
+			}
 			return 1;
 			
 		} catch (Exception e) {
@@ -264,6 +272,13 @@ class GccBackend extends Backend {
 			
 		}
 		
+		if(shout) {
+			if(Target.guessHost() == Target.LINUX) {
+				System.out.println("\033[1;32m[ OK ]\033[m");
+			} else {
+				System.out.println("[ OK ]");
+			}
+		}
 		return 0;
 		
 	}
@@ -271,7 +286,6 @@ class GccBackend extends Backend {
 	private void addDependenciesRecursive(ProjectInfo info, List<String> args, SourceContext source) {
 
 		for(SourceContext dependency: source.getDependencies()) {
-			//String path = info.getRelativePath(dependency.source.getInfo().fullName, ".o");
 			String path = info.getOutPath(dependency.source.getInfo().fullName, ".o");
 			if(!args.contains(path)) {
 				args.add(path);

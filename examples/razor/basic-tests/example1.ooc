@@ -8,6 +8,7 @@ class MyObject {
 
 	func sayHello {
 		printf("Hi dude, my name is %s, and I'm happy to meet you!\n", name);
+		printfd();
 	}
 
 }

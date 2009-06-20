@@ -22,9 +22,6 @@ public class CommandLineInterface {
      * @throws Exception 
      */
     public static void main(String[] args) throws Exception {
-
-    	// Always print version, it *will* prove useful with first users
-        Version.printVersion();
     	
         if(args.length < 1) {
             System.out.println("ooc: no files.");
