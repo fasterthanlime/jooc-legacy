@@ -22,7 +22,7 @@ class StringTokenizer {
 
 	func nextToken(String delim) -> String {
 		
-		printf("In String '%s', at index '%d', with delimiter '%s'\n", str, index, delim);
+		//printf("In String '%s', at index '%d', with delimiter '%s'\n", str, index, delim);
 		String buffer = malloc(length + 1); // chars are always of size 1
 		Int bufIndex = 0;
 		Int delimLength = delim.length;
@@ -37,7 +37,7 @@ class StringTokenizer {
 		}
 		done:
 		buffer[bufIndex] = '\0';
-		printf("Now at index '%d', and buffer='%s'\n", index, buffer);
+		//printf("Now at index '%d', and buffer='%s'\n", index, buffer);
 		return buffer;
 		
 	}
