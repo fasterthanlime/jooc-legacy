@@ -55,7 +55,7 @@ cover String {
 	/**
 	 * @return this String parsed as a LLong (long long)
 	 */
-	func toLong -> LLong {
+	func toLLong -> LLong {
 		return atol(this);
 	}
 	
