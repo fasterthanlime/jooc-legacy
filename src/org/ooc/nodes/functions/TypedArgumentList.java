@@ -171,6 +171,9 @@ public class TypedArgumentList extends SyntaxNode {
         		}
         	
             	Type type = Type.read(context, reader);
+            	if(type == null) {
+            		throw new CompilationFailedError(reader.getLocation(), "Expected a type!");
+            	}
                 reader.skipWhitespace();
                 String name = reader.readName();
                 if(name.isEmpty()) {
