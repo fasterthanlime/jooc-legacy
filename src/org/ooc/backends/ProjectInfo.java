@@ -58,7 +58,7 @@ public class ProjectInfo {
 	 */
 	public ProjectInfo(BuildProperties props) {
 		
-		relativeOutPath = FileUtils.resolveRedundancies(new File(props.getPrefixedOutPath())).getPath();
+		relativeOutPath = FileUtils.resolveRedundancies(new File(props.outPath)).getPath();
 		if(!relativeOutPath.isEmpty()) {
 			relativeOutPath += File.separatorChar;
 		}

@@ -103,7 +103,7 @@ public class MakeBackend extends Backend {
 		try {
 		
 			BufferedWriter writer = new BufferedWriter(new FileWriter(
-					new File(props.getPrefixedOutPath()
+					new File(props.outPath
 							+ File.separator + "Makefile")));
 			writer.append("# Generated on "+new Date().toString()+" by ooc's make backend. (by Amos Wenger, 2009)\n\n");
 			
@@ -129,6 +129,7 @@ public class MakeBackend extends Backend {
 			/* Static libraries */
 			writer.append("STATIC_LIBS+=");
 			for(String library: staticLibsRealPath) {
+				writer.append(props.getSeparatedOutPath());
 				writer.append(library.trim());
 				writer.append(' ');
 			}
@@ -151,9 +152,13 @@ public class MakeBackend extends Backend {
 				writer.append(" ");
 			}
 			if(!props.pkgInfos.isEmpty()) {
-				writer.append("$(pkg-config --cflags ");
+				writer.append("$(shell pkg-config --cflags ");
+				int count = 0;
 				for(PkgInfo pkginfo: props.pkgInfos) {
-					writer.append(pkginfo.name+" ");
+					writer.append(pkginfo.name);
+					if(++count < props.pkgInfos.size()) {
+						writer.append(" ");
+					}
 				}
 				writer.append(") ");
 			}
@@ -240,14 +245,15 @@ public class MakeBackend extends Backend {
 		File libFile = new File(staticLib);
 		
 		File src = new File(staticLib);
-		File dst = new File(new File(props.getPrefixedOutPath()), "libs" + File.separator
+		File dst = new File(new File(props.outPath), "libs" + File.separator
 				+ Target.guessHost().toString() + File.separator + libFile.getName());
 		dst = FileUtils.resolveRedundancies(dst);
 		
-		File toTrim = new File(props.getPrefixedOutPath());
+		File toTrim = new File(props.outPath);
 		toTrim = FileUtils.resolveRedundancies(toTrim);
 		
-		if(!dst.getParentFile().mkdirs()) {
+		dst.getParentFile().mkdirs();
+		if(!dst.getParentFile().exists()) {
 			System.err.println("Couldn't create directory '"+dst.getParent()+"', necessary for exporting static libs.");
 		}
 		
@@ -271,7 +277,7 @@ public class MakeBackend extends Backend {
 			throws IOException {
 		
 		List<String> wittyPaths = new ArrayList<String>();
-		String fuzzyPath = new File(props.getPrefixedOutPath()).getCanonicalPath();
+		String fuzzyPath = new File(props.outPath).getCanonicalPath();
 		//System.out.println("Fuzzy path: "+fuzzyPath);
 		//System.out.println("CPP modules: "+info.cppModules);
 

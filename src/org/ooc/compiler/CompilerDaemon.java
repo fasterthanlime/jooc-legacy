@@ -157,10 +157,6 @@ public class CompilerDaemon {
 							
 							props.libPath.clear();
 							
-						} else if(command.startsWith("prefix-set")) { 
-							
-							props.prefix = command.substring("prefix-set ".length()).trim();
-							
 						} else if(command.startsWith("backend-set ")) {
 							
 							props.backend = BackendFactory.getBackend(command.substring("backend-set ".length()).trim());

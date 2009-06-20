@@ -2,16 +2,29 @@ include stdio;
 include math;
 
 cover String {
-	
+
+	/**
+	 * @return the length of this string.
+	 */
 	func length -> Int {
 		return strlen(this);
 	}
 	
+	/**
+	 * Compares this string to the specified object. The result is true
+	 * if and only if the argument is not null and is a String object
+	 * that represents the same sequence of characters as this object. 
+	 * @return true if this string is equal to the argument, false
+	 * otherwise
+	 */
 	func equals(String s) -> Bool {
 
 		Int l1 = this.length;
 		Int l2 = s.length;
 		if(l1 != l2) {
+			return false;
+		}
+		if(l1 == null || l2 == null) {
 			return false;
 		}
 		
@@ -25,6 +38,9 @@ cover String {
 		
 	}
 	
+	/**
+	 * Tests if this string starts with the specified prefix. 
+	 */
 	func startsWith(String s) -> Bool {
 
 		Int l1 = this.length;
@@ -43,6 +59,9 @@ cover String {
 		
 	}
 	
+	/**
+	 * Tests if this string ends with the specified prefix. 
+	 */
 	func endsWith(String s) -> Bool {
 
 		Int l1 = this.length;
@@ -62,6 +81,10 @@ cover String {
 		
 	}
 	
+	/**
+	 * @return the index within this string of the first occurrence of
+	 * the specified character.
+	 */
 	func indexOf(Char c) -> Int {
 		
 		for(Int i: 0..length) {
@@ -74,6 +97,10 @@ cover String {
 		
 	}
 	
+	/**
+	 * @return the index within this string of the last occurrence of
+	 * the specified character.
+	 */
 	func lastIndexOf(Char c) -> Int {
 		
 		for(Int i = length - 1; i >= 0; i--) {

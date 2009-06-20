@@ -74,12 +74,6 @@ public class BuildProperties {
      * Equivalent to gcc's "-I"
      */
     public final List<String> incPath;
-    
-    /**
-     * Currently used by the Make backend to control the relative location
-     * of the Makefile and, thus, executables. Defaults to ".."
-     */
-    public String prefix;
 
     /**
      * Packages managed by the 'pkgconfig' utility
@@ -102,7 +96,6 @@ public class BuildProperties {
     	libPath = new ArrayList<String>();
     	incPath = new ArrayList<String>();
     	outPath = DEFAULT_OUTPATH;
-    	prefix = ""; // No prefix by default.
     	
     	pkgInfos = new ArrayList<PkgInfo>();
     	
@@ -126,23 +119,6 @@ public class BuildProperties {
     }
 
     /**
-     * @return the output path, corrected by the prefix
-     */
-	public String getPrefixedOutPath() {
-
-		if(prefix.isEmpty()) {
-			return outPath;
-		}
-		
-		if(outPath.isEmpty()) {
-			return prefix;
-		}
-
-		return outPath + File.separator + prefix;
-		
-	}
-
-	/**
 	 * @return the output path, followed by a File.separator if non-empty
 	 */
 	public String getSeparatedOutPath() {

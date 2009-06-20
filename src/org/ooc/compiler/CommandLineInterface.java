@@ -101,10 +101,6 @@ public class CommandLineInterface {
         			
         			timing = true;
         			
-        		} else if(option.startsWith("prefix")) {
-        			
-        			props.prefix = arg.substring(arg.indexOf('=') + 1);
-        			
         		} else if(option.equals("verbose") || option.equals("v")) {
         			
         			props.isVerbose = true;
