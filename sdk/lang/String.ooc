@@ -1,6 +1,8 @@
 include stdio;
 include math;
 
+import Char;
+
 cover String {
 
 	/**
@@ -63,7 +65,47 @@ cover String {
 	 * @return this String parsed as a Double
 	 */
 	func toDouble -> Double {
-		return atof(this);
+		
+		// Amos Wenger: Standard C atof() depends on locale: imho, it sucks
+		// in most cases, it's a comma that's needed.
+		Int intPart = 0;
+		Double floatPart = 0.0;
+		Double factor = 0.1;
+		
+		Bool afterDot = false;
+		
+		Int minus = 1;
+		Int start = 0;
+		if(this[0] == '-') {
+			minus = -1;
+			start = 1;
+		}
+		
+		for(Int i: start..this.length) {
+			Char c = this[i];
+			if(afterDot) {
+				Int add = c.toInt;
+				if(add == -1) {
+					break; // Ignore invalid input
+				}
+				floatPart += factor * add;
+				factor *= 0.1;
+			} else {
+				if(c == '.') {
+					afterDot = true;
+				} else {
+					Int add = c.toInt;
+					if(add == -1) {
+						break; // Ignore invalid input
+					}
+					intPart *= 10;
+					intPart += add;
+				}
+			}
+		}
+		
+		return minus * (intPart + floatPart);
+		
 	}
 	
 	/**
@@ -151,7 +193,8 @@ cover String {
 	//TODO eagle2com: Add negative indexes!!!
 	func subrange(Int index, Int range) -> String {
 		
-		String substr = malloc(abs(range) + 1);
+		Int absRange = abs(range);
+		String substr = malloc(absRange + 1);
 		Int min;
 		Int max;
 		
@@ -181,7 +224,7 @@ cover String {
 				substr[i-min] = this[i];
 			}
 		}
-		substr[max+1]='\0';
+		substr[absRange]='\0';
 		return substr;
 	}
 	
