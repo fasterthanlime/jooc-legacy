@@ -194,7 +194,7 @@ cover String {
 			return null;
 		}
 	
-		Char c;g;
+		Char c;
 		String p, q;
 		q = malloc(this.length);
 		memcpy(q, this, this.length);
