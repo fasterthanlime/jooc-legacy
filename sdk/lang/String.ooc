@@ -7,6 +7,18 @@ cover String {
 		return strlen(this);
 	}
 	
+	func toInt -> Int {
+		return atoi(this);
+	}
+	
+	func toLong -> Long {
+		return atol(this);
+	}
+	
+	func toDouble -> Double {
+		return atof(this);
+	}
+	
 	func isEmpty -> Bool {
 		return this == null || this[0] == '\0';
 	}
