@@ -22,6 +22,10 @@ abstract class Widget from GObject {
 	func setSensitive(Bool sensitive) {
 		gtk_widget_set_sensitive(getWidget(), sensitive);
 	}
+
+	func isRealized -> Bool {
+		return GTK_WIDGET_REALIZED(getWidget());
+	}
 	
 	/**
 	 * Realize this component on-screen, e.g. allocate resources, etc.

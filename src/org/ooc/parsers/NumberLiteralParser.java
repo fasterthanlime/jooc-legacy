@@ -50,17 +50,6 @@ public class NumberLiteralParser implements Parser {
         	if(literal.isEmpty()) {
         		throw new CompilationFailedError(reader.getLocation(), "Invalid hex literal format: must be of syntax 0x0123456789abcdef for example.");
         	}
-        	/*
-        	int index = literal.length() - 1;
-        	boolean shouldTrim = false;
-        	while(literal.charAt(index) == '0') {
-        		index--;
-        		shouldTrim = true;
-        	}
-        	if(shouldTrim) {
-        		literal = literal.substring(0, index + 1);
-        	}
-        	*/
 			return new IntLiteral(reader.getLocation(), new BigInteger(literal, 16).intValue());
         }
     	
