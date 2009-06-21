@@ -2,7 +2,9 @@ package org.ooc.parsers;
 
 import java.io.EOFException;
 import java.io.IOException;
+import java.math.BigInteger;
 
+import org.ooc.errors.CompilationFailedError;
 import org.ooc.errors.SourceContext;
 import org.ooc.nodes.numeric.DoubleLiteral;
 import org.ooc.nodes.numeric.FloatLiteral;
@@ -43,9 +45,28 @@ public class NumberLiteralParser implements Parser {
 
     	NumberLiteral result;
     	
+    	if(reader.matches("0x", true)) {
+        	String literal = reader.readMany("0123456789abcdef", "_", true);
+        	if(literal.isEmpty()) {
+        		throw new CompilationFailedError(reader.getLocation(), "Invalid hex literal format: must be of syntax 0x0123456789abcdef for example.");
+        	}
+        	/*
+        	int index = literal.length() - 1;
+        	boolean shouldTrim = false;
+        	while(literal.charAt(index) == '0') {
+        		index--;
+        		shouldTrim = true;
+        	}
+        	if(shouldTrim) {
+        		literal = literal.substring(0, index + 1);
+        	}
+        	*/
+			return new IntLiteral(reader.getLocation(), new BigInteger(literal, 16).intValue());
+        }
+    	
         String literal = reader.readMany("0123456789", "_", true);
         if(literal.isEmpty()) {
-            return null;
+        	return null; // Too bad..
         }
         
         if(!reader.matches("..", false) && reader.matches(".", true)) {
