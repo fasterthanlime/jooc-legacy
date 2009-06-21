@@ -106,9 +106,9 @@ public class CommandLineInterface {
         			
         			run = true;
         			
-        		} else if(option.equals("-version") || option.equals("version")) {
+        		} else if(option.equals("V") || option.equals("-version") || option.equals("version")) {
         			
-        			// We have already printed the version, exit.
+        			Version.printVersion();
         			System.exit(0);
         			
         		} else {

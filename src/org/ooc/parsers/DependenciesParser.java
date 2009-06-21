@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.StringTokenizer;
 
 import org.ooc.compiler.Compiler;
+import org.ooc.errors.CompilationFailedError;
 import org.ooc.errors.SourceContext;
 import org.ooc.nodes.libs.Include;
 import org.ooc.nodes.libs.Use;
@@ -57,7 +58,7 @@ class DependenciesParser implements Parser {
 	            		
             		} catch (FileNotFoundException e2) {
             			
-            			throw new Error("While trying to resolve dependency at "+reader.getLocation(), e2);
+            			throw new CompilationFailedError(reader.getLocation(), "Dependency not found: "+depName);
             			
             		}
             		
