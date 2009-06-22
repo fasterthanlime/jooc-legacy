@@ -143,7 +143,7 @@ public class LibraryManager {
 			}
 			
 			for(String pkgName: lib.pkgNames) {
-				if(addOnce(PkgConfigFrontend.getInfo(pkgName), props.pkgInfos) && props.isVerbose) {
+				if(addOnce(PkgConfigFrontend.getInfo(pkgName), props.pkgInfos) && props.verbose) {
 					System.out.println("[LibraryManager] Added library "+name);
 				}
 			}
@@ -154,7 +154,7 @@ public class LibraryManager {
 			
 		} else {
 			
-			if(addOnce(name, dynamicLibraries) && props.isVerbose) {
+			if(addOnce(name, dynamicLibraries) && props.verbose) {
 				System.out.println("Added library "+name);
 			}
 			

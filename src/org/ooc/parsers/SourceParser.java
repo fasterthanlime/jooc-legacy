@@ -120,7 +120,7 @@ public class SourceParser {
 	        context = new SourceContext(projInfo, info, reader, this);
 	        sources.put(info.fullName, context);
 	
-	        if(projInfo.props.isVerbose) {
+	        if(projInfo.props.verbose) {
 	        	System.out.println("Compiling source '"+info.fullName+"'");
 	        }
 

@@ -160,8 +160,12 @@ class GccBackend extends Backend {
 	@Override
 	public int compile(ProjectInfo info, BuildProperties props) throws IOException, InterruptedException {
 
-		if(props.isVerbose) {
-			verbose = true; // General parameters override backend-specific ones
+		// General parameters override backend-specific ones
+		if(clean && !props.clean) {
+			clean = false;
+		}
+		if(!verbose && props.verbose) {
+			verbose = true;
 		}
 		
 		List<String> args = new ArrayList<String>();

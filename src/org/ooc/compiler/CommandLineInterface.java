@@ -94,13 +94,17 @@ public class CommandLineInterface {
         			
         			dynamicLibs.add(arg.substring(2));
         			
+        		} else if(option.equals("noclean")) {
+        			
+        			props.clean = false;
+        			
         		} else if(option.equals("timing") || option.equals("t")) {
         			
         			timing = true;
         			
         		} else if(option.equals("verbose") || option.equals("v")) {
         			
-        			props.isVerbose = true;
+        			props.verbose = true;
         			
         		} else if(option.equals("run") || option.equals("r")) {
         			
@@ -172,7 +176,7 @@ public class CommandLineInterface {
 	            	for(SourceContext source: projInfo.executables.values()) {
 	            		String execPath = "./" + source.source.getInfo().simpleName;
 	            		
-	            		if(props.isVerbose) {
+	            		if(props.verbose) {
 	            			System.out.println("Launching '"+execPath+"'...");
 	            		}
 	            		
@@ -180,7 +184,7 @@ public class CommandLineInterface {
 						ProcessUtils.redirectIO(p);
 						int status = p.waitFor();
 						
-						if(props.isVerbose) {
+						if(props.verbose) {
 							System.out.println("Exited with status "+status);
 						}
 						

@@ -292,7 +292,7 @@ public class AssemblyManager {
     	Type.resolveCheckEnabled = false;
     	
         for(AssemblyError error: errors.values()) {
-        	if(context.projInfo.props.isVerbose) {
+        	if(context.projInfo.props.verbose) {
         		error.printStackTrace();
         	} else {
         		System.err.println(error.node.location.toString().trim()+": " + error.getSimpleMessage());

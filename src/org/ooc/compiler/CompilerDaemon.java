@@ -163,11 +163,11 @@ public class CompilerDaemon {
 							
 						} else if(command.equals("verbose-off")) { 
 							
-							props.isVerbose = false;
+							props.verbose = false;
 							
 						} else if(command.equals("verbose-on")) { 
 							
-							props.isVerbose = true;
+							props.verbose = true;
 							
 						} else if(command.equals("timing-off")) { 
 							

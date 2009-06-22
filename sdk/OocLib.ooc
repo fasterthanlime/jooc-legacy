@@ -1,4 +1,4 @@
-include stdbool, memory, gc/gc;
+include stdlib, stdio, stdbool, memory, gc/gc;
 
 typedef char* String;
 typedef void* Object;

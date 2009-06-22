@@ -34,7 +34,7 @@ public class BuildProperties {
     /**
      * Enable verbose message output of the builder.
      */
-    public boolean isVerbose;
+    public boolean verbose;
     
     /**
      * A list of directories where .ooc files can be found.
@@ -79,6 +79,12 @@ public class BuildProperties {
      * Packages managed by the 'pkgconfig' utility
      */
     public final List<PkgInfo> pkgInfos;
+
+    /**
+     * If true, should remove all temporary files after compilation.
+     * If false, leave everything in place for inspection.
+     */
+	public boolean clean;
 	
 	/**
      * Default constructor, initialize all values to default.
@@ -91,7 +97,8 @@ public class BuildProperties {
     	sourcePath = new SourcePath();
     	provider = new FileContentProvider(sourcePath);
     	backend = BackendFactory.getBackend("gcc");
-    	isVerbose = false;
+    	verbose = false;
+    	clean = true;
     	
     	libPath = new ArrayList<String>();
     	incPath = new ArrayList<String>();

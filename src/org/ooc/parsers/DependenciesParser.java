@@ -36,7 +36,7 @@ class DependenciesParser implements Parser {
             
             	String depName = tokenizer.nextToken();
             	
-            	if(context.projInfo.props.isVerbose) {
+            	if(context.projInfo.props.verbose) {
             		System.out.println("Found dependency "
             				+depName+"' imported from '"+context.source.getInfo().fullName
             				+", importing...");
