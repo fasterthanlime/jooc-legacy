@@ -199,11 +199,29 @@ public class TypedArgumentList extends SyntaxNode {
     
     	boolean allTypesResolved = true;
     	
-    	for(Variable arg: list) {
-    		if(!arg.type.isResolved) {
+    	SourceContext context = manager.getContext();
+    	
+    	ClassDef def = null;
+    	if(getParent() != null) {
+    		def = getParent().getNearest(ClassDef.class);
+    	}
+    	
+    	for(int i = 0; i < list.size(); i++) {
+    		Variable arg = list.get(i);
+    		
+    		if(arg instanceof VariableAlias && def != null) {
+    			Variable member = def.getMember(context, arg.getName());
+    			if(member == null) {
+    				manager.queue(this, "Trying to initialize unexisting member '"+arg.getName()
+    						+"' in class '"+def.clazz.fullName+"' with the =field syntax.");
+    				return;
+    			}
+    			list.set(i, member);
+    		} else if(!arg.type.isResolved) {
     			allTypesResolved = false;
     			manager.queue(arg.type, "Can't resolve type "+arg.type.name+" of argument "+arg.getName());
     		}
+    		
     	}
     	
     	if(allTypesResolved) {

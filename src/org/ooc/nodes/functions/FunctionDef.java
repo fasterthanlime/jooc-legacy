@@ -55,6 +55,7 @@ public class FunctionDef extends Scope
     public FunctionDef(FileLocation location, Function function) {
         super(location);
         this.function = function;
+        this.function.args.setContext(this);
     }
     
     @Override

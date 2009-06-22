@@ -52,6 +52,7 @@ Il me répondit : "Ben ! Voyons !" comme s'il s'agissait là d'une évidence.
 Et il me fallut un grand effort d'intelligence pour comprendre à moi seul ce problème.
 (r, g, b, a) = (-16777216, 16711680, 65280, 255)
 (r, g, b, a) = (ff000000, ff0000, ff00, ff)
+It worked. (death 42, sleep 69, food 1337)
 10...9...8...7...6...5...4...3...2...1...0...BAOOM!
 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, .. were 0 to 100, with step 10
 ooc is 10000000 times funnier than C

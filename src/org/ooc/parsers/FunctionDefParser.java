@@ -146,14 +146,7 @@ class FunctionDefParser implements Parser {
 				if(classDef == null) {
 					throw new CompilationFailedError(funcDef.location, "Using the '=field' syntax outside a class definition!");
 				}
-				
-				VariableAlias alias = (VariableAlias) var;
-				Variable member = classDef.getMember(context, alias.getName());
-				if(member == null) {
-					throw new CompilationFailedError(funcDef.location, "Trying to initialize a member with the '=field'" +
-							" syntax, but the member asked for, '"+alias.getName()+"', can't be found."+reader.getLocation());
-				}
-				addHeritage(realArgs, funcDef, member, args.location, classDef.clazz);
+				addHeritage(realArgs, funcDef, var, args.location, classDef.clazz);
 				
 			} else {
 				realArgs.add(var);
