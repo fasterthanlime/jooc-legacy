@@ -39,7 +39,7 @@ public class DoubleLiteral extends NumberLiteral {
     }
 
     @Override
-    protected void negate() {
+	public void negate() {
         value = -value;
     }
 

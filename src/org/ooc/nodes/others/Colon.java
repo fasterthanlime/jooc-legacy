@@ -69,7 +69,6 @@ public class Colon extends RawCode {
                 return;
             } else if(next instanceof Typed) {
             	if(next.getNext() == null) {
-            		Typed typed = (Typed) next;
             		next.drop();
             		
             		Scope scope = getParent().getNearest(Scope.class);
@@ -83,7 +82,7 @@ public class Colon extends RawCode {
             		ForEach foreach = new ForEach(location, (VariableDecl) prev, tmpVar);
                     getParent().replaceWith(manager, foreach);
             	} else {
-            		manager.queue(this, "Got VariableAccess, but not the last of the parenthesis.");
+            		manager.queue(this, "Got Typed, but not the last of the parenthesis.");
             	}
                 return;
             } else if(next instanceof Range) {
@@ -93,10 +92,10 @@ public class Colon extends RawCode {
                 	Typed lowerTyped = (Typed) range.lower;
                 	Typed upperTyped = (Typed) range.upper;
                 	if(true || lowerTyped.getType().name.equals("int") && upperTyped.getType().name.equals("int")) { // That sucks.
-	                    forr.index = ((VariableDecl) prev).variable.getName();
-	                    forr.lower = range.lower.toString();
-	                    forr.upper = range.upper.toString();
-	                    forr.step = "1";
+	                    forr.index = ((VariableDecl) prev).variable;
+	                    forr.lower = range.lower;
+	                    forr.upper = range.upper;
+	                    forr.reverse = range.reverse;
                 	} else {
                 		manager.queue(range, "Range after Colon still dirty, queuing.");
                 		manager.queue(this, "Range after Colon still dirty, queuing the Colon in prevision.");

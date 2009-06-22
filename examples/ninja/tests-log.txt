@@ -3,6 +3,18 @@ Meowwwwww!
 Size of animal: 8, size of cat: 12
 Meowwwwww!
 and Meowwwwww!
+Binary representation of beer: 0b11010000000
+Counting to ten in binary:
+1 = 0b1
+2 = 0b10
+3 = 0b11
+4 = 0b100
+5 = 0b101
+6 = 0b110
+7 = 0b111
+8 = 0b1000
+9 = 0b1001
+10 = 0b1010
 length of 'le chat est sur la branche =)' = 29. starts with 'le' 1 ? starts with 'la' 0 ?
 first index of 'a': 5. last index of 'l': 16
 forty-two == 42 (o, rly?)
@@ -40,4 +52,6 @@ Il me répondit : "Ben ! Voyons !" comme s'il s'agissait là d'une évidence.
 Et il me fallut un grand effort d'intelligence pour comprendre à moi seul ce problème.
 (r, g, b, a) = (-16777216, 16711680, 65280, 255)
 (r, g, b, a) = (ff000000, ff0000, ff00, ff)
+10...9...8...7...6...5...4...3...2...1...0...BAOOM!
+0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, .. were 0 to 100, with step 10
 ooc is 10000000 times funnier than C

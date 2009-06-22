@@ -23,6 +23,7 @@ public abstract class NumberLiteral extends Literal {
     		return;
     	}
     	
+    	//TODO check if it's still necessary, with the NumberLiteralParser changes.
         SyntaxNode prev = getParent().getPrev(this);
         if(prev != null && prev instanceof Minus) {
         	getParent().remove(prev);
@@ -33,6 +34,9 @@ public abstract class NumberLiteral extends Literal {
         
     }
 
-    protected abstract void negate();
+    /**
+     * Negate the value of this number (e.g set it to its opposite)
+     */
+    public abstract void negate();
 
 }

@@ -47,7 +47,6 @@ public class StaticMemberAccess extends VariableAccess {
 	@Override
 	protected void assembleImpl(AssemblyManager manager) {
 	
-		String origin = clazz.fullName;
 		SourceContext context = manager.getContext();
 		while(clazz.hasSuper() && clazz.getZuper(context).getClassDef().getMember(context, variable.getName()) != null) {
 			clazz = clazz.getZuper(context);

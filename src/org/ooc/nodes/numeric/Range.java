@@ -6,6 +6,8 @@ import org.ooc.errors.AssemblyManager;
 import org.ooc.errors.CompilationFailedError;
 import org.ooc.nodes.control.For;
 import org.ooc.nodes.interfaces.Typed;
+import org.ooc.nodes.keywords.ReverseKeyword;
+import org.ooc.nodes.others.Comma;
 import org.ooc.nodes.others.SyntaxNode;
 import org.ooc.nodes.others.SyntaxNodeList;
 import org.ubi.FileLocation;
@@ -27,15 +29,22 @@ public class Range extends SyntaxNodeList {
 
 	/** Lower bound of the range, e.g. 0 for 0..100 */
     public SyntaxNode lower;
+    
     /** Upper bound of the range, e.g. 100 for 0..100 */
     public SyntaxNode upper;
+    
+    /** Is is set up for reverse iteration? */
+    public boolean reverse;
 
     /**
      * Default constructor
      * @param location
      */
     public Range(FileLocation location) {
+    	
         super(location);
+        reverse = false;
+        
     }
 
     @Override
@@ -80,10 +89,33 @@ public class Range extends SyntaxNodeList {
         	return;
         }
         
-        if(getParent() instanceof For && upper.getNext() != null) {
-        	manager.queue(this, "We're in a for and upper still has next");
-        	return;
+        SyntaxNode next = upper.getNext();
+		if(getParent() instanceof For && next != null) {
+			boolean ok = false;
+			For forNode = (For) getParent();
+        	if(next instanceof Comma) {
+        		SyntaxNode nextNext = next.getNext();
+        		if(nextNext instanceof Typed) {
+        			Typed typed = (Typed) nextNext;
+        			if(typed.getType().equals(IntLiteral.type)) {
+        				forNode.step = nextNext;
+        				nextNext.drop();
+        				next.drop();
+        				ok = true;
+        			}
+        		}
+        	}
+        	if(!ok) {
+        		manager.queue(this, "We're in a for and upper still has next");
+        		return;
+        	}
         }
+		
+		SyntaxNode prev = lower.getPrev();
+		if(prev instanceof ReverseKeyword) {
+			reverse = true;
+			prev.drop();
+		}
         
         //System.out.println("Range "+location+", neither prev nor next are dirty, moving.. Lower is a "+lower.getDescription()+", upper is a "+upper.getDescription());
         

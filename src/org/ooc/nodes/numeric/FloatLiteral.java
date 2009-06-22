@@ -31,7 +31,7 @@ public class FloatLiteral extends NumberLiteral {
     }
 
     @Override
-    protected void negate() {
+	public void negate() {
         value = -value;
     }
     

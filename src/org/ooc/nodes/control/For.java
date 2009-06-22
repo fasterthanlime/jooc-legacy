@@ -3,8 +3,10 @@ package org.ooc.nodes.control;
 import java.io.IOException;
 
 import org.ooc.errors.AssemblyManager;
+import org.ooc.nodes.numeric.IntLiteral;
 import org.ooc.nodes.others.Parenthesis;
 import org.ooc.nodes.others.SyntaxNode;
+import org.ooc.structures.Variable;
 import org.ubi.FileLocation;
 
 /**
@@ -15,16 +17,19 @@ import org.ubi.FileLocation;
 public class For extends Parenthesis {
 
 	/** The name of the variable we're iterating into */
-    public String index;
+    public Variable index;
     
     /** The lower bound of the for loop */
-    public String lower;
+    public SyntaxNode lower;
     
     /** The upper bound of the for loop */
-    public String upper;
+    public SyntaxNode upper;
     
     /** The step of the for loop */
-    public String step;
+    public SyntaxNode step;
+    
+    /** Should do reverse iterations? */
+    public boolean reverse;
 
     /**
      * Default constructor
@@ -32,7 +37,11 @@ public class For extends Parenthesis {
      */
     public For(FileLocation location) {
         super(location);
-        this.index = "";
+        index = null;
+        lower = new IntLiteral(location, 0);
+        upper = new IntLiteral(location, 0);
+        step = new IntLiteral(location, 1);
+        reverse = false;
     }
     
     @Override
@@ -44,30 +53,40 @@ public class For extends Parenthesis {
     public void writeToCSource(Appendable a) throws IOException {
     	
     	writeWhitespace(a, -1);
-        if(index.isEmpty()) {
+        if(index == null) {
             a.append("for(");
             for(SyntaxNode node: nodes) {
                 node.writeToCSource(a);
             }
             a.append(")");
         } else {
-        	String indexStr = index.toString().trim();
-        	String lowerStr = lower.toString().trim();
-        	String upperStr = upper.toString().trim();
-        	String stepStr = step.toString().trim();
-        	
-            a.append("for(int ");
-			a.append(indexStr);
-            a.append(" = ");
-			a.append(lowerStr);
+        	a.append("for(int ");
+			a.append(index.getName());
+			a.append(" = ");
+			if(reverse) {
+				a.append("(");
+				upper.writeToCSource(a);
+				a.append(") - 1");
+			} else {
+				lower.writeToCSource(a);
+			}
             a.append("; ");
-            a.append(indexStr);
-            a.append(" < ");
-			a.append(upperStr);
+            a.append(index.getName());
+            if(reverse) {
+            	a.append(" >= ");
+            	lower.writeToCSource(a);
+            } else {
+            	a.append(" < ");
+            	upper.writeToCSource(a);
+            }
             a.append("; ");
-            a.append(indexStr);
-            a.append(" += ");
-			a.append(stepStr);
+            a.append(index.getName());
+            if(reverse) {
+            	a.append(" -= ");
+            } else {
+            	a.append(" += ");
+            }
+			step.writeToCSource(a);
             a.append(") ");
         }
         
@@ -77,6 +96,15 @@ public class For extends Parenthesis {
     protected void assembleImpl(AssemblyManager manager) {
     	
     	assembleAll(manager);
+    	if(lower != null) {
+    		manager.queue(lower, "For queuing its lower");
+    	}
+    	if(upper != null) {
+    		manager.queue(upper, "For queuing its upper");
+    	}
+    	if(step != null) {
+    		manager.queue(step, "For queuing its step");
+    	}
     	
     }
 

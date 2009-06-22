@@ -53,6 +53,8 @@ public class NumberLiteralParser implements Parser {
 			return new IntLiteral(reader.getLocation(), new BigInteger(literal, 16).intValue());
         }
     	
+    	boolean negative = reader.matches("-", true);
+    	
         String literal = reader.readMany("0123456789", "_", true);
         if(literal.isEmpty()) {
         	return null; // Too bad..
@@ -61,7 +63,7 @@ public class NumberLiteralParser implements Parser {
         if(!reader.matches("..", false) && reader.matches(".", true)) {
             String floatingPart = reader.readMany("0123456789", "_", true);
             if(reader.matches("f", true)) {
-                result = new FloatLiteral(reader.getLocation(), Float.parseFloat(literal+"."+floatingPart+"f"));
+            	result = new FloatLiteral(reader.getLocation(), Float.parseFloat(literal+"."+floatingPart+"f"));
             } else {
 				// By default, is double.
 				// l suffix means long double. But heck, that's another story.
@@ -75,6 +77,10 @@ public class NumberLiteralParser implements Parser {
             } else {
             	result = new IntLiteral(reader.getLocation(), Integer.parseInt(literal));
             }
+        }
+        
+        if(negative) {
+        	result.negate();
         }
         
         return result;

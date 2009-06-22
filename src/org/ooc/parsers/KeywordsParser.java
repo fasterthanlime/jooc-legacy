@@ -6,6 +6,7 @@ import org.ooc.errors.CompilationFailedError;
 import org.ooc.errors.SourceContext;
 import org.ooc.nodes.keywords.AbstractKeyword;
 import org.ooc.nodes.keywords.ConstKeyword;
+import org.ooc.nodes.keywords.ReverseKeyword;
 import org.ooc.nodes.keywords.StaticKeyword;
 import org.ooc.nodes.keywords.UnmangledKeyword;
 import org.ooc.nodes.others.RawCode;
@@ -50,6 +51,11 @@ class KeywordsParser implements Parser {
         } else if (reader.matches("static", true) && reader.hasWhitespace(true)) {
 
         	context.add(new StaticKeyword(location));
+            success = true;
+
+        } else if (reader.matches("reverse", true) && reader.hasWhitespace(true)) {
+
+			context.add(new ReverseKeyword(location));
             success = true;
 
         } else {

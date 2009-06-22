@@ -32,7 +32,7 @@ public class IntLiteral extends NumberLiteral {
     }
 
     @Override
-    protected void negate() {
+	public void negate() {
         this.value = -value;
     }
 
