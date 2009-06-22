@@ -9,7 +9,7 @@ class StringTokenizer {
 
 	new(=str, =delim) {
 		
-		length = str.length;
+		length = this.str.length;
 		index = 0;
 		
 	}
