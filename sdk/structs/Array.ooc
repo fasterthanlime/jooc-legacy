@@ -20,6 +20,12 @@ class Array from Iterable {
 		}
 		return data[i];
 	}
+
+	static func nullTerminated(Object* p) -> Array {
+		Object* q = p;
+		while(*q) q++;
+		return new Array(q - p, p);
+	}
 	
 	implement iterator {
 		(Iterator) new ArrayIterator(this);
