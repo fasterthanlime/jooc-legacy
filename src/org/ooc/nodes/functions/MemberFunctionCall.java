@@ -47,8 +47,8 @@ public class MemberFunctionCall extends FunctionCall {
 	protected void assembleImpl(AssemblyManager manager) {
 	
 		if(manager.isDirty(access)) {
-			manager.queue(access, "Dirty access to "+access.getType().toString(manager)+" "+access+", queueing it.");
-			manager.queue(this, "Dirty access to "+access.getType().toString(manager)+" "+access+", queueing it.");
+			manager.queue(access, "Dirty access for member function call, queueing it.");
+			manager.queue(this, "Dirty access for member function call, queueing it.");
 			//System.err.println("Access is dirty, requeuing...");
 			return;
 		}

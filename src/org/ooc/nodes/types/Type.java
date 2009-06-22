@@ -395,7 +395,15 @@ public class Type extends SyntaxNode {
 	 * @return the source context of this type usage
 	 */
 	public SourceContext getSourceContext() {
-	
+
+		if(getContext() == null) {
+			return null;
+		}
+		
+		if(getContext().getRoot() == null) {
+			return null;
+		}
+		
 		return getContext().getRoot().context;
 		
 	}

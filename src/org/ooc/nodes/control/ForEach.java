@@ -24,7 +24,7 @@ import org.ubi.FileLocation;
 public class ForEach extends SyntaxNodeList {
 
     private VariableDecl decl;
-    private Variable collection;
+    private VariableAccess collection;
     private Variable iterator;
     
     private Block init;
@@ -35,7 +35,7 @@ public class ForEach extends SyntaxNodeList {
      * @param decl
      * @param collection
      */
-    public ForEach(FileLocation location, VariableDecl decl, Variable collection) {
+    public ForEach(FileLocation location, VariableDecl decl, VariableAccess collection) {
     	
         super(location);
         this.decl = decl;
@@ -61,8 +61,7 @@ public class ForEach extends SyntaxNodeList {
         init = new Block(location);
         init.add(new VariableDecl(location, iterator));
         init.add(new Assignment(location));
-        init.add(new MemberFunctionCall(location, "iterator", new ArrayList<SyntaxNode>(),
-        		new VariableAccess(location, collection)));
+        init.add(new MemberFunctionCall(location, "iterator", new ArrayList<SyntaxNode>(), collection));
         init.add(new LineSeparator(location));
         
         While wh = new While(location);

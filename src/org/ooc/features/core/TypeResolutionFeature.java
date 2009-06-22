@@ -1,6 +1,7 @@
 package org.ooc.features.core;
 
 import org.ooc.errors.AssemblyManager;
+import org.ooc.errors.SourceContext;
 import org.ooc.features.SingleFeature;
 import org.ooc.nodes.RootNode;
 import org.ooc.nodes.clazz.ClassDef;
@@ -64,11 +65,13 @@ public class TypeResolutionFeature extends SingleFeature<Type> {
     	
     	if(!type.isResolved) {
     		
+    		SourceContext sourceContext = type.getSourceContext();
+    		
     		/* Fifth place to look: the includes */
     		if(manager.getContext().getTypeDef(type.name) != null) {
     			type.isResolved = true;
     			type.isCover = true;
-    		} else if(type.getContext() != null && type.getSourceContext().getTypeDef(type.name) != null) {
+    		} else if(sourceContext != null && sourceContext.getTypeDef(type.name) != null) {
     			type.isResolved = true;
     			type.isCover = true;
     		}

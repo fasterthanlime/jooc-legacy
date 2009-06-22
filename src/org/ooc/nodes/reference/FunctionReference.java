@@ -92,7 +92,11 @@ public class FunctionReference extends SyntaxNode implements Typed {
 
 		writeWhitespace(a);
 		a.append("((Func) ");
-		a.append(impl.getMangledName());
+		if(impl == null) {
+			a.append("<unknown impl>");
+		} else {
+			a.append(impl.getMangledName());
+		}
 		a.append(")");
 		
 	}

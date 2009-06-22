@@ -54,14 +54,15 @@ public class Colon extends RawCode {
             }
             if(next instanceof VariableAccess) {
             	if(next.getNext() == null) {
-            		Variable var = ((VariableAccess) next).variable;
-            		if(var.type.clazz == null) {
+            		VariableAccess access = (VariableAccess) next;
+					Type type = access.getType();
+            		if(type.clazz == null) {
             			manager.errAndFail("Trying to foreach over a non-class type. Did you forget to import a cover?", next);
             		}
-            		if(!var.type.clazz.hasUnmangledFunction("iterator")) {
-            			manager.errAndFail("Trying to foreach over the class type '"+var.type.name+"' which doesn't have an iterator method.", next);
+            		if(!type.clazz.hasUnmangledFunction("iterator")) {
+            			manager.errAndFail("Trying to foreach over the variable '"+access.toString()+"' of type '"+type.name+"' which doesn't have an iterator method.", next);
             		}
-					ForEach foreach = new ForEach(location, (VariableDecl) prev, var);
+					ForEach foreach = new ForEach(location, (VariableDecl) prev, access);
                     getParent().replaceWith(manager, foreach);
             	} else {
             		manager.queue(this, "Got VariableAccess, but not the last of the parenthesis.");
@@ -79,7 +80,7 @@ public class Colon extends RawCode {
             		getParent().addBefore(new LineSeparator(location));
             		manager.queueVirgins(getParent(), "Unwrapped a collection for a foreach");
             		
-            		ForEach foreach = new ForEach(location, (VariableDecl) prev, tmpVar);
+            		ForEach foreach = new ForEach(location, (VariableDecl) prev, new VariableAccess(location, tmpVar));
                     getParent().replaceWith(manager, foreach);
             	} else {
             		manager.queue(this, "Got Typed, but not the last of the parenthesis.");
