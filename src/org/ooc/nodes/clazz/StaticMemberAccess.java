@@ -2,6 +2,8 @@ package org.ooc.nodes.clazz;
 
 import java.io.IOException;
 
+import org.ooc.errors.AssemblyManager;
+import org.ooc.errors.SourceContext;
 import org.ooc.nodes.others.VariableAccess;
 import org.ooc.structures.Clazz;
 import org.ooc.structures.Variable;
@@ -39,6 +41,17 @@ public class StaticMemberAccess extends VariableAccess {
 	
 		writeWhitespace(a);
 		a.append(variable.getName(clazz));
+		
+	}
+	
+	@Override
+	protected void assembleImpl(AssemblyManager manager) {
+	
+		String origin = clazz.fullName;
+		SourceContext context = manager.getContext();
+		while(clazz.hasSuper() && clazz.getZuper(context).getClassDef().getMember(context, variable.getName()) != null) {
+			clazz = clazz.getZuper(context);
+		}
 		
 	}
 	

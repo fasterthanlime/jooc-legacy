@@ -1,5 +1,5 @@
-Started ooc compiler daemon at port 14269 Mon Jun 22 04:23:19 GMT 2009
-Got connection to ooc compiler daemon from /127.0.0.1:53143
+Started ooc compiler daemon at port 14269 Mon Jun 22 04:37:03 GMT 2009
+Got connection to ooc compiler daemon from /127.0.0.1:52743
 Got remote command to compile 'downcasting'. SourcePath = {/blue/Dev/ooc/examples/ninja/class-tests=/blue/Dev/ooc/examples/ninja/class-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
 Compiling source 'downcasting'
 Compiling source 'OocLib'
@@ -7,24 +7,24 @@ Compiling source 'OocLib'
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/ninja/class-tests/downcasting.c /blue/Dev/ooc/examples/ninja/class-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/ninja/class-tests/downcasting /blue/Dev/ooc/libs/linux/libgc.a 
 /blue/Dev/ooc/examples/ninja/class-tests/downcasting.c: In function ‘main’:
 /blue/Dev/ooc/examples/ninja/class-tests/downcasting.c:49: attention : initialization from incompatible pointer type
-Finished compilation in 252ms.
+Finished compilation in 260ms.
 Got remote command to compile 'fromkeyword'. SourcePath = {/blue/Dev/ooc/examples/ninja/class-tests=/blue/Dev/ooc/examples/ninja/class-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
 Compiling source 'fromkeyword'
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/ninja/class-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/ninja/class-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/ninja/class-tests/fromkeyword.c /blue/Dev/ooc/examples/ninja/class-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/ninja/class-tests/fromkeyword /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 106ms.
+Finished compilation in 112ms.
 Got remote command to compile 'sizeofclass'. SourcePath = {/blue/Dev/ooc/examples/ninja/class-tests=/blue/Dev/ooc/examples/ninja/class-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
 Compiling source 'sizeofclass'
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/ninja/class-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/ninja/class-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/ninja/class-tests/sizeofclass.c /blue/Dev/ooc/examples/ninja/class-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/ninja/class-tests/sizeofclass /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 106ms.
+Finished compilation in 98ms.
 Got remote command to compile 'upcasting'. SourcePath = {/blue/Dev/ooc/examples/ninja/class-tests=/blue/Dev/ooc/examples/ninja/class-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
 Compiling source 'upcasting'
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/ninja/class-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/ninja/class-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/ninja/class-tests/upcasting.c /blue/Dev/ooc/examples/ninja/class-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/ninja/class-tests/upcasting /blue/Dev/ooc/libs/linux/libgc.a 
 /blue/Dev/ooc/examples/ninja/class-tests/upcasting.c: In function ‘main’:
 /blue/Dev/ooc/examples/ninja/class-tests/upcasting.c:49: attention : initialization from incompatible pointer type
-Finished compilation in 119ms.
+Finished compilation in 98ms.
 Got remote command to compile 'string-length'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/ninja/cover-tests=/blue/Dev/ooc/examples/ninja/cover-tests}
 Compiling source 'string-length'
 Found dependency lang.String' imported from 'string-length, importing...
@@ -44,72 +44,77 @@ Compiling source 'lang.Char'
 /blue/Dev/ooc/examples/ninja/cover-tests/lang/String.c:216: attention : implicit declaration of function ‘abs’
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/ninja/cover-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/ninja/cover-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/ninja/cover-tests/string-length.c /blue/Dev/ooc/examples/ninja/cover-tests/lang/String.o /blue/Dev/ooc/examples/ninja/cover-tests/lang/Char.o /blue/Dev/ooc/examples/ninja/cover-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/ninja/cover-tests/string-length /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 378ms.
+Finished compilation in 354ms.
 Got remote command to compile 'funcwithargs'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/ninja/func-tests=/blue/Dev/ooc/examples/ninja/func-tests}
 Compiling source 'funcwithargs'
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/ninja/func-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/ninja/func-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/ninja/func-tests/funcwithargs.c /blue/Dev/ooc/examples/ninja/func-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/ninja/func-tests/funcwithargs /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 97ms.
+Finished compilation in 88ms.
 Got remote command to compile 'implicitreturn'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/ninja/func-tests=/blue/Dev/ooc/examples/ninja/func-tests}
 Compiling source 'implicitreturn'
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/ninja/func-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/ninja/func-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/ninja/func-tests/implicitreturn.c /blue/Dev/ooc/examples/ninja/func-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/ninja/func-tests/implicitreturn /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 122ms.
+Finished compilation in 92ms.
 Got remote command to compile 'memberarginference'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/ninja/func-tests=/blue/Dev/ooc/examples/ninja/func-tests}
 Compiling source 'memberarginference'
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/ninja/func-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/ninja/func-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/ninja/func-tests/memberarginference.c /blue/Dev/ooc/examples/ninja/func-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/ninja/func-tests/memberarginference /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 136ms.
+Finished compilation in 105ms.
 Got remote command to compile 'newnoparen'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/ninja/func-tests=/blue/Dev/ooc/examples/ninja/func-tests}
 Compiling source 'newnoparen'
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/ninja/func-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/ninja/func-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/ninja/func-tests/newnoparen.c /blue/Dev/ooc/examples/ninja/func-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/ninja/func-tests/newnoparen /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 114ms.
+Finished compilation in 88ms.
 Got remote command to compile 'nonvoidfunc'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/ninja/func-tests=/blue/Dev/ooc/examples/ninja/func-tests}
 Compiling source 'nonvoidfunc'
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/ninja/func-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/ninja/func-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/ninja/func-tests/nonvoidfunc.c /blue/Dev/ooc/examples/ninja/func-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/ninja/func-tests/nonvoidfunc /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 105ms.
+Finished compilation in 92ms.
 Got remote command to compile 'noparenthesiscall'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/ninja/func-tests=/blue/Dev/ooc/examples/ninja/func-tests}
 Compiling source 'noparenthesiscall'
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/ninja/func-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/ninja/func-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/ninja/func-tests/noparenthesiscall.c /blue/Dev/ooc/examples/ninja/func-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/ninja/func-tests/noparenthesiscall /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 112ms.
+Finished compilation in 97ms.
 Got remote command to compile 'returnlastvalue'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/ninja/func-tests=/blue/Dev/ooc/examples/ninja/func-tests}
 Compiling source 'returnlastvalue'
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/ninja/func-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/ninja/func-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/ninja/func-tests/returnlastvalue.c /blue/Dev/ooc/examples/ninja/func-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/ninja/func-tests/returnlastvalue /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 120ms.
+Finished compilation in 94ms.
 Got remote command to compile 'returntypeinference'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/ninja/func-tests=/blue/Dev/ooc/examples/ninja/func-tests}
 Compiling source 'returntypeinference'
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/ninja/func-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/ninja/func-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/ninja/func-tests/returntypeinference.c /blue/Dev/ooc/examples/ninja/func-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/ninja/func-tests/returntypeinference /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 108ms.
+Finished compilation in 98ms.
 Got remote command to compile 'simplefunc'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/ninja/func-tests=/blue/Dev/ooc/examples/ninja/func-tests}
 Compiling source 'simplefunc'
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/ninja/func-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/ninja/func-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/ninja/func-tests/simplefunc.c /blue/Dev/ooc/examples/ninja/func-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/ninja/func-tests/simplefunc /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 117ms.
+Finished compilation in 100ms.
+Got remote command to compile 'staticinherited'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/ninja/func-tests=/blue/Dev/ooc/examples/ninja/func-tests}
+Compiling source 'staticinherited'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/ninja/func-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/ninja/func-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/ninja/func-tests/staticinherited.c /blue/Dev/ooc/examples/ninja/func-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/ninja/func-tests/staticinherited /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 95ms.
 Got remote command to compile 'staticnoparencall'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/ninja/func-tests=/blue/Dev/ooc/examples/ninja/func-tests}
 Compiling source 'staticnoparencall'
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/ninja/func-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/ninja/func-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/ninja/func-tests/staticnoparencall.c /blue/Dev/ooc/examples/ninja/func-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/ninja/func-tests/staticnoparencall /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 114ms.
+Finished compilation in 105ms.
 Got remote command to compile 'transparentgetter'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/ninja/func-tests=/blue/Dev/ooc/examples/ninja/func-tests}
 Compiling source 'transparentgetter'
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/ninja/func-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/ninja/func-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/ninja/func-tests/transparentgetter.c /blue/Dev/ooc/examples/ninja/func-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/ninja/func-tests/transparentgetter /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 108ms.
+Finished compilation in 104ms.
 Got remote command to compile 'simple'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/ninja/pointer-tests=/blue/Dev/ooc/examples/ninja/pointer-tests}
 Compiling source 'simple'
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/ninja/pointer-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/ninja/pointer-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/ninja/pointer-tests/simple.c /blue/Dev/ooc/examples/ninja/pointer-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/ninja/pointer-tests/simple /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 116ms.
+Finished compilation in 93ms.
 Got remote command to compile 'static-func'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/ninja/pointer-tests=/blue/Dev/ooc/examples/ninja/pointer-tests}
 Compiling source 'static-func'
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/ninja/pointer-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/ninja/pointer-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/ninja/pointer-tests/static-func.c /blue/Dev/ooc/examples/ninja/pointer-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/ninja/pointer-tests/static-func /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 126ms.
+Finished compilation in 88ms.
 Got remote command to compile 'static-pointer'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/ninja/pointer-tests=/blue/Dev/ooc/examples/ninja/pointer-tests}
 Compiling source 'static-pointer'
 java.lang.NullPointerException
@@ -131,7 +136,7 @@ Got remote command to compile 'static-pointer-static-init'. SourcePath = {/blue/
 Compiling source 'static-pointer-static-init'
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/ninja/pointer-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/ninja/pointer-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/ninja/pointer-tests/static-pointer-static-init.c /blue/Dev/ooc/examples/ninja/pointer-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/ninja/pointer-tests/static-pointer-static-init /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 98ms.
+Finished compilation in 102ms.
 Got remote command to compile 'foreach-arraylist'. SourcePath = {/blue/Dev/ooc/examples/ninja/sugar-tests=/blue/Dev/ooc/examples/ninja/sugar-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
 Compiling source 'foreach-arraylist'
 Found dependency structs.List' imported from 'foreach-arraylist, importing...
@@ -156,14 +161,14 @@ Found dependency Iterable' imported from 'structs.ArrayList, importing...
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/ninja/sugar-tests/foreach-arraylist.c /blue/Dev/ooc/examples/ninja/sugar-tests/structs/List.o /blue/Dev/ooc/examples/ninja/sugar-tests/structs/Iterable.o /blue/Dev/ooc/examples/ninja/sugar-tests/structs/Iterator.o /blue/Dev/ooc/examples/ninja/sugar-tests/OocLib.o /blue/Dev/ooc/examples/ninja/sugar-tests/structs/ArrayList.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/ninja/sugar-tests/foreach-arraylist /blue/Dev/ooc/libs/linux/libgc.a 
 /blue/Dev/ooc/examples/ninja/sugar-tests/foreach-arraylist.c: In function ‘main’:
 /blue/Dev/ooc/examples/ninja/sugar-tests/foreach-arraylist.c:10: attention : initialization from incompatible pointer type
-Finished compilation in 499ms.
+Finished compilation in 506ms.
 Got remote command to compile 'foreach-array'. SourcePath = {/blue/Dev/ooc/examples/ninja/sugar-tests=/blue/Dev/ooc/examples/ninja/sugar-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
 Compiling source 'foreach-array'
 Found dependency structs.Array' imported from 'foreach-array, importing...
 Compiling source 'structs.Array'
 Found dependency structs.Iterable' imported from 'structs.Array, importing...
 Found dependency structs.Iterator' imported from 'structs.Array, importing...
-org.ooc.errors.AssemblyError: Missing semi-colon after abstract function definition /blue/Dev/ooc/sdk/structs/Iterator.ooc:4:30
+org.ooc.errors.AssemblyError: Missing semi-colon after abstract function definition /blue/Dev/ooc/sdk/structs/Iterable.ooc:5:36
 	at org.ooc.errors.AssemblyManager.err(AssemblyManager.java:180)
 	at org.ooc.nodes.keywords.AbstractKeyword.assembleImpl(AbstractKeyword.java:40)
 	at org.ooc.nodes.others.SyntaxNode.assemble(SyntaxNode.java:151)
@@ -176,7 +181,7 @@ org.ooc.errors.AssemblyError: Missing semi-colon after abstract function definit
 	at org.ooc.compiler.Compiler.compile(Compiler.java:56)
 	at org.ooc.compiler.CompilerDaemon$1.run(CompilerDaemon.java:109)
 	at java.lang.Thread.run(Thread.java:619)
-org.ooc.errors.AssemblyError: Missing semi-colon after abstract function definition /blue/Dev/ooc/sdk/structs/Iterable.ooc:5:36
+org.ooc.errors.AssemblyError: Missing semi-colon after abstract function definition /blue/Dev/ooc/sdk/structs/Iterator.ooc:4:30
 	at org.ooc.errors.AssemblyManager.err(AssemblyManager.java:180)
 	at org.ooc.nodes.keywords.AbstractKeyword.assembleImpl(AbstractKeyword.java:40)
 	at org.ooc.nodes.others.SyntaxNode.assemble(SyntaxNode.java:151)
@@ -210,7 +215,7 @@ org.ooc.errors.AssemblyError: Missing semi-colon after abstract function definit
 /blue/Dev/ooc/examples/ninja/sugar-tests/foreach-array.c: In function ‘main’:
 /blue/Dev/ooc/examples/ninja/sugar-tests/foreach-array.c:10: attention : passing argument 2 of ‘__structs_Array_new_Int_Object__star’ from incompatible pointer type
 /blue/Dev/ooc/examples/ninja/sugar-tests/foreach-array.c:10: attention : initialization from incompatible pointer type
-Finished compilation in 219ms.
+Finished compilation in 185ms.
 Got remote command to compile 'foreach-noclass-shouldfail'. SourcePath = {/blue/Dev/ooc/examples/ninja/sugar-tests=/blue/Dev/ooc/examples/ninja/sugar-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
 Compiling source 'foreach-noclass-shouldfail'
 org.ooc.errors.AssemblyError: Trying to foreach over a non-class type. Did you forget to import a cover? /blue/Dev/ooc/examples/ninja/sugar-tests/foreach-noclass-shouldfail.ooc:4:16
@@ -238,7 +243,7 @@ org.ooc.errors.AssemblyError: Trying to foreach over the class type 'Boujou' whi
 	at org.ooc.compiler.Compiler.compile(Compiler.java:56)
 	at org.ooc.compiler.CompilerDaemon$1.run(CompilerDaemon.java:109)
 	at java.lang.Thread.run(Thread.java:619)
-Finished compilation in 2ms.
+Finished compilation in 6ms.
 Got remote command to compile 'foreach-sparselist'. SourcePath = {/blue/Dev/ooc/examples/ninja/sugar-tests=/blue/Dev/ooc/examples/ninja/sugar-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
 Compiling source 'foreach-sparselist'
 Found dependency structs.List' imported from 'foreach-sparselist, importing...
@@ -247,72 +252,7 @@ Compiling source 'structs.SparseList'
 Found dependency List' imported from 'structs.SparseList, importing...
 Found dependency Iterable' imported from 'structs.SparseList, importing...
 Found dependency Iterator' imported from 'structs.SparseList, importing...
-org.ooc.errors.AssemblyError: Missing semi-colon after abstract function definition /blue/Dev/ooc/sdk/structs/List.ooc:120:36
-	at org.ooc.errors.AssemblyManager.err(AssemblyManager.java:180)
-	at org.ooc.nodes.keywords.AbstractKeyword.assembleImpl(AbstractKeyword.java:40)
-	at org.ooc.nodes.others.SyntaxNode.assemble(SyntaxNode.java:151)
-	at org.ooc.nodes.others.SyntaxNodeList.assembleAll(SyntaxNodeList.java:247)
-	at org.ooc.nodes.clazz.ClassDef.assembleImpl(ClassDef.java:189)
-	at org.ooc.nodes.others.SyntaxNode.assemble(SyntaxNode.java:151)
-	at org.ooc.errors.AssemblyManager.doPass(AssemblyManager.java:347)
-	at org.ooc.errors.AssemblyManager.assemble(AssemblyManager.java:80)
-	at org.ooc.parsers.SourceParser.parse(SourceParser.java:138)
-	at org.ooc.compiler.Compiler.compile(Compiler.java:56)
-	at org.ooc.compiler.CompilerDaemon$1.run(CompilerDaemon.java:109)
-	at java.lang.Thread.run(Thread.java:619)
-org.ooc.errors.AssemblyError: Missing semi-colon after abstract function definition /blue/Dev/ooc/sdk/structs/Iterator.ooc:4:30
-	at org.ooc.errors.AssemblyManager.err(AssemblyManager.java:180)
-	at org.ooc.nodes.keywords.AbstractKeyword.assembleImpl(AbstractKeyword.java:40)
-	at org.ooc.nodes.others.SyntaxNode.assemble(SyntaxNode.java:151)
-	at org.ooc.nodes.others.SyntaxNodeList.assembleAll(SyntaxNodeList.java:247)
-	at org.ooc.nodes.clazz.ClassDef.assembleImpl(ClassDef.java:189)
-	at org.ooc.nodes.others.SyntaxNode.assemble(SyntaxNode.java:151)
-	at org.ooc.errors.AssemblyManager.doPass(AssemblyManager.java:347)
-	at org.ooc.errors.AssemblyManager.assemble(AssemblyManager.java:80)
-	at org.ooc.parsers.SourceParser.parse(SourceParser.java:138)
-	at org.ooc.compiler.Compiler.compile(Compiler.java:56)
-	at org.ooc.compiler.CompilerDaemon$1.run(CompilerDaemon.java:109)
-	at java.lang.Thread.run(Thread.java:619)
-org.ooc.errors.AssemblyError: Missing semi-colon after abstract function definition /blue/Dev/ooc/sdk/structs/List.ooc:41:21
-	at org.ooc.errors.AssemblyManager.err(AssemblyManager.java:180)
-	at org.ooc.nodes.keywords.AbstractKeyword.assembleImpl(AbstractKeyword.java:40)
-	at org.ooc.nodes.others.SyntaxNode.assemble(SyntaxNode.java:151)
-	at org.ooc.nodes.others.SyntaxNodeList.assembleAll(SyntaxNodeList.java:247)
-	at org.ooc.nodes.clazz.ClassDef.assembleImpl(ClassDef.java:189)
-	at org.ooc.nodes.others.SyntaxNode.assemble(SyntaxNode.java:151)
-	at org.ooc.errors.AssemblyManager.doPass(AssemblyManager.java:347)
-	at org.ooc.errors.AssemblyManager.assemble(AssemblyManager.java:80)
-	at org.ooc.parsers.SourceParser.parse(SourceParser.java:138)
-	at org.ooc.compiler.Compiler.compile(Compiler.java:56)
-	at org.ooc.compiler.CompilerDaemon$1.run(CompilerDaemon.java:109)
-	at java.lang.Thread.run(Thread.java:619)
-org.ooc.errors.AssemblyError: Missing semi-colon after abstract function definition /blue/Dev/ooc/sdk/structs/List.ooc:17:46
-	at org.ooc.errors.AssemblyManager.err(AssemblyManager.java:180)
-	at org.ooc.nodes.keywords.AbstractKeyword.assembleImpl(AbstractKeyword.java:40)
-	at org.ooc.nodes.others.SyntaxNode.assemble(SyntaxNode.java:151)
-	at org.ooc.nodes.others.SyntaxNodeList.assembleAll(SyntaxNodeList.java:247)
-	at org.ooc.nodes.clazz.ClassDef.assembleImpl(ClassDef.java:189)
-	at org.ooc.nodes.others.SyntaxNode.assemble(SyntaxNode.java:151)
-	at org.ooc.errors.AssemblyManager.doPass(AssemblyManager.java:347)
-	at org.ooc.errors.AssemblyManager.assemble(AssemblyManager.java:80)
-	at org.ooc.parsers.SourceParser.parse(SourceParser.java:138)
-	at org.ooc.compiler.Compiler.compile(Compiler.java:56)
-	at org.ooc.compiler.CompilerDaemon$1.run(CompilerDaemon.java:109)
-	at java.lang.Thread.run(Thread.java:619)
 org.ooc.errors.AssemblyError: Missing semi-colon after abstract function definition /blue/Dev/ooc/sdk/structs/List.ooc:74:46
-	at org.ooc.errors.AssemblyManager.err(AssemblyManager.java:180)
-	at org.ooc.nodes.keywords.AbstractKeyword.assembleImpl(AbstractKeyword.java:40)
-	at org.ooc.nodes.others.SyntaxNode.assemble(SyntaxNode.java:151)
-	at org.ooc.nodes.others.SyntaxNodeList.assembleAll(SyntaxNodeList.java:247)
-	at org.ooc.nodes.clazz.ClassDef.assembleImpl(ClassDef.java:189)
-	at org.ooc.nodes.others.SyntaxNode.assemble(SyntaxNode.java:151)
-	at org.ooc.errors.AssemblyManager.doPass(AssemblyManager.java:347)
-	at org.ooc.errors.AssemblyManager.assemble(AssemblyManager.java:80)
-	at org.ooc.parsers.SourceParser.parse(SourceParser.java:138)
-	at org.ooc.compiler.Compiler.compile(Compiler.java:56)
-	at org.ooc.compiler.CompilerDaemon$1.run(CompilerDaemon.java:109)
-	at java.lang.Thread.run(Thread.java:619)
-org.ooc.errors.AssemblyError: Missing semi-colon after abstract function definition /blue/Dev/ooc/sdk/structs/List.ooc:118:31
 	at org.ooc.errors.AssemblyManager.err(AssemblyManager.java:180)
 	at org.ooc.nodes.keywords.AbstractKeyword.assembleImpl(AbstractKeyword.java:40)
 	at org.ooc.nodes.others.SyntaxNode.assemble(SyntaxNode.java:151)
@@ -338,7 +278,7 @@ org.ooc.errors.AssemblyError: Missing semi-colon after abstract function definit
 	at org.ooc.compiler.Compiler.compile(Compiler.java:56)
 	at org.ooc.compiler.CompilerDaemon$1.run(CompilerDaemon.java:109)
 	at java.lang.Thread.run(Thread.java:619)
-org.ooc.errors.AssemblyError: Missing semi-colon after abstract function definition /blue/Dev/ooc/sdk/structs/List.ooc:107:42
+org.ooc.errors.AssemblyError: Missing semi-colon after abstract function definition /blue/Dev/ooc/sdk/structs/List.ooc:101:53
 	at org.ooc.errors.AssemblyManager.err(AssemblyManager.java:180)
 	at org.ooc.nodes.keywords.AbstractKeyword.assembleImpl(AbstractKeyword.java:40)
 	at org.ooc.nodes.others.SyntaxNode.assemble(SyntaxNode.java:151)
@@ -351,7 +291,7 @@ org.ooc.errors.AssemblyError: Missing semi-colon after abstract function definit
 	at org.ooc.compiler.Compiler.compile(Compiler.java:56)
 	at org.ooc.compiler.CompilerDaemon$1.run(CompilerDaemon.java:109)
 	at java.lang.Thread.run(Thread.java:619)
-org.ooc.errors.AssemblyError: Missing semi-colon after abstract function definition /blue/Dev/ooc/sdk/structs/List.ooc:68:36
+org.ooc.errors.AssemblyError: Missing semi-colon after abstract function definition /blue/Dev/ooc/sdk/structs/List.ooc:120:36
 	at org.ooc.errors.AssemblyManager.err(AssemblyManager.java:180)
 	at org.ooc.nodes.keywords.AbstractKeyword.assembleImpl(AbstractKeyword.java:40)
 	at org.ooc.nodes.others.SyntaxNode.assemble(SyntaxNode.java:151)
@@ -377,20 +317,7 @@ org.ooc.errors.AssemblyError: Missing semi-colon after abstract function definit
 	at org.ooc.compiler.Compiler.compile(Compiler.java:56)
 	at org.ooc.compiler.CompilerDaemon$1.run(CompilerDaemon.java:109)
 	at java.lang.Thread.run(Thread.java:619)
-org.ooc.errors.AssemblyError: Missing semi-colon after abstract function definition /blue/Dev/ooc/sdk/structs/List.ooc:112:27
-	at org.ooc.errors.AssemblyManager.err(AssemblyManager.java:180)
-	at org.ooc.nodes.keywords.AbstractKeyword.assembleImpl(AbstractKeyword.java:40)
-	at org.ooc.nodes.others.SyntaxNode.assemble(SyntaxNode.java:151)
-	at org.ooc.nodes.others.SyntaxNodeList.assembleAll(SyntaxNodeList.java:247)
-	at org.ooc.nodes.clazz.ClassDef.assembleImpl(ClassDef.java:189)
-	at org.ooc.nodes.others.SyntaxNode.assemble(SyntaxNode.java:151)
-	at org.ooc.errors.AssemblyManager.doPass(AssemblyManager.java:347)
-	at org.ooc.errors.AssemblyManager.assemble(AssemblyManager.java:80)
-	at org.ooc.parsers.SourceParser.parse(SourceParser.java:138)
-	at org.ooc.compiler.Compiler.compile(Compiler.java:56)
-	at org.ooc.compiler.CompilerDaemon$1.run(CompilerDaemon.java:109)
-	at java.lang.Thread.run(Thread.java:619)
-org.ooc.errors.AssemblyError: Missing semi-colon after abstract function definition /blue/Dev/ooc/sdk/structs/List.ooc:101:53
+org.ooc.errors.AssemblyError: Missing semi-colon after abstract function definition /blue/Dev/ooc/sdk/structs/List.ooc:68:36
 	at org.ooc.errors.AssemblyManager.err(AssemblyManager.java:180)
 	at org.ooc.nodes.keywords.AbstractKeyword.assembleImpl(AbstractKeyword.java:40)
 	at org.ooc.nodes.others.SyntaxNode.assemble(SyntaxNode.java:151)
@@ -429,7 +356,85 @@ org.ooc.errors.AssemblyError: Missing semi-colon after abstract function definit
 	at org.ooc.compiler.Compiler.compile(Compiler.java:56)
 	at org.ooc.compiler.CompilerDaemon$1.run(CompilerDaemon.java:109)
 	at java.lang.Thread.run(Thread.java:619)
+org.ooc.errors.AssemblyError: Missing semi-colon after abstract function definition /blue/Dev/ooc/sdk/structs/List.ooc:107:42
+	at org.ooc.errors.AssemblyManager.err(AssemblyManager.java:180)
+	at org.ooc.nodes.keywords.AbstractKeyword.assembleImpl(AbstractKeyword.java:40)
+	at org.ooc.nodes.others.SyntaxNode.assemble(SyntaxNode.java:151)
+	at org.ooc.nodes.others.SyntaxNodeList.assembleAll(SyntaxNodeList.java:247)
+	at org.ooc.nodes.clazz.ClassDef.assembleImpl(ClassDef.java:189)
+	at org.ooc.nodes.others.SyntaxNode.assemble(SyntaxNode.java:151)
+	at org.ooc.errors.AssemblyManager.doPass(AssemblyManager.java:347)
+	at org.ooc.errors.AssemblyManager.assemble(AssemblyManager.java:80)
+	at org.ooc.parsers.SourceParser.parse(SourceParser.java:138)
+	at org.ooc.compiler.Compiler.compile(Compiler.java:56)
+	at org.ooc.compiler.CompilerDaemon$1.run(CompilerDaemon.java:109)
+	at java.lang.Thread.run(Thread.java:619)
+org.ooc.errors.AssemblyError: Missing semi-colon after abstract function definition /blue/Dev/ooc/sdk/structs/Iterator.ooc:4:30
+	at org.ooc.errors.AssemblyManager.err(AssemblyManager.java:180)
+	at org.ooc.nodes.keywords.AbstractKeyword.assembleImpl(AbstractKeyword.java:40)
+	at org.ooc.nodes.others.SyntaxNode.assemble(SyntaxNode.java:151)
+	at org.ooc.nodes.others.SyntaxNodeList.assembleAll(SyntaxNodeList.java:247)
+	at org.ooc.nodes.clazz.ClassDef.assembleImpl(ClassDef.java:189)
+	at org.ooc.nodes.others.SyntaxNode.assemble(SyntaxNode.java:151)
+	at org.ooc.errors.AssemblyManager.doPass(AssemblyManager.java:347)
+	at org.ooc.errors.AssemblyManager.assemble(AssemblyManager.java:80)
+	at org.ooc.parsers.SourceParser.parse(SourceParser.java:138)
+	at org.ooc.compiler.Compiler.compile(Compiler.java:56)
+	at org.ooc.compiler.CompilerDaemon$1.run(CompilerDaemon.java:109)
+	at java.lang.Thread.run(Thread.java:619)
+org.ooc.errors.AssemblyError: Missing semi-colon after abstract function definition /blue/Dev/ooc/sdk/structs/List.ooc:112:27
+	at org.ooc.errors.AssemblyManager.err(AssemblyManager.java:180)
+	at org.ooc.nodes.keywords.AbstractKeyword.assembleImpl(AbstractKeyword.java:40)
+	at org.ooc.nodes.others.SyntaxNode.assemble(SyntaxNode.java:151)
+	at org.ooc.nodes.others.SyntaxNodeList.assembleAll(SyntaxNodeList.java:247)
+	at org.ooc.nodes.clazz.ClassDef.assembleImpl(ClassDef.java:189)
+	at org.ooc.nodes.others.SyntaxNode.assemble(SyntaxNode.java:151)
+	at org.ooc.errors.AssemblyManager.doPass(AssemblyManager.java:347)
+	at org.ooc.errors.AssemblyManager.assemble(AssemblyManager.java:80)
+	at org.ooc.parsers.SourceParser.parse(SourceParser.java:138)
+	at org.ooc.compiler.Compiler.compile(Compiler.java:56)
+	at org.ooc.compiler.CompilerDaemon$1.run(CompilerDaemon.java:109)
+	at java.lang.Thread.run(Thread.java:619)
+org.ooc.errors.AssemblyError: Missing semi-colon after abstract function definition /blue/Dev/ooc/sdk/structs/List.ooc:17:46
+	at org.ooc.errors.AssemblyManager.err(AssemblyManager.java:180)
+	at org.ooc.nodes.keywords.AbstractKeyword.assembleImpl(AbstractKeyword.java:40)
+	at org.ooc.nodes.others.SyntaxNode.assemble(SyntaxNode.java:151)
+	at org.ooc.nodes.others.SyntaxNodeList.assembleAll(SyntaxNodeList.java:247)
+	at org.ooc.nodes.clazz.ClassDef.assembleImpl(ClassDef.java:189)
+	at org.ooc.nodes.others.SyntaxNode.assemble(SyntaxNode.java:151)
+	at org.ooc.errors.AssemblyManager.doPass(AssemblyManager.java:347)
+	at org.ooc.errors.AssemblyManager.assemble(AssemblyManager.java:80)
+	at org.ooc.parsers.SourceParser.parse(SourceParser.java:138)
+	at org.ooc.compiler.Compiler.compile(Compiler.java:56)
+	at org.ooc.compiler.CompilerDaemon$1.run(CompilerDaemon.java:109)
+	at java.lang.Thread.run(Thread.java:619)
+org.ooc.errors.AssemblyError: Missing semi-colon after abstract function definition /blue/Dev/ooc/sdk/structs/List.ooc:41:21
+	at org.ooc.errors.AssemblyManager.err(AssemblyManager.java:180)
+	at org.ooc.nodes.keywords.AbstractKeyword.assembleImpl(AbstractKeyword.java:40)
+	at org.ooc.nodes.others.SyntaxNode.assemble(SyntaxNode.java:151)
+	at org.ooc.nodes.others.SyntaxNodeList.assembleAll(SyntaxNodeList.java:247)
+	at org.ooc.nodes.clazz.ClassDef.assembleImpl(ClassDef.java:189)
+	at org.ooc.nodes.others.SyntaxNode.assemble(SyntaxNode.java:151)
+	at org.ooc.errors.AssemblyManager.doPass(AssemblyManager.java:347)
+	at org.ooc.errors.AssemblyManager.assemble(AssemblyManager.java:80)
+	at org.ooc.parsers.SourceParser.parse(SourceParser.java:138)
+	at org.ooc.compiler.Compiler.compile(Compiler.java:56)
+	at org.ooc.compiler.CompilerDaemon$1.run(CompilerDaemon.java:109)
+	at java.lang.Thread.run(Thread.java:619)
 org.ooc.errors.AssemblyError: Missing semi-colon after abstract function definition /blue/Dev/ooc/sdk/structs/Iterator.ooc:3:31
+	at org.ooc.errors.AssemblyManager.err(AssemblyManager.java:180)
+	at org.ooc.nodes.keywords.AbstractKeyword.assembleImpl(AbstractKeyword.java:40)
+	at org.ooc.nodes.others.SyntaxNode.assemble(SyntaxNode.java:151)
+	at org.ooc.nodes.others.SyntaxNodeList.assembleAll(SyntaxNodeList.java:247)
+	at org.ooc.nodes.clazz.ClassDef.assembleImpl(ClassDef.java:189)
+	at org.ooc.nodes.others.SyntaxNode.assemble(SyntaxNode.java:151)
+	at org.ooc.errors.AssemblyManager.doPass(AssemblyManager.java:347)
+	at org.ooc.errors.AssemblyManager.assemble(AssemblyManager.java:80)
+	at org.ooc.parsers.SourceParser.parse(SourceParser.java:138)
+	at org.ooc.compiler.Compiler.compile(Compiler.java:56)
+	at org.ooc.compiler.CompilerDaemon$1.run(CompilerDaemon.java:109)
+	at java.lang.Thread.run(Thread.java:619)
+org.ooc.errors.AssemblyError: Missing semi-colon after abstract function definition /blue/Dev/ooc/sdk/structs/List.ooc:118:31
 	at org.ooc.errors.AssemblyManager.err(AssemblyManager.java:180)
 	at org.ooc.nodes.keywords.AbstractKeyword.assembleImpl(AbstractKeyword.java:40)
 	at org.ooc.nodes.others.SyntaxNode.assemble(SyntaxNode.java:151)
@@ -452,17 +457,17 @@ org.ooc.errors.AssemblyError: Missing semi-colon after abstract function definit
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/ninja/sugar-tests/foreach-sparselist.c /blue/Dev/ooc/examples/ninja/sugar-tests/structs/List.o /blue/Dev/ooc/examples/ninja/sugar-tests/structs/Iterable.o /blue/Dev/ooc/examples/ninja/sugar-tests/structs/Iterator.o /blue/Dev/ooc/examples/ninja/sugar-tests/OocLib.o /blue/Dev/ooc/examples/ninja/sugar-tests/structs/SparseList.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/ninja/sugar-tests/foreach-sparselist /blue/Dev/ooc/libs/linux/libgc.a 
 /blue/Dev/ooc/examples/ninja/sugar-tests/foreach-sparselist.c: In function ‘main’:
 /blue/Dev/ooc/examples/ninja/sugar-tests/foreach-sparselist.c:10: attention : initialization from incompatible pointer type
-Finished compilation in 419ms.
+Finished compilation in 399ms.
 Got remote command to compile 'hexnumbers'. SourcePath = {/blue/Dev/ooc/examples/ninja/sugar-tests=/blue/Dev/ooc/examples/ninja/sugar-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
 Compiling source 'hexnumbers'
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/ninja/sugar-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/ninja/sugar-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/ninja/sugar-tests/hexnumbers.c /blue/Dev/ooc/examples/ninja/sugar-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/ninja/sugar-tests/hexnumbers /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 97ms.
+Finished compilation in 167ms.
 Got remote command to compile 'undernumbers'. SourcePath = {/blue/Dev/ooc/examples/ninja/sugar-tests=/blue/Dev/ooc/examples/ninja/sugar-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
 Compiling source 'undernumbers'
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/ninja/sugar-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/ninja/sugar-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/ninja/sugar-tests/undernumbers.c /blue/Dev/ooc/examples/ninja/sugar-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/ninja/sugar-tests/undernumbers /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 113ms.
+Finished compilation in 119ms.
 java.lang.NullPointerException
 	at org.ooc.compiler.CompilerDaemon$1.run(CompilerDaemon.java:85)
 	at java.lang.Thread.run(Thread.java:619)

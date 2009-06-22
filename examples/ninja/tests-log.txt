@@ -16,6 +16,8 @@ And four equals? 4
 Just accessed to value!
 And value is 42
 Simple function (void, no arguments) =)
+Parents are of species Human, and children, of species Human
+I'm of species Human
 1, 2, 3... magic =)
 i = 6, j = 9
 Un poulet dans le palais est pas la pour etre poli.

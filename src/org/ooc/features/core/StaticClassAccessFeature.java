@@ -1,6 +1,7 @@
 package org.ooc.features.core;
 
 import org.ooc.errors.AssemblyManager;
+import org.ooc.errors.SourceContext;
 import org.ooc.features.TrioFeature;
 import org.ooc.nodes.clazz.ClassDef;
 import org.ooc.nodes.clazz.ClassReference;
@@ -33,7 +34,8 @@ public class StaticClassAccessFeature extends TrioFeature<ClassReference, Dot, N
 			Dot dot, Name name) {
 		
 		ClassDef def = classRef.classDef;
-		Function func = def.getImplementation(manager.getContext(), name.content,
+		SourceContext context = manager.getContext();
+		Function func = def.getImplementation(context, name.content,
 				new TypedArgumentList(name.location));
 		if(func != null) {
 			if(!func.isStatic) {
@@ -49,12 +51,11 @@ public class StaticClassAccessFeature extends TrioFeature<ClassReference, Dot, N
 			return;
 		}
 		
-		Variable member = def.getMember(manager.getContext(), name.content);
+		Variable member = def.getMember(context, name.content);
 		if(member != null) {
 			name.drop();
 			dot.drop();
-			classRef.replaceWith(manager, new StaticMemberAccess(name.location,
-					def.clazz, member));
+			classRef.replaceWith(manager, new StaticMemberAccess(name.location, def.clazz, member));
 			return;
 		}
 		
