@@ -3,8 +3,12 @@ package org.ooc.nodes.others;
 import org.ooc.errors.AssemblyManager;
 import org.ooc.nodes.control.For;
 import org.ooc.nodes.control.ForEach;
+import org.ooc.nodes.control.Scope;
 import org.ooc.nodes.interfaces.Typed;
 import org.ooc.nodes.numeric.Range;
+import org.ooc.nodes.operators.Assignment;
+import org.ooc.nodes.types.Type;
+import org.ooc.structures.Variable;
 import org.ubi.FileLocation;
 
 /**
@@ -44,13 +48,39 @@ public class Colon extends RawCode {
                 		+" which looks like "+prev);
                 return;
             }
-            if(!(next instanceof Range || (next instanceof VariableAccess && next.getNext() == null))) {
+            if(!(next instanceof Range || (next instanceof Typed && next.getNext() == null))) {
                 manager.queue(this, "Readjusting position of Colon in the queue: must be after its children."); // Just so that it is at the end.
                 return;
             }
             if(next instanceof VariableAccess) {
             	if(next.getNext() == null) {
-            		ForEach foreach = new ForEach(location, (VariableDecl) prev, (Typed) next);
+            		Variable var = ((VariableAccess) next).variable;
+            		if(var.type.clazz == null) {
+            			manager.errAndFail("Trying to foreach over a non-class type. Did you forget to import a cover?", next);
+            		}
+            		if(!var.type.clazz.hasUnmangledFunction("iterator")) {
+            			manager.errAndFail("Trying to foreach over the class type '"+var.type.name+"' which doesn't have an iterator method.", next);
+            		}
+					ForEach foreach = new ForEach(location, (VariableDecl) prev, var);
+                    getParent().replaceWith(manager, foreach);
+            	} else {
+            		manager.queue(this, "Got VariableAccess, but not the last of the parenthesis.");
+            	}
+                return;
+            } else if(next instanceof Typed) {
+            	if(next.getNext() == null) {
+            		Typed typed = (Typed) next;
+            		next.drop();
+            		
+            		Scope scope = getParent().getNearest(Scope.class);
+            		Variable tmpVar = scope.generateTempVariable(new Type(location, null, "Iterable"), "collection");
+            		getParent().addBefore(new VariableDecl(location, tmpVar));
+            		getParent().addBefore(new Assignment(location));
+            		getParent().addBefore(next);
+            		getParent().addBefore(new LineSeparator(location));
+            		manager.queueVirgins(getParent(), "Unwrapped a collection for a foreach");
+            		
+            		ForEach foreach = new ForEach(location, (VariableDecl) prev, tmpVar);
                     getParent().replaceWith(manager, foreach);
             	} else {
             		manager.queue(this, "Got VariableAccess, but not the last of the parenthesis.");

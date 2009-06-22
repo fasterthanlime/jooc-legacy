@@ -19,4 +19,23 @@ Simple function (void, no arguments) =)
 1, 2, 3... magic =)
 i = 6, j = 9
 Un poulet dans le palais est pas la pour etre poli.
+The Raven - Edgar Allan Poe
+
+Once upon a midnight dreary, while I pondered weak and weary,
+Over many a quaint and curious volume of forgotten lore,
+While I nodded, nearly napping, suddenly there came a tapping,
+As of some one gently rapping, rapping at my chamber door.
+`'Tis some visitor,' I muttered, `tapping at my chamber door -
+Only this, and nothing more.'
+Got arg ./foreach-array
+Got arg --test
+Le Petit Prince - Antoine de Saint-Exupéry
+
+Mais il remarqua avec sagesse :
+- Les baobabs, avant de grandir, ça commence par être petit.
+- C'est exact ! Mais pourquoi veux-tu que tes moutons mangent les petits baobabs ?
+Il me répondit : "Ben ! Voyons !" comme s'il s'agissait là d'une évidence.
+Et il me fallut un grand effort d'intelligence pour comprendre à moi seul ce problème.
+(r, g, b, a) = (-16777216, 16711680, 65280, 255)
+(r, g, b, a) = (ff000000, ff0000, ff00, ff)
 ooc is 10000000 times funnier than C

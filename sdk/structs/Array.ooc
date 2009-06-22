@@ -7,6 +7,10 @@ class Array from Iterable {
 	Int size;
 	Object* data;
 	
+	new(=size) {
+		data = calloc(size, sizeof(Object));
+	}
+	
 	new(=size, =data);
 	
 	func get(Int i) -> Object {
@@ -15,10 +19,6 @@ class Array from Iterable {
 			exit(1);
 		}
 		return data[i];
-	}
-	
-	static func alloc(Int numElem, Int typeSize) -> Array {
-		return new Array(numElem, calloc(numElem, typeSize));
 	}
 	
 	implement iterator {

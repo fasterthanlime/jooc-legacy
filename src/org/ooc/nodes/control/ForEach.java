@@ -1,16 +1,19 @@
 package org.ooc.nodes.control;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.ooc.errors.AssemblyManager;
-import org.ooc.nodes.array.Subscript;
-import org.ooc.nodes.interfaces.Typed;
-import org.ooc.nodes.numeric.IntLiteral;
+import org.ooc.nodes.functions.MemberFunctionCall;
 import org.ooc.nodes.operators.Assignment;
+import org.ooc.nodes.others.Block;
 import org.ooc.nodes.others.LineSeparator;
-import org.ooc.nodes.others.Name;
+import org.ooc.nodes.others.SyntaxNode;
 import org.ooc.nodes.others.SyntaxNodeList;
+import org.ooc.nodes.others.VariableAccess;
 import org.ooc.nodes.others.VariableDecl;
+import org.ooc.nodes.types.Type;
+import org.ooc.structures.Variable;
 import org.ubi.FileLocation;
 
 /**
@@ -21,8 +24,10 @@ import org.ubi.FileLocation;
 public class ForEach extends SyntaxNodeList {
 
     private VariableDecl decl;
-    private Typed collection;
-    private String index;
+    private Variable collection;
+    private Variable iterator;
+    
+    private Block init;
 
     /**
      * Default constructor
@@ -30,7 +35,7 @@ public class ForEach extends SyntaxNodeList {
      * @param decl
      * @param collection
      */
-    public ForEach(FileLocation location, VariableDecl decl, Typed collection) {
+    public ForEach(FileLocation location, VariableDecl decl, Variable collection) {
     	
         super(location);
         this.decl = decl;
@@ -42,17 +47,8 @@ public class ForEach extends SyntaxNodeList {
     public void writeToCSource(Appendable a) throws IOException {
     	
     	writeWhitespace(a);
-        a.append("for(int ");
-        a.append(index);
-        a.append(" = 0; ");
-        a.append(index);
-        a.append(" < (sizeof(");
-        a.append(collection.toString().trim());
-        a.append(") / sizeof(");
-        a.append(collection.getType().toString());
-        a.append(")); ");
-        a.append(index);
-        a.append("++) ");
+    	
+    	init.writeToCSourceAsChild(this, a);
         
     }
 
@@ -61,18 +57,31 @@ public class ForEach extends SyntaxNodeList {
 
         Scope parentScope = getParent().getNearest(Scope.class);
 
-        index = parentScope.generateTempVariable(IntLiteral.type, "i").getName();
+        iterator = parentScope.generateTempVariable(new Type(location, null, "Iterator"), "iter");
+        init = new Block(location);
+        init.add(new VariableDecl(location, iterator));
+        init.add(new Assignment(location));
+        init.add(new MemberFunctionCall(location, "iterator", new ArrayList<SyntaxNode>(),
+        		new VariableAccess(location, collection)));
+        init.add(new LineSeparator(location));
+        
+        While wh = new While(location);
+        wh.add(new MemberFunctionCall(location, "hasNext", new ArrayList<SyntaxNode>(),
+        		new VariableAccess(location, iterator)));
+        init.add(wh);
+        
+        init.setContext(this);
+        manager.queueRecursive(init, "Assembling foreach initializers..");
 
         if(!(getParent().getNext(this) instanceof Scope)) {
             manager.err("Expected a scope {} after a foreach", this);
             return;
         }
         Scope forBody = (Scope) getParent().getNext(this);
+        
         forBody.addToHead(new LineSeparator(location));
-        Subscript subscript = new Subscript(location);
-        subscript.add(new Name(location, index));
-        forBody.addToHead(subscript);
-        forBody.addToHead(new Name(location, collection.toString()));
+        forBody.addToHead(new MemberFunctionCall(location, "next", new ArrayList<SyntaxNode>(),
+        		new VariableAccess(location, iterator)));
         forBody.addToHead(new Assignment(location));
         forBody.addToHead(decl);
 

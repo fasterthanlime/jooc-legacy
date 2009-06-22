@@ -128,6 +128,8 @@ public class Instantiation extends FunctionCall {
             return;
         }
         
+        lock();
+        
     }
 
 }

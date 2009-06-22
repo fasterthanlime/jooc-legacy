@@ -1,7 +1,9 @@
+import Iterable, Iterator;
+
 /**
  * List interface for a data container
  */
-abstract class List {
+abstract class List from Iterable {
 	
 	/**
 	 * Appends the specified element to the end of this list.
@@ -114,5 +116,7 @@ abstract class List {
 	 * to grow.
 	 */
 	abstract func capacity -> Int;
+	
+	abstract func iterator -> Iterator;
 
 }

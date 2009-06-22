@@ -60,8 +60,7 @@ public class MemberFunctionCall extends FunctionCall {
 		}
         ClassDef classDef = manager.getContext().getClassDef(type.name);
         if(classDef == null) {
-        	manager.queue(this, "Trying to call " + type + "." + name + getArgsRepr() + " from type "
-        			+ " but " + type + " can't be found. Did you forget to import "+type+" ?");
+        	manager.queue(this, "Trying to call " + type + "." + name + getArgsRepr() + " but type " + type + " can't be found. Did you forget to import "+type+" ?");
             return;
         }
         

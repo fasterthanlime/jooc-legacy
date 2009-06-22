@@ -108,6 +108,7 @@ for i in *.ooc; do
 	tabbedTest="$dir/$test......................................................................................................................."
 	tabbedTest="${tabbedTest:0:50}"
 	printf "\033[1;33mbuilding \033[m$tabbedTest\033[m"
+	end=${test:${#test}-11}
 	read 0<&3;
 	if [[ "$REPLY" -eq 0 ]]; then
 		compiled=$(( compiled + 1 ))
@@ -115,7 +116,6 @@ for i in *.ooc; do
 		strip $test
 		./$test --test >> "$basePath/tests-log.txt"
 		code=$?
-		end=${test:${#test}-11}
 		if [[ $end == "-shouldfail" ]]; then
 			if [[ "$code" -eq 0 ]]; then
 				printf "test \033[1;31m[FAIL]\033[m\n";
@@ -141,9 +141,17 @@ $dir/$test"
 			fi
 		fi
 	else
-		printf "compile \033[1;31m[FAIL]\033[m\n";
-		notCompiledList="$notCompiledList
+		if [[ $end == "-shouldfail" ]]; then
+			printf "compile \033[1;32m[ OK ]\033[m..test \033[1;32m[ OK ]\033[m\n";
+			compiled=$(( compiled + 1 ))
+			passed=$(( passed + 1 ))
+			passedList="$passedList
+$dir/$test" 
+		else
+			printf "compile \033[1;31m[FAIL]\033[m\n";
+			notCompiledList="$notCompiledList
 	$dir/$test"
+		fi
 	fi
 done
 done

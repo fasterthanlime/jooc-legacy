@@ -1,5 +1,6 @@
 include stdlib, stdio, memory;
-import structs.List;
+
+import List, Iterable, Iterator;
 
 /**
  * A sparse list stores its data into an array, resizes it when it's too
@@ -242,5 +243,33 @@ class SparseList from List {
 		}
 		return true;
 	}
+	
+	implement iterator {
+		return new SparseListIterator(this);
+	}
 
+}
+
+class SparseListIterator from Iterator {
+	
+	SparseList list;
+	Int index = 0;
+	Int slot = 0;
+	
+	new(=list);
+	
+	implement hasNext {
+		return index < list.size;
+	}
+	
+	implement next {
+		while(list.data[slot] == null) {
+			slot++;
+		}
+		Object o = list.data[slot];
+		slot++;
+		index++;
+		return o;
+	}
+	
 }

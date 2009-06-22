@@ -1,5 +1,6 @@
 include stdlib, stdio, memory;
-import structs.List;
+
+import List, Iterator, Iterable;
 
 /**
  * Resizable-array implementation of the List interface. Implements all
@@ -217,4 +218,26 @@ class ArrayList from List {
 			exit(1);
 		}
 	}
+	
+	implement iterator {
+		return new ArrayListIterator(this);
+	}
+	
+}
+
+class ArrayListIterator from Iterator {
+
+	ArrayList list;
+	Int index = 0;
+	
+	new(=list);
+	
+	implement hasNext {
+		return index < list.size;
+	}
+	
+	implement next {
+		return list.data[index++];
+	}
+	
 }
