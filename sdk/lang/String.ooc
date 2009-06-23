@@ -21,12 +21,13 @@ cover String {
 	 */
 	func equals(String s) -> Bool {
 
+		if(this == null || s == null) {
+			return false;
+		}
+
 		Int l1 = this.length;
 		Int l2 = s.length;
 		if(l1 != l2) {
-			return false;
-		}
-		if(l1 == null || l2 == null) {
 			return false;
 		}
 		
