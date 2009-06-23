@@ -2,6 +2,7 @@ package org.ooc.nodes.others;
 
 import java.io.IOException;
 
+import org.ooc.errors.AssemblyManager;
 import org.ooc.nodes.clazz.ClassDef;
 import org.ubi.FileLocation;
 
@@ -52,6 +53,14 @@ public class Initialization extends SyntaxNode {
 		
 		return value;
 
+	}
+	
+	@Override
+	protected void assembleImpl(AssemblyManager manager) {
+	
+		value.setContext(getParent());
+		manager.queue(value, "Initialization queuing it's value.");
+		
 	}
 
 }

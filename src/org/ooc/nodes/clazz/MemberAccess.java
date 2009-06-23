@@ -97,7 +97,7 @@ public class MemberAccess extends VariableAccess {
     		
     	} else {
     		
-    		lock();
+    		//lock();
     		
     	}
     	

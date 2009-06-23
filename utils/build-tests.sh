@@ -83,7 +83,7 @@ cd $basePath/$dir
 rm -f "test-log.txt"
 
 if [[ $mode != "clean" ]]; then
-	#echo "clear-cache" 1>&3
+	echo "clear-cache" 1>&3
 	echo "sourcepath-clear" 1>&3
 	echo "sourcepath-add `pwd`" 1>&3
 	echo "sourcepath-add $libpath" 1>&3

@@ -13,6 +13,6 @@ class Blah {
 func main {
 
 	Func pointer = Blah.@blih;
-	pointer;
+	pointer();
 
 }

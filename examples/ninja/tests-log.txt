@@ -20,6 +20,81 @@ first index of 'a': 5. last index of 'l': 16
 forty-two == 42 (o, rly?)
 Just accessed to value!
 And value is 42
+Got arg './mainenv'
+Got arg '--test'
+Got env 'OOC_DIST=/blue/Dev/ooc'
+Got env 'MANPATH=/usr/local/share/man:/usr/share/man:/usr/share/binutils-data/i686-pc-linux-gnu/2.19.1/man:/usr/share/gcc-data/i486-pc-linux-gnu/4.1.2/man:/usr/share/gcc-data/i686-pc-linux-gnu/4.3.3/man:/usr/lib/php5/man/:/usr/kde/3.5/share/man:/usr/qt/3/doc/man:/opt/nvidia-cg-toolkit/man:/opt/vmware/player/man'
+Got env 'TERM=screen'
+Got env 'SHELL=/bin/bash'
+Got env 'XDG_SESSION_COOKIE=79af98e80b21a9f2b9d194894979cec3-1245713356.870427-2005954021'
+Got env 'WINDOWID=8388612'
+Got env 'HUSHLOGIN=FALSE'
+Got env 'QTDIR=/usr/qt/3'
+Got env 'SBCL_HOME=/usr/lib/sbcl'
+Got env 'USER=root'
+Got env 'LS_COLORS=rs=0:di=01;34:ln=01;36:hl=44;37:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=01;05;37;41:mi=01;05;37;41:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.lzma=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.rar=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.axv=01;35:*.anx=01;35:*.ogv=01;35:*.ogx=01;35:*.pdf=00;32:*.ps=00;32:*.txt=00;32:*.patch=00;32:*.diff=00;32:*.log=00;32:*.tex=00;32:*.doc=00;32:*.aac=00;36:*.au=00;36:*.flac=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.axa=00;36:*.oga=00;36:*.spx=00;36:*.xspf=00;36:'
+Got env 'GDK_USE_XFT=1'
+Got env 'TERMCAP=SC|screen|VT 100/ANSI X3.64 virtual terminal:\
+	:DO=\E[%dB:LE=\E[%dD:RI=\E[%dC:UP=\E[%dA:bs:bt=\E[Z:\
+	:cd=\E[J:ce=\E[K:cl=\E[H\E[J:cm=\E[%i%d;%dH:ct=\E[3g:\
+	:do=^J:nd=\E[C:pt:rc=\E8:rs=\Ec:sc=\E7:st=\EH:up=\EM:\
+	:le=^H:bl=^G:cr=^M:it#8:ho=\E[H:nw=\EE:ta=^I:is=\E)0:\
+	:li#72:co#209:am:xn:xv:LP:sr=\EM:al=\E[L:AL=\E[%dL:\
+	:cs=\E[%i%d;%dr:dl=\E[M:DL=\E[%dM:dc=\E[P:DC=\E[%dP:\
+	:im=\E[4h:ei=\E[4l:mi:IC=\E[%d@:ks=\E[?1h\E=:\
+	:ke=\E[?1l\E>:vi=\E[?25l:ve=\E[34h\E[?25h:vs=\E[34l:\
+	:ti=\E[?1049h:te=\E[?1049l:us=\E[4m:ue=\E[24m:so=\E[3m:\
+	:se=\E[23m:mb=\E[5m:md=\E[1m:mr=\E[7m:me=\E[m:ms:\
+	:Co#8:pa#64:AF=\E[3%dm:AB=\E[4%dm:op=\E[39;49m:AX:\
+	:vb=\Eg:G0:as=\E(0:ae=\E(B:\
+	:ac=\140\140aaffggjjkkllmmnnooppqqrrssttuuvvwwxxyyzz{{||}}~~..--++,,hhII00:\
+	:po=\E[5i:pf=\E[4i:Z0=\E[?3h:Z1=\E[?3l:k0=\E[10~:\
+	:k1=\EOP:k2=\EOQ:k3=\EOR:k4=\EOS:k5=\E[15~:k6=\E[17~:\
+	:k7=\E[18~:k8=\E[19~:k9=\E[20~:k;=\E[21~:F1=\E[23~:\
+	:F2=\E[24~:F3=\E[1;2P:F4=\E[1;2Q:F5=\E[1;2R:F6=\E[1;2S:\
+	:F7=\E[15;2~:F8=\E[17;2~:F9=\E[18;2~:FA=\E[19;2~:kb=^H:\
+	:K2=\EOE:kB=\E[Z:kF=\E[1;2B:kR=\E[1;2A:*4=\E[3;2~:\
+	:*7=\E[1;2F:#2=\E[1;2H:#3=\E[2;2~:#4=\E[1;2D:%c=\E[6;2~:\
+	:%e=\E[5;2~:%i=\E[1;2C:kh=\E[1~:@1=\E[1~:kH=\E[4~:\
+	:@7=\E[4~:kN=\E[6~:kP=\E[5~:kI=\E[2~:kD=\E[3~:ku=\EOA:\
+	:kd=\EOB:kr=\EOC:kl=\EOD:km:'
+Got env 'PAGER=/usr/bin/less'
+Got env 'CONFIG_PROTECT_MASK=/etc/gentoo-release /etc/sandbox.d /etc/php/cli-php5/ext-active/ /etc/php/cgi-php5/ext-active/ /etc/php/apache2-php5/ext-active/ /etc/udev/rules.d /etc/fonts/fonts.conf /etc/gconf /etc/terminfo /etc/ca-certificates.conf /etc/revdep-rebuild'
+Got env 'XDG_CONFIG_DIRS=/etc/xdg'
+Got env 'FLTK_DOCDIR=/usr/share/doc/fltk-2.0_pre6525/html'
+Got env 'SBCL_SOURCE_ROOT=/usr/lib/sbcl/src'
+Got env 'MAIL=/var/mail/root'
+Got env 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/bin:/usr/i486-pc-linux-gnu/gcc-bin/4.1.2:/usr/i686-pc-linux-gnu/gcc-bin/4.3.3:/usr/kde/3.5/sbin:/usr/kde/3.5/bin:/usr/qt/3/bin:/opt/vmware/player/bin'
+Got env 'STY=31911.pts-0.tsubaka'
+Got env 'DISTCC_LOG='
+Got env 'PWD=/blue/Dev/ooc/examples/ninja/func-tests'
+Got env 'EDITOR=/bin/vim'
+Got env 'LANG=fr_FR.UTF-8'
+Got env 'QMAKESPEC=linux-g++'
+Got env 'DISTCC_VERBOSE='
+Got env 'DCCC_PATH=/usr/lib/distcc/bin'
+Got env 'HOME=/root'
+Got env 'SHLVL=6'
+Got env 'CG_COMPILER_EXE=/opt/bin/cgc'
+Got env 'LOGNAME=root'
+Got env 'LESS=-R -M --shift 5'
+Got env 'WINDOW=2'
+Got env 'CVS_RSH=ssh'
+Got env 'GCC_SPECS='
+Got env 'XDG_DATA_DIRS=/usr/local/share:/usr/kde/3.5/share:/usr/share'
+Got env 'LESSOPEN=|lesspipe.sh %s'
+Got env 'PKG_CONFIG_PATH=/usr/qt/3/lib/pkgconfig'
+Got env 'INFOPATH=/usr/share/info:/usr/share/binutils-data/i686-pc-linux-gnu/2.19.1/info:/usr/share/gcc-data/i486-pc-linux-gnu/4.1.2/info:/usr/share/gcc-data/i686-pc-linux-gnu/4.3.3/info'
+Got env 'WINDOWPATH=7'
+Got env 'DISPLAY=:0.0'
+Got env 'USB_DEVFS_PATH=/dev/bus/usb'
+Got env 'OPENGL_PROFILE=nvidia'
+Got env 'SANE_CONFIG_DIR=/etc/sane.d'
+Got env 'CONFIG_PROTECT=/var/bind /usr/share/config /usr/kde/3.5/share/config /usr/kde/3.5/env /usr/kde/3.5/shutdown'
+Got env 'COLORTERM=Terminal'
+Got env 'XAUTHORITY=/root/.Xauthority'
+Got env '_=./mainenv'
+Got env 'OLDPWD=/blue/Dev/ooc/examples/ninja/cover-tests'
 value is an int, and it equals 1995
 A killing killer knowing how to kill without its painkiller is a good killer.
 two == 2 (o, rly?)
@@ -33,7 +108,13 @@ I'm of species Human
 1, 2, 3... magic =)
 i = 6, j = 9
 Un poulet dans le palais est pas la pour etre poli.
-The Raven - Edgar Allan Poe
+Who needs some KoolAid? Or a structs.Array?
+No, really, I've got some KoolAid left. You sure?
+Everybody needs some KoolAid sometimes.
+42 == 42. Alright
+Torturer: testing list structure structs.ArrayList
+first test: appending 100 elementsTorturer: testing list structure structs.SparseList
+first test: appending 100 elementsThe Raven - Edgar Allan Poe
 
 Once upon a midnight dreary, while I pondered weak and weary,
 Over many a quaint and curious volume of forgotten lore,

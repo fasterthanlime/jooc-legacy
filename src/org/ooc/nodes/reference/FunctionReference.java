@@ -107,6 +107,13 @@ public class FunctionReference extends SyntaxNode implements Typed {
 		return true;
 		
 	}
+	
+	@Override
+	public String getDescription() {
+	
+		return getClass().getSimpleName()+" reference to "+name;
+		
+	}
 
 	/**
 	 * @return of the function we're referring to
