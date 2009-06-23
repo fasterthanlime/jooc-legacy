@@ -124,6 +124,7 @@ public class Clazz {
         type.clazz = this;
         type.isResolved = true;
         this.classType = new Type(type.location, null, underNameClass);
+        classType.metaClazz = this;
         classType.isCover = isCover;
         classType.isValid = true;
         classType.isResolved = true;

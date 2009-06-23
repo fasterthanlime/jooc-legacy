@@ -10,6 +10,15 @@ class StringReader from Reader {
 		length = strlen(content);
 	}
 	
+	implement read {
+		if(marker + count < length) {
+			memcpy(chars, content + marker, count);
+			marker += count;
+		} else {
+			//FIXME should throw an exception here
+		}
+	}
+	
 	implement readChar {
 		if(hasNext) {
 			return content[marker++];

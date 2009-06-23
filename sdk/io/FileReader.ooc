@@ -22,6 +22,10 @@ class FileReader from Reader {
 			exit(1);
 		}
 	}
+	
+	implement read {
+		fread(chars + offset, 1, count, file);
+	}
 
 	implement readChar {
 		Char value;

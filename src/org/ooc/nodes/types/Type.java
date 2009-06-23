@@ -55,6 +55,9 @@ public class Type extends SyntaxNode {
 	/** The class corresponding to this type, if there's one (e.g. if it's not a base type such as "int") */
 	public Clazz clazz;
 	
+	/** The class this type is the 'class structure' of, also called meta-class */
+	public Clazz metaClazz;
+	
 	/** The name of the type, such as "int" or "MyClass" */
 	public String name;
     private final int pointerLevel;

@@ -6,6 +6,7 @@ abstract class Reader {
 
 	Long marker;
 
+	abstract func read(Char* chars, int offset, int count);
 	abstract func readChar -> Char;
 	abstract func hasNext -> Bool;
 	abstract func rewind(Int offset);

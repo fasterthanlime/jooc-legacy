@@ -509,6 +509,7 @@ public class ClassDef extends Scope implements PotentiallyAbstract {
     	
     	a.append('\n');
 		writeIndent(a, 1);
+		// FIXME make it more flexible. (Use a VariableDecl?)
 		a.append("String name;");
     	
     	if(!fields.isEmpty()) {
@@ -528,6 +529,28 @@ public class ClassDef extends Scope implements PotentiallyAbstract {
         }
     	
     }
+    
+    /**
+	 * Used for handling "object.class.field" syntax, e.g.
+	 * <code>
+	 * Array a = new(15);
+	 * printf("class of a = %s\n", a.class.name);
+	 * </code>
+	 * If 'field' is a valid metaclass field, return true.
+	 * 
+	 * @param field
+	 * @return
+	 */
+	public boolean hasMetaClassField(String field) {
+		
+		//FIXME make it more flexible.
+		if(field.equals("name")) {
+			return true;
+		}
+		
+		return false;
+		
+	}
 
     private void writeMethodSignatures(Appendable a) throws IOException {
 
