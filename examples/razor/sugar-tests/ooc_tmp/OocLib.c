@@ -4,9 +4,10 @@
 
 // OOC dependencies
 #include "OocLib.h"
- Object GC_calloc(size_t nmemb, size_t size) {
+ Object GC_calloc(Int nmemb, SizeT size) {
 	
-	Object tmp = GC_malloc(nmemb * size);
-	memset(tmp, 0, nmemb * size);
+	SizeT memsize = nmemb  *  size;
+	Object tmp = GC_malloc(memsize);
+	memset(tmp, 0, memsize);
 	return tmp; 
 }

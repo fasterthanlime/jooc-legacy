@@ -10,7 +10,6 @@ import org.ooc.nodes.clazz.ClassReference;
 import org.ooc.nodes.clazz.MemberAccess;
 import org.ooc.nodes.control.Scope;
 import org.ooc.nodes.functions.FunctionCall;
-import org.ooc.nodes.functions.FunctionDef;
 import org.ooc.nodes.functions.MemberFunctionCall;
 import org.ooc.nodes.functions.TypedArgumentList;
 import org.ooc.nodes.operators.Dot;
@@ -151,13 +150,15 @@ public class Name extends RawCode {
 				
 				if(nearestClassDef.clazz.hasUnmangledFunction(content)) {
 					
-					if(getNext() instanceof Parenthesis) {
+					// All of this is wayy deprecated. Since 0.2, a function name without parenthesis calls it.
+					
+					//if(getNext() instanceof Parenthesis) {
 					
 						MemberFunctionCall memberFuncCall = new MemberFunctionCall(location, content, null, thisAccess);
 						replaceWith(manager, memberFuncCall);
 						//System.out.println("replaced with memberFunctionCall");
 						
-					} else {
+					/*} else {
 						
 						Function pointedFunction = nearestClassDef.clazz.getUnmangledFunctions(content).get(0);
 						FunctionDef def = nearestClassDef.getFunctionDef(pointedFunction);
@@ -171,7 +172,7 @@ public class Name extends RawCode {
 						replaceWith(manager, memberAccess);
 						//System.out.println("replaced with memberAccess");
 						
-					}
+					}*/
 					return;
 					
 				}

@@ -85,6 +85,11 @@ public class BuildProperties {
      * If false, leave everything in place for inspection.
      */
 	public boolean clean;
+
+	/**
+	 * If true, the program should be compiled with debug information
+	 */
+	public boolean debug;
 	
 	/**
      * Default constructor, initialize all values to default.

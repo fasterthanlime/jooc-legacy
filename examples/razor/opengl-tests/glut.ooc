@@ -16,11 +16,11 @@ class Color {
 
 class Window {
 
+	static Window instance;
 	String name;
 	Int width;
 	Int height;
 	Color clearColor;
-	Window instance;
 
 	new(=name, =width, =height) {
 		instance = this;
@@ -31,7 +31,7 @@ class Window {
 		glutInitWindowPosition(0, 0);
 		glutInitWindowSize(width, height); 
 		glutCreateWindow(name);
-		glutDisplayFunc(@displayWrapper);
+		glutDisplayFunc(@display);
 		clearColor = new Color(1.0, 0.5, 0.2, 0.0);
 	}
 
@@ -43,11 +43,8 @@ class Window {
 		glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
 	}
 
-	static func displayWrapper {
-		Window.instance.display;
-	}
-
 	func display {
+		this = Window.instance;
 		updateClearColor;
 		glClear(GL_COLOR_BUFFER_BIT);
 		glutSwapBuffers();

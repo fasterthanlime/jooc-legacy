@@ -1,52 +1,67 @@
 //with io.stdout.\(print, println);
 include stdio;
-
-Int size;
-String string;
+import lang.String;
 
 func main {
 	
-	string = "Java Source and Support";
-	doAnagram(string.length);
+	new Anagrams("Java Source and Support");
 	
 }
 
-func doAnagram (Int newSize) {
-	
-	if (newSize == 1) return; // if too small, return
+class Anagrams {
+
+	Int size;
+	Int newSize;
+	String string;	
+
+	new(=string) {
 		
-	// for each position,
-	for (Int i: 0..newSize) {
-		
-		doAnagram (newSize - 1); // anagram remaining
-		if (newSize == 2) { display }
-		rotate(newSize); // rotate word
+		size = this.string.length;
+		doAnagram(size);
 		
 	}
 	
-}
-
-// rotate left all chars from position to end
-func rotate (Int newSize) {
-
-	Int position = size - newSize;
-
-	// save first letter
-	Char temp = string[position];
-	
-	//shift others left
-	for (Int i: (position + 1)..size) {
-		string[i - 1] = string[i];
-	}
+	func doAnagram(Int newSize) {
 		
-	//put first on right
-	string[i - 1] = temp;
-	
-}
+		if (newSize == 1) return; // if too small, return
+			
+		// for each position,
+		for (Int i: 0..newSize) {
+			
+			doAnagram (newSize - 1); // anagram remaining
+			if (newSize == 2) { display; }
+			rotate(newSize); // rotate word
+			
+		}
+		
+	}
 
-func display {
-	
-	static Int count = 0;
-	printf(%"${++count} $string\n");
-	
+	// rotate left all chars from position to end
+	func rotate(Int newSize) {
+
+		Int i;
+		Int position = size - newSize;
+
+		// save first letter
+		Char temp = string[position];
+		
+		//shift others left
+		for(i = position + 1; i < size; i++) {
+			string[i - 1] = string[i];
+		}
+			
+		//put first on right
+		string[i - 1] = temp;
+		
+	}
+
+	func display {
+		
+		static Int count = 0;
+		//printf(%"${++count} $string\n");
+		count++;
+		printf("%d %s\n", count, string);
+		
+	}
+
 }

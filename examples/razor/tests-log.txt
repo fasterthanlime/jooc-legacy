@@ -7,11 +7,12 @@ Hi sweetie, my name really is Andrew, but you can call me Andy if you like.
 Hi dude, my name is Smith, and I'm happy to meet you!
 Pizza Allegro Tomato, of diameter 0.500000, color red, and tomato percentage 60.000000
 Pizza Royale Grande, of diameter 1.000000, color green, and tomato percentage 40.000000
+Dump dumpadaddy dump.
 Printing 30 numbers between 0 and 5 and a max of 500
-2701732985466347382181153874052412421043864033965317464754642718951465369175481430
+40020439422131220866927127433137332820119510285382110483017845082226438417149184
 That's all, folks =)
 sleeping a while...
-we slept for 735 milli-seconds
+we slept for 716 milli-seconds
 aaaaaaaahhh TCHOOOOOH!
 res = 1
 I shout 42 
@@ -90,6 +91,7 @@ Now reading lines from a file
 Name: n, Age: (null), Profession: (null)
 Name: n, Age: (null), Profession: (null)
 Name: t, Age: (null), Profession: (null)
+In test mode, exiting gracefully =)
 Hoy! our class is Blah
 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,  are the 12 first numbers of N.
 Legacy C include works!
@@ -106,17 +108,11 @@ Int: 42
 Float: 3.14f
 Hayo, I'm a kid and I'm asking for candyyyy!
 Hay, I'm the candy giver, I just a gave a kinder, total is now 1
-Hay, I'm the candy giver, I just a gave a kinder, total is now 2
-Hay, I'm the candy giver, I just a gave a kinder, total is now 3
 Hayo, I'm a kid and I'm asking for candyyyy!
-Hay, I'm the candy giver, I just a gave a lollypop, total is now 4
-Hay, I'm the candy giver, I just a gave a lollypop, total is now 5
-Hay, I'm the candy giver, I just a gave a lollypop, total is now 6
+Hay, I'm the candy giver, I just a gave a lollypop, total is now 2
 Hayo, I'm a kid and I'm asking for candyyyy!
-Hay, I'm the candy giver, I just a gave a chewing gum, total is now 7
-Hay, I'm the candy giver, I just a gave a chewing gum, total is now 8
-Hay, I'm the candy giver, I just a gave a chewing gum, total is now 9
-As a grand total, 9 candies have been distributed
+Hay, I'm the candy giver, I just a gave a chewing gum, total is now 3
+As a grand total, 3 candies have been distributed
 Beginning to proliferate...
 Just created ant #0
 Just created ant #1

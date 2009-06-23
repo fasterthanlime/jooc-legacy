@@ -102,6 +102,10 @@ public class CommandLineInterface {
         			
         			timing = true;
         			
+        		} else if(option.equals("debug") || option.equals("g")) {
+        			
+        			props.debug = true;
+        			
         		} else if(option.equals("verbose") || option.equals("v")) {
         			
         			props.verbose = true;

@@ -1,7 +1,7 @@
 import java.io.IOException;
 
-public class AnagramApp {
-	
+public class Anagrams {
+
   static int size;
 
   static int count;

@@ -60,7 +60,9 @@ public class MemberFunctionCall extends FunctionCall {
 		}
         ClassDef classDef = manager.getContext().getClassDef(type.name);
         if(classDef == null) {
+        	Type.resolveCheckEnabled = false;
         	manager.queue(this, "Trying to call " + type + "." + name + getArgsRepr() + " but type " + type + " can't be found. Did you forget to import "+type+" ?");
+        	Type.resolveCheckEnabled = true;
             return;
         }
         
@@ -68,8 +70,10 @@ public class MemberFunctionCall extends FunctionCall {
 		TypedArgumentList tal = new TypedArgumentList(this);
 		impl = classDef.getImplementation(manager.getContext(), name, tal);
 		if(impl == null) {
+			Type.resolveCheckEnabled = false;
 		    manager.queue(this, "Trying to call " + access + "." + name + getArgsRepr()
 		    		+ " but class " + clazz.fullName + " doesn't have such a function. It has: " + clazz.getFunctionListRepr());
+		    Type.resolveCheckEnabled = true;
 		    return;
 		}
 

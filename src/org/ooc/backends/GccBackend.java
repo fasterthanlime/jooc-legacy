@@ -308,6 +308,10 @@ class GccBackend extends Backend {
 				args.add(cflag);
 			}
 		}
+		if(props.debug) {
+			args.add("-g");
+			clean = false;
+		}
 		
 	}
 

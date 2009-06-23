@@ -4,36 +4,39 @@
 
 // OOC dependencies
 #include "Anagrams.h"
-  with  io.stdout.(print,  println);
-Int size;
-String string;
+// with io.stdout.\(print, println); 
+
 
 Int main() {
 
 	GC_init();	
+	__Anagrams_new_String("Java Source and Support");
 
 
 }
+/*
+ * Definition of class Anagrams
+ */
 
-with string {
-	
-	that = "Java Source and Support";
-	__doAnagram_Int(that.length);
-}
+Anagrams__class Anagrams__classInstance;
 
-Void __doAnagram_Int(Int newSize) {
+
+Void __Anagrams_doAnagram_Int(struct Anagrams*  this, Int newSize) {
 	
 	if(newSize == 1) return;
 	//  if too small, return 
 
 	//  for each position, 
 
-	for(int i = 0; i < newSize; i += 1)  {
-		__doAnagram_Int(newSize -1);
+	for(int i = 
+		0; i <  newSize; i += 1)  {
+		this->class->__doAnagram_Int(this, newSize -1);
 		//  anagram remaining 
 
-		if(newSize == 2) __display();
-		__rotate_Int(newSize);
+		if(newSize == 2) {
+			this->class->__display(this);
+		}
+		this->class->__rotate_Int(this, newSize);
 		//  rotate word 
 
 	}
@@ -43,28 +46,55 @@ Void __doAnagram_Int(Int newSize) {
 //  rotate left all chars from position to end 
 
 
-Void __rotate_Int(Int newSize) {
+Void __Anagrams_rotate_Int(struct Anagrams*  this, Int newSize) {
 	
-
-
-}
-
-with string {
+	Int i;
+	Int position = this->size  - newSize;
 	//  save first letter 
 
-	Char temp =[size  -  newSize];
+	Char temp = this->string[position];
 	// shift others left 
 
-	for(int i = (position + 1); i < size; i += 1)  {[i -1] =[i];
+	for(i = position  +  1;i < this->size;i ++) {
+		this->string[i -1] = this->string[i];
 	}
 	// put first on right 
-[i -1] = temp;
+
+	this->string[i -1] = temp;
+
+
 }
 
-Void __display() {
+Void __Anagrams_display(struct Anagrams*  this) {
 	
 	static Int count = 0;
-	printf(% "${++count} $string\n");
+	// printf(%"${++count} $string\n"); 
+
+	count ++;
+	printf("%d %s\n", count, this->string);
+
+
+}
+
+struct Anagrams*  __Anagrams_new_String(String string) {
+
+	Anagrams this = GC_malloc(sizeof(struct Anagrams));
+
+	if(Anagrams__classInstance == NULL) {
+		Anagrams__classInstance = GC_malloc(sizeof(struct Anagrams__class));
+		Anagrams__classInstance ->name = "Anagrams";
+	}
+	this->class = Anagrams__classInstance;
+
+	this->class->__doAnagram_Int = (Void (*)(struct Anagrams* , Int)) &__Anagrams_doAnagram_Int;
+	this->class->__rotate_Int = (Void (*)(struct Anagrams* , Int)) &__Anagrams_rotate_Int;
+	this->class->__display = (Void (*)(struct Anagrams* )) &__Anagrams_display;
+	
+	this->string = string;
+	this->size = __lang_String_length(this->string);
+	this->class->__doAnagram_Int(this, this->size);
+
+	return this;
 
 
 }

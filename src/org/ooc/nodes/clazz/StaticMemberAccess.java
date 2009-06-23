@@ -3,6 +3,7 @@ package org.ooc.nodes.clazz;
 import java.io.IOException;
 
 import org.ooc.errors.AssemblyManager;
+import org.ooc.errors.CompilationFailedError;
 import org.ooc.errors.SourceContext;
 import org.ooc.nodes.others.VariableAccess;
 import org.ooc.structures.Clazz;
@@ -31,7 +32,12 @@ public class StaticMemberAccess extends VariableAccess {
 		super(location, variable);
 		this.clazz = clazz;
 		if(clazz == null) {
-			throw new Error("Heeeeeeeelp! initialized StaticMemberAccess with a null clazz !");
+			throw new CompilationFailedError(location, "Heeeeeeeelp! initialized StaticMemberAccess with a null clazz !");
+		}
+		
+		if(!variable.isStatic) {
+			throw new CompilationFailedError(location, "Attempt to access non-static member "
+					+variable.getName()+" as a static member. Did you forget to declare it static?");
 		}
 		
 	}

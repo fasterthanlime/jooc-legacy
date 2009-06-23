@@ -2,6 +2,8 @@
 #define OocLib_h
 
 
+#include <stdlib.h>
+#include <stdio.h>
 #include <stdbool.h>
 #include <memory.h>
 #include <gc/gc.h>
@@ -10,6 +12,7 @@ typedef void *Object;
 typedef bool Bool;
 typedef char Char;
 typedef int Int;
+typedef unsigned int UInt;
 typedef float Float;
 typedef double Double;
 typedef short Short;
@@ -17,7 +20,8 @@ typedef long Long;
 typedef long long LLong;
 typedef void Void;
 typedef int (*Func)();
-Object GC_calloc(size_t, size_t);
+typedef size_t SizeT;
+Object GC_calloc(Int, SizeT);
 
 
 #endif // OocLib_h
