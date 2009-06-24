@@ -19,7 +19,7 @@ class NumberSupplier {
 
 	Int range;
 
-	new(=range) {
+	func new(=range) {
 		srand(time(null));
 	}
 

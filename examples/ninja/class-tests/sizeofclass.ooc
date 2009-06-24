@@ -12,7 +12,7 @@ class Cat from Animal {
 
 	String color;
 
-	new();
+	func new;
 
 	implement shout {
 		printf("Meowwwwww!\n");

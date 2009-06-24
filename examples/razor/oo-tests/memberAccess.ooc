@@ -6,9 +6,9 @@ class Class {
 	Double b;
 	Char c;
 	
-	new(=a, =b, =c);
+	func new(=a, =b, =c);
 
-	new() {
+	func new {
 		this(12, 32.4, 'f');
 	}
 

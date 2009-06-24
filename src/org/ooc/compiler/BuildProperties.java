@@ -116,7 +116,6 @@ public class BuildProperties {
     		incPath.add(oocDist+"/libs/headers");
     		libPath.add(oocDist+"/libs/");
     		sourcePath.add(oocDist+"/sdk/");
-    		System.out.println("Libpath is now "+libPath);
     	}
     	
     	String cIncludePath = System.getenv("C_INCLUDE_PATH");

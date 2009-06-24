@@ -8,7 +8,7 @@ class CandyGiver {
 	
 	Int candyNumber;
 
-	new() {
+	func new {
 
 		candyNumber = candyCounter;
 		candyCounter = candyCounter++ % 3;

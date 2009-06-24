@@ -136,10 +136,7 @@ public class LibraryManager {
 					String staticLibPath = props.libPath.get(props.libPath.size() - 1)
 					+ File.separator + Target.guessHost() + File.separator + "lib" + path + ".a";
 					String realPath = staticLibPath.replace(File.separator + File.separator, File.separator);
-					System.out.println("Figured out single library path "
-							+realPath+" from libPath "+props.libPath.get(props.libPath.size() - 1));
-					addOnce(realPath,
-							staticLibraries);
+					addOnce(realPath, staticLibraries);
 				} else {
 					addOnce(path, dynamicLibraries);
 				}

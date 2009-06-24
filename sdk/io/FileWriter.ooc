@@ -5,7 +5,7 @@ class FileWriter from Writer {
 
 	FILE* file;
 	
-	new(String fileName) {
+	func new(String fileName) {
 		file = fopen(fileName, "w");
 		if(!file) {
 			printf("[io.FileWriter] File cannot be opened for writing: %s\n", fileName);
@@ -16,7 +16,7 @@ class FileWriter from Writer {
 	/**
 	 * @param file A file to write to. Must be fopen()ed already. 
 	 */
-	new(=file) {
+	func new(=file) {
 		if(!file) {
 			printf("[io.FileWriter] Bad file passed to constructor.\n");
 			exit(1);

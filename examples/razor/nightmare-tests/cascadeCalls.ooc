@@ -4,7 +4,7 @@ class Nightmare {
 
 	Int value;
 	
-	new(=value);
+	func new(=value);
 
 	func getThis -> Nightmare {
 		return this;

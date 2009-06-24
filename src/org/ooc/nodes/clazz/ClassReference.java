@@ -31,13 +31,24 @@ public class ClassReference extends TypeReference {
     @Override
     public void writeToCSource(Appendable a) throws IOException {
     	writeWhitespace(a);
-    	a.append(classDef.clazz.underName);
+    	if(classDef.clazz.isCover) {
+    		a.append(classDef.clazz.simpleName);
+    	} else {
+    		a.append(classDef.clazz.underName);
+    	}
     }
     
     @Override
     protected boolean isSpaced() {
 
     	return true;
+    	
+    }
+    
+    @Override
+    public String getDescription() {
+    
+    	return "Class reference to " + classDef.clazz.fullName;
     	
     }
     

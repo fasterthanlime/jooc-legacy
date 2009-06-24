@@ -1,113 +1,116 @@
-Libpath is now [/blue/Dev/ooc/libs/]
-Started ooc compiler daemon at port 14269 Wed Jun 24 18:47:01 GMT 2009
-Libpath is now [/blue/Dev/ooc/libs/]
-Got connection to ooc compiler daemon from /127.0.0.1:44778
+Started ooc compiler daemon at port 14269 Wed Jun 24 20:37:26 GMT 2009
+Got connection to ooc compiler daemon from /127.0.0.1:37377
 Got remote command to compile 'example1'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/razor/basic-tests=/blue/Dev/ooc/examples/razor/basic-tests}
 Compiling source 'example1'
 Compiling source 'OocLib'
-Figured out single library path /blue/Dev/ooc/libs/linux/libgc.a from libPath /blue/Dev/ooc/libs
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/basic-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/basic-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/razor/basic-tests/example1.c /blue/Dev/ooc/examples/razor/basic-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/razor/basic-tests/example1 /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 436ms.
+Finished compilation in 329ms.
 Got remote command to compile 'example2'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/razor/basic-tests=/blue/Dev/ooc/examples/razor/basic-tests}
 Compiling source 'example2'
-Figured out single library path /blue/Dev/ooc/libs/linux/libgc.a from libPath /blue/Dev/ooc/libs
+Compiling source 'OocLib'
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/basic-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/basic-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/razor/basic-tests/example2.c /blue/Dev/ooc/examples/razor/basic-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/razor/basic-tests/example2 /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 216ms.
+Finished compilation in 139ms.
 Got remote command to compile 'example3'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/razor/basic-tests=/blue/Dev/ooc/examples/razor/basic-tests}
 Compiling source 'example3'
-Figured out single library path /blue/Dev/ooc/libs/linux/libgc.a from libPath /blue/Dev/ooc/libs
+Compiling source 'OocLib'
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/basic-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/basic-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/razor/basic-tests/example3.c /blue/Dev/ooc/examples/razor/basic-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/razor/basic-tests/example3 /blue/Dev/ooc/libs/linux/libgc.a 
 /blue/Dev/ooc/examples/razor/basic-tests/example3.c: In function ‘main’:
 /blue/Dev/ooc/examples/razor/basic-tests/example3.c:116: attention : initialization from incompatible pointer type
 /blue/Dev/ooc/examples/razor/basic-tests/example3.c:117: attention : initialization from incompatible pointer type
-Finished compilation in 172ms.
+Finished compilation in 132ms.
 Got remote command to compile 'example4'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/razor/basic-tests=/blue/Dev/ooc/examples/razor/basic-tests}
 Compiling source 'example4'
-Figured out single library path /blue/Dev/ooc/libs/linux/libgc.a from libPath /blue/Dev/ooc/libs
+Compiling source 'OocLib'
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/basic-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/basic-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/razor/basic-tests/example4.c /blue/Dev/ooc/examples/razor/basic-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/razor/basic-tests/example4 /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 240ms.
+Finished compilation in 104ms.
 Got remote command to compile 'example5'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/razor/basic-tests=/blue/Dev/ooc/examples/razor/basic-tests}
 Compiling source 'example5'
-Figured out single library path /blue/Dev/ooc/libs/linux/libgc.a from libPath /blue/Dev/ooc/libs
+Compiling source 'OocLib'
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/basic-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/basic-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/razor/basic-tests/example5.c /blue/Dev/ooc/examples/razor/basic-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/razor/basic-tests/example5 /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 215ms.
+Finished compilation in 119ms.
 Got remote command to compile 'timetest'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/razor/basic-tests=/blue/Dev/ooc/examples/razor/basic-tests}
 Compiling source 'timetest'
 Found dependency os.Timer' imported from 'timetest, importing...
 Compiling source 'os.Timer'
 Found dependency Time' imported from 'os.Timer, importing...
 Compiling source 'os.Time'
-Figured out single library path /blue/Dev/ooc/libs/linux/libgc.a from libPath /blue/Dev/ooc/libs
+Compiling source 'OocLib'
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/basic-tests/os/Time.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/basic-tests/os/Time.o 
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/basic-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/basic-tests/OocLib.o 
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/basic-tests/os/Timer.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/basic-tests/os/Timer.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/razor/basic-tests/timetest.c /blue/Dev/ooc/examples/razor/basic-tests/os/Timer.o /blue/Dev/ooc/examples/razor/basic-tests/os/Time.o /blue/Dev/ooc/examples/razor/basic-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/razor/basic-tests/timetest /blue/Dev/ooc/libs/linux/libgc.a 
 /blue/Dev/ooc/examples/razor/basic-tests/timetest.c: In function ‘main’:
 /blue/Dev/ooc/examples/razor/basic-tests/timetest.c:14: attention : implicit declaration of function ‘usleep’
-Finished compilation in 463ms.
+Finished compilation in 220ms.
 Got remote command to compile 'member-func-pointer'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/razor/funky-tests=/blue/Dev/ooc/examples/razor/funky-tests}
 Compiling source 'member-func-pointer'
 Compiling source 'OocLib'
-Figured out single library path /blue/Dev/ooc/libs/linux/libgc.a from libPath /blue/Dev/ooc/libs
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/funky-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/funky-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/razor/funky-tests/member-func-pointer.c /blue/Dev/ooc/examples/razor/funky-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/razor/funky-tests/member-func-pointer /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 253ms.
+Finished compilation in 155ms.
 Got remote command to compile 'fac'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/razor/math-tests=/blue/Dev/ooc/examples/razor/math-tests}
 Compiling source 'fac'
 Compiling source 'OocLib'
-Figured out single library path /blue/Dev/ooc/libs/linux/libgc.a from libPath /blue/Dev/ooc/libs
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/math-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/math-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/razor/math-tests/fac.c /blue/Dev/ooc/examples/razor/math-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/razor/math-tests/fac /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 290ms.
+Finished compilation in 117ms.
 Got remote command to compile 'cascadeCalls'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/razor/nightmare-tests=/blue/Dev/ooc/examples/razor/nightmare-tests}
 Compiling source 'cascadeCalls'
 Compiling source 'OocLib'
-Figured out single library path /blue/Dev/ooc/libs/linux/libgc.a from libPath /blue/Dev/ooc/libs
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/nightmare-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/nightmare-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/razor/nightmare-tests/cascadeCalls.c /blue/Dev/ooc/examples/razor/nightmare-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/razor/nightmare-tests/cascadeCalls /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 320ms.
+Finished compilation in 110ms.
 Got remote command to compile 'funcAsForeachLimit'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/razor/nightmare-tests=/blue/Dev/ooc/examples/razor/nightmare-tests}
 Compiling source 'funcAsForeachLimit'
-Figured out single library path /blue/Dev/ooc/libs/linux/libgc.a from libPath /blue/Dev/ooc/libs
+Compiling source 'OocLib'
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/nightmare-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/nightmare-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/razor/nightmare-tests/funcAsForeachLimit.c /blue/Dev/ooc/examples/razor/nightmare-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/razor/nightmare-tests/funcAsForeachLimit /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 285ms.
+Finished compilation in 133ms.
 Got remote command to compile 'animals'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/razor/oo-tests=/blue/Dev/ooc/examples/razor/oo-tests}
 Compiling source 'animals'
 Compiling source 'OocLib'
-Figured out single library path /blue/Dev/ooc/libs/linux/libgc.a from libPath /blue/Dev/ooc/libs
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/oo-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/oo-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/razor/oo-tests/animals.c /blue/Dev/ooc/examples/razor/oo-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/razor/oo-tests/animals /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 313ms.
+Finished compilation in 126ms.
 Got remote command to compile 'dog'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/razor/oo-tests=/blue/Dev/ooc/examples/razor/oo-tests}
 Compiling source 'dog'
-Figured out single library path /blue/Dev/ooc/libs/linux/libgc.a from libPath /blue/Dev/ooc/libs
+Found dependency structs.Array' imported from 'dog, importing...
+Compiling source 'structs.Array'
+Found dependency structs.Iterable' imported from 'structs.Array, importing...
+Compiling source 'structs.Iterable'
+Found dependency Iterator' imported from 'structs.Iterable, importing...
+Compiling source 'structs.Iterator'
+Compiling source 'OocLib'
+Found dependency structs.Iterator' imported from 'structs.Array, importing...
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/oo-tests/structs/Iterable.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/oo-tests/structs/Iterable.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/oo-tests/structs/Iterator.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/oo-tests/structs/Iterator.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/oo-tests/structs/Array.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/oo-tests/structs/Array.o 
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/oo-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/oo-tests/OocLib.o 
-/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/razor/oo-tests/dog.c /blue/Dev/ooc/examples/razor/oo-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/razor/oo-tests/dog /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 259ms.
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/razor/oo-tests/dog.c /blue/Dev/ooc/examples/razor/oo-tests/structs/Array.o /blue/Dev/ooc/examples/razor/oo-tests/structs/Iterable.o /blue/Dev/ooc/examples/razor/oo-tests/structs/Iterator.o /blue/Dev/ooc/examples/razor/oo-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/razor/oo-tests/dog /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 281ms.
 Got remote command to compile 'funcArg'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/razor/oo-tests=/blue/Dev/ooc/examples/razor/oo-tests}
 Compiling source 'funcArg'
-Figured out single library path /blue/Dev/ooc/libs/linux/libgc.a from libPath /blue/Dev/ooc/libs
+Compiling source 'OocLib'
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/oo-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/oo-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/razor/oo-tests/funcArg.c /blue/Dev/ooc/examples/razor/oo-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/razor/oo-tests/funcArg /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 237ms.
+Finished compilation in 102ms.
 Got remote command to compile 'inherit'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/razor/oo-tests=/blue/Dev/ooc/examples/razor/oo-tests}
 Compiling source 'inherit'
-Figured out single library path /blue/Dev/ooc/libs/linux/libgc.a from libPath /blue/Dev/ooc/libs
+Compiling source 'OocLib'
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/oo-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/oo-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/razor/oo-tests/inherit.c /blue/Dev/ooc/examples/razor/oo-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/razor/oo-tests/inherit /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 291ms.
+Finished compilation in 157ms.
 Got remote command to compile 'memberAccess'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/razor/oo-tests=/blue/Dev/ooc/examples/razor/oo-tests}
 Compiling source 'memberAccess'
-Figured out single library path /blue/Dev/ooc/libs/linux/libgc.a from libPath /blue/Dev/ooc/libs
+Compiling source 'OocLib'
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/oo-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/oo-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/razor/oo-tests/memberAccess.c /blue/Dev/ooc/examples/razor/oo-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/razor/oo-tests/memberAccess /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 210ms.
+Finished compilation in 104ms.
 Got remote command to compile 'scannerTest'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/razor/oo-tests=/blue/Dev/ooc/examples/razor/oo-tests}
 Compiling source 'scannerTest'
 Found dependency text.StringTokenizer' imported from 'scannerTest, importing...
@@ -116,6 +119,7 @@ Found dependency lang.String' imported from 'text.StringTokenizer, importing...
 Compiling source 'lang.String'
 Found dependency Char' imported from 'lang.String, importing...
 Compiling source 'lang.Char'
+Compiling source 'OocLib'
 Found dependency io.Scanner' imported from 'scannerTest, importing...
 Compiling source 'io.Scanner'
 Found dependency io.Reader' imported from 'io.Scanner, importing...
@@ -127,7 +131,6 @@ Found dependency io.StringReader' imported from 'scannerTest, importing...
 Compiling source 'io.StringReader'
 Found dependency io.Reader' imported from 'io.StringReader, importing...
 Found dependency lang.String' imported from 'scannerTest, importing...
-Figured out single library path /blue/Dev/ooc/libs/linux/libgc.a from libPath /blue/Dev/ooc/libs
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/oo-tests/lang/Char.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/oo-tests/lang/Char.o 
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/oo-tests/lang/String.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/oo-tests/lang/String.o 
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/oo-tests/io/FileReader.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/oo-tests/io/FileReader.o 
@@ -141,24 +144,40 @@ Figured out single library path /blue/Dev/ooc/libs/linux/libgc.a from libPath /b
 /blue/Dev/ooc/examples/razor/oo-tests/scannerTest.c:11: attention : passing argument 1 of ‘__io_Scanner_new_Reader’ from incompatible pointer type
 /blue/Dev/ooc/examples/razor/oo-tests/scannerTest.c:13: attention : passing argument 1 of ‘__io_Scanner_new_Reader’ from incompatible pointer type
 /blue/Dev/ooc/examples/razor/oo-tests/scannerTest.c: In function ‘__printData’:
-/blue/Dev/ooc/examples/razor/oo-tests/scannerTest.c:32: attention : passing argument 1 of ‘__io_Scanner_new_Reader’ from incompatible pointer type
-Finished compilation in 1248ms.
+/blue/Dev/ooc/examples/razor/oo-tests/scannerTest.c:33: attention : passing argument 1 of ‘__io_Scanner_new_Reader’ from incompatible pointer type
+Finished compilation in 833ms.
 Got remote command to compile 'glut'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/razor/opengl-tests=/blue/Dev/ooc/examples/razor/opengl-tests}
 Compiling source 'glut'
+Found dependency structs.Array' imported from 'glut, importing...
+Compiling source 'structs.Array'
+Found dependency structs.Iterable' imported from 'structs.Array, importing...
+Compiling source 'structs.Iterable'
+Found dependency Iterator' imported from 'structs.Iterable, importing...
+Compiling source 'structs.Iterator'
 Compiling source 'OocLib'
+Found dependency structs.Iterator' imported from 'structs.Array, importing...
+Found dependency lang.String' imported from 'glut, importing...
+Compiling source 'lang.String'
+Found dependency Char' imported from 'lang.String, importing...
+Compiling source 'lang.Char'
 Couldn't locate header file <windows.h>
-Figured out single library path /blue/Dev/ooc/libs/linux/libgc.a from libPath /blue/Dev/ooc/libs
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/opengl-tests/lang/Char.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/opengl-tests/lang/Char.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/opengl-tests/lang/String.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/opengl-tests/lang/String.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/opengl-tests/structs/Iterable.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/opengl-tests/structs/Iterable.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/opengl-tests/structs/Iterator.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/opengl-tests/structs/Iterator.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/opengl-tests/structs/Array.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/opengl-tests/structs/Array.o 
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/opengl-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/opengl-tests/OocLib.o 
-/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/razor/opengl-tests/glut.c /blue/Dev/ooc/examples/razor/opengl-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l glut -l GLU -l GL -l pthread -o /blue/Dev/ooc/examples/razor/opengl-tests/glut /blue/Dev/ooc/libs/linux/libgc.a 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/razor/opengl-tests/glut.c /blue/Dev/ooc/examples/razor/opengl-tests/structs/Array.o /blue/Dev/ooc/examples/razor/opengl-tests/structs/Iterable.o /blue/Dev/ooc/examples/razor/opengl-tests/structs/Iterator.o /blue/Dev/ooc/examples/razor/opengl-tests/OocLib.o /blue/Dev/ooc/examples/razor/opengl-tests/lang/String.o /blue/Dev/ooc/examples/razor/opengl-tests/lang/Char.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l glut -l GLU -l GL -l pthread -o /blue/Dev/ooc/examples/razor/opengl-tests/glut /blue/Dev/ooc/libs/linux/libgc.a 
 /blue/Dev/ooc/examples/razor/opengl-tests/glut.c: In function ‘__Window_show’:
 /blue/Dev/ooc/examples/razor/opengl-tests/glut.c:50: attention : passing argument 1 of ‘glutDisplayFunc’ from incompatible pointer type
-Finished compilation in 683ms.
+Finished compilation in 649ms.
 Got remote command to compile 'sdlimage'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/razor/opengl-tests=/blue/Dev/ooc/examples/razor/opengl-tests}
 Compiling source 'sdlimage'
 Found dependency lang.String' imported from 'sdlimage, importing...
 Compiling source 'lang.String'
 Found dependency Char' imported from 'lang.String, importing...
 Compiling source 'lang.Char'
+Compiling source 'OocLib'
 Found dependency structs.Array' imported from 'sdlimage, importing...
 Compiling source 'structs.Array'
 Found dependency structs.Iterable' imported from 'structs.Array, importing...
@@ -181,7 +200,6 @@ Compiling source 'sdl.ImageLoader'
 Added library SDL_image
 Found dependency SDL' imported from 'sdl.ImageLoader, importing...
 Found dependency Surface' imported from 'sdl.ImageLoader, importing...
-Figured out single library path /blue/Dev/ooc/libs/linux/libgc.a from libPath /blue/Dev/ooc/libs
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/opengl-tests/lang/Char.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/opengl-tests/lang/Char.o 
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/opengl-tests/lang/String.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/opengl-tests/lang/String.o 
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/opengl-tests/sdl/Surface.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/opengl-tests/sdl/Surface.o 
@@ -193,87 +211,85 @@ Figured out single library path /blue/Dev/ooc/libs/linux/libgc.a from libPath /b
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/opengl-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/opengl-tests/OocLib.o 
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/opengl-tests/sdl/ImageLoader.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/opengl-tests/sdl/ImageLoader.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/razor/opengl-tests/sdlimage.c /blue/Dev/ooc/examples/razor/opengl-tests/lang/String.o /blue/Dev/ooc/examples/razor/opengl-tests/lang/Char.o /blue/Dev/ooc/examples/razor/opengl-tests/OocLib.o /blue/Dev/ooc/examples/razor/opengl-tests/structs/Array.o /blue/Dev/ooc/examples/razor/opengl-tests/structs/Iterable.o /blue/Dev/ooc/examples/razor/opengl-tests/structs/Iterator.o /blue/Dev/ooc/examples/razor/opengl-tests/sdl/SDL.o /blue/Dev/ooc/examples/razor/opengl-tests/sdl/Surface.o /blue/Dev/ooc/examples/razor/opengl-tests/sdl/WM.o /blue/Dev/ooc/examples/razor/opengl-tests/sdl/ImageLoader.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l SDL -l SDL_image -l pthread -o /blue/Dev/ooc/examples/razor/opengl-tests/sdlimage /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 1437ms.
+Finished compilation in 844ms.
 Got remote command to compile 'class-name'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/razor/reflection-tests=/blue/Dev/ooc/examples/razor/reflection-tests}
 Compiling source 'class-name'
 Compiling source 'OocLib'
-Figured out single library path /blue/Dev/ooc/libs/linux/libgc.a from libPath /blue/Dev/ooc/libs
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/reflection-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/reflection-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/razor/reflection-tests/class-name.c /blue/Dev/ooc/examples/razor/reflection-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/razor/reflection-tests/class-name /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 176ms.
+Finished compilation in 113ms.
 Got remote command to compile 'foreach-range'. SourcePath = {/blue/Dev/ooc/examples/razor/regression-tests=/blue/Dev/ooc/examples/razor/regression-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
 Compiling source 'foreach-range'
 Compiling source 'OocLib'
-Figured out single library path /blue/Dev/ooc/libs/linux/libgc.a from libPath /blue/Dev/ooc/libs
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/regression-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/regression-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/razor/regression-tests/foreach-range.c /blue/Dev/ooc/examples/razor/regression-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/razor/regression-tests/foreach-range /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 148ms.
+Finished compilation in 102ms.
 Got remote command to compile 'include-legacy'. SourcePath = {/blue/Dev/ooc/examples/razor/regression-tests=/blue/Dev/ooc/examples/razor/regression-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
 Compiling source 'include-legacy'
-Figured out single library path /blue/Dev/ooc/libs/linux/libgc.a from libPath /blue/Dev/ooc/libs
+Compiling source 'OocLib'
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/regression-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/regression-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/razor/regression-tests/include-legacy.c /blue/Dev/ooc/examples/razor/regression-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/razor/regression-tests/include-legacy /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 254ms.
+Finished compilation in 136ms.
 Got remote command to compile 'include-new-many'. SourcePath = {/blue/Dev/ooc/examples/razor/regression-tests=/blue/Dev/ooc/examples/razor/regression-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
 Compiling source 'include-new-many'
-Figured out single library path /blue/Dev/ooc/libs/linux/libgc.a from libPath /blue/Dev/ooc/libs
+Compiling source 'OocLib'
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/regression-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/regression-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/razor/regression-tests/include-new-many.c /blue/Dev/ooc/examples/razor/regression-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/razor/regression-tests/include-new-many /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 170ms.
+Finished compilation in 125ms.
 Got remote command to compile 'include-new'. SourcePath = {/blue/Dev/ooc/examples/razor/regression-tests=/blue/Dev/ooc/examples/razor/regression-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
 Compiling source 'include-new'
-Figured out single library path /blue/Dev/ooc/libs/linux/libgc.a from libPath /blue/Dev/ooc/libs
+Compiling source 'OocLib'
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/regression-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/regression-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/razor/regression-tests/include-new.c /blue/Dev/ooc/examples/razor/regression-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/razor/regression-tests/include-new /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 153ms.
+Finished compilation in 104ms.
 Got remote command to compile 'initializer-class'. SourcePath = {/blue/Dev/ooc/examples/razor/regression-tests=/blue/Dev/ooc/examples/razor/regression-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
 Compiling source 'initializer-class'
-Figured out single library path /blue/Dev/ooc/libs/linux/libgc.a from libPath /blue/Dev/ooc/libs
+Compiling source 'OocLib'
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/regression-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/regression-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/razor/regression-tests/initializer-class.c /blue/Dev/ooc/examples/razor/regression-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/razor/regression-tests/initializer-class /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 201ms.
+Finished compilation in 101ms.
 Got remote command to compile 'initializer-instance'. SourcePath = {/blue/Dev/ooc/examples/razor/regression-tests=/blue/Dev/ooc/examples/razor/regression-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
 Compiling source 'initializer-instance'
-Figured out single library path /blue/Dev/ooc/libs/linux/libgc.a from libPath /blue/Dev/ooc/libs
+Compiling source 'OocLib'
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/regression-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/regression-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/razor/regression-tests/initializer-instance.c /blue/Dev/ooc/examples/razor/regression-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/razor/regression-tests/initializer-instance /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 209ms.
+Finished compilation in 101ms.
 Got remote command to compile 'initializer-scope'. SourcePath = {/blue/Dev/ooc/examples/razor/regression-tests=/blue/Dev/ooc/examples/razor/regression-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
 Compiling source 'initializer-scope'
-Figured out single library path /blue/Dev/ooc/libs/linux/libgc.a from libPath /blue/Dev/ooc/libs
+Compiling source 'OocLib'
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/regression-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/regression-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/razor/regression-tests/initializer-scope.c /blue/Dev/ooc/examples/razor/regression-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/razor/regression-tests/initializer-scope /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 155ms.
+Finished compilation in 110ms.
 Got remote command to compile 'main'. SourcePath = {/blue/Dev/ooc/examples/razor/regression-tests=/blue/Dev/ooc/examples/razor/regression-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
 Compiling source 'main'
-Figured out single library path /blue/Dev/ooc/libs/linux/libgc.a from libPath /blue/Dev/ooc/libs
+Compiling source 'OocLib'
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/regression-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/regression-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/razor/regression-tests/main.c /blue/Dev/ooc/examples/razor/regression-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/razor/regression-tests/main /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 182ms.
+Finished compilation in 109ms.
 Got remote command to compile 'mangling-class1'. SourcePath = {/blue/Dev/ooc/examples/razor/regression-tests=/blue/Dev/ooc/examples/razor/regression-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
 Compiling source 'mangling-class1'
-Figured out single library path /blue/Dev/ooc/libs/linux/libgc.a from libPath /blue/Dev/ooc/libs
+Compiling source 'OocLib'
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/regression-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/regression-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/razor/regression-tests/mangling-class1.c /blue/Dev/ooc/examples/razor/regression-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/razor/regression-tests/mangling-class1 /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 237ms.
+Finished compilation in 104ms.
 Got remote command to compile 'mangling-class2'. SourcePath = {/blue/Dev/ooc/examples/razor/regression-tests=/blue/Dev/ooc/examples/razor/regression-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
 Compiling source 'mangling-class2'
-Figured out single library path /blue/Dev/ooc/libs/linux/libgc.a from libPath /blue/Dev/ooc/libs
+Compiling source 'OocLib'
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/regression-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/regression-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/razor/regression-tests/mangling-class2.c /blue/Dev/ooc/examples/razor/regression-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/razor/regression-tests/mangling-class2 /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 265ms.
+Finished compilation in 117ms.
 Got remote command to compile 'mangling-static1'. SourcePath = {/blue/Dev/ooc/examples/razor/regression-tests=/blue/Dev/ooc/examples/razor/regression-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
 Compiling source 'mangling-static1'
-Figured out single library path /blue/Dev/ooc/libs/linux/libgc.a from libPath /blue/Dev/ooc/libs
+Compiling source 'OocLib'
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/regression-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/regression-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/razor/regression-tests/mangling-static1.c /blue/Dev/ooc/examples/razor/regression-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/razor/regression-tests/mangling-static1 /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 235ms.
+Finished compilation in 102ms.
 Got remote command to compile 'mangling-static2'. SourcePath = {/blue/Dev/ooc/examples/razor/regression-tests=/blue/Dev/ooc/examples/razor/regression-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
 Compiling source 'mangling-static2'
-Figured out single library path /blue/Dev/ooc/libs/linux/libgc.a from libPath /blue/Dev/ooc/libs
+Compiling source 'OocLib'
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/regression-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/regression-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/razor/regression-tests/mangling-static2.c /blue/Dev/ooc/examples/razor/regression-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/razor/regression-tests/mangling-static2 /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 208ms.
+Finished compilation in 98ms.
 Got remote command to compile 'static-access-from-many'. SourcePath = {/blue/Dev/ooc/examples/razor/regression-tests=/blue/Dev/ooc/examples/razor/regression-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
 Compiling source 'static-access-from-many'
 Found dependency candy.Kid1' imported from 'static-access-from-many, importing...
@@ -282,6 +298,7 @@ Found dependency Kid' imported from 'candy.Kid1, importing...
 Compiling source 'candy.Kid'
 Found dependency CandyGiver' imported from 'candy.Kid, importing...
 Compiling source 'candy.CandyGiver'
+Compiling source 'OocLib'
 Found dependency candy.Kid2' imported from 'static-access-from-many, importing...
 Compiling source 'candy.Kid2'
 Found dependency Kid' imported from 'candy.Kid2, importing...
@@ -289,31 +306,8 @@ Found dependency candy.Kid3' imported from 'static-access-from-many, importing..
 Compiling source 'candy.Kid3'
 Found dependency Kid' imported from 'candy.Kid3, importing...
 Found dependency candy.CandyGiver' imported from 'static-access-from-many, importing...
-AssemblyManager caught a 'Error', printing and continuing.
-java.lang.Error: Trying to replace a MemberAccess with a StaticMemberAccess, but the first doesn't have a parent!
-	at org.ooc.nodes.others.SyntaxNode.replaceWith(SyntaxNode.java:443)
-	at org.ooc.nodes.clazz.MemberAccess.assembleImpl(MemberAccess.java:85)
-	at org.ooc.nodes.others.SyntaxNode.assemble(SyntaxNode.java:151)
-	at org.ooc.errors.AssemblyManager.doPass(AssemblyManager.java:347)
-	at org.ooc.errors.AssemblyManager.assemble(AssemblyManager.java:80)
-	at org.ooc.parsers.SourceParser.parse(SourceParser.java:138)
-	at org.ooc.compiler.Compiler.compile(Compiler.java:56)
-	at org.ooc.compiler.CompilerDaemon$1.run(CompilerDaemon.java:109)
-	at java.lang.Thread.run(Thread.java:619)
-Was in queue because Turned a Name into a MemberAccess
-AssemblyManager caught a 'Error', printing and continuing.
-java.lang.Error: Trying to replace a MemberAccess with a StaticMemberAccess, but the first doesn't have a parent!
-	at org.ooc.nodes.others.SyntaxNode.replaceWith(SyntaxNode.java:443)
-	at org.ooc.nodes.clazz.MemberAccess.assembleImpl(MemberAccess.java:85)
-	at org.ooc.nodes.others.SyntaxNode.assemble(SyntaxNode.java:151)
-	at org.ooc.errors.AssemblyManager.doPass(AssemblyManager.java:347)
-	at org.ooc.errors.AssemblyManager.assemble(AssemblyManager.java:80)
-	at org.ooc.parsers.SourceParser.parse(SourceParser.java:138)
-	at org.ooc.compiler.Compiler.compile(Compiler.java:56)
-	at org.ooc.compiler.CompilerDaemon$1.run(CompilerDaemon.java:109)
-	at java.lang.Thread.run(Thread.java:619)
-Was in queue because Turned a Name into a MemberAccess
-Figured out single library path /blue/Dev/ooc/libs/linux/libgc.a from libPath /blue/Dev/ooc/libs
+(fixme: replaceWith in a no-parent but context node)
+(fixme: replaceWith in a no-parent but context node)
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/regression-tests/candy/CandyGiver.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/regression-tests/candy/CandyGiver.o 
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/regression-tests/candy/Kid1.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/regression-tests/candy/Kid1.o 
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/regression-tests/candy/Kid2.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/regression-tests/candy/Kid2.o 
@@ -321,80 +315,22 @@ Figured out single library path /blue/Dev/ooc/libs/linux/libgc.a from libPath /b
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/regression-tests/candy/Kid.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/regression-tests/candy/Kid.o 
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/regression-tests/candy/Kid3.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/regression-tests/candy/Kid3.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/razor/regression-tests/static-access-from-many.c /blue/Dev/ooc/examples/razor/regression-tests/candy/Kid1.o /blue/Dev/ooc/examples/razor/regression-tests/candy/Kid.o /blue/Dev/ooc/examples/razor/regression-tests/candy/CandyGiver.o /blue/Dev/ooc/examples/razor/regression-tests/OocLib.o /blue/Dev/ooc/examples/razor/regression-tests/candy/Kid2.o /blue/Dev/ooc/examples/razor/regression-tests/candy/Kid3.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/razor/regression-tests/static-access-from-many /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 667ms.
+Finished compilation in 290ms.
 Got remote command to compile 'static-variable-via-class'. SourcePath = {/blue/Dev/ooc/examples/razor/regression-tests=/blue/Dev/ooc/examples/razor/regression-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
 Compiling source 'static-variable-via-class'
-Figured out single library path /blue/Dev/ooc/libs/linux/libgc.a from libPath /blue/Dev/ooc/libs
+Compiling source 'OocLib'
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/regression-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/regression-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/razor/regression-tests/static-variable-via-class.c /blue/Dev/ooc/examples/razor/regression-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/razor/regression-tests/static-variable-via-class /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 233ms.
+Finished compilation in 111ms.
 Got remote command to compile 'static-variable-via-member'. SourcePath = {/blue/Dev/ooc/examples/razor/regression-tests=/blue/Dev/ooc/examples/razor/regression-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
 Compiling source 'static-variable-via-member'
-Figured out single library path /blue/Dev/ooc/libs/linux/libgc.a from libPath /blue/Dev/ooc/libs
+Compiling source 'OocLib'
 /usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/regression-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/regression-tests/OocLib.o 
 /usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/razor/regression-tests/static-variable-via-member.c /blue/Dev/ooc/examples/razor/regression-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/razor/regression-tests/static-variable-via-member /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 174ms.
+Finished compilation in 99ms.
 Got remote command to compile 'null-shouldfail'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/razor/safety-tests=/blue/Dev/ooc/examples/razor/safety-tests}
 Compiling source 'null-shouldfail'
-Compiling source 'OocLib'
-Figured out single library path /blue/Dev/ooc/libs/linux/libgc.a from libPath /blue/Dev/ooc/libs
-/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/safety-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/safety-tests/OocLib.o 
-/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/razor/safety-tests/null-shouldfail.c /blue/Dev/ooc/examples/razor/safety-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/razor/safety-tests/null-shouldfail /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 172ms.
-Got remote command to compile 'Anagrams'. SourcePath = {/blue/Dev/ooc/examples/razor/sugar-tests=/blue/Dev/ooc/examples/razor/sugar-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
-Compiling source 'Anagrams'
-Found dependency lang.String' imported from 'Anagrams, importing...
-Compiling source 'lang.String'
-Found dependency Char' imported from 'lang.String, importing...
-Compiling source 'lang.Char'
-Compiling source 'OocLib'
-Figured out single library path /blue/Dev/ooc/libs/linux/libgc.a from libPath /blue/Dev/ooc/libs
-/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/sugar-tests/lang/Char.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/sugar-tests/lang/Char.o 
-/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/sugar-tests/lang/String.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/sugar-tests/lang/String.o 
-/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/razor/sugar-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/razor/sugar-tests/OocLib.o 
-/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/razor/sugar-tests/Anagrams.c /blue/Dev/ooc/examples/razor/sugar-tests/lang/String.o /blue/Dev/ooc/examples/razor/sugar-tests/lang/Char.o /blue/Dev/ooc/examples/razor/sugar-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/razor/sugar-tests/Anagrams /blue/Dev/ooc/libs/linux/libgc.a 
-Finished compilation in 564ms.
-Got remote command to compile 'Fibonnaci'. SourcePath = {/blue/Dev/ooc/examples/razor/sugar-tests=/blue/Dev/ooc/examples/razor/sugar-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
-Compiling source 'Fibonnaci'
-org.ooc.errors.AssemblyError: Invalid type name int. Types must start with an upper-case letter /blue/Dev/ooc/examples/razor/sugar-tests/Fibonnaci.ooc:8:9
-	at org.ooc.errors.AssemblyManager.err(AssemblyManager.java:180)
-	at org.ooc.errors.AssemblyManager.errAndFail(AssemblyManager.java:207)
-	at org.ooc.nodes.others.VariableDecl.assembleImpl(VariableDecl.java:103)
-	at org.ooc.nodes.others.SyntaxNode.assemble(SyntaxNode.java:151)
-	at org.ooc.nodes.others.SyntaxNodeList.assembleAll(SyntaxNodeList.java:247)
-	at org.ooc.nodes.functions.FunctionDef.assembleImpl(FunctionDef.java:138)
-	at org.ooc.nodes.others.SyntaxNode.assemble(SyntaxNode.java:151)
-	at org.ooc.errors.AssemblyManager.doPass(AssemblyManager.java:347)
-	at org.ooc.errors.AssemblyManager.assemble(AssemblyManager.java:80)
-	at org.ooc.parsers.SourceParser.parse(SourceParser.java:138)
-	at org.ooc.compiler.Compiler.compile(Compiler.java:56)
-	at org.ooc.compiler.CompilerDaemon$1.run(CompilerDaemon.java:109)
-	at java.lang.Thread.run(Thread.java:619)
-Finished compilation in 24ms.
-Got remote command to compile 'HanoiTower'. SourcePath = {/blue/Dev/ooc/examples/razor/sugar-tests=/blue/Dev/ooc/examples/razor/sugar-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
-Compiling source 'HanoiTower'
- /blue/Dev/ooc/examples/razor/sugar-tests/HanoiTower.ooc:7:33: Expected name after type 'char' in function definition
-Finished compilation in 5ms.
-Got remote command to compile 'Sieve'. SourcePath = {/blue/Dev/ooc/examples/razor/sugar-tests=/blue/Dev/ooc/examples/razor/sugar-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
-Compiling source 'Sieve'
-org.ooc.errors.AssemblyError: Invalid type name int. Types must start with an upper-case letter /blue/Dev/ooc/examples/razor/sugar-tests/Sieve.ooc:9:9
-	at org.ooc.errors.AssemblyManager.err(AssemblyManager.java:180)
-	at org.ooc.errors.AssemblyManager.errAndFail(AssemblyManager.java:207)
-	at org.ooc.nodes.others.VariableDecl.assembleImpl(VariableDecl.java:103)
-	at org.ooc.nodes.others.SyntaxNode.assemble(SyntaxNode.java:151)
-	at org.ooc.nodes.others.SyntaxNodeList.assembleAll(SyntaxNodeList.java:247)
-	at org.ooc.nodes.functions.FunctionDef.assembleImpl(FunctionDef.java:138)
-	at org.ooc.nodes.others.SyntaxNode.assemble(SyntaxNode.java:151)
-	at org.ooc.errors.AssemblyManager.doPass(AssemblyManager.java:347)
-	at org.ooc.errors.AssemblyManager.assemble(AssemblyManager.java:80)
-	at org.ooc.parsers.SourceParser.parse(SourceParser.java:138)
-	at org.ooc.compiler.Compiler.compile(Compiler.java:56)
-	at org.ooc.compiler.CompilerDaemon$1.run(CompilerDaemon.java:109)
-	at java.lang.Thread.run(Thread.java:619)
-Finished compilation in 4ms.
-Got remote command to compile 'sugar1'. SourcePath = {/blue/Dev/ooc/examples/razor/sugar-tests=/blue/Dev/ooc/examples/razor/sugar-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
-Compiling source 'sugar1'
- /blue/Dev/ooc/examples/razor/sugar-tests/sugar1.ooc:14:8: The (=*) syntax has been removed from ooc since v0.2, as it was considered dangerous. Use (=field1, =field2, =field3) instead.
+ /blue/Dev/ooc/examples/razor/safety-tests/null-shouldfail.ooc:13:7: C-style function declaration deprecated. Use 'func methodName(TypeArg arg, TypeArg2 arg2) -> ReturnType' instead, where parenthesis are optional when there are no arguments, and the arrow and return type are optional when the function is Void.
 Finished compilation in 1ms.
 java.lang.NullPointerException
 	at org.ooc.compiler.CompilerDaemon$1.run(CompilerDaemon.java:85)

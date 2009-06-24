@@ -11,7 +11,7 @@ abstract class Animal {
 
 class Dog from Animal {
 
-	new(=age, =name);
+	func new(=age, =name);
 
 	implement shout {
 		printf("Woof woof! I'm %s the dog, and I'm %d years old.\n", name, age);
@@ -21,7 +21,7 @@ class Dog from Animal {
 
 class Cat from Animal {
 
-	new(=age, =name);
+	func new(=age, =name);
 
 	implement shout {
 		printf("Meooowww, my name is %s and I'm a sweet %d-year-old cat.\n", name, age);

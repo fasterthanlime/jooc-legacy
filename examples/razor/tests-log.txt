@@ -9,10 +9,10 @@ Pizza Allegro Tomato, of diameter 0.500000, color red, and tomato percentage 60.
 Pizza Royale Grande, of diameter 1.000000, color green, and tomato percentage 40.000000
 Dump dumpadaddy dump.
 Printing 30 numbers between 0 and 5 and a max of 500
-4812993674126712163285343423477359812244112112182174982942343206172108455152390207
+26183107315228102601192134141461402202997523234236232028945047742918829820117625940
 That's all, folks =)
 sleeping a while...
-we slept for 620 milli-seconds
+we slept for 766 milli-seconds
 aaaaaaaahhh TCHOOOOOH!
 res = 1
 I shout 42 
@@ -72,25 +72,13 @@ Shouted, now p3.shouting
 42, 69, 3, shouuuuuuuuuuuuuuuuuuuut!!!!
 12, 32.400000, f
 Reading from file:
-Read integer value = 23, + 42 = 65
-Read integer value = 0, + 42 = 42
-Read integer value = 9, + 42 = 51
-Read integer value = 97, + 42 = 139
-Read integer value = 8, + 42 = 50
-Read integer value = 96, + 42 = 138
-Read integer value = 7, + 42 = 49
-Read integer value = 8, + 42 = 50
-Read integer value = 5, + 42 = 47
+23, 0, 9, 97, 8, 96, 7, 8, 5, 
 Reading from string:
-Read integer value = 124, + 42 = 166
-Read integer value = 80, + 42 = 122
-Read integer value = 978, + 42 = 1020
-Read integer value = 208, + 42 = 250
-Read integer value = 259, + 42 = 301
+124, 80, 978, 208, 259, 
 Now reading lines from a file
-Name: n, Age: (null), Profession: (null)
-Name: n, Age: (null), Profession: (null)
-Name: t, Age: (null), Profession: (null)
+Name: Inara, Age: 26, Profession: Companion
+Name: Mal, Age: 35, Profession: Captain
+Name: Kaylee, Age: 31, Profession: Mechanics expert
 In test mode, exiting gracefully =)
 Hoy! our class is Blah
 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,  are the 12 first numbers of N.
@@ -110,15 +98,18 @@ Hayo, I'm a kid and I'm asking for candyyyy!
 Hay, I'm the candy giver, I just a gave a kinder, total is now 1
 Hay, I'm the candy giver, I just a gave a kinder, total is now 2
 Hay, I'm the candy giver, I just a gave a kinder, total is now 3
+Hay, I'm the candy giver, I just a gave a kinder, total is now 4
 Hayo, I'm a kid and I'm asking for candyyyy!
-Hay, I'm the candy giver, I just a gave a lollypop, total is now 4
 Hay, I'm the candy giver, I just a gave a lollypop, total is now 5
 Hay, I'm the candy giver, I just a gave a lollypop, total is now 6
+Hay, I'm the candy giver, I just a gave a lollypop, total is now 7
+Hay, I'm the candy giver, I just a gave a lollypop, total is now 8
 Hayo, I'm a kid and I'm asking for candyyyy!
-Hay, I'm the candy giver, I just a gave a chewing gum, total is now 7
-Hay, I'm the candy giver, I just a gave a chewing gum, total is now 8
 Hay, I'm the candy giver, I just a gave a chewing gum, total is now 9
-As a grand total, 9 candies have been distributed
+Hay, I'm the candy giver, I just a gave a chewing gum, total is now 10
+Hay, I'm the candy giver, I just a gave a chewing gum, total is now 11
+Hay, I'm the candy giver, I just a gave a chewing gum, total is now 12
+As a grand total, 12 candies have been distributed
 Beginning to proliferate...
 Just created ant #0
 Just created ant #1

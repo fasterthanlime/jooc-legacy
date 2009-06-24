@@ -5,7 +5,7 @@ class Ant {
 	static Int count;
 	Int number;
 
-	new() {
+	func new {
 		number = count++;
 		printf("Just created ant #%d\n", number);
 	}

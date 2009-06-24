@@ -1,0 +1,506 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML
+><HEAD
+><TITLE
+>Variables</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.79"/><LINK
+REL="HOME"
+TITLE="ooc Language Reference"
+HREF="book1.htm"/><LINK
+REL="PREVIOUS"
+TITLE="Preface"
+HREF="f15.htm"/><LINK
+REL="NEXT"
+TITLE="Functions"
+HREF="c149.htm"/></HEAD
+><BODY
+CLASS="chapter"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>ooc Language Reference</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="f15.htm"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+></TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="c149.htm"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"/></DIV
+><DIV
+CLASS="chapter"
+><H1
+><A
+NAME="AEN26"
+></A
+>Chapter 1. Variables</H1
+><DIV
+CLASS="section"
+><H1
+CLASS="section"
+><A
+NAME="AEN28"
+>Types</A
+></H1
+><DIV
+CLASS="section"
+><H2
+CLASS="section"
+><A
+NAME="AEN30"
+>Syntax</A
+></H2
+><P
+>All types should be in <TT
+CLASS="literal"
+>CamelCase</TT
+>, all
+        variables and functions in <TT
+CLASS="literal"
+>camelCase</TT
+>. It is a
+        significant difference from C and Java, for example. In ooc, an
+        integer is declared as <TT
+CLASS="literal"
+>Int</TT
+>, a boolean as
+        <TT
+CLASS="literal"
+>Bool</TT
+>, and so on.</P
+><P
+>The justification for that is consistency. In Java, for example,
+        primitive types are in lowercase (<TT
+CLASS="literal"
+>int</TT
+>,
+        <TT
+CLASS="literal"
+>byte</TT
+>, <TT
+CLASS="literal"
+>short</TT
+>) and classes are in
+        <TT
+CLASS="literal"
+>CamelCase</TT
+> (<TT
+CLASS="literal"
+>String</TT
+>,
+        <TT
+CLASS="literal"
+>System</TT
+>). There is some kind of consistency in this
+        model, ie. you clearly see what is low-level and high-level. However,
+        ooc takes another approach of consistency. Implementation details
+        shouldn't interfere with the formatting of the source code. Hence, no
+        distinction is made between an <TT
+CLASS="literal"
+>Int</TT
+> and e.g. a
+        <TT
+CLASS="literal"
+>MyClass</TT
+>, from a user point of view.</P
+></DIV
+><DIV
+CLASS="section"
+><H2
+CLASS="section"
+><A
+NAME="AEN46"
+>Types from C</A
+></H2
+><DIV
+CLASS="section"
+><H3
+CLASS="section"
+><A
+NAME="AEN48"
+>Correspondance with C and Java types</A
+></H3
+><DIV
+CLASS="table"
+><A
+NAME="AEN50"
+></A
+><P
+><B
+>Table 1-1. Correspondance tables of types in C, Java, and ooc.</B
+></P
+><TABLE
+BORDER="1"
+CLASS="CALSTABLE"
+><COL/><COL/><COL/><COL/><THEAD
+><TR
+><TH
+>C</TH
+><TH
+>Java</TH
+><TH
+>ooc</TH
+><TH
+>Comment</TH
+></TR
+></THEAD
+><TBODY
+><TR
+><TD
+>void*</TD
+><TD
+>Object</TD
+><TD
+>Object</TD
+><TD
+>really just to get rid of the nasty pointer notation.
+                  useful while waiting for generics</TD
+></TR
+><TR
+><TD
+>int</TD
+><TD
+>int</TD
+><TD
+>Int</TD
+><TD
+>often the best choice for storing numbers. use Bool
+                  to store boolean values.</TD
+></TR
+><TR
+><TD
+>short</TD
+><TD
+>short</TD
+><TD
+>Short</TD
+><TD
+>of little use, really. use it when you have *huge*
+                  arrays of numbers and tight memory.</TD
+></TR
+><TR
+><TD
+>char</TD
+><TD
+>char (UTF-16)</TD
+><TD
+>Char</TD
+><TD
+>use it only to store characters. for 8bit numbers,
+                  see Octet</TD
+></TR
+><TR
+><TD
+>char*</TD
+><TD
+>String (class)</TD
+><TD
+>String</TD
+><TD
+>fully C-string compatible, unlike C++
+                  strings.</TD
+></TR
+><TR
+><TD
+>unsigned char, uint8_t</TD
+><TD
+>byte</TD
+><TD
+>Octet</TD
+><TD
+>again, of little use. may be useful for storing e.g.
+                  r, g, b components of a color</TD
+></TR
+><TR
+><TD
+>unsigned int</TD
+><TD
+>-</TD
+><TD
+>UInt</TD
+><TD
+>as in C</TD
+></TR
+><TR
+><TD
+>float</TD
+><TD
+>float</TD
+><TD
+>Float</TD
+><TD
+>as in C</TD
+></TR
+><TR
+><TD
+>double</TD
+><TD
+>-</TD
+><TD
+>Double</TD
+><TD
+>as in C</TD
+></TR
+><TR
+><TD
+>long double</TD
+><TD
+>-</TD
+><TD
+>LDouble</TD
+><TD
+>new in C99</TD
+></TR
+><TR
+><TD
+>long</TD
+><TD
+>long</TD
+><TD
+>Long</TD
+><TD
+>as in C</TD
+></TR
+><TR
+><TD
+>long long</TD
+><TD
+>-</TD
+><TD
+>LLong</TD
+><TD
+>new in C99</TD
+></TR
+><TR
+><TD
+>bool</TD
+><TD
+>boolean</TD
+><TD
+>Bool</TD
+><TD
+>uses stdbool's typedefs.</TD
+></TR
+><TR
+><TD
+>pointer to function</TD
+><TD
+>hahahaha.</TD
+><TD
+>Func</TD
+><TD
+>really points to a function with no arguments
+                  returning Int. more function pointer safety should be
+                  introduced with generics.</TD
+></TR
+><TR
+><TD
+>size_t</TD
+><TD
+>-</TD
+><TD
+>Size</TD
+><TD
+>the type returned by sizeof. according to the C
+                  standard, it should be used to store the 'size' of things,
+                  e.g. byte count for memory-related functions (memcpy,
+                  memmove)</TD
+></TR
+></TBODY
+></TABLE
+></DIV
+></DIV
+><DIV
+CLASS="section"
+><H3
+CLASS="section"
+><A
+NAME="AEN135"
+>Typedef (aliasing name types)</A
+></H3
+><P
+>Typedefs exist in ooc too. They're used as in C.</P
+><PRE
+CLASS="programlisting"
+>// This example is stupid, because it redefines the String type. It's just to show how typedefs are used.
+typedef Char* String;
+
+func main {
+
+  String name = "princesse de slougadij";
+  printf("A moins que vous n'epousiez la %s?\n", name);
+
+}</PRE
+></DIV
+><DIV
+CLASS="section"
+><H3
+CLASS="section"
+><A
+NAME="AEN139"
+>Capitalization</A
+></H3
+><P
+>If you try to declare something as 'int i', you'll be greeted
+          by the compiler with the error message 'Invalid type name int. Types
+          must start with an upper-case letter'. In this case, you can sort it
+          out by using the ooc-ish 'Int'. But sometimes you just can't, e.g.
+          with GLib types, 'gint', 'guint', etc. The correct handling of these
+          cases is to typedef' them to something capitalized.</P
+><PRE
+CLASS="programlisting"
+>include glib;
+
+typedef guint GUInt;
+
+func main {
+
+  GUInt myPlatformSafeInt = 69;
+  gprintf("Now GLib and the ooc compilers are happy.%d\n", myPlatformSafeInt);
+
+}</PRE
+></DIV
+></DIV
+><DIV
+CLASS="section"
+><H2
+CLASS="section"
+><A
+NAME="AEN143"
+>Covers</A
+></H2
+><P
+>A cover is a set of functions added to a primitive type. For
+        example, String is a typedef to char*, and it has a cover
+        (lang.String), which adds functions length, equals, startsWith, etc.
+        Covers are low-level constructs with a high-level syntax, which makes
+        them very useful in performance-critical environments.</P
+><PRE
+CLASS="programlisting"
+>include stdio;
+
+typedef Char* String;
+
+cover String {
+
+  func print {
+    puts(this);
+  }
+
+}
+
+func main {
+
+  String s = "Hello world!";
+  s.print;
+
+}
+</PRE
+><P
+>Difference between class and covers will be treated more in
+        depth in the <A
+HREF="c177.htm"
+>chapter Classes</A
+>.</P
+></DIV
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"/><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="f15.htm"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="book1.htm"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="c149.htm"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Preface</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+>&nbsp;</TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Functions</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

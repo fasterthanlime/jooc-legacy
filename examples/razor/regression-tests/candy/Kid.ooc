@@ -3,7 +3,7 @@ import CandyGiver;
 
 class Kid {
 
-	new() {
+	func new {
 
 		printf("Hayo, I'm a kid and I'm asking for candyyyy!\n");
 		srand(time(null));

@@ -60,7 +60,7 @@ public abstract class SyntaxNode implements WriteableToPureC {
 		new AllContractsImplementedCheck(),
 		//new AssignmentTypeCheck(),
 		//new CastTypeCheck(),
-		//new MemberFunctionCallUnwrapping(),
+		//new MemberCallUnwrapFeature(),
 		//new NullCheckFeature(),
 	};
 	
@@ -440,6 +440,10 @@ public abstract class SyntaxNode implements WriteableToPureC {
 		if(parent != null) {
 			parent.replace(manager, this, candidate);
 		} else {
+			if(context != null) {
+				System.err.println("(fixme: replaceWith in a no-parent but context node)");
+				return;
+			}
 			throw new Error("Trying to replace a "+getClass().getSimpleName()+" with a "
 					+candidate.getClass().getSimpleName()+", but the first doesn't have a parent!");
 		}

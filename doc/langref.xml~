@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+"http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+<!ENTITY version "0.2 codename ninja">
+<!ENTITY license SYSTEM "fdl.xml">
+]>
+<!-- 
+Follow the white rabbit.
+-->
+<book>
+  <bookinfo>
+    <title>ooc Language Reference</title>
+
+    <author>
+      <firstname>Amos</firstname>
+
+      <surname>Wenger</surname>
+    </author>
+
+    <copyright>
+      <year>2009</year>
+
+      <holder>Amos Wenger</holder>
+    </copyright>
+
+    <legalnotice>
+      <para>Distributed under the terms of the <link linkend="fdl" os="">GNU
+      Free Documentation License v1.3</link></para>
+    </legalnotice>
+
+    <abstract>
+      <para>This is the reference language manual for ooc &version;. It should
+      be used as a reliable reference for implementation and dispute about the
+      use of the ooc programming language.</para>
+    </abstract>
+  </bookinfo>
+
+  <preface>
+    <title>Preface</title>
+
+    <para>This book is adressed to several kinds of person:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Users, who wish to quickly grasp how things are done in
+        ooc</para>
+      </listitem>
+
+      <listitem>
+        <para>Compiler writers, who want to know what they should
+        implement!</para>
+      </listitem>
+
+      <listitem>
+        <para>Critics, who like to read, emit judgement, and do nothing about
+        it</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>It is assumed, throughout the book, that you have a basic knowledge
+    of programming. If you come from a C or Java programming background, you
+    should feel at home.</para>
+  </preface>
+
+  <chapter>
+    <title>Variables</title>
+
+    <section>
+      <title>Types</title>
+
+      <section>
+        <title>Syntax</title>
+
+        <para>All types should be in <literal>CamelCase</literal>, all
+        variables and functions in <literal>camelCase</literal>. It is a
+        significant difference from C and Java, for example. In ooc, an
+        integer is declared as <literal>Int</literal>, a boolean as
+        <literal>Bool</literal>, and so on.</para>
+
+        <para>The justification for that is consistency. In Java, for example,
+        primitive types are in lowercase (<literal>int</literal>,
+        <literal>byte</literal>, <literal>short</literal>) and classes are in
+        <literal>CamelCase</literal> (<literal>String</literal>,
+        <literal>System</literal>). There is some kind of consistency in this
+        model, ie. you clearly see what is low-level and high-level. However,
+        ooc takes another approach of consistency. Implementation details
+        shouldn't interfere with the formatting of the source code. Hence, no
+        distinction is made between an <literal>Int</literal> and e.g. a
+        <literal>MyClass</literal>, from a user point of view.</para>
+      </section>
+
+      <section>
+        <title>Types from C</title>
+
+        <section>
+          <title>Correspondance</title>
+
+          <table>
+            <title>Correspondance tables of types in C, Java, and ooc.</title>
+
+            <tgroup cols="4">
+			  <thead>
+			    <row>
+                  <entry>C</entry>
+				  
+				  <entry>Java</entry>
+
+                  <entry>ooc</entry>
+
+                  <entry>Comment</entry>
+                </row>
+			  </thead>
+			
+              <tbody>
+			  
+                <row>
+                  <entry>void*</entry>
+				  
+				  <entry>Object</entry>
+
+                  <entry>Object</entry>
+
+                  <entry>really just to get rid of the nasty pointer notation.
+                  useful while waiting for generics</entry>
+                </row>
+
+                <row>
+                  <entry>int</entry>
+				  
+				  <entry>int</entry>
+
+                  <entry>Int</entry>
+
+                  <entry>often the best choice for storing numbers. use Bool
+                  to store boolean values.</entry>
+                </row>
+
+                <row>
+                  <entry>short</entry>
+				  
+				  <entry>short</entry>
+
+                  <entry>Short</entry>
+
+                  <entry>of little use, really. use it when you have *huge*
+                  arrays of numbers and tight memory.</entry>
+                </row>
+
+                <row>
+                  <entry>char</entry>
+				  
+				  <entry>char (UTF-16)</entry>
+
+                  <entry>Char</entry>
+
+                  <entry>use it only to store characters. for 8bit numbers,
+                  see Octet</entry>
+                </row>
+
+                <row>
+                  <entry>char*</entry>
+				  
+				  <entry>String (class)</entry>
+
+                  <entry>String</entry>
+
+                  <entry>fully C-string compatible, unlike C++
+                  strings.</entry>
+                </row>
+
+                <row>
+                  <entry>unsigned char, uint8_t</entry>
+				  
+				  <entry>byte</entry>
+
+                  <entry>Octet</entry>
+
+                  <entry>again, of little use. may be useful for storing e.g.
+                  r, g, b components of a color</entry>
+                </row>
+
+                <row>
+                  <entry>unsigned int</entry>
+				  
+				  <entry>-</entry>
+
+                  <entry>UInt</entry>
+
+                  <entry>as in C</entry>
+                </row>
+
+                <row>
+                  <entry>float</entry>
+				  
+				  <entry>float</entry>
+
+                  <entry>Float</entry>
+
+                  <entry>as in C</entry>
+                </row>
+
+                <row>
+                  <entry>double</entry>
+				  
+				  <entry>-</entry>
+
+                  <entry>Double</entry>
+
+                  <entry>as in C</entry>
+                </row>
+
+                <row>
+                  <entry>long double</entry>
+				  
+				  <entry>-</entry>
+
+                  <entry>LDouble</entry>
+
+                  <entry>new in C99</entry>
+                </row>
+
+                <row>
+                  <entry>long</entry>
+				  
+				  <entry>long</entry>
+
+                  <entry>Long</entry>
+
+                  <entry>as in C</entry>
+                </row>
+
+                <row>
+                  <entry>long long</entry>
+				  
+				  <entry>-</entry>
+
+                  <entry>LLong</entry>
+
+                  <entry>new in C99</entry>
+                </row>
+
+                <row>
+                  <entry>bool</entry>
+				  
+				  <entry>boolean</entry>
+
+                  <entry>Bool</entry>
+
+                  <entry>uses stdbool's typedefs.</entry>
+                </row>
+
+                <row>
+                  <entry>pointer to function</entry>
+				  
+				  <entry>hahahaha.</entry>
+
+                  <entry>Func</entry>
+
+                  <entry>really points to a function with no arguments
+                  returning Int. more function pointer safety should be
+                  introduced with generics.</entry>
+                </row>
+
+                <row>
+                  <entry>size_t</entry>
+				  
+				  <entry>-</entry>
+
+                  <entry>Size</entry>
+
+                  <entry>the type returned by sizeof. according to the C
+                  standard, it should be used to store the 'size' of things,
+                  e.g. byte count for memory-related functions (memcpy,
+                  memmove)</entry>
+                </row>
+              </tbody>
+            </tgroup>
+          </table>
+        </section>
+
+        <section>
+          <title>Capitalization and typedefs</title>
+
+          <para>If you try to declare something as 'int i', you'll be greeted
+          by the compiler with the error message 'Invalid type name int. Types
+          must start with an upper-case letter'. In this case, you can sort it
+          out by using the ooc-ish 'Int'. But sometimes you just can't, e.g.
+          with GLib types, 'gint', 'guint', etc. The correct handling of these
+          cases is to typedef' them to something capitalized.</para>
+        </section>
+      </section>
+
+      <section>
+        <title>Covers</title>
+
+        <para>A cover is a set of functions added to a primitive type. For
+        example, String is a typedef to char*, and it has a cover
+        (lang.String), which adds functions length, equals, startsWith, etc.
+        Covers are low-level constructs with a high-level syntax, which makes
+        them very useful in performance-critical environments.</para>
+
+        <programlisting>typedef char* String;
+
+cover String {
+
+  func print {
+    puts(this);
+  }
+
+}
+
+func main {
+
+  String s = "Hello world!";
+  s.print;
+
+}
+</programlisting>
+
+        <para>Difference between class and covers will be treated more in
+        depth in the <link linkend="classes">chapter Classes</link>.</para>
+      </section>
+    </section>
+  </chapter>
+
+  <chapter>
+    <title>Functions</title>
+
+    <section>
+      <title>Syntax</title>
+
+      <section>
+        <title>Basic syntax</title>
+
+        <para>A function is declared with the help of the
+        <literal>func</literal> keyword.</para>
+
+        <programlisting>// Empty function with no args that returns nothing
+func useless;
+
+func sayHello {
+  printf("Hay, world!\n");
+}
+
+func saySomethingElse(String message) {
+  printf("Dummy says: %s\n", message);
+}
+
+func add(Int arg1, Int arg2) -&gt; Int {
+  return arg1 + arg2;
+}
+</programlisting>
+      </section>
+
+      <section>
+        <title>The main function: a program's entry point</title>
+
+        <para>In ooc, the main function is automatically specified to have the
+        return type 'Int'. You can declare it either without arguments, or
+        with argc, argv, and envp arguments (optional).</para>
+
+        <programlisting>import structs.Array;
+
+/** envp is optional! it contains the environment variables, and is null-terminated */
+func main(Int argc, String[] argv, String[] envp) {
+
+  for(String arg: new Array(argc, argv)) {
+    printf("Got argument %s\n", arg);
+  }
+
+  Array envs = Array.nullTerminated(envp);
+  for(String env: envs) {
+    printf("Got environment variable %s\n", env);
+  }
+
+}</programlisting>
+      </section>
+    </section>
+
+    <section>
+      <title>Callbacks and pointers</title>
+
+      <para></para>
+    </section>
+  </chapter>
+
+  <chapter id="classes">
+    <title>Classes</title>
+
+    <section>
+      <title>Syntax</title>
+
+      <para>Classes have member variables and member functions.</para>
+    </section>
+  </chapter>
+
+  <appendix id="fdl">
+    &license;
+  </appendix>
+
+  <appendix>
+    <title>Links</title>
+
+    <para><ulink url="http://ooc-lang.org/">the official ooc
+    website</ulink></para>
+
+    <para><ulink url="http://github.com/amoswenger/ooc">the source repositor
+    on GitHub</ulink></para>
+  </appendix>
+</book>

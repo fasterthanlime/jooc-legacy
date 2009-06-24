@@ -8,7 +8,7 @@ abstract class Animal {
 
 class Cat from Animal {
 
-	new();
+	func new;
 
 	implement shout {
 		printf("Meowwwwww!\n");

@@ -4,7 +4,7 @@ class Dummy {
 
 	Dummy me;
 
-	new() {
+	func new {
 		me = this;
 	}
 

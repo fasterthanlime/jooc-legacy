@@ -7,7 +7,7 @@ class Timer {
 
 	TimeVal init;
 
-	new() {
+	func new {
 		gettimeofday(&init, null);
 	}
 

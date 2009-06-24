@@ -19,7 +19,7 @@ func main(Int argc, String[] argv) {
 	screen.draw(logo, 0, 0);
     screen.flip; //Refresh the screen
 
-	if(argc <= 2 || argv[1].equals("--test")) {
+	if(argc < 2 || !argv[1].equals("--test")) {
 		pause;
     }
 

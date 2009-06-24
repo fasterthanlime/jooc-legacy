@@ -8,6 +8,7 @@ import org.ooc.nodes.array.Subscript;
 import org.ooc.nodes.operators.Star;
 import org.ooc.nodes.others.Name;
 import org.ooc.nodes.others.SyntaxNode;
+import org.ooc.nodes.others.VariableDecl;
 import org.ooc.structures.Variable;
 import org.ubi.FileLocation;
 
@@ -60,6 +61,13 @@ public class TypeReference extends SyntaxNode {
 	    			//either it's a limitation that should be handled here
 	    			manager.err("fixme:'Non-empty subscript after a TypeReference' not followed by a Name.. not supported yet", this);
 	    		}
+	    		
+	    	} else if(next instanceof Name) {
+	    		
+	    		// Cool! A variable declaration =)
+	    		next.drop();
+	    		replaceWith(manager, new VariableDecl(location, new Variable(type, ((Name) next).content)));
+	    		return;
 	    		
 	    	} else {
 	    		

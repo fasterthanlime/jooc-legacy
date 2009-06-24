@@ -10,7 +10,7 @@ class Loque {
 
 	Int death, sleep, food;
 
-	new(=death, =sleep, =food) {
+	func new(=death, =sleep, =food) {
 		printf("It worked. (death %d, sleep %d, food %d)\n", death, sleep, food);
 	}
 

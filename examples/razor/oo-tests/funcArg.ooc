@@ -4,7 +4,7 @@ class Dummy {
 
 	Int value;
 
-	new(=value);
+	func new(=value);
 
 	func method {
 		this.method2;

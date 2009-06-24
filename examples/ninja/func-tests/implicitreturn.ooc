@@ -4,7 +4,7 @@ class Mine {
 
 	Int value;
   
-	new(=value);
+	func new(=value);
   
 	func value {
 		printf("Just accessed to value!\n");

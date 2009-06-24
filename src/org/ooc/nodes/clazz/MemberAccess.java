@@ -72,6 +72,11 @@ public class MemberAccess extends VariableAccess {
     @Override
     protected void assembleImpl(AssemblyManager manager) {
     	
+    	if(getParent() == null) {
+    		manager.queue(this, "Null parent..");
+    		return;
+    	}
+    	
     	member.type.assemble(manager);
     	if(member.isStatic) {
     		

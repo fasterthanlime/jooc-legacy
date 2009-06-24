@@ -13,11 +13,11 @@ class SparseList from List {
 	Int capacity;
 	Int size;
 	
-	new() {
+	func new {
 		this(10);
 	}
 
-	new(=capacity) {
+	func new(=capacity) {
 		size = 0;
 		data = calloc(capacity, sizeof(Object));
 		//data[0] = null; // To null out the first element is capital!
@@ -256,7 +256,7 @@ class SparseListIterator from Iterator {
 	Int index = 0;
 	Int slot = 0;
 	
-	new(=list);
+	func new(=list);
 	
 	implement hasNext {
 		return index < list.size;

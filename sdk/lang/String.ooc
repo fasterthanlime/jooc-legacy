@@ -234,21 +234,22 @@ cover String {
 	 */
 	func reverse -> String {
 	
-		if(this.isEmpty) { // No empty strings, please! 
+		Int _length = this.length;
+	
+		if(!_length) { // No empty strings, please! 
 			return null;
 		}
-	
-		Char c;
-		String p, q;
-		q = malloc(this.length);
-		memcpy(q, this, this.length);
-		while (*(++q)); // points q at '\0' terminator;
-		for (p = this; p < --q; p++) { // ignores middle character when strlen is odd
-			c = *p;
-			*p = *q;
-			*q = c;
-		}		
-		return q;
+		
+		String result = malloc(_length + 1);
+		result[_length] = '\0';
+		String p = this + _length;
+		String q = result;
+		
+		while(*(--p)) {
+			*(q++) = *p;
+		}
+		
+		return result;
 		
 	}
 	

@@ -5,7 +5,7 @@ class Blah {
 	Int field1;
 	Char field2;
 
-	new() {
+	func new {
 		field1 = 23;
 		field2 = '$';
 	}

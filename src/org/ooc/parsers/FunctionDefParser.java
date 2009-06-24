@@ -70,10 +70,7 @@ class FunctionDefParser implements Parser {
 
 		ClassDef classDef = context.getNearest(ClassDef.class);
         Type returnType = null;
-        Variable toReturn = null;
         String name = "";
-        
-        boolean isNew = false;
         
 		reader.skipWhitespace();
 		/**
@@ -87,7 +84,6 @@ class FunctionDefParser implements Parser {
             }
 			returnType = classDef.clazz.getType();
             name = "new";
-            isNew = true;
             
         } else {
         
@@ -117,14 +113,12 @@ class FunctionDefParser implements Parser {
 			return false;
 		}
 		
-		if(!isNew) {
-			throw new CompilationFailedError(reader.getLocation(),
-        			"C-style function declaration deprecated. Use 'func methodName(TypeArg arg, TypeArg2 arg2) -> ReturnType' instead, " +
-        			"where parenthesis are optional when there are no arguments, and the arrow and return type " +
-        			"are optional when the function is Void.");
-		}
+		throw new CompilationFailedError(reader.getLocation(),
+    			"C-style function declaration deprecated. Use 'func methodName(TypeArg arg, TypeArg2 arg2) -> ReturnType' instead, " +
+    			"where parenthesis are optional when there are no arguments, and the arrow and return type " +
+    			"are optional when the function is Void.");
         
-        return parseFuncArgs(context, reader, classDef, args, returnType, toReturn, name);
+        //return parseFuncArgs(context, reader, classDef, args, returnType, toReturn, name);
 
     }
 	

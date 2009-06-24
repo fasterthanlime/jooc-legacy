@@ -5,7 +5,7 @@ class FileReader from Reader {
 
 	FILE* file;
 	
-	new(String fileName) {
+	func new(String fileName) {
 		file = fopen(fileName, "r");
 		if(!file) {
 			printf("[io.FileReader] File not found: %s\n", fileName);
@@ -16,7 +16,7 @@ class FileReader from Reader {
 	/**
 	 * @param file A file to read from. Must be fopen()ed already. 
 	 */
-	new(=file) {
+	func new(=file) {
 		if(!file) {
 			printf("[io.FileReader] Bad file passed to constructor.\n");
 			exit(1);

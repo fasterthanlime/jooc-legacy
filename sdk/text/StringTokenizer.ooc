@@ -7,7 +7,7 @@ class StringTokenizer {
 	String delim;
 	Int index, length;
 
-	new(=str, =delim) {
+	func new(=str, =delim) {
 		
 		length = this.str.length;
 		index = 0;

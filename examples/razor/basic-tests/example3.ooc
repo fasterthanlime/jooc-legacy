@@ -7,7 +7,7 @@ class Pizza {
 	String color;
 	Double tomatoQuantity;
 
-	new(=name, =radius, =color, =tomatoQuantity);
+	func new(=name, =radius, =color, =tomatoQuantity);
 
 	func describe {
 		printf("Pizza %s, of diameter %f, color %s, and tomato percentage %f\n", name, radius * 2, color, tomatoQuantity * 100);

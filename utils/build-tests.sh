@@ -76,7 +76,6 @@ cd $basePath/$dir
 rm -f "test-log.txt"
 
 if [[ $mode != "clean" ]]; then
-	echo "clear-cache" 1>&3
 	echo "sourcepath-clear" 1>&3
 	echo "sourcepath-add `pwd`" 1>&3
 	echo "sourcepath-add $ooc_dist/sdk" 1>&3
@@ -94,6 +93,7 @@ for i in *.ooc; do
 		rm -f $basePath/$dir/$test
 		continue
 	fi
+	echo "clear-cache" 1>&3
 	echo "outpath-set `pwd`" 1>&3
 	total=$(( total + 1 ))
 	echo "compile $test" 1>&3

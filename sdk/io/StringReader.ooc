@@ -6,7 +6,7 @@ class StringReader from Reader {
 	String content;
 	Long length;
 
-	new(=content) {
+	func new(=content) {
 		length = strlen(content);
 	}
 	

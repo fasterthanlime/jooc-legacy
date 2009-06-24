@@ -24,12 +24,22 @@ public class NinjaFuncDefParser implements Parser {
 		
 		if(reader.matches("func", true) && reader.hasWhitespace(true)) {
 			
+			ClassDef classDef = context.getNearest(ClassDef.class);
+			
 			Type returnType = Type.VOID;
 			TypedArgumentList args;
 			String name = reader.readName();
 			
 			if(name.isEmpty()) {
 				reader.err("Expected function name after 'func' keyword.");
+			}
+			
+			if(name.equals("new")) {
+				if(classDef == null) {
+					reader.err("Constructor (new()) outside Class Definition. Sucks to be you :/");
+				} else {
+					returnType = classDef.clazz.getType();
+				}
 			}
 			
 			reader.skipWhitespace();
@@ -46,6 +56,9 @@ public class NinjaFuncDefParser implements Parser {
 			}
 			
 			if(reader.matches("->", true) && reader.hasWhitespace(true)) {
+				if(name.equals("new")) {
+					reader.err("Don't specify the return type of 'new'. I (the compiler) am not so dumb.");
+				}
 				reader.skipWhitespace();
 				returnType = Type.read(context, reader);
 				if(returnType == null) {
@@ -54,7 +67,6 @@ public class NinjaFuncDefParser implements Parser {
 				reader.skipWhitespace();
 			}
 			
-			ClassDef classDef = context.getNearest(ClassDef.class);
 			if(classDef != null) {
 				Variable member = classDef.getMember(context, name);
 				if(member != null) {

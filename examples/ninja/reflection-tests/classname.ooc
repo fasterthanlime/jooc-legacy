@@ -11,7 +11,7 @@ class KoolAid {
 
 	Array a;
 
-	new() {
+	func new {
 		a = new(1);
 		printf("Who needs some %s? Or a %s?\n", this.class.name, a.class.name);
 		printf("No, really, I've got some %s left. You sure?\n", class.name);

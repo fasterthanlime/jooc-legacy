@@ -8,7 +8,7 @@ class Parent {
 
 class Child from Parent {
 
-	new() {
+	func new {
 		printf("I'm of species %s\n", SPECIES);
 	}
 

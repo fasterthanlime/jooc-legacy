@@ -6,7 +6,7 @@ class Torturer {
 	
 	List list;
 	
-	new(=list);
+	func new(=list);
 	
 	func start {
 		
@@ -24,7 +24,7 @@ class Element {
 	
 	Int i;
 	
-	new(=i);
+	func new(=i);
 	
 }
 

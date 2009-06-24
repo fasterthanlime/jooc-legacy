@@ -16,7 +16,7 @@ class Scanner {
 	/** 
 	 * @param reader A reader.
 	 */
-	new(=reader) {
+	func new(=reader) {
 		buffer = malloc(BUFFER_SIZE);
 	}
 	
@@ -125,6 +125,7 @@ class Scanner {
 			if(index == 0) {
 				return "";
 			}
+			index--;
 		} else if(!keepEnd) {
 			reader.rewind(1);
 		}

@@ -4,7 +4,7 @@ class Surface {
 	
 	SDL_Surface* surface;
 	
-	new(=surface);
+	func new(=surface);
 	
 	/**
 	 * On hardware that supports double-buffering, this function sets up

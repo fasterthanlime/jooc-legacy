@@ -16,11 +16,11 @@ class ArrayList from List {
 	Int capacity;
 	Int size;
 
-	new() {
+	func new {
 		this(10);
 	}
 
-	new(=capacity) {
+	func new(=capacity) {
 		size = 0;
 		data = malloc(capacity * sizeof(Object));
 	}
@@ -28,6 +28,7 @@ class ArrayList from List {
 	func size {
 		return size;
 	}
+	
 	func capacity {
 		return capacity;
 	}
@@ -230,7 +231,7 @@ class ArrayListIterator from Iterator {
 	ArrayList list;
 	Int index = 0;
 	
-	new(=list);
+	func new(=list);
 	
 	implement hasNext {
 		return index < list.size;

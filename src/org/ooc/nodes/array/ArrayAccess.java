@@ -28,18 +28,23 @@ public class ArrayAccess extends VariableAccess implements LinearNode {
         super(location, new Variable(access.getType().deriveArrayLevel(-1), access.toString()));
         this.addAll(subscript);
         this.access = access;
+        access.setContext(this);
         
     }
 
     @Override
     public void writeToCSource(Appendable a) throws IOException {
+    	
     	writeWhitespace(a);
         access.writeToCSource(a);
         a.append("[");
         for(SyntaxNode node: this.nodes) {
-            node.writeToCSource(a);
+        	if(node != access) {
+        		node.writeToCSource(a);
+        	}
         }
         a.append("]");
+        
     }
     
 }

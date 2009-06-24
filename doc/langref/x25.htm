@@ -1,0 +1,315 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML
+><HEAD
+><TITLE
+>Types from C</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.79"/><LINK
+REL="HOME"
+TITLE="ooc Language Reference"
+HREF="book1.htm"/><LINK
+REL="UP"
+TITLE="Types"
+HREF="c15.htm"/><LINK
+REL="PREVIOUS"
+TITLE="Types"
+HREF="c15.htm"/><LINK
+REL="NEXT"
+TITLE="Covers"
+HREF="x96.htm"/></HEAD
+><BODY
+CLASS="section"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>ooc Language Reference</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="c15.htm"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+>Chapter 1. Types</TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x96.htm"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"/></DIV
+><DIV
+CLASS="section"
+><H1
+CLASS="section"
+><A
+NAME="AEN25"
+>Types from C</A
+></H1
+><DIV
+CLASS="section"
+><H2
+CLASS="section"
+><A
+NAME="AEN27"
+>Correspondance</A
+></H2
+><DIV
+CLASS="table"
+><A
+NAME="AEN29"
+></A
+><P
+><B
+>Table 1-1. Correspondance tables between C and ooc types</B
+></P
+><TABLE
+BORDER="1"
+CLASS="CALSTABLE"
+><COL/><COL/><COL/><TBODY
+><TR
+><TD
+>void*</TD
+><TD
+>Object</TD
+><TD
+>really just to get rid of the nasty pointer notation.
+                useful while waiting for generics</TD
+></TR
+><TR
+><TD
+>int</TD
+><TD
+>Int</TD
+><TD
+>often the best choice for storing numbers. use Bool to
+                store boolean values.</TD
+></TR
+><TR
+><TD
+>short</TD
+><TD
+>Short</TD
+><TD
+>of little use, really. use it when you have *huge*
+                arrays of numbers and tight memory.</TD
+></TR
+><TR
+><TD
+>char</TD
+><TD
+>Char</TD
+><TD
+>use it only to store characters. for 8bit numbers, see
+                Octet</TD
+></TR
+><TR
+><TD
+>char*</TD
+><TD
+>String</TD
+><TD
+>fully C-string compatible, unlike C++ strings.</TD
+></TR
+><TR
+><TD
+>unsigned char, uint8_t</TD
+><TD
+>Octet</TD
+><TD
+>again, of little use. may be useful for storing e.g. r,
+                g, b components of a color</TD
+></TR
+><TR
+><TD
+>unsigned int</TD
+><TD
+>UInt</TD
+><TD
+>as in C</TD
+></TR
+><TR
+><TD
+>float</TD
+><TD
+>Float</TD
+><TD
+>as in C</TD
+></TR
+><TR
+><TD
+>double</TD
+><TD
+>Double</TD
+><TD
+>as in C</TD
+></TR
+><TR
+><TD
+>long double</TD
+><TD
+>LDouble</TD
+><TD
+>new in C99</TD
+></TR
+><TR
+><TD
+>long</TD
+><TD
+>Long</TD
+><TD
+>as in C</TD
+></TR
+><TR
+><TD
+>long long</TD
+><TD
+>LLong</TD
+><TD
+>new in C99</TD
+></TR
+><TR
+><TD
+>bool</TD
+><TD
+>Bool</TD
+><TD
+>uses stdbool's typedefs.</TD
+></TR
+><TR
+><TD
+>pointer to function</TD
+><TD
+>Func</TD
+><TD
+>really points to a function with no arguments returning
+                Int. more function pointer safety should be introduced with
+                generics.</TD
+></TR
+><TR
+><TD
+>size_t</TD
+><TD
+>Size</TD
+><TD
+>the type returned by sizeof. according to the C
+                standard, it should be used to store the 'size' of things,
+                e.g. byte count for memory-related functions (memcpy,
+                memmove)</TD
+></TR
+></TBODY
+></TABLE
+></DIV
+></DIV
+><DIV
+CLASS="section"
+><H2
+CLASS="section"
+><A
+NAME="AEN93"
+>Capitalization and typedefs</A
+></H2
+><P
+>If you try to declare something as 'int i', you'll be greeted by
+        the compiler with the error message 'Invalid type name int. Types must
+        start with an upper-case letter'. In this case, you can sort it out by
+        using the ooc-ish 'Int'. But sometimes you just can't, e.g. with GLib
+        types, 'gint', 'guint', etc. The correct handling of these cases is to
+        typedef' them to something capitalized.</P
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"/><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="c15.htm"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="book1.htm"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x96.htm"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Types</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="c15.htm"
+ACCESSKEY="U"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Covers</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

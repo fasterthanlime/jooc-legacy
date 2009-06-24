@@ -10,7 +10,7 @@ class Test {
 
 	Func finkel = @sneazy;
 
-	new() {
+	func new {
 		@finkel = @sneazy;
 	}
 

@@ -4,7 +4,7 @@ class Mine {
 	
 	Int i;
 	
-	new(=i);
+	func new(=i);
 
 	func j -> Int {
 		i + 3;

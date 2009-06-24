@@ -23,9 +23,10 @@ func printInts(Scanner s) {
 	s.skipWhitespace;
 	while(s.hasNext) {
 		Int i = s.readInt;
-		printf("Read integer value = %d, + 42 = %d\n", i, i + 42);
+		printf("%d, ", i);
 		s.skipWhitespace;
 	}
+	printf("\n");
 
 }
 
@@ -34,14 +35,13 @@ func printData {
 	printf("Now reading lines from a file\n");
 	Scanner s = new Scanner(new FileReader("reader2.txt"));
 	while(s.hasNext) {
-		String line = s.readLine.reverse;
+		String line = s.readLine;
 		if(line.isEmpty) {
 			continue;
 		}
 		StringTokenizer tk = new StringTokenizer(line, "\t");
-		//FIXME: Tokens are reversed, since C calls the functions from right to left, as opposed to Java. This should be fixed in the compiler.
-		printf("Name: %s, Age: %s, Profession: %s\n", tk.nextToken.reverse, tk.nextToken.reverse, tk.nextToken.reverse);
-		//printf("Name: %s, Age: %s, Profession: %s\n", tk.nextToken, tk.nextToken, tk.nextToken);
+		String name = tk.nextToken, age = tk.nextToken, profession = tk.nextToken;
+		printf("Name: %s, Age: %s, Profession: %s\n", name, age, profession);
 	}
 
 }

@@ -7,11 +7,11 @@ class Array from Iterable {
 	Int size;
 	Object* data;
 	
-	new(=size) {
+	func new(=size) {
 		data = calloc(size, sizeof(Object));
 	}
 	
-	new(=size, =data);
+	func new(=size, =data);
 	
 	func get(Int i) -> Object {
 		if(i < 0 || i >= size) {
@@ -38,7 +38,7 @@ class ArrayIterator from Iterator {
 	Array array;
 	Int i = 0;
 	
-	new(=array);
+	func new(=array);
 	
 	implement hasNext {
 		i < array.size;

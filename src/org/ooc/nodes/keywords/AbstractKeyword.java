@@ -34,9 +34,7 @@ public class AbstractKeyword extends Keyword {
             candidate.setAbstract(true);
             if(candidate instanceof FunctionDef) {
                 final SyntaxNode nextNext = next.getNext();
-                if(nextNext instanceof LineSeparator) {
-                    this.getParent().remove(nextNext);
-                } else {
+                if(!(nextNext instanceof LineSeparator)) {
                     manager.err("Missing semi-colon after abstract function definition", next);
                 }
             }

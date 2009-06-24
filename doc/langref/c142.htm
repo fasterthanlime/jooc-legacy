@@ -1,0 +1,226 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML
+><HEAD
+><TITLE
+>Functions</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.79"/><LINK
+REL="HOME"
+TITLE="ooc Language Reference"
+HREF="book1.htm"/><LINK
+REL="PREVIOUS"
+TITLE="Variables"
+HREF="c26.htm"/><LINK
+REL="NEXT"
+TITLE="Callbacks and pointers"
+HREF="x155.htm"/></HEAD
+><BODY
+CLASS="chapter"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>ooc Language Reference</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="c26.htm"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+></TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x155.htm"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"/></DIV
+><DIV
+CLASS="chapter"
+><H1
+><A
+NAME="AEN142"
+></A
+>Chapter 2. Functions</H1
+><DIV
+CLASS="TOC"
+><DL
+><DT
+><B
+>Table of Contents</B
+></DT
+><DT
+><A
+HREF="c142.htm#AEN144"
+>Syntax</A
+></DT
+><DT
+><A
+HREF="x155.htm"
+>Callbacks and pointers</A
+></DT
+></DL
+></DIV
+><DIV
+CLASS="section"
+><H1
+CLASS="section"
+><A
+NAME="AEN144"
+>Syntax</A
+></H1
+><DIV
+CLASS="section"
+><H2
+CLASS="section"
+><A
+NAME="AEN146"
+>Basic syntax</A
+></H2
+><P
+>A function is declared with the help of the
+        <TT
+CLASS="literal"
+>func</TT
+> keyword.</P
+><PRE
+CLASS="programlisting"
+>// Empty function with no args that returns nothing
+func useless;
+
+func sayHello {
+  printf("Hay, world!\n");
+}
+
+func saySomethingElse(String message) {
+  printf("Dummy says: %s\n", message);
+}
+
+func add(Int arg1, Int arg2) -&gt; Int {
+  return arg1 + arg2;
+}
+</PRE
+></DIV
+><DIV
+CLASS="section"
+><H2
+CLASS="section"
+><A
+NAME="AEN151"
+>The main function: a program's entry point</A
+></H2
+><P
+>In ooc, the main function is automatically specified to have the
+        return type 'Int'. You can declare it either without arguments, or
+        with argc, argv, and envp arguments (optional).</P
+><PRE
+CLASS="programlisting"
+>import structs.Array;
+
+/** envp is optional! it contains the environment variables, and is null-terminated */
+func main(Int argc, String[] argv, String[] envp) {
+
+  for(String arg: new Array(argc, argv)) {
+    printf("Got argument %s\n", arg);
+  }
+
+  Array envs = Array.nullTerminated(envp);
+  for(String env: envs) {
+    printf("Got environment variable %s\n", env);
+  }
+
+}</PRE
+></DIV
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"/><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="c26.htm"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="book1.htm"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x155.htm"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Variables</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+>&nbsp;</TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Callbacks and pointers</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>
