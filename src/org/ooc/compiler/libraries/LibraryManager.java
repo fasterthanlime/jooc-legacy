@@ -135,7 +135,10 @@ public class LibraryManager {
 					// maybe org.ooc.compiler.SourcePath can be transformed in something more generic?
 					String staticLibPath = props.libPath.get(props.libPath.size() - 1)
 					+ File.separator + Target.guessHost() + File.separator + "lib" + path + ".a";
-					addOnce(staticLibPath.replace(File.separator + File.separator, File.separator),
+					String realPath = staticLibPath.replace(File.separator + File.separator, File.separator);
+					System.out.println("Figured out single library path "
+							+realPath+" from libPath "+props.libPath.get(props.libPath.size() - 1));
+					addOnce(realPath,
 							staticLibraries);
 				} else {
 					addOnce(path, dynamicLibraries);

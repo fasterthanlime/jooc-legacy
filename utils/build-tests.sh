@@ -18,14 +18,7 @@ fi
 rm -f "tests-log.txt"
 
 basePath=`pwd`/`dirname $0`
-echo "basePath = $basePath"
-if [[ $OOC_DIST == "" ]]; then
-	echo "OOC_DIST environment variable not set. Set it to the location of
-	your ooc distribution (e.g. the directory with libs/, sdk/, dist/ooc.jar, etc."
-	exit 1
-fi
-
-libpath="$OOC_DIST/sdk"
+ooc_dist="`readlink -f $basePath/../../`"
 
 total=0
 compiled=0
@@ -54,7 +47,7 @@ if [[ $mode == "compile" ]]; then
 
 tries=0
 # launch the daemon
-java -jar $OOC_DIST/dist/ooc.jar -daemon:14269 &> "build-log.txt" &
+java -jar $ooc_dist/dist/ooc.jar -daemon:14269 &> "build-log.txt" &
 sleep 0.3
 
 # connect to the compiler daemon
@@ -71,7 +64,7 @@ done
 echo "timing-on" 1>&3
 echo "backend-set gcc" 1>&3
 echo "verbose-on" 1>&3
-echo "libpath-add $OOC_DIST/libs" 1>&3
+echo "libpath-add $ooc_dist/libs" 1>&3
 
 fi
 
@@ -86,7 +79,7 @@ if [[ $mode != "clean" ]]; then
 	echo "clear-cache" 1>&3
 	echo "sourcepath-clear" 1>&3
 	echo "sourcepath-add `pwd`" 1>&3
-	echo "sourcepath-add $libpath" 1>&3
+	echo "sourcepath-add $ooc_dist/sdk" 1>&3
 fi
 
 for i in *.ooc; do

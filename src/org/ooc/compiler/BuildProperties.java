@@ -111,11 +111,12 @@ public class BuildProperties {
     	
     	pkgInfos = new ArrayList<PkgInfo>();
     	
-    	String oocDist = System.getenv("OOC_DIST");
+    	String oocDist = CommandLineInterface.getOocDist();
     	if(oocDist != null) {
     		incPath.add(oocDist+"/libs/headers");
     		libPath.add(oocDist+"/libs/");
     		sourcePath.add(oocDist+"/sdk/");
+    		System.out.println("Libpath is now "+libPath);
     	}
     	
     	String cIncludePath = System.getenv("C_INCLUDE_PATH");

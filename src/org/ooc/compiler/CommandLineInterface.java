@@ -17,11 +17,31 @@ import org.ooc.gui.SyntaxTreeWindow;
  */
 public class CommandLineInterface {
 	
+	private static String OOC_DIST = System.getenv("OOC_DIST");
+	
     /**
      * @param args the command line arguments
      * @throws Exception 
      */
     public static void main(String[] args) throws Exception {
+    	
+    	if(OOC_DIST == null || OOC_DIST.trim().isEmpty()) {
+	    	StringTokenizer st = new StringTokenizer(System.getProperty("java.class.path"), File.pathSeparator);
+	    	while(st.hasMoreElements()) {
+	    		String path = st.nextToken();
+	    		if(path.contains("dist/ooc.jar")) {
+	    			OOC_DIST = new File(path).getParentFile().getParentFile().getCanonicalPath();
+	    			break;
+	    		}
+	    	}
+    	}
+    	
+    	if(OOC_DIST == null || OOC_DIST.trim().isEmpty()) {
+    		// If still null, wasn't found.
+    		System.out.println("ERROR: You need to set the OOC_DIST environment " +
+    				"variable to where you have installed ooc. (example: export OOC_DIST=/opt/ooc)");
+    		System.exit(1);
+    	}
     	
         if(args.length < 1) {
             System.out.println("ooc: no files.");
@@ -204,5 +224,15 @@ public class CommandLineInterface {
         System.exit(0);
 
     }
+
+    /**
+     * @return the emplacement of the ooc distribution directory, as specified
+     * either by the OOC_DIST environment variable, or guessed via the classpath
+     */
+	public static String getOocDist() {
+
+		return OOC_DIST;
+		
+	}
 
 }
