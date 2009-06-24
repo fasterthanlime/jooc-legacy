@@ -41,7 +41,6 @@ public class TypeParser implements Parser {
 		addType("signed long int");
 		addType("unsigned long");
 		addType("signed long");
-		addType("long");
 		
 		addType("unsigned int");
 		addType("signed int");
@@ -63,6 +62,7 @@ public class TypeParser implements Parser {
 		addType("unsigned");
 		addType("signed");
 		
+		addType("long");
 		addType("bool");
 		addType("void");
 		addType("size_t");
