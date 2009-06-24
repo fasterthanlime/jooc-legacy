@@ -14,7 +14,7 @@ TITLE="Preface"
 HREF="f15.htm"/><LINK
 REL="NEXT"
 TITLE="Functions"
-HREF="c161.htm"/></HEAD
+HREF="c167.htm"/></HEAD
 ><BODY
 CLASS="chapter"
 BGCOLOR="#FFFFFF"
@@ -56,7 +56,7 @@ WIDTH="10%"
 ALIGN="right"
 VALIGN="bottom"
 ><A
-HREF="c161.htm"
+HREF="c167.htm"
 ACCESSKEY="N"
 >Next</A
 ></TD
@@ -403,7 +403,7 @@ CLASS="literal"
 >typedef struct { /* etc. */ };</TT
 > If want a data
           structure, <A
-HREF="c192.htm"
+HREF="c202.htm"
 >define a class</A
 >.</P
 ></DIV
@@ -420,8 +420,19 @@ NAME="AEN151"
           by the compiler with the error message 'Invalid type name int. Types
           must start with an upper-case letter'. In this case, you can sort it
           out by using the ooc-ish 'Int'. But sometimes you just can't, e.g.
-          with GLib types, 'gint', 'guint', etc. The correct handling of these
-          cases is to typedef' them to something capitalized.</P
+          with GLib types, '<TT
+CLASS="literal"
+>gint</TT
+>',
+          '<TT
+CLASS="literal"
+>guint</TT
+>', etc. The correct handling of these cases
+          is to <TT
+CLASS="literal"
+>typedef</TT
+>' them to something
+          capitalized.</P
 ><PRE
 CLASS="programlisting"
 >include glib;
@@ -441,15 +452,25 @@ CLASS="section"
 ><H2
 CLASS="section"
 ><A
-NAME="AEN155"
+NAME="AEN158"
 >Covers</A
 ></H2
 ><P
 >A cover is a set of functions added to a primitive type. For
         example, String is a typedef to char*, and it has a cover
-        (lang.String), which adds functions length, equals, startsWith, etc.
-        Covers are low-level constructs with a high-level syntax, which makes
-        them very useful in performance-critical environments.</P
+        (lang.String), which adds functions <TT
+CLASS="literal"
+>length</TT
+>,
+        <TT
+CLASS="literal"
+>equals</TT
+>, <TT
+CLASS="literal"
+>startsWith</TT
+>, etc. Covers
+        are low-level constructs with a high-level syntax, which makes them
+        very useful in performance-critical environments.</P
 ><PRE
 CLASS="programlisting"
 >include stdio;
@@ -474,7 +495,7 @@ func main {
 ><P
 >Difference between class and covers will be treated more in
         depth in <A
-HREF="c192.htm"
+HREF="c202.htm"
 >a next chapter</A
 >.</P
 ></DIV
@@ -505,7 +526,10 @@ ALIGN="LEFT"
 VALIGN="TOP"
 WIDTH="95%"
 ><P
->This may raise a concern: what about name collision? </P
+>This may raise a concern: what about name collision? In
+            practice, this is almost never a problem with ooc. The generated C
+            code is always prefixed with a few underscores '_' and the package
+            and source unit name. E.g. __my_app_MyUnit_CONSTANT</P
 ></TD
 ></TR
 ></TABLE
@@ -543,7 +567,7 @@ WIDTH="33%"
 ALIGN="right"
 VALIGN="top"
 ><A
-HREF="c161.htm"
+HREF="c167.htm"
 ACCESSKEY="N"
 >Next</A
 ></TD
