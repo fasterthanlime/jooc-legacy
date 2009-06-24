@@ -9,7 +9,7 @@ class Adjustment from GObject {
 		return GTK_OBJECT(adjustment);
 	}
 
-	new(Double lower, Double upper, Double step) {
+	func new(Double lower, Double upper, Double step) {
 		adjustment = gtk_adjustment_new(lower, lower, upper, step, step, 1);
 	}
 	

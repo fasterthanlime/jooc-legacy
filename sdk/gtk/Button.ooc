@@ -17,7 +17,7 @@ class Button from Container {
 	/**
 	 * Create a new, empty, button.
 	 */
-	new() {
+	func new {
 		button = GTK_BUTTON(gtk_button_new());
 	}
 	
@@ -25,7 +25,7 @@ class Button from Container {
 	 * Create a new button from stock.
 	 * @param stockId the stock identifier, e.g. "gtk-media-play" or "gtk-ok"
 	 */
-	new(String stockId) {
+	func new(String stockId) {
 		button = GTK_BUTTON(gtk_button_new_from_stock(stockId));
 	}
 	

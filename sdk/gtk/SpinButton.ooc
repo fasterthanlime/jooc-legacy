@@ -27,7 +27,7 @@ class SpinButton from Widget {
 	 * @param step Increment added or subtracted by spinning the widget
 	 * @return The new spin button as a GtkWidget. 
 	 */
-	new(Double min, Double max, Double range) {
+	func new(Double min, Double max, Double range) {
 		spinButton = gtk_spin_button_new_with_range(min, max, range);
 	}
 	

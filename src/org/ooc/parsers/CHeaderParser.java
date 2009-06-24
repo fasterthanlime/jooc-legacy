@@ -89,11 +89,11 @@ public class CHeaderParser {
 			}
 		}
 		
-		//throw new CompilationFailedError("Couldn't locate header file <"+path+">");
+		//throw new CompilationFailedError("Can't find header file <"+path+">");
 		
 		if(!path.equals("stddef.h") && !path.equals("stdbool.h")
-				&& !path.equals("stdarg.h") && !path.equals("float.h")) {
-			System.err.println("Couldn't locate header file <"+path+">");
+				&& !path.equals("stdarg.h") && !path.equals("float.h") && !path.equals("windows.h")) {
+			System.err.println("Can't find header file <"+path+">");
 		}
 		
 		return null;

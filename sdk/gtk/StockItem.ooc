@@ -1,11 +1,13 @@
 use gtk;
 
+ctype GdkModifierType;
+
 class StockItem {
 	
 	GtkStockItem item;
 
-	//new(String stockId, String label, GdkModifierType modifier, guint keyval, String translationDomain) {
-	new(String stockId, String label, Int modifier, guint keyval, String translationDomain) {
+	func new(String stockId, String label, GdkModifierType modifier, guint keyval, String translationDomain) {
+	//func new(String stockId, String label, Int modifier, guint keyval, String translationDomain) {
 		
 		item.stock_id = stockId;
 		item.label = label;

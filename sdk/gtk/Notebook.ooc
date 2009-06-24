@@ -9,7 +9,7 @@ class Notebook from Widget {
 		return GTK_OBJECT(notebook);
 	}
 	
-	new() {
+	func new {
 		notebook = gtk_notebook_new();
 	}
 	

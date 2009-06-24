@@ -9,7 +9,7 @@ class GlArea from Widget {
 		return GTK_OBJECT(glArea);
 	}
 
-	new(Int[] attributes) {
+	func new(Int[] attributes) {
 		glArea = GTK_GL_AREA(gtk_gl_area_new(attributes));
 	}
 	

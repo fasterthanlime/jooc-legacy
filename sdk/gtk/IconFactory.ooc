@@ -5,7 +5,7 @@ class IconFactory {
 
 	GtkIconFactory* factory;
 	
-	new() {
+	func new {
 		factory = gtk_icon_factory_new();
 	}
 

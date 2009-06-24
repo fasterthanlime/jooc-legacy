@@ -13,7 +13,7 @@ class HScale from Widget {
 		return GTK_OBJECT(scale);
 	}
 
-	new(=adjustment) {
+	func new(=adjustment) {
 		scale = gtk_hscale_new(GTK_ADJUSTMENT(adjustment.getObject()));
 	}
 

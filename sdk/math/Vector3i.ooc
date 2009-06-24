@@ -8,15 +8,15 @@ class Vector3i from Vector{
 	Int y;
 	Int z;
 
-	new() {
+	func new {
 		x = 0;
 		y = 0;
 		z = 0;
 	}
 
-	new(=x, =y, =z);
+	func new(=x, =y, =z);
 	
-	new(This copy) {
+	func new(This copy) {
 		x = copy.x;
 		y = copy.y;
 		z = copy.z;

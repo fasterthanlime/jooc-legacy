@@ -9,7 +9,7 @@ class VBox from Box {
 		return GTK_BOX(box);
 	}
 
-	new(gboolean homogeneous, gint spacing) {
+	func new(gboolean homogeneous, gint spacing) {
 		box = gtk_vbox_new(homogeneous, spacing);
 	}
 

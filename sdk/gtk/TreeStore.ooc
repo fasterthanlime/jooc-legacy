@@ -15,7 +15,7 @@ class TreeStore from TreeModel {
 	/**
 	 * Create a new TreeStore with one column of type G_TYPE_STRING
 	 */
-	new() {
+	func new {
 		store = gtk_tree_store_new(1, G_TYPE_STRING);
 	}
 	
@@ -23,7 +23,7 @@ class TreeStore from TreeModel {
 	 * Create a new TreeStore with 'numColumns' columns of type
 	 * 'types'
 	 */
-	new(int numColumns, Int[] types) {
+	func new(int numColumns, Int[] types) {
 		store = gtk_tree_store_newv(numColumns, types);
 	}
 	

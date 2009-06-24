@@ -1,5 +1,7 @@
 include stdlib, stdio, stdint, stdbool, memory, gc/gc;
 
+ctype uint8_t;
+
 typedef char* String;
 typedef void* Object;
 typedef bool Bool;

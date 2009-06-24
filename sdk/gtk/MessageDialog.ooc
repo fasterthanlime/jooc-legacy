@@ -1,10 +1,12 @@
 use gtk;
 import Dialog;
 
+ctype GtkDialogFlags, GtkMessageType, GtkButtonsType;
+
 class MessageDialog from Dialog {
 
-	//new(Window parent, GtkDialogFlags flags, GtkMessageType type, GtkButtonsType buttons, String text) {
-	new(Window parent, Int flags, Int type, Int buttons, String text) {
+	new(Window parent, GtkDialogFlags flags, GtkMessageType type, GtkButtonsType buttons, String text) {
+	//new(Window parent, Int flags, Int type, Int buttons, String text) {
 		dialog = gtk_message_dialog_new(GTK_WINDOW(parent.getObject()), flags, type, buttons, text);
 	}
 	

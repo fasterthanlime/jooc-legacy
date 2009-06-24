@@ -13,7 +13,7 @@ class EventBox from Container {
 		return GTK_OBJECT(eventBox);
 	}
 	
-	new() {
+	func new {
 		eventBox = gtk_event_box_new();
 	}
 	

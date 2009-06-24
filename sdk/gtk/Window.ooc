@@ -15,14 +15,14 @@ class Window from Container {
 	/**
 	 * Create a new top-level window
 	 */
-	new() {
+	func new {
 		window = GTK_WINDOW(gtk_window_new(GTK_WINDOW_TOPLEVEL));
 	}
 	
 	/**
 	 * Create a new titled top-level window
 	 */
-	new(String title) {
+	func new(String title) {
 		this();
 		setTitle(title);
 	}

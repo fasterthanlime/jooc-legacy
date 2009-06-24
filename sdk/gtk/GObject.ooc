@@ -1,6 +1,8 @@
 use gtk;
 
 /** Typedefs */
+ctype gchar, gpointer, gulong;
+
 typedef gchar GChar;
 typedef gpointer GPointer;
 typedef gulong GULong;
@@ -11,7 +13,7 @@ class SignalPacket {
 	GPointer data;
 	Func callback;
 	
-	new(=object, =data, =callback) {
+	func new(=object, =data, =callback) {
 		//printf("new SignalPacket created with a %s and data '%s'\n", object.class->name, (String) data);
 	}
 	

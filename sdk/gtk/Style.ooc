@@ -5,7 +5,7 @@ class Style {
 
 	GtkStyle* style
 
-	new(=style);
+	func new(=style);
 	
 	func lookupIconSet(String stockId) -> IconSet {
 		

@@ -4,7 +4,7 @@ class IconSet {
 
 	GtkIconSet* iconSet;
 	
-	new(=iconSet);
+	func new(=iconSet);
 	
 	func getIconSet -> GtkIconSet* {
 		iconSet;

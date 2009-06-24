@@ -5,7 +5,7 @@ import Window;
 
 class FileChooserDialog from Dialog {
 
-	new(String title, Window parent, Int action) {
+	func new(String title, Window parent, Int action) {
 		
 		Int stockId;
 		if(action == GTK_FILE_CHOOSER_ACTION_SAVE) {

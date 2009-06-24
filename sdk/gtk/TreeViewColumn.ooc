@@ -13,11 +13,11 @@ class TreeViewColumn from GObject {
 	/**
 	 * Create a new TreeViewColumn to the first colun
 	 */
-	new(String titleColumn) {
+	func new(String titleColumn) {
 		this(titleColumn, 0);
 	}
 	
-	new(String title, Int columnId) {
+	func new(String title, Int columnId) {
 		GtkCellRenderer* renderer = gtk_cell_renderer_text_new();
 		column = gtk_tree_view_column_new_with_attributes(title, renderer, null);
 		gtk_tree_view_column_add_attribute(column, renderer, "text", columnId);

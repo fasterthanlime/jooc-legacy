@@ -9,7 +9,7 @@ class HBox from Box {
 		return GTK_BOX(box);
 	}
 
-	new(gboolean homogeneous, gint spacing) {
+	func new(gboolean homogeneous, gint spacing) {
 		box = gtk_hbox_new(homogeneous, spacing);
 	}
 

@@ -100,7 +100,7 @@ public class Name extends RawCode {
         }
 		
 		ClassDef nearestClassDef = getParent().getNearest(ClassDef.class);
-		if(nearestClassDef != null && (nearestClassDef.clazz.simpleName.equals(content) || nearestClassDef.clazz.fullName.equals(content))) {
+		if(nearestClassDef != null && (content.equals("This") || nearestClassDef.clazz.simpleName.equals(content) || nearestClassDef.clazz.fullName.equals(content))) {
 			ClassReference classRef = new ClassReference(location, nearestClassDef);
 			replaceWith(manager, classRef);
 			//System.out.println("replaced with a ClassReference (we're in this class, actually)");

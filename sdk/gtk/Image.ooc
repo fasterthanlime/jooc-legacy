@@ -1,6 +1,8 @@
 use gtk;
 import Widget;
 
+ctype GtkIconSize;
+
 class Image from Widget {
 
 	GtkImage* image;
@@ -14,8 +16,8 @@ class Image from Widget {
 	 * @param stockId the ID of the image, e.g. "gtk-media-play", etc
 	 * @param the size of the image
 	 */
-	//new(String stockId, GtkIconSize size) {
-	new(String stockId, Int size) {
+	func new(String stockId, GtkIconSize size) {
+	//func new(String stockId, Int size) {
 		gtk_image_new_from_stock(stockId, size);
 	}
 

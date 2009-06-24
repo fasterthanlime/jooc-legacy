@@ -16,7 +16,7 @@ class Label from Widget {
 	/**
 	 * Create a new empty label
 	 */
-	new() {
+	func new {
 		label = gtk_label_new(null);
 	}
 	
@@ -24,7 +24,7 @@ class Label from Widget {
 	 * Create a new label with specified text
 	 * @param text The text to be displayed on the label
 	 */
-	new(String text) {
+	func new(String text) {
 		label = gtk_label_new(text);
 	}
 	

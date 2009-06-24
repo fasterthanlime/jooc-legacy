@@ -5,9 +5,7 @@ import GObject;
 
 class GdkGl {
 	
-	new() {
-		
-	}
+	func new;
 
 	static func query -> Bool {
 		

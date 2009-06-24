@@ -7,12 +7,12 @@ class Vector2f from Vector{
 	Float x;
 	Float y;
 
-	new() {
+	func new {
 		x = 0;
 		y = 0;
 	}
 
-	new(=x, =y);
+	func new(=x, =y);
 	
 	new(This copy) {
 		x = copy.x;

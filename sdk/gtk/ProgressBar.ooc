@@ -15,7 +15,7 @@ class ProgressBar from Widget {
 	/**
 	 * Creates a new progress bar
 	 */
-	new() {
+	func new {
 		progressBar = gtk_progress_bar_new();
 	}
 	

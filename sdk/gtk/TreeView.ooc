@@ -15,11 +15,11 @@ class TreeView from Widget {
 		return GTK_OBJECT(view);
 	}
 	
-	new() {
+	func new {
 		view = gtk_tree_view_new();
 	}
 	
-	new(TreeModel model) {
+	func new(TreeModel model) {
 		view = gtk_tree_view_new_with_model(model.getModel);
 		this.model = model;
 	}

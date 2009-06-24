@@ -9,7 +9,7 @@ class Frame from Container {
 		return GTK_OBJECT(frame);
 	}
 
-	new(String label) {
+	func new(String label) {
 		frame = gtk_frame_new(label);
 	}
 	

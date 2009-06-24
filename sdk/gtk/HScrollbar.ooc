@@ -14,7 +14,7 @@ class HScrollbar from Widget {
 		return GTK_OBJECT(scrollbar);
 	}
 
-	new(=adjustment) {
+	func new(=adjustment) {
 		scrollbar = gtk_hscrollbar_new(GTK_ADJUSTMENT(adjustment.getObject()));
 	}
 
