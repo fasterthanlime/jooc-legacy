@@ -18,7 +18,7 @@ fi
 rm -f "tests-log.txt"
 
 basePath=`pwd`/`dirname $0`
-ooc_dist="`readlink -f $basePath/../../`"
+ooc_dist="`readlink -f $basePath/../`"
 
 total=0
 compiled=0

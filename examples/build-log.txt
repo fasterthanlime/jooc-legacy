@@ -1,0 +1,838 @@
+Started ooc compiler daemon at port 14269 Wed Jun 24 20:44:45 GMT 2009
+Got connection to ooc compiler daemon from /127.0.0.1:41859
+Got remote command to compile 'example1'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/basic-tests=/blue/Dev/ooc/examples/basic-tests}
+Compiling source 'example1'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/basic-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/basic-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/basic-tests/example1.c /blue/Dev/ooc/examples/basic-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/basic-tests/example1 /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 301ms.
+Got remote command to compile 'example2'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/basic-tests=/blue/Dev/ooc/examples/basic-tests}
+Compiling source 'example2'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/basic-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/basic-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/basic-tests/example2.c /blue/Dev/ooc/examples/basic-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/basic-tests/example2 /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 140ms.
+Got remote command to compile 'example3'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/basic-tests=/blue/Dev/ooc/examples/basic-tests}
+Compiling source 'example3'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/basic-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/basic-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/basic-tests/example3.c /blue/Dev/ooc/examples/basic-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/basic-tests/example3 /blue/Dev/ooc/libs/linux/libgc.a 
+/blue/Dev/ooc/examples/basic-tests/example3.c: In function ‘main’:
+/blue/Dev/ooc/examples/basic-tests/example3.c:116: attention : initialization from incompatible pointer type
+/blue/Dev/ooc/examples/basic-tests/example3.c:117: attention : initialization from incompatible pointer type
+Finished compilation in 148ms.
+Got remote command to compile 'example4'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/basic-tests=/blue/Dev/ooc/examples/basic-tests}
+Compiling source 'example4'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/basic-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/basic-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/basic-tests/example4.c /blue/Dev/ooc/examples/basic-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/basic-tests/example4 /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 121ms.
+Got remote command to compile 'example5'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/basic-tests=/blue/Dev/ooc/examples/basic-tests}
+Compiling source 'example5'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/basic-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/basic-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/basic-tests/example5.c /blue/Dev/ooc/examples/basic-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/basic-tests/example5 /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 116ms.
+Got remote command to compile 'timetest'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/basic-tests=/blue/Dev/ooc/examples/basic-tests}
+Compiling source 'timetest'
+Found dependency os.Timer' imported from 'timetest, importing...
+Compiling source 'os.Timer'
+Found dependency Time' imported from 'os.Timer, importing...
+Compiling source 'os.Time'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/basic-tests/os/Time.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/basic-tests/os/Time.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/basic-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/basic-tests/OocLib.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/basic-tests/os/Timer.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/basic-tests/os/Timer.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/basic-tests/timetest.c /blue/Dev/ooc/examples/basic-tests/os/Timer.o /blue/Dev/ooc/examples/basic-tests/os/Time.o /blue/Dev/ooc/examples/basic-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/basic-tests/timetest /blue/Dev/ooc/libs/linux/libgc.a 
+/blue/Dev/ooc/examples/basic-tests/timetest.c: In function ‘main’:
+/blue/Dev/ooc/examples/basic-tests/timetest.c:14: attention : implicit declaration of function ‘usleep’
+Finished compilation in 221ms.
+Got remote command to compile 'downcasting'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/class-tests=/blue/Dev/ooc/examples/class-tests}
+Compiling source 'downcasting'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/class-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/class-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/class-tests/downcasting.c /blue/Dev/ooc/examples/class-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/class-tests/downcasting /blue/Dev/ooc/libs/linux/libgc.a 
+/blue/Dev/ooc/examples/class-tests/downcasting.c: In function ‘main’:
+/blue/Dev/ooc/examples/class-tests/downcasting.c:49: attention : initialization from incompatible pointer type
+Finished compilation in 122ms.
+Got remote command to compile 'fromkeyword'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/class-tests=/blue/Dev/ooc/examples/class-tests}
+Compiling source 'fromkeyword'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/class-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/class-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/class-tests/fromkeyword.c /blue/Dev/ooc/examples/class-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/class-tests/fromkeyword /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 124ms.
+Got remote command to compile 'sizeofclass'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/class-tests=/blue/Dev/ooc/examples/class-tests}
+Compiling source 'sizeofclass'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/class-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/class-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/class-tests/sizeofclass.c /blue/Dev/ooc/examples/class-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/class-tests/sizeofclass /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 108ms.
+Got remote command to compile 'upcasting'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/class-tests=/blue/Dev/ooc/examples/class-tests}
+Compiling source 'upcasting'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/class-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/class-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/class-tests/upcasting.c /blue/Dev/ooc/examples/class-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/class-tests/upcasting /blue/Dev/ooc/libs/linux/libgc.a 
+/blue/Dev/ooc/examples/class-tests/upcasting.c: In function ‘main’:
+/blue/Dev/ooc/examples/class-tests/upcasting.c:49: attention : initialization from incompatible pointer type
+Finished compilation in 103ms.
+Got remote command to compile 'intbinary'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/cover-tests=/blue/Dev/ooc/examples/cover-tests}
+Compiling source 'intbinary'
+Found dependency lang.Int' imported from 'intbinary, importing...
+Compiling source 'lang.Int'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/cover-tests/lang/Int.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/cover-tests/lang/Int.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/cover-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/cover-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/cover-tests/intbinary.c /blue/Dev/ooc/examples/cover-tests/lang/Int.o /blue/Dev/ooc/examples/cover-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/cover-tests/intbinary /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 137ms.
+Got remote command to compile 'string-length'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/cover-tests=/blue/Dev/ooc/examples/cover-tests}
+Compiling source 'string-length'
+Found dependency lang.String' imported from 'string-length, importing...
+Compiling source 'lang.String'
+Found dependency Char' imported from 'lang.String, importing...
+Compiling source 'lang.Char'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/cover-tests/lang/Char.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/cover-tests/lang/Char.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/cover-tests/lang/String.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/cover-tests/lang/String.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/cover-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/cover-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/cover-tests/string-length.c /blue/Dev/ooc/examples/cover-tests/lang/String.o /blue/Dev/ooc/examples/cover-tests/lang/Char.o /blue/Dev/ooc/examples/cover-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/cover-tests/string-length /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 413ms.
+Got remote command to compile 'funcwithargs'. SourcePath = {/blue/Dev/ooc/examples/func-tests=/blue/Dev/ooc/examples/func-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
+Compiling source 'funcwithargs'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/func-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/func-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/func-tests/funcwithargs.c /blue/Dev/ooc/examples/func-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/func-tests/funcwithargs /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 101ms.
+Got remote command to compile 'implicitreturn'. SourcePath = {/blue/Dev/ooc/examples/func-tests=/blue/Dev/ooc/examples/func-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
+Compiling source 'implicitreturn'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/func-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/func-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/func-tests/implicitreturn.c /blue/Dev/ooc/examples/func-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/func-tests/implicitreturn /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 120ms.
+Got remote command to compile 'mainenv'. SourcePath = {/blue/Dev/ooc/examples/func-tests=/blue/Dev/ooc/examples/func-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
+Compiling source 'mainenv'
+Found dependency structs.Array' imported from 'mainenv, importing...
+Compiling source 'structs.Array'
+Found dependency structs.Iterable' imported from 'structs.Array, importing...
+Compiling source 'structs.Iterable'
+Found dependency Iterator' imported from 'structs.Iterable, importing...
+Compiling source 'structs.Iterator'
+Compiling source 'OocLib'
+Found dependency structs.Iterator' imported from 'structs.Array, importing...
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/func-tests/structs/Iterable.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/func-tests/structs/Iterable.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/func-tests/structs/Iterator.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/func-tests/structs/Iterator.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/func-tests/structs/Array.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/func-tests/structs/Array.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/func-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/func-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/func-tests/mainenv.c /blue/Dev/ooc/examples/func-tests/structs/Array.o /blue/Dev/ooc/examples/func-tests/structs/Iterable.o /blue/Dev/ooc/examples/func-tests/structs/Iterator.o /blue/Dev/ooc/examples/func-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/func-tests/mainenv /blue/Dev/ooc/libs/linux/libgc.a 
+/blue/Dev/ooc/examples/func-tests/mainenv.c: In function ‘main’:
+/blue/Dev/ooc/examples/func-tests/mainenv.c:10: attention : passing argument 2 of ‘__structs_Array_new_Int_Object__star’ from incompatible pointer type
+/blue/Dev/ooc/examples/func-tests/mainenv.c:10: attention : initialization from incompatible pointer type
+/blue/Dev/ooc/examples/func-tests/mainenv.c:17: attention : passing argument 1 of ‘__structs_Array_nullTerminated_Object__star’ from incompatible pointer type
+Finished compilation in 270ms.
+Got remote command to compile 'memberarginference'. SourcePath = {/blue/Dev/ooc/examples/func-tests=/blue/Dev/ooc/examples/func-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
+Compiling source 'memberarginference'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/func-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/func-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/func-tests/memberarginference.c /blue/Dev/ooc/examples/func-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/func-tests/memberarginference /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 101ms.
+Got remote command to compile 'newnoparen'. SourcePath = {/blue/Dev/ooc/examples/func-tests=/blue/Dev/ooc/examples/func-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
+Compiling source 'newnoparen'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/func-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/func-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/func-tests/newnoparen.c /blue/Dev/ooc/examples/func-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/func-tests/newnoparen /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 120ms.
+Got remote command to compile 'nonvoidfunc'. SourcePath = {/blue/Dev/ooc/examples/func-tests=/blue/Dev/ooc/examples/func-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
+Compiling source 'nonvoidfunc'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/func-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/func-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/func-tests/nonvoidfunc.c /blue/Dev/ooc/examples/func-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/func-tests/nonvoidfunc /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 99ms.
+Got remote command to compile 'noparenthesiscall'. SourcePath = {/blue/Dev/ooc/examples/func-tests=/blue/Dev/ooc/examples/func-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
+Compiling source 'noparenthesiscall'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/func-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/func-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/func-tests/noparenthesiscall.c /blue/Dev/ooc/examples/func-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/func-tests/noparenthesiscall /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 103ms.
+Got remote command to compile 'returnlastvalue'. SourcePath = {/blue/Dev/ooc/examples/func-tests=/blue/Dev/ooc/examples/func-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
+Compiling source 'returnlastvalue'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/func-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/func-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/func-tests/returnlastvalue.c /blue/Dev/ooc/examples/func-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/func-tests/returnlastvalue /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 104ms.
+Got remote command to compile 'returntypeinference'. SourcePath = {/blue/Dev/ooc/examples/func-tests=/blue/Dev/ooc/examples/func-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
+Compiling source 'returntypeinference'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/func-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/func-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/func-tests/returntypeinference.c /blue/Dev/ooc/examples/func-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/func-tests/returntypeinference /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 99ms.
+Got remote command to compile 'simplefunc'. SourcePath = {/blue/Dev/ooc/examples/func-tests=/blue/Dev/ooc/examples/func-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
+Compiling source 'simplefunc'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/func-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/func-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/func-tests/simplefunc.c /blue/Dev/ooc/examples/func-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/func-tests/simplefunc /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 102ms.
+Got remote command to compile 'staticinherited'. SourcePath = {/blue/Dev/ooc/examples/func-tests=/blue/Dev/ooc/examples/func-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
+Compiling source 'staticinherited'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/func-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/func-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/func-tests/staticinherited.c /blue/Dev/ooc/examples/func-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/func-tests/staticinherited /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 133ms.
+Got remote command to compile 'staticnoparencall'. SourcePath = {/blue/Dev/ooc/examples/func-tests=/blue/Dev/ooc/examples/func-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
+Compiling source 'staticnoparencall'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/func-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/func-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/func-tests/staticnoparencall.c /blue/Dev/ooc/examples/func-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/func-tests/staticnoparencall /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 96ms.
+Got remote command to compile 'transparentgetter'. SourcePath = {/blue/Dev/ooc/examples/func-tests=/blue/Dev/ooc/examples/func-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
+Compiling source 'transparentgetter'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/func-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/func-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/func-tests/transparentgetter.c /blue/Dev/ooc/examples/func-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/func-tests/transparentgetter /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 106ms.
+Got remote command to compile 'member-func-pointer'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/funky-tests=/blue/Dev/ooc/examples/funky-tests}
+Compiling source 'member-func-pointer'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/funky-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/funky-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/funky-tests/member-func-pointer.c /blue/Dev/ooc/examples/funky-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/funky-tests/member-func-pointer /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 108ms.
+Got remote command to compile 'fac'. SourcePath = {/blue/Dev/ooc/examples/math-tests=/blue/Dev/ooc/examples/math-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
+Compiling source 'fac'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/math-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/math-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/math-tests/fac.c /blue/Dev/ooc/examples/math-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/math-tests/fac /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 115ms.
+Got remote command to compile 'cascadeCalls'. SourcePath = {/blue/Dev/ooc/examples/nightmare-tests=/blue/Dev/ooc/examples/nightmare-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
+Compiling source 'cascadeCalls'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/nightmare-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/nightmare-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/nightmare-tests/cascadeCalls.c /blue/Dev/ooc/examples/nightmare-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/nightmare-tests/cascadeCalls /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 117ms.
+Got remote command to compile 'funcAsForeachLimit'. SourcePath = {/blue/Dev/ooc/examples/nightmare-tests=/blue/Dev/ooc/examples/nightmare-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
+Compiling source 'funcAsForeachLimit'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/nightmare-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/nightmare-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/nightmare-tests/funcAsForeachLimit.c /blue/Dev/ooc/examples/nightmare-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/nightmare-tests/funcAsForeachLimit /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 199ms.
+Got remote command to compile 'animals'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/oo-tests=/blue/Dev/ooc/examples/oo-tests}
+Compiling source 'animals'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/oo-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/oo-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/oo-tests/animals.c /blue/Dev/ooc/examples/oo-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/oo-tests/animals /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 214ms.
+Got remote command to compile 'dog'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/oo-tests=/blue/Dev/ooc/examples/oo-tests}
+Compiling source 'dog'
+Found dependency structs.Array' imported from 'dog, importing...
+Compiling source 'structs.Array'
+Found dependency structs.Iterable' imported from 'structs.Array, importing...
+Compiling source 'structs.Iterable'
+Found dependency Iterator' imported from 'structs.Iterable, importing...
+Compiling source 'structs.Iterator'
+Compiling source 'OocLib'
+Found dependency structs.Iterator' imported from 'structs.Array, importing...
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/oo-tests/structs/Iterable.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/oo-tests/structs/Iterable.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/oo-tests/structs/Iterator.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/oo-tests/structs/Iterator.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/oo-tests/structs/Array.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/oo-tests/structs/Array.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/oo-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/oo-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/oo-tests/dog.c /blue/Dev/ooc/examples/oo-tests/structs/Array.o /blue/Dev/ooc/examples/oo-tests/structs/Iterable.o /blue/Dev/ooc/examples/oo-tests/structs/Iterator.o /blue/Dev/ooc/examples/oo-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/oo-tests/dog /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 212ms.
+Got remote command to compile 'funcArg'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/oo-tests=/blue/Dev/ooc/examples/oo-tests}
+Compiling source 'funcArg'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/oo-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/oo-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/oo-tests/funcArg.c /blue/Dev/ooc/examples/oo-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/oo-tests/funcArg /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 109ms.
+Got remote command to compile 'inherit'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/oo-tests=/blue/Dev/ooc/examples/oo-tests}
+Compiling source 'inherit'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/oo-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/oo-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/oo-tests/inherit.c /blue/Dev/ooc/examples/oo-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/oo-tests/inherit /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 129ms.
+Got remote command to compile 'memberAccess'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/oo-tests=/blue/Dev/ooc/examples/oo-tests}
+Compiling source 'memberAccess'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/oo-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/oo-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/oo-tests/memberAccess.c /blue/Dev/ooc/examples/oo-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/oo-tests/memberAccess /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 110ms.
+Got remote command to compile 'scannerTest'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/oo-tests=/blue/Dev/ooc/examples/oo-tests}
+Compiling source 'scannerTest'
+Found dependency text.StringTokenizer' imported from 'scannerTest, importing...
+Compiling source 'text.StringTokenizer'
+Found dependency lang.String' imported from 'text.StringTokenizer, importing...
+Compiling source 'lang.String'
+Found dependency Char' imported from 'lang.String, importing...
+Compiling source 'lang.Char'
+Compiling source 'OocLib'
+Found dependency io.Scanner' imported from 'scannerTest, importing...
+Compiling source 'io.Scanner'
+Found dependency io.Reader' imported from 'io.Scanner, importing...
+Compiling source 'io.Reader'
+Found dependency io.FileReader' imported from 'scannerTest, importing...
+Compiling source 'io.FileReader'
+Found dependency io.Reader' imported from 'io.FileReader, importing...
+Found dependency io.StringReader' imported from 'scannerTest, importing...
+Compiling source 'io.StringReader'
+Found dependency io.Reader' imported from 'io.StringReader, importing...
+Found dependency lang.String' imported from 'scannerTest, importing...
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/oo-tests/lang/Char.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/oo-tests/lang/Char.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/oo-tests/lang/String.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/oo-tests/lang/String.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/oo-tests/io/FileReader.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/oo-tests/io/FileReader.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/oo-tests/io/Reader.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/oo-tests/io/Reader.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/oo-tests/io/StringReader.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/oo-tests/io/StringReader.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/oo-tests/io/Scanner.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/oo-tests/io/Scanner.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/oo-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/oo-tests/OocLib.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/oo-tests/text/StringTokenizer.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/oo-tests/text/StringTokenizer.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/oo-tests/scannerTest.c /blue/Dev/ooc/examples/oo-tests/text/StringTokenizer.o /blue/Dev/ooc/examples/oo-tests/lang/String.o /blue/Dev/ooc/examples/oo-tests/lang/Char.o /blue/Dev/ooc/examples/oo-tests/OocLib.o /blue/Dev/ooc/examples/oo-tests/io/Scanner.o /blue/Dev/ooc/examples/oo-tests/io/Reader.o /blue/Dev/ooc/examples/oo-tests/io/FileReader.o /blue/Dev/ooc/examples/oo-tests/io/StringReader.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/oo-tests/scannerTest /blue/Dev/ooc/libs/linux/libgc.a 
+/blue/Dev/ooc/examples/oo-tests/scannerTest.c: In function ‘main’:
+/blue/Dev/ooc/examples/oo-tests/scannerTest.c:11: attention : passing argument 1 of ‘__io_Scanner_new_Reader’ from incompatible pointer type
+/blue/Dev/ooc/examples/oo-tests/scannerTest.c:13: attention : passing argument 1 of ‘__io_Scanner_new_Reader’ from incompatible pointer type
+/blue/Dev/ooc/examples/oo-tests/scannerTest.c: In function ‘__printData’:
+/blue/Dev/ooc/examples/oo-tests/scannerTest.c:33: attention : passing argument 1 of ‘__io_Scanner_new_Reader’ from incompatible pointer type
+Finished compilation in 668ms.
+Got remote command to compile 'glut'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/opengl-tests=/blue/Dev/ooc/examples/opengl-tests}
+Compiling source 'glut'
+Found dependency structs.Array' imported from 'glut, importing...
+Compiling source 'structs.Array'
+Found dependency structs.Iterable' imported from 'structs.Array, importing...
+Compiling source 'structs.Iterable'
+Found dependency Iterator' imported from 'structs.Iterable, importing...
+Compiling source 'structs.Iterator'
+Compiling source 'OocLib'
+Found dependency structs.Iterator' imported from 'structs.Array, importing...
+Found dependency lang.String' imported from 'glut, importing...
+Compiling source 'lang.String'
+Found dependency Char' imported from 'lang.String, importing...
+Compiling source 'lang.Char'
+Couldn't locate header file <windows.h>
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/opengl-tests/lang/Char.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/opengl-tests/lang/Char.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/opengl-tests/lang/String.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/opengl-tests/lang/String.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/opengl-tests/structs/Iterable.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/opengl-tests/structs/Iterable.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/opengl-tests/structs/Iterator.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/opengl-tests/structs/Iterator.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/opengl-tests/structs/Array.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/opengl-tests/structs/Array.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/opengl-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/opengl-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/opengl-tests/glut.c /blue/Dev/ooc/examples/opengl-tests/structs/Array.o /blue/Dev/ooc/examples/opengl-tests/structs/Iterable.o /blue/Dev/ooc/examples/opengl-tests/structs/Iterator.o /blue/Dev/ooc/examples/opengl-tests/OocLib.o /blue/Dev/ooc/examples/opengl-tests/lang/String.o /blue/Dev/ooc/examples/opengl-tests/lang/Char.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l glut -l GLU -l GL -l pthread -o /blue/Dev/ooc/examples/opengl-tests/glut /blue/Dev/ooc/libs/linux/libgc.a 
+/blue/Dev/ooc/examples/opengl-tests/glut.c: In function ‘__Window_show’:
+/blue/Dev/ooc/examples/opengl-tests/glut.c:50: attention : passing argument 1 of ‘glutDisplayFunc’ from incompatible pointer type
+Finished compilation in 625ms.
+Got remote command to compile 'sdlimage'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/opengl-tests=/blue/Dev/ooc/examples/opengl-tests}
+Compiling source 'sdlimage'
+Found dependency lang.String' imported from 'sdlimage, importing...
+Compiling source 'lang.String'
+Found dependency Char' imported from 'lang.String, importing...
+Compiling source 'lang.Char'
+Compiling source 'OocLib'
+Found dependency structs.Array' imported from 'sdlimage, importing...
+Compiling source 'structs.Array'
+Found dependency structs.Iterable' imported from 'structs.Array, importing...
+Compiling source 'structs.Iterable'
+Found dependency Iterator' imported from 'structs.Iterable, importing...
+Compiling source 'structs.Iterator'
+Found dependency structs.Iterator' imported from 'structs.Array, importing...
+Found dependency sdl.SDL' imported from 'sdlimage, importing...
+Compiling source 'sdl.SDL'
+Added library SDL
+Found dependency Surface' imported from 'sdl.SDL, importing...
+Compiling source 'sdl.Surface'
+Found dependency SDL' imported from 'sdl.Surface, importing...
+Found dependency sdl.WM' imported from 'sdlimage, importing...
+Compiling source 'sdl.WM'
+Found dependency SDL' imported from 'sdl.WM, importing...
+Found dependency sdl.Surface' imported from 'sdlimage, importing...
+Found dependency sdl.ImageLoader' imported from 'sdlimage, importing...
+Compiling source 'sdl.ImageLoader'
+Added library SDL_image
+Found dependency SDL' imported from 'sdl.ImageLoader, importing...
+Found dependency Surface' imported from 'sdl.ImageLoader, importing...
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/opengl-tests/lang/Char.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/opengl-tests/lang/Char.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/opengl-tests/lang/String.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/opengl-tests/lang/String.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/opengl-tests/sdl/Surface.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/opengl-tests/sdl/Surface.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/opengl-tests/sdl/SDL.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/opengl-tests/sdl/SDL.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/opengl-tests/structs/Iterable.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/opengl-tests/structs/Iterable.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/opengl-tests/structs/Iterator.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/opengl-tests/structs/Iterator.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/opengl-tests/structs/Array.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/opengl-tests/structs/Array.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/opengl-tests/sdl/WM.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/opengl-tests/sdl/WM.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/opengl-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/opengl-tests/OocLib.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/opengl-tests/sdl/ImageLoader.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/opengl-tests/sdl/ImageLoader.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/opengl-tests/sdlimage.c /blue/Dev/ooc/examples/opengl-tests/lang/String.o /blue/Dev/ooc/examples/opengl-tests/lang/Char.o /blue/Dev/ooc/examples/opengl-tests/OocLib.o /blue/Dev/ooc/examples/opengl-tests/structs/Array.o /blue/Dev/ooc/examples/opengl-tests/structs/Iterable.o /blue/Dev/ooc/examples/opengl-tests/structs/Iterator.o /blue/Dev/ooc/examples/opengl-tests/sdl/SDL.o /blue/Dev/ooc/examples/opengl-tests/sdl/Surface.o /blue/Dev/ooc/examples/opengl-tests/sdl/WM.o /blue/Dev/ooc/examples/opengl-tests/sdl/ImageLoader.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l SDL -l SDL_image -l pthread -o /blue/Dev/ooc/examples/opengl-tests/sdlimage /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 698ms.
+Got remote command to compile 'simple'. SourcePath = {/blue/Dev/ooc/examples/pointer-tests=/blue/Dev/ooc/examples/pointer-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
+Compiling source 'simple'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/pointer-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/pointer-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/pointer-tests/simple.c /blue/Dev/ooc/examples/pointer-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/pointer-tests/simple /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 103ms.
+Got remote command to compile 'static-func'. SourcePath = {/blue/Dev/ooc/examples/pointer-tests=/blue/Dev/ooc/examples/pointer-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
+Compiling source 'static-func'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/pointer-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/pointer-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/pointer-tests/static-func.c /blue/Dev/ooc/examples/pointer-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/pointer-tests/static-func /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 102ms.
+Got remote command to compile 'static-pointer'. SourcePath = {/blue/Dev/ooc/examples/pointer-tests=/blue/Dev/ooc/examples/pointer-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
+Compiling source 'static-pointer'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/pointer-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/pointer-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/pointer-tests/static-pointer.c /blue/Dev/ooc/examples/pointer-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/pointer-tests/static-pointer /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 112ms.
+Got remote command to compile 'static-pointer-static-init'. SourcePath = {/blue/Dev/ooc/examples/pointer-tests=/blue/Dev/ooc/examples/pointer-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
+Compiling source 'static-pointer-static-init'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/pointer-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/pointer-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/pointer-tests/static-pointer-static-init.c /blue/Dev/ooc/examples/pointer-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/pointer-tests/static-pointer-static-init /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 103ms.
+Got remote command to compile 'classname'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/reflection-tests=/blue/Dev/ooc/examples/reflection-tests}
+Compiling source 'classname'
+Found dependency structs.Array' imported from 'classname, importing...
+Compiling source 'structs.Array'
+Found dependency structs.Iterable' imported from 'structs.Array, importing...
+Compiling source 'structs.Iterable'
+Found dependency Iterator' imported from 'structs.Iterable, importing...
+Compiling source 'structs.Iterator'
+Compiling source 'OocLib'
+Found dependency structs.Iterator' imported from 'structs.Array, importing...
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/reflection-tests/structs/Iterable.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/reflection-tests/structs/Iterable.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/reflection-tests/structs/Iterator.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/reflection-tests/structs/Iterator.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/reflection-tests/structs/Array.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/reflection-tests/structs/Array.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/reflection-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/reflection-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/reflection-tests/classname.c /blue/Dev/ooc/examples/reflection-tests/structs/Array.o /blue/Dev/ooc/examples/reflection-tests/structs/Iterable.o /blue/Dev/ooc/examples/reflection-tests/structs/Iterator.o /blue/Dev/ooc/examples/reflection-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/reflection-tests/classname /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 205ms.
+Got remote command to compile 'foreach-range'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/regression-tests=/blue/Dev/ooc/examples/regression-tests}
+Compiling source 'foreach-range'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/regression-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/regression-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/regression-tests/foreach-range.c /blue/Dev/ooc/examples/regression-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/regression-tests/foreach-range /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 99ms.
+Got remote command to compile 'include-legacy'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/regression-tests=/blue/Dev/ooc/examples/regression-tests}
+Compiling source 'include-legacy'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/regression-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/regression-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/regression-tests/include-legacy.c /blue/Dev/ooc/examples/regression-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/regression-tests/include-legacy /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 93ms.
+Got remote command to compile 'include-new-many'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/regression-tests=/blue/Dev/ooc/examples/regression-tests}
+Compiling source 'include-new-many'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/regression-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/regression-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/regression-tests/include-new-many.c /blue/Dev/ooc/examples/regression-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/regression-tests/include-new-many /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 102ms.
+Got remote command to compile 'include-new'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/regression-tests=/blue/Dev/ooc/examples/regression-tests}
+Compiling source 'include-new'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/regression-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/regression-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/regression-tests/include-new.c /blue/Dev/ooc/examples/regression-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/regression-tests/include-new /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 100ms.
+Got remote command to compile 'initializer-class'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/regression-tests=/blue/Dev/ooc/examples/regression-tests}
+Compiling source 'initializer-class'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/regression-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/regression-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/regression-tests/initializer-class.c /blue/Dev/ooc/examples/regression-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/regression-tests/initializer-class /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 100ms.
+Got remote command to compile 'initializer-instance'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/regression-tests=/blue/Dev/ooc/examples/regression-tests}
+Compiling source 'initializer-instance'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/regression-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/regression-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/regression-tests/initializer-instance.c /blue/Dev/ooc/examples/regression-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/regression-tests/initializer-instance /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 98ms.
+Got remote command to compile 'initializer-scope'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/regression-tests=/blue/Dev/ooc/examples/regression-tests}
+Compiling source 'initializer-scope'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/regression-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/regression-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/regression-tests/initializer-scope.c /blue/Dev/ooc/examples/regression-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/regression-tests/initializer-scope /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 97ms.
+Got remote command to compile 'main'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/regression-tests=/blue/Dev/ooc/examples/regression-tests}
+Compiling source 'main'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/regression-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/regression-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/regression-tests/main.c /blue/Dev/ooc/examples/regression-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/regression-tests/main /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 96ms.
+Got remote command to compile 'mangling-class1'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/regression-tests=/blue/Dev/ooc/examples/regression-tests}
+Compiling source 'mangling-class1'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/regression-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/regression-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/regression-tests/mangling-class1.c /blue/Dev/ooc/examples/regression-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/regression-tests/mangling-class1 /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 135ms.
+Got remote command to compile 'mangling-class2'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/regression-tests=/blue/Dev/ooc/examples/regression-tests}
+Compiling source 'mangling-class2'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/regression-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/regression-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/regression-tests/mangling-class2.c /blue/Dev/ooc/examples/regression-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/regression-tests/mangling-class2 /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 105ms.
+Got remote command to compile 'mangling-static1'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/regression-tests=/blue/Dev/ooc/examples/regression-tests}
+Compiling source 'mangling-static1'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/regression-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/regression-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/regression-tests/mangling-static1.c /blue/Dev/ooc/examples/regression-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/regression-tests/mangling-static1 /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 97ms.
+Got remote command to compile 'mangling-static2'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/regression-tests=/blue/Dev/ooc/examples/regression-tests}
+Compiling source 'mangling-static2'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/regression-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/regression-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/regression-tests/mangling-static2.c /blue/Dev/ooc/examples/regression-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/regression-tests/mangling-static2 /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 104ms.
+Got remote command to compile 'static-access-from-many'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/regression-tests=/blue/Dev/ooc/examples/regression-tests}
+Compiling source 'static-access-from-many'
+Found dependency candy.Kid1' imported from 'static-access-from-many, importing...
+Compiling source 'candy.Kid1'
+Found dependency Kid' imported from 'candy.Kid1, importing...
+Compiling source 'candy.Kid'
+Found dependency CandyGiver' imported from 'candy.Kid, importing...
+Compiling source 'candy.CandyGiver'
+Compiling source 'OocLib'
+Found dependency candy.Kid2' imported from 'static-access-from-many, importing...
+Compiling source 'candy.Kid2'
+Found dependency Kid' imported from 'candy.Kid2, importing...
+Found dependency candy.Kid3' imported from 'static-access-from-many, importing...
+Compiling source 'candy.Kid3'
+Found dependency Kid' imported from 'candy.Kid3, importing...
+Found dependency candy.CandyGiver' imported from 'static-access-from-many, importing...
+(fixme: replaceWith in a no-parent but context node)
+(fixme: replaceWith in a no-parent but context node)
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/regression-tests/candy/CandyGiver.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/regression-tests/candy/CandyGiver.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/regression-tests/candy/Kid1.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/regression-tests/candy/Kid1.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/regression-tests/candy/Kid2.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/regression-tests/candy/Kid2.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/regression-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/regression-tests/OocLib.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/regression-tests/candy/Kid.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/regression-tests/candy/Kid.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/regression-tests/candy/Kid3.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/regression-tests/candy/Kid3.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/regression-tests/static-access-from-many.c /blue/Dev/ooc/examples/regression-tests/candy/Kid1.o /blue/Dev/ooc/examples/regression-tests/candy/Kid.o /blue/Dev/ooc/examples/regression-tests/candy/CandyGiver.o /blue/Dev/ooc/examples/regression-tests/OocLib.o /blue/Dev/ooc/examples/regression-tests/candy/Kid2.o /blue/Dev/ooc/examples/regression-tests/candy/Kid3.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/regression-tests/static-access-from-many /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 293ms.
+Got remote command to compile 'static-variable-via-class'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/regression-tests=/blue/Dev/ooc/examples/regression-tests}
+Compiling source 'static-variable-via-class'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/regression-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/regression-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/regression-tests/static-variable-via-class.c /blue/Dev/ooc/examples/regression-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/regression-tests/static-variable-via-class /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 107ms.
+Got remote command to compile 'static-variable-via-member'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/regression-tests=/blue/Dev/ooc/examples/regression-tests}
+Compiling source 'static-variable-via-member'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/regression-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/regression-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/regression-tests/static-variable-via-member.c /blue/Dev/ooc/examples/regression-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/regression-tests/static-variable-via-member /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 105ms.
+Got remote command to compile 'null-shouldfail'. SourcePath = {/blue/Dev/ooc/examples/safety-tests=/blue/Dev/ooc/examples/safety-tests, /blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk}
+Compiling source 'null-shouldfail'
+ /blue/Dev/ooc/examples/safety-tests/null-shouldfail.ooc:13:7: C-style function declaration deprecated. Use 'func methodName(TypeArg arg, TypeArg2 arg2) -> ReturnType' instead, where parenthesis are optional when there are no arguments, and the arrow and return type are optional when the function is Void.
+Finished compilation in 2ms.
+Got remote command to compile 'binary-write'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/sdk-tests=/blue/Dev/ooc/examples/sdk-tests}
+Compiling source 'binary-write'
+Found dependency io.FileWriter' imported from 'binary-write, importing...
+Compiling source 'io.FileWriter'
+Found dependency io.Writer' imported from 'io.FileWriter, importing...
+Compiling source 'io.Writer'
+Compiling source 'OocLib'
+Found dependency io.FileReader' imported from 'binary-write, importing...
+Compiling source 'io.FileReader'
+Found dependency io.Reader' imported from 'io.FileReader, importing...
+Compiling source 'io.Reader'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sdk-tests/io/Writer.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sdk-tests/io/Writer.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sdk-tests/io/FileWriter.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sdk-tests/io/FileWriter.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sdk-tests/io/FileReader.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sdk-tests/io/FileReader.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sdk-tests/io/Reader.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sdk-tests/io/Reader.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sdk-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sdk-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/sdk-tests/binary-write.c /blue/Dev/ooc/examples/sdk-tests/io/FileWriter.o /blue/Dev/ooc/examples/sdk-tests/io/Writer.o /blue/Dev/ooc/examples/sdk-tests/OocLib.o /blue/Dev/ooc/examples/sdk-tests/io/FileReader.o /blue/Dev/ooc/examples/sdk-tests/io/Reader.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/sdk-tests/binary-write /blue/Dev/ooc/libs/linux/libgc.a 
+/blue/Dev/ooc/examples/sdk-tests/binary-write.c: In function ‘main’:
+/blue/Dev/ooc/examples/sdk-tests/binary-write.c:13: attention : passing argument 2 of ‘fw->class->__write_Char__array_Int_Int’ from incompatible pointer type
+/blue/Dev/ooc/examples/sdk-tests/binary-write.c:17: attention : passing argument 2 of ‘fr->class->__read_Char__star_int_int’ from incompatible pointer type
+Finished compilation in 259ms.
+Got remote command to compile 'list-torturer'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/sdk-tests=/blue/Dev/ooc/examples/sdk-tests}
+Compiling source 'list-torturer'
+Found dependency structs.List' imported from 'list-torturer, importing...
+Compiling source 'structs.List'
+Found dependency Iterable' imported from 'structs.List, importing...
+Compiling source 'structs.Iterable'
+Found dependency Iterator' imported from 'structs.Iterable, importing...
+Compiling source 'structs.Iterator'
+Compiling source 'OocLib'
+Found dependency Iterator' imported from 'structs.List, importing...
+Found dependency structs.ArrayList' imported from 'list-torturer, importing...
+Compiling source 'structs.ArrayList'
+Found dependency List' imported from 'structs.ArrayList, importing...
+Found dependency Iterator' imported from 'structs.ArrayList, importing...
+Found dependency Iterable' imported from 'structs.ArrayList, importing...
+Found dependency structs.SparseList' imported from 'list-torturer, importing...
+Compiling source 'structs.SparseList'
+Found dependency List' imported from 'structs.SparseList, importing...
+Found dependency Iterable' imported from 'structs.SparseList, importing...
+Found dependency Iterator' imported from 'structs.SparseList, importing...
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sdk-tests/structs/SparseList.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sdk-tests/structs/SparseList.o 
+/blue/Dev/ooc/examples/sdk-tests/structs/SparseList.c: In function ‘__structs_SparseList_iterator’:
+/blue/Dev/ooc/examples/sdk-tests/structs/SparseList.c:315: attention : return from incompatible pointer type
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sdk-tests/structs/Iterable.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sdk-tests/structs/Iterable.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sdk-tests/structs/ArrayList.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sdk-tests/structs/ArrayList.o 
+/blue/Dev/ooc/examples/sdk-tests/structs/ArrayList.c: In function ‘__structs_ArrayList_iterator’:
+/blue/Dev/ooc/examples/sdk-tests/structs/ArrayList.c:284: attention : return from incompatible pointer type
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sdk-tests/structs/Iterator.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sdk-tests/structs/Iterator.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sdk-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sdk-tests/OocLib.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sdk-tests/structs/List.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sdk-tests/structs/List.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/sdk-tests/list-torturer.c /blue/Dev/ooc/examples/sdk-tests/structs/List.o /blue/Dev/ooc/examples/sdk-tests/structs/Iterable.o /blue/Dev/ooc/examples/sdk-tests/structs/Iterator.o /blue/Dev/ooc/examples/sdk-tests/OocLib.o /blue/Dev/ooc/examples/sdk-tests/structs/ArrayList.o /blue/Dev/ooc/examples/sdk-tests/structs/SparseList.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/sdk-tests/list-torturer /blue/Dev/ooc/libs/linux/libgc.a 
+/blue/Dev/ooc/examples/sdk-tests/list-torturer.c: In function ‘main’:
+/blue/Dev/ooc/examples/sdk-tests/list-torturer.c:73: attention : passing argument 1 of ‘__Torturer_new_List’ from incompatible pointer type
+/blue/Dev/ooc/examples/sdk-tests/list-torturer.c:75: attention : passing argument 1 of ‘__Torturer_new_List’ from incompatible pointer type
+Finished compilation in 624ms.
+Got remote command to compile 'equals-unexist-shouldfail'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/sugar-tests=/blue/Dev/ooc/examples/sugar-tests}
+Compiling source 'equals-unexist-shouldfail'
+ /blue/Dev/ooc/examples/sugar-tests/equals-unexist-shouldfail.ooc:11:24: C-style function declaration deprecated. Use 'func methodName(TypeArg arg, TypeArg2 arg2) -> ReturnType' instead, where parenthesis are optional when there are no arguments, and the arrow and return type are optional when the function is Void.
+Finished compilation in 1ms.
+Got remote command to compile 'foreach-arraylist'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/sugar-tests=/blue/Dev/ooc/examples/sugar-tests}
+Compiling source 'foreach-arraylist'
+Found dependency structs.List' imported from 'foreach-arraylist, importing...
+Compiling source 'structs.List'
+Found dependency Iterable' imported from 'structs.List, importing...
+Compiling source 'structs.Iterable'
+Found dependency Iterator' imported from 'structs.Iterable, importing...
+Compiling source 'structs.Iterator'
+Compiling source 'OocLib'
+Found dependency Iterator' imported from 'structs.List, importing...
+Found dependency structs.ArrayList' imported from 'foreach-arraylist, importing...
+Compiling source 'structs.ArrayList'
+Found dependency List' imported from 'structs.ArrayList, importing...
+Found dependency Iterator' imported from 'structs.ArrayList, importing...
+Found dependency Iterable' imported from 'structs.ArrayList, importing...
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sugar-tests/structs/Iterable.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sugar-tests/structs/Iterable.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sugar-tests/structs/ArrayList.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sugar-tests/structs/ArrayList.o 
+/blue/Dev/ooc/examples/sugar-tests/structs/ArrayList.c: In function ‘__structs_ArrayList_iterator’:
+/blue/Dev/ooc/examples/sugar-tests/structs/ArrayList.c:284: attention : return from incompatible pointer type
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sugar-tests/structs/Iterator.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sugar-tests/structs/Iterator.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sugar-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sugar-tests/OocLib.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sugar-tests/structs/List.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sugar-tests/structs/List.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/sugar-tests/foreach-arraylist.c /blue/Dev/ooc/examples/sugar-tests/structs/List.o /blue/Dev/ooc/examples/sugar-tests/structs/Iterable.o /blue/Dev/ooc/examples/sugar-tests/structs/Iterator.o /blue/Dev/ooc/examples/sugar-tests/OocLib.o /blue/Dev/ooc/examples/sugar-tests/structs/ArrayList.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/sugar-tests/foreach-arraylist /blue/Dev/ooc/libs/linux/libgc.a 
+/blue/Dev/ooc/examples/sugar-tests/foreach-arraylist.c: In function ‘main’:
+/blue/Dev/ooc/examples/sugar-tests/foreach-arraylist.c:10: attention : initialization from incompatible pointer type
+Finished compilation in 396ms.
+Got remote command to compile 'foreach-array'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/sugar-tests=/blue/Dev/ooc/examples/sugar-tests}
+Compiling source 'foreach-array'
+Found dependency structs.Array' imported from 'foreach-array, importing...
+Compiling source 'structs.Array'
+Found dependency structs.Iterable' imported from 'structs.Array, importing...
+Compiling source 'structs.Iterable'
+Found dependency Iterator' imported from 'structs.Iterable, importing...
+Compiling source 'structs.Iterator'
+Compiling source 'OocLib'
+Found dependency structs.Iterator' imported from 'structs.Array, importing...
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sugar-tests/structs/Iterable.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sugar-tests/structs/Iterable.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sugar-tests/structs/Iterator.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sugar-tests/structs/Iterator.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sugar-tests/structs/Array.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sugar-tests/structs/Array.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sugar-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sugar-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/sugar-tests/foreach-array.c /blue/Dev/ooc/examples/sugar-tests/structs/Array.o /blue/Dev/ooc/examples/sugar-tests/structs/Iterable.o /blue/Dev/ooc/examples/sugar-tests/structs/Iterator.o /blue/Dev/ooc/examples/sugar-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/sugar-tests/foreach-array /blue/Dev/ooc/libs/linux/libgc.a 
+/blue/Dev/ooc/examples/sugar-tests/foreach-array.c: In function ‘main’:
+/blue/Dev/ooc/examples/sugar-tests/foreach-array.c:10: attention : passing argument 2 of ‘__structs_Array_new_Int_Object__star’ from incompatible pointer type
+/blue/Dev/ooc/examples/sugar-tests/foreach-array.c:10: attention : initialization from incompatible pointer type
+Finished compilation in 200ms.
+Got remote command to compile 'foreach-noclass-shouldfail'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/sugar-tests=/blue/Dev/ooc/examples/sugar-tests}
+Compiling source 'foreach-noclass-shouldfail'
+Compiling source 'OocLib'
+org.ooc.errors.AssemblyError: Trying to foreach over a non-class type. Did you forget to import a cover? /blue/Dev/ooc/examples/sugar-tests/foreach-noclass-shouldfail.ooc:4:16
+	at org.ooc.errors.AssemblyManager.err(AssemblyManager.java:180)
+	at org.ooc.errors.AssemblyManager.errAndFail(AssemblyManager.java:207)
+	at org.ooc.nodes.others.Colon.assembleImpl(Colon.java:60)
+	at org.ooc.nodes.others.SyntaxNode.assemble(SyntaxNode.java:151)
+	at org.ooc.errors.AssemblyManager.doPass(AssemblyManager.java:347)
+	at org.ooc.errors.AssemblyManager.assemble(AssemblyManager.java:80)
+	at org.ooc.parsers.SourceParser.parse(SourceParser.java:138)
+	at org.ooc.compiler.Compiler.compile(Compiler.java:56)
+	at org.ooc.compiler.CompilerDaemon$1.run(CompilerDaemon.java:109)
+	at java.lang.Thread.run(Thread.java:619)
+Finished compilation in 5ms.
+Got remote command to compile 'foreach-noiter-shouldfail'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/sugar-tests=/blue/Dev/ooc/examples/sugar-tests}
+Compiling source 'foreach-noiter-shouldfail'
+Compiling source 'OocLib'
+org.ooc.errors.AssemblyError: Trying to foreach over the variable ' b' of type 'Boujou' which doesn't have an iterator method. /blue/Dev/ooc/examples/sugar-tests/foreach-noiter-shouldfail.ooc:4:16
+	at org.ooc.errors.AssemblyManager.err(AssemblyManager.java:180)
+	at org.ooc.errors.AssemblyManager.errAndFail(AssemblyManager.java:207)
+	at org.ooc.nodes.others.Colon.assembleImpl(Colon.java:63)
+	at org.ooc.nodes.others.SyntaxNode.assemble(SyntaxNode.java:151)
+	at org.ooc.errors.AssemblyManager.doPass(AssemblyManager.java:347)
+	at org.ooc.errors.AssemblyManager.assemble(AssemblyManager.java:80)
+	at org.ooc.parsers.SourceParser.parse(SourceParser.java:138)
+	at org.ooc.compiler.Compiler.compile(Compiler.java:56)
+	at org.ooc.compiler.CompilerDaemon$1.run(CompilerDaemon.java:109)
+	at java.lang.Thread.run(Thread.java:619)
+Finished compilation in 4ms.
+Got remote command to compile 'foreach-sparselist'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/sugar-tests=/blue/Dev/ooc/examples/sugar-tests}
+Compiling source 'foreach-sparselist'
+Found dependency structs.List' imported from 'foreach-sparselist, importing...
+Compiling source 'structs.List'
+Found dependency Iterable' imported from 'structs.List, importing...
+Compiling source 'structs.Iterable'
+Found dependency Iterator' imported from 'structs.Iterable, importing...
+Compiling source 'structs.Iterator'
+Compiling source 'OocLib'
+Found dependency Iterator' imported from 'structs.List, importing...
+Found dependency structs.SparseList' imported from 'foreach-sparselist, importing...
+Compiling source 'structs.SparseList'
+Found dependency List' imported from 'structs.SparseList, importing...
+Found dependency Iterable' imported from 'structs.SparseList, importing...
+Found dependency Iterator' imported from 'structs.SparseList, importing...
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sugar-tests/structs/SparseList.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sugar-tests/structs/SparseList.o 
+/blue/Dev/ooc/examples/sugar-tests/structs/SparseList.c: In function ‘__structs_SparseList_iterator’:
+/blue/Dev/ooc/examples/sugar-tests/structs/SparseList.c:315: attention : return from incompatible pointer type
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sugar-tests/structs/Iterable.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sugar-tests/structs/Iterable.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sugar-tests/structs/Iterator.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sugar-tests/structs/Iterator.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sugar-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sugar-tests/OocLib.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sugar-tests/structs/List.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sugar-tests/structs/List.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/sugar-tests/foreach-sparselist.c /blue/Dev/ooc/examples/sugar-tests/structs/List.o /blue/Dev/ooc/examples/sugar-tests/structs/Iterable.o /blue/Dev/ooc/examples/sugar-tests/structs/Iterator.o /blue/Dev/ooc/examples/sugar-tests/OocLib.o /blue/Dev/ooc/examples/sugar-tests/structs/SparseList.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/sugar-tests/foreach-sparselist /blue/Dev/ooc/libs/linux/libgc.a 
+/blue/Dev/ooc/examples/sugar-tests/foreach-sparselist.c: In function ‘main’:
+/blue/Dev/ooc/examples/sugar-tests/foreach-sparselist.c:10: attention : initialization from incompatible pointer type
+Finished compilation in 358ms.
+Got remote command to compile 'hexnumbers'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/sugar-tests=/blue/Dev/ooc/examples/sugar-tests}
+Compiling source 'hexnumbers'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sugar-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sugar-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/sugar-tests/hexnumbers.c /blue/Dev/ooc/examples/sugar-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/sugar-tests/hexnumbers /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 105ms.
+Got remote command to compile 'multidecl-equals'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/sugar-tests=/blue/Dev/ooc/examples/sugar-tests}
+Compiling source 'multidecl-equals'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sugar-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sugar-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/sugar-tests/multidecl-equals.c /blue/Dev/ooc/examples/sugar-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/sugar-tests/multidecl-equals /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 111ms.
+Got remote command to compile 'reverse-for'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/sugar-tests=/blue/Dev/ooc/examples/sugar-tests}
+Compiling source 'reverse-for'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sugar-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sugar-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/sugar-tests/reverse-for.c /blue/Dev/ooc/examples/sugar-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/sugar-tests/reverse-for /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 99ms.
+Got remote command to compile 'sparse-for'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/sugar-tests=/blue/Dev/ooc/examples/sugar-tests}
+Compiling source 'sparse-for'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sugar-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sugar-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/sugar-tests/sparse-for.c /blue/Dev/ooc/examples/sugar-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/sugar-tests/sparse-for /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 113ms.
+Got remote command to compile 'undernumbers'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/sugar-tests=/blue/Dev/ooc/examples/sugar-tests}
+Compiling source 'undernumbers'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sugar-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sugar-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/sugar-tests/undernumbers.c /blue/Dev/ooc/examples/sugar-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/sugar-tests/undernumbers /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 113ms.
+Got remote command to compile 'equals-unexist-shouldfail'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/sugar-tests=/blue/Dev/ooc/examples/sugar-tests}
+Compiling source 'equals-unexist-shouldfail'
+ /blue/Dev/ooc/examples/sugar-tests/equals-unexist-shouldfail.ooc:11:24: C-style function declaration deprecated. Use 'func methodName(TypeArg arg, TypeArg2 arg2) -> ReturnType' instead, where parenthesis are optional when there are no arguments, and the arrow and return type are optional when the function is Void.
+Finished compilation in 1ms.
+Got remote command to compile 'foreach-arraylist'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/sugar-tests=/blue/Dev/ooc/examples/sugar-tests}
+Compiling source 'foreach-arraylist'
+Found dependency structs.List' imported from 'foreach-arraylist, importing...
+Compiling source 'structs.List'
+Found dependency Iterable' imported from 'structs.List, importing...
+Compiling source 'structs.Iterable'
+Found dependency Iterator' imported from 'structs.Iterable, importing...
+Compiling source 'structs.Iterator'
+Compiling source 'OocLib'
+Found dependency Iterator' imported from 'structs.List, importing...
+Found dependency structs.ArrayList' imported from 'foreach-arraylist, importing...
+Compiling source 'structs.ArrayList'
+Found dependency List' imported from 'structs.ArrayList, importing...
+Found dependency Iterator' imported from 'structs.ArrayList, importing...
+Found dependency Iterable' imported from 'structs.ArrayList, importing...
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sugar-tests/structs/Iterable.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sugar-tests/structs/Iterable.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sugar-tests/structs/ArrayList.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sugar-tests/structs/ArrayList.o 
+/blue/Dev/ooc/examples/sugar-tests/structs/ArrayList.c: In function ‘__structs_ArrayList_iterator’:
+/blue/Dev/ooc/examples/sugar-tests/structs/ArrayList.c:284: attention : return from incompatible pointer type
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sugar-tests/structs/Iterator.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sugar-tests/structs/Iterator.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sugar-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sugar-tests/OocLib.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sugar-tests/structs/List.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sugar-tests/structs/List.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/sugar-tests/foreach-arraylist.c /blue/Dev/ooc/examples/sugar-tests/structs/List.o /blue/Dev/ooc/examples/sugar-tests/structs/Iterable.o /blue/Dev/ooc/examples/sugar-tests/structs/Iterator.o /blue/Dev/ooc/examples/sugar-tests/OocLib.o /blue/Dev/ooc/examples/sugar-tests/structs/ArrayList.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/sugar-tests/foreach-arraylist /blue/Dev/ooc/libs/linux/libgc.a 
+/blue/Dev/ooc/examples/sugar-tests/foreach-arraylist.c: In function ‘main’:
+/blue/Dev/ooc/examples/sugar-tests/foreach-arraylist.c:10: attention : initialization from incompatible pointer type
+Finished compilation in 364ms.
+Got remote command to compile 'foreach-array'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/sugar-tests=/blue/Dev/ooc/examples/sugar-tests}
+Compiling source 'foreach-array'
+Found dependency structs.Array' imported from 'foreach-array, importing...
+Compiling source 'structs.Array'
+Found dependency structs.Iterable' imported from 'structs.Array, importing...
+Compiling source 'structs.Iterable'
+Found dependency Iterator' imported from 'structs.Iterable, importing...
+Compiling source 'structs.Iterator'
+Compiling source 'OocLib'
+Found dependency structs.Iterator' imported from 'structs.Array, importing...
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sugar-tests/structs/Iterable.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sugar-tests/structs/Iterable.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sugar-tests/structs/Iterator.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sugar-tests/structs/Iterator.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sugar-tests/structs/Array.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sugar-tests/structs/Array.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sugar-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sugar-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/sugar-tests/foreach-array.c /blue/Dev/ooc/examples/sugar-tests/structs/Array.o /blue/Dev/ooc/examples/sugar-tests/structs/Iterable.o /blue/Dev/ooc/examples/sugar-tests/structs/Iterator.o /blue/Dev/ooc/examples/sugar-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/sugar-tests/foreach-array /blue/Dev/ooc/libs/linux/libgc.a 
+/blue/Dev/ooc/examples/sugar-tests/foreach-array.c: In function ‘main’:
+/blue/Dev/ooc/examples/sugar-tests/foreach-array.c:10: attention : passing argument 2 of ‘__structs_Array_new_Int_Object__star’ from incompatible pointer type
+/blue/Dev/ooc/examples/sugar-tests/foreach-array.c:10: attention : initialization from incompatible pointer type
+Finished compilation in 216ms.
+Got remote command to compile 'foreach-noclass-shouldfail'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/sugar-tests=/blue/Dev/ooc/examples/sugar-tests}
+Compiling source 'foreach-noclass-shouldfail'
+Compiling source 'OocLib'
+org.ooc.errors.AssemblyError: Trying to foreach over a non-class type. Did you forget to import a cover? /blue/Dev/ooc/examples/sugar-tests/foreach-noclass-shouldfail.ooc:4:16
+	at org.ooc.errors.AssemblyManager.err(AssemblyManager.java:180)
+	at org.ooc.errors.AssemblyManager.errAndFail(AssemblyManager.java:207)
+	at org.ooc.nodes.others.Colon.assembleImpl(Colon.java:60)
+	at org.ooc.nodes.others.SyntaxNode.assemble(SyntaxNode.java:151)
+	at org.ooc.errors.AssemblyManager.doPass(AssemblyManager.java:347)
+	at org.ooc.errors.AssemblyManager.assemble(AssemblyManager.java:80)
+	at org.ooc.parsers.SourceParser.parse(SourceParser.java:138)
+	at org.ooc.compiler.Compiler.compile(Compiler.java:56)
+	at org.ooc.compiler.CompilerDaemon$1.run(CompilerDaemon.java:109)
+	at java.lang.Thread.run(Thread.java:619)
+Finished compilation in 4ms.
+Got remote command to compile 'foreach-noiter-shouldfail'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/sugar-tests=/blue/Dev/ooc/examples/sugar-tests}
+Compiling source 'foreach-noiter-shouldfail'
+Compiling source 'OocLib'
+org.ooc.errors.AssemblyError: Trying to foreach over the variable ' b' of type 'Boujou' which doesn't have an iterator method. /blue/Dev/ooc/examples/sugar-tests/foreach-noiter-shouldfail.ooc:4:16
+	at org.ooc.errors.AssemblyManager.err(AssemblyManager.java:180)
+	at org.ooc.errors.AssemblyManager.errAndFail(AssemblyManager.java:207)
+	at org.ooc.nodes.others.Colon.assembleImpl(Colon.java:63)
+	at org.ooc.nodes.others.SyntaxNode.assemble(SyntaxNode.java:151)
+	at org.ooc.errors.AssemblyManager.doPass(AssemblyManager.java:347)
+	at org.ooc.errors.AssemblyManager.assemble(AssemblyManager.java:80)
+	at org.ooc.parsers.SourceParser.parse(SourceParser.java:138)
+	at org.ooc.compiler.Compiler.compile(Compiler.java:56)
+	at org.ooc.compiler.CompilerDaemon$1.run(CompilerDaemon.java:109)
+	at java.lang.Thread.run(Thread.java:619)
+Finished compilation in 6ms.
+Got remote command to compile 'foreach-sparselist'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/sugar-tests=/blue/Dev/ooc/examples/sugar-tests}
+Compiling source 'foreach-sparselist'
+Found dependency structs.List' imported from 'foreach-sparselist, importing...
+Compiling source 'structs.List'
+Found dependency Iterable' imported from 'structs.List, importing...
+Compiling source 'structs.Iterable'
+Found dependency Iterator' imported from 'structs.Iterable, importing...
+Compiling source 'structs.Iterator'
+Compiling source 'OocLib'
+Found dependency Iterator' imported from 'structs.List, importing...
+Found dependency structs.SparseList' imported from 'foreach-sparselist, importing...
+Compiling source 'structs.SparseList'
+Found dependency List' imported from 'structs.SparseList, importing...
+Found dependency Iterable' imported from 'structs.SparseList, importing...
+Found dependency Iterator' imported from 'structs.SparseList, importing...
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sugar-tests/structs/SparseList.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sugar-tests/structs/SparseList.o 
+/blue/Dev/ooc/examples/sugar-tests/structs/SparseList.c: In function ‘__structs_SparseList_iterator’:
+/blue/Dev/ooc/examples/sugar-tests/structs/SparseList.c:315: attention : return from incompatible pointer type
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sugar-tests/structs/Iterable.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sugar-tests/structs/Iterable.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sugar-tests/structs/Iterator.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sugar-tests/structs/Iterator.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sugar-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sugar-tests/OocLib.o 
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sugar-tests/structs/List.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sugar-tests/structs/List.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/sugar-tests/foreach-sparselist.c /blue/Dev/ooc/examples/sugar-tests/structs/List.o /blue/Dev/ooc/examples/sugar-tests/structs/Iterable.o /blue/Dev/ooc/examples/sugar-tests/structs/Iterator.o /blue/Dev/ooc/examples/sugar-tests/OocLib.o /blue/Dev/ooc/examples/sugar-tests/structs/SparseList.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/sugar-tests/foreach-sparselist /blue/Dev/ooc/libs/linux/libgc.a 
+/blue/Dev/ooc/examples/sugar-tests/foreach-sparselist.c: In function ‘main’:
+/blue/Dev/ooc/examples/sugar-tests/foreach-sparselist.c:10: attention : initialization from incompatible pointer type
+Finished compilation in 335ms.
+Got remote command to compile 'hexnumbers'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/sugar-tests=/blue/Dev/ooc/examples/sugar-tests}
+Compiling source 'hexnumbers'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sugar-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sugar-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/sugar-tests/hexnumbers.c /blue/Dev/ooc/examples/sugar-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/sugar-tests/hexnumbers /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 101ms.
+Got remote command to compile 'multidecl-equals'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/sugar-tests=/blue/Dev/ooc/examples/sugar-tests}
+Compiling source 'multidecl-equals'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sugar-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sugar-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/sugar-tests/multidecl-equals.c /blue/Dev/ooc/examples/sugar-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/sugar-tests/multidecl-equals /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 100ms.
+Got remote command to compile 'reverse-for'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/sugar-tests=/blue/Dev/ooc/examples/sugar-tests}
+Compiling source 'reverse-for'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sugar-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sugar-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/sugar-tests/reverse-for.c /blue/Dev/ooc/examples/sugar-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/sugar-tests/reverse-for /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 111ms.
+Got remote command to compile 'sparse-for'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/sugar-tests=/blue/Dev/ooc/examples/sugar-tests}
+Compiling source 'sparse-for'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sugar-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sugar-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/sugar-tests/sparse-for.c /blue/Dev/ooc/examples/sugar-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/sugar-tests/sparse-for /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 107ms.
+Got remote command to compile 'undernumbers'. SourcePath = {/blue/Dev/ooc/sdk=/blue/Dev/ooc/sdk, /blue/Dev/ooc/examples/sugar-tests=/blue/Dev/ooc/examples/sugar-tests}
+Compiling source 'undernumbers'
+Compiling source 'OocLib'
+/usr/bin/gcc -std=c99 -c /blue/Dev/ooc/examples/sugar-tests/OocLib.c -I /blue/Dev/ooc/libs/headers -o /blue/Dev/ooc/examples/sugar-tests/OocLib.o 
+/usr/bin/gcc -std=c99 /blue/Dev/ooc/examples/sugar-tests/undernumbers.c /blue/Dev/ooc/examples/sugar-tests/OocLib.o -I /blue/Dev/ooc/libs/headers -L /blue/Dev/ooc/libs/ -L /blue/Dev/ooc/libs -l pthread -o /blue/Dev/ooc/examples/sugar-tests/undernumbers /blue/Dev/ooc/libs/linux/libgc.a 
+Finished compilation in 104ms.
+java.lang.NullPointerException
+	at org.ooc.compiler.CompilerDaemon$1.run(CompilerDaemon.java:85)
+	at java.lang.Thread.run(Thread.java:619)

@@ -1,3 +1,18 @@
+Trying to create object..
+Trying to say hello
+Hi dude, my name is Smith, and I'm happy to meet you!
+Returning
+Hi sweetie, my name really is Andrew, but you can call me Andy if you like.
+Hi sweetie, my name really is Andrew, but you can call me Andy if you like.
+Hi dude, my name is Smith, and I'm happy to meet you!
+Pizza Allegro Tomato, of diameter 0.500000, color red, and tomato percentage 60.000000
+Pizza Royale Grande, of diameter 1.000000, color green, and tomato percentage 40.000000
+Dump dumpadaddy dump.
+Printing 30 numbers between 0 and 5 and a max of 500
+21013433342692433452281134967126949398353407183944671431282133962244833145133132193
+That's all, folks =)
+sleeping a while...
+we slept for 723 milli-seconds
 Meowwwwww!
 Meowwwwww!
 Size of animal: 8, size of cat: 12
@@ -25,6 +40,7 @@ Got arg '--test'
 Got env 'MANPATH=/etc/java-config-2/current-system-vm/man:/usr/local/share/man:/usr/share/man:/usr/share/binutils-data/i686-pc-linux-gnu/2.19.1/man:/usr/share/gcc-data/i486-pc-linux-gnu/4.1.2/man:/usr/share/gcc-data/i686-pc-linux-gnu/4.3.3/man:/etc/java-config/system-vm/man/:/usr/lib/php5/man/:/usr/kde/3.5/share/man:/usr/qt/3/doc/man:/opt/nvidia-cg-toolkit/man:/opt/vmware/player/man'
 Got env 'TERM=screen'
 Got env 'SHELL=/bin/bash'
+Got env 'MAKEFLAGS='
 Got env 'XDG_SESSION_COOKIE=79af98e80b21a9f2b9d194894979cec3-1245713356.870427-2005954021'
 Got env 'WINDOWID=8388612'
 Got env 'HUSHLOGIN=FALSE'
@@ -57,38 +73,40 @@ Got env 'TERMCAP=SC|screen|VT 100/ANSI X3.64 virtual terminal:\
 	:%e=\E[5;2~:%i=\E[1;2C:kh=\E[1~:@1=\E[1~:kH=\E[4~:\
 	:@7=\E[4~:kN=\E[6~:kP=\E[5~:kI=\E[2~:kD=\E[3~:ku=\EOA:\
 	:kd=\EOB:kr=\EOC:kl=\EOD:km:'
+Got env 'MAKELEVEL=1'
 Got env 'PAGER=/usr/bin/less'
 Got env 'CONFIG_PROTECT_MASK=/etc/gentoo-release /etc/sandbox.d /etc/env.d/java/ /etc/php/cli-php5/ext-active/ /etc/php/cgi-php5/ext-active/ /etc/php/apache2-php5/ext-active/ /etc/udev/rules.d /etc/fonts/fonts.conf /etc/gconf /etc/terminfo /etc/ca-certificates.conf /etc/revdep-rebuild'
-Got env 'XDG_CONFIG_DIRS=/etc/xdg'
+Got env 'MFLAGS='
 Got env 'FLTK_DOCDIR=/usr/share/doc/fltk-2.0_pre6525/html'
+Got env 'XDG_CONFIG_DIRS=/etc/xdg'
 Got env 'SBCL_SOURCE_ROOT=/usr/lib/sbcl/src'
 Got env 'MAIL=/var/mail/root'
 Got env 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/bin:/usr/i486-pc-linux-gnu/gcc-bin/4.1.2:/usr/i686-pc-linux-gnu/gcc-bin/4.3.3:/opt/xxe:/usr/kde/3.5/sbin:/usr/kde/3.5/bin:/usr/qt/3/bin:/opt/vmware/player/bin'
 Got env 'STY=31911.pts-0.tsubaka'
 Got env 'HG=/usr/bin/hg'
 Got env 'DISTCC_LOG='
-Got env 'PWD=/blue/Dev/ooc/examples/ninja/func-tests'
+Got env 'PWD=/blue/Dev/ooc/examples/func-tests'
 Got env 'JAVA_HOME=/etc/java-config-2/current-system-vm'
-Got env 'EDITOR=/bin/vim'
 Got env 'JAVAC=/etc/java-config-2/current-system-vm/bin/javac'
+Got env 'EDITOR=/bin/vim'
 Got env 'LANG=fr_FR.UTF-8'
 Got env 'QMAKESPEC=linux-g++'
-Got env 'DISTCC_VERBOSE='
 Got env 'DCCC_PATH=/usr/lib/distcc/bin'
-Got env 'HOME=/root'
+Got env 'DISTCC_VERBOSE='
 Got env 'SHLVL=6'
+Got env 'HOME=/root'
 Got env 'JDK_HOME=/etc/java-config-2/current-system-vm'
 Got env 'CG_COMPILER_EXE=/opt/bin/cgc'
-Got env 'LOGNAME=root'
 Got env 'LESS=-R -M --shift 5'
-Got env 'WINDOW=5'
+Got env 'LOGNAME=root'
 Got env 'CVS_RSH=ssh'
+Got env 'WINDOW=5'
 Got env 'GCC_SPECS='
 Got env 'XDG_DATA_DIRS=/usr/local/share:/usr/kde/3.5/share:/usr/share'
-Got env 'LESSOPEN=|lesspipe.sh %s'
 Got env 'PKG_CONFIG_PATH=/usr/qt/3/lib/pkgconfig'
-Got env 'INFOPATH=/usr/share/info:/usr/share/binutils-data/i686-pc-linux-gnu/2.19.1/info:/usr/share/gcc-data/i486-pc-linux-gnu/4.1.2/info:/usr/share/gcc-data/i686-pc-linux-gnu/4.3.3/info'
+Got env 'LESSOPEN=|lesspipe.sh %s'
 Got env 'WINDOWPATH=7'
+Got env 'INFOPATH=/usr/share/info:/usr/share/binutils-data/i686-pc-linux-gnu/2.19.1/info:/usr/share/gcc-data/i486-pc-linux-gnu/4.1.2/info:/usr/share/gcc-data/i686-pc-linux-gnu/4.3.3/info'
 Got env 'DISPLAY=:0.0'
 Got env 'USB_DEVFS_PATH=/dev/bus/usb'
 Got env 'OPENGL_PROFILE=nvidia'
@@ -97,7 +115,7 @@ Got env 'CONFIG_PROTECT=/var/bind /usr/share/config /usr/kde/3.5/share/config /u
 Got env 'COLORTERM=Terminal'
 Got env 'XAUTHORITY=/root/.Xauthority'
 Got env '_=./mainenv'
-Got env 'OLDPWD=/blue/Dev/ooc/examples/ninja/cover-tests'
+Got env 'OLDPWD=/blue/Dev/ooc/examples/cover-tests'
 value is an int, and it equals 1995
 A killing killer knowing how to kill without its painkiller is a good killer.
 two == 2 (o, rly?)
@@ -110,14 +128,163 @@ Parents are of species Human, and children, of species Human
 I'm of species Human
 1, 2, 3... magic =)
 i = 6, j = 9
+aaaaaaaahhh TCHOOOOOH!
+res = 1
+I shout 42 
+And the Nightmare said:
+	I shout 69 
+0 to parenthezised func, 0
+0 to parenthezised func, 1
+0 to parenthezised func, 2
+0 to freestyle func, 0
+0 to freestyle func, 1
+0 to freestyle func, 2
+parenthezised func2 to 3, 0
+parenthezised func2 to 3, 1
+parenthezised func2 to 3, 2
+freestyle func2 to 3, 0
+freestyle func2 to 3, 1
+freestyle func2 to 3, 2
+parenthezised func2 to parenthezised func, 0
+parenthezised func2 to parenthezised func, 1
+parenthezised func2 to parenthezised func, 2
+freestyle func2 to freestyle func, 0
+freestyle func2 to freestyle func, 1
+freestyle func2 to freestyle func, 2
+parenthesized range, 0
+parenthesized range, 1
+parenthesized range, 2
+freestyle range, 0
+freestyle range, 1
+freestyle range, 2
+## Creating dog and cat.
+## Making them both shout the straightforward way.
+Woof woof! I'm Lassie the dog, and I'm 18 years old.
+Meooowww, my name is Grok and I'm a sweet 12-year-old cat.
+## Casting to animal and making them shout.
+Woof woof! I'm Lassie the dog, and I'm 18 years old.
+Meooowww, my name is Grok and I'm a sweet 12-year-old cat.
+## Storing in array and making shout
+Woof woof! I'm Lassie the dog, and I'm 18 years old.
+Meooowww, my name is Grok and I'm a sweet 12-year-old cat.
+Hi, my name is Lassie and I'm 18 years old.
+Done barking ! Another one ?
+Hi, my name is Rex and I'm 21 years old.
+Now a dog array =D
+Hi, my name is Random Dog and I'm 7 years old.
+Hi, my name is Random Dog and I'm 10 years old.
+Hi, my name is Random Dog and I'm 13 years old.
+Hi, my name is Random Dog and I'm 16 years old.
+Value = 42
+Finished initializing p3, casting...
+Casted!, now p2.shouting
+1, 2, 3, shouuuuuuuuuuuuuuuuuuuut!!!!
+Doing things with ma ladybug friend.
+Shouted, now p3.shouting
+1, 69, 3, shouuuuuuuuuuuuuuuuuuuut!!!!
+42, 69, 3, shouuuuuuuuuuuuuuuuuuuut!!!!
+Shouted, now p3.shouting
+42, 69, 3, shouuuuuuuuuuuuuuuuuuuut!!!!
+12, 32.400000, f
+Reading from file:
+23, 0, 9, 97, 8, 96, 7, 8, 5, 
+Reading from string:
+124, 80, 978, 208, 259, 
+Now reading lines from a file
+Name: Inara, Age: 26, Profession: Companion
+Name: Mal, Age: 35, Profession: Captain
+Name: Kaylee, Age: 31, Profession: Mechanics expert
+In test mode, exiting gracefully =)
 Un poulet dans le palais est pas la pour etre poli.
 Who needs some KoolAid? Or a structs.Array?
 No, really, I've got some KoolAid left. You sure?
 Everybody needs some KoolAid sometimes.
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,  are the 12 first numbers of N.
+Legacy C include works!
+New C include many work!
+New C include works!
+plaf is 3
+plaf is 3
+plaf is 3
+24 or 42 ?
+Int: 42
+Float: 3.14f
+24 or 42 ?
+Int: 42
+Float: 3.14f
+Hayo, I'm a kid and I'm asking for candyyyy!
+Hay, I'm the candy giver, I just a gave a kinder, total is now 1
+Hay, I'm the candy giver, I just a gave a kinder, total is now 2
+Hay, I'm the candy giver, I just a gave a kinder, total is now 3
+Hay, I'm the candy giver, I just a gave a kinder, total is now 4
+Hay, I'm the candy giver, I just a gave a kinder, total is now 5
+Hay, I'm the candy giver, I just a gave a kinder, total is now 6
+Hayo, I'm a kid and I'm asking for candyyyy!
+Hay, I'm the candy giver, I just a gave a lollypop, total is now 7
+Hay, I'm the candy giver, I just a gave a lollypop, total is now 8
+Hay, I'm the candy giver, I just a gave a lollypop, total is now 9
+Hay, I'm the candy giver, I just a gave a lollypop, total is now 10
+Hay, I'm the candy giver, I just a gave a lollypop, total is now 11
+Hay, I'm the candy giver, I just a gave a lollypop, total is now 12
+Hayo, I'm a kid and I'm asking for candyyyy!
+Hay, I'm the candy giver, I just a gave a chewing gum, total is now 13
+Hay, I'm the candy giver, I just a gave a chewing gum, total is now 14
+Hay, I'm the candy giver, I just a gave a chewing gum, total is now 15
+Hay, I'm the candy giver, I just a gave a chewing gum, total is now 16
+Hay, I'm the candy giver, I just a gave a chewing gum, total is now 17
+Hay, I'm the candy giver, I just a gave a chewing gum, total is now 18
+As a grand total, 18 candies have been distributed
+Beginning to proliferate...
+Just created ant #0
+Just created ant #1
+Just created ant #2
+Just created ant #3
+Just created ant #4
+Just created ant #5
+Just created ant #6
+Just created ant #7
+Just created ant #8
+Just created ant #9
+Invasion complete!
+Beginning to proliferate...
+Just created ant #0
+Just created ant #1
+Just created ant #2
+Just created ant #3
+Just created ant #4
+Just created ant #5
+Just created ant #6
+Just created ant #7
+Just created ant #8
+Just created ant #9
+Invasion complete!
 42 == 42. Alright
 Torturer: testing list structure structs.ArrayList
 first test: appending 100 elementsTorturer: testing list structure structs.SparseList
 first test: appending 100 elementsThe Raven - Edgar Allan Poe
+
+Once upon a midnight dreary, while I pondered weak and weary,
+Over many a quaint and curious volume of forgotten lore,
+While I nodded, nearly napping, suddenly there came a tapping,
+As of some one gently rapping, rapping at my chamber door.
+`'Tis some visitor,' I muttered, `tapping at my chamber door -
+Only this, and nothing more.'
+Got arg ./foreach-array
+Got arg --test
+Le Petit Prince - Antoine de Saint-Exupéry
+
+Mais il remarqua avec sagesse :
+- Les baobabs, avant de grandir, ça commence par être petit.
+- C'est exact ! Mais pourquoi veux-tu que tes moutons mangent les petits baobabs ?
+Il me répondit : "Ben ! Voyons !" comme s'il s'agissait là d'une évidence.
+Et il me fallut un grand effort d'intelligence pour comprendre à moi seul ce problème.
+(r, g, b, a) = (-16777216, 16711680, 65280, 255)
+(r, g, b, a) = (ff000000, ff0000, ff00, ff)
+It worked. (death 42, sleep 69, food 1337)
+10...9...8...7...6...5...4...3...2...1...0...BAOOM!
+0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, .. were 0 to 100, with step 10
+ooc is 10000000 times funnier than C
+The Raven - Edgar Allan Poe
 
 Once upon a midnight dreary, while I pondered weak and weary,
 Over many a quaint and curious volume of forgotten lore,
