@@ -5,7 +5,10 @@ import java.util.*;
 
 /**
  * Utility class to read environment variables even under GCJ/GNU classpath
- * (which doesn't implement System.getenv properly yet again)
+ * The System.getenv() method has been deprecated in Java 1.4 and reinstated
+ * in 1.5, but apparently 
+ * 
+ * Taken from http://www.rgagnon.com/javadetails/java-0150.html
  * 
  * @author Amos Wenger
  */

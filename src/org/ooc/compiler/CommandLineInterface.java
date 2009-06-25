@@ -1,9 +1,11 @@
 package org.ooc.compiler;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Properties;
 import java.util.StringTokenizer;
 
 import org.ooc.backends.BackendFactory;
@@ -25,23 +27,7 @@ public class CommandLineInterface {
      */
     public static void main(String[] args) throws Exception {
     	
-    	if(OOC_DIST == null || OOC_DIST.trim().isEmpty()) {
-	    	StringTokenizer st = new StringTokenizer(System.getProperty("java.class.path"), File.pathSeparator);
-	    	while(st.hasMoreElements()) {
-	    		String path = st.nextToken();
-	    		if(path.contains("dist/ooc.jar")) {
-	    			OOC_DIST = new File(path).getParentFile().getParentFile().getCanonicalPath();
-	    			break;
-	    		}
-	    	}
-    	}
-    	
-    	if(OOC_DIST == null || OOC_DIST.trim().isEmpty()) {
-    		// If still null, wasn't found.
-    		System.out.println("ERROR: You need to set the OOC_DIST environment " +
-    				"variable to where you have installed ooc. (example: export OOC_DIST=/opt/ooc)");
-    		System.exit(1);
-    	}
+    	findDist();
     	
         if(args.length < 1) {
             System.out.println("ooc: no files.");
@@ -229,6 +215,48 @@ public class CommandLineInterface {
         System.exit(0);
 
     }
+
+	private static void findDist() throws IOException {
+		
+		/** 
+		 * First try: assume we're launched with java -jar bin/ooc.jar and
+		 * try to find ourselves in the classpath.
+		 */
+		if(OOC_DIST == null || OOC_DIST.trim().isEmpty()) {
+	    	StringTokenizer st = new StringTokenizer(System.getProperty("java.class.path"), File.pathSeparator);
+	    	while(st.hasMoreElements()) {
+	    		String path = st.nextToken();
+	    		if(path.contains("ooc.jar")) {
+	    			OOC_DIST = new File(path).getParentFile().getParentFile().getCanonicalPath();
+	    			break;
+	    		}
+	    	}
+    	}
+    	
+		/**
+		 * Second try: assume we're launched as GCJ-compiled executable, and
+		 * try to get our path from the "_" environment variable, which seems to
+		 * be set by bash under Gentoo and by MSYS 1.0.11/whatever under MinGW/WinXP
+		 */
+    	if(OOC_DIST == null || OOC_DIST.trim().isEmpty()) {
+    		Properties env = ReadEnv.getEnvVars();
+    		Object curr = env.get("_");
+    		if(curr != null) {
+    			File file = new File(curr.toString().trim());
+    			if(file.getPath().endsWith("ooc") || file.getPath().endsWith("ooc.exe")) {
+    				String canonicalPath = file.getCanonicalPath();
+    				OOC_DIST = new File(canonicalPath).getParent();
+    			}
+    		}
+    	}
+    	
+    	if(OOC_DIST == null || OOC_DIST.trim().isEmpty()) {
+    		// If still null, wasn't found.
+    		System.out.println("ERROR: You need to set the OOC_DIST environment " +
+    				"variable to where you have installed ooc. (example: export OOC_DIST=/opt/ooc)");
+    		System.exit(1);
+    	}
+	}
 
     /**
      * @return the emplacement of the ooc distribution directory, as specified
