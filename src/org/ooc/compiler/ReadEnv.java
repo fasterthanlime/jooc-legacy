@@ -44,9 +44,9 @@ public class ReadEnv {
 				String key = line.substring(0, idx);
 				String value = line.substring(idx + 1);
 				envVars.setProperty(key, value);
-				System.out.println( key + " = " + value );
+				//System.out.println( key + " = " + value );
 			} else {
-				System.out.println("While trying to get environment variables, got: " + line + "\n");
+				//System.out.println("While trying to get environment variables, got: " + line + "\n");
 			}
 		}
 		return envVars;

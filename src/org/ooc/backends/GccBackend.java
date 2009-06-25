@@ -236,6 +236,9 @@ class GccBackend extends Backend {
 				args.add("-o");
 				// Should it be executableName instead? I don't like my executables buried in package folders.
 				String execPath = info.getRelativePath(executable.source.getInfo().simpleName, "");
+				if(Target.guessHost() == Target.WIN32) {
+					execPath += ".exe"; // haha. longstanding bug.
+				}
 				args.add(execPath);
 				toMove.add(execPath);
 				
