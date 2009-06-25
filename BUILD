@@ -20,6 +20,10 @@ an executable in the bin/ooc directory, statically linked to gcj.
 The provided Makefile is very easy to understand, and works perfectly
 under Gentoo and Windows XP+MinGW+MSYS.
 
+If you want to build from .java source (not from .class), you have
+to check out 'ubi' as well (ooc depends on it), you can find on GitHub
+at http://github.com/amoswenger/ubi
+
 You're welcome if you want to build binaries for 64-bit platforms,
 Solaris*, BSD*, etc. I'm reachable at amoswenger@gmail.com for discussion
 about this.
