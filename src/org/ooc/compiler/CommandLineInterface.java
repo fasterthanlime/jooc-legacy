@@ -262,9 +262,9 @@ public class CommandLineInterface {
 		 */
     	if(OOC_DIST == null || OOC_DIST.trim().isEmpty()) {
     		
-    		File bin = ShellUtils.findExecutable("gcc");
+    		File bin = ShellUtils.findExecutable("ooc");
     		if(bin == null) {
-    			bin = ShellUtils.findExecutable("gcc.exe");
+    			bin = ShellUtils.findExecutable("ooc.exe");
     		}
     		
     		if(bin != null) {

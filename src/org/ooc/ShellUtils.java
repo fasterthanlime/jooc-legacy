@@ -43,7 +43,7 @@ public class ShellUtils {
 		while(st.hasMoreTokens()) {
 			String path = st.nextToken();
 			File file = new File(path, executableName);
-			if(file.exists()) {
+			if(file.exists() && file.isFile()) {
 				return file;
 			}
 		}
