@@ -133,6 +133,17 @@ Follow the white rabbit.
 
               <tbody>
                 <row>
+                  <entry>-</entry>
+
+                  <entry>-</entry>
+
+                  <entry>This</entry>
+
+                  <entry>in a class definition, refers to the current class.
+                  Really, really useful to avoid repetition.</entry>
+                </row>
+
+                <row>
                   <entry>void*</entry>
 
                   <entry>Object</entry>
@@ -352,6 +363,30 @@ func main {
           recognized, and you have compile errors. This can be solved with the
           use of the <literal>ctype</literal> keyword.</para>
         </section>
+
+        <section>
+          <title>The 'This' special type.</title>
+
+          <para>In the Java language as in ooc, you have the
+          <literal>this</literal> keyword, to refer to the current instance of
+          the object we're defining a function of, e.g.:</para>
+
+          <programlisting>class Color {
+
+  Float r, g, b;
+
+  func compare(Float r) {
+    if(r != this.r) {
+      printf("different !\n");
+    }
+  }
+
+}</programlisting>
+
+          <para>ooc extends this concept and introduce the
+          <literal>This</literal> type, which refers to the type of the class
+          we're defining:</para>
+        </section>
       </section>
 
       <section>
@@ -388,6 +423,78 @@ func main {
         <para>Difference between class and covers will be treated more in
         depth in <link linkend="classes">a next chapter</link>.</para>
       </section>
+    </section>
+
+    <section>
+      <title>Arrays</title>
+
+      <section>
+        <title>Raw C arrays</title>
+
+        <para>Raw C arrays are declared almost as in C, expect the square
+        brackets [] are placed somewhere meaningful</para>
+
+        <programlisting>Char[] letters = malloc(26, sizeof(Int));
+letter[0] = 'a';
+
+Bool[256] keymap;
+Bool escapePressed = keymap[27];
+
+String[] greetings = {"Heya!", "Bien l'bonjour!", "Hallo =)"};
+
+// actually taken from examples/gtk-tests/opengl.ooc
+Int[] flags = {
+  GDK_GL_RGBA,
+  GDK_GL_RED_SIZE, 1,
+  GDK_GL_GREEN_SIZE, 1,
+  GDK_GL_BLUE_SIZE, 1,
+  GDK_GL_DOUBLEBUFFER,
+  GDK_GL_NONE,
+}</programlisting>
+
+        <para>This kind of arrays are exactly as fast and as unsafe as in C.In
+        case you want higher-level arrays, you can wrap them in the Array
+        class.</para>
+      </section>
+
+      <section>
+        <title>The Array class</title>
+
+        <para>The Array class does bound-checking, and allows you to use
+        foreach through the array. All those features (classes, foreach) are
+        discussed in the next chapters. Here are a few examples of uses of the
+        Array class:</para>
+
+        <programlisting>import structs.Array;
+
+func main(Int argc, String[] argv) {
+
+  for(Int arg: new Array(argc, argv)) {
+    printf("Got arg '%s'\n", arg);
+  }
+
+  Array strings = new Array(4);
+  strings.set(0, "Hai furry world!\n"); // okay, 0 &gt;= 0 and 0 &lt; 4
+  strings.get(9); // ERROR! index out of bounds (9 &gt; 4).
+
+}</programlisting>
+
+        <para>Array is a fixed-size type. To store a variable number of
+        elements, see the <literal>ArrayList</literal> and
+        <literal>SparseList</literal> classes.</para>
+      </section>
+    </section>
+
+    <section>
+      <title>Pointers</title>
+
+      <para>Pointers are used in ooc exactly as in C, although they are not as
+      welcome. They're used extensively behind the scenes, to implement
+      classes, etc, but their use is discouraged when not necessary. A good
+      use case for using pointers (instead of a objects, for example) is
+      low-level implementation of a speed-critical algorithm. Using pointers
+      is to ooc what assembler is to C: something you shouldn't use unless you
+      really need it for speed.</para>
     </section>
   </chapter>
 
@@ -535,6 +642,23 @@ func call(Func toCall) {
   toCall();
 
 }</programlisting>
+
+        <para>Since mentioning a function's name without parenthesis is enough
+        to call it, the '<literal>@</literal>' prefix is added before the
+        function name to indicate that we want a pointer to it, not to execute
+        it. This distinction is justified if you consider that a function
+        could itself return a pointer to function, thus you can't let the
+        compiler guess whether or not to call the function.</para>
+
+        <para>'<literal>@</literal>' doesn't work the same as
+        '<literal>&amp;</literal>' in C. For example, the Gtk class as a
+        function mainQuit, and it's a common idiom in a gtk program to
+        do:</para>
+
+        <programlisting>window.connectNaked("destroy", Gtk.@mainQuit);</programlisting>
+
+        <para>This ensures that Gtk.mainQuit() is called when the window is
+        destroyed.</para>
       </section>
 
       <section>
@@ -543,6 +667,33 @@ func call(Func toCall) {
         <para>This case is treated in <link linkend="classes">this
         chapter</link>.</para>
       </section>
+    </section>
+
+    <section>
+      <title>Covers</title>
+
+      <para>A cover is a set of functions added to a primitive type. As an
+      example, is here a sample of the <literal>lang.String</literal> cover
+      (included in the sdk of the standard ooc distribution):</para>
+
+      <programlisting>typedef Char* String;
+
+cover String {
+
+  func length -&gt; Int {
+    return strlen(this);
+  }
+
+}</programlisting>
+
+      <para>The definition of String as presented above allows code
+      like:</para>
+
+      <programlisting>String word = "anticonstitutionnellement";
+printf("the longest french word is %d chars long.\n", word.length);</programlisting>
+
+      <para>Covers can't have constructors, thus they can't be
+      instantiated.</para>
     </section>
   </chapter>
 
@@ -589,16 +740,25 @@ func call(Func toCall) {
         instanciate, after a variable declaration or a variable
         assignment:</para>
 
-        <programlisting>Dog dog = new;</programlisting>
+        <programlisting>Dog dog = new;
+Cat cat;
+cat = new("meow");</programlisting>
 
         <para>Not, that, unlike C++, declaring only:</para>
 
-        <programlisting>Dog dog;</programlisting>
+        <programlisting>Bird bird;</programlisting>
 
-        <para>will make dog a dangling pointer. Every object is in fact a
+        <para>will make bird a dangling pointer. Every object is in fact a
         pointer to a structure. For more details about the underlying
         implementation, see <link linkend="abi">the ABI
         appendix</link>.</para>
+      </section>
+
+      <section>
+        <title>Static fields</title>
+
+        <para>There can be instance fields and static fields in a class, in
+        the Java sense of these words. Example:</para>
       </section>
 
       <section>
@@ -712,6 +872,24 @@ func printType(Object o) {
 
         <para>In the future, reflection should be completed with fields and
         functions listing, etc.</para>
+      </section>
+
+      <section>
+        <title>Pointers to member functions</title>
+
+        <para>Interesting subject, if any. For now, there is a simple
+        workaround, which, unfortunately, is only useful if you have only one
+        instance of the considered class at run time. It works like
+        this</para>
+
+        <programlisting>// declared somewhere
+func registerCallback(Func func);
+
+class Handler {
+
+  static This instance;
+
+}</programlisting>
       </section>
     </section>
   </chapter>
