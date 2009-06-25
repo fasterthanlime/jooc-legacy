@@ -14,7 +14,7 @@ class Vector2f from Vector{
 
 	func new(=x, =y);
 	
-	new(This copy) {
+	func new(This copy) {
 		x = copy.x;
 		y = copy.y;
 	}
