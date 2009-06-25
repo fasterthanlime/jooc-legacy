@@ -37,7 +37,8 @@ public class ShellUtils {
 		StringTokenizer st = new StringTokenizer(env.getProperty("PATH"), File.pathSeparator);
 		while(st.hasMoreTokens()) {
 			String path = st.nextToken();
-			File file = new File(path, executableName); 
+			File file = new File(path, executableName);
+			System.out.println("Checking at "+file.getPath());
 			if(file.exists()) {
 				return file;
 			}
