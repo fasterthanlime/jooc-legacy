@@ -1,0 +1,218 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML
+><HEAD
+><TITLE
+>Arrays</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.79"/><LINK
+REL="HOME"
+TITLE="ooc v0.2 ninja Language Reference"
+HREF="book1.htm"/><LINK
+REL="UP"
+TITLE="Variables"
+HREF="c28.htm"/><LINK
+REL="PREVIOUS"
+TITLE="Variables"
+HREF="c28.htm"/><LINK
+REL="NEXT"
+TITLE="Pointers"
+HREF="x214.htm"/></HEAD
+><BODY
+CLASS="section"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>ooc v0.2 ninja Language Reference</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="c28.htm"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+>Chapter 1. Variables</TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x214.htm"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"/></DIV
+><DIV
+CLASS="section"
+><H1
+CLASS="section"
+><A
+NAME="AEN200"
+>Arrays</A
+></H1
+><DIV
+CLASS="section"
+><H2
+CLASS="section"
+><A
+NAME="AEN202"
+>Raw C arrays</A
+></H2
+><P
+>Raw C arrays are declared almost as in C, expect the square
+        brackets [] are placed somewhere meaningful</P
+><PRE
+CLASS="programlisting"
+>Char[] letters = malloc(26, sizeof(Int));
+letter[0] = 'a';
+
+Bool[256] keymap;
+Bool escapePressed = keymap[27];
+
+String[] greetings = {"Heya!", "Bien l'bonjour!", "Hallo =)"};
+
+// actually taken from examples/gtk-tests/opengl.ooc
+Int[] flags = {
+  GDK_GL_RGBA,
+  GDK_GL_RED_SIZE, 1,
+  GDK_GL_GREEN_SIZE, 1,
+  GDK_GL_BLUE_SIZE, 1,
+  GDK_GL_DOUBLEBUFFER,
+  GDK_GL_NONE,
+}</PRE
+><P
+>This kind of arrays are exactly as fast and as unsafe as in C.In
+        case you want higher-level arrays, you can wrap them in the Array
+        class.</P
+></DIV
+><DIV
+CLASS="section"
+><H2
+CLASS="section"
+><A
+NAME="AEN207"
+>The Array class</A
+></H2
+><P
+>The Array class does bound-checking, and allows you to use
+        foreach through the array. All those features (classes, foreach) are
+        discussed in the next chapters. Here are a few examples of uses of the
+        Array class:</P
+><PRE
+CLASS="programlisting"
+>import structs.Array;
+
+func main(Int argc, String[] argv) {
+
+  for(Int arg: new Array(argc, argv)) {
+    printf("Got arg '%s'\n", arg);
+  }
+
+  Array strings = new Array(4);
+  strings.set(0, "Hai furry world!\n"); // okay, 0 &gt;= 0 and 0 &lt; 4
+  strings.get(9); // ERROR! index out of bounds (9 &gt; 4).
+
+}</PRE
+><P
+>Array is a fixed-size type. To store a variable number of
+        elements, see the <TT
+CLASS="literal"
+>ArrayList</TT
+> and
+        <TT
+CLASS="literal"
+>SparseList</TT
+> classes.</P
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"/><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="c28.htm"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="book1.htm"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x214.htm"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Variables</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="c28.htm"
+ACCESSKEY="U"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Pointers</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

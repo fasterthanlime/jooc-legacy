@@ -2,7 +2,7 @@
 <HTML
 ><HEAD
 ><TITLE
->Callbacks and pointers</TITLE
+>flow control</TITLE
 ><META
 NAME="GENERATOR"
 CONTENT="Modular DocBook HTML Stylesheet Version 1.79"/><LINK
@@ -10,14 +10,14 @@ REL="HOME"
 TITLE="ooc v0.2 ninja Language Reference"
 HREF="book1.htm"/><LINK
 REL="UP"
-TITLE="Functions"
-HREF="c176.htm"/><LINK
+TITLE="Statements"
+HREF="c334.htm"/><LINK
 REL="PREVIOUS"
-TITLE="Calling functions"
-HREF="x194.htm"/><LINK
+TITLE="conditionals"
+HREF="x365.htm"/><LINK
 REL="NEXT"
-TITLE="Classes"
-HREF="c212.htm"/></HEAD
+TITLE="Packages, headers, libraries"
+HREF="c381.htm"/></HEAD
 ><BODY
 CLASS="section"
 BGCOLOR="#FFFFFF"
@@ -45,7 +45,7 @@ WIDTH="10%"
 ALIGN="left"
 VALIGN="bottom"
 ><A
-HREF="x194.htm"
+HREF="x365.htm"
 ACCESSKEY="P"
 >Prev</A
 ></TD
@@ -53,13 +53,13 @@ ACCESSKEY="P"
 WIDTH="80%"
 ALIGN="center"
 VALIGN="bottom"
->Chapter 2. Functions</TD
+>Chapter 4. Statements</TD
 ><TD
 WIDTH="10%"
 ALIGN="right"
 VALIGN="bottom"
 ><A
-HREF="c212.htm"
+HREF="c381.htm"
 ACCESSKEY="N"
 >Next</A
 ></TD
@@ -73,54 +73,32 @@ CLASS="section"
 ><H1
 CLASS="section"
 ><A
-NAME="AEN202"
->Callbacks and pointers</A
+NAME="AEN375"
+>flow control</A
 ></H1
 ><DIV
 CLASS="section"
 ><H2
 CLASS="section"
 ><A
-NAME="AEN204"
->Simple case</A
+NAME="AEN377"
+>break, continue</A
 ></H2
 ><P
->In ooc, functions are almost-first-class-citizens. You can pass
-        pointer to functions around easily:</P
+>Same use as in C/Java:</P
 ><PRE
 CLASS="programlisting"
->func main {
-
-  call(@kotokoSpeak);
-
+>while(true) {
+  if(shouldExit) {
+    break;
+  }
 }
 
-func kotokoSpeak {
-
-  printf("We have a very big problem!\n");
-
-}
-
-func call(Func toCall) {
-
-  toCall();
-
+for(Int i: 0..max) {
+  if(shouldSkip) {
+    continue;
+  }
 }</PRE
-></DIV
-><DIV
-CLASS="section"
-><H2
-CLASS="section"
-><A
-NAME="AEN208"
->Pointer to member functions</A
-></H2
-><P
->This case is treated in <A
-HREF="c212.htm"
->this
-        chapter</A
->.</P
 ></DIV
 ></DIV
 ><DIV
@@ -139,7 +117,7 @@ WIDTH="33%"
 ALIGN="left"
 VALIGN="top"
 ><A
-HREF="x194.htm"
+HREF="x365.htm"
 ACCESSKEY="P"
 >Prev</A
 ></TD
@@ -157,7 +135,7 @@ WIDTH="33%"
 ALIGN="right"
 VALIGN="top"
 ><A
-HREF="c212.htm"
+HREF="c381.htm"
 ACCESSKEY="N"
 >Next</A
 ></TD
@@ -167,13 +145,13 @@ ACCESSKEY="N"
 WIDTH="33%"
 ALIGN="left"
 VALIGN="top"
->Calling functions</TD
+>conditionals</TD
 ><TD
 WIDTH="34%"
 ALIGN="center"
 VALIGN="top"
 ><A
-HREF="c176.htm"
+HREF="c334.htm"
 ACCESSKEY="U"
 >Up</A
 ></TD
@@ -181,7 +159,7 @@ ACCESSKEY="U"
 WIDTH="33%"
 ALIGN="right"
 VALIGN="top"
->Classes</TD
+>Packages, headers, libraries</TD
 ></TR
 ></TABLE
 ></DIV

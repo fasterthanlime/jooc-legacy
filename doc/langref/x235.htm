@@ -11,13 +11,13 @@ TITLE="ooc v0.2 ninja Language Reference"
 HREF="book1.htm"/><LINK
 REL="UP"
 TITLE="Functions"
-HREF="c176.htm"/><LINK
+HREF="c217.htm"/><LINK
 REL="PREVIOUS"
 TITLE="Functions"
-HREF="c176.htm"/><LINK
+HREF="c217.htm"/><LINK
 REL="NEXT"
 TITLE="Callbacks and pointers"
-HREF="x202.htm"/></HEAD
+HREF="x244.htm"/></HEAD
 ><BODY
 CLASS="section"
 BGCOLOR="#FFFFFF"
@@ -45,7 +45,7 @@ WIDTH="10%"
 ALIGN="left"
 VALIGN="bottom"
 ><A
-HREF="c176.htm"
+HREF="c217.htm"
 ACCESSKEY="P"
 >Prev</A
 ></TD
@@ -59,7 +59,7 @@ WIDTH="10%"
 ALIGN="right"
 VALIGN="bottom"
 ><A
-HREF="x202.htm"
+HREF="x244.htm"
 ACCESSKEY="N"
 >Next</A
 ></TD
@@ -73,29 +73,46 @@ CLASS="section"
 ><H1
 CLASS="section"
 ><A
-NAME="AEN194"
+NAME="AEN235"
 >Calling functions</A
 ></H1
 ><P
 >Functions can be called with or without parenthesis, if the
       function has no arguments. Depending on the cases, it can be more
       readable to have explicit parenthesis, or more practical to not have
-      them. <SPAN
-CLASS="bold"
+      them.<DIV
+CLASS="caution"
+><P
+></P
+><TABLE
+CLASS="caution"
+BORDER="1"
+WIDTH="100%"
+><TR
+><TD
+ALIGN="CENTER"
 ><B
-CLASS="emphasis"
->Be warned, though, calling functions without
-      parenthesis only work with functions written in ooc. It won't work with
-      included C functions, because the headers files are not parsed for
-      function declarations.</B
-></SPAN
-><A
-NAME="AEN198"
-HREF="#FTN.AEN198"
+>Caution</B
+></TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+><P
+>Calling functions without parenthesis only work with functions
+          written in ooc. It won't work with included C functions, because the
+          headers files are not parsed for function declarations.<A
+NAME="AEN240"
+HREF="#FTN.AEN240"
 ><SPAN
 CLASS="footnote"
 >[1]</SPAN
 ></A
+></P
+></TD
+></TR
+></TABLE
+></DIV
 ><PRE
 CLASS="programlisting"
 >/*
@@ -135,8 +152,8 @@ ALIGN="LEFT"
 VALIGN="TOP"
 WIDTH="5%"
 ><A
-NAME="FTN.AEN198"
-HREF="x194.htm#AEN198"
+NAME="FTN.AEN240"
+HREF="x235.htm#AEN240"
 ><SPAN
 CLASS="footnote"
 >[1]</SPAN
@@ -148,13 +165,13 @@ VALIGN="TOP"
 WIDTH="95%"
 ><P
 >The reason for that is simple. Parsing C headers is a
-          nightmare. It's already done for typedefs, for example, and there
-          are still cases where it fails (e.g. SDL headers). Portable header
-          files are usually filled with #defines, and it makes the ooc parser
-          have a hard job understanding them. To fix that, we'd have to
-          complete the ooc included C preprocessor, which would be very time
-          consuming. For now, you can work around the 'unrecognized types'
-          issue with the 'ctype' keyword.</P
+              nightmare. It's already done for typedefs, for example, and
+              there are still cases where it fails (e.g. SDL headers).
+              Portable header files are usually filled with #defines, and it
+              makes the ooc parser have a hard job understanding them. To fix
+              that, we'd have to complete the ooc included C preprocessor,
+              which would be very time consuming. For now, you can work around
+              the 'unrecognized types' issue with the 'ctype' keyword.</P
 ></TD
 ></TR
 ></TABLE
@@ -174,7 +191,7 @@ WIDTH="33%"
 ALIGN="left"
 VALIGN="top"
 ><A
-HREF="c176.htm"
+HREF="c217.htm"
 ACCESSKEY="P"
 >Prev</A
 ></TD
@@ -192,7 +209,7 @@ WIDTH="33%"
 ALIGN="right"
 VALIGN="top"
 ><A
-HREF="x202.htm"
+HREF="x244.htm"
 ACCESSKEY="N"
 >Next</A
 ></TD
@@ -208,7 +225,7 @@ WIDTH="34%"
 ALIGN="center"
 VALIGN="top"
 ><A
-HREF="c176.htm"
+HREF="c217.htm"
 ACCESSKEY="U"
 >Up</A
 ></TD

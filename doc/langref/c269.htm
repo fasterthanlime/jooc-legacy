@@ -10,11 +10,11 @@ REL="HOME"
 TITLE="ooc v0.2 ninja Language Reference"
 HREF="book1.htm"/><LINK
 REL="PREVIOUS"
-TITLE="Callbacks and pointers"
-HREF="x202.htm"/><LINK
+TITLE="Covers"
+HREF="x261.htm"/><LINK
 REL="NEXT"
 TITLE="Statements"
-HREF="c251.htm"/></HEAD
+HREF="c334.htm"/></HEAD
 ><BODY
 CLASS="chapter"
 BGCOLOR="#FFFFFF"
@@ -42,7 +42,7 @@ WIDTH="10%"
 ALIGN="left"
 VALIGN="bottom"
 ><A
-HREF="x202.htm"
+HREF="x261.htm"
 ACCESSKEY="P"
 >Prev</A
 ></TD
@@ -56,7 +56,7 @@ WIDTH="10%"
 ALIGN="right"
 VALIGN="bottom"
 ><A
-HREF="c251.htm"
+HREF="c334.htm"
 ACCESSKEY="N"
 >Next</A
 ></TD
@@ -77,7 +77,7 @@ CLASS="section"
 ><H1
 CLASS="section"
 ><A
-NAME="AEN214"
+NAME="AEN271"
 >Syntax</A
 ></H1
 ><DIV
@@ -85,7 +85,7 @@ CLASS="section"
 ><H2
 CLASS="section"
 ><A
-NAME="AEN216"
+NAME="AEN273"
 >Definition</A
 ></H2
 ><P
@@ -110,7 +110,7 @@ CLASS="section"
 ><H2
 CLASS="section"
 ><A
-NAME="AEN220"
+NAME="AEN277"
 >Instanciation</A
 ></H2
 ><P
@@ -132,17 +132,19 @@ CLASS="programlisting"
         assignment:</P
 ><PRE
 CLASS="programlisting"
->Dog dog = new;</PRE
+>Dog dog = new;
+Cat cat;
+cat = new("meow");</PRE
 ><P
 >Not, that, unlike C++, declaring only:</P
 ><PRE
 CLASS="programlisting"
->Dog dog;</PRE
+>Bird bird;</PRE
 ><P
->will make dog a dangling pointer. Every object is in fact a
+>will make bird a dangling pointer. Every object is in fact a
         pointer to a structure. For more details about the underlying
         implementation, see <A
-HREF="a307.htm"
+HREF="a426.htm"
 >the ABI
         appendix</A
 >.</P
@@ -152,7 +154,44 @@ CLASS="section"
 ><H2
 CLASS="section"
 ><A
-NAME="AEN232"
+NAME="AEN289"
+>Static fields</A
+></H2
+><P
+>There can be instance fields and static fields in a class, in
+        the Java sense of these words. Example:</P
+><PRE
+CLASS="programlisting"
+>class NastyPattern {
+
+  static Int GLOBAL_SETTING = 42;
+  Int koolAid;
+
+  static func create -&gt; This {
+    return new This;
+  }
+
+  func apply {
+    printf("Factories are evil.\n");
+  }
+
+}</PRE
+><P
+>Which can then be used like that:</P
+><PRE
+CLASS="programlisting"
+>NastyPattern.GLOBAL_SETTING = 69; // adjust something static first
+NastyPattern.koolAid; // ERROR! can't access instance field without an instance
+
+NastyPattern np = NastyPattern.create(); // parenthesis optional, but here for clarity
+printf("%d\d", np.koolAid); // we can now access the koolAid field on our instance.</PRE
+></DIV
+><DIV
+CLASS="section"
+><H2
+CLASS="section"
+><A
+NAME="AEN295"
 >Inheritance</A
 ></H2
 ><P
@@ -212,7 +251,59 @@ CLASS="section"
 ><H2
 CLASS="section"
 ><A
-NAME="AEN240"
+NAME="AEN303"
+>Constructors, super-constructors</A
+></H2
+><P
+>By default, ooc creates an empty constructor with no arguments
+        (called default constructor), if there are no constructors in a class.
+        As soon as another constructor is defined, the default constructor
+        disappears.</P
+><P
+>The super-constructor is not explicitly called, but you can call
+        a super-constructor explicitly with <TT
+CLASS="literal"
+>super()</TT
+>, and
+        one of your constructors with <TT
+CLASS="literal"
+>this()</TT
+>.</P
+><PRE
+CLASS="programlisting"
+>import structs.List;
+import structs.SparseList;
+
+class Base {
+
+  List list;
+
+  func new {
+    list = new SparseList;
+  }
+
+}
+
+class Derived from Base {
+
+  Int value;
+
+  func new {
+    this(10);
+  }
+
+  func new(=value) {
+    super(); // call the super-constructor
+  }
+
+}</PRE
+></DIV
+><DIV
+CLASS="section"
+><H2
+CLASS="section"
+><A
+NAME="AEN310"
 >Abstract class and functions</A
 ></H2
 ><P
@@ -271,7 +362,82 @@ CLASS="section"
 ><H2
 CLASS="section"
 ><A
-NAME="AEN246"
+NAME="AEN316"
+>Getters, setters</A
+></H2
+><P
+>The ooc programmer likes beautiful code, and has Java's
+        getters/setters in horror. ooc's getters/setters are defined like
+        that:</P
+><PRE
+CLASS="programlisting"
+>class SecretKeeper {
+
+  String secret;
+
+  func secret {
+    // here's our getter
+    // do stuff
+    // no need to return, it's done for us automatically
+  }
+
+  // here's our setter: we leave it empty cause we have nothing special to do before setting.
+  func secret(=secret);
+
+}</PRE
+><P
+>It can then be used like that:</P
+><PRE
+CLASS="programlisting"
+>SecretKeeper keeper = new;
+keeper.secret("The cake is a lie.");
+printf("%s\n", keeper.secret); // actually calls the getter</PRE
+><P
+>The <TT
+CLASS="literal"
+>=field</TT
+> syntax is particulary useful for
+        constructors</P
+><PRE
+CLASS="programlisting"
+>class Vector {
+
+  Float x, y, z;
+
+  func new(=x, =y, =z); // initialization constructor =)
+
+}</PRE
+></DIV
+><DIV
+CLASS="section"
+><H2
+CLASS="section"
+><A
+NAME="AEN325"
+>Pointers to member functions</A
+></H2
+><P
+>Interesting subject, if any. For now, there is a simple
+        workaround, which, unfortunately, is only useful if you have only one
+        instance of the considered class at run time. It works like
+        this</P
+><PRE
+CLASS="programlisting"
+>// declared somewhere
+func registerCallback(Func func);
+
+class Handler {
+
+  static This instance;
+
+}</PRE
+></DIV
+><DIV
+CLASS="section"
+><H2
+CLASS="section"
+><A
+NAME="AEN329"
 >Reflection</A
 ></H2
 ><P
@@ -314,7 +480,7 @@ WIDTH="33%"
 ALIGN="left"
 VALIGN="top"
 ><A
-HREF="x202.htm"
+HREF="x261.htm"
 ACCESSKEY="P"
 >Prev</A
 ></TD
@@ -332,7 +498,7 @@ WIDTH="33%"
 ALIGN="right"
 VALIGN="top"
 ><A
-HREF="c251.htm"
+HREF="c334.htm"
 ACCESSKEY="N"
 >Next</A
 ></TD
@@ -342,7 +508,7 @@ ACCESSKEY="N"
 WIDTH="33%"
 ALIGN="left"
 VALIGN="top"
->Callbacks and pointers</TD
+>Covers</TD
 ><TD
 WIDTH="34%"
 ALIGN="center"

@@ -2,7 +2,7 @@
 <HTML
 ><HEAD
 ><TITLE
->conditionals</TITLE
+>Callbacks and pointers</TITLE
 ><META
 NAME="GENERATOR"
 CONTENT="Modular DocBook HTML Stylesheet Version 1.79"/><LINK
@@ -10,14 +10,14 @@ REL="HOME"
 TITLE="ooc v0.2 ninja Language Reference"
 HREF="book1.htm"/><LINK
 REL="UP"
-TITLE="Statements"
-HREF="c251.htm"/><LINK
+TITLE="Functions"
+HREF="c217.htm"/><LINK
 REL="PREVIOUS"
-TITLE="Statements"
-HREF="c251.htm"/><LINK
+TITLE="Calling functions"
+HREF="x235.htm"/><LINK
 REL="NEXT"
-TITLE="flow control"
-HREF="x292.htm"/></HEAD
+TITLE="Covers"
+HREF="x261.htm"/></HEAD
 ><BODY
 CLASS="section"
 BGCOLOR="#FFFFFF"
@@ -45,7 +45,7 @@ WIDTH="10%"
 ALIGN="left"
 VALIGN="bottom"
 ><A
-HREF="c251.htm"
+HREF="x235.htm"
 ACCESSKEY="P"
 >Prev</A
 ></TD
@@ -53,13 +53,13 @@ ACCESSKEY="P"
 WIDTH="80%"
 ALIGN="center"
 VALIGN="bottom"
->Chapter 4. Statements</TD
+>Chapter 2. Functions</TD
 ><TD
 WIDTH="10%"
 ALIGN="right"
 VALIGN="bottom"
 ><A
-HREF="x292.htm"
+HREF="x261.htm"
 ACCESSKEY="N"
 >Next</A
 ></TD
@@ -73,47 +73,81 @@ CLASS="section"
 ><H1
 CLASS="section"
 ><A
-NAME="AEN282"
->conditionals</A
+NAME="AEN244"
+>Callbacks and pointers</A
 ></H1
 ><DIV
 CLASS="section"
 ><H2
 CLASS="section"
 ><A
-NAME="AEN284"
->if, else</A
+NAME="AEN246"
+>Simple case</A
 ></H2
 ><P
->No surprises:</P
+>In ooc, functions are almost-first-class-citizens. You can pass
+        pointer to functions around easily:</P
 ><PRE
 CLASS="programlisting"
->if(happy) {
-  rejoice;
-} else if(moody) {
-  listenToMusic;
-} else {
-  cry;
+>func main {
+
+  call(@kotokoSpeak);
+
+}
+
+func kotokoSpeak {
+
+  printf("We have a very big problem!\n");
+
+}
+
+func call(Func toCall) {
+
+  toCall();
+
 }</PRE
+><P
+>Since mentioning a function's name without parenthesis is enough
+        to call it, the '<TT
+CLASS="literal"
+>@</TT
+>' prefix is added before the
+        function name to indicate that we want a pointer to it, not to execute
+        it. This distinction is justified if you consider that a function
+        could itself return a pointer to function, thus you can't let the
+        compiler guess whether or not to call the function.</P
+><P
+>'<TT
+CLASS="literal"
+>@</TT
+>' doesn't work the same as
+        '<TT
+CLASS="literal"
+>&amp;</TT
+>' in C. For example, the Gtk class as a
+        function mainQuit, and it's a common idiom in a gtk program to
+        do:</P
+><PRE
+CLASS="programlisting"
+>window.connectNaked("destroy", Gtk.@mainQuit);</PRE
+><P
+>This ensures that Gtk.mainQuit() is called when the window is
+        destroyed.</P
 ></DIV
 ><DIV
 CLASS="section"
 ><H2
 CLASS="section"
 ><A
-NAME="AEN288"
->switch, case</A
+NAME="AEN257"
+>Pointer to member functions</A
 ></H2
 ><P
->No surprises either:</P
-><PRE
-CLASS="programlisting"
->switch(action) {
-  case DIE: die(); break;
-  case MOVE: move(); break;
-  case LEAVE: leave(); break;
-  default: pray();
-}</PRE
+>This case is treated in <A
+HREF="c269.htm"
+>this
+        chapter</A
+>.</P
 ></DIV
 ></DIV
 ><DIV
@@ -132,7 +166,7 @@ WIDTH="33%"
 ALIGN="left"
 VALIGN="top"
 ><A
-HREF="c251.htm"
+HREF="x235.htm"
 ACCESSKEY="P"
 >Prev</A
 ></TD
@@ -150,7 +184,7 @@ WIDTH="33%"
 ALIGN="right"
 VALIGN="top"
 ><A
-HREF="x292.htm"
+HREF="x261.htm"
 ACCESSKEY="N"
 >Next</A
 ></TD
@@ -160,13 +194,13 @@ ACCESSKEY="N"
 WIDTH="33%"
 ALIGN="left"
 VALIGN="top"
->Statements</TD
+>Calling functions</TD
 ><TD
 WIDTH="34%"
 ALIGN="center"
 VALIGN="top"
 ><A
-HREF="c251.htm"
+HREF="c217.htm"
 ACCESSKEY="U"
 >Up</A
 ></TD
@@ -174,7 +208,7 @@ ACCESSKEY="U"
 WIDTH="33%"
 ALIGN="right"
 VALIGN="top"
->flow control</TD
+>Covers</TD
 ></TR
 ></TABLE
 ></DIV

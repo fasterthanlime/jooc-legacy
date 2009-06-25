@@ -75,38 +75,65 @@ Follow the white rabbit.
       <section>
         <title>Syntax</title>
 
-        <para>All types should be in <literal>CamelCase</literal>, all
-        variables and functions in <literal>camelCase</literal>. It is a
-        significant difference from C and Java, for example. In ooc, an
-        integer is declared as <literal>Int</literal>, a boolean as
-        <literal>Bool</literal>, and so on.</para>
+        <section>
+          <title>Capitalization</title>
 
-        <para>The justification for that is consistency. In Java, for example,
-        primitive types are in lowercase (<literal>int</literal>,
-        <literal>byte</literal>, <literal>short</literal>) and classes are in
-        <literal>CamelCase</literal> (<literal>String</literal>,
-        <literal>System</literal>). There is some kind of consistency in this
-        model, ie. you clearly see what is low-level and high-level. However,
-        ooc takes another approach of consistency. Implementation details
-        shouldn't interfere with the formatting of the source code. Hence, no
-        distinction is made between an <literal>Int</literal> and e.g. a
-        <literal>MyClass</literal>, from a user point of view.</para>
-      </section>
+          <para>All types should be in <literal>CamelCase</literal>, all
+          variables and functions in <literal>camelCase</literal>. It is a
+          significant difference from C and Java, for example. In ooc, an
+          integer is declared as <literal>Int</literal>, a boolean as
+          <literal>Bool</literal>, and so on.</para>
 
-      <section>
-        <title>Constants</title>
+          <para>The justification for that is consistency. In Java, for
+          example, primitive types are in lowercase (<literal>int</literal>,
+          <literal>byte</literal>, <literal>short</literal>) and classes are
+          in <literal>CamelCase</literal> (<literal>String</literal>,
+          <literal>System</literal>). There is some kind of consistency in
+          this model, ie. you clearly see what is low-level and high-level.
+          However, ooc takes another approach of consistency. Implementation
+          details shouldn't interfere with the formatting of the source code.
+          Hence, no distinction is made between an <literal>Int</literal> and
+          e.g. a <literal>MyClass</literal>, from a user point of view.</para>
+        </section>
 
-        <para>Constants are declared with the const keyword:</para>
+        <section>
+          <title>Declaration</title>
 
-        <programlisting>const Float EPSILON = 0.00001f;</programlisting>
+          <para>A variable is declared as in Java/C:</para>
 
-        <para>Constants are usually implemented with
-        <literal>#define</literal>s<footnote>
-            <para>This may raise a concern: what about name collision? In
-            practice, this is almost never a problem with ooc. The generated C
-            code is always prefixed with a few underscores '_' and the package
-            and source unit name. E.g. __my_app_MyUnit_CONSTANT</para>
-          </footnote>, so it's really impossible to modify one.</para>
+          <programlisting>Float f;
+Int i;
+String s;</programlisting>
+
+          <para>You can declare several variables on the same line:</para>
+
+          <programlisting>Float x, y, z;</programlisting>
+
+          <caution>
+            <para>Unlike C, the array-ness or pointer-ness of the type is
+            valid for all the variables declared in the same line.</para>
+          </caution>
+
+          <programlisting>Float[256] tab1, tab2, tab3; // declares 3 arrays of 256 floats
+Int* p1, p2, p3; // declares 3 pointers to ints</programlisting>
+        </section>
+
+        <section>
+          <title>Constants</title>
+
+          <para>Constants are declared with the const keyword:</para>
+
+          <programlisting>const Float EPSILON = 0.00001f;</programlisting>
+
+          <para>Constants are usually implemented with
+          <literal>#define</literal>s<footnote>
+              <para>This may raise a concern: what about name collision? In
+              practice, this is almost never a problem with ooc. The generated
+              C code is always prefixed with a few underscores '_' and the
+              package and source unit name. E.g.
+              __my_app_MyUnit_CONSTANT</para>
+            </footnote>, so it's really impossible to modify one.</para>
+        </section>
       </section>
 
       <section>
@@ -386,6 +413,19 @@ func main {
           <para>ooc extends this concept and introduce the
           <literal>This</literal> type, which refers to the type of the class
           we're defining:</para>
+
+          <programlisting>class Vector {
+
+  Float x, y, z;
+
+  // only allow adding with vectors of the same type.
+  func add(This v2) {
+    x += v2.x;
+    y += v2.y;
+    z += v2.z;
+  }
+
+}</programlisting>
         </section>
       </section>
 
@@ -580,19 +620,20 @@ func main(Int argc, String[] argv, String[] envp) {
       <para>Functions can be called with or without parenthesis, if the
       function has no arguments. Depending on the cases, it can be more
       readable to have explicit parenthesis, or more practical to not have
-      them. <emphasis role="bold">Be warned, though, calling functions without
-      parenthesis only work with functions written in ooc. It won't work with
-      included C functions, because the headers files are not parsed for
-      function declarations.</emphasis><footnote>
-          <para>The reason for that is simple. Parsing C headers is a
-          nightmare. It's already done for typedefs, for example, and there
-          are still cases where it fails (e.g. SDL headers). Portable header
-          files are usually filled with #defines, and it makes the ooc parser
-          have a hard job understanding them. To fix that, we'd have to
-          complete the ooc included C preprocessor, which would be very time
-          consuming. For now, you can work around the 'unrecognized types'
-          issue with the 'ctype' keyword.</para>
-        </footnote><programlisting>/*
+      them.<caution>
+          <para>Calling functions without parenthesis only work with functions
+          written in ooc. It won't work with included C functions, because the
+          headers files are not parsed for function declarations.<footnote>
+              <para>The reason for that is simple. Parsing C headers is a
+              nightmare. It's already done for typedefs, for example, and
+              there are still cases where it fails (e.g. SDL headers).
+              Portable header files are usually filled with #defines, and it
+              makes the ooc parser have a hard job understanding them. To fix
+              that, we'd have to complete the ooc included C preprocessor,
+              which would be very time consuming. For now, you can work around
+              the 'unrecognized types' issue with the 'ctype' keyword.</para>
+            </footnote></para>
+        </caution><programlisting>/*
  * In this example, we use SDL functions to demonstrate that
  * you have to use parenthesis to call C functions.
  * If you were to use the SDL in a real project, it'd be better to use the SDL bindings
@@ -759,6 +800,29 @@ cat = new("meow");</programlisting>
 
         <para>There can be instance fields and static fields in a class, in
         the Java sense of these words. Example:</para>
+
+        <programlisting>class NastyPattern {
+
+  static Int GLOBAL_SETTING = 42;
+  Int koolAid;
+
+  static func create -&gt; This {
+    return new This;
+  }
+
+  func apply {
+    printf("Factories are evil.\n");
+  }
+
+}</programlisting>
+
+        <para>Which can then be used like that:</para>
+
+        <programlisting>NastyPattern.GLOBAL_SETTING = 69; // adjust something static first
+NastyPattern.koolAid; // ERROR! can't access instance field without an instance
+
+NastyPattern np = NastyPattern.create(); // parenthesis optional, but here for clarity
+printf("%d\d", np.koolAid); // we can now access the koolAid field on our instance.</programlisting>
       </section>
 
       <section>
@@ -799,6 +863,46 @@ func main {
 
   Wheel w2 = (Wheel) bw; // cast as in C/Java
   w2.roll; // prints "Pierre qui roule", etc.
+
+}</programlisting>
+      </section>
+
+      <section>
+        <title>Constructors, super-constructors</title>
+
+        <para>By default, ooc creates an empty constructor with no arguments
+        (called default constructor), if there are no constructors in a class.
+        As soon as another constructor is defined, the default constructor
+        disappears.</para>
+
+        <para>The super-constructor is not explicitly called, but you can call
+        a super-constructor explicitly with <literal>super()</literal>, and
+        one of your constructors with <literal>this()</literal>.</para>
+
+        <programlisting>import structs.List;
+import structs.SparseList;
+
+class Base {
+
+  List list;
+
+  func new {
+    list = new SparseList;
+  }
+
+}
+
+class Derived from Base {
+
+  Int value;
+
+  func new {
+    this(10);
+  }
+
+  func new(=value) {
+    super(); // call the super-constructor
+  }
 
 }</programlisting>
       </section>
@@ -851,6 +955,64 @@ func main {
       </section>
 
       <section>
+        <title>Getters, setters</title>
+
+        <para>The ooc programmer likes beautiful code, and has Java's
+        getters/setters in horror. ooc's getters/setters are defined like
+        that:</para>
+
+        <programlisting>class SecretKeeper {
+
+  String secret;
+
+  func secret {
+    // here's our getter
+    // do stuff
+    // no need to return, it's done for us automatically
+  }
+
+  // here's our setter: we leave it empty cause we have nothing special to do before setting.
+  func secret(=secret);
+
+}</programlisting>
+
+        <para>It can then be used like that:</para>
+
+        <programlisting>SecretKeeper keeper = new;
+keeper.secret("The cake is a lie.");
+printf("%s\n", keeper.secret); // actually calls the getter</programlisting>
+
+        <para>The <literal>=field</literal> syntax is particulary useful for
+        constructors</para>
+
+        <programlisting>class Vector {
+
+  Float x, y, z;
+
+  func new(=x, =y, =z); // initialization constructor =)
+
+}</programlisting>
+      </section>
+
+      <section>
+        <title>Pointers to member functions</title>
+
+        <para>Interesting subject, if any. For now, there is a simple
+        workaround, which, unfortunately, is only useful if you have only one
+        instance of the considered class at run time. It works like
+        this</para>
+
+        <programlisting>// declared somewhere
+func registerCallback(Func func);
+
+class Handler {
+
+  static This instance;
+
+}</programlisting>
+      </section>
+
+      <section>
         <title>Reflection</title>
 
         <para>ooc has limited support for reflection. For now, it's more of a
@@ -872,24 +1034,6 @@ func printType(Object o) {
 
         <para>In the future, reflection should be completed with fields and
         functions listing, etc.</para>
-      </section>
-
-      <section>
-        <title>Pointers to member functions</title>
-
-        <para>Interesting subject, if any. For now, there is a simple
-        workaround, which, unfortunately, is only useful if you have only one
-        instance of the considered class at run time. It works like
-        this</para>
-
-        <programlisting>// declared somewhere
-func registerCallback(Func func);
-
-class Handler {
-
-  static This instance;
-
-}</programlisting>
       </section>
     </section>
   </chapter>
@@ -1059,7 +1203,13 @@ for(Int i: 0..max) {
 
     <para>ooc doesn't share C++'s affection for C-style headers. Source files,
     (called 'units'), are organized into folders (called 'packages'), much
-    like Java packages without the hassle.</para>
+    like Java packages without the hassle.<footnote>
+        <para>What is the hassle with Java packages? You have to declare a
+        class in a file with exactly the same name, and you have to put a a
+        package declaration into each .java source file, corresponding exactly
+        to your class file. While it is certainly safer, it's also much more
+        redundant, and thus ooc has adopted a more relax approach.</para>
+      </footnote></para>
 
     <section>
       <title>ooc packages</title>
@@ -1071,11 +1221,109 @@ for(Int i: 0..max) {
 
       <programlisting>class Talker {
 
+  func new;
+
+  func drool {
+    printf("Mwahahaha\n");
+  }
+
   static func say(String message) {
-    
+    printf("Jacadi a dit: %s\n", message);
   }
 
 }</programlisting>
+
+      <para>Let's say the Talker.ooc file is located in
+      <filename>io/spoken/Talker.ooc</filename> relative to the sourcepath. If
+      we have an <filename>io/spoken/User.ooc</filename> unit, we can use
+      Talker like that:</para>
+
+      <programlisting>import Talker;
+// or
+import io.spoken.Talker;
+
+func blah {
+  Talker.say("Blah, blah, blah\n");
+}</programlisting>
+
+      <para>You can use the super keyword to refer to a package which is
+      higher in the hierarchy, e.g. let's say we have a
+      <filename>io/Tube.ooc</filename> unit, we can refer to it in
+      <filename>io/spoken/User.ooc</filename> as:</para>
+
+      <programlisting>import io.Tube; // fully qualified name
+// or
+import super.Tube; // relative name</programlisting>
+
+      <para>The relative form is often preferred, as it facilitate
+      refactoring.</para>
+    </section>
+
+    <section>
+      <title>C headers</title>
+
+      <para>The ooc compiler allows to use every C function and type as-is. It
+      recognizes well-formed typedefs without too much macros
+      (<literal>#define</literal>s, etc.) in header files.</para>
+
+      <para>You can include C headers with the 'include' keyword.</para>
+
+      <programlisting>include SDL/SDL; // equivalent of #include &lt;SDL/SDL.h&gt;</programlisting>
+
+      <para>For local includes, prefix the path with
+      '<literal>@</literal>':</para>
+
+      <programlisting>include @myheader; // equivalent of #include "myheader.h"</programlisting>
+
+      <para>Although including a local header is seldom necessary in ooc,
+      since import takes care of all the local imports very well.</para>
+
+      <para>If the ooc compiler fails to parse type definitions in a C header,
+      and you use them, you can get 'Can't resolve type &lt;type&gt;' compile
+      errors. To work around the problem, use the <literal>ctype</literal>
+      keyword. It simply instructs the ooc compiler that the type is typedef'd
+      somewhere in a header, and that it shouldn't worry about it.</para>
+
+      <programlisting>include SDL/SDL; // the SDL headers are full of defines
+
+ctype SDL_Event; // the ooc compiler can't parse this type so we reference it
+
+func wait {
+
+  SDL_Event event; // we can now use it
+  SDL_WaitEvents(&amp;event);
+
+}</programlisting>
+    </section>
+
+    <section>
+      <title>Automagic library management</title>
+
+      <para>The <literal>use</literal> keyword allows automagic management of
+      includes and linking. Example:</para>
+
+      <programlisting>use glut;
+
+func main {
+
+  // use glut functions
+
+}</programlisting>
+
+      <para>The 'use glut' statement above will include the glut headers, link
+      with the glut library (<literal>-lglut</literal>), and it depends on
+      'use glu' and 'use gl', which will in turn link with
+      <literal>-lGLU</literal> and <literal>-lGL</literal> and include
+      GL/GL.h, etc.</para>
+
+      <para>The sweet thing, is that it links with the right library,
+      depending on the platform! E.g. 'use gc', which is implicit in every ooc
+      class, links with a static version of the gc library for your platform.
+      'use gl' links with <literal>-lopengl32</literal> on Windows, and so
+      on.</para>
+
+      <para>Even for libraries not handled specially ooc, you can link to them
+      with 'use lib', it will link with '-llib'.</para>
     </section>
   </chapter>
 
@@ -1085,7 +1333,7 @@ for(Int i: 0..max) {
     <para>The ooc ABI is designed to be simple and straight-forward. Also,
     there is an official ABI so that different implementations be
     compatible.<footnote>
-        <para>When I write <emphasis>different implementations</emphasis>, I
+        <para>When I say <emphasis>different implementations</emphasis>, I
         particularly think about <ulink
         url="http://github.com/amoswenger/rock">rock, the all-new attempt to
         write an ooc compiler in the ooc language</ulink>. At the time of this
@@ -1097,6 +1345,156 @@ for(Int i: 0..max) {
     <para>Note that the ooc specification is still under heavy development, so
     it means that the ABI can change significantly from a "dot version" to
     another.</para>
+
+    <section>
+      <title>Types</title>
+
+      <para>All basic types are typedefs to C standard types:</para>
+
+      <programlisting>typedef char* String;
+typedef void* Object;
+typedef bool Bool;
+typedef char Char;
+typedef int Int;
+typedef unsigned int UInt;
+typedef float Float;
+typedef double Double;
+typedef long double LDouble;
+typedef short Short;
+typedef long Long;
+typedef long long LLong;
+typedef void Void;
+typedef int (*Func)();
+typedef size_t Size;
+typedef uint8_t Octet;</programlisting>
+    </section>
+
+    <section>
+      <title>Classes</title>
+
+      <section>
+        <title>Structs in memory</title>
+
+        <para>Classes are implemented with two C structs : the 'meta-class'
+        structure, and the 'class structure'.</para>
+
+        <para>The 'meta-class structure' exists in one copy in memory for each
+        defined class. It contains all the information which is shared between
+        instances of a class, such as function pointers to the right
+        implementation of functions.</para>
+
+        <para>The 'class structure' is allocated for each instance of a class.
+        It contains first a pointer (void*) to the meta-class structure, and
+        then a list of fields.</para>
+      </section>
+
+      <section>
+        <title>Order of fields in structs</title>
+
+        <para>Since a child class (a class that inherits from a base class)
+        only add member variables and functions, its structs begin with
+        exactly the same field order as its parent, and then its own member
+        variables/functions are added. This allows seamless C casts, which are
+        basically free from a performance point of view.</para>
+      </section>
+
+      <section>
+        <title>Functions and constructors</title>
+
+        <para>Member functions are pointer to functions in the 'meta-class
+        structure'. They are assigned to in constructors. Constructors aren't
+        listed in the meta-class structure, nor are the rest of static
+        functions.</para>
+      </section>
+
+      <section>
+        <title>Static fields</title>
+
+        <para>Static fields must be implemented as externally-scoped variable
+        for non-const fields, and with <literal>#define</literal>s for const
+        fields.</para>
+      </section>
+    </section>
+
+    <section>
+      <title>Name mangling</title>
+
+      <para>Name mangling is applied to functions and static members of
+      classes. The followed scheme is the following:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Off-class Function</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>Name: my_package__functionName</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+
+        <listitem>
+          <para>Off-class Variable</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>Name: my_package__variableName</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+
+        <listitem>
+          <para>Member Variable</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>Struct field name: variableName (no mangling)</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+
+        <listitem>
+          <para>Static Member Variable</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>Name:
+              my_package_ClassName_functionName_ArgType1_ArgType2_ArgType3</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+
+        <listitem>
+          <para>Member Function</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>Name:
+              __my_package_ClassName_functionName_ArgType1_ArgType2_ArgType3</para>
+            </listitem>
+
+            <listitem>
+              <para>Struct field name:
+              __functionName_ArgType1_ArgType2_ArgType3</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+
+        <listitem>
+          <para>Static Member Function</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>Name: see Member Function.</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+      </itemizedlist>
+
+      <para>ArgType mangling is the name of the type, appended with "__star"
+      and "__array" as many times as necessary to represent the pointer level
+      of the type.</para>
+    </section>
   </appendix>
 
   <appendix id="fdl">

@@ -10,11 +10,11 @@ REL="HOME"
 TITLE="ooc v0.2 ninja Language Reference"
 HREF="book1.htm"/><LINK
 REL="PREVIOUS"
-TITLE="Packages, headers, libraries"
-HREF="c298.htm"/><LINK
+TITLE="Automagic library management"
+HREF="x414.htm"/><LINK
 REL="NEXT"
-TITLE="GNU Free Documentation License"
-HREF="a315.htm"/></HEAD
+TITLE="Classes"
+HREF="x438.htm"/></HEAD
 ><BODY
 CLASS="appendix"
 BGCOLOR="#FFFFFF"
@@ -42,7 +42,7 @@ WIDTH="10%"
 ALIGN="left"
 VALIGN="bottom"
 ><A
-HREF="c298.htm"
+HREF="x414.htm"
 ACCESSKEY="P"
 >Prev</A
 ></TD
@@ -56,7 +56,7 @@ WIDTH="10%"
 ALIGN="right"
 VALIGN="bottom"
 ><A
-HREF="a315.htm"
+HREF="x438.htm"
 ACCESSKEY="N"
 >Next</A
 ></TD
@@ -72,12 +72,36 @@ CLASS="appendix"
 NAME="abi"
 ></A
 >Appendix A. ABI (Application Binary Interface)</H1
+><DIV
+CLASS="TOC"
+><DL
+><DT
+><B
+>Table of Contents</B
+></DT
+><DT
+><A
+HREF="a426.htm#AEN434"
+>Types</A
+></DT
+><DT
+><A
+HREF="x438.htm"
+>Classes</A
+></DT
+><DT
+><A
+HREF="x455.htm"
+>Name mangling</A
+></DT
+></DL
+></DIV
 ><P
 >The ooc ABI is designed to be simple and straight-forward. Also,
     there is an official ABI so that different implementations be
     compatible.<A
-NAME="AEN310"
-HREF="#FTN.AEN310"
+NAME="AEN429"
+HREF="#FTN.AEN429"
 ><SPAN
 CLASS="footnote"
 >[1]</SPAN
@@ -87,6 +111,35 @@ CLASS="footnote"
 >Note that the ooc specification is still under heavy development, so
     it means that the ABI can change significantly from a "dot version" to
     another.</P
+><DIV
+CLASS="section"
+><H1
+CLASS="section"
+><A
+NAME="AEN434"
+>Types</A
+></H1
+><P
+>All basic types are typedefs to C standard types:</P
+><PRE
+CLASS="programlisting"
+>typedef char* String;
+typedef void* Object;
+typedef bool Bool;
+typedef char Char;
+typedef int Int;
+typedef unsigned int UInt;
+typedef float Float;
+typedef double Double;
+typedef long double LDouble;
+typedef short Short;
+typedef long Long;
+typedef long long LLong;
+typedef void Void;
+typedef int (*Func)();
+typedef size_t Size;
+typedef uint8_t Octet;</PRE
+></DIV
 ></DIV
 ><H3
 CLASS="FOOTNOTES"
@@ -101,8 +154,8 @@ ALIGN="LEFT"
 VALIGN="TOP"
 WIDTH="5%"
 ><A
-NAME="FTN.AEN310"
-HREF="a307.htm#AEN310"
+NAME="FTN.AEN429"
+HREF="a426.htm#AEN429"
 ><SPAN
 CLASS="footnote"
 >[1]</SPAN
@@ -113,7 +166,7 @@ ALIGN="LEFT"
 VALIGN="TOP"
 WIDTH="95%"
 ><P
->When I write <SPAN
+>When I say <SPAN
 CLASS="emphasis"
 ><I
 CLASS="emphasis"
@@ -148,7 +201,7 @@ WIDTH="33%"
 ALIGN="left"
 VALIGN="top"
 ><A
-HREF="c298.htm"
+HREF="x414.htm"
 ACCESSKEY="P"
 >Prev</A
 ></TD
@@ -166,7 +219,7 @@ WIDTH="33%"
 ALIGN="right"
 VALIGN="top"
 ><A
-HREF="a315.htm"
+HREF="x438.htm"
 ACCESSKEY="N"
 >Next</A
 ></TD
@@ -176,7 +229,7 @@ ACCESSKEY="N"
 WIDTH="33%"
 ALIGN="left"
 VALIGN="top"
->Packages, headers, libraries</TD
+>Automagic library management</TD
 ><TD
 WIDTH="34%"
 ALIGN="center"
@@ -186,7 +239,7 @@ VALIGN="top"
 WIDTH="33%"
 ALIGN="right"
 VALIGN="top"
->GNU Free Documentation License</TD
+>Classes</TD
 ></TR
 ></TABLE
 ></DIV
