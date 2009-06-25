@@ -18,9 +18,6 @@ fi
 rm -f "tests-log.txt"
 
 basePath=`pwd`
-echo "$$0 = $0"
-echo "basePath = $basePath"
-#ooc_dist="`readlink -f $basePath/../`"
 ooc_dist="$basePath/../"
 
 total=0
@@ -113,7 +110,7 @@ for i in *.ooc; do
 		compiled=$(( compiled + 1 ))
 		printf "compile \033[1;32m[ OK ]\033[m..";
 		# This is quite characteristic of Windows, I think..
-		if [[ -z WINDIR ]]; then
+		if [[ $WINDIR != "" ]]; then
 			strip $test.exe
 			./$test.exe >> "$basePath/tests-log.txt"
 			code=$?

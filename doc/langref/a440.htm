@@ -1,0 +1,248 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML
+><HEAD
+><TITLE
+>ABI (Application Binary Interface)</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.79"/><LINK
+REL="HOME"
+TITLE="ooc v0.2 ninja Language Reference"
+HREF="book1.htm"/><LINK
+REL="PREVIOUS"
+TITLE="Automagic library management"
+HREF="x428.htm"/><LINK
+REL="NEXT"
+TITLE="Classes"
+HREF="x452.htm"/></HEAD
+><BODY
+CLASS="appendix"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>ooc v0.2 ninja Language Reference</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="x428.htm"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+></TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x452.htm"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"/></DIV
+><DIV
+CLASS="appendix"
+><H1
+><A
+NAME="abi"
+></A
+>Appendix A. ABI (Application Binary Interface)</H1
+><DIV
+CLASS="TOC"
+><DL
+><DT
+><B
+>Table of Contents</B
+></DT
+><DT
+><A
+HREF="a440.htm#AEN448"
+>Types</A
+></DT
+><DT
+><A
+HREF="x452.htm"
+>Classes</A
+></DT
+><DT
+><A
+HREF="x469.htm"
+>Name mangling</A
+></DT
+></DL
+></DIV
+><P
+>The ooc ABI is designed to be simple and straight-forward. Also,
+    there is an official ABI so that different implementations be
+    compatible.<A
+NAME="AEN443"
+HREF="#FTN.AEN443"
+><SPAN
+CLASS="footnote"
+>[1]</SPAN
+></A
+></P
+><P
+>Note that the ooc specification is still under heavy development, so
+    it means that the ABI can change significantly from a "dot version" to
+    another.</P
+><DIV
+CLASS="section"
+><H1
+CLASS="section"
+><A
+NAME="AEN448"
+>Types</A
+></H1
+><P
+>All basic types are typedefs to C standard types:</P
+><PRE
+CLASS="programlisting"
+>typedef char* String;
+typedef void* Object;
+typedef bool Bool;
+typedef char Char;
+typedef int Int;
+typedef unsigned int UInt;
+typedef float Float;
+typedef double Double;
+typedef long double LDouble;
+typedef short Short;
+typedef long Long;
+typedef long long LLong;
+typedef void Void;
+typedef int (*Func)();
+typedef size_t Size;
+typedef uint8_t Octet;</PRE
+></DIV
+></DIV
+><H3
+CLASS="FOOTNOTES"
+>Notes</H3
+><TABLE
+BORDER="0"
+CLASS="FOOTNOTES"
+WIDTH="100%"
+><TR
+><TD
+ALIGN="LEFT"
+VALIGN="TOP"
+WIDTH="5%"
+><A
+NAME="FTN.AEN443"
+HREF="a440.htm#AEN443"
+><SPAN
+CLASS="footnote"
+>[1]</SPAN
+></A
+></TD
+><TD
+ALIGN="LEFT"
+VALIGN="TOP"
+WIDTH="95%"
+><P
+>When I say <SPAN
+CLASS="emphasis"
+><I
+CLASS="emphasis"
+>different implementations</I
+></SPAN
+>, I
+        particularly think about <A
+HREF="http://github.com/amoswenger/rock"
+TARGET="_top"
+>rock, the all-new attempt to
+        write an ooc compiler in the ooc language</A
+>. At the time of this
+        writing, it's very young: time has been spent developing ooc's
+        features that could be useful for rock, rather than rock itself. As
+        always, contributors are very welcome!</P
+></TD
+></TR
+></TABLE
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"/><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="x428.htm"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="book1.htm"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x452.htm"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Automagic library management</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+>&nbsp;</TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Classes</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

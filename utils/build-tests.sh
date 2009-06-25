@@ -17,8 +17,8 @@ fi
 
 rm -f "tests-log.txt"
 
-basePath=`pwd`/`dirname $0`
-ooc_dist="`readlink -f $basePath/../`"
+basePath=`pwd`
+ooc_dist="$basePath/../"
 
 total=0
 compiled=0
@@ -107,9 +107,16 @@ for i in *.ooc; do
 	if [[ "$REPLY" -eq 0 ]]; then
 		compiled=$(( compiled + 1 ))
 		printf "compile \033[1;32m[ OK ]\033[m..";
-		strip $test
-		./$test --test >> "$basePath/tests-log.txt"
-		code=$?
+		# This is quite characteristic of Windows, I think..
+		if [[ $WINDIR != "" ]]; then
+			strip $test.exe
+			./$test.exe >> "$basePath/tests-log.txt"
+			code=$?
+		else
+			strip $test
+			./$test --test >> "$basePath/tests-log.txt"
+			code=$?
+		fi
 		if [[ $end == "-shouldfail" ]]; then
 			if [[ "$code" -eq 0 ]]; then
 				printf "test \033[1;31m[FAIL]\033[m\n";
