@@ -1551,6 +1551,17 @@ typedef uint8_t Octet;</programlisting>
 
     <itemizedlist>
       <listitem>
+        <para><emphasis role="bold">All of this is nice and dandy, but I just
+        can't wait to try it! Tell me where I can download
+        it!</emphasis></para>
+      </listitem>
+
+      <listitem>
+        <para><ulink url="http://ooc-lang.org/">Download page on
+        ooc-lang</ulink></para>
+      </listitem>
+
+      <listitem>
         <para><emphasis role="bold">Why is it called ooc?</emphasis></para>
       </listitem>
 

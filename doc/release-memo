@@ -1,6 +1,28 @@
 Release memo
 ============
 
-Source distribution: tar.bz2
-Linux package: gcj + nixstaller
-Windows package: gcj + Inno Setup
+Types:
+
+- linux binary distribution
+- windows binary distribution
+- jar distribution
+- source distribution
+
+Mirrors:
+
+- ooc-lang.org
+- google code
+- ohloh
+- launchpad
+- sourceforge
+
+Announces:
+
+- blog
+- freshmeat
+- softpedia
+- bebits
+- reddit
+- dzone
+- linuxfr
+- linkedin

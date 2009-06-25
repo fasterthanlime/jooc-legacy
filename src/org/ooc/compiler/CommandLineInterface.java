@@ -227,7 +227,8 @@ public class CommandLineInterface {
 	    	while(st.hasMoreElements()) {
 	    		String path = st.nextToken();
 	    		if(path.contains("ooc.jar")) {
-	    			OOC_DIST = new File(path).getParentFile().getParentFile().getCanonicalPath();
+	    			OOC_DIST = new File(path).getCanonicalPath();
+	    			OOC_DIST = new File(OOC_DIST).getParentFile().getParent();
 	    			break;
 	    		}
 	    	}

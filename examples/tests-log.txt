@@ -9,10 +9,10 @@ Pizza Allegro Tomato, of diameter 0.500000, color red, and tomato percentage 60.
 Pizza Royale Grande, of diameter 1.000000, color green, and tomato percentage 40.000000
 Dump dumpadaddy dump.
 Printing 30 numbers between 0 and 5 and a max of 500
-466277453364340531333247136473281944941522601711793962281874511583715330731355448395
+371426203460464894334712772244902548325828119415443928625122343034223145844246812219206
 That's all, folks =)
 sleeping a while...
-we slept for 823 milli-seconds
+we slept for 760 milli-seconds
 Meowwwwww!
 Meowwwwww!
 Size of animal: 8, size of cat: 12
@@ -111,8 +111,8 @@ Got env 'SANE_CONFIG_DIR=/etc/sane.d'
 Got env 'CONFIG_PROTECT=/var/bind /var/lib/hsqldb /usr/share/config /usr/kde/3.5/share/config /usr/kde/3.5/env /usr/kde/3.5/shutdown'
 Got env 'COLORTERM=Terminal'
 Got env 'XAUTHORITY=/root/.Xauthority'
-Got env '_=./mainenv'
 Got env 'OLDPWD=/blue/Dev/ooc/examples/cover-tests'
+Got env '_=./mainenv'
 value is an int, and it equals 1995
 A killing killer knowing how to kill without its painkiller is a good killer.
 two == 2 (o, rly?)
@@ -213,18 +213,15 @@ Hayo, I'm a kid and I'm asking for candyyyy!
 Hay, I'm the candy giver, I just a gave a kinder, total is now 1
 Hay, I'm the candy giver, I just a gave a kinder, total is now 2
 Hay, I'm the candy giver, I just a gave a kinder, total is now 3
-Hay, I'm the candy giver, I just a gave a kinder, total is now 4
 Hayo, I'm a kid and I'm asking for candyyyy!
+Hay, I'm the candy giver, I just a gave a lollypop, total is now 4
 Hay, I'm the candy giver, I just a gave a lollypop, total is now 5
 Hay, I'm the candy giver, I just a gave a lollypop, total is now 6
-Hay, I'm the candy giver, I just a gave a lollypop, total is now 7
-Hay, I'm the candy giver, I just a gave a lollypop, total is now 8
 Hayo, I'm a kid and I'm asking for candyyyy!
+Hay, I'm the candy giver, I just a gave a chewing gum, total is now 7
+Hay, I'm the candy giver, I just a gave a chewing gum, total is now 8
 Hay, I'm the candy giver, I just a gave a chewing gum, total is now 9
-Hay, I'm the candy giver, I just a gave a chewing gum, total is now 10
-Hay, I'm the candy giver, I just a gave a chewing gum, total is now 11
-Hay, I'm the candy giver, I just a gave a chewing gum, total is now 12
-As a grand total, 12 candies have been distributed
+As a grand total, 9 candies have been distributed
 Beginning to proliferate...
 Just created ant #0
 Just created ant #1

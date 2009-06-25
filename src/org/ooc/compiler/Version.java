@@ -47,7 +47,13 @@ public class Version {
 	public static void printVersion() {
 
 		//System.out.println("# ooc v"+major+"."+minor+" codename "+codename+", built on "+date);
-		System.out.println("# ooc v"+System.getProperty(("ooc.version")));
+		
+		Object prop = System.getProperty("ooc.version");
+		if(prop == null) {
+			prop = Version.class.getPackage().getImplementationVersion();
+		}
+		
+		System.out.println("# ooc v"+prop);
 		
 	}
 	

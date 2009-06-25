@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project ooc">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+    <target name="create_run_jar">
+    	<loadfile property="version.num" srcFile="utils/version.txt">
+    		<filterchain><striplinebreaks/></filterchain>
+    	</loadfile>	
+    	 <tstamp>
+    	     <format property="TODAY" pattern="yyyy-MM-dd HH:mm:ss" />
+    	 </tstamp>
+    	
+        <jar destfile="/blue/Dev/ooc/bin/ooc.jar" filesetmanifest="mergewithoutmain">
+            <manifest>
+                <attribute name="Built-By" value="Amos Wenger"/>
+                <attribute name="Main-Class" value="org.ooc.compiler.CommandLineInterface"/>
+            	<attribute name="Class-Path" value="."/>
+            	<attribute name="Implementation-Version" value="${version.num}, built on ${TODAY}"/> 
+            </manifest>
+            <fileset dir="/blue/Dev/ooc/build/classes"/>
+            <fileset dir="/blue/Dev/ubi/build/classes"/>
+        </jar>
+    </target>
+</project>

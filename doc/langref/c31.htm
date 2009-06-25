@@ -14,7 +14,7 @@ TITLE="Preface"
 HREF="f16.htm"/><LINK
 REL="NEXT"
 TITLE="Arrays"
-HREF="x203.htm"/></HEAD
+HREF="x209.htm"/></HEAD
 ><BODY
 CLASS="chapter"
 BGCOLOR="#FFFFFF"
@@ -56,7 +56,7 @@ WIDTH="10%"
 ALIGN="right"
 VALIGN="bottom"
 ><A
-HREF="x203.htm"
+HREF="x209.htm"
 ACCESSKEY="N"
 >Next</A
 ></TD
@@ -86,12 +86,12 @@ HREF="c31.htm#AEN33"
 ></DT
 ><DT
 ><A
-HREF="x203.htm"
+HREF="x209.htm"
 >Arrays</A
 ></DT
 ><DT
 ><A
-HREF="x217.htm"
+HREF="x223.htm"
 >Pointers</A
 ></DT
 ></DL
@@ -251,13 +251,44 @@ CLASS="footnote"
 ></A
 >, so it's really impossible to modify one.</P
 ></DIV
+><DIV
+CLASS="section"
+><H3
+CLASS="section"
+><A
+NAME="AEN70"
+>Literals &amp; initialization</A
+></H3
+><P
+>ooc supports the same kinds of literal as C:</P
+><PRE
+CLASS="programlisting"
+>Int i = 3;
+Short j = -43;
+Double golden = 1.6180339887 + 6d; // d suffix is optional
+Float = 45.0f - 3; // f suffix is optional
+Char c = '3';
+Char d = '\n';
+String s = "Moi, j'aime p\nas les linebreaks.";</PRE
+><P
+>Underscores in number literals are autorhized and ignored, so
+          that you can easily separate groups of digits. Strings can span over
+          several lines:</P
+><PRE
+CLASS="programlisting"
+>Int million = 1_000_000_000;
+Float x = 3.14159_26535_89793f;
+String quote = "Nick the Greek: Just get me a sample.
+Tom: No can do.
+Nick the Greek: What's that? Some place near Katmandu? Meet me halfway, mate.";</PRE
+></DIV
 ></DIV
 ><DIV
 CLASS="section"
 ><H2
 CLASS="section"
 ><A
-NAME="AEN70"
+NAME="AEN76"
 >Types from C</A
 ></H2
 ><DIV
@@ -265,13 +296,13 @@ CLASS="section"
 ><H3
 CLASS="section"
 ><A
-NAME="AEN72"
+NAME="AEN78"
 >Correspondance with C and Java types</A
 ></H3
 ><DIV
 CLASS="table"
 ><A
-NAME="AEN74"
+NAME="AEN80"
 ></A
 ><P
 ><B
@@ -482,7 +513,7 @@ CLASS="section"
 ><H3
 CLASS="section"
 ><A
-NAME="AEN166"
+NAME="AEN172"
 >Typedef (aliasing name types)</A
 ></H3
 ><P
@@ -505,7 +536,7 @@ CLASS="literal"
 >typedef struct { /* etc. */ };</TT
 > If want a data
           structure, <A
-HREF="c272.htm"
+HREF="c278.htm"
 >define a class</A
 >.</P
 ></DIV
@@ -514,7 +545,7 @@ CLASS="section"
 ><H3
 CLASS="section"
 ><A
-NAME="AEN173"
+NAME="AEN179"
 >Capitalization</A
 ></H3
 ><P
@@ -553,7 +584,7 @@ CLASS="section"
 ><H3
 CLASS="section"
 ><A
-NAME="AEN180"
+NAME="AEN186"
 >Types that can't be resolved</A
 ></H3
 ><P
@@ -574,7 +605,7 @@ CLASS="section"
 ><H3
 CLASS="section"
 ><A
-NAME="AEN185"
+NAME="AEN191"
 >The 'This' special type.</A
 ></H3
 ><P
@@ -625,7 +656,7 @@ CLASS="section"
 ><H2
 CLASS="section"
 ><A
-NAME="AEN193"
+NAME="AEN199"
 >Covers</A
 ></H2
 ><P
@@ -672,7 +703,7 @@ func main {
 ><P
 >Difference between class and covers will be treated more in
         depth in <A
-HREF="c272.htm"
+HREF="c278.htm"
 >a next chapter</A
 >.</P
 ></DIV
@@ -745,7 +776,7 @@ WIDTH="33%"
 ALIGN="right"
 VALIGN="top"
 ><A
-HREF="x203.htm"
+HREF="x209.htm"
 ACCESSKEY="N"
 >Next</A
 ></TD

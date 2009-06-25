@@ -17,8 +17,11 @@ fi
 
 rm -f "tests-log.txt"
 
-basePath=`pwd`/`dirname $0`
-ooc_dist="`readlink -f $basePath/../`"
+basePath=`pwd`
+echo "$$0 = $0"
+echo "basePath = $basePath"
+#ooc_dist="`readlink -f $basePath/../`"
+ooc_dist="$basePath/../"
 
 total=0
 compiled=0
@@ -98,7 +101,7 @@ for i in *.ooc; do
 #	echo "outpath-set `pwd`" 1>&3
 	total=$(( total + 1 ))
 #	echo "compile $test" 1>&3
-	ooc $test &>> $basePath/build-log.txt
+	ooc $test &> $basePath/build-log.txt
 	REPLY=$?
 	#echo "Compiling $dir/$test"
 	tabbedTest="$dir/$test......................................................................................................................."
@@ -109,9 +112,16 @@ for i in *.ooc; do
 	if [[ "$REPLY" -eq 0 ]]; then
 		compiled=$(( compiled + 1 ))
 		printf "compile \033[1;32m[ OK ]\033[m..";
-		strip $test
-		./$test --test >> "$basePath/tests-log.txt"
-		code=$?
+		# This is quite characteristic of Windows, I think..
+		if [[ -z WINDIR ]]; then
+			strip $test.exe
+			./$test.exe >> "$basePath/tests-log.txt"
+			code=$?
+		else
+			strip $test
+			./$test --test >> "$basePath/tests-log.txt"
+			code=$?
+		fi
 		if [[ $end == "-shouldfail" ]]; then
 			if [[ "$code" -eq 0 ]]; then
 				printf "test \033[1;31m[FAIL]\033[m\n";
