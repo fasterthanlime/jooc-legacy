@@ -158,7 +158,7 @@ class ArrayList from List {
 			return null;
 		}
 		Object element = data[i];
-		memmove(data+i-1, data+i, (size-i) * sizeof(Object));
+		memmove(data+i, data+i+1, (size-i) * sizeof(Object));
 		size--;
 		return element;
 	}
