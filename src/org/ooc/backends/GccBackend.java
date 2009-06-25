@@ -117,7 +117,7 @@ class GccBackend extends Backend {
 	 * Tries to find gcc. First try the CC environment variable.
 	 * If not set, tries to find 'gcc' and 'gcc.exe' in the PATH.
 	 */
-	private void determineGccPath() throws Error {
+	private void determineGccPath(BuildProperties props) throws Error {
 		
 		Map<String, String> env = System.getenv();
 		
@@ -138,7 +138,10 @@ class GccBackend extends Backend {
 		}
 		
 		if(gccPath == null || gccPath.isEmpty()) { // Still empty ?
-			throw new Error("gcc not found in PATH nor specified as an option, can't compile !");
+			if(props.verbose) {
+				System.err.println("gcc not found in PATH nor specified as an option, trying 'gcc', crossing fingers...");
+			}
+			gccPath = "gcc"; // Works on Windows 7 with the jar distrib
 		}
 		
 	}
@@ -160,7 +163,7 @@ class GccBackend extends Backend {
 	public int compile(ProjectInfo info, BuildProperties props) throws IOException, InterruptedException {
 
 		if(gccPath == null || gccPath.isEmpty()) {
-			determineGccPath();
+			determineGccPath(props);
 		}
 		
 		// General parameters override backend-specific ones

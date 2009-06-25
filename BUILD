@@ -24,6 +24,9 @@ If you want to build from .java source (not from .class), you have
 to check out 'ubi' as well (ooc depends on it), you can find on GitHub
 at http://github.com/amoswenger/ubi
 
+The garbage collector (libgc.a) is the Boehm GC. It's very portable.
+It can be downloaded from http://www.hpl.hp.com/personal/Hans_Boehm/gc/
+
 You're welcome if you want to build binaries for 64-bit platforms,
 Solaris*, BSD*, etc. I'm reachable at amoswenger@gmail.com for discussion
 about this.

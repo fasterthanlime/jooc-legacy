@@ -68,7 +68,7 @@ The jar is 'executable', which means you can run it with:
 $ java -jar /opt/ooc/bin/ooc.jar arg1 arg2 arg3
 
 It's recommended for everyday work to use a bash script in /usr/bin/
-to launc ooc. There's an example of such a script in utils/launch-script.sh
+to launch ooc. There's an example of such a script in utils/launch-script.sh
 $ cp utils/launch-script.sh /usr/bin/ooc
 $ vim /usr/bin/ooc
 (edit the path of the script)
