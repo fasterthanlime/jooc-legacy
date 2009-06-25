@@ -14,6 +14,10 @@ with the language.
 
 (/opt/ooc is just an example install location, but it's a good one.)
 
+WARNING: DON'T COPY THE EXECUTABLE. It will prevent the compiler from
+locating its libraries (in sdk/, libs/, etc.). Make a symbolic link,
+as shown above.
+
 ===============================
  Windows + MinGW
 ===============================
@@ -41,13 +45,14 @@ As a general rule, avoid spaces in path names, it could cause problem
 with some tools.)
 
 =============================
- Windows naked
+ Windows CMD.exe
 =============================
 
-Using the default windows commandline is not recommended for your mental
-health. But there's no particular reason why it shouldn't work with ooc.
-Just be aware that maybe ooc won't be able to guess its location, so you
-may have to specify the OOC_DIST environment variable.
+ooc also works under the regular windows shell. It guess its
+location by reading the "Path" environment variable. If you
+still have environment variable problems, you can temporarily
+set it with "set OOC_DIST=C:\ooc" (for example)
+
 You can report bugs concerning windows compatibility
 on http://bugs.launchpad.net/ooc-language
 
