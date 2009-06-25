@@ -30,7 +30,7 @@ public class ShellUtils {
 		}
 		
 		if(!env.containsKey("PATH")) {
-			System.err.println("$PATH environment variable not found!");
+			System.err.println("PATH environment variable not found!");
 			return null;
 		}
 	
@@ -38,7 +38,6 @@ public class ShellUtils {
 		while(st.hasMoreTokens()) {
 			String path = st.nextToken();
 			File file = new File(path, executableName);
-			System.out.println("Checking at "+file.getPath());
 			if(file.exists()) {
 				return file;
 			}

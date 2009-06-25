@@ -25,7 +25,7 @@ public class ReadEnv {
 		Runtime r = Runtime.getRuntime();
 		String OS = System.getProperty("os.name").toLowerCase();
 		
-		System.out.println("OS: "+OS);
+		//System.out.println("OS: "+OS);
 		
 		if (OS.indexOf("windows 9") > -1) {
 			p = r.exec("command.com /c set");
@@ -46,9 +46,9 @@ public class ReadEnv {
 				String key = line.substring(0, idx);
 				String value = line.substring(idx + 1);
 				envVars.setProperty(key, value);
-				System.out.println( key + " = " + value );
+				//System.out.println( key + " = " + value );
 			} else {
-				System.out.println("While trying to get environment variables, got: " + line + "\n");
+				//System.out.println("While trying to get environment variables, got: " + line + "\n");
 			}
 		}
 		return envVars;

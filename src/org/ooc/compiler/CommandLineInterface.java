@@ -8,6 +8,7 @@ import java.util.Locale;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
+import org.ooc.ShellUtils;
 import org.ooc.backends.BackendFactory;
 import org.ooc.backends.ProjectInfo;
 import org.ooc.errors.SourceContext;
@@ -237,13 +238,14 @@ public class CommandLineInterface {
 	    	}
     	}
     	
+		Properties env = ReadEnv.getEnvVars();
+		
 		/**
 		 * Second try: assume we're launched as GCJ-compiled executable, and
 		 * try to get our path from the "_" environment variable, which seems to
 		 * be set by bash under Gentoo and by MSYS 1.0.11/whatever under MinGW/WinXP
 		 */
     	if(OOC_DIST == null || OOC_DIST.trim().isEmpty()) {
-    		Properties env = ReadEnv.getEnvVars();
     		Object curr = env.get("_");
     		if(curr != null) {
     			File file = new File(curr.toString().trim());
@@ -252,6 +254,24 @@ public class CommandLineInterface {
     				OOC_DIST = new File(canonicalPath).getParentFile().getParent();
     			}
     		}
+    	}
+
+		/**
+		 * Third try: assume we're launched as GCJ-compiled executable, and
+		 * try to get the PATH environment variable, and look us in here.
+		 */
+    	if(OOC_DIST == null || OOC_DIST.trim().isEmpty()) {
+    		
+    		File bin = ShellUtils.findExecutable("gcc");
+    		if(bin == null) {
+    			bin = ShellUtils.findExecutable("gcc.exe");
+    		}
+    		
+    		if(bin != null) {
+    			String canonicalPath = bin.getCanonicalPath();
+				OOC_DIST = new File(canonicalPath).getParentFile().getParent();
+    		}
+    		
     	}
     	
     	if(OOC_DIST == null || OOC_DIST.trim().isEmpty()) {
