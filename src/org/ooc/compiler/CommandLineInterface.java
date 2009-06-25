@@ -245,7 +245,7 @@ public class CommandLineInterface {
     			File file = new File(curr.toString().trim());
     			if(file.getPath().endsWith("ooc") || file.getPath().endsWith("ooc.exe")) {
     				String canonicalPath = file.getCanonicalPath();
-    				OOC_DIST = new File(canonicalPath).getParent();
+    				OOC_DIST = new File(canonicalPath).getParentFile().getParent();
     			}
     		}
     	}
