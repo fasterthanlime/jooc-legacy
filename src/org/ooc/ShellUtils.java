@@ -29,12 +29,17 @@ public class ShellUtils {
 			return null;
 		}
 		
-		if(!env.containsKey("PATH")) {
+		String pathVar = env.getProperty("PATH");
+		if(pathVar == null) {
+			pathVar = env.getProperty("Path");
+		} if(pathVar == null) {
+			pathVar = env.getProperty("path");
+		} if(pathVar == null) {
 			System.err.println("PATH environment variable not found!");
 			return null;
 		}
 	
-		StringTokenizer st = new StringTokenizer(env.getProperty("PATH"), File.pathSeparator);
+		StringTokenizer st = new StringTokenizer(pathVar, File.pathSeparator);
 		while(st.hasMoreTokens()) {
 			String path = st.nextToken();
 			File file = new File(path, executableName);
