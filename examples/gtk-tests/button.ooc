@@ -1,3 +1,5 @@
+import lang.String;
+
 import gtk.Gtk;
 import gtk.Window;
 import gtk.Box;
@@ -19,6 +21,10 @@ func main(Int argc, String[] argv) {
 
 	w.showAll;
 	w.connectNaked("destroy", Gtk.@mainQuit);
+
+	if(argc >= 2 && argv[1].equals("--test")) {
+		return 1;
+	}
 	
 	Gtk.main;
 

@@ -49,6 +49,10 @@ func main(Int argc, String[] argv) {
 	window.add(treeView);
 	
 	window.showAll;
+
+	if(argc >= 2 && argv[1].length) {
+		return 1;
+	}
 	
 	Gtk.main;
 	

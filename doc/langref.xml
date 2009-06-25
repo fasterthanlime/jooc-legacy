@@ -1497,6 +1497,12 @@ typedef uint8_t Octet;</programlisting>
     </section>
   </appendix>
 
+  <appendix>
+    <title>FAQ (Frequently Asked Questions)</title>
+
+    <para>What's wrong with C++?</para>
+  </appendix>
+
   <appendix id="fdl">
     &license;
   </appendix>
