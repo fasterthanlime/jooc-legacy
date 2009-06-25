@@ -14,12 +14,16 @@ with the language.
 
 (/opt/ooc is just an example install location, but it's a good one.)
 
+The ooc compiler has been run successfully under Gentoo, Ubuntu,
+and Red Hat, but it should work just as well in other distributions.
+You can report bugs to http://bugs.launchpad.net/ooc-language.
+
 WARNING: DON'T COPY THE EXECUTABLE. It will prevent the compiler from
 locating its libraries (in sdk/, libs/, etc.). Make a symbolic link,
 as shown above.
 
 ===============================
- Windows + MinGW
+ Windows + MinGW/MSYS
 ===============================
 
 - Install the latest MinGW and MSYS packages from http://www.mingw.org/
