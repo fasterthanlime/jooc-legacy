@@ -62,7 +62,7 @@ public class MemberFunctionCall extends FunctionCall {
         ClassDef classDef = manager.getContext().getClassDef(type.name);
         if(classDef == null) {
         	Type.resolveCheckEnabled = false;
-        	manager.queue(this, "Trying to call " + type + "." + name + getArgsRepr() + " but type " + type + " can't be found. Did you forget to import "+type+" ?");
+        	manager.queue(this, "Trying to call " + type.getDescription() + "." + name + type.getDescription() + " but type " + type.toSafeString() + " can't be found. Did you forget to import " + type.getDescription() + " ?");
         	Type.resolveCheckEnabled = true;
             return;
         }

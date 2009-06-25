@@ -49,8 +49,8 @@ public class AssignmentTypeCheck extends SingleFeature<Assignment> {
 		if(leftType.isUnknown() || rightType.isUnknown()) {
 			manager.queue(prev, "prev of assignment, should check for type");
 			manager.queue(next, "next of assignment, should check for type");
-			manager.queue(assignment, "Left type ("+prev.getClass().getSimpleName()+"#"+prev.hash+" "+leftType.toString(manager)
-					+") and/or right type ("+next.getClass().getSimpleName()+"#"+next.hash+" "+rightType.toString(manager)+") unknown");
+			manager.queue(assignment, "Left type ("+prev.getClass().getSimpleName()+"#"+prev.hash+" "+leftType.toSafeString()
+					+") and/or right type ("+next.getClass().getSimpleName()+"#"+next.hash+" "+rightType.toSafeString()+") unknown");
 			return;
 		}
 		
