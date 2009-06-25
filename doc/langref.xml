@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
 "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
-<!ENTITY version "0.2 codename ninja">
+<!ENTITY version "v0.2 ninja">
 <!ENTITY license SYSTEM "fdl.xml">
 ]>
 <!-- 
@@ -9,7 +9,7 @@ Follow the white rabbit.
 -->
 <book>
   <bookinfo>
-    <title>ooc Language Reference</title>
+    <title>ooc &version; Language Reference</title>
 
     <author>
       <firstname>Amos</firstname>
@@ -22,6 +22,8 @@ Follow the white rabbit.
 
       <holder>Amos Wenger</holder>
     </copyright>
+
+    <date>2009-06-25</date>
 
     <legalnotice>
       <para>Distributed under the terms of the <link linkend="fdl" os="">GNU
@@ -338,6 +340,16 @@ func main {
 
 }</programlisting>
         </section>
+
+        <section>
+          <title>Types that can't be resolved</title>
+
+          <para>Although the C header parser embedded in the ooc compiler
+          really tries its best, sometimes (especially with
+          <literal>#define</literal>s all over the place), C types aren't
+          recognized, and you have compile errors. This can be solved with the
+          use of the <literal>ctype</literal> keyword.</para>
+        </section>
       </section>
 
       <section>
@@ -345,10 +357,11 @@ func main {
 
         <para>A cover is a set of functions added to a primitive type. For
         example, String is a typedef to char*, and it has a cover
-        (lang.String), which adds functions <literal>length</literal>,
-        <literal>equals</literal>, <literal>startsWith</literal>, etc. Covers
-        are low-level constructs with a high-level syntax, which makes them
-        very useful in performance-critical environments.</para>
+        (<literal>lang.String</literal>), which adds functions
+        <literal>length</literal>, <literal>equals</literal>,
+        <literal>startsWith</literal>, etc. Covers are low-level constructs
+        with a high-level syntax, which makes them very useful in
+        performance-critical environments.</para>
 
         <programlisting>include stdio;
 
@@ -422,8 +435,8 @@ func dance {
   dance("Music's got me feeling so free/Celebrate and dance so free/One more time");
 }
 
-func dance {
-  printf("DANCE TO THE BEAT! Sing: %s");
+func dance(String lyrics) {
+  printf("DANCE TO THE BEAT! Sing: %s\b", lyrics);
 }</programlisting>
       </section>
 
@@ -489,6 +502,9 @@ func init {
 func quit {
   SDL_Quit(); // We must use parenthesis, cause it's a C function
 }</programlisting></para>
+
+      <para>Calling functions without parenthesis is particularly convenient
+      with getters/setters, as we will see later on.</para>
     </section>
 
     <section>
@@ -533,6 +549,9 @@ func call(Func toCall) {
 
     <section>
       <title>Syntax</title>
+	  
+	  <section>
+      <title>Definition</title>
 
       <para>Classes have member variables and member functions.</para>
 
@@ -549,12 +568,55 @@ func call(Func toCall) {
 
 }</programlisting>
 
+	</section>
+
+	<section>
+      <title>Instanciation</title>
+
       <para>You can instanciate objects with the new keyword, access their
       member variables and call their member functions pretty much as in
       Java.</para>
 
+      <programlisting>Dog dog = new Dog();</programlisting>
+
+      <para>As with functions, you can instanciate empty constructors without
+      parenthesis:</para>
+
+      <programlisting>Dog dog = new Dog;</programlisting>
+
+      <para>The compiler is even smart enough to figure which type to
+      instanciate, after a variable declaration or a variable
+      assignment:</para>
+
       <programlisting>Dog dog = new;</programlisting>
+
+      <para>Not, that, unlike C++, declaring only:</para>
+
+      <programlisting>Dog dog;</programlisting>
+
+      <para>will make dog a dangling pointer. Every object is in fact a
+      pointer to a structure. For more details about the underlying
+      implementation, see <link linkend="abi">the chapter ABI</link>.</para>
+	  
+	  </section>
+
+	  <section>
+        <title>Inheritance</title>
+		
+	  </section>
+
+	  <section>
+        <title>Abstract functions</title>
+	  
+      </section>
+	  
+	  <section>
+        <title>Reflection</title>
+	  
+      </section>
+	  
     </section>
+	
   </chapter>
 
   <appendix id="fdl">
@@ -567,7 +629,11 @@ func call(Func toCall) {
     <para><ulink url="http://ooc-lang.org/">the official ooc
     website</ulink></para>
 
-    <para><ulink url="http://github.com/amoswenger/ooc">the source repositor
-    on GitHub</ulink></para>
+    <para><ulink url="http://github.com/amoswenger/ooc">the source git
+    repository on GitHub</ulink></para>
+
+    <para><ulink url="http://live.gnome.org/Vala">the Vala programming
+    language: same spirit but tied on GLib (excellent for gtk/gnome
+    apps)</ulink></para>
   </appendix>
 </book>

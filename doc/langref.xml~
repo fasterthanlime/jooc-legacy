@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
 "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
-<!ENTITY version "0.2 codename ninja">
+<!ENTITY version "v0.2 ninja">
 <!ENTITY license SYSTEM "fdl.xml">
 ]>
 <!-- 
@@ -9,7 +9,7 @@ Follow the white rabbit.
 -->
 <book>
   <bookinfo>
-    <title>ooc Language Reference</title>
+    <title>ooc &version; Language Reference</title>
 
     <author>
       <firstname>Amos</firstname>
@@ -60,6 +60,8 @@ Follow the white rabbit.
     <para>It is assumed, throughout the book, that you have a basic knowledge
     of programming. If you come from a C or Java programming background, you
     should feel at home.</para>
+
+    <para>I hope you'll enjoy the read!</para>
   </preface>
 
   <chapter>
@@ -90,33 +92,48 @@ Follow the white rabbit.
       </section>
 
       <section>
+        <title>Constants</title>
+
+        <para>Constants are declared with the const keyword:</para>
+
+        <programlisting>const Float EPSILON = 0.00001f;</programlisting>
+
+        <para>Constants are usually implemented with
+        <literal>#define</literal>s<footnote>
+            <para>This may raise a concern: what about name collision? In
+            practice, this is almost never a problem with ooc. The generated C
+            code is always prefixed with a few underscores '_' and the package
+            and source unit name. E.g. __my_app_MyUnit_CONSTANT</para>
+          </footnote>, so it's really impossible to modify one.</para>
+      </section>
+
+      <section>
         <title>Types from C</title>
 
         <section>
-          <title>Correspondance</title>
+          <title>Correspondance with C and Java types</title>
 
           <table>
             <title>Correspondance tables of types in C, Java, and ooc.</title>
 
             <tgroup cols="4">
-			  <thead>
-			    <row>
+              <thead>
+                <row>
                   <entry>C</entry>
-				  
-				  <entry>Java</entry>
+
+                  <entry>Java</entry>
 
                   <entry>ooc</entry>
 
                   <entry>Comment</entry>
                 </row>
-			  </thead>
-			
+              </thead>
+
               <tbody>
-			  
                 <row>
                   <entry>void*</entry>
-				  
-				  <entry>Object</entry>
+
+                  <entry>Object</entry>
 
                   <entry>Object</entry>
 
@@ -126,8 +143,8 @@ Follow the white rabbit.
 
                 <row>
                   <entry>int</entry>
-				  
-				  <entry>int</entry>
+
+                  <entry>int</entry>
 
                   <entry>Int</entry>
 
@@ -137,8 +154,8 @@ Follow the white rabbit.
 
                 <row>
                   <entry>short</entry>
-				  
-				  <entry>short</entry>
+
+                  <entry>short</entry>
 
                   <entry>Short</entry>
 
@@ -148,8 +165,8 @@ Follow the white rabbit.
 
                 <row>
                   <entry>char</entry>
-				  
-				  <entry>char (UTF-16)</entry>
+
+                  <entry>char (UTF-16)</entry>
 
                   <entry>Char</entry>
 
@@ -159,8 +176,8 @@ Follow the white rabbit.
 
                 <row>
                   <entry>char*</entry>
-				  
-				  <entry>String (class)</entry>
+
+                  <entry>String (class)</entry>
 
                   <entry>String</entry>
 
@@ -170,8 +187,8 @@ Follow the white rabbit.
 
                 <row>
                   <entry>unsigned char, uint8_t</entry>
-				  
-				  <entry>byte</entry>
+
+                  <entry>byte</entry>
 
                   <entry>Octet</entry>
 
@@ -181,8 +198,8 @@ Follow the white rabbit.
 
                 <row>
                   <entry>unsigned int</entry>
-				  
-				  <entry>-</entry>
+
+                  <entry>-</entry>
 
                   <entry>UInt</entry>
 
@@ -191,8 +208,8 @@ Follow the white rabbit.
 
                 <row>
                   <entry>float</entry>
-				  
-				  <entry>float</entry>
+
+                  <entry>float</entry>
 
                   <entry>Float</entry>
 
@@ -201,8 +218,8 @@ Follow the white rabbit.
 
                 <row>
                   <entry>double</entry>
-				  
-				  <entry>-</entry>
+
+                  <entry>-</entry>
 
                   <entry>Double</entry>
 
@@ -211,8 +228,8 @@ Follow the white rabbit.
 
                 <row>
                   <entry>long double</entry>
-				  
-				  <entry>-</entry>
+
+                  <entry>-</entry>
 
                   <entry>LDouble</entry>
 
@@ -221,8 +238,8 @@ Follow the white rabbit.
 
                 <row>
                   <entry>long</entry>
-				  
-				  <entry>long</entry>
+
+                  <entry>long</entry>
 
                   <entry>Long</entry>
 
@@ -231,8 +248,8 @@ Follow the white rabbit.
 
                 <row>
                   <entry>long long</entry>
-				  
-				  <entry>-</entry>
+
+                  <entry>-</entry>
 
                   <entry>LLong</entry>
 
@@ -241,8 +258,8 @@ Follow the white rabbit.
 
                 <row>
                   <entry>bool</entry>
-				  
-				  <entry>boolean</entry>
+
+                  <entry>boolean</entry>
 
                   <entry>Bool</entry>
 
@@ -251,8 +268,8 @@ Follow the white rabbit.
 
                 <row>
                   <entry>pointer to function</entry>
-				  
-				  <entry>hahahaha.</entry>
+
+                  <entry>hahahaha.</entry>
 
                   <entry>Func</entry>
 
@@ -263,8 +280,8 @@ Follow the white rabbit.
 
                 <row>
                   <entry>size_t</entry>
-				  
-				  <entry>-</entry>
+
+                  <entry>-</entry>
 
                   <entry>Size</entry>
 
@@ -279,14 +296,47 @@ Follow the white rabbit.
         </section>
 
         <section>
-          <title>Capitalization and typedefs</title>
+          <title>Typedef (aliasing name types)</title>
+
+          <para>Typedefs exist in ooc too. They're used as in C.</para>
+
+          <programlisting>// This example is stupid, because it redefines the String type. It's just to show how typedefs are used.
+typedef Char* String;
+
+func main {
+
+  String name = "princesse de slougadij";
+  printf("A moins que vous n'epousiez la %s?\n", name);
+
+}</programlisting>
+
+          <para>Don't do funky stuff with typedef: it won't work. E.g.
+          <literal>typedef struct { /* etc. */ };</literal> If want a data
+          structure, <link linkend="classes">define a class</link>.</para>
+        </section>
+
+        <section>
+          <title>Capitalization</title>
 
           <para>If you try to declare something as 'int i', you'll be greeted
           by the compiler with the error message 'Invalid type name int. Types
           must start with an upper-case letter'. In this case, you can sort it
           out by using the ooc-ish 'Int'. But sometimes you just can't, e.g.
-          with GLib types, 'gint', 'guint', etc. The correct handling of these
-          cases is to typedef' them to something capitalized.</para>
+          with GLib types, '<literal>gint</literal>',
+          '<literal>guint</literal>', etc. The correct handling of these cases
+          is to <literal>typedef</literal>' them to something
+          capitalized.</para>
+
+          <programlisting>include glib;
+
+typedef guint GUInt;
+
+func main {
+
+  GUInt myPlatformSafeInt = 69;
+  gprintf("Now GLib and the ooc compilers are happy.%d\n", myPlatformSafeInt);
+
+}</programlisting>
         </section>
       </section>
 
@@ -295,11 +345,14 @@ Follow the white rabbit.
 
         <para>A cover is a set of functions added to a primitive type. For
         example, String is a typedef to char*, and it has a cover
-        (lang.String), which adds functions length, equals, startsWith, etc.
-        Covers are low-level constructs with a high-level syntax, which makes
-        them very useful in performance-critical environments.</para>
+        (lang.String), which adds functions <literal>length</literal>,
+        <literal>equals</literal>, <literal>startsWith</literal>, etc. Covers
+        are low-level constructs with a high-level syntax, which makes them
+        very useful in performance-critical environments.</para>
 
-        <programlisting>typedef char* String;
+        <programlisting>include stdio;
+
+typedef Char* String;
 
 cover String {
 
@@ -318,7 +371,7 @@ func main {
 </programlisting>
 
         <para>Difference between class and covers will be treated more in
-        depth in the <link linkend="classes">chapter Classes</link>.</para>
+        depth in <link linkend="classes">a next chapter</link>.</para>
       </section>
     </section>
   </chapter>
@@ -327,13 +380,13 @@ func main {
     <title>Functions</title>
 
     <section>
-      <title>Syntax</title>
+      <title>Definition</title>
 
       <section>
-        <title>Basic syntax</title>
+        <title>Syntax</title>
 
-        <para>A function is declared with the help of the
-        <literal>func</literal> keyword.</para>
+        <para>A function is declared with the
+        <literal><literal>func</literal></literal> keyword.</para>
 
         <programlisting>// Empty function with no args that returns nothing
 func useless;
@@ -353,7 +406,29 @@ func add(Int arg1, Int arg2) -&gt; Int {
       </section>
 
       <section>
-        <title>The main function: a program's entry point</title>
+        <title>Same name, different arguments</title>
+
+        <para>In ooc, it's possible to have several functions with the same
+        name and different arguments. Which function to call is selected at
+        compilation time, based on the number of arguments and their
+        types.</para>
+
+        <programlisting>func main {
+  dance();
+  dance("Too much of heaven/Can bring you underground");
+}
+
+func dance {
+  dance("Music's got me feeling so free/Celebrate and dance so free/One more time");
+}
+
+func dance {
+  printf("DANCE TO THE BEAT! Sing: %s");
+}</programlisting>
+      </section>
+
+      <section>
+        <title>The main function: entry point</title>
 
         <para>In ooc, the main function is automatically specified to have the
         return type 'Int'. You can declare it either without arguments, or
@@ -378,9 +453,78 @@ func main(Int argc, String[] argv, String[] envp) {
     </section>
 
     <section>
+      <title>Calling functions</title>
+
+      <para>Functions can be called with or without parenthesis, if the
+      function has no arguments. Depending on the cases, it can be more
+      readable to have explicit parenthesis, or more practical to not have
+      them. <emphasis role="bold">Be warned, though, calling functions without
+      parenthesis only work with functions written in ooc. It won't work with
+      included C functions, because the headers files are not parsed for
+      function declarations.</emphasis><footnote>
+          <para>The reason for that is simple. Parsing C headers is a
+          nightmare. It's already done for typedefs, for example, and there
+          are still cases where it fails (e.g. SDL headers). Portable header
+          files are usually filled with #defines, and it makes the ooc parser
+          have a hard job understanding them. To fix that, we'd have to
+          complete the ooc included C preprocessor, which would be very time
+          consuming. For now, you can work around the 'unrecognized types'
+          issue with the 'ctype' keyword.</para>
+        </footnote><programlisting>/*
+ * In this example, we use SDL functions to demonstrate that
+ * you have to use parenthesis to call C functions.
+ * If you were to use the SDL in a real project, it'd be better to use the SDL bindings
+ */
+include SDL/SDL;
+
+func main {
+  init; // Need no parenthesis !
+  quit;
+}
+
+func init {
+  SDL_Init(SDL_INIT_EVERYTHING);
+}
+
+func quit {
+  SDL_Quit(); // We must use parenthesis, cause it's a C function
+}</programlisting></para>
+    </section>
+
+    <section>
       <title>Callbacks and pointers</title>
 
-      <para></para>
+      <section>
+        <title>Simple case</title>
+
+        <para>In ooc, functions are almost-first-class-citizens. You can pass
+        pointer to functions around easily:</para>
+
+        <programlisting>func main {
+
+  call(@kotokoSpeak);
+
+}
+
+func kotokoSpeak {
+
+  printf("We have a very big problem!\n");
+
+}
+
+func call(Func toCall) {
+
+  toCall();
+
+}</programlisting>
+      </section>
+
+      <section>
+        <title>Pointer to member functions</title>
+
+        <para>This case is treated in <link linkend="classes">this
+        chapter</link>.</para>
+      </section>
     </section>
   </chapter>
 
@@ -391,6 +535,25 @@ func main(Int argc, String[] argv, String[] envp) {
       <title>Syntax</title>
 
       <para>Classes have member variables and member functions.</para>
+
+      <programlisting>class Dog {
+
+  String name;
+  Int age;
+
+  func new; // Empty constructor
+
+  func woof {
+    printf("Woof, woof!\n");
+  }
+
+}</programlisting>
+
+      <para>You can instanciate objects with the new keyword, access their
+      member variables and call their member functions pretty much as in
+      Java.</para>
+
+      <programlisting>Dog dog = new;</programlisting>
     </section>
   </chapter>
 

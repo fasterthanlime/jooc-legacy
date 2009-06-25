@@ -25,6 +25,7 @@ public class CommandLineInterface {
      */
     public static void main(String[] args) throws Exception {
     	
+    	System.out.println("classpath = "+System.getProperty("java.class.path"));
     	if(OOC_DIST == null || OOC_DIST.trim().isEmpty()) {
 	    	StringTokenizer st = new StringTokenizer(System.getProperty("java.class.path"), File.pathSeparator);
 	    	while(st.hasMoreElements()) {

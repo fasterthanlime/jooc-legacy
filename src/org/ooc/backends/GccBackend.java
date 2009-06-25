@@ -86,8 +86,6 @@ class GccBackend extends Backend {
 				}
 			}
 		}
-			
-		determineGccPath();
 		
 		fileOutputter = new CachedFileOutputter();
 		
@@ -160,6 +158,10 @@ class GccBackend extends Backend {
 	@Override
 	public int compile(ProjectInfo info, BuildProperties props) throws IOException, InterruptedException {
 
+		if(gccPath == null || gccPath.isEmpty()) {
+			determineGccPath();
+		}
+		
 		// General parameters override backend-specific ones
 		if(clean && !props.clean) {
 			clean = false;

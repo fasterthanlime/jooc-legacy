@@ -11,10 +11,10 @@ TITLE="ooc v0.2 ninja Language Reference"
 HREF="book1.htm"/><LINK
 REL="PREVIOUS"
 TITLE="Preface"
-HREF="f15.htm"/><LINK
+HREF="f16.htm"/><LINK
 REL="NEXT"
 TITLE="Functions"
-HREF="c167.htm"/></HEAD
+HREF="c174.htm"/></HEAD
 ><BODY
 CLASS="chapter"
 BGCOLOR="#FFFFFF"
@@ -42,7 +42,7 @@ WIDTH="10%"
 ALIGN="left"
 VALIGN="bottom"
 ><A
-HREF="f15.htm"
+HREF="f16.htm"
 ACCESSKEY="P"
 >Prev</A
 ></TD
@@ -56,7 +56,7 @@ WIDTH="10%"
 ALIGN="right"
 VALIGN="bottom"
 ><A
-HREF="c167.htm"
+HREF="c174.htm"
 ACCESSKEY="N"
 >Next</A
 ></TD
@@ -69,7 +69,7 @@ WIDTH="100%"/></DIV
 CLASS="chapter"
 ><H1
 ><A
-NAME="AEN27"
+NAME="AEN28"
 ></A
 >Chapter 1. Variables</H1
 ><DIV
@@ -77,7 +77,7 @@ CLASS="section"
 ><H1
 CLASS="section"
 ><A
-NAME="AEN29"
+NAME="AEN30"
 >Types</A
 ></H1
 ><DIV
@@ -85,7 +85,7 @@ CLASS="section"
 ><H2
 CLASS="section"
 ><A
-NAME="AEN31"
+NAME="AEN32"
 >Syntax</A
 ></H2
 ><P
@@ -147,7 +147,7 @@ CLASS="section"
 ><H2
 CLASS="section"
 ><A
-NAME="AEN47"
+NAME="AEN48"
 >Constants</A
 ></H2
 ><P
@@ -161,8 +161,8 @@ CLASS="programlisting"
 CLASS="literal"
 >#define</TT
 >s<A
-NAME="AEN53"
-HREF="#FTN.AEN53"
+NAME="AEN54"
+HREF="#FTN.AEN54"
 ><SPAN
 CLASS="footnote"
 >[1]</SPAN
@@ -174,7 +174,7 @@ CLASS="section"
 ><H2
 CLASS="section"
 ><A
-NAME="AEN55"
+NAME="AEN56"
 >Types from C</A
 ></H2
 ><DIV
@@ -182,13 +182,13 @@ CLASS="section"
 ><H3
 CLASS="section"
 ><A
-NAME="AEN57"
+NAME="AEN58"
 >Correspondance with C and Java types</A
 ></H3
 ><DIV
 CLASS="table"
 ><A
-NAME="AEN59"
+NAME="AEN60"
 ></A
 ><P
 ><B
@@ -380,7 +380,7 @@ CLASS="section"
 ><H3
 CLASS="section"
 ><A
-NAME="AEN144"
+NAME="AEN145"
 >Typedef (aliasing name types)</A
 ></H3
 ><P
@@ -403,7 +403,7 @@ CLASS="literal"
 >typedef struct { /* etc. */ };</TT
 > If want a data
           structure, <A
-HREF="c202.htm"
+HREF="c209.htm"
 >define a class</A
 >.</P
 ></DIV
@@ -412,7 +412,7 @@ CLASS="section"
 ><H3
 CLASS="section"
 ><A
-NAME="AEN151"
+NAME="AEN152"
 >Capitalization</A
 ></H3
 ><P
@@ -446,31 +446,56 @@ func main {
 
 }</PRE
 ></DIV
+><DIV
+CLASS="section"
+><H3
+CLASS="section"
+><A
+NAME="AEN159"
+>Types that can't be resolved</A
+></H3
+><P
+>Although the C header parser embedded in the ooc compiler
+          really tries its best, sometimes (especially with
+          <TT
+CLASS="literal"
+>#define</TT
+>s all over the place), C types aren't
+          recognized, and you have compile errors. This can be solved with the
+          use of the <TT
+CLASS="literal"
+>ctype</TT
+> keyword.</P
+></DIV
 ></DIV
 ><DIV
 CLASS="section"
 ><H2
 CLASS="section"
 ><A
-NAME="AEN158"
+NAME="AEN164"
 >Covers</A
 ></H2
 ><P
 >A cover is a set of functions added to a primitive type. For
         example, String is a typedef to char*, and it has a cover
-        (lang.String), which adds functions <TT
+        (<TT
+CLASS="literal"
+>lang.String</TT
+>), which adds functions
+        <TT
 CLASS="literal"
 >length</TT
+>, <TT
+CLASS="literal"
+>equals</TT
 >,
         <TT
 CLASS="literal"
->equals</TT
->, <TT
-CLASS="literal"
 >startsWith</TT
->, etc. Covers
-        are low-level constructs with a high-level syntax, which makes them
-        very useful in performance-critical environments.</P
+>, etc. Covers are low-level constructs
+        with a high-level syntax, which makes them very useful in
+        performance-critical environments.</P
 ><PRE
 CLASS="programlisting"
 >include stdio;
@@ -495,7 +520,7 @@ func main {
 ><P
 >Difference between class and covers will be treated more in
         depth in <A
-HREF="c202.htm"
+HREF="c209.htm"
 >a next chapter</A
 >.</P
 ></DIV
@@ -514,8 +539,8 @@ ALIGN="LEFT"
 VALIGN="TOP"
 WIDTH="5%"
 ><A
-NAME="FTN.AEN53"
-HREF="c27.htm#AEN53"
+NAME="FTN.AEN54"
+HREF="c28.htm#AEN54"
 ><SPAN
 CLASS="footnote"
 >[1]</SPAN
@@ -549,7 +574,7 @@ WIDTH="33%"
 ALIGN="left"
 VALIGN="top"
 ><A
-HREF="f15.htm"
+HREF="f16.htm"
 ACCESSKEY="P"
 >Prev</A
 ></TD
@@ -567,7 +592,7 @@ WIDTH="33%"
 ALIGN="right"
 VALIGN="top"
 ><A
-HREF="c167.htm"
+HREF="c174.htm"
 ACCESSKEY="N"
 >Next</A
 ></TD

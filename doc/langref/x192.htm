@@ -1,0 +1,222 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML
+><HEAD
+><TITLE
+>Calling functions</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.79"/><LINK
+REL="HOME"
+TITLE="ooc v0.2 ninja Language Reference"
+HREF="book1.htm"/><LINK
+REL="UP"
+TITLE="Functions"
+HREF="c174.htm"/><LINK
+REL="PREVIOUS"
+TITLE="Functions"
+HREF="c174.htm"/><LINK
+REL="NEXT"
+TITLE="Callbacks and pointers"
+HREF="x199.htm"/></HEAD
+><BODY
+CLASS="section"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>ooc v0.2 ninja Language Reference</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="c174.htm"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+>Chapter 2. Functions</TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x199.htm"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"/></DIV
+><DIV
+CLASS="section"
+><H1
+CLASS="section"
+><A
+NAME="AEN192"
+>Calling functions</A
+></H1
+><P
+>Functions can be called with or without parenthesis, if the
+      function has no arguments. Depending on the cases, it can be more
+      readable to have explicit parenthesis, or more practical to not have
+      them. <SPAN
+CLASS="bold"
+><B
+CLASS="emphasis"
+>Be warned, though, calling functions without
+      parenthesis only work with functions written in ooc. It won't work with
+      included C functions, because the headers files are not parsed for
+      function declarations.</B
+></SPAN
+><A
+NAME="AEN196"
+HREF="#FTN.AEN196"
+><SPAN
+CLASS="footnote"
+>[1]</SPAN
+></A
+><PRE
+CLASS="programlisting"
+>/*
+ * In this example, we use SDL functions to demonstrate that
+ * you have to use parenthesis to call C functions.
+ * If you were to use the SDL in a real project, it'd be better to use the SDL bindings
+ */
+include SDL/SDL;
+
+func main {
+  init; // Need no parenthesis !
+  quit;
+}
+
+func init {
+  SDL_Init(SDL_INIT_EVERYTHING);
+}
+
+func quit {
+  SDL_Quit(); // We must use parenthesis, cause it's a C function
+}</PRE
+></P
+></DIV
+><H3
+CLASS="FOOTNOTES"
+>Notes</H3
+><TABLE
+BORDER="0"
+CLASS="FOOTNOTES"
+WIDTH="100%"
+><TR
+><TD
+ALIGN="LEFT"
+VALIGN="TOP"
+WIDTH="5%"
+><A
+NAME="FTN.AEN196"
+HREF="x192.htm#AEN196"
+><SPAN
+CLASS="footnote"
+>[1]</SPAN
+></A
+></TD
+><TD
+ALIGN="LEFT"
+VALIGN="TOP"
+WIDTH="95%"
+><P
+>The reason for that is simple. Parsing C headers is a
+          nightmare. It's already done for typedefs, for example, and there
+          are still cases where it fails (e.g. SDL headers). Portable header
+          files are usually filled with #defines, and it makes the ooc parser
+          have a hard job understanding them. To fix that, we'd have to
+          complete the ooc included C preprocessor, which would be very time
+          consuming. For now, you can work around the 'unrecognized types'
+          issue with the 'ctype' keyword.</P
+></TD
+></TR
+></TABLE
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"/><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="c174.htm"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="book1.htm"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x199.htm"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Functions</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="c174.htm"
+ACCESSKEY="U"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Callbacks and pointers</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>
