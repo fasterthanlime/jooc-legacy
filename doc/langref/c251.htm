@@ -1,0 +1,309 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML
+><HEAD
+><TITLE
+>Statements</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.79"/><LINK
+REL="HOME"
+TITLE="ooc v0.2 ninja Language Reference"
+HREF="book1.htm"/><LINK
+REL="PREVIOUS"
+TITLE="Classes"
+HREF="c212.htm"/><LINK
+REL="NEXT"
+TITLE="conditionals"
+HREF="x282.htm"/></HEAD
+><BODY
+CLASS="chapter"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>ooc v0.2 ninja Language Reference</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="c212.htm"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+></TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x282.htm"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"/></DIV
+><DIV
+CLASS="chapter"
+><H1
+><A
+NAME="AEN251"
+></A
+>Chapter 4. Statements</H1
+><DIV
+CLASS="TOC"
+><DL
+><DT
+><B
+>Table of Contents</B
+></DT
+><DT
+><A
+HREF="c251.htm#AEN253"
+>loops</A
+></DT
+><DT
+><A
+HREF="x282.htm"
+>conditionals</A
+></DT
+><DT
+><A
+HREF="x292.htm"
+>flow control</A
+></DT
+></DL
+></DIV
+><DIV
+CLASS="section"
+><H1
+CLASS="section"
+><A
+NAME="AEN253"
+>loops</A
+></H1
+><DIV
+CLASS="section"
+><H2
+CLASS="section"
+><A
+NAME="AEN255"
+>classic for</A
+></H2
+><P
+>As can be seen in C99 and Java:</P
+><PRE
+CLASS="programlisting"
+>for(Int i = 0; i &lt; max; i++) {
+  // do stuff.
+}
+
+// or, more generally:
+
+for(initialization; condition; iteration) {
+  // body
+}</PRE
+><P
+>Declaration of variables inside the for loop is authorized,
+        since ooc is translated to C99.</P
+></DIV
+><DIV
+CLASS="section"
+><H2
+CLASS="section"
+><A
+NAME="AEN260"
+>for in ranges</A
+></H2
+><DIV
+CLASS="section"
+><H3
+CLASS="section"
+><A
+NAME="AEN262"
+>regular</A
+></H3
+><P
+>Somehow reminiscent of scripting languages:</P
+><PRE
+CLASS="programlisting"
+>for(Int i: 0..max) {
+  // i goes from 0 to max excluded.
+}
+
+// real-world use case
+func main(Int argc, String[] argv) {
+  
+  for(Int i: 1..argc) {
+    printf("Got argument '%s'\n", argv[i]);
+  }
+
+}</PRE
+></DIV
+><DIV
+CLASS="section"
+><H3
+CLASS="section"
+><A
+NAME="AEN266"
+>reverse</A
+></H3
+><P
+>For terrorist geeks:</P
+><PRE
+CLASS="programlisting"
+>for(Int i: reverse 0..11) {
+  printf("%d...\n", i);
+}
+printf("segmentation fault\n");</PRE
+></DIV
+><DIV
+CLASS="section"
+><H3
+CLASS="section"
+><A
+NAME="AEN270"
+>sparse</A
+></H3
+><P
+>You can specify the stepping</P
+><PRE
+CLASS="programlisting"
+>for(Int i: 2..100, 2) {
+  printf("%d, ", i);
+}
+printf("are multiples of two from 0 to 100.");</PRE
+></DIV
+></DIV
+><DIV
+CLASS="section"
+><H2
+CLASS="section"
+><A
+NAME="AEN274"
+>foreach</A
+></H2
+><P
+>Syntax vastly inspired by Java:</P
+><PRE
+CLASS="programlisting"
+>func printAll(List list) {
+
+  for(String str: list) {
+    printf("%s, ", str);
+  }
+  putc('\n');
+
+}
+
+// better than for in ranges
+func main(Int argc, String[] argv) {
+
+  for(String arg: new Array(argc, argv)) {
+    printf("Got argument '%s'\n", arg);
+  }
+
+}</PRE
+></DIV
+><DIV
+CLASS="section"
+><H2
+CLASS="section"
+><A
+NAME="AEN278"
+>while</A
+></H2
+><P
+>As boring as the C/Java one:</P
+><PRE
+CLASS="programlisting"
+>Float x;
+while(x &lt; 42.0f) {
+  x += (x * x) / 69.0f;
+}</PRE
+></DIV
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"/><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="c212.htm"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="book1.htm"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x282.htm"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Classes</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+>&nbsp;</TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>conditionals</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

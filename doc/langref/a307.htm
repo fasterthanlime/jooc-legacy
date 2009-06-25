@@ -2,7 +2,7 @@
 <HTML
 ><HEAD
 ><TITLE
->Classes</TITLE
+>ABI (Application Binary Interface)</TITLE
 ><META
 NAME="GENERATOR"
 CONTENT="Modular DocBook HTML Stylesheet Version 1.79"/><LINK
@@ -10,13 +10,13 @@ REL="HOME"
 TITLE="ooc v0.2 ninja Language Reference"
 HREF="book1.htm"/><LINK
 REL="PREVIOUS"
-TITLE="Callbacks and pointers"
-HREF="x192.htm"/><LINK
+TITLE="Packages, headers, libraries"
+HREF="c298.htm"/><LINK
 REL="NEXT"
 TITLE="GNU Free Documentation License"
-HREF="a210.htm"/></HEAD
+HREF="a315.htm"/></HEAD
 ><BODY
-CLASS="chapter"
+CLASS="appendix"
 BGCOLOR="#FFFFFF"
 TEXT="#000000"
 LINK="#0000FF"
@@ -42,7 +42,7 @@ WIDTH="10%"
 ALIGN="left"
 VALIGN="bottom"
 ><A
-HREF="x192.htm"
+HREF="c298.htm"
 ACCESSKEY="P"
 >Prev</A
 ></TD
@@ -56,7 +56,7 @@ WIDTH="10%"
 ALIGN="right"
 VALIGN="bottom"
 ><A
-HREF="a210.htm"
+HREF="a315.htm"
 ACCESSKEY="N"
 >Next</A
 ></TD
@@ -66,45 +66,72 @@ ACCESSKEY="N"
 ALIGN="LEFT"
 WIDTH="100%"/></DIV
 ><DIV
-CLASS="chapter"
+CLASS="appendix"
 ><H1
 ><A
-NAME="classes"
+NAME="abi"
 ></A
->Chapter 3. Classes</H1
-><DIV
-CLASS="section"
-><H1
-CLASS="section"
+>Appendix A. ABI (Application Binary Interface)</H1
+><P
+>The ooc ABI is designed to be simple and straight-forward. Also,
+    there is an official ABI so that different implementations be
+    compatible.<A
+NAME="AEN310"
+HREF="#FTN.AEN310"
+><SPAN
+CLASS="footnote"
+>[1]</SPAN
+></A
+></P
+><P
+>Note that the ooc specification is still under heavy development, so
+    it means that the ABI can change significantly from a "dot version" to
+    another.</P
+></DIV
+><H3
+CLASS="FOOTNOTES"
+>Notes</H3
+><TABLE
+BORDER="0"
+CLASS="FOOTNOTES"
+WIDTH="100%"
+><TR
+><TD
+ALIGN="LEFT"
+VALIGN="TOP"
+WIDTH="5%"
 ><A
-NAME="AEN204"
->Syntax</A
-></H1
+NAME="FTN.AEN310"
+HREF="a307.htm#AEN310"
+><SPAN
+CLASS="footnote"
+>[1]</SPAN
+></A
+></TD
+><TD
+ALIGN="LEFT"
+VALIGN="TOP"
+WIDTH="95%"
 ><P
->Classes have member variables and member functions.</P
-><PRE
-CLASS="programlisting"
->class Dog {
-
-  String name;
-  Int age;
-
-  func new; // Empty constructor
-
-  func woof {
-    printf("Woof, woof!\n");
-  }
-
-}</PRE
-><P
->You can instanciate objects with the new keyword, access their
-      member variables and call their member functions pretty much as in
-      Java.</P
-><PRE
-CLASS="programlisting"
->Dog dog = new;</PRE
-></DIV
-></DIV
+>When I write <SPAN
+CLASS="emphasis"
+><I
+CLASS="emphasis"
+>different implementations</I
+></SPAN
+>, I
+        particularly think about <A
+HREF="http://github.com/amoswenger/rock"
+TARGET="_top"
+>rock, the all-new attempt to
+        write an ooc compiler in the ooc language</A
+>. At the time of this
+        writing, it's very young: time has been spent developing ooc's
+        features that could be useful for rock, rather than rock itself. As
+        always, contributors are very welcome!</P
+></TD
+></TR
+></TABLE
 ><DIV
 CLASS="NAVFOOTER"
 ><HR
@@ -121,7 +148,7 @@ WIDTH="33%"
 ALIGN="left"
 VALIGN="top"
 ><A
-HREF="x192.htm"
+HREF="c298.htm"
 ACCESSKEY="P"
 >Prev</A
 ></TD
@@ -139,7 +166,7 @@ WIDTH="33%"
 ALIGN="right"
 VALIGN="top"
 ><A
-HREF="a210.htm"
+HREF="a315.htm"
 ACCESSKEY="N"
 >Next</A
 ></TD
@@ -149,7 +176,7 @@ ACCESSKEY="N"
 WIDTH="33%"
 ALIGN="left"
 VALIGN="top"
->Callbacks and pointers</TD
+>Packages, headers, libraries</TD
 ><TD
 WIDTH="34%"
 ALIGN="center"

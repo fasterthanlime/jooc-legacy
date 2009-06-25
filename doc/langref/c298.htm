@@ -2,7 +2,7 @@
 <HTML
 ><HEAD
 ><TITLE
->Links</TITLE
+>Packages, headers, libraries</TITLE
 ><META
 NAME="GENERATOR"
 CONTENT="Modular DocBook HTML Stylesheet Version 1.79"/><LINK
@@ -10,10 +10,13 @@ REL="HOME"
 TITLE="ooc v0.2 ninja Language Reference"
 HREF="book1.htm"/><LINK
 REL="PREVIOUS"
-TITLE="GNU Free Documentation License"
-HREF="a217.htm"/></HEAD
+TITLE="flow control"
+HREF="x292.htm"/><LINK
+REL="NEXT"
+TITLE="ABI (Application Binary Interface)"
+HREF="a307.htm"/></HEAD
 ><BODY
-CLASS="appendix"
+CLASS="chapter"
 BGCOLOR="#FFFFFF"
 TEXT="#000000"
 LINK="#0000FF"
@@ -39,7 +42,7 @@ WIDTH="10%"
 ALIGN="left"
 VALIGN="bottom"
 ><A
-HREF="a217.htm"
+HREF="x292.htm"
 ACCESSKEY="P"
 >Prev</A
 ></TD
@@ -52,40 +55,56 @@ VALIGN="bottom"
 WIDTH="10%"
 ALIGN="right"
 VALIGN="bottom"
->&nbsp;</TD
+><A
+HREF="a307.htm"
+ACCESSKEY="N"
+>Next</A
+></TD
 ></TR
 ></TABLE
 ><HR
 ALIGN="LEFT"
 WIDTH="100%"/></DIV
 ><DIV
-CLASS="appendix"
+CLASS="chapter"
 ><H1
 ><A
-NAME="AEN312"
+NAME="AEN298"
 ></A
->Appendix B. Links</H1
+>Chapter 5. Packages, headers, libraries</H1
 ><P
+>ooc doesn't share C++'s affection for C-style headers. Source files,
+    (called 'units'), are organized into folders (called 'packages'), much
+    like Java packages without the hassle.</P
+><DIV
+CLASS="section"
+><H1
+CLASS="section"
 ><A
-HREF="http://ooc-lang.org/"
-TARGET="_top"
->the official ooc
-    website</A
-></P
+NAME="AEN301"
+>ooc packages</A
+></H1
 ><P
-><A
-HREF="http://github.com/amoswenger/ooc"
-TARGET="_top"
->the source git
-    repository on GitHub</A
-></P
-><P
-><A
-HREF="http://vala-lang.org/"
-TARGET="_top"
->the Vala programming language:
-    same spirit but tied on GLib (excellent for gtk/gnome apps)</A
-></P
+>There is no <TT
+CLASS="literal"
+>package</TT
+> keyword. The package of a
+      source unit is relative to the sourcepath. You can import units from
+      packages with the <TT
+CLASS="literal"
+>import</TT
+> keyword. For example, let's
+      say we have a Talker unit:</P
+><PRE
+CLASS="programlisting"
+>class Talker {
+
+  static func say(String message) {
+    
+  }
+
+}</PRE
+></DIV
 ></DIV
 ><DIV
 CLASS="NAVFOOTER"
@@ -103,7 +122,7 @@ WIDTH="33%"
 ALIGN="left"
 VALIGN="top"
 ><A
-HREF="a217.htm"
+HREF="x292.htm"
 ACCESSKEY="P"
 >Prev</A
 ></TD
@@ -120,14 +139,18 @@ ACCESSKEY="H"
 WIDTH="33%"
 ALIGN="right"
 VALIGN="top"
->&nbsp;</TD
+><A
+HREF="a307.htm"
+ACCESSKEY="N"
+>Next</A
+></TD
 ></TR
 ><TR
 ><TD
 WIDTH="33%"
 ALIGN="left"
 VALIGN="top"
->GNU Free Documentation License</TD
+>flow control</TD
 ><TD
 WIDTH="34%"
 ALIGN="center"
@@ -137,7 +160,7 @@ VALIGN="top"
 WIDTH="33%"
 ALIGN="right"
 VALIGN="top"
->&nbsp;</TD
+>ABI (Application Binary Interface)</TD
 ></TR
 ></TABLE
 ></DIV

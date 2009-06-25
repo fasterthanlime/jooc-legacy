@@ -265,7 +265,9 @@ Follow the white rabbit.
 
                   <entry>Bool</entry>
 
-                  <entry>uses stdbool's typedefs.</entry>
+                  <entry>uses stdbool's typedefs. You should use
+                  <literal>true</literal> and <literal>false</literal> for
+                  boolean literals, not 0 and 1.</entry>
                 </row>
 
                 <row>
@@ -549,13 +551,13 @@ func call(Func toCall) {
 
     <section>
       <title>Syntax</title>
-	  
-	  <section>
-      <title>Definition</title>
 
-      <para>Classes have member variables and member functions.</para>
+      <section>
+        <title>Definition</title>
 
-      <programlisting>class Dog {
+        <para>Classes have member variables and member functions.</para>
+
+        <programlisting>class Dog {
 
   String name;
   Int age;
@@ -567,57 +569,357 @@ func call(Func toCall) {
   }
 
 }</programlisting>
+      </section>
 
-	</section>
+      <section>
+        <title>Instanciation</title>
 
-	<section>
-      <title>Instanciation</title>
+        <para>You can instanciate objects with the new keyword, access their
+        member variables and call their member functions pretty much as in
+        Java.</para>
 
-      <para>You can instanciate objects with the new keyword, access their
-      member variables and call their member functions pretty much as in
-      Java.</para>
+        <programlisting>Dog dog = new Dog();</programlisting>
 
-      <programlisting>Dog dog = new Dog();</programlisting>
+        <para>As with functions, you can instanciate empty constructors
+        without parenthesis:</para>
 
-      <para>As with functions, you can instanciate empty constructors without
-      parenthesis:</para>
+        <programlisting>Dog dog = new Dog;</programlisting>
 
-      <programlisting>Dog dog = new Dog;</programlisting>
+        <para>The compiler is even smart enough to figure which type to
+        instanciate, after a variable declaration or a variable
+        assignment:</para>
 
-      <para>The compiler is even smart enough to figure which type to
-      instanciate, after a variable declaration or a variable
-      assignment:</para>
+        <programlisting>Dog dog = new;</programlisting>
 
-      <programlisting>Dog dog = new;</programlisting>
+        <para>Not, that, unlike C++, declaring only:</para>
 
-      <para>Not, that, unlike C++, declaring only:</para>
+        <programlisting>Dog dog;</programlisting>
 
-      <programlisting>Dog dog;</programlisting>
+        <para>will make dog a dangling pointer. Every object is in fact a
+        pointer to a structure. For more details about the underlying
+        implementation, see <link linkend="abi">the ABI
+        appendix</link>.</para>
+      </section>
 
-      <para>will make dog a dangling pointer. Every object is in fact a
-      pointer to a structure. For more details about the underlying
-      implementation, see <link linkend="abi">the chapter ABI</link>.</para>
-	  
-	  </section>
-
-	  <section>
+      <section>
         <title>Inheritance</title>
-		
-	  </section>
 
-	  <section>
-        <title>Abstract functions</title>
-	  
+        <para>For now, ooc has a simple inheritance model, somewhat like Java.
+        To inherit a class, use the <literal>from</literal> keyword. To
+        override a function, use the <literal>override</literal> keyword, or
+        define a function with the same signature. <literal>override</literal>
+        has the advantage of change checking: if the signature of the
+        implemented function changes, it'll yield a compile error, instead of
+        compiling the wrong version silently (it has the same use as the
+        <literal>@Override</literal> annotation in Java).</para>
+
+        <programlisting>class Wheel {
+
+  func roll {
+    printf("Quelque-chose ne tourne pas rond.\n");
+  }
+
+}
+
+class BetterWheel from Wheel {
+
+  override roll {
+    printf("Pierre qui roule n'amasse pas mousse\n");
+  }
+
+}
+
+func main {
+
+  Wheel w = new;
+  w.roll; // prints "Quelque-chose", etc.
+
+  BetterWheel bw = new;
+  bw.roll; // prints "Pierre qui roule", etc.
+
+  Wheel w2 = (Wheel) bw; // cast as in C/Java
+  w2.roll; // prints "Pierre qui roule", etc.
+
+}</programlisting>
       </section>
-	  
-	  <section>
+
+      <section>
+        <title>Abstract class and functions</title>
+
+        <para>You can declare classes as abstract. They can no longer
+        instanciated, and serve as base classes for other. In abstract
+        classes, you can define abstract functions, that must be implemented
+        by concrete (=non-abstract) child classes. To implement an abstract
+        function, use the <literal>implement</literal> keyword. It has the
+        same advantage as the <literal>override</literal> keyword.</para>
+
+        <programlisting>import structs.Array;
+
+abstract class Singer {
+
+  abstract func sing;
+
+}
+
+class Hives from Singer {
+
+  implement sing {
+    printf("Tick tick tick BOOM!\n");
+  }
+
+}
+
+class Spiderbait from Singer {
+
+  implement sing {
+    printf("Tonight, I'm going outta my head!\n");
+  }
+
+}
+
+func main {
+
+  ArrayList singers = new;
+  singers.add(new Hives);
+  singers.add(new Spiderbait);
+
+  for(Singer singer: singers) {
+    singer.sing;
+  }
+
+}</programlisting>
+      </section>
+
+      <section>
         <title>Reflection</title>
-	  
+
+        <para>ooc has limited support for reflection. For now, it's more of a
+        proof of concept, but you can do:</para>
+
+        <programlisting>import structs.Array;
+
+func main {
+
+  printType(new Array);
+
+}
+
+func printType(Object o) {
+
+  printf("We got an object of type %s\n", o.class.name);
+
+}</programlisting>
+
+        <para>In the future, reflection should be completed with fields and
+        functions listing, etc.</para>
       </section>
-	  
     </section>
-	
   </chapter>
+
+  <chapter>
+    <title>Statements</title>
+
+    <section>
+      <title>loops</title>
+
+      <section>
+        <title>classic for</title>
+
+        <para>As can be seen in C99 and Java:</para>
+
+        <programlisting>for(Int i = 0; i &lt; max; i++) {
+  // do stuff.
+}
+
+// or, more generally:
+
+for(initialization; condition; iteration) {
+  // body
+}</programlisting>
+
+        <para>Declaration of variables inside the for loop is authorized,
+        since ooc is translated to C99.</para>
+      </section>
+
+      <section>
+        <title>for in ranges</title>
+
+        <section>
+          <title>regular</title>
+
+          <para>Somehow reminiscent of scripting languages:</para>
+
+          <programlisting>for(Int i: 0..max) {
+  // i goes from 0 to max excluded.
+}
+
+// real-world use case
+func main(Int argc, String[] argv) {
+  
+  for(Int i: 1..argc) {
+    printf("Got argument '%s'\n", argv[i]);
+  }
+
+}</programlisting>
+        </section>
+
+        <section>
+          <title>reverse</title>
+
+          <para>For terrorist geeks:</para>
+
+          <programlisting>for(Int i: reverse 0..11) {
+  printf("%d...\n", i);
+}
+printf("segmentation fault\n");</programlisting>
+        </section>
+
+        <section>
+          <title>sparse</title>
+
+          <para>You can specify the stepping</para>
+
+          <programlisting>for(Int i: 2..100, 2) {
+  printf("%d, ", i);
+}
+printf("are multiples of two from 0 to 100.");</programlisting>
+        </section>
+      </section>
+
+      <section>
+        <title>foreach</title>
+
+        <para>Syntax vastly inspired by Java:</para>
+
+        <programlisting>func printAll(List list) {
+
+  for(String str: list) {
+    printf("%s, ", str);
+  }
+  putc('\n');
+
+}
+
+// better than for in ranges
+func main(Int argc, String[] argv) {
+
+  for(String arg: new Array(argc, argv)) {
+    printf("Got argument '%s'\n", arg);
+  }
+
+}</programlisting>
+      </section>
+
+      <section>
+        <title>while</title>
+
+        <para>As boring as the C/Java one:</para>
+
+        <programlisting>Float x;
+while(x &lt; 42.0f) {
+  x += (x * x) / 69.0f;
+}</programlisting>
+      </section>
+    </section>
+
+    <section>
+      <title>conditionals</title>
+
+      <section>
+        <title>if, else</title>
+
+        <para>No surprises:</para>
+
+        <programlisting>if(happy) {
+  rejoice;
+} else if(moody) {
+  listenToMusic;
+} else {
+  cry;
+}</programlisting>
+      </section>
+
+      <section>
+        <title>switch, case</title>
+
+        <para>No surprises either:</para>
+
+        <programlisting>switch(action) {
+  case DIE: die(); break;
+  case MOVE: move(); break;
+  case LEAVE: leave(); break;
+  default: pray();
+}</programlisting>
+      </section>
+    </section>
+
+    <section>
+      <title>flow control</title>
+
+      <section>
+        <title>break, continue</title>
+
+        <para>Same use as in C/Java:</para>
+
+        <programlisting>while(true) {
+  if(shouldExit) {
+    break;
+  }
+}
+
+for(Int i: 0..max) {
+  if(shouldSkip) {
+    continue;
+  }
+}</programlisting>
+      </section>
+    </section>
+  </chapter>
+
+  <chapter>
+    <title>Packages, headers, libraries</title>
+
+    <para>ooc doesn't share C++'s affection for C-style headers. Source files,
+    (called 'units'), are organized into folders (called 'packages'), much
+    like Java packages without the hassle.</para>
+
+    <section>
+      <title>ooc packages</title>
+
+      <para>There is no <literal>package</literal> keyword. The package of a
+      source unit is relative to the sourcepath. You can import units from
+      packages with the <literal>import</literal> keyword. For example, let's
+      say we have a Talker unit:</para>
+
+      <programlisting>class Talker {
+
+  static func say(String message) {
+    
+  }
+
+}</programlisting>
+    </section>
+  </chapter>
+
+  <appendix id="abi">
+    <title>ABI (Application Binary Interface)</title>
+
+    <para>The ooc ABI is designed to be simple and straight-forward. Also,
+    there is an official ABI so that different implementations be
+    compatible.<footnote>
+        <para>When I write <emphasis>different implementations</emphasis>, I
+        particularly think about <ulink
+        url="http://github.com/amoswenger/rock">rock, the all-new attempt to
+        write an ooc compiler in the ooc language</ulink>. At the time of this
+        writing, it's very young: time has been spent developing ooc's
+        features that could be useful for rock, rather than rock itself. As
+        always, contributors are very welcome!</para>
+      </footnote></para>
+
+    <para>Note that the ooc specification is still under heavy development, so
+    it means that the ABI can change significantly from a "dot version" to
+    another.</para>
+  </appendix>
 
   <appendix id="fdl">
     &license;

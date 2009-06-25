@@ -2,18 +2,24 @@
 <HTML
 ><HEAD
 ><TITLE
->Links</TITLE
+>conditionals</TITLE
 ><META
 NAME="GENERATOR"
 CONTENT="Modular DocBook HTML Stylesheet Version 1.79"/><LINK
 REL="HOME"
 TITLE="ooc v0.2 ninja Language Reference"
 HREF="book1.htm"/><LINK
+REL="UP"
+TITLE="Statements"
+HREF="c251.htm"/><LINK
 REL="PREVIOUS"
-TITLE="GNU Free Documentation License"
-HREF="a210.htm"/></HEAD
+TITLE="Statements"
+HREF="c251.htm"/><LINK
+REL="NEXT"
+TITLE="flow control"
+HREF="x292.htm"/></HEAD
 ><BODY
-CLASS="appendix"
+CLASS="section"
 BGCOLOR="#FFFFFF"
 TEXT="#000000"
 LINK="#0000FF"
@@ -39,7 +45,7 @@ WIDTH="10%"
 ALIGN="left"
 VALIGN="bottom"
 ><A
-HREF="a210.htm"
+HREF="c251.htm"
 ACCESSKEY="P"
 >Prev</A
 ></TD
@@ -47,38 +53,68 @@ ACCESSKEY="P"
 WIDTH="80%"
 ALIGN="center"
 VALIGN="bottom"
-></TD
+>Chapter 4. Statements</TD
 ><TD
 WIDTH="10%"
 ALIGN="right"
 VALIGN="bottom"
->&nbsp;</TD
+><A
+HREF="x292.htm"
+ACCESSKEY="N"
+>Next</A
+></TD
 ></TR
 ></TABLE
 ><HR
 ALIGN="LEFT"
 WIDTH="100%"/></DIV
 ><DIV
-CLASS="appendix"
+CLASS="section"
 ><H1
+CLASS="section"
 ><A
-NAME="AEN305"
-></A
->Appendix B. Links</H1
+NAME="AEN282"
+>conditionals</A
+></H1
+><DIV
+CLASS="section"
+><H2
+CLASS="section"
+><A
+NAME="AEN284"
+>if, else</A
+></H2
 ><P
+>No surprises:</P
+><PRE
+CLASS="programlisting"
+>if(happy) {
+  rejoice;
+} else if(moody) {
+  listenToMusic;
+} else {
+  cry;
+}</PRE
+></DIV
+><DIV
+CLASS="section"
+><H2
+CLASS="section"
 ><A
-HREF="http://ooc-lang.org/"
-TARGET="_top"
->the official ooc
-    website</A
-></P
+NAME="AEN288"
+>switch, case</A
+></H2
 ><P
-><A
-HREF="http://github.com/amoswenger/ooc"
-TARGET="_top"
->the source repositor
-    on GitHub</A
-></P
+>No surprises either:</P
+><PRE
+CLASS="programlisting"
+>switch(action) {
+  case DIE: die(); break;
+  case MOVE: move(); break;
+  case LEAVE: leave(); break;
+  default: pray();
+}</PRE
+></DIV
 ></DIV
 ><DIV
 CLASS="NAVFOOTER"
@@ -96,7 +132,7 @@ WIDTH="33%"
 ALIGN="left"
 VALIGN="top"
 ><A
-HREF="a210.htm"
+HREF="c251.htm"
 ACCESSKEY="P"
 >Prev</A
 ></TD
@@ -113,24 +149,32 @@ ACCESSKEY="H"
 WIDTH="33%"
 ALIGN="right"
 VALIGN="top"
->&nbsp;</TD
+><A
+HREF="x292.htm"
+ACCESSKEY="N"
+>Next</A
+></TD
 ></TR
 ><TR
 ><TD
 WIDTH="33%"
 ALIGN="left"
 VALIGN="top"
->GNU Free Documentation License</TD
+>Statements</TD
 ><TD
 WIDTH="34%"
 ALIGN="center"
 VALIGN="top"
->&nbsp;</TD
+><A
+HREF="c251.htm"
+ACCESSKEY="U"
+>Up</A
+></TD
 ><TD
 WIDTH="33%"
 ALIGN="right"
 VALIGN="top"
->&nbsp;</TD
+>flow control</TD
 ></TR
 ></TABLE
 ></DIV
