@@ -63,7 +63,7 @@ public class CompilerDaemon {
 		
 		new Thread(new Runnable() {
 			
-			@Override
+			
 			public void run() {
 				
 				Compiler compiler = new Compiler();

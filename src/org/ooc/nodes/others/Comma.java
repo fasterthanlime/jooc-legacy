@@ -20,7 +20,7 @@ public class Comma extends Separator {
         super(location);
     }
     
-    @Override
+    
     public void writeToCSource(Appendable a) throws IOException {
     	a.append(",");
     }

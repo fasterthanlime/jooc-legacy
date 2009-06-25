@@ -31,6 +31,7 @@ public class AccessChainingFeature extends CoupleFeature<VariableAccess, Dot> {
 		super(VariableAccess.class, Dot.class);
 	}
 
+	
 	@Override
 	protected void applyImpl(AssemblyManager manager, VariableAccess access, Dot dot) {
 		

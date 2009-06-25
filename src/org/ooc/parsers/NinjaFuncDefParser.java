@@ -17,7 +17,7 @@ import org.ubi.SyntaxError;
  */
 public class NinjaFuncDefParser implements Parser {
 
-	@Override
+	
 	public boolean parse(SourceContext context) throws IOException, SyntaxError {
 
 		SourceReader reader = context.reader;

@@ -27,6 +27,7 @@ public class MultipleVarDeclFeature extends CoupleFeature<Comma, Name> {
 		super(Comma.class, Name.class);
 	}
 
+	
 	@Override
 	protected void applyImpl(AssemblyManager manager, Comma comma, Name name) {
 

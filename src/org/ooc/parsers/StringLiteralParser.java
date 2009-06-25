@@ -15,7 +15,7 @@ import org.ubi.SyntaxError;
  */
 public class StringLiteralParser implements Parser {
 	
-	@Override
+	
 	public boolean parse(final SourceContext context) throws IOException, SyntaxError {
 
 		SourceReader reader = context.reader;

@@ -226,15 +226,16 @@ public class SyntaxNodeList extends SyntaxNode {
         }
     }
 
-    @Override
+    
     public void writeToCSource(Appendable a) throws IOException {
     	for(SyntaxNode node: nodes) {
             node.writeToCSource(a);
         }
     }
 
+    
     @Override
-    protected void assembleImpl(AssemblyManager manager) {
+	protected void assembleImpl(AssemblyManager manager) {
     	assembleAll(manager);
     }
     
@@ -253,14 +254,16 @@ public class SyntaxNodeList extends SyntaxNode {
 		return !isDirty;
     }
 
+    
     @Override
-    public void writeToCHeader(Appendable a) throws IOException {
+	public void writeToCHeader(Appendable a) throws IOException {
         for(SyntaxNode node: nodes) {
             node.writeToCHeader(a);
         }
     }
     
-    @Override
+    
+	@Override
 	public String getDescription() {
     	StringBuilder desc = new StringBuilder();
     	desc.append(this.getClass().getSimpleName());

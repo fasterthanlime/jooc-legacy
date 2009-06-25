@@ -78,6 +78,7 @@ public class ConstructorDef extends FunctionDef {
 		
 	}
 	
+	
 	@Override
 	public void writeToCSource(Appendable a) throws IOException {
 		
@@ -148,6 +149,7 @@ public class ConstructorDef extends FunctionDef {
         a.append(";");
         
     }
+	
 	
 	@Override
 	protected void assembleImpl(AssemblyManager manager) {

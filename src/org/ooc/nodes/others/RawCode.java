@@ -30,17 +30,19 @@ public class RawCode extends SyntaxNode {
         this.content = content;
     }
 
-    @Override
+    
     public void writeToCSource(Appendable a) throws IOException {
     	writeWhitespace(a);
         a.append(content);
     }
     
+    
     @Override
-    protected void assembleImpl(AssemblyManager manager) {
+	protected void assembleImpl(AssemblyManager manager) {
     	// Do nothing =)
     }
     
+	
 	@Override
 	public String getDescription() {
 		return getClass().getSimpleName()+": '"+SourceReader.spelled(content)+"'"+location;

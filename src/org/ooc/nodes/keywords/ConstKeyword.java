@@ -22,8 +22,9 @@ public class ConstKeyword extends Keyword {
 		super(location);
 	}
 	
+    
     @Override
-    protected void assembleImpl(AssemblyManager manager) {
+	protected void assembleImpl(AssemblyManager manager) {
     	
     	SyntaxNode next = getNearestNextNotTyped(Keyword.class);
 		if(next instanceof PotentiallyConst) {
@@ -41,11 +42,12 @@ public class ConstKeyword extends Keyword {
     	
     }
 
-	@Override
+	
 	public void writeToCSource(Appendable a) throws IOException {
 		writeWhitespace(a);
 		a.append("const");
 	}
+	
 	
 	@Override
 	protected boolean isSpaced() {

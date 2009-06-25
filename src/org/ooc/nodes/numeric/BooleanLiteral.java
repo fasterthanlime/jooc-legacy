@@ -27,12 +27,12 @@ public class BooleanLiteral extends Literal {
 		this.value = value;
 	}
 
-	@Override
+	
 	public Type getType() {
 		return type;
 	}
 
-	@Override
+	
 	public void writeToCSource(Appendable a) throws IOException {
 		writeWhitespace(a);
 		a.append(Boolean.toString(value));

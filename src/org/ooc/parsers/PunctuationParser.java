@@ -13,7 +13,7 @@ import org.ubi.SourceReader;
 
 class PunctuationParser implements Parser {
 
-	@Override
+	
 	public boolean parse(final SourceContext context) throws IOException {
 
 		SourceReader reader = context.reader;

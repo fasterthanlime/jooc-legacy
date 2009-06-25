@@ -25,6 +25,7 @@ public class StaticFunctionCallFeature extends TrioFeature<ClassReference, Dot, 
 		super(ClassReference.class, Dot.class, FunctionCall.class);
 	}
 
+	
 	@Override
 	protected void applyImpl(AssemblyManager manager, ClassReference classRef,
 			Dot dot, FunctionCall call) {

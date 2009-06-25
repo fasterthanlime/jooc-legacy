@@ -33,6 +33,7 @@ public class ErrorsPanel extends JPanel implements AssemblyErrorListener {
 			});
 		}
 		
+		
 		@Override
 		public String toString() {
 			return error.getSimpleMessage()+" "+error.node.location;
@@ -53,6 +54,7 @@ public class ErrorsPanel extends JPanel implements AssemblyErrorListener {
 				super(node);
 			}
 
+			
 			@Override
 			public String toString() {
 				return node.error.getSimpleMessage();
@@ -66,6 +68,7 @@ public class ErrorsPanel extends JPanel implements AssemblyErrorListener {
 				super(node);
 			}
 
+			
 			@Override
 			public String toString() {
 				return node.error.node.location.getFileName();
@@ -79,6 +82,7 @@ public class ErrorsPanel extends JPanel implements AssemblyErrorListener {
 				super(node);
 			}
 
+			
 			@Override
 			public String toString() {
 				return "line "+node.error.node.location.getLineNumber()+", col "
@@ -111,6 +115,7 @@ public class ErrorsPanel extends JPanel implements AssemblyErrorListener {
 		
 		table.addMouseListener(new MouseAdapter() {
 
+			
 			@Override
 			public void mouseClicked(MouseEvent e) {
 
@@ -122,7 +127,7 @@ public class ErrorsPanel extends JPanel implements AssemblyErrorListener {
 		
 	}
 
-	@Override
+	
 	public void onAssemblyError(AssemblyError error) {
 
 		new AssemblyErrorNode(error, errorNodes);

@@ -28,7 +28,7 @@ public class CharLiteral extends Literal {
         this.content = content;
     }
 
-    @Override
+    
     public void writeToCSource(Appendable a) throws IOException {
         writeWhitespace(a);
         a.append("'");

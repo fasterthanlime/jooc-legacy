@@ -2,8 +2,6 @@ package org.ooc.nodes.libs;
 
 import java.io.IOException;
 
-import org.ooc.compiler.libraries.Library;
-import org.ooc.compiler.libraries.LibraryManager;
 import org.ooc.errors.AssemblyManager;
 import org.ooc.errors.SourceContext;
 import org.ooc.nodes.RootNode;
@@ -37,6 +35,7 @@ public class Use extends SyntaxNode {
 		this.name = name;
 	}
 
+	
 	@Override
 	protected void assembleImpl(AssemblyManager manager) {
 		
@@ -48,7 +47,7 @@ public class Use extends SyntaxNode {
 		
 	}
 
-	@Override
+	
 	public void writeToCSource(Appendable a) throws IOException {
 		// Nothing to write
 	}

@@ -26,7 +26,7 @@ public class Goto extends SyntaxNode {
 		
 	}
 
-	@Override
+	
 	public void writeToCSource(Appendable a) throws IOException {
 
 		writeWhitespace(a);
@@ -34,6 +34,7 @@ public class Goto extends SyntaxNode {
 		a.append(label);
 
 	}
+	
 	
 	@Override
 	protected boolean isSpaced() {

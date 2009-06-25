@@ -13,7 +13,6 @@ import org.ooc.nodes.others.VariableDecl;
 import org.ooc.nodes.types.Type;
 import org.ubi.FileLocation;
 import org.ubi.SourceReader;
-import org.ubi.SyntaxError;
 
 /**
  * Instantiation of a class, e.g.
@@ -68,8 +67,9 @@ public class Instantiation extends FunctionCall {
         
     }
 
+    
     @Override
-    protected void assembleImpl(AssemblyManager manager) {
+	protected void assembleImpl(AssemblyManager manager) {
 
         if(!assembleAll(manager)) {
         	return;

@@ -32,8 +32,9 @@ public class ArrayAccess extends VariableAccess implements LinearNode {
         
     }
 
+    
     @Override
-    public void writeToCSource(Appendable a) throws IOException {
+	public void writeToCSource(Appendable a) throws IOException {
     	
     	writeWhitespace(a);
         access.writeToCSource(a);

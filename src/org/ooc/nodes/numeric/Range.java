@@ -47,15 +47,17 @@ public class Range extends SyntaxNodeList {
         
     }
 
+    
     @Override
-    public void writeToCSource(Appendable a) throws IOException {
+	public void writeToCSource(Appendable a) throws IOException {
     	
     	throw new CompilationFailedError(location, "fixme: A Range hasn't been assembled properly. Was it outside a Foreach?");
         
     }
 
+    
     @Override
-    protected void assembleImpl(AssemblyManager manager) {
+	protected void assembleImpl(AssemblyManager manager) {
     	
     	//System.out.println(this.getClass().getSimpleName()+location+" assembling... (btw, virgin = "+isVirgin()+")");
 	

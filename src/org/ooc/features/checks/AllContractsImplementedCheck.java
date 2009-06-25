@@ -25,6 +25,7 @@ public class AllContractsImplementedCheck extends SingleFeature<ClassDef> {
 		super(ClassDef.class);
 	}
 
+	
 	@Override
 	protected void applyImpl(AssemblyManager manager, ClassDef def) {
 		

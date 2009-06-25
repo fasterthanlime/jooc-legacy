@@ -63,7 +63,11 @@ Follow the white rabbit.
     of programming. If you come from a C or Java programming background, you
     should feel at home.</para>
 
-    <para>I hope you'll enjoy the read!</para>
+    <para>I hope you'll enjoy the read!<footnote>
+        <para>For general information about the ooc programming language,
+        <ulink url="http://ooc-lang.org/">visit the official
+        website</ulink>.</para>
+      </footnote></para>
   </preface>
 
   <chapter>
@@ -133,6 +137,30 @@ Int* p1, p2, p3; // declares 3 pointers to ints</programlisting>
               package and source unit name. E.g.
               __my_app_MyUnit_CONSTANT</para>
             </footnote>, so it's really impossible to modify one.</para>
+        </section>
+
+        <section>
+          <title>Literals &amp; initialization</title>
+
+          <para>ooc supports the same kinds of literal as C:</para>
+
+          <programlisting>Int i = 3;
+Short j = -43;
+Double golden = 1.6180339887 + 6d; // d suffix is optional
+Float = 45.0f - 3; // f suffix is optional
+Char c = '3';
+Char d = '\n';
+String s = "Moi, j'aime p\nas les linebreaks.";</programlisting>
+
+          <para>Underscores in number literals are autorhized and ignored, so
+          that you can easily separate groups of digits. Strings can span over
+          several lines:</para>
+
+          <programlisting>Int million = 1_000_000_000;
+Float x = 3.14159_26535_89793f;
+String quote = "Nick the Greek: Just get me a sample.
+Tom: No can do.
+Nick the Greek: What's that? Some place near Katmandu? Meet me halfway, mate.";</programlisting>
         </section>
       </section>
 
@@ -1130,6 +1158,27 @@ func main(Int argc, String[] argv) {
   }
 
 }</programlisting>
+
+        <para>The foreach is implemented using Iterators. Any class extending
+        the abstract class structs.Iterable, which looks like:</para>
+
+        <programlisting>abstract class Iterable {
+
+  abstract func iterator -&gt; Iterator;
+
+}</programlisting>
+
+        <para>And the Iterator class looks like:</para>
+
+        <programlisting>abstract class Iterator {
+
+  abstract func hasNext -&gt; Bool;
+  abstract func next -&gt; Object;
+
+}</programlisting>
+
+        <para>The classes in the SDK which extend Iterable are: structs.Array,
+        structs.ArrayList, structs.SparseList.</para>
       </section>
 
       <section>
@@ -1500,11 +1549,183 @@ typedef uint8_t Octet;</programlisting>
   <appendix>
     <title>FAQ (Frequently Asked Questions)</title>
 
-    <para>What's wrong with C++?</para>
+    <itemizedlist>
+      <listitem>
+        <para><emphasis role="bold">Why is it called ooc?</emphasis></para>
+      </listitem>
+
+      <listitem>
+        <para>It stands for 'object oriented C'</para>
+      </listitem>
+
+      <listitem>
+        <para><emphasis role="bold">Why are there no C-like structs in
+        ooc?</emphasis></para>
+      </listitem>
+
+      <listitem>
+        <para>A class without any functions translates exactly to a struct. It
+        is just as cheap/fast, hence, there is apparently no need for a struct
+        keyword in ooc.</para>
+      </listitem>
+
+      <listitem>
+        <para><emphasis role="bold">Why don't all arrays store their length as
+        their first size_t bits?</emphasis></para>
+      </listitem>
+
+      <listitem>
+        <para>Use the Array class for that. It also provides bound checking.
+        For the rest, Int[], etc. are still raw C arrays, for compatibility
+        with C functions.</para>
+      </listitem>
+
+      <listitem>
+        <para><emphasis role="bold">What's wrong with C++? Why aren't you
+        using it?</emphasis></para>
+      </listitem>
+
+      <listitem>
+        <para>See <ulink url="http://yosefk.com/c++fqa/">The C++ Frequently
+        Questioned Answers, by Yossi Kreinin</ulink></para>
+      </listitem>
+
+      <listitem>
+        <para><emphasis role="bold">What's wrong with Java/C#? Why aren't you
+        using them?</emphasis></para>
+      </listitem>
+
+      <listitem>
+        <para>Java and C# suffer from the drawbacks of general-purpose
+        languages running on Virtual Machines. Namely, they tend to be
+        bloated, to have heavy runtime libraries, and to be significantly less
+        performant than compiled languages in certain situations. However,
+        it's true that with JIT (Just-In-Time) technology, a VM language can
+        run almost as fast as a compiled language, in certain situations. See
+        the <ulink url="http://kano.net/javabench/">The Java is Faster than
+        C++ and C++ Sucks Unbiased Benchmark</ulink>.</para>
+      </listitem>
+
+      <listitem>
+        <para><emphasis role="bold">What's wrong with Vala? Why aren't you
+        using it?</emphasis></para>
+      </listitem>
+
+      <listitem>
+        <para>Vala is a language with the same spirit/mission as ooc. It looks
+        very good, but it's deeply tied to the GLib architecture. ooc tries to
+        base itself only on the C standard library. Vala is more adapted to
+        gtk/gnome development.</para>
+      </listitem>
+
+      <listitem>
+        <para><emphasis role="bold">What's wrong with
+        Python/Ruby/D?</emphasis></para>
+      </listitem>
+
+      <listitem>
+        <para>Not much. These are all excellent languages and have quality
+        implementations. They're good at what they're used for. ooc is not in
+        direct competition with these languages. D is a sad case of very good
+        ideas doomed by half-openness, diverging and lagging free software
+        implementations, stalling between 1.0 and 2.0, etc.</para>
+      </listitem>
+
+      <listitem>
+        <para><emphasis role="bold">I think ooc is too
+        high-level.</emphasis></para>
+      </listitem>
+
+      <listitem>
+        <para>For all your unconfessed low-level "let's get dirty, boys"
+        needs, I recommend the awesome <ulink url="http://nasm.us/">Netwide
+        Assembler</ulink>.</para>
+      </listitem>
+
+      <listitem>
+        <para><emphasis role="bold">I still think your language sucks, and my
+        language rocks</emphasis></para>
+      </listitem>
+
+      <listitem>
+        <para>And you have your reasons. I'm developing ooc in the hope that
+        it will be useful and that some people like it. If you don't, well,
+        too bad, I'm sure one of the aforementioned languages will satisfy
+        you.</para>
+      </listitem>
+
+      <listitem>
+        <para><emphasis role="bold">Which other languages would you recommend
+        as interesting?</emphasis></para>
+      </listitem>
+
+      <listitem>
+        <para>I have a particular fondness for the <ulink
+        url="http://www.iolanguage.com/">Io programming language</ulink>. On
+        the JVM, <ulink url="http://www.scala-lang.org/">Scala</ulink> is
+        probably one of the best languages around.</para>
+      </listitem>
+    </itemizedlist>
   </appendix>
 
-  <appendix id="fdl">
-    &license;
+  <appendix>
+    <title>How to contribute</title>
+
+    <para>If you've read this guide this far, you're already part of ooc's
+    history!</para>
+
+    <para>If you want to help further, here are some things you can do:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para><emphasis role="bold">Talk about ooc</emphasis> to your
+        friends/colleagues/soulmate/CEO</para>
+      </listitem>
+
+      <listitem>
+        <para>Blog about it / <emphasis role="bold">Write an article about
+        it</emphasis> on your website / in your magazine</para>
+      </listitem>
+
+      <listitem>
+        <para><ulink url="http://bugs.launchpad.net/ooc-language">Report
+        bugs/suggestions on launchpad.</ulink></para>
+      </listitem>
+
+      <listitem>
+        <para><emphasis role="bold">Send patches</emphasis> to fix bugs/add
+        features (developer access to the git repository will be given out
+        pretty easily)</para>
+      </listitem>
+
+      <listitem>
+        <para><emphasis role="bold">Write documentation</emphasis>: tutorials,
+        etc. And send them for publication to the official website</para>
+      </listitem>
+
+      <listitem>
+        <para><emphasis role="bold">Help testing ooc on various
+        platforms.</emphasis> The main development happens on Linux, but we
+        want to be as portable as possible. Windows/OSX/*BSD/Haiku users, to
+        your test benches!</para>
+      </listitem>
+
+      <listitem>
+        <para>Write a program/game/demo in ooc: show the world that you can
+        use OpenGL/SDL/GTK/etc. libraries with ooc</para>
+      </listitem>
+
+      <listitem>
+        <para><ulink url="http://github.com/amoswenger/rock">Contribute to
+        rock</ulink>, the 'ooc compiler written in ooc' effort.</para>
+      </listitem>
+
+      <listitem>
+        <para>Send a kind e-mail to <ulink type=""
+        url="mailto:amoswenger@gmail.com">amoswenger@gmail.com</ulink> to let
+        know you like/use ooc!</para>
+      </listitem>
+    </itemizedlist>
   </appendix>
 
   <appendix>
@@ -1519,5 +1740,9 @@ typedef uint8_t Octet;</programlisting>
     <para><ulink url="http://live.gnome.org/Vala">the Vala programming
     language: same spirit but tied on GLib (excellent for gtk/gnome
     apps)</ulink></para>
+  </appendix>
+
+  <appendix id="fdl">
+    &license;
   </appendix>
 </book>

@@ -35,8 +35,9 @@ public class ArrayLiteral extends SyntaxNodeList {
         
     }
 
+    
     @Override
-    public void writeToCSource(Appendable a) throws IOException {
+	public void writeToCSource(Appendable a) throws IOException {
     	
         a.append("{");
         for(SyntaxNode node: this.nodes) {

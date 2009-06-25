@@ -26,6 +26,7 @@ public abstract class CoupleFeature<K,V> extends Feature {
 		this.secondType = secondType;
 	}
 	
+	
 	@Override
 	@SuppressWarnings("unchecked")
 	public void applyImpl(AssemblyManager manager, SyntaxNode first) {

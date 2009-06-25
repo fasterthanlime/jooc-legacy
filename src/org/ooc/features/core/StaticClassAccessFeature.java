@@ -29,6 +29,7 @@ public class StaticClassAccessFeature extends TrioFeature<ClassReference, Dot, N
 		
 	}
 
+	
 	@Override
 	protected void applyImpl(AssemblyManager manager, ClassReference classRef,
 			Dot dot, Name name) {

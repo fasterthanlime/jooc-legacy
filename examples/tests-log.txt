@@ -9,10 +9,10 @@ Pizza Allegro Tomato, of diameter 0.500000, color red, and tomato percentage 60.
 Pizza Royale Grande, of diameter 1.000000, color green, and tomato percentage 40.000000
 Dump dumpadaddy dump.
 Printing 30 numbers between 0 and 5 and a max of 500
-8630480367310482214352315236412200864492708840457214193102186279248247451190414
+3432762562404773640623342137376313278993664773640140048848017416514116522510447116299
 That's all, folks =)
 sleeping a while...
-we slept for 689 milli-seconds
+we slept for 727 milli-seconds
 Meowwwwww!
 Meowwwwww!
 Size of animal: 8, size of cat: 12
@@ -41,7 +41,6 @@ Got env 'OOC_DIST=/blue/Dev/ooc'
 Got env 'MANPATH=/etc/java-config-2/current-system-vm/man:/usr/local/share/man:/usr/share/man:/usr/share/binutils-data/i686-pc-linux-gnu/2.19.1/man:/usr/share/gcc-data/i486-pc-linux-gnu/4.1.2/man:/usr/share/gcc-data/i686-pc-linux-gnu/4.3.3/man:/etc/java-config/system-vm/man/:/usr/lib/php5/man/:/usr/kde/3.5/share/man:/usr/qt/3/doc/man:/opt/nvidia-cg-toolkit/man:/opt/vmware/player/man'
 Got env 'TERM=screen'
 Got env 'SHELL=/bin/bash'
-Got env 'MAKEFLAGS='
 Got env 'XDG_SESSION_COOKIE=79af98e80b21a9f2b9d194894979cec3-1245887356.137126-1980828997'
 Got env 'WINDOWID=16777220'
 Got env 'HUSHLOGIN=FALSE'
@@ -75,12 +74,10 @@ Got env 'TERMCAP=SC|screen|VT 100/ANSI X3.64 virtual terminal:\
 	:%e=\E[5;2~:%i=\E[1;2C:kh=\E[1~:@1=\E[1~:kH=\E[4~:\
 	:@7=\E[4~:kN=\E[6~:kP=\E[5~:kI=\E[2~:kD=\E[3~:ku=\EOA:\
 	:kd=\EOB:kr=\EOC:kl=\EOD:km:'
-Got env 'MAKELEVEL=1'
 Got env 'PAGER=/usr/bin/less'
 Got env 'CONFIG_PROTECT_MASK=/etc/gentoo-release /etc/sandbox.d /etc/env.d/java/ /etc/php/cli-php5/ext-active/ /etc/php/cgi-php5/ext-active/ /etc/php/apache2-php5/ext-active/ /etc/udev/rules.d /etc/fonts/fonts.conf /etc/gconf /etc/terminfo /etc/ca-certificates.conf /etc/revdep-rebuild'
-Got env 'MFLAGS='
-Got env 'FLTK_DOCDIR=/usr/share/doc/fltk-2.0_pre6525/html'
 Got env 'XDG_CONFIG_DIRS=/etc/xdg'
+Got env 'FLTK_DOCDIR=/usr/share/doc/fltk-2.0_pre6525/html'
 Got env 'SBCL_SOURCE_ROOT=/usr/lib/sbcl/src'
 Got env 'MAIL=/var/mail/root'
 Got env 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/bin:/usr/i486-pc-linux-gnu/gcc-bin/4.1.2:/usr/i686-pc-linux-gnu/gcc-bin/4.3.3:/opt/xxe:/usr/kde/3.5/sbin:/usr/kde/3.5/bin:/usr/qt/3/bin:/opt/vmware/player/bin'
@@ -89,25 +86,25 @@ Got env 'HG=/usr/bin/hg'
 Got env 'DISTCC_LOG='
 Got env 'PWD=/blue/Dev/ooc/examples/func-tests'
 Got env 'JAVA_HOME=/etc/java-config-2/current-system-vm'
-Got env 'JAVAC=/etc/java-config-2/current-system-vm/bin/javac'
 Got env 'EDITOR=/usr/bin/vim'
+Got env 'JAVAC=/etc/java-config-2/current-system-vm/bin/javac'
 Got env 'LANG=fr_FR.UTF-8'
 Got env 'QMAKESPEC=linux-g++'
-Got env 'DCCC_PATH=/usr/lib/distcc/bin'
 Got env 'DISTCC_VERBOSE='
-Got env 'SHLVL=6'
+Got env 'DCCC_PATH=/usr/lib/distcc/bin'
 Got env 'HOME=/root'
 Got env 'JDK_HOME=/etc/java-config-2/current-system-vm'
+Got env 'SHLVL=6'
 Got env 'CG_COMPILER_EXE=/opt/bin/cgc'
-Got env 'LESS=-R -M --shift 5'
 Got env 'LOGNAME=root'
+Got env 'LESS=-R -M --shift 5'
+Got env 'WINDOW=5'
 Got env 'CVS_RSH=ssh'
-Got env 'WINDOW=1'
 Got env 'GCC_SPECS='
 Got env 'XDG_DATA_DIRS=/usr/local/share:/usr/kde/3.5/share:/usr/share'
 Got env 'LESSOPEN=|lesspipe.sh %s'
-Got env 'WINDOWPATH=7'
 Got env 'INFOPATH=/usr/share/info:/usr/share/binutils-data/i686-pc-linux-gnu/2.19.1/info:/usr/share/gcc-data/i486-pc-linux-gnu/4.1.2/info:/usr/share/gcc-data/i686-pc-linux-gnu/4.3.3/info'
+Got env 'WINDOWPATH=7'
 Got env 'DISPLAY=:0.0'
 Got env 'USB_DEVFS_PATH=/dev/bus/usb'
 Got env 'OPENGL_PROFILE=nvidia'
@@ -215,11 +212,14 @@ Int: 42
 Float: 3.14f
 Hayo, I'm a kid and I'm asking for candyyyy!
 Hay, I'm the candy giver, I just a gave a kinder, total is now 1
+Hay, I'm the candy giver, I just a gave a kinder, total is now 2
 Hayo, I'm a kid and I'm asking for candyyyy!
-Hay, I'm the candy giver, I just a gave a lollypop, total is now 2
+Hay, I'm the candy giver, I just a gave a lollypop, total is now 3
+Hay, I'm the candy giver, I just a gave a lollypop, total is now 4
 Hayo, I'm a kid and I'm asking for candyyyy!
-Hay, I'm the candy giver, I just a gave a chewing gum, total is now 3
-As a grand total, 3 candies have been distributed
+Hay, I'm the candy giver, I just a gave a chewing gum, total is now 5
+Hay, I'm the candy giver, I just a gave a chewing gum, total is now 6
+As a grand total, 6 candies have been distributed
 Beginning to proliferate...
 Just created ant #0
 Just created ant #1

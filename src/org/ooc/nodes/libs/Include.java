@@ -101,8 +101,9 @@ public class Include extends PreprocessorDirective {
         this.header = null; // We don't always parse it, @see assembleImpl
     }
     
+    
     @Override
-    protected void assembleImpl(AssemblyManager manager) {
+	protected void assembleImpl(AssemblyManager manager) {
     	
     	if(type == IncludeType.PATHBOUND && language == IncludeLanguage.C && header == null) {
     		try {
@@ -125,15 +126,16 @@ public class Include extends PreprocessorDirective {
     	
     }
 
-    @Override
+    
     public void writeToCSource(Appendable a) throws IOException {
     	if(position == IncludePosition.SOURCE) {
     		write(a);
     	}    	
     }
     
+    
     @Override
-    public void writeToCHeader(Appendable a) throws IOException {
+	public void writeToCHeader(Appendable a) throws IOException {
     	if(position == IncludePosition.HEADER) {
     		write(a);
     	}
@@ -163,6 +165,7 @@ public class Include extends PreprocessorDirective {
     	
     }
 
+	
 	@Override
 	public String getDescription() {
 		return toString() + location;
@@ -203,6 +206,7 @@ public class Include extends PreprocessorDirective {
 	public CHeader getHeader() {
 		return header;
 	}
+	
 	
 	@Override
 	public boolean equals(Object obj) {

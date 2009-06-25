@@ -22,6 +22,7 @@ public abstract class SingleFeature<K> extends Feature {
 		this.type = type;
 	}
 	
+	
 	@Override
 	@SuppressWarnings("unchecked")
 	public void applyImpl(AssemblyManager manager, SyntaxNode node) {

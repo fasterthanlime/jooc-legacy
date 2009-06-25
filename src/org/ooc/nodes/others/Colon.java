@@ -25,8 +25,9 @@ public class Colon extends RawCode {
         super(location, ": ");
     }
 
+    
     @Override
-    protected void assembleImpl(AssemblyManager manager) {
+	protected void assembleImpl(AssemblyManager manager) {
     	
         if(getParent() instanceof For) {
         	SyntaxNode prev = getParent().getPrev(this);

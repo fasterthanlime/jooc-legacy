@@ -22,6 +22,7 @@ public class FileContentProvider extends ContentProvider {
 		
 	}
 
+	
 	@Override
 	public String getContent(SourceInfo info) throws IOException {
 			
@@ -30,6 +31,7 @@ public class FileContentProvider extends ContentProvider {
 			
 	}
 
+	
 	@Override
 	public SourceReader getReader(SourceInfo info) throws IOException {
 

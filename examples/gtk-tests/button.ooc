@@ -23,7 +23,7 @@ func main(Int argc, String[] argv) {
 	w.connectNaked("destroy", Gtk.@mainQuit);
 
 	if(argc >= 2 && argv[1].equals("--test")) {
-		return 1;
+		return 0;
 	}
 	
 	Gtk.main;

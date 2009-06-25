@@ -21,7 +21,7 @@ import org.ubi.SyntaxError;
  */
 public class EnumParser implements Parser {
 
-	@Override
+	
 	public boolean parse(SourceContext context) throws IOException, SyntaxError {
 
 		SourceReader reader = context.reader;

@@ -44,10 +44,11 @@ public class FunctionReference extends SyntaxNode implements Typed {
 		this.name = name;
 	}
 
-	@Override
+	
 	public Type getType() {
 		return type;
 	}
+	
 	
 	@Override
 	protected void assembleImpl(AssemblyManager manager) {
@@ -87,7 +88,7 @@ public class FunctionReference extends SyntaxNode implements Typed {
 		
 	}
 
-	@Override
+	
 	public void writeToCSource(Appendable a) throws IOException {
 
 		writeWhitespace(a);
@@ -101,12 +102,14 @@ public class FunctionReference extends SyntaxNode implements Typed {
 		
 	}
 	
+	
 	@Override
 	protected boolean isSpaced() {
 	
 		return true;
 		
 	}
+	
 	
 	@Override
 	public String getDescription() {

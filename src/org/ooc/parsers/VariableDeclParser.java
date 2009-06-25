@@ -23,7 +23,6 @@ import org.ubi.SourceReader;
  */
 public class VariableDeclParser implements Parser {
 	
-	@Override
 	public boolean parse(final SourceContext context) throws IOException {
 
 		SyntaxNode last = context.getLast();

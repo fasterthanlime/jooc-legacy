@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.ooc.compiler.AssemblyErrorListener;
-import org.ooc.compiler.Compiler;
 import org.ooc.nodes.RootNode;
 import org.ooc.nodes.others.SyntaxNode;
 import org.ooc.nodes.others.SyntaxNodeList;

@@ -58,8 +58,9 @@ public class FunctionDef extends Scope
         this.function.args.setContext(this);
     }
     
+    
     @Override
-    public void writeToCHeader(Appendable a) throws IOException {
+	public void writeToCHeader(Appendable a) throws IOException {
     	
     	// Member functions are written in ClassDef, others are written here.
     	if(function.clazz == null) {
@@ -69,8 +70,9 @@ public class FunctionDef extends Scope
     	
     }
 
-	@Override
-    public void writeToCSource(Appendable a) throws IOException {
+	
+    @Override
+	public void writeToCSource(Appendable a) throws IOException {
 		
         if(function.isAbstract) {
             return;
@@ -131,6 +133,7 @@ public class FunctionDef extends Scope
         a.append(')');
 
 	}
+	
 	
 	@Override
 	protected void assembleImpl(AssemblyManager manager) {
@@ -224,8 +227,9 @@ public class FunctionDef extends Scope
         
     }
 
+    
     @Override
-    public Variable getVariable(String name) {
+	public Variable getVariable(String name) {
     	
         Variable variable = super.getVariable(name);
         if(variable == null) {
@@ -240,49 +244,50 @@ public class FunctionDef extends Scope
         
     }
 
+    
     @Override
-    protected boolean isIndented() {
+	protected boolean isIndented() {
     	
         return true;
         
     }
 
-    @Override
+    
     public void setAbstract(boolean isAbstract) {
     	
         function.isAbstract = isAbstract;
         
     }
     
-    @Override
+    
 	public boolean isAbstract() {
 
 		return function.isAbstract;
 		
 	}
     
-    @Override
+    
     public void setUnmangled(boolean isUnmangled) {
     
     	function.isUnmangled = isUnmangled;
     	
     }
     
-    @Override
+    
 	public boolean isUnmangled() {
 
 		return function.isUnmangled;
 		
 	}
     
-    @Override
+    
 	public void setStatic(boolean isStatic) {
 		
     	function.setStatic(isStatic);
 		
 	}
     
-	@Override
+	
 	public boolean isStatic() {
 
 		return function.isStatic();
@@ -290,6 +295,7 @@ public class FunctionDef extends Scope
 	}
 
 
+	
 	@Override
 	public String getDescription() {
 		
@@ -352,7 +358,7 @@ public class FunctionDef extends Scope
 	    
 	}
 
-	@Override
+	
 	public void setComment(OocDocComment oocDocComment) {
 
 		this.comment = oocDocComment;

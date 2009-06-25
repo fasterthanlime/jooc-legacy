@@ -29,8 +29,9 @@ public class FunctionOverride extends FunctionDef {
         super(location, new Function(name, null, null, new TypedArgumentList(location, new ArrayList<Variable>()))); // Ooh is it ugly? Yes it is.
     }
 
+    
     @Override
-    public void assembleImpl(AssemblyManager manager) {
+	public void assembleImpl(AssemblyManager manager) {
     	
     	if(getParent() == null) {
     		manager.queue(this, "Here "+getClass().getSimpleName()+", null parent, returning...");

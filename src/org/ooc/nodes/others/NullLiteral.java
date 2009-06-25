@@ -24,17 +24,18 @@ public class NullLiteral extends Literal {
 		super(location);
 	}
 	
+	
 	@Override
 	protected boolean isSpaced() {
 		return true;
 	}
 
-	@Override
+	
 	public Type getType() {
 		return type;
 	}
 	
-	@Override
+	
 	public void writeToCSource(Appendable a) throws IOException {
 		writeWhitespace(a);
 		a.append("NULL");

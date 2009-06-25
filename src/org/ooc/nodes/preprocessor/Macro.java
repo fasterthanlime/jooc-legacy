@@ -25,6 +25,7 @@ public class Macro extends Define {
 		this.args = args;
 	}
 
+	
 	@Override
 	public void writeToCHeader(Appendable a) throws IOException {
 		

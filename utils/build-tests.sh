@@ -47,7 +47,8 @@ if [[ $mode == "compile" ]]; then
 
 tries=0
 # launch the daemon
-java -jar $ooc_dist/dist/ooc.jar -daemon:14269 &> "build-log.txt" &
+#java -jar $ooc_dist/dist/ooc.jar -daemon:14269 &> "build-log.txt" &
+ooc -daemon:14269 &> "build-log.txt" &
 sleep 0.3
 
 # connect to the compiler daemon

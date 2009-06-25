@@ -31,6 +31,7 @@ public class MathOp extends SyntaxNodeList implements Typed, LinearNode {
 		next.moveTo(this);
 	}
 	
+	
 	@Override
 	public void writeToCSource(Appendable a) throws IOException {
 		writeWhitespace(a);
@@ -39,12 +40,13 @@ public class MathOp extends SyntaxNodeList implements Typed, LinearNode {
         }
 	}
 	
+	
 	@Override
 	protected boolean isSpaced() {
 		return true;
 	}
 	
-	@Override
+	
 	public Type getType() {
 
 		SyntaxNode prev = nodes.get(0);
@@ -57,6 +59,7 @@ public class MathOp extends SyntaxNodeList implements Typed, LinearNode {
 		return Type.UNKNOWN;
 		
 	}
+	
 	
 	@Override
 	protected void assembleImpl(AssemblyManager manager) {

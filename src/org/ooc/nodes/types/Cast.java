@@ -31,8 +31,9 @@ public class Cast extends VariableAccess {
         this.access = access;
     }
 
+    
     @Override
-    public void writeToCSource(Appendable a) throws IOException {
+	public void writeToCSource(Appendable a) throws IOException {
         // Extra parenthesis for safety
         a.append("((");
         this.ref.writeToCSource(a);
@@ -41,8 +42,9 @@ public class Cast extends VariableAccess {
         a.append(")");
     }
     
+    
     @Override
-    public Type getType() {
+	public Type getType() {
     	return getDestinationType();
     }
     

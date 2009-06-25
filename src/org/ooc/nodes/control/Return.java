@@ -20,7 +20,7 @@ public class Return extends SyntaxNode {
         super(location);
     }
 
-    @Override
+    
     public void writeToCSource(Appendable a) throws IOException {
         writeWhitespace(a);
         a.append("return");

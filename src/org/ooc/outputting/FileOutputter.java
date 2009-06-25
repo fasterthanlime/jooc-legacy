@@ -24,6 +24,7 @@ public class FileOutputter extends Outputter {
 	 * Write all modules and directories in the output path specified
 	 * in build properties. 
 	 */
+	
 	@Override
 	public void output(BuildProperties props, ProjectInfo projInfo, SourceContext mainSource) throws IOException {
 

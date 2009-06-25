@@ -27,10 +27,11 @@ public class StructDef extends SyntaxNode {
 		this.block = block;
 	}
 
-	@Override
+	
 	public void writeToCSource(Appendable a) throws IOException {
 		// Yeah. No. Forget it.
 	}
+	
 	
 	@Override
 	public void writeToCHeader(Appendable a) throws IOException {

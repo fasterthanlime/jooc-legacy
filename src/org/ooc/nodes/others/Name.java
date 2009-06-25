@@ -47,8 +47,9 @@ public class Name extends RawCode {
         super(location, content);
     }
 
+    
     @Override
-    protected void assembleImpl(AssemblyManager manager) {
+	protected void assembleImpl(AssemblyManager manager) {
     	
     	if(getParent() == null) {
     		return; // Null parent, okay.
@@ -210,8 +211,9 @@ public class Name extends RawCode {
         
     }
 
+    
     @Override
-    public void writeToCSource(Appendable a) throws IOException {
+	public void writeToCSource(Appendable a) throws IOException {
 
         writeWhitespace(a);
         super.writeToCSource(a);

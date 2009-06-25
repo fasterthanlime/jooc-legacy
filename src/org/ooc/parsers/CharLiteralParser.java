@@ -10,7 +10,7 @@ import org.ubi.SyntaxError;
 
 class CharLiteralParser implements Parser {
 
-	@Override
+	
 	public boolean parse(SourceContext manager) throws IOException, SyntaxError {
 		
         if(!manager.reader.matches("'", true)) {

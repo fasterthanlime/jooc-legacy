@@ -74,6 +74,7 @@ public class MakeBackend extends Backend {
 		outputter = new CachedFileOutputter();
 	}
 
+	
 	@Override
 	public int compile(ProjectInfo info, BuildProperties props) throws IOException {
 		

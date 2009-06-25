@@ -13,7 +13,7 @@ import org.ubi.SyntaxError;
  */
 public class FunctionReferenceParser implements Parser {
 
-	@Override
+	
 	public boolean parse(SourceContext context) throws IOException, SyntaxError {
 
 		if(context.reader.matches("@", true)) {

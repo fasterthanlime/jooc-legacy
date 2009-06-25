@@ -11,7 +11,7 @@ import org.ubi.SyntaxError;
 
 class TypeDefParser implements Parser {
 
-	@Override
+	
 	public boolean parse(final SourceContext context) throws IOException, SyntaxError {
 
 		TypeDef typeDef = null;

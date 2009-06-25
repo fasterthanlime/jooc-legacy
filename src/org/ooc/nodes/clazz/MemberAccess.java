@@ -46,13 +46,15 @@ public class MemberAccess extends VariableAccess {
         this.member = member;
     }
 
+    
     @Override
-    public Type getType() {
+	public Type getType() {
         return member.type;
     }
 
+    
     @Override
-    public void writeToCSource(Appendable a) throws IOException {
+	public void writeToCSource(Appendable a) throws IOException {
     	
     	if(member.isStatic) {
     		
@@ -69,8 +71,9 @@ public class MemberAccess extends VariableAccess {
         
     }
     
+    
     @Override
-    protected void assembleImpl(AssemblyManager manager) {
+	protected void assembleImpl(AssemblyManager manager) {
     	
     	if(getParent() == null) {
     		manager.queue(this, "Null parent..");

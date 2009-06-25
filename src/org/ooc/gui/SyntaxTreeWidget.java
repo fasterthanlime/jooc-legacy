@@ -89,7 +89,7 @@ public class SyntaxTreeWidget extends JPanel {
 			next.setText(">> next pass >>");
 		}
 		next.addActionListener(new ActionListener() {
-			@Override
+			
 			public void actionPerformed(ActionEvent ev) {
 				try {
 					manager.doPass();
@@ -111,6 +111,7 @@ public class SyntaxTreeWidget extends JPanel {
 		
 		final JTextField go = new JTextField();
 		go.addKeyListener(new KeyAdapter() {
+			
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -130,6 +131,7 @@ public class SyntaxTreeWidget extends JPanel {
 		toolbar.add(go);
 		
 		tree.addMouseListener(new MouseAdapter() {
+			
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {

@@ -27,6 +27,7 @@ public class PointerToFunction extends Function {
 
 	}
 	
+	
 	@Override
 	public String getSimpleName() {
 	
@@ -34,12 +35,14 @@ public class PointerToFunction extends Function {
 		
 	}
 	
+	
 	@Override
 	public String getMangledName(Clazz destClazz) {
 	
 		return getSimpleName();
 		
 	}
+	
 	
 	@Override
 	public String getMangledName() {

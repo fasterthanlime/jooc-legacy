@@ -16,7 +16,7 @@ func main(Int argc, String[] argv) {
 
 	if(argc >= 2 && argv[1].equals("--test")) {
 		Gtk.mainIteration;
-		return 1;
+		return 0;
 	}
 
 	Gtk.main;

@@ -99,7 +99,7 @@ public class TypeParser implements Parser {
 		
 	}
 	
-	@Override
+	
 	public boolean parse(SourceContext context) throws IOException {
 		
 		String name = readTypeName(context.reader);

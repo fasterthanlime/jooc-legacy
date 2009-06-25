@@ -6,7 +6,6 @@ import java.util.List;
 import org.ooc.errors.CompilationFailedError;
 import org.ooc.errors.SourceContext;
 import org.ooc.nodes.clazz.ClassDef;
-import org.ooc.nodes.clazz.Cover;
 import org.ooc.nodes.types.Type;
 import org.ubi.FileLocation;
 
@@ -338,6 +337,7 @@ public class Clazz {
 		return simpleName.equals(name) || fullName.equals(name) || underName.equals(name);
 		
 	}
+	
 	
 	@Override
 	public String toString() {

@@ -30,12 +30,13 @@ public class FloatLiteral extends NumberLiteral {
     	return type;
     }
 
-    @Override
+    
+	@Override
 	public void negate() {
         value = -value;
     }
     
-    @Override
+    
 	public void writeToCSource(Appendable a) throws IOException {
 		writeWhitespace(a);
 		a.append(String.valueOf(value));

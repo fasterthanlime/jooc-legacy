@@ -21,6 +21,7 @@ public class If extends Parenthesis {
 		super(location);
 	}
 
+	
 	@Override
 	public void writeToCSource(Appendable a) throws IOException {
 		
@@ -29,6 +30,7 @@ public class If extends Parenthesis {
 		super.writeToCSource(a);
 
 	}
+	
 	
 	@Override
 	protected void assembleImpl(AssemblyManager manager) {

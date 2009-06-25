@@ -24,13 +24,14 @@ public class RawPreprocessorDirective extends PreprocessorDirective {
         this.content = content;
     }
 
-    @Override
+    
     public void writeToCSource(Appendable a) throws IOException {
         // Well, nothing sir.
     }
     
+    
     @Override
-    public void writeToCHeader(Appendable a) throws IOException {
+	public void writeToCHeader(Appendable a) throws IOException {
     	a.append('#');
         a.append(content);
     }

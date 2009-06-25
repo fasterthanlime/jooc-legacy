@@ -19,6 +19,7 @@ public class CastTypeCheck extends SingleFeature<Cast> {
 		super(Cast.class);
 	}
 
+	
 	@Override
 	protected void applyImpl(AssemblyManager manager, Cast cast) {
 

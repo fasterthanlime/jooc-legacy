@@ -33,8 +33,9 @@ public class ArrayDecl extends VariableDecl {
         this.type = variable.type.deriveArrayLevel(1);
     }
 
+    
     @Override
-    public void writeToCSource(Appendable a) throws IOException {
+	public void writeToCSource(Appendable a) throws IOException {
         super.writeToCSource(a);
         a.append("[");
         for(SyntaxNode node: this.subscript.nodes) {
@@ -43,8 +44,9 @@ public class ArrayDecl extends VariableDecl {
         a.append("]");
     }
     
+    
     @Override
-    public Type getType() {
+	public Type getType() {
     	return type;
     }
     
@@ -56,8 +58,9 @@ public class ArrayDecl extends VariableDecl {
     	return baseType;
     }
     
+    
     @Override
-    protected void assembleImpl(AssemblyManager manager) {
+	protected void assembleImpl(AssemblyManager manager) {
 
     	subscript.assembleAll(manager);
     

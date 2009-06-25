@@ -1,7 +1,5 @@
 package org.ooc.compiler;
 
-import java.io.IOException;
-import java.util.Properties;
 
 /**
  * Contain versioning information about the compiler.
@@ -24,9 +22,10 @@ public class Version {
     
     static {
     	
+    	/*
     	Properties props = new Properties();
     	try {
-    		/* This property file is written by ant at each build, see create-dist-jar.xml */
+    		// This property file is written by ant at each build, see create-dist-jar.xml
 			props.load(Thread.currentThread().getContextClassLoader()
 					.getResourceAsStream("org/ooc/compiler/version.properties"));
 
@@ -38,6 +37,7 @@ public class Version {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		*/
     	
     }
     
@@ -46,7 +46,8 @@ public class Version {
      */
 	public static void printVersion() {
 
-		System.out.println("# ooc v"+major+"."+minor+" codename "+codename+", built on "+date);
+		//System.out.println("# ooc v"+major+"."+minor+" codename "+codename+", built on "+date);
+		System.out.println("# ooc v"+System.getProperty(("ooc.version")));
 		
 	}
 	

@@ -40,6 +40,7 @@ public class DefineSymbolRef extends RawCode implements Typed {
 		type = Type.UNKNOWN;
 	}
 	
+	
 	@Override
 	protected void assembleImpl(AssemblyManager manager) {
 		
@@ -97,7 +98,7 @@ public class DefineSymbolRef extends RawCode implements Typed {
 		
 	}
 
-	@Override
+	
 	public Type getType() {
 		
 		return type;

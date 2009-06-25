@@ -46,8 +46,9 @@ public class Scope extends Block {
         this.variables = new ArrayList<Variable>();
     }
 
+    
     @Override
-    public void writeToCSource(Appendable a) throws IOException {
+	public void writeToCSource(Appendable a) throws IOException {
     	writeWhitespace(a);
         a.append("{");
         for(SyntaxNode node: nodes) {
@@ -94,8 +95,9 @@ public class Scope extends Block {
 		
     }
 
+    
     @Override
-    protected boolean isIndented() {
+	protected boolean isIndented() {
         return true;
     }
 

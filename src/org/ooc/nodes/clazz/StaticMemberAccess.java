@@ -42,6 +42,7 @@ public class StaticMemberAccess extends VariableAccess {
 		
 	}
 	
+	
 	@Override
 	public void writeToCSource(Appendable a) throws IOException {
 	
@@ -49,6 +50,7 @@ public class StaticMemberAccess extends VariableAccess {
 		a.append(variable.getName(clazz));
 		
 	}
+	
 	
 	@Override
 	protected void assembleImpl(AssemblyManager manager) {

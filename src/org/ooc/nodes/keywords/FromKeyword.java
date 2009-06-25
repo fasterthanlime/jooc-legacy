@@ -28,7 +28,7 @@ public class FromKeyword extends Keyword {
         this.superClass = superClass;
     }
 
-    @Override
+    
     public void writeToCSource(Appendable a) throws IOException {
     	// Lalalaaalaaaaaa..
     }

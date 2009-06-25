@@ -22,6 +22,7 @@ public class Star extends RawCode {
 		
 	}
 	
+	
 	@Override
 	protected void assembleImpl(AssemblyManager manager) {
 	

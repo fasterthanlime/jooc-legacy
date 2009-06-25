@@ -1,3 +1,5 @@
+import lang.String;
+
 import gtk.Gtk;
 import gtk.Window;
 import gtk.TreeView;
@@ -51,7 +53,7 @@ func main(Int argc, String[] argv) {
 	window.showAll;
 
 	if(argc >= 2 && argv[1].length) {
-		return 1;
+		return 0;
 	}
 	
 	Gtk.main;

@@ -24,6 +24,7 @@ public class AssignmentTypeCheck extends SingleFeature<Assignment> {
 		super(Assignment.class);
 	}
 
+	
 	@Override
 	protected void applyImpl(AssemblyManager manager, Assignment assignment) {
 

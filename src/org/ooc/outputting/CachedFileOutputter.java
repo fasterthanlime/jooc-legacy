@@ -14,6 +14,7 @@ import org.ooc.errors.SourceContext;
  */
 public class CachedFileOutputter extends FileOutputter {
 	
+	
 	@Override
 	protected void write(SourceContext context, File cFile, File hFile)
 			throws IOException {

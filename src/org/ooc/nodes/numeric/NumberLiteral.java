@@ -16,8 +16,9 @@ public abstract class NumberLiteral extends Literal {
         super(location);
     }
 
+    
     @Override
-    protected void assembleImpl(AssemblyManager manager) {
+	protected void assembleImpl(AssemblyManager manager) {
     	
     	if(getParent() == null) {
     		return;

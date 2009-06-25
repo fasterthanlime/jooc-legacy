@@ -27,6 +27,7 @@ public class StaticFunctionReference extends FunctionReference {
 		this.classDef = classDef;
 	}
 	
+	
 	@Override
 	protected void assembleImpl(AssemblyManager manager) {
 		

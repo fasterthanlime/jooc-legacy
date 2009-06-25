@@ -16,7 +16,7 @@ import org.ubi.SyntaxError;
  */
 public class CTypeParser implements Parser {
 
-	@Override
+	
 	public boolean parse(final SourceContext context) throws IOException, SyntaxError {
 
 		SourceReader reader = context.reader;

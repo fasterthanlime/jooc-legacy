@@ -18,8 +18,9 @@ public abstract class Literal extends SyntaxNode implements Typed {
         super(location);
     }
     
+    
     @Override
-    public String getDescription() {
+	public String getDescription() {
     	return toString();
     }
     

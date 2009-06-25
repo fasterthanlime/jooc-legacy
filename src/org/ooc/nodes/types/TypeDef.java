@@ -32,15 +32,16 @@ public class TypeDef extends SyntaxNode {
         
     }
 
-    @Override
+    
     public void writeToCSource(Appendable a) throws IOException {
     	
     	/** @see writeToCHeader */
     	
     }
 
+    
     @Override
-    public void writeToCHeader(Appendable a) throws IOException {
+	public void writeToCHeader(Appendable a) throws IOException {
     	
     	writeWhitespace(a);
         a.append("typedef ");
@@ -53,8 +54,9 @@ public class TypeDef extends SyntaxNode {
         
     }
     
+    
     @Override
-    protected void assembleImpl(AssemblyManager manager) {
+	protected void assembleImpl(AssemblyManager manager) {
     
     	if(!type.isResolved) {
     		manager.queue(type, "Typedef's type resolving");
@@ -65,8 +67,9 @@ public class TypeDef extends SyntaxNode {
     	
     }
     
+    
     @Override
-    protected boolean isSpaced() {
+	protected boolean isSpaced() {
     	return false;
     }
 

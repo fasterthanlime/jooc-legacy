@@ -22,10 +22,12 @@ public class RawHeaderCode extends RawCode {
 		super(location, content);
 	}
 
+	
 	@Override
 	public void writeToCSource(Appendable a) throws IOException {
 		// Tadelitedalouu..
 	}
+	
 	
 	@Override
 	public void writeToCHeader(Appendable a) throws IOException {

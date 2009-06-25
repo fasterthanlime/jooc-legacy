@@ -96,8 +96,9 @@ public class ClassDef extends Scope implements PotentiallyAbstract {
 		
 	}
     
+    
     @Override
-    public void writeToCHeader(Appendable a) throws IOException {
+	public void writeToCHeader(Appendable a) throws IOException {
     	
 		// Class structure
         
@@ -132,8 +133,9 @@ public class ClassDef extends Scope implements PotentiallyAbstract {
 
     }
 
-	@Override
-    public void writeToCSource(Appendable a) throws IOException {
+	
+    @Override
+	public void writeToCSource(Appendable a) throws IOException {
 
 		a.append("\n/*\n * Definition of class ");
 		a.append(clazz.fullName);
@@ -177,8 +179,9 @@ public class ClassDef extends Scope implements PotentiallyAbstract {
             
     }
 
-	@Override
-    protected void assembleImpl(AssemblyManager manager) {
+	
+    @Override
+	protected void assembleImpl(AssemblyManager manager) {
     	
     	if(!allSupersAssembled(manager)) {
     		manager.queue(this, "Waiting on super-classes to assemble.");
@@ -565,30 +568,33 @@ public class ClassDef extends Scope implements PotentiallyAbstract {
 
     }
 
-	@Override
-    protected boolean isIndented() {
+	
+    @Override
+	protected boolean isIndented() {
         return false;
     }
     
+    
     @Override
-    protected boolean isSpaced() {
+	protected boolean isSpaced() {
     	return false;
     }
 
-    @Override
+    
     public void setAbstract(boolean isAbstract) {
     	
         clazz.isAbstract = isAbstract;
         
     }
     
-    @Override
+    
 	public boolean isAbstract() {
     	
 		return clazz.isAbstract;
 		
 	}
     
+	
 	@Override
 	public String getDescription() {
 		
@@ -596,6 +602,7 @@ public class ClassDef extends Scope implements PotentiallyAbstract {
 		return clazz.fullName;
 		
 	}
+	
 	
 	@Override
 	public String toString() {
@@ -613,6 +620,7 @@ public class ClassDef extends Scope implements PotentiallyAbstract {
 		constructorHead.add(init);
 		
 	}
+	
 	
 	@Override
 	public Function getImplementation(SourceContext context, String name, TypedArgumentList tal) {

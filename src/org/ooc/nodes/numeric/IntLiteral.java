@@ -31,12 +31,13 @@ public class IntLiteral extends NumberLiteral {
         return type;
     }
 
-    @Override
+    
+	@Override
 	public void negate() {
         this.value = -value;
     }
 
-	@Override
+	
 	public void writeToCSource(Appendable a) throws IOException {
 		writeWhitespace(a);
 		a.append(String.valueOf(value));

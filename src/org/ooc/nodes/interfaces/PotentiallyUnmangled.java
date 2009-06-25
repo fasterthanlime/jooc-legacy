@@ -1,7 +1,5 @@
 package org.ooc.nodes.interfaces;
 
-import org.ooc.nodes.keywords.UnmangledKeyword;
-
 /**
  * Used for function definitions, with the 'unmangled' keyword
  * @see {@link UnmangledKeyword}

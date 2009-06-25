@@ -28,6 +28,7 @@ public class CascadeCallFeature extends TrioFeature<Typed, Dot, Name> {
 		
 	}
 
+	
 	@Override
 	protected void applyImpl(AssemblyManager manager, Typed typed, Dot dot, Name name) {
 

@@ -10,7 +10,7 @@ import org.ubi.SyntaxError;
 
 class NameParser implements Parser {
 
-	@Override
+	
 	public boolean parse(final SourceContext context) throws IOException {
 
 		SourceReader reader = context.reader;

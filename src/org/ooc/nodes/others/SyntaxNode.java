@@ -113,8 +113,9 @@ public abstract class SyntaxNode implements WriteableToPureC {
         this.setContext(null);
     }
 
+    
     @Override
-    public String toString() {
+	public String toString() {
     	
     	String result = null;
         try {
@@ -581,6 +582,7 @@ public abstract class SyntaxNode implements WriteableToPureC {
 		this.parent = parent;
 	}
 	
+	
 	@Override
 	public boolean equals(Object obj) {
 	
@@ -590,6 +592,7 @@ public abstract class SyntaxNode implements WriteableToPureC {
 		return false;
 		
 	}
+	
 	
 	@Override
 	public int hashCode() {

@@ -44,13 +44,15 @@ public class For extends Parenthesis {
         reverse = false;
     }
     
+    
     @Override
-    protected boolean isIndented() {
+	protected boolean isIndented() {
     	return true;
     }
 
+    
     @Override
-    public void writeToCSource(Appendable a) throws IOException {
+	public void writeToCSource(Appendable a) throws IOException {
     	
     	writeWhitespace(a, -1);
         if(index == null) {
@@ -92,8 +94,9 @@ public class For extends Parenthesis {
         
     }
 
-	@Override
-    protected void assembleImpl(AssemblyManager manager) {
+	
+    @Override
+	protected void assembleImpl(AssemblyManager manager) {
     	
     	assembleAll(manager);
     	if(lower != null) {

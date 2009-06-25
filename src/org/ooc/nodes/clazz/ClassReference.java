@@ -2,7 +2,6 @@ package org.ooc.nodes.clazz;
 
 import java.io.IOException;
 
-import org.ooc.features.core.StaticClassAccessFeature;
 import org.ooc.nodes.types.TypeReference;
 import org.ubi.FileLocation;
 
@@ -28,8 +27,9 @@ public class ClassReference extends TypeReference {
         this.classDef = classDef;
     }
     
+    
     @Override
-    public void writeToCSource(Appendable a) throws IOException {
+	public void writeToCSource(Appendable a) throws IOException {
     	writeWhitespace(a);
     	if(classDef.clazz.isCover) {
     		a.append(classDef.clazz.simpleName);
@@ -38,22 +38,24 @@ public class ClassReference extends TypeReference {
     	}
     }
     
+    
     @Override
-    protected boolean isSpaced() {
+	protected boolean isSpaced() {
 
     	return true;
     	
     }
     
+    
     @Override
-    public String getDescription() {
+	public String getDescription() {
     
     	return "Class reference to " + classDef.clazz.fullName;
     	
     }
     
     /*
-    @Override
+    
     protected void assembleImpl(AssemblyManager manager) {
     	
     	// TODO add ability to deal with fully-qualified class names. In other words, the length

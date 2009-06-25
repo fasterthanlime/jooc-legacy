@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.ooc.nodes.libs.Use;
-
 /**
  * Provides abstraction for includes, dynamic and static linking of
  * libraries, in a cross-platform way.

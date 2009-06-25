@@ -23,6 +23,7 @@ public class StaticKeyword extends Keyword {
 		super(location);
 	}
 	
+	
 	@Override
 	protected void assembleImpl(AssemblyManager manager) {
 	
@@ -42,13 +43,14 @@ public class StaticKeyword extends Keyword {
 		
 	}
 
-	@Override
+	
 	public void writeToCSource(Appendable a) throws IOException {
 
 		writeWhitespace(a);
 		a.append("static");
 
 	}
+	
 	
 	@Override
 	protected boolean isSpaced() {

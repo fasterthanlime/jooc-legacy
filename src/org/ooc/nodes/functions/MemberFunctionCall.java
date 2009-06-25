@@ -43,6 +43,7 @@ public class MemberFunctionCall extends FunctionCall {
 		}
 	}
 
+	
 	@Override
 	protected void assembleImpl(AssemblyManager manager) {
 	
@@ -79,16 +80,19 @@ public class MemberFunctionCall extends FunctionCall {
 
     }
 
-	@Override
-    public String getDescription() {
+	
+    @Override
+	public String getDescription() {
     	return "member function call to "+access+"->"+name+getDescription(nodes)+location;
     }
+	
 	
 	@Override
 	protected boolean isSpaced() {
 		return true;
 	}
 
+	
 	@Override
 	public void writeToCSource(Appendable a) throws IOException {
 

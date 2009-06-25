@@ -156,7 +156,7 @@ public class Function implements Field {
     /**
      * Write a function pointer declaration in a form suitable for a C compiler.
      */
-    @Override
+    
     public boolean writeDeclaration(Appendable a, Clazz destClazz) throws IOException {
     	
     	if(isStatic) {
@@ -283,8 +283,9 @@ public class Function implements Field {
         
     }
 
+    
     @Override
-    public String toString() {
+	public String toString() {
     	
         return getMangledName(null);
         
@@ -331,14 +332,14 @@ public class Function implements Field {
 		
 	}
 
-	@Override
+	
 	public boolean isStatic() {
 		
 		return isStatic;
 		
 	}
 
-	@Override
+	
 	public void setStatic(boolean isStatic) {
 
 		this.isStatic = isStatic;

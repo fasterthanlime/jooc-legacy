@@ -29,6 +29,7 @@ public class InitializationFeature extends CoupleFeature<VariableDecl, Assignmen
 
 	}
 
+	
 	@Override
 	protected void applyImpl(AssemblyManager manager, VariableDecl decl,
 			Assignment ass) {

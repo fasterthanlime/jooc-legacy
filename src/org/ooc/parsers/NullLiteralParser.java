@@ -16,7 +16,7 @@ import org.ubi.SyntaxError;
  */
 public class NullLiteralParser implements Parser {
 
-	@Override
+	
 	public boolean parse(SourceContext context) throws IOException, SyntaxError {
 
 		NullLiteral nullLiteral = readNullLiteral(context.reader);

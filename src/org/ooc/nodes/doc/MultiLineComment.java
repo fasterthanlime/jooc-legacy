@@ -45,7 +45,7 @@ public class MultiLineComment extends SyntaxNode implements Comment {
         
     }
     
-    @Override
+    
 	public void writeToCSource(Appendable a) throws IOException {
     	
     	a.append(before);
@@ -72,12 +72,13 @@ public class MultiLineComment extends SyntaxNode implements Comment {
 		
 	}
 
+	
 	@Override
 	public String getDescription() {
     	return toString()+location;
     }
 
-	@Override
+	
 	public String getContent() {
 		
 		StringBuilder builder = new StringBuilder();

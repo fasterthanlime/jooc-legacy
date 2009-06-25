@@ -29,12 +29,14 @@ public class Cover extends ClassDef {
 		
 	}
 	
+	
 	@Override
 	public void writeForwardDef(Appendable a) throws IOException {
 	
 		// Doodelidoo
 		
 	}
+	
 	
 	@Override
 	public void writeToCHeader(Appendable a) throws IOException {
@@ -52,6 +54,7 @@ public class Cover extends ClassDef {
 		
 	}
 	
+	
 	@Override
 	public void writeToCSource(Appendable a) throws IOException {
 	
@@ -60,6 +63,7 @@ public class Cover extends ClassDef {
 		}
 		
 	}
+	
 	
 	@Override
 	protected void assembleImpl(AssemblyManager manager) {

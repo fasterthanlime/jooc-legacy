@@ -19,8 +19,9 @@ public class FunctionImplementation extends FunctionOverride {
         super(location, name);
     }
 
+    
     @Override
-    public void assembleImpl(AssemblyManager manager) {
+	public void assembleImpl(AssemblyManager manager) {
     	
         super.assembleImpl(manager);
         
@@ -32,13 +33,15 @@ public class FunctionImplementation extends FunctionOverride {
         
     }
 
+    
     @Override
-    protected String getNameDesc() {
+	protected String getNameDesc() {
         return "implementation";
     }
 
+    
     @Override
-    protected String getVerbDesc() {
+	protected String getVerbDesc() {
         return "implement";
     }
     

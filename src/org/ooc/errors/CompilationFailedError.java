@@ -36,6 +36,7 @@ public class CompilationFailedError extends Error {
 		this.location = location;
 	}
 	
+	
 	@Override
 	public void printStackTrace() {
 	

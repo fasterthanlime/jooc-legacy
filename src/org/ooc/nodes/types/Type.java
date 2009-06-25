@@ -9,7 +9,6 @@ import org.ooc.errors.SourceContext;
 import org.ooc.nodes.array.ArrayDecl;
 import org.ooc.nodes.array.Subscript;
 import org.ooc.nodes.clazz.ClassDef;
-import org.ooc.nodes.clazz.Cover;
 import org.ooc.nodes.operators.Star;
 import org.ooc.nodes.others.Name;
 import org.ooc.nodes.others.SyntaxNode;
@@ -19,7 +18,6 @@ import org.ooc.structures.Clazz;
 import org.ooc.structures.Variable;
 import org.ubi.FileLocation;
 import org.ubi.SourceReader;
-import org.ubi.SyntaxError;
 
 /**
  * The usage of a type in the code, e.g. "int" or "MyClass"
@@ -114,7 +112,7 @@ public class Type extends SyntaxNode {
     /**
      * @see writeDeclaration
      */
-    @Override
+    
     public void writeToCSource(Appendable a) throws IOException {
     	
     	if(resolveCheckEnabled && !isResolved) {
@@ -244,8 +242,9 @@ public class Type extends SyntaxNode {
         
     }
 
+    
     @Override
-    public boolean equals(Object o) {
+	public boolean equals(Object o) {
     	
     	if(o == null) {
     		throw new Error("Comparing type "+this+" to null type !");
@@ -370,6 +369,7 @@ public class Type extends SyntaxNode {
 	 * Overriden because toString() can throw an Exception in case we've not
 	 * been resolved yet.
 	 */
+	
 	@Override
 	public String getDescription() {
 	
@@ -443,6 +443,7 @@ public class Type extends SyntaxNode {
 		return pointerLevel == 0 && arrayLevel == 0;
 		
 	}
+	
 	
 	@Override
 	protected void assembleImpl(AssemblyManager manager) {

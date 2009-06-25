@@ -25,6 +25,7 @@ public class StaticReferenceFeature extends TrioFeature<ClassReference, Dot, Fun
 		super(ClassReference.class, Dot.class, FunctionReference.class);
 	}
 	
+	
 	@Override
 	protected void applyImpl(AssemblyManager manager, ClassReference classRef,
 			Dot dot, FunctionReference funcRef) {

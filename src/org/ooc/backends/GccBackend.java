@@ -155,6 +155,7 @@ class GccBackend extends Backend {
 	 *  C headers (.h) and object (.o) files produced during step 2.</li>
 	 * </ul>
 	 */
+	
 	@Override
 	public int compile(ProjectInfo info, BuildProperties props) throws IOException, InterruptedException {
 

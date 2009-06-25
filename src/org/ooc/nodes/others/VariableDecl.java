@@ -44,7 +44,7 @@ public class VariableDecl extends SyntaxNode implements Typed, PotentiallyStatic
         
     }
 
-    @Override
+    
     public void writeToCSource(Appendable a) throws IOException {
     	
     	writeToCSource(a, true);
@@ -73,8 +73,9 @@ public class VariableDecl extends SyntaxNode implements Typed, PotentiallyStatic
         
     }
 
+    
     @Override
-    protected void assembleImpl(AssemblyManager manager) {
+	protected void assembleImpl(AssemblyManager manager) {
 
     	variable.type.setContext(getParent());
     	variable.type.assembleForce(manager);
@@ -110,19 +111,21 @@ public class VariableDecl extends SyntaxNode implements Typed, PotentiallyStatic
 
     }
     
-    @Override
+    
+	@Override
 	public String getDescription() {
     	
     	return toString()+location;
     	
     }
 
-	@Override
+	
 	public Type getType() {
 		
 		return variable.type;
 		
 	}
+	
 	
 	@Override
 	protected boolean isSpaced() {
@@ -131,28 +134,28 @@ public class VariableDecl extends SyntaxNode implements Typed, PotentiallyStatic
 		
 	}
 
-	@Override
+	
 	public void setStatic(boolean isStatic) {
 
 		variable.isStatic = isStatic;
 		
 	}
 
-	@Override
+	
 	public boolean isStatic() {
 		
 		return variable.isStatic;
 		
 	}
 	
-	@Override
+	
 	public void setConst(boolean isConst) {
 		
 		variable.isConst = isConst;
 		
 	}
 	
-	@Override
+	
 	public boolean isConst() {
 		
 		return variable.isConst;

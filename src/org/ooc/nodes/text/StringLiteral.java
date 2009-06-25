@@ -30,7 +30,7 @@ public class StringLiteral extends Literal {
         
     }
 
-    @Override
+    
     public void writeToCSource(Appendable a) throws IOException {
         writeWhitespace(a);
         a.append('"');

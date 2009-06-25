@@ -30,6 +30,7 @@ public class Define extends PreprocessorDirective {
 		this.content = content.trim();
 	}
 	
+	
 	@Override
 	protected void assembleImpl(AssemblyManager manager) {
 
@@ -38,10 +39,11 @@ public class Define extends PreprocessorDirective {
 		
 	}
 
-	@Override
+	
 	public void writeToCSource(Appendable a) throws IOException {
 		// Tralala.
 	}
+	
 	
 	@Override
 	public void writeToCHeader(Appendable a) throws IOException {

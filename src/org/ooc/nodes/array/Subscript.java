@@ -27,15 +27,17 @@ public class Subscript extends SyntaxNodeList implements LinearNode {
         super(location);
     }
 
+    
     @Override
-    public void writeToCSource(Appendable a) throws IOException {
+	public void writeToCSource(Appendable a) throws IOException {
         a.append("[");
         super.writeToCSource(a);
         a.append("]");
     }
 
+    
     @Override
-    protected void assembleImpl(AssemblyManager manager) {
+	protected void assembleImpl(AssemblyManager manager) {
     	
     	if(!assembleAll(manager)) {
     		return;

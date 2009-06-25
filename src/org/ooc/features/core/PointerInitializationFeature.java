@@ -19,6 +19,7 @@ public class PointerInitializationFeature extends SingleFeature<FunctionDef> {
 		super(FunctionDef.class);
 	}
 
+	
 	@Override
 	protected void applyImpl(AssemblyManager manager, FunctionDef funcDef) {
 		

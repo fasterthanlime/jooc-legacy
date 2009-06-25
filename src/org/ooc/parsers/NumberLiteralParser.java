@@ -11,7 +11,6 @@ import org.ooc.nodes.numeric.FloatLiteral;
 import org.ooc.nodes.numeric.IntLiteral;
 import org.ooc.nodes.numeric.NumberLiteral;
 import org.ubi.SourceReader;
-import org.ubi.SyntaxError;
 
 /**
  * Parse number literals, (e.g. int, floats, doubles, etc.)
@@ -19,7 +18,7 @@ import org.ubi.SyntaxError;
  */
 public class NumberLiteralParser implements Parser {
 
-	@Override
+	
 	public boolean parse(final SourceContext context) throws IOException {
 
 		SourceReader reader = context.reader;

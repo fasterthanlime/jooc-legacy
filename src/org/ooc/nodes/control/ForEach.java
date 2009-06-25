@@ -43,8 +43,9 @@ public class ForEach extends SyntaxNodeList {
         
     }
 
+    
     @Override
-    public void writeToCSource(Appendable a) throws IOException {
+	public void writeToCSource(Appendable a) throws IOException {
     	
     	writeWhitespace(a);
     	
@@ -52,8 +53,9 @@ public class ForEach extends SyntaxNodeList {
         
     }
 
+    
     @Override
-    protected void assembleImpl(AssemblyManager manager) {
+	protected void assembleImpl(AssemblyManager manager) {
 
         Scope parentScope = getParent().getNearest(Scope.class);
 

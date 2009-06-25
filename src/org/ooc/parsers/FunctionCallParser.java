@@ -6,7 +6,6 @@ import java.io.IOException;
 import org.ooc.errors.SourceContext;
 import org.ooc.nodes.functions.FunctionCall;
 import org.ubi.SourceReader;
-import org.ubi.SyntaxError;
 
 /**
  * Parse a function call
@@ -15,7 +14,7 @@ import org.ubi.SyntaxError;
  */
 public class FunctionCallParser implements Parser {
 
-	@Override
+	
 	public boolean parse(final SourceContext context) throws IOException {
 
     	FunctionCall funcCall = FunctionCallParser.readFunctionCall(context.reader);

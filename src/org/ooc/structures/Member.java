@@ -25,7 +25,7 @@ public class Member implements Field {
         this.clazz = clazz;
     }
     
-    @Override
+    
     public boolean writeDeclaration(Appendable a, Clazz destClazz) throws IOException {
     	
     	if(variableDecl.variable.isStatic) {
@@ -50,14 +50,14 @@ public class Member implements Field {
 		
 	}
 
-	@Override
+	
 	public boolean isStatic() {
 
 		return variableDecl.isStatic();
 		
 	}
 
-	@Override
+	
 	public void setStatic(boolean isStatic) {
 
 		variableDecl.setStatic(isStatic);

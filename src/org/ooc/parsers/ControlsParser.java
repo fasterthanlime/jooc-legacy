@@ -12,7 +12,7 @@ import org.ubi.SourceReader;
 
 class ControlsParser implements Parser {
 
-	@Override
+	
 	public boolean parse(final SourceContext context) throws IOException {
 
 		SourceReader reader = context.reader;

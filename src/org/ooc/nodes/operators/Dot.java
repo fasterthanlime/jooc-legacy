@@ -19,8 +19,9 @@ public class Dot extends RawCode {
         super(location, ".");
     }
     
+    
     @Override
-    protected boolean isSpaced() {
+	protected boolean isSpaced() {
 	    return false;
     }
 

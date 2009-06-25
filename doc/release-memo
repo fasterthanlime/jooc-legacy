@@ -1,0 +1,6 @@
+Release memo
+============
+
+Source distribution: tar.bz2
+Linux package: gcj + nixstaller
+Windows package: gcj + Inno Setup

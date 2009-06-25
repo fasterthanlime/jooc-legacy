@@ -20,7 +20,6 @@ import org.ooc.structures.Variable;
 import org.ooc.structures.VariableAlias;
 import org.ubi.FileLocation;
 import org.ubi.SourceReader;
-import org.ubi.SyntaxError;
 
 /**
  * A typed argument list represents e.g. the list of arguments to a function,
@@ -95,12 +94,13 @@ public class TypedArgumentList extends SyntaxNode {
         
     }
 
-	@Override
-    public TypedArgumentList clone() {
+	
+    @Override
+	public TypedArgumentList clone() {
         return new TypedArgumentList(location, new ArrayList<Variable>(list));
     }
 
-    @Override
+    
     public void writeToCSource(Appendable a) throws IOException {
         a.append('(');
         int count = 0;
@@ -194,8 +194,9 @@ public class TypedArgumentList extends SyntaxNode {
         
     }
     
+    
     @Override
-    protected void assembleImpl(AssemblyManager manager) {
+	protected void assembleImpl(AssemblyManager manager) {
     
     	boolean allTypesResolved = true;
     	
@@ -250,8 +251,9 @@ public class TypedArgumentList extends SyntaxNode {
         return index;
     }
     
+    
     @Override
-    public String toString() {
+	public String toString() {
     
     	Type.resolveCheckEnabled = false;
     	String string = super.toString();

@@ -28,8 +28,9 @@ public class Parenthesis extends SyntaxNodeList implements Typed, LinearNode {
         super(location);
     }
 
+    
     @Override
-    public void writeToCSource(Appendable a) throws IOException {
+	public void writeToCSource(Appendable a) throws IOException {
         a.append("(");
         for(SyntaxNode node: nodes) {
             node.writeToCSource(a);
@@ -37,8 +38,9 @@ public class Parenthesis extends SyntaxNodeList implements Typed, LinearNode {
         a.append(")");
     }
 
+    
     @Override
-    protected void assembleImpl(AssemblyManager manager) {
+	protected void assembleImpl(AssemblyManager manager) {
     	
     	if(!assembleAll(manager) || manager.isDirtyRecursive(this)) { // Dirty already ?
     		manager.queue(this, "Recursively-dirty children");
@@ -83,7 +85,7 @@ public class Parenthesis extends SyntaxNodeList implements Typed, LinearNode {
         
     }
 
-	@Override
+	
 	public Type getType() {
 		
 		if(nodes.isEmpty()) {

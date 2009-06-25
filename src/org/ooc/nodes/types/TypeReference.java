@@ -31,10 +31,11 @@ public class TypeReference extends SyntaxNode {
 		this.type = type;
 	}
 
-	@Override
+	
 	public void writeToCSource(Appendable a) throws IOException {
 		type.writeToCSource(a);
 	}
+	
 	
 	@Override
 	protected void assembleImpl(AssemblyManager manager) {

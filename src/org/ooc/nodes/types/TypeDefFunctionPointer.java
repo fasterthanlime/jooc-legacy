@@ -41,6 +41,7 @@ public class TypeDefFunctionPointer extends TypeDef {
 		
 	}
 	
+	
 	@Override
 	public void writeToCHeader(Appendable a) throws IOException {
 		
@@ -57,6 +58,7 @@ public class TypeDefFunctionPointer extends TypeDef {
 		a.append(");\n");
 		
 	}
+	
 	
 	@Override
 	protected void assembleImpl(AssemblyManager manager) {

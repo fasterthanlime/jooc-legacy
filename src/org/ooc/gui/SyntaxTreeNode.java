@@ -1,7 +1,5 @@
 package org.ooc.gui;
 
-import java.util.Vector;
-
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.ooc.errors.AssemblyManager;
@@ -71,13 +69,13 @@ public class SyntaxTreeNode extends DefaultMutableTreeNode {
 	 * @param hash
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	public SyntaxTreeNode findNode(int hash) {
 
 		if(node.hash == hash) {
 			return this;
 		} else if(children != null && !children.isEmpty()) {
-			for(SyntaxTreeNode child: (Vector<SyntaxTreeNode>) children) {
+			for(Object data: children) {
+				SyntaxTreeNode child = (SyntaxTreeNode) data;
 				SyntaxTreeNode candidate = child.findNode(hash);
 				if(candidate != null) {
 					return candidate;

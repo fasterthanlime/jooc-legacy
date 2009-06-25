@@ -1,0 +1,267 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML
+><HEAD
+><TITLE
+>Functions</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.79"/><LINK
+REL="HOME"
+TITLE="ooc v0.2 ninja Language Reference"
+HREF="book1.htm"/><LINK
+REL="PREVIOUS"
+TITLE="Pointers"
+HREF="x217.htm"/><LINK
+REL="NEXT"
+TITLE="Calling functions"
+HREF="x238.htm"/></HEAD
+><BODY
+CLASS="chapter"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>ooc v0.2 ninja Language Reference</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="x217.htm"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+></TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x238.htm"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"/></DIV
+><DIV
+CLASS="chapter"
+><H1
+><A
+NAME="AEN220"
+></A
+>Chapter 2. Functions</H1
+><DIV
+CLASS="TOC"
+><DL
+><DT
+><B
+>Table of Contents</B
+></DT
+><DT
+><A
+HREF="c220.htm#AEN222"
+>Definition</A
+></DT
+><DT
+><A
+HREF="x238.htm"
+>Calling functions</A
+></DT
+><DT
+><A
+HREF="x247.htm"
+>Callbacks and pointers</A
+></DT
+><DT
+><A
+HREF="x264.htm"
+>Covers</A
+></DT
+></DL
+></DIV
+><DIV
+CLASS="section"
+><H1
+CLASS="section"
+><A
+NAME="AEN222"
+>Definition</A
+></H1
+><DIV
+CLASS="section"
+><H2
+CLASS="section"
+><A
+NAME="AEN224"
+>Syntax</A
+></H2
+><P
+>A function is declared with the
+        <TT
+CLASS="literal"
+><TT
+CLASS="literal"
+>func</TT
+></TT
+> keyword.</P
+><PRE
+CLASS="programlisting"
+>// Empty function with no args that returns nothing
+func useless;
+
+func sayHello {
+  printf("Hay, world!\n");
+}
+
+func saySomethingElse(String message) {
+  printf("Dummy says: %s\n", message);
+}
+
+func add(Int arg1, Int arg2) -&gt; Int {
+  return arg1 + arg2;
+}
+</PRE
+></DIV
+><DIV
+CLASS="section"
+><H2
+CLASS="section"
+><A
+NAME="AEN230"
+>Same name, different arguments</A
+></H2
+><P
+>In ooc, it's possible to have several functions with the same
+        name and different arguments. Which function to call is selected at
+        compilation time, based on the number of arguments and their
+        types.</P
+><PRE
+CLASS="programlisting"
+>func main {
+  dance();
+  dance("Too much of heaven/Can bring you underground");
+}
+
+func dance {
+  dance("Music's got me feeling so free/Celebrate and dance so free/One more time");
+}
+
+func dance(String lyrics) {
+  printf("DANCE TO THE BEAT! Sing: %s\b", lyrics);
+}</PRE
+></DIV
+><DIV
+CLASS="section"
+><H2
+CLASS="section"
+><A
+NAME="AEN234"
+>The main function: entry point</A
+></H2
+><P
+>In ooc, the main function is automatically specified to have the
+        return type 'Int'. You can declare it either without arguments, or
+        with argc, argv, and envp arguments (optional).</P
+><PRE
+CLASS="programlisting"
+>import structs.Array;
+
+/** envp is optional! it contains the environment variables, and is null-terminated */
+func main(Int argc, String[] argv, String[] envp) {
+
+  for(String arg: new Array(argc, argv)) {
+    printf("Got argument %s\n", arg);
+  }
+
+  Array envs = Array.nullTerminated(envp);
+  for(String env: envs) {
+    printf("Got environment variable %s\n", env);
+  }
+
+}</PRE
+></DIV
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"/><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="x217.htm"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="book1.htm"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x238.htm"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Pointers</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+>&nbsp;</TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Calling functions</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

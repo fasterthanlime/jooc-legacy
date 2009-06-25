@@ -21,6 +21,7 @@ public class ArrayLiteralFeature extends TrioFeature<ArrayDecl, Assignment, Scop
 		super(ArrayDecl.class, Assignment.class, Scope.class);
 	}
 
+	
 	@Override
 	protected void applyImpl(AssemblyManager manager, ArrayDecl decl,
 			Assignment assignment, Scope scope) {

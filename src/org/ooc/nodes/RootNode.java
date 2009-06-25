@@ -43,6 +43,7 @@ public class RootNode extends Scope {
 		
 	}
 	
+	
 	@Override
 	public void writeToCHeader(Appendable a) throws IOException {
 	
@@ -63,6 +64,7 @@ public class RootNode extends Scope {
 		
 	}
 	
+	
 	@Override
 	public void writeToCSource(Appendable a) throws IOException {
 
@@ -79,6 +81,7 @@ public class RootNode extends Scope {
 		
 	}
 	
+	
 	@Override
 	protected void assembleImpl(AssemblyManager manager) {
 	
@@ -86,6 +89,7 @@ public class RootNode extends Scope {
 		lock();
 		
 	}
+	
 	
 	@Override
 	protected boolean isIndented() {
@@ -103,6 +107,7 @@ public class RootNode extends Scope {
 		loadModule.add(node);
 		
 	}
+	
 	
 	@Override
 	public RootNode getRoot() {

@@ -29,6 +29,7 @@ public abstract class TrioFeature<K,V,M> extends Feature {
 		this.thirdType = thirdType;
 	}
 	
+	
 	@Override
 	public void applyImpl(AssemblyManager manager, SyntaxNode node) {
 		

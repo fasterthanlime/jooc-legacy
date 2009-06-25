@@ -38,6 +38,7 @@ public class NullCheck extends SingleFeature<MemberFunctionCall> {
 		super(MemberFunctionCall.class);
 	}
 
+	
 	@Override
 	protected void applyImpl(AssemblyManager manager, MemberFunctionCall call) {
 		

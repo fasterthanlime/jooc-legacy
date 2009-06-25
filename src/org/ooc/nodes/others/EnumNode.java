@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.ooc.errors.AssemblyManager;
 import org.ooc.nodes.control.Scope;
-import org.ooc.parsers.EnumParser;
 import org.ubi.FileLocation;
 
 /**
@@ -29,6 +28,7 @@ public class EnumNode extends Scope {
 		this.name = name;
 		this.identifiers = new ArrayList<String>();
 	}
+	
 	
 	@Override
 	protected void assembleImpl(AssemblyManager manager) {
@@ -57,6 +57,7 @@ public class EnumNode extends Scope {
 		
 	}
 	
+	
 	@Override
 	public void writeToCHeader(Appendable a) throws IOException {
 	
@@ -77,6 +78,7 @@ public class EnumNode extends Scope {
 		
 	}
 	
+	
 	@Override
 	public void writeToCSource(Appendable a) throws IOException {
 	
@@ -84,6 +86,7 @@ public class EnumNode extends Scope {
 		// deeply while figuring out the meaning of life, the universe, and..EOF
 		
 	}
+	
 	
 	@Override
 	protected boolean isSpaced() {

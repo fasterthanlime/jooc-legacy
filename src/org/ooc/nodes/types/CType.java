@@ -30,7 +30,7 @@ public class CType extends SyntaxNode {
 		
 	}
 	
-	@Override
+	
 	public void writeToCSource(Appendable a) throws IOException {
 	
 		// Hahahaha. As if.

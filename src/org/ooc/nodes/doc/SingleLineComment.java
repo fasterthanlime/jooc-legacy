@@ -27,23 +27,26 @@ public class SingleLineComment extends LineSeparator implements Comment {
         this.content = content.replace('\n', ' ');
     }
 
+    
     @Override
-    public void writeToCSource(Appendable a) throws IOException {
+	public void writeToCSource(Appendable a) throws IOException {
     	writeWhitespace(a);
         a.append("// ");
         a.append(content);
         a.append("\n");
     }
     
-    @Override
+    
+	@Override
 	public String getDescription() {
     	return toString()+location;
     }
 
-	@Override
+	
 	public String getContent() {
 		return content;
 	}
+	
 	
 	@Override
 	protected boolean isSpaced() {

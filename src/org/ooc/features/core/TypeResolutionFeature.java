@@ -25,6 +25,7 @@ public class TypeResolutionFeature extends SingleFeature<Type> {
 		super(Type.class);
 	}
 
+	
 	@Override
 	protected void applyImpl(AssemblyManager manager, Type type) {
 		

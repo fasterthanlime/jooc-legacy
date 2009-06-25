@@ -26,10 +26,11 @@ public class UnmangledKeyword extends Keyword {
 		super(location);
 	}
 
-	@Override
+	
 	public void writeToCSource(Appendable a) throws IOException {
 		// Fiddledididooo.
 	}
+	
 	
 	@Override
 	protected void assembleImpl(AssemblyManager manager) {

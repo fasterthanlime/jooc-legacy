@@ -3,8 +3,6 @@ package org.ooc.nodes.others;
 import java.io.IOException;
 
 import org.ooc.errors.AssemblyManager;
-import org.ooc.nodes.clazz.MemberAccess;
-import org.ooc.nodes.clazz.StaticMemberAccess;
 import org.ooc.nodes.interfaces.Typed;
 import org.ooc.nodes.operators.Dot;
 import org.ooc.nodes.types.Type;
@@ -34,8 +32,9 @@ public class VariableAccess extends SyntaxNodeList implements Typed {
         
     }
 
+    
     @Override
-    protected void assembleImpl(AssemblyManager manager) {
+	protected void assembleImpl(AssemblyManager manager) {
     	
     	if(getParent() == null) {
     		return; // Boarf. Later.
@@ -49,8 +48,9 @@ public class VariableAccess extends SyntaxNodeList implements Typed {
         
     }
 
+    
     @Override
-    public void writeToCSource(Appendable a) throws IOException {
+	public void writeToCSource(Appendable a) throws IOException {
     	
     	writeWhitespace(a);
         a.append(variable.getName());
@@ -61,12 +61,14 @@ public class VariableAccess extends SyntaxNodeList implements Typed {
         return variable.type;
     }
     
-    @Override
+    
+	@Override
 	public String getDescription() {
     	return getClass().getSimpleName()+" #"+hash+" to "+toString()+location;
     }
 
-    @Override
+    
+	@Override
 	public boolean equals(Object object) {
 		
 		if(object instanceof Variable) {

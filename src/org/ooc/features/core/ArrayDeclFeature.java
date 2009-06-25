@@ -20,6 +20,7 @@ public class ArrayDeclFeature extends CoupleFeature<VariableDecl, Subscript> {
 		super(VariableDecl.class, Subscript.class);
 	}
 
+	
 	@Override
 	protected void applyImpl(AssemblyManager manager, VariableDecl decl, Subscript sub) {
 		

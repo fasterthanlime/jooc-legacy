@@ -24,8 +24,9 @@ public class AbstractKeyword extends Keyword {
         super(location);
     }
 
+    
     @Override
-    protected void assembleImpl(final AssemblyManager manager) {
+	protected void assembleImpl(final AssemblyManager manager) {
         
         SyntaxNode next = getNearestNextNotTyped(Keyword.class);
         if(next instanceof PotentiallyAbstract) {

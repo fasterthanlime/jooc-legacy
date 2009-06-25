@@ -25,12 +25,14 @@ public class OocDocComment extends MultiLineComment {
 		
 	}
 	
+	
 	@Override
 	protected String getPrelude() {
 	
 		return "/**";
 		
 	}
+	
 	
 	@Override
 	protected void assembleImpl(AssemblyManager manager) {
