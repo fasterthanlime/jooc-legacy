@@ -137,11 +137,6 @@ public class CommandLineInterface {
         	}
         }
         
-        if(props.verbose) {
-        	// Debug info
-        	System.out.println("classpath = "+System.getProperty("java.class.path"));
-        }
-        
         if(daemon) {
         	
         	if(!unitList.isEmpty()) {
