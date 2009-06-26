@@ -38,7 +38,7 @@ public class LibraryManager {
 			// FIXME repetitions should be avoided by using bitfields instead of an enum
 			gl.libNames.put(Target.LINUX, "GL");
 			gl.libNames.put(Target.SOLARIS, "GL");
-			gl.libNames.put(Target.WIN32, "opengl32");
+			gl.libNames.put(Target.WIN, "opengl" +  Target.getArch());
 			libs.put(gl.name, gl);
 		}
 		
@@ -48,7 +48,7 @@ public class LibraryManager {
 			glu.deps.add("gl");
 			glu.libNames.put(Target.LINUX, "GLU");
 			glu.libNames.put(Target.SOLARIS, "GLU");
-			glu.libNames.put(Target.WIN32, "glu32");
+			glu.libNames.put(Target.WIN, "glu" + Target.getArch());
 			libs.put(glu.name, glu);
 		}
 		
@@ -59,7 +59,7 @@ public class LibraryManager {
 			glut.deps.add("gl");
 			glut.libNames.put(Target.LINUX, "glut");
 			glut.libNames.put(Target.SOLARIS, "glut");
-			glut.libNames.put(Target.WIN32, "freeglut");
+			glut.libNames.put(Target.WIN, "freeglut");
 			libs.put(glut.name, glut);
 		}
 		
@@ -68,8 +68,8 @@ public class LibraryManager {
 			glut.incs.add("SDL/SDL.h");
 			glut.libNames.put(Target.LINUX, "SDL");
 			glut.libNames.put(Target.SOLARIS, "SDL");
-			glut.libNames.put(Target.WIN32, "SDLmain");
-			glut.libNames.put(Target.WIN32, "SDL");
+			glut.libNames.put(Target.WIN, "SDLmain");
+			glut.libNames.put(Target.WIN, "SDL");
 			libs.put(glut.name, glut);
 		}
 		
@@ -85,7 +85,7 @@ public class LibraryManager {
 			gc.incs.add("gc/gc.h");
 			gc.libNames.put(Target.LINUX, "gc");
 			gc.libNames.put(Target.SOLARIS, "gc");
-			gc.libNames.put(Target.WIN32, "gc");
+			gc.libNames.put(Target.WIN, "gc");
 			// FIXME it should be possible to set different dependencies on different platforms
 			gc.deps.add("pthread");
 			gc.staticByDefault = true;

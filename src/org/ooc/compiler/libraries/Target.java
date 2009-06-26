@@ -11,7 +11,7 @@ public enum Target {
 	/** various GNU/Linux */
 	LINUX,
 	/** Win 9x, NT, MinGW, etc.*/
-	WIN32,
+	WIN,
 	/** Solaris, OpenSolaris */
 	SOLARIS,
 	/** Haiku */
@@ -30,7 +30,7 @@ public enum Target {
 			os = os.toLowerCase();
 			
 			if(os.contains("windows")) {
-				instance = Target.WIN32;
+				instance = Target.WIN;
 			} else if(os.contains("linux")) {
 				instance = Target.LINUX;
 			} else if(os.contains("sunos")) {
@@ -46,19 +46,38 @@ public enum Target {
 		
 	}
 	
+	/**
+	 * @return true if we're on a 64bit arch
+	 */
+	public static boolean is64() {
+	
+		return System.getProperty("os.arch").indexOf("64") != -1;
+		
+	
+	}
+	
+	/**
+	 * @return '32' or '64' depending on the architecture
+	 */
+	public static String getArch() {
+	
+		return is64() ? "64" : "32";
+		
+	}
+	
 	
 	@Override
 	public String toString() {
 		
 		switch(this) {
-		case WIN32:
-			return "win32";
+		case WIN:
+			return "win" + getArch();
 		case LINUX:
-			return "linux";
+			return "linux" + getArch();
 		case SOLARIS:
-			return "solaris";
+			return "solaris" + getArch();
 		case HAIKU:
-			return "haiku";
+			return "haiku" + getArch();
 		default:
 			return super.toString();
 		}
