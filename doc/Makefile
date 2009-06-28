@@ -2,7 +2,7 @@
 
 DOCRES=/usr/share/sgml/stylesheets/dsssl/docbook/html
 
-all: langref
+all: langref compman
 	@echo "All done!"
 
 langref: langref.xml clean
@@ -10,5 +10,11 @@ langref: langref.xml clean
 	rm -f langref.zip
 	zip langref.zip -r langref/
 
+compman: compman.xml clean
+	cd compman && jade -t xml -d ${DOCRES}/docbook.xsl ../res/xml.dcl ../compman.xml
+	rm -rf compman.zip
+	zip compman.zip -r compman/
+
 clean:
 	rm -f langref/*
+	rm -f compman/*

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+"http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+<!ENTITY version "v0.2 ninja">
+<!ENTITY license SYSTEM "fdl.xml">
+]>
+<!-- 
+The cake is a lie.
+-->
+<book>
+  <bookinfo>
+    <title>ooc &version; Compiler Manual</title>
+
+    <author>
+      <firstname>Amos</firstname>
+
+      <surname>Wenger</surname>
+    </author>
+
+    <copyright>
+      <year>2009</year>
+
+      <holder>Amos Wenger</holder>
+    </copyright>
+
+    <date>2009-06-26</date>
+
+    <legalnotice>
+      <para>Distributed under the terms of the <link linkend="fdl" os="">GNU
+      Free Documentation License v1.3</link></para>
+    </legalnotice>
+
+    <abstract>
+      <para>This is the manuaal of the ooc compiler version &version;.</para>
+    </abstract>
+  </bookinfo>
+
+  <chapter>
+    <title>Usage</title>
+
+	<section>
+      <title>Examples</title>
+	  
+	  <para>This section contains typical examples of use of the ooc
+	  compiler. It should be enough to get you started </para>
+	  
+	  <section><title>Hello, ooc world.</title>
+	  
+	  <para></para>
+	  
+	  </section>
+	  
+	 </section>
+
+    <section>
+      <title>Paths</title>
+
+          <para>blah blah blah</para>
+	</section>
+  </chapter>
+
+  <appendix id="fdl">
+    &license;
+  </appendix>
+</book>

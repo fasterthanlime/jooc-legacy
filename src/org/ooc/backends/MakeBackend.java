@@ -148,7 +148,6 @@ public class MakeBackend extends Backend {
 			}
 			for(String path: props.incPath) {
 				writer.append(cc.getIncludePath(path));
-				writer.append(path);
 				writer.append(" ");
 			}
 			if(!props.pkgInfos.isEmpty()) {
