@@ -31,32 +31,101 @@ The cake is a lie.
     </legalnotice>
 
     <abstract>
-      <para>This is the manuaal of the ooc compiler version &version;.</para>
+      <para>This is the manual of the ooc compiler version &version;.</para>
     </abstract>
   </bookinfo>
 
   <chapter>
+    <title>Installation</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>Download the release for your platform from one of the mirrors
+        at <ulink
+        url="http://ooc-lang.org/download">http://ooc-lang.org/download</ulink></para>
+      </listitem>
+
+      <listitem>
+        <para>Follow the instructions in the INSTALL file for your
+        distribution.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>Often, the installation is as easy as extracting the archive and
+    adding ooc/bin to your PATH, or making a symbolic link to ooc/bin/ooc in
+    /usr/bin/</para>
+  </chapter>
+
+  <chapter>
     <title>Usage</title>
 
-	<section>
+    <section>
       <title>Examples</title>
-	  
-	  <para>This section contains typical examples of use of the ooc
-	  compiler. It should be enough to get you started </para>
-	  
-	  <section><title>Hello, ooc world.</title>
-	  
-	  <para></para>
-	  
-	  </section>
-	  
-	 </section>
+
+      <para>This section contains typical examples of use of the ooc compiler.
+      It should be enough to get you started</para>
+
+      <section>
+        <title>Hello world</title>
+
+        <para>Let's assume you have the file helloworld.ooc containing</para>
+
+        <programlisting>func main {
+
+  printf("Hello world!");
+
+}</programlisting>
+
+        <para>You can compile it with</para>
+
+        <programlisting>ooc helloworld.ooc</programlisting>
+
+        <para>or</para>
+
+        <programlisting>ooc helloworld</programlisting>
+
+        <para>This will produce an executable named
+        <literal>helloworld</literal> or <literal>helloworld.exe</literal>
+        depending on your operating system.</para>
+
+        <para>Compilation without the file extension is very convenient with
+        auto completion in shells. Often, when you have
+        <literal>helloworld.ooc</literal> and <literal>helloworld</literal> in
+        the same directory, if you type
+        <literal><literal>he</literal></literal> and press Tab, it will be
+        completed to <literal>helloworld</literal> only.</para>
+      </section>
+
+      <section>
+        <title>Packages</title>
+
+        <para>Let's assume you have the file <literal>dummytest.ooc</literal>
+        in the package <literal>test</literal>, (path:
+        <filename>test/dummytest.ooc</filename>), you can compile it
+        with:</para>
+
+        <programlisting>ooc test/dummytest.ooc</programlisting>
+
+        <para>or</para>
+
+        <programlisting>ooc test.dummytest</programlisting>
+
+        <para>Either way work exactly the same.</para>
+      </section>
+    </section>
 
     <section>
-      <title>Paths</title>
+      <title>Options</title>
 
-          <para>blah blah blah</para>
-	</section>
+      <section>
+        <title>Verbose output</title>
+
+        <para>The <literal>-v</literal> option provides a lot more information
+        about the compilation process. It can help sort out dependencies
+        issues, and prints the commands it issues (e.g. gcc command line
+        calls).</para>
+      </section>
+    </section>
   </chapter>
 
   <appendix id="fdl">

@@ -126,6 +126,31 @@ public class CommandLineInterface {
         			Version.printVersion();
         			System.exit(0);
         			
+        		} else if(option.equals("h") || option.equals("-help") || option.equals("help")) {
+        			
+        			Help.printHelp();
+        			System.exit(0);
+        			
+        		} else if(option.equals("help-backends") || option.equals("-help-backends")) {
+        			
+        			Help.printHelpBackends();
+        			System.exit(0);
+        			
+        		} else if(option.equals("help-gcc") || option.equals("-help-gcc")) {
+        			
+        			Help.printHelpGcc();
+        			System.exit(0);
+        			
+        		} else if(option.equals("help-make") || option.equals("-help-make")) {
+        			
+        			Help.printHelpMake();
+        			System.exit(0);
+        			
+        		} else if(option.equals("help-none") || option.equals("-help-none")) {
+        			
+        			Help.printHelpNone();
+        			System.exit(0);
+        			
         		} else {
         			
         			System.err.println("Unrecognized option: '"+arg+"'");

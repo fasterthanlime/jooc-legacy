@@ -1,0 +1,343 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML
+><HEAD
+><TITLE
+>Usage</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.79"/><LINK
+REL="HOME"
+TITLE="ooc v0.2 ninja Compiler Manual"
+HREF="book1.htm"/><LINK
+REL="PREVIOUS"
+TITLE="Installation"
+HREF="c16.htm"/><LINK
+REL="NEXT"
+TITLE="Options"
+HREF="x70.htm"/></HEAD
+><BODY
+CLASS="chapter"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>ooc v0.2 ninja Compiler Manual</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="c16.htm"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+></TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x70.htm"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"/></DIV
+><DIV
+CLASS="chapter"
+><H1
+><A
+NAME="AEN25"
+></A
+>Chapter 2. Usage</H1
+><DIV
+CLASS="TOC"
+><DL
+><DT
+><B
+>Table of Contents</B
+></DT
+><DT
+><A
+HREF="c25.htm#AEN27"
+>Examples</A
+></DT
+><DT
+><A
+HREF="x70.htm"
+>Options</A
+></DT
+></DL
+></DIV
+><DIV
+CLASS="section"
+><H1
+CLASS="section"
+><A
+NAME="AEN27"
+>Examples</A
+></H1
+><P
+>This section contains typical examples of use of the ooc compiler.
+      It should be enough to get you started</P
+><DIV
+CLASS="section"
+><H2
+CLASS="section"
+><A
+NAME="AEN30"
+>Hello world</A
+></H2
+><P
+>Let's assume you have the file helloworld.ooc containing</P
+><PRE
+CLASS="programlisting"
+>func main {
+
+  printf("Hello world!");
+
+}</PRE
+><P
+>You can compile it with</P
+><PRE
+CLASS="programlisting"
+>ooc helloworld.ooc</PRE
+><P
+>or</P
+><PRE
+CLASS="programlisting"
+>ooc helloworld</PRE
+><P
+>This will produce an executable named
+        <TT
+CLASS="literal"
+>helloworld</TT
+> or <TT
+CLASS="literal"
+>helloworld.exe</TT
+>
+        depending on your operating system.</P
+><P
+>Compilation without the file extension is very convenient with
+        auto completion in shells. Often, when you have
+        <TT
+CLASS="literal"
+>helloworld.ooc</TT
+> and <TT
+CLASS="literal"
+>helloworld</TT
+> in
+        the same directory, if you type
+        <TT
+CLASS="literal"
+><TT
+CLASS="literal"
+>he</TT
+></TT
+> and press Tab, it will be
+        completed to <TT
+CLASS="literal"
+>helloworld</TT
+> only.</P
+></DIV
+><DIV
+CLASS="section"
+><H2
+CLASS="section"
+><A
+NAME="AEN47"
+>Packages</A
+></H2
+><P
+>Let's assume you have the file <TT
+CLASS="literal"
+>dummytest.ooc</TT
+>
+        in the package <TT
+CLASS="literal"
+>test</TT
+>, (path:
+        <TT
+CLASS="filename"
+>test/dummytest.ooc</TT
+>), you can compile it
+        with:</P
+><PRE
+CLASS="programlisting"
+>ooc test/dummytest.ooc</PRE
+><P
+>or</P
+><PRE
+CLASS="programlisting"
+>ooc test.dummytest</PRE
+><P
+>Either way work exactly the same.</P
+></DIV
+><DIV
+CLASS="section"
+><H2
+CLASS="section"
+><A
+NAME="AEN57"
+>Getting the C files</A
+></H2
+><P
+>By default, the gcc backend erases the .c/.h files it produces
+        after compilation is finished, because they are only temporary files.
+        If you want to prevent that, use the -noclean option.</P
+><PRE
+CLASS="programlisting"
+>$ ooc helloworld.ooc -noclean
+$ cd ooc_tmp/
+$ vim helloworld.c helloworld.h OocLib.c OocLib.h</PRE
+></DIV
+><DIV
+CLASS="section"
+><H2
+CLASS="section"
+><A
+NAME="AEN61"
+>The make backend</A
+></H2
+><P
+>If you want to output all your .c/.h sources in a directory and
+        compile it later / on another platform, etc., you can use the make
+        backend. Here's an example session of how to compile with the make
+        backend:</P
+><PRE
+CLASS="programlisting"
+>$ ooc helloworld.ooc -backend=make -outpath=export
+$ make -f export/Makefile
+$ ./helloworld
+I'm tired of saying hello to world.
+$ #wtf ?</PRE
+><DIV
+CLASS="warning"
+><P
+></P
+><TABLE
+CLASS="warning"
+BORDER="1"
+WIDTH="100%"
+><TR
+><TD
+ALIGN="CENTER"
+><B
+>Warning</B
+></TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+><P
+>There is a bug in the 0.2 version of the ooc compiler which
+          writes incorrect include paths in the generated Makefile. This has
+          been fixed and won't be present in the following releases. As a
+          temporary workaround, you can compile with:</P
+><PRE
+CLASS="programlisting"
+>$ CFLAGS=-I/opt/ooc/libs/headers/ make -f export/Makefile</PRE
+><P
+>Where /opt/ooc is the path where you installed ooc, of
+          course.</P
+></TD
+></TR
+></TABLE
+></DIV
+><P
+>The make backend is especially useful with large projects, which
+        can take a long time to compile (especially if you're using the GTK
+        binding which is pretty class-heavy). This way, the ooc compiler part
+        will be done each time, but gcc will only be called on files that have
+        changed. Note that the make backend isn't smart enough yet to
+        recompile everything that has changed, so if you encounter strange
+        bugs in your program, make clean and recompile everything from scratch
+        (this happens when you remove/add a method/field in the middle of
+        others). This behavior is a limitation of the compiler and will be
+        fixed in the next releases.</P
+></DIV
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"/><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="c16.htm"
+ACCESSKEY="P"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="book1.htm"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x70.htm"
+ACCESSKEY="N"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Installation</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+>&nbsp;</TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Options</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

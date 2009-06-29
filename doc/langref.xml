@@ -254,7 +254,7 @@ Nick the Greek: What's that? Some place near Katmandu? Meet me halfway, mate.";<
                 </row>
 
                 <row>
-                  <entry>unsigned char, uint8_t</entry>
+                  <entry>uint8_t</entry>
 
                   <entry>byte</entry>
 
