@@ -1,5 +1,0 @@
-CompilerDaemon:      Started ooc compiler daemon at port 14269 Wed May 06 13:24:09 GMT 2009
-CompilerDaemon:      Got connection to ooc compiler daemon from /127.0.0.1:49252
-CompilerDaemon:      Socket closed
-CompilerDaemon:      Stopped ooc compiler daemon at port 14269 Wed May 06 13:24:10 GMT 2009. Ran for 0.178 seconds.
-CompilerDaemon:      Connection closed from /127.0.0.1:49252
