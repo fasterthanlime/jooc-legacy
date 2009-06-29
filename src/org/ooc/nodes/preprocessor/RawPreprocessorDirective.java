@@ -26,13 +26,7 @@ public class RawPreprocessorDirective extends PreprocessorDirective {
 
     
     public void writeToCSource(Appendable a) throws IOException {
-        // Well, nothing sir.
-    }
-    
-    
-    @Override
-	public void writeToCHeader(Appendable a) throws IOException {
-    	a.append('#');
+    	a.append("\n#");
         a.append(content);
     }
 	
