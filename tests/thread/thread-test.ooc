@@ -1,9 +1,11 @@
-import Thread;
+import os.Thread;
 
 class MyThread from Thread {
 	String name;
 	func new(=name);
-
+	func new {
+		super()
+	}
 	func run{
 		for (Int i: 0..10) {
 			printf("Thread %s, iterator %d\n",name,i);
