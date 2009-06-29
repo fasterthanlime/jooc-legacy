@@ -6,7 +6,6 @@ import structs.ArrayList;
 
 typedef pthread_t Pthread;
 
-
 /**
  * ThreadManager implements ArrayList to append threads
  */

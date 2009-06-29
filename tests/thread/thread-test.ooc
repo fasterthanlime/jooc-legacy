@@ -1,5 +1,11 @@
 import os.Thread;
+import os.Time;
 
+
+/**
+* MyThread implements Thread
+* MUST implement "run" method
+*/
 class MyThread from Thread {
 
 	String name;
@@ -15,8 +21,12 @@ class MyThread from Thread {
 	}
 
 	func run{
-		for (Int i: 0..10) {
-			printf("Thread %s, iterator %d\n",name,i);
+		srand ( ctime (null) );
+		for (Int i: 0..5) {
+			Float sl =  rand () % 5;
+			sl /= 3;	
+			Time.sleepSec( sl );
+			printf("Thread %s, iterator %d, wait: %2f\n",name,i,sl);
 		}
 	}
 }
@@ -24,16 +34,19 @@ class MyThread from Thread {
 
 func main {
 
+	printf("Let's go \n");
+
+	//the thread manager
 	ThreadManager tm = new;
 	
 	//append 2 threads
 	MyThread t1 = new;
-	MyThread t2=new;
+	MyThread t2 = new;
 
 	tm.add(t1);
 	tm.add(t2);
 
 	//start threads
 	tm.start();
-
+	
 }
