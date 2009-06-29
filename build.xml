@@ -3,7 +3,7 @@
         simple example build file
     </description>
   <!-- set global properties for this build -->
-  <property name="src" location="src:../ubi/src"/>
+  <property name="src" location="src"/>
   <property name="build" location="utils/build"/>
 
   <target name="init">
