@@ -4,4 +4,10 @@ class File {
 	
 	new(=path);
 	
+	func children -> List {
+		
+		
+		
+	}
+	
 }

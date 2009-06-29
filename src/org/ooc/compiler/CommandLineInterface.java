@@ -123,7 +123,7 @@ public class CommandLineInterface {
         			
         		} else if(option.equals("V") || option.equals("-version") || option.equals("version")) {
         			
-        			Version.printVersion();
+        			CompilerVersion.printVersion();
         			System.exit(0);
         			
         		} else if(option.equals("h") || option.equals("-help") || option.equals("help")) {

@@ -19,6 +19,7 @@
     <javac srcdir="${src}" destdir="${build}" compiler="gcj">
 	  <compilerarg value="-c"/>
 	  <compilerarg value="-O3"/>
+	  <compilerarg value="-g"/>
 	</javac>
   </target>
 
