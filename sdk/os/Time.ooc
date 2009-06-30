@@ -24,7 +24,15 @@ class Time {
 	}
 	
 	static func sleepSec(Float duration) {
-		usleep(duration * 1_000_000);
+		usleep((UInt) (duration * 1_000_000f));
+	}
+
+	static func sleepMilli(UInt duration) {
+		usleep((UInt) (duration * 1_000));
+	}
+
+	static func sleepMicro(UInt duration) {
+		usleep((UInt) duration);
 	}
 
 }

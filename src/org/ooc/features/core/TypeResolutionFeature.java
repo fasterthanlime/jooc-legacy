@@ -100,6 +100,8 @@ public class TypeResolutionFeature extends SingleFeature<Type> {
 			}
 		}
     	
+    	System.out.println("Resolving type "+type.getDescription()+", name = "+type.name);
+    	
     	if(type.isResolved) {
     		type.lock();
     		manager.clean(type);
