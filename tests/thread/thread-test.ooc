@@ -1,6 +1,5 @@
-import os.Thread;
+import os.ThreadManager;
 import os.Time;
-
 
 /**
 * MyThread implements Thread
