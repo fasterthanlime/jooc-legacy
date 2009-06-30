@@ -1,28 +1,10 @@
-use pthread;
-include stdlib;
-include stdio;
-include pthread;
-import structs.ArrayList;
-
-typedef pthread_t Pthread;
-
 /**
- * ThreadManager implements ArrayList to append threads
- */
-class ThreadManager from ArrayList {
-
-	func new;
-	func start {
-		for (Thread managed : this) {
-			managed.start;
-		}
-		for (Thread managed : this) {
-			managed.wait;
-		}
-	}
-}
-
-
+* POSIX Thread creator. You only have to implement "run" method
+* @author Patrice Ferlet <metal3d@gmail.com>
+*/
+use pthread;
+include stdlib,stdio, pthread;
+typedef pthread_t Pthread;
 
 /**
  * Thread class
