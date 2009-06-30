@@ -32,10 +32,10 @@ class TypeDefParser implements Parser {
 			
 			//System.err.println(reader.getLocation()+" TypeDef: trying to read a type def...");
 			
-			Type typeUsage = null;
+			Type type = null;
 			
 			reader.skipWhitespace();
-	        typeUsage = Type.read(null, reader);
+	        type = Type.read(null, reader);
 	        reader.skipWhitespace();
 
 			TypeDef typeDef;
@@ -81,19 +81,18 @@ class TypeDefParser implements Parser {
 	        	// Now read the args.. but won't be much use really
 	        	String args = reader.readBlock('(', ')');
 	        	
-	        	typeDef = new TypeDefFunctionPointer(reader.getLocation(), typeUsage, name, args);
+	        	typeDef = new TypeDefFunctionPointer(reader.getLocation(), type, name, args);
 	        	
 	        } else {
 	        	
 	        	// Simple typedef, just read the name
 	        	String name = reader.readName();
-	        	
 	        	if(name.equals("enum")) {
 	        		// Just give up for now..
 	        		return null;
 	        	}
 	        	
-	        	typeDef = new TypeDef(reader.getLocation(), typeUsage, name);	
+	        	typeDef = new TypeDef(reader.getLocation(), type, name);	
 	        
 	        }
 	        

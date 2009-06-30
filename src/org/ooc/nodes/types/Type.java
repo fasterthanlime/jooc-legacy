@@ -47,6 +47,16 @@ public class Type extends SyntaxNode {
 	 */
 	public boolean isCover;
 	
+	/**
+	 * true if is a struct
+	 */
+	public boolean isStruct;
+	
+	/**
+	 * true if is an enum
+	 */
+	public boolean isEnum;
+	
 	/** Set to true when the type is resolved */
 	public boolean isResolved;
     
@@ -189,6 +199,7 @@ public class Type extends SyntaxNode {
         reader.skipWhitespace();
         
         boolean resolved = false;
+        boolean isStruct = false, isEnum = false;
         int mark = reader.mark();
         String type = TypeParser.readTypeName(reader);
         if(type.isEmpty()) {
@@ -206,9 +217,18 @@ public class Type extends SyntaxNode {
     				throw new CompilationFailedError(context.reader.getLocation(), "Using 'This' type outside a class definition!");
     			}
     			type = def.clazz.underName;
-    		} else if(type.equals("struct") || type.equals("enum")) {
+    		} else if(type.equals("struct")) {
+    			
+    			isStruct = true;
+    			reader.skipWhitespace();
+	        	type = reader.readName().trim();
+	        	
+    		} else if(type.equals("enum")) {
+    			
+    			isEnum = true;
 	        	reader.skipWhitespace();
-	        	type += " "+reader.readName().trim();
+	        	type = reader.readName().trim();
+	        	
             }
         	
         } else {
@@ -226,6 +246,8 @@ public class Type extends SyntaxNode {
         Type typeUsage = new Type(reader.getLocation(),
         		context == null ? null : context.source.getRoot(),
         				type, pointerLevel, arrayLevel);
+        typeUsage.isStruct = isStruct;
+        typeUsage.isEnum = isEnum;
         typeUsage.isResolved = resolved;
 		return typeUsage;
         

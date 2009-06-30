@@ -3,19 +3,22 @@ include stdio, sys/types, dirent;
 import lang.String;
 import structs.List, structs.ArrayList;
 
-ctype DIR;
-ctype dirent;
+ctype DIR, dirent;
 typedef DIR* Dir;
 typedef struct dirent* DirEntry;
 
 class File {
 
 	String path;
-	version(unix) {
-		static String separator = "/";
-	}
-	version(windows) {
-		static String separator = "\\";
+	static String separator;
+	
+	static {
+		version(unix) {
+			separator = "/";
+		}
+		version(windows) {
+			separator = "\\";
+		}
 	}
 	
 	func new(=path);
