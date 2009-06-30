@@ -11,6 +11,7 @@ typedef pthread_t Pthread;
  * ThreadManager implements ArrayList to append threads
  */
 class ThreadManager from ArrayList {
+
 	func new;
 	func start {
 		for (Thread managed : this) {
@@ -38,6 +39,7 @@ abstract class Thread {
  	* This is the method to implement wich will be run has thread
  	*/
 	abstract func run;
+
 	func rrun{
 		run;
 	}

@@ -18,7 +18,6 @@
             	<attribute name="Implementation-Version" value="${version.num}, built on ${TODAY}"/> 
             </manifest>
             <fileset dir="/blue/Dev/ooc/build/classes"/>
-            <fileset dir="/blue/Dev/ubi/build/classes"/>
         </jar>
     </target>
 </project>

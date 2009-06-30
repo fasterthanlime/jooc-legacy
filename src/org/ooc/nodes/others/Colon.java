@@ -60,8 +60,9 @@ public class Colon extends RawCode {
             		if(type.clazz == null) {
             			manager.errAndFail("Trying to foreach over a non-class type. Did you forget to import a cover?", next);
             		}
-            		if(!type.clazz.hasUnmangledFunction("iterator")) {
-            			manager.errAndFail("Trying to foreach over the variable '"+access.toString()+"' of type '"+type.name+"' which doesn't have an iterator method.", next);
+            		if(type.clazz.getUnmangledFunctionsRecursive(manager.getContext(), "iterator").isEmpty()) {
+            			manager.queue(this, "Trying to foreach over the variable '"+access.toString()+"' of type '"+type.name+"' which doesn't have an iterator method.");
+            			return;
             		}
 					ForEach foreach = new ForEach(location, (VariableDecl) prev, access);
                     getParent().replaceWith(manager, foreach);
