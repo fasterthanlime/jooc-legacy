@@ -2,22 +2,22 @@
 <HTML
 ><HEAD
 ><TITLE
->The myth of the lost source files</TITLE
+>Automagic library management</TITLE
 ><META
 NAME="GENERATOR"
 CONTENT="Modular DocBook HTML Stylesheet Version 1.79"/><LINK
 REL="HOME"
-TITLE="ooc v0.2 ninja Compiler Manual"
+TITLE="ooc v0.2.1 ninja Language Reference"
 HREF="book1.htm"/><LINK
 REL="UP"
-TITLE="Pitfalls"
-HREF="c149.htm"/><LINK
+TITLE="Packages, headers, libraries"
+HREF="c519.htm"/><LINK
 REL="PREVIOUS"
-TITLE="Pitfalls"
-HREF="c149.htm"/><LINK
+TITLE="C headers"
+HREF="x539.htm"/><LINK
 REL="NEXT"
-TITLE="Consider all the options"
-HREF="x158.htm"/></HEAD
+TITLE="ABI (Application Binary Interface)"
+HREF="a564.htm"/></HEAD
 ><BODY
 CLASS="section"
 BGCOLOR="#FFFFFF"
@@ -37,7 +37,7 @@ CELLSPACING="0"
 ><TH
 COLSPAN="3"
 ALIGN="center"
->ooc v0.2 ninja Compiler Manual</TH
+>ooc v0.2.1 ninja Language Reference</TH
 ></TR
 ><TR
 ><TD
@@ -45,7 +45,7 @@ WIDTH="10%"
 ALIGN="left"
 VALIGN="bottom"
 ><A
-HREF="c149.htm"
+HREF="x539.htm"
 ACCESSKEY="P"
 >Prev</A
 ></TD
@@ -53,13 +53,13 @@ ACCESSKEY="P"
 WIDTH="80%"
 ALIGN="center"
 VALIGN="bottom"
->Chapter 3. Pitfalls</TD
+>Chapter 6. Packages, headers, libraries</TD
 ><TD
 WIDTH="10%"
 ALIGN="right"
 VALIGN="bottom"
 ><A
-HREF="x158.htm"
+HREF="a564.htm"
 ACCESSKEY="N"
 >Next</A
 ></TD
@@ -73,17 +73,51 @@ CLASS="section"
 ><H1
 CLASS="section"
 ><A
-NAME="AEN154"
->The myth of the lost source files</A
+NAME="AEN552"
+>Automagic library management</A
 ></H1
 ><P
->What happens if you compile a .ooc file without a main function ?
-      Nothing. If the file has no syntax errors, the compiler will parse it,
-      validate it, and happily return.</P
+>The <TT
+CLASS="literal"
+>use</TT
+> keyword allows automagic management of
+      includes and linking. Example:</P
+><PRE
+CLASS="programlisting"
+>use glut;
+
+func main {
+
+  // use glut functions
+
+}</PRE
 ><P
->This is a naive behavior of the ooc compiler. It will be fixed in
-      the next releases, when the possibility of creating easily shared
-      libraries from ooc will be considered more in details.</P
+>The 'use glut' statement above will include the glut headers, link
+      with the glut library (<TT
+CLASS="literal"
+>-lglut</TT
+>), and it depends on
+      'use glu' and 'use gl', which will in turn link with
+      <TT
+CLASS="literal"
+>-lGLU</TT
+> and <TT
+CLASS="literal"
+>-lGL</TT
+> and include
+      GL/GL.h, etc.</P
+><P
+>The sweet thing, is that it links with the right library,
+      depending on the platform! E.g. 'use gc', which is implicit in every ooc
+      class, links with a static version of the gc library for your platform.
+      'use gl' links with <TT
+CLASS="literal"
+>-lopengl32</TT
+> on Windows, and so
+      on.</P
+><P
+>Even for libraries not handled specially ooc, you can link to them
+      with 'use lib', it will link with '-llib'.</P
 ></DIV
 ><DIV
 CLASS="NAVFOOTER"
@@ -101,7 +135,7 @@ WIDTH="33%"
 ALIGN="left"
 VALIGN="top"
 ><A
-HREF="c149.htm"
+HREF="x539.htm"
 ACCESSKEY="P"
 >Prev</A
 ></TD
@@ -119,7 +153,7 @@ WIDTH="33%"
 ALIGN="right"
 VALIGN="top"
 ><A
-HREF="x158.htm"
+HREF="a564.htm"
 ACCESSKEY="N"
 >Next</A
 ></TD
@@ -129,13 +163,13 @@ ACCESSKEY="N"
 WIDTH="33%"
 ALIGN="left"
 VALIGN="top"
->Pitfalls</TD
+>C headers</TD
 ><TD
 WIDTH="34%"
 ALIGN="center"
 VALIGN="top"
 ><A
-HREF="c149.htm"
+HREF="c519.htm"
 ACCESSKEY="U"
 >Up</A
 ></TD
@@ -143,7 +177,7 @@ ACCESSKEY="U"
 WIDTH="33%"
 ALIGN="right"
 VALIGN="top"
->Consider all the options</TD
+>ABI (Application Binary Interface)</TD
 ></TR
 ></TABLE
 ></DIV

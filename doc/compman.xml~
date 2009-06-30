@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
 "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
-<!ENTITY version "v0.2 ninja">
+<!ENTITY version "v0.2.1 ninja">
 <!ENTITY license SYSTEM "fdl.xml">
 ]>
 <!-- 
@@ -23,7 +23,7 @@ The cake is a lie.
       <holder>Amos Wenger</holder>
     </copyright>
 
-    <date>2009-06-26</date>
+    <date>2009-06-29</date>
 
     <legalnotice>
       <para>Distributed under the terms of the <link linkend="fdl" os="">GNU
@@ -112,20 +112,358 @@ The cake is a lie.
 
         <para>Either way work exactly the same.</para>
       </section>
+
+      <section>
+        <title>Getting the C files</title>
+
+        <para>By default, the gcc backend erases the .c/.h files it produces
+        after compilation is finished, because they are only temporary files.
+        If you want to prevent that, use the -noclean option.</para>
+
+        <programlisting>$ ooc helloworld.ooc -noclean
+$ cd ooc_tmp/
+$ vim helloworld.c helloworld.h OocLib.c OocLib.h</programlisting>
+      </section>
+
+      <section>
+        <title>The make backend</title>
+
+        <para>If you want to output all your .c/.h sources in a directory and
+        compile it later / on another platform, etc., you can use the make
+        backend. Here's an example session of how to compile with the make
+        backend:</para>
+
+        <programlisting>$ ooc helloworld.ooc -backend=make -outpath=export
+$ make -f export/Makefile
+$ ./helloworld
+I'm tired of saying hello to world.
+$ #wtf ?</programlisting>
+
+        <warning>
+          <para>There is a bug in the 0.2 version of the ooc compiler which
+          writes incorrect include paths in the generated Makefile. This has
+          been fixed and won't be present in the following releases. As a
+          temporary workaround, you can compile with:</para>
+
+          <programlisting>$ CFLAGS=-I/opt/ooc/libs/headers/ make -f export/Makefile</programlisting>
+
+          <para>Where /opt/ooc is the path where you installed ooc, of
+          course.</para>
+        </warning>
+
+        <para>The make backend is especially useful with large projects, which
+        can take a long time to compile (especially if you're using the GTK
+        binding which is pretty class-heavy). This way, the ooc compiler part
+        will be done each time, but gcc will only be called on files that have
+        changed. Note that the make backend isn't smart enough yet to
+        recompile everything that has changed, so if you encounter strange
+        bugs in your program, make clean and recompile everything from scratch
+        (this happens when you remove/add a method/field in the middle of
+        others). This behavior is a limitation of the compiler and will be
+        fixed in the next releases.</para>
+      </section>
     </section>
 
     <section>
       <title>Options</title>
 
       <section>
-        <title>Verbose output</title>
+        <title>Cheat sheets</title>
 
-        <para>The <literal>-v</literal> option provides a lot more information
-        about the compilation process. It can help sort out dependencies
-        issues, and prints the commands it issues (e.g. gcc command line
-        calls).</para>
+        <table>
+          <title>Cheat sheet of compiler options</title>
+
+          <tgroup cols="2">
+            <tbody>
+              <row>
+                <entry>-v, -verbose</entry>
+
+                <entry>verbose</entry>
+              </row>
+
+              <row>
+                <entry>-g, -debug</entry>
+
+                <entry>compile with debug information</entry>
+              </row>
+
+              <row>
+                <entry>-noclean</entry>
+
+                <entry>don't delete any temporary file produced by the
+                backend</entry>
+              </row>
+
+              <row>
+                <entry>-backend=[gcc,make,none],backendoption1,backendoption2</entry>
+
+                <entry>choose the compiler backend (default=gcc)</entry>
+              </row>
+
+              <row>
+                <entry>-gui</entry>
+
+                <entry>secret graphical compilation debugging tool (don't push
+                the red button)</entry>
+              </row>
+
+              <row>
+                <entry>-daemon:port</entry>
+
+                <entry>start the compiler daemon on the specified port</entry>
+              </row>
+
+              <row>
+                <entry>-sourcepath=output/path/</entry>
+
+                <entry>location of your source files</entry>
+              </row>
+
+              <row>
+                <entry>-outpath</entry>
+
+                <entry>where to output the .c/.h files (useful with the make
+                backend)</entry>
+              </row>
+
+              <row>
+                <entry>-I/your/include/path,
+                -incpath=/your/include/path</entry>
+
+                <entry>where to find C headers</entry>
+              </row>
+
+              <row>
+                <entry>-L/your/library/path,
+                -libpath=/your/library/path</entry>
+
+                <entry>where to find libraries to link with</entry>
+              </row>
+
+              <row>
+                <entry>-lmylib</entry>
+
+                <entry>link with library 'mylib'</entry>
+              </row>
+
+              <row>
+                <entry>-timing</entry>
+
+                <entry>print how much time it took to compile</entry>
+              </row>
+
+			  <row>
+                <entry>-V, -version, --version</entry>
+
+                <entry>display the compiler version and exit</entry>
+              </row>
+			  
+			  <row>
+                <entry>-h, -help, --help</entry>
+
+                <entry>display a short help message and exit</entry>
+              </row>
+
+              <row>
+                <entry>-r, -run</entry>
+
+                <entry>runs the executable after compilation</entry>
+              </row>
+			  
+            </tbody>
+          </tgroup>
+        </table>
+
+        <para>To use backend options, simply append them to the
+        -backend=backendname option, separated with commas (,),
+        example:</para>
+
+        <programlisting>$ ooc helloworld.ooc -backend=gcc,-g,-clean=no,-verbose=yes,-O3,-fomit-frame-pointer,-pedantic,-Wall</programlisting>
+
+        <para>(a kind of extreme example, I agree)</para>
+
+        <table>
+          <title>Cheat sheet of the gcc backend options</title>
+
+          <tgroup cols="2">
+            <tbody>
+              <row>
+                <entry>-clean=[yes,no]</entry>
+
+                <entry>delete (or not) temporary files. default: yes.
+                overriden by the global option -noclean</entry>
+              </row>
+
+              <row>
+                <entry>-verbose=[yes,no]</entry>
+
+                <entry>print the gcc command lines called from the backend.
+                overriden by the global options -v, -verbose</entry>
+              </row>
+
+              <row>
+                <entry>-shout=[yes,no], -s</entry>
+
+                <entry>prints a big fat [ OK ] at the end of the compilation
+                if it was successful (in green, on Linux platforms)</entry>
+              </row>
+
+              <row>
+                <entry>any other option</entry>
+
+                <entry>passed to gcc</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+
+        <table>
+          <title>Cheat sheet of the make backend options</title>
+
+          <tgroup cols="2">
+            <tbody>
+              <row>
+                <entry>-cc=[gcc,icl]</entry>
+
+                <entry>write a Makefile to be compatible with the said
+                compiler (only GNU gcc and Intel Compiler on Linux option
+                styles supported yet. Easy to add, go through the source and
+                submit a patch, if you dare)</entry>
+              </row>
+
+              <row>
+                <entry>-link=libname.a</entry>
+
+                <entry>link with the static library libname.a</entry>
+              </row>
+
+              <row>
+                <entry>any other option</entry>
+
+                <entry>passed to the compiler</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
       </section>
     </section>
+  </chapter>
+
+  <chapter>
+    <title>Pitfalls</title>
+
+    <section>
+      <title>sourcepath (ooc) vs classpath (Java)</title>
+
+      <para>In Java, classes have a 'package org.blah.thingy.feature;'
+      declaration at the beginning of their source files. In ooc, they don't.
+      So you have to be careful with your path: changing your path means
+      potentially changing the package in which ooc thinks your classes
+      are.</para>
+    </section>
+
+    <section>
+      <title>The myth of the lost source files</title>
+
+      <para>What happens if you compile a .ooc file without a main function ?
+      Nothing. If the file has no syntax errors, the compiler will parse it,
+      validate it, and happily return.</para>
+
+      <para>This is a naive behavior of the ooc compiler. It will be fixed in
+      the next releases, when the possibility of creating easily shared
+      libraries from ooc will be considered more in details.</para>
+    </section>
+
+    <section>
+      <title>Consider all the options</title>
+
+      <para>The ooc compiler recognizes and take into account the environment
+      variables CFLAGS, C_INCLUDE_PATH, and LIBRARY_PATH if you need them for
+      any reason beyond the scope of my imagination.</para>
+    </section>
+  </chapter>
+
+  <chapter>
+    <title>Compiling the ooc compiler (Advanced)</title>
+
+    <para>The easiest way to develop/improve the ooc compiler is to run it
+    from jar. A setup like this one is recommended on people who want to
+    develop the compiler:</para>
+
+    <programlisting>$ ln -s /opt/ooc/bin/ooc /usr/bin/ooc
+$ cp /opt/ooc/utils/launch-script.sh /usr/bin/ooc-jar
+$ vim /usr/bin/ooc-jar #set the correct path to the jar, e.g. /opt/ooc/bin/ooc.jar by default
+$ ooc helloworld.ooc #run with the gcj-compiled
+$ ooc-jar helloworld.ooc #run with the ant-generated jar version</programlisting>
+
+    <para>A few guidelines when working on the ooc compiler:a</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Checkout the git repository. <emphasis
+        role="bold">Never</emphasis> work from a release. <ulink
+        url="http://github.com/amoswenger/ooc">http://github.com/amoswenger/ooc</ulink></para>
+      </listitem>
+
+      <listitem>
+        <para>It has already an Eclipse .project file, so import it, don't
+        create your own project file.</para>
+      </listitem>
+
+      <listitem>
+        <para>You may need the ubi library, which can be found at : <ulink
+        url="http://github.com/amoswenger/ubi">http://github.com/amoswenger/ubi</ulink></para>
+      </listitem>
+
+      <listitem>
+        <para>There is an ant buildfile to generate the
+        <filename>bin/ooc.jar</filename> file</para>
+      </listitem>
+
+      <listitem>
+        <para>There is a Makefile to generate the <filename>bin/ooc</filename>
+        or <filename>bin/ooc.exe</filename> excutable. You need ant, a recent
+        gcj (go for 4.3 at least).</para>
+      </listitem>
+
+      <listitem>
+        <para>There is also a Makefile in doc/ to build the .html files from
+        the .xml ones.</para>
+      </listitem>
+
+      <listitem>
+        <para>Try to follow Sun's conventions, but not to the point of
+        becoming stupid</para>
+      </listitem>
+
+      <listitem>
+        <para>If you're working on something, report is a bug/blueprint on
+        launchpad first, so we can all track your progress.a</para>
+      </listitem>
+
+      <listitem>
+        <para>If you think there may be a bug in your code SAY IT IN THE
+        COMMENTS. There is no shame, but commenting helps greatly to spot
+        it.</para>
+      </listitem>
+
+      <listitem>
+        <para>Don't enable by default bugged behavior (perfect example:
+        MemberUnwrappingFeature and NullCheckFeature are commented, for the
+        time being)</para>
+      </listitem>
+
+      <listitem>
+        <para>Think before doing. Study the code. What you have mind may be
+        half done in another corner of the code.</para>
+      </listitem>
+
+      <listitem>
+        <para>Keep in mind that the java implementation of the compiler is
+        only a start. The real hardcore stuff will be going here: <ulink
+        url="http://github.com/amoswenger/rock">http://github.com/amoswenger/rock</ulink></para>
+      </listitem>
+    </itemizedlist>
   </chapter>
 
   <appendix id="fdl">

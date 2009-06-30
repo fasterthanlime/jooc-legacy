@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
 "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
-<!ENTITY version "v0.2 ninja">
+<!ENTITY version "v0.2.1 ninja">
 <!ENTITY license SYSTEM "fdl.xml">
 ]>
 <!-- 
@@ -252,13 +252,13 @@ $ #wtf ?</programlisting>
                 <entry>print how much time it took to compile</entry>
               </row>
 
-			  <row>
+              <row>
                 <entry>-V, -version, --version</entry>
 
                 <entry>display the compiler version and exit</entry>
               </row>
-			  
-			  <row>
+
+              <row>
                 <entry>-h, -help, --help</entry>
 
                 <entry>display a short help message and exit</entry>
@@ -269,7 +269,6 @@ $ #wtf ?</programlisting>
 
                 <entry>runs the executable after compilation</entry>
               </row>
-			  
             </tbody>
           </tgroup>
         </table>
@@ -464,6 +463,13 @@ $ ooc-jar helloworld.ooc #run with the ant-generated jar version</programlisting
         url="http://github.com/amoswenger/rock">http://github.com/amoswenger/rock</ulink></para>
       </listitem>
     </itemizedlist>
+
+    <warning>
+      <para>If you compile with the default Makefile, you may find that -lgcj
+      is lacking. That is apparently a very often encountered issue. Just
+      remove the -static-libgcj flag in the Makefile, and it should compile
+      fine.</para>
+    </warning>
   </chapter>
 
   <appendix id="fdl">

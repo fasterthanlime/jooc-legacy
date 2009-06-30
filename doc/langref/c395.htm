@@ -2,19 +2,19 @@
 <HTML
 ><HEAD
 ><TITLE
->Packages, headers, libraries</TITLE
+>Operators</TITLE
 ><META
 NAME="GENERATOR"
 CONTENT="Modular DocBook HTML Stylesheet Version 1.79"/><LINK
 REL="HOME"
-TITLE="ooc v0.2 ninja Language Reference"
+TITLE="ooc v0.2.1 ninja Language Reference"
 HREF="book1.htm"/><LINK
 REL="PREVIOUS"
 TITLE="flow control"
 HREF="x389.htm"/><LINK
 REL="NEXT"
-TITLE="C headers"
-HREF="x415.htm"/></HEAD
+TITLE="Packages, headers, libraries"
+HREF="c516.htm"/></HEAD
 ><BODY
 CLASS="chapter"
 BGCOLOR="#FFFFFF"
@@ -34,7 +34,7 @@ CELLSPACING="0"
 ><TH
 COLSPAN="3"
 ALIGN="center"
->ooc v0.2 ninja Language Reference</TH
+>ooc v0.2.1 ninja Language Reference</TH
 ></TR
 ><TR
 ><TD
@@ -56,7 +56,7 @@ WIDTH="10%"
 ALIGN="right"
 VALIGN="bottom"
 ><A
-HREF="x415.htm"
+HREF="c516.htm"
 ACCESSKEY="N"
 >Next</A
 ></TD
@@ -71,150 +71,390 @@ CLASS="chapter"
 ><A
 NAME="AEN395"
 ></A
->Chapter 5. Packages, headers, libraries</H1
-><DIV
-CLASS="TOC"
-><DL
-><DT
-><B
->Table of Contents</B
-></DT
-><DT
-><A
-HREF="c395.htm#AEN400"
->ooc packages</A
-></DT
-><DT
-><A
-HREF="x415.htm"
->C headers</A
-></DT
-><DT
-><A
-HREF="x428.htm"
->Automagic library management</A
-></DT
-></DL
-></DIV
+>Chapter 5. Operators</H1
 ><P
->ooc doesn't share C++'s affection for C-style headers. Source files,
-    (called 'units'), are organized into folders (called 'packages'), much
-    like Java packages without the hassle.<A
+>ooc has exactly the same operators and precedence than C. Here is a
+    quick table:</P
+><DIV
+CLASS="table"
+><A
 NAME="AEN398"
-HREF="#FTN.AEN398"
-><SPAN
-CLASS="footnote"
->[1]</SPAN
 ></A
+><P
+><B
+>Table 5-1. Table of reference of the ooc operators</B
 ></P
-><DIV
-CLASS="section"
-><H1
-CLASS="section"
-><A
-NAME="AEN400"
->ooc packages</A
-></H1
-><P
->There is no <TT
-CLASS="literal"
->package</TT
-> keyword. The package of a
-      source unit is relative to the sourcepath. You can import units from
-      packages with the <TT
-CLASS="literal"
->import</TT
-> keyword. For example, let's
-      say we have a Talker unit:</P
-><PRE
-CLASS="programlisting"
->class Talker {
-
-  func new;
-
-  func drool {
-    printf("Mwahahaha\n");
-  }
-
-  static func say(String message) {
-    printf("Jacadi a dit: %s\n", message);
-  }
-
-}</PRE
-><P
->Let's say the Talker.ooc file is located in
-      <TT
-CLASS="filename"
->io/spoken/Talker.ooc</TT
-> relative to the sourcepath. If
-      we have an <TT
-CLASS="filename"
->io/spoken/User.ooc</TT
-> unit, we can use
-      Talker like that:</P
-><PRE
-CLASS="programlisting"
->import Talker;
-// or
-import io.spoken.Talker;
-
-func blah {
-  Talker.say("Blah, blah, blah\n");
-}</PRE
-><P
->You can use the super keyword to refer to a package which is
-      higher in the hierarchy, e.g. let's say we have a
-      <TT
-CLASS="filename"
->io/Tube.ooc</TT
-> unit, we can refer to it in
-      <TT
-CLASS="filename"
->io/spoken/User.ooc</TT
-> as:</P
-><PRE
-CLASS="programlisting"
->import io.Tube; // fully qualified name
-// or
-import super.Tube; // relative name</PRE
-><P
->The relative form is often preferred, as it facilitate
-      refactoring.</P
-></DIV
-></DIV
-><H3
-CLASS="FOOTNOTES"
->Notes</H3
 ><TABLE
-BORDER="0"
-CLASS="FOOTNOTES"
-WIDTH="100%"
+BORDER="1"
+CLASS="CALSTABLE"
+><COL/><COL/><COL/><THEAD
+><TR
+><TH
+>Operator</TH
+><TH
+>Description</TH
+><TH
+>Associativity</TH
+></TR
+></THEAD
+><TBODY
 ><TR
 ><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="5%"
-><A
-NAME="FTN.AEN398"
-HREF="c395.htm#AEN398"
-><SPAN
-CLASS="footnote"
->[1]</SPAN
-></A
+ALIGN="center"
+><P
+CLASS="literallayout"
+>()<br/>
+[]<br/>
+.<br/>
+-&gt;<br/>
+++,&nbsp;--</P
 ></TD
 ><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="95%"
 ><P
->What is the hassle with Java packages? You have to declare a
-        class in a file with exactly the same name, and you have to put a a
-        package declaration into each .java source file, corresponding exactly
-        to your class file. While it is certainly safer, it's also much more
-        redundant, and thus ooc has adopted a more relax approach.</P
+CLASS="literallayout"
+>Parentheses&nbsp;(function&nbsp;call)&nbsp;(see&nbsp;Note&nbsp;1)<br/>
+Brackets&nbsp;(array&nbsp;subscript)<br/>
+Member&nbsp;selection&nbsp;via&nbsp;object&nbsp;nameW<br/>
+Member&nbsp;selection&nbsp;via&nbsp;pointer<br/>
+Postfix&nbsp;increment/decrement</P
+></TD
+><TD
+ALIGN="center"
+VALIGN="top"
+>&#13;                <P
+CLASS="literallayout"
+>left-to-right</P
+>
+              </TD
+></TR
+><TR
+><TD
+ALIGN="center"
+><P
+CLASS="literallayout"
+>++&nbsp;--<br/>
+&nbsp;+&nbsp;-<br/>
+&nbsp;! &nbsp;~<br/>
+(<SPAN
+CLASS="emphasis"
+><I
+CLASS="emphasis"
+>type</I
+></SPAN
+>)<br/>
+&nbsp;*<br/>
+&nbsp;&amp;<br/>
+&nbsp;sizeof  </P
+></TD
+><TD
+><P
+CLASS="literallayout"
+>Prefix&nbsp;increment/decrement<br/>
+Unary&nbsp;plus/minus<br/>
+Logical&nbsp;negation/bitwise&nbsp;complement<br/>
+Cast&nbsp;(change&nbsp;<SPAN
+CLASS="emphasis"
+><I
+CLASS="emphasis"
+>type</I
+></SPAN
+>)<br/>
+Dereference<br/>
+Address<br/>
+Determine&nbsp;size&nbsp;in&nbsp;bytes</P
+></TD
+><TD
+ALIGN="center"
+VALIGN="top"
+><P
+CLASS="literallayout"
+>right-to-left</P
 ></TD
 ></TR
+><TR
+><TD
+ALIGN="center"
+><P
+CLASS="literallayout"
+>*&nbsp;/&nbsp;%</P
+></TD
+><TD
+><P
+CLASS="literallayout"
+>Multiplication/division/modulus</P
+></TD
+><TD
+ALIGN="center"
+VALIGN="top"
+><P
+CLASS="literallayout"
+>left-to-right</P
+></TD
+></TR
+><TR
+><TD
+ALIGN="center"
+><P
+CLASS="literallayout"
+>+&nbsp;-</P
+></TD
+><TD
+><P
+CLASS="literallayout"
+>Addition/subtraction</P
+></TD
+><TD
+ALIGN="center"
+VALIGN="top"
+><P
+CLASS="literallayout"
+>left-to-right</P
+></TD
+></TR
+><TR
+><TD
+ALIGN="center"
+><P
+CLASS="literallayout"
+>&lt;&lt;&nbsp;&gt;&gt;</P
+></TD
+><TD
+><P
+CLASS="literallayout"
+>Bitwise&nbsp;shift&nbsp;left,&nbsp;Bitwise&nbsp;shift&nbsp;right</P
+></TD
+><TD
+ALIGN="center"
+VALIGN="top"
+><P
+CLASS="literallayout"
+>left-to-right</P
+></TD
+></TR
+><TR
+><TD
+ALIGN="center"
+><P
+CLASS="literallayout"
+>&lt;&nbsp;&lt;=<br/>
+&nbsp;&gt;&nbsp;&gt;=</P
+></TD
+><TD
+><P
+CLASS="literallayout"
+>Relational&nbsp;less&nbsp;than/less&nbsp;than&nbsp;or&nbsp;equal&nbsp;to<br/>
+Relational&nbsp;greater&nbsp;than/greater&nbsp;than&nbsp;or&nbsp;equal&nbsp;to</P
+></TD
+><TD
+ALIGN="center"
+VALIGN="top"
+><P
+CLASS="literallayout"
+>left-to-right</P
+></TD
+></TR
+><TR
+><TD
+ALIGN="center"
+><P
+CLASS="literallayout"
+>== &nbsp;!=</P
+></TD
+><TD
+><P
+CLASS="literallayout"
+>Relational&nbsp;is&nbsp;equal&nbsp;to/is&nbsp;not&nbsp;equal&nbsp;to</P
+></TD
+><TD
+ALIGN="center"
+VALIGN="top"
+><P
+CLASS="literallayout"
+>left-to-right</P
+></TD
+></TR
+><TR
+><TD
+ALIGN="center"
+><P
+CLASS="literallayout"
+>&amp;</P
+></TD
+><TD
+><P
+CLASS="literallayout"
+>Bitwise&nbsp;AND</P
+></TD
+><TD
+ALIGN="center"
+VALIGN="top"
+><P
+CLASS="literallayout"
+>left-to-right</P
+></TD
+></TR
+><TR
+><TD
+ALIGN="center"
+><P
+CLASS="literallayout"
+>^</P
+></TD
+><TD
+><P
+CLASS="literallayout"
+>Bitwise&nbsp;exclusive&nbsp;OR</P
+></TD
+><TD
+ALIGN="center"
+VALIGN="top"
+><P
+CLASS="literallayout"
+>left-to-right</P
+></TD
+></TR
+><TR
+><TD
+ALIGN="center"
+><P
+CLASS="literallayout"
+>|</P
+></TD
+><TD
+><P
+CLASS="literallayout"
+>Bitwise&nbsp;inclusive&nbsp;OR</P
+></TD
+><TD
+ALIGN="center"
+VALIGN="top"
+><P
+CLASS="literallayout"
+>left-to-right</P
+></TD
+></TR
+><TR
+><TD
+ALIGN="center"
+><P
+CLASS="literallayout"
+>&amp;&amp;</P
+></TD
+><TD
+><P
+CLASS="literallayout"
+>Logical&nbsp;AND</P
+></TD
+><TD
+ALIGN="center"
+VALIGN="top"
+><P
+CLASS="literallayout"
+>left-to-right</P
+></TD
+></TR
+><TR
+><TD
+ALIGN="center"
+><P
+CLASS="literallayout"
+>||</P
+></TD
+><TD
+><P
+CLASS="literallayout"
+>Logical&nbsp;OR</P
+></TD
+><TD
+ALIGN="center"
+VALIGN="top"
+><P
+CLASS="literallayout"
+>left-to-right</P
+></TD
+></TR
+><TR
+><TD
+ALIGN="center"
+><P
+CLASS="literallayout"
+>?:</P
+></TD
+><TD
+><P
+CLASS="literallayout"
+>Ternary&nbsp;conditional</P
+></TD
+><TD
+ALIGN="center"
+VALIGN="top"
+><P
+CLASS="literallayout"
+>right-to-left</P
+></TD
+></TR
+><TR
+><TD
+ALIGN="center"
+><P
+CLASS="literallayout"
+>=<br/>
+&nbsp;+=&nbsp;&nbsp;-=<br/>
+&nbsp;*=&nbsp;&nbsp;/=<br/>
+&nbsp;%=&nbsp;&nbsp;&amp;=<br/>
+&nbsp;^=&nbsp;&nbsp;|=<br/>
+&nbsp;&lt;&lt;=&nbsp;&nbsp;&gt;&gt;=</P
+></TD
+><TD
+><P
+CLASS="literallayout"
+>Assignment<br/>
+Addition/subtraction&nbsp;assignment<br/>
+Multiplication/division&nbsp;assignment<br/>
+Modulus/bitwise&nbsp;AND&nbsp;assignment<br/>
+Bitwise&nbsp;exclusive/inclusive&nbsp;OR&nbsp;assignment<br/>
+Bitwise&nbsp;shift&nbsp;left/right&nbsp;assignment</P
+></TD
+><TD
+ALIGN="center"
+VALIGN="top"
+><P
+CLASS="literallayout"
+>right-to-left</P
+></TD
+></TR
+><TR
+><TD
+ALIGN="center"
+>&#13;                <P
+CLASS="literallayout"
+>,</P
+>
+              </TD
+><TD
+><P
+CLASS="literallayout"
+>Comma&nbsp;(separate&nbsp;expressions)</P
+></TD
+><TD
+ALIGN="center"
+VALIGN="top"
+><P
+CLASS="literallayout"
+>left-to-right</P
+></TD
+></TR
+></TBODY
 ></TABLE
+></DIV
+><P
+>(Table adapted from <A
+HREF="http://www.difranco.net/cop2220/op-prec.htm"
+TARGET="_top"
+>Steven DiFranco's
+    homepage</A
+>)</P
+></DIV
 ><DIV
 CLASS="NAVFOOTER"
 ><HR
@@ -249,7 +489,7 @@ WIDTH="33%"
 ALIGN="right"
 VALIGN="top"
 ><A
-HREF="x415.htm"
+HREF="c516.htm"
 ACCESSKEY="N"
 >Next</A
 ></TD
@@ -269,7 +509,7 @@ VALIGN="top"
 WIDTH="33%"
 ALIGN="right"
 VALIGN="top"
->C headers</TD
+>Packages, headers, libraries</TD
 ></TR
 ></TABLE
 ></DIV

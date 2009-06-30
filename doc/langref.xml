@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
 "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
-<!ENTITY version "v0.2 ninja">
+<!ENTITY version "v0.2.1 ninja">
 <!ENTITY license SYSTEM "fdl.xml">
 ]>
 <!-- 
@@ -1245,6 +1245,191 @@ for(Int i: 0..max) {
 }</programlisting>
       </section>
     </section>
+  </chapter>
+
+  <chapter>
+    <title>Operators</title>
+
+    <para>ooc has exactly the same operators and precedence than C. Here is a
+    quick table:</para>
+
+    <table>
+      <title>Table of reference of the ooc operators</title>
+
+      <tgroup cols="3">
+        <thead>
+          <row>
+            <entry>Operator</entry>
+
+            <entry>Description</entry>
+
+            <entry>Associativity</entry>
+          </row>
+        </thead>
+
+        <tbody>
+          <row>
+            <entry align="center"><literallayout>()
+[]
+.
+-&gt;
+++, --</literallayout></entry>
+
+            <entry><literallayout>Parentheses (function call) (see Note 1)
+Brackets (array subscript)
+Member selection via object nameW
+Member selection via pointer
+Postfix increment/decrement</literallayout></entry>
+
+            <entry align="center" valign="top">
+                <literallayout>left-to-right</literallayout>
+              </entry>
+          </row>
+
+          <row>
+            <entry align="center"><literallayout>++ --
+ + -
+ !  ~
+(<emphasis>type</emphasis>)
+ *
+ &amp;
+ sizeof  </literallayout></entry>
+
+            <entry><literallayout>Prefix increment/decrement
+Unary plus/minus
+Logical negation/bitwise complement
+Cast (change <emphasis>type</emphasis>)
+Dereference
+Address
+Determine size in bytes</literallayout></entry>
+
+            <entry align="center" valign="top"><literallayout>right-to-left</literallayout></entry>
+          </row>
+
+          <row>
+            <entry align="center"><literallayout>* / %</literallayout></entry>
+
+            <entry><literallayout>Multiplication/division/modulus</literallayout></entry>
+
+            <entry align="center" valign="top"><literallayout>left-to-right</literallayout></entry>
+          </row>
+
+          <row>
+            <entry align="center"><literallayout>+ -</literallayout></entry>
+
+            <entry><literallayout>Addition/subtraction</literallayout></entry>
+
+            <entry align="center" valign="top"><literallayout>left-to-right</literallayout></entry>
+          </row>
+
+          <row>
+            <entry align="center"><literallayout>&lt;&lt; &gt;&gt;</literallayout></entry>
+
+            <entry><literallayout>Bitwise shift left, Bitwise shift right</literallayout></entry>
+
+            <entry align="center" valign="top"><literallayout>left-to-right</literallayout></entry>
+          </row>
+
+          <row>
+            <entry align="center"><literallayout>&lt; &lt;=
+ &gt; &gt;=</literallayout></entry>
+
+            <entry><literallayout>Relational less than/less than or equal to
+Relational greater than/greater than or equal to</literallayout></entry>
+
+            <entry align="center" valign="top"><literallayout>left-to-right</literallayout></entry>
+          </row>
+
+          <row>
+            <entry align="center"><literallayout>==  !=</literallayout></entry>
+
+            <entry><literallayout>Relational is equal to/is not equal to</literallayout></entry>
+
+            <entry align="center" valign="top"><literallayout>left-to-right</literallayout></entry>
+          </row>
+
+          <row>
+            <entry align="center"><literallayout>&amp;</literallayout></entry>
+
+            <entry><literallayout>Bitwise AND</literallayout></entry>
+
+            <entry align="center" valign="top"><literallayout>left-to-right</literallayout></entry>
+          </row>
+
+          <row>
+            <entry align="center"><literallayout>^</literallayout></entry>
+
+            <entry><literallayout>Bitwise exclusive OR</literallayout></entry>
+
+            <entry align="center" valign="top"><literallayout>left-to-right</literallayout></entry>
+          </row>
+
+          <row>
+            <entry align="center"><literallayout>|</literallayout></entry>
+
+            <entry><literallayout>Bitwise inclusive OR</literallayout></entry>
+
+            <entry align="center" valign="top"><literallayout>left-to-right</literallayout></entry>
+          </row>
+
+          <row>
+            <entry align="center"><literallayout>&amp;&amp;</literallayout></entry>
+
+            <entry><literallayout>Logical AND</literallayout></entry>
+
+            <entry align="center" valign="top"><literallayout>left-to-right</literallayout></entry>
+          </row>
+
+          <row>
+            <entry align="center"><literallayout>||</literallayout></entry>
+
+            <entry><literallayout>Logical OR</literallayout></entry>
+
+            <entry align="center" valign="top"><literallayout>left-to-right</literallayout></entry>
+          </row>
+
+          <row>
+            <entry align="center"><literallayout>?:</literallayout></entry>
+
+            <entry><literallayout>Ternary conditional</literallayout></entry>
+
+            <entry align="center" valign="top"><literallayout>right-to-left</literallayout></entry>
+          </row>
+
+          <row>
+            <entry align="center"><literallayout>=
+ +=  -=
+ *=  /=
+ %=  &amp;=
+ ^=  |=
+ &lt;&lt;=  &gt;&gt;=</literallayout></entry>
+
+            <entry><literallayout>Assignment
+Addition/subtraction assignment
+Multiplication/division assignment
+Modulus/bitwise AND assignment
+Bitwise exclusive/inclusive OR assignment
+Bitwise shift left/right assignment</literallayout></entry>
+
+            <entry align="center" valign="top"><literallayout>right-to-left</literallayout></entry>
+          </row>
+
+          <row>
+            <entry align="center">
+                <literallayout>,</literallayout>
+              </entry>
+
+            <entry><literallayout>Comma (separate expressions)</literallayout></entry>
+
+            <entry align="center" valign="top"><literallayout>left-to-right</literallayout></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+
+    <para>(Table adapted from <ulink
+    url="http://www.difranco.net/cop2220/op-prec.htm">Steven DiFranco's
+    homepage</ulink>)</para>
   </chapter>
 
   <chapter>

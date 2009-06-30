@@ -2,7 +2,7 @@
 <HTML
 ><HEAD
 ><TITLE
->Pointers</TITLE
+>Name mangling</TITLE
 ><META
 NAME="GENERATOR"
 CONTENT="Modular DocBook HTML Stylesheet Version 1.79"/><LINK
@@ -10,14 +10,14 @@ REL="HOME"
 TITLE="ooc v0.2.1 ninja Language Reference"
 HREF="book1.htm"/><LINK
 REL="UP"
-TITLE="Variables"
-HREF="c31.htm"/><LINK
+TITLE="ABI (Application Binary Interface)"
+HREF="a564.htm"/><LINK
 REL="PREVIOUS"
-TITLE="Arrays"
-HREF="x209.htm"/><LINK
+TITLE="Classes"
+HREF="x576.htm"/><LINK
 REL="NEXT"
-TITLE="Functions"
-HREF="c226.htm"/></HEAD
+TITLE="FAQ (Frequently Asked Questions)"
+HREF="a630.htm"/></HEAD
 ><BODY
 CLASS="section"
 BGCOLOR="#FFFFFF"
@@ -45,7 +45,7 @@ WIDTH="10%"
 ALIGN="left"
 VALIGN="bottom"
 ><A
-HREF="x209.htm"
+HREF="x576.htm"
 ACCESSKEY="P"
 >Prev</A
 ></TD
@@ -53,13 +53,13 @@ ACCESSKEY="P"
 WIDTH="80%"
 ALIGN="center"
 VALIGN="bottom"
->Chapter 1. Variables</TD
+>Appendix A. ABI (Application Binary Interface)</TD
 ><TD
 WIDTH="10%"
 ALIGN="right"
 VALIGN="bottom"
 ><A
-HREF="c226.htm"
+HREF="a630.htm"
 ACCESSKEY="N"
 >Next</A
 ></TD
@@ -73,17 +73,99 @@ CLASS="section"
 ><H1
 CLASS="section"
 ><A
-NAME="AEN223"
->Pointers</A
+NAME="AEN593"
+>Name mangling</A
 ></H1
 ><P
->Pointers are used in ooc exactly as in C, although they are not as
-      welcome. They're used extensively behind the scenes, to implement
-      classes, etc, but their use is discouraged when not necessary. A good
-      use case for using pointers (instead of a objects, for example) is
-      low-level implementation of a speed-critical algorithm. Using pointers
-      is to ooc what assembler is to C: something you shouldn't use unless you
-      really need it for speed.</P
+>Name mangling is applied to functions and static members of
+      classes. The followed scheme is the following:</P
+><P
+></P
+><UL
+><LI
+><P
+>Off-class Function</P
+><P
+></P
+><UL
+><LI
+><P
+>Name: my_package__functionName</P
+></LI
+></UL
+></LI
+><LI
+><P
+>Off-class Variable</P
+><P
+></P
+><UL
+><LI
+><P
+>Name: my_package__variableName</P
+></LI
+></UL
+></LI
+><LI
+><P
+>Member Variable</P
+><P
+></P
+><UL
+><LI
+><P
+>Struct field name: variableName (no mangling)</P
+></LI
+></UL
+></LI
+><LI
+><P
+>Static Member Variable</P
+><P
+></P
+><UL
+><LI
+><P
+>Name:
+              my_package_ClassName_functionName_ArgType1_ArgType2_ArgType3</P
+></LI
+></UL
+></LI
+><LI
+><P
+>Member Function</P
+><P
+></P
+><UL
+><LI
+><P
+>Name:
+              __my_package_ClassName_functionName_ArgType1_ArgType2_ArgType3</P
+></LI
+><LI
+><P
+>Struct field name:
+              __functionName_ArgType1_ArgType2_ArgType3</P
+></LI
+></UL
+></LI
+><LI
+><P
+>Static Member Function</P
+><P
+></P
+><UL
+><LI
+><P
+>Name: see Member Function.</P
+></LI
+></UL
+></LI
+></UL
+><P
+>ArgType mangling is the name of the type, appended with "__star"
+      and "__array" as many times as necessary to represent the pointer level
+      of the type.</P
 ></DIV
 ><DIV
 CLASS="NAVFOOTER"
@@ -101,7 +183,7 @@ WIDTH="33%"
 ALIGN="left"
 VALIGN="top"
 ><A
-HREF="x209.htm"
+HREF="x576.htm"
 ACCESSKEY="P"
 >Prev</A
 ></TD
@@ -119,7 +201,7 @@ WIDTH="33%"
 ALIGN="right"
 VALIGN="top"
 ><A
-HREF="c226.htm"
+HREF="a630.htm"
 ACCESSKEY="N"
 >Next</A
 ></TD
@@ -129,13 +211,13 @@ ACCESSKEY="N"
 WIDTH="33%"
 ALIGN="left"
 VALIGN="top"
->Arrays</TD
+>Classes</TD
 ><TD
 WIDTH="34%"
 ALIGN="center"
 VALIGN="top"
 ><A
-HREF="c31.htm"
+HREF="a564.htm"
 ACCESSKEY="U"
 >Up</A
 ></TD
@@ -143,7 +225,7 @@ ACCESSKEY="U"
 WIDTH="33%"
 ALIGN="right"
 VALIGN="top"
->Functions</TD
+>FAQ (Frequently Asked Questions)</TD
 ></TR
 ></TABLE
 ></DIV
