@@ -1,6 +1,6 @@
 .PHONY: all clean
 
-all: dynamic
+all: prepare dynamic
 
 static:
 	ant
@@ -17,5 +17,9 @@ nostatic:
 	ant
 	cd utils/ && gcj -g -O3 -Dooc.version="`cat version.txt`, built on `date +%F\ %R:%S`" `find build/ -name "*.class"` --main=org.ooc.compiler.CommandLineInterface -o ../bin/ooc
 
+prepare:
+	test -d bin || mkdir -p bin
+
 clean:
 	ant clean
+	rm -rf bin
