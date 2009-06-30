@@ -165,9 +165,19 @@ class OperatorsParser implements Parser {
 	        context.add(new RawCode(reader.getLocation(), ": "));
 	        success = true;
 	
-	    } else if (reader.matches("~", true)) {
+	    } else if (reader.matches("~", true)) { 
 	
 	        context.add(new RawCode(reader.getLocation(), "~"));
+	        success = true;
+	
+	    } else if (reader.matches("^=", true)) { 
+	
+	        context.add(new RawCode(reader.getLocation(), "^="));
+	        success = true;
+	
+	    } else if (reader.matches("^", true)) { 
+	
+	        context.add(new RawCode(reader.getLocation(), "^"));
 	        success = true;
 	
 	    } else {
