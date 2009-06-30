@@ -83,7 +83,7 @@ public class TypeResolutionFeature extends SingleFeature<Type> {
     	if(!type.isResolved) {
     		
     		for(CType ctype: manager.getContext().source.getRoot().getNodesTyped(CType.class, true)) {
-    			System.out.println("Got ctype  "+ctype.name+", type = "+type.name);
+    			//System.out.println("Got ctype  "+ctype.name+", type = "+type.name);
     			if(type.name.equals(ctype.name)) {
     				type.isResolved = true;
     			}
@@ -93,7 +93,7 @@ public class TypeResolutionFeature extends SingleFeature<Type> {
     	
     	if(!type.isResolved && sourceContext != null) {
 			for(CType ctype: sourceContext.source.getRoot().getNodesTyped(CType.class, true)) {
-				System.out.println("Got ctype  "+ctype.name+", type = "+type.name);
+				//System.out.println("Got ctype  "+ctype.name+", type = "+type.name);
 				if(type.name.equals(ctype.name)) {
 					type.isResolved = true;
 				}

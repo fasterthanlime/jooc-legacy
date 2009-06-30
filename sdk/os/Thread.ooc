@@ -44,7 +44,9 @@ abstract class Thread {
 	}
 
 	func start -> Int {
-		// Super duper astuce to make C and ooc play nice together
+		// Feinte du loup des bois. We pass a pointer to ourselves
+		// to pthread_create so that it corresponds to the 'this' argument
+		// of our member method. Easy enough, huh ?
 		return  pthread_create (&thread, NULL, @rrun, this);	
 	}
 	

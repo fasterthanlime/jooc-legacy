@@ -16,12 +16,13 @@ class MyThread from Thread {
 	}
 
 	func new {
+		super();
 		name = malloc(30);
 		sprintf(name, "Thread %d", counter++);
 	}
 
 	func run{
-		srand ( ctime (null) );
+		srand ( time (null) );
 		for (Int i: 0..5) {
 			Float sl =  rand () % 5;
 			sl /= 3;	
@@ -37,16 +38,16 @@ func main {
 	printf("Let's go \n");
 
 	//the thread manager
-	ThreadManager tm = new;
+	ThreadManager manager = new;
 	
 	//append 2 threads
 	MyThread t1 = new;
 	MyThread t2 = new;
 
-	tm.add(t1);
-	tm.add(t2);
+	manager.add(t1);
+	manager.add(t2);
 
 	//start threads
-	tm.start();
+	manager.start();
 	
 }

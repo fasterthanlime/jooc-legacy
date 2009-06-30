@@ -107,6 +107,12 @@ public class TypeParser implements Parser {
 			return false; // Failed to parse
 		}
 		
+		if(Character.isJavaIdentifierPart(context.reader.peek())) {
+			// We have a read a type, but it's only the beginning of another
+			// word (e.g. a variable name), ignore.
+			return false;
+		}
+		
 		Type type = new Type(context.reader.getLocation(), context.source.getRoot(), name);
 		context.add(new TypeReference(context.reader.getLocation(), type));
 		type.isResolved = true;

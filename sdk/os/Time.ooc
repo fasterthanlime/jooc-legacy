@@ -1,5 +1,6 @@
 include time, unistd;
 
+ctype tm;
 typedef time_t TimeType;
 typedef struct tm* TimeStruct;
 
