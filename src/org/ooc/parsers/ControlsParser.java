@@ -24,44 +24,59 @@ class ControlsParser implements Parser {
 		SourceReader reader = context.reader;
 		FileLocation location = reader.getLocation();
 		
-		boolean result = false;
+		int mark = reader.mark();
 		
 		if(reader.matches("for", true)) {
 			
             reader.skipWhitespace();
             if(reader.matches("(", true)) {
                 context.open(new For(location));
-                result = true;
+                return true;
             }
             
-        } if(reader.matches("goto", true)) {
+        } 
+		
+		reader.reset(mark);
+		if(reader.matches("goto", true)) {
         	
             reader.skipWhitespace();
             String label = reader.readName();
             context.add(new Goto(location, label));
-            result = true;
+            return true;
             
-        } if(reader.matches("case", true)) {
+        }
+		
+		reader.reset(mark);
+		if(reader.matches("case", true)) {
         	
             reader.skipWhitespace();
             context.add(new RawCode(location, "case "));
-            result = true;
+            return true;
             
-        } else if(reader.matches("if", true)) {
+        }
+		
+		reader.reset(mark);
+		if(reader.matches("if", true)) {
         	
         	reader.skipWhitespace();
         	if(reader.matches("(", true)) {
                 context.open(new If(location));
-                result = true;
+                return true;
             }
         	
-        } else if(reader.matches("else", true)) {
+        }
+		
+		reader.reset(mark);
+		if(reader.matches("else", true)) {
         	
         	reader.skipWhitespace();
         	context.add(new Else(location));
-            result = true;
+            return true;
                 
-        } else if(reader.matches("version", true)) {
+        }
+		
+		reader.reset(mark);
+		if(reader.matches("version", true)) {
         	
         	reader.skipWhitespace();
         	if(reader.matches("(", true)) {
@@ -89,14 +104,14 @@ class ControlsParser implements Parser {
         		
         		if(reader.hasWhitespace(true) && reader.matches("{", true)) {
         			context.open(new VersionBlock(location, versions));
-        			result = true;
+        			return true;
         		}
         		
         	}
         	
         }
 		
-		return result;
+		return false;
 		
 	}
 

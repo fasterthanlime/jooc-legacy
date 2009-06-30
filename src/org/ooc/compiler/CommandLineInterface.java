@@ -105,6 +105,10 @@ public class CommandLineInterface {
         			
         			props.clean = false;
         			
+        		} else if(option.equals("shout")) {
+        			
+        			props.shout = true;
+        			
         		} else if(option.equals("timing") || option.equals("t")) {
         			
         			timing = true;

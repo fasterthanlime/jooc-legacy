@@ -34,6 +34,7 @@ public class SourceParser {
     	parsers = new Parser[] {
     			new PreprocessingDirectivesParser(),
         		new DocumentationParser(),
+        		new StaticBlockParser(),
         		new EnumParser(),
         		new BlocksParser(),
         		new NumberLiteralParser(),

@@ -510,10 +510,12 @@ public class ClassDef extends Scope implements PotentiallyAbstract {
     
     private void writeClassStructFieldsDeclarations(Appendable a) throws IOException {
     	
+		// FIXME make it more flexible. (Use a VariableDecl?)
     	a.append('\n');
 		writeIndent(a, 1);
-		// FIXME make it more flexible. (Use a VariableDecl?)
 		a.append("String name;");
+		a.append('\n');
+		writeIndent(a, 1);
 		a.append("String simpleName;");
     	
     	if(!fields.isEmpty()) {

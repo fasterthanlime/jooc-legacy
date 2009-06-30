@@ -1,3 +1,5 @@
+include time;
+
 func main {
 
 	srand(ctime(null));

@@ -92,6 +92,11 @@ public class BuildProperties {
 	public boolean debug;
 	
 	/**
+	 * If true, the compiler prints a bit fat [ OK ] when compilation works
+	 */
+	public boolean shout;
+	
+	/**
      * Default constructor, initialize all values to default.
      * The library path and the source path are initialized relative
      * to whatever OOC_DIST is set, if it is set. Otherwise, they

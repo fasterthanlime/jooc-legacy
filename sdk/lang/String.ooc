@@ -195,7 +195,7 @@ cover String {
 	 * @return a copy of a subset of this string, beginning
 	 * at the specified index.
 	 */
-	func substring(Int start) {
+	func substring(Int start) -> String {
 		
 		Int _length = length();
 		if(start > _length) {

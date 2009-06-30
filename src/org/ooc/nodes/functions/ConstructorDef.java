@@ -81,9 +81,9 @@ public class ConstructorDef extends FunctionDef {
 			scope.add(new StringLiteral(location, function.clazz.simpleName));
 			scope.add(new LineSeparator(location));
 			
-			}
-			
 		initClassInstance.add(scope); }
+			
+		}
 		
 		initClassInstance.add(new MemberAccess(location, function.clazz.getThis(), function.clazz.getClassVariable()));
 		initClassInstance.add(new Assignment(location));

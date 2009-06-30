@@ -36,7 +36,7 @@ public class StaticKeyword extends Keyword {
             
         } else {
         	
-            manager.errAndFail("Expected variable declaration/function definition" +
+            manager.errAndFail("Expected variable declaration/function definition " +
             		"after 'static' keyword, not a "+next.getClass().getSimpleName()+", wtf?", this);
             
         }

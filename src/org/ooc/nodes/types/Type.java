@@ -182,6 +182,9 @@ public class Type extends SyntaxNode {
         		a.append("* ");
     		}
     	} else if(clazz == null) {
+    		if(isStruct) {
+    			a.append("struct ");
+    		}
     		a.append(name);
     	}
 		

@@ -174,6 +174,10 @@ class GccBackend extends Backend {
 			verbose = true;
 		}
 		
+		if(!shout && props.shout) {
+			shout = true;
+		}
+		
 		List<String> args = new ArrayList<String>();
 		List<String> toClean = new ArrayList<String>();
 		List<String> toMove = new ArrayList<String>();
