@@ -514,6 +514,7 @@ public class ClassDef extends Scope implements PotentiallyAbstract {
 		writeIndent(a, 1);
 		// FIXME make it more flexible. (Use a VariableDecl?)
 		a.append("String name;");
+		a.append("String simpleName;");
     	
     	if(!fields.isEmpty()) {
     		a.append('\n');
@@ -547,7 +548,7 @@ public class ClassDef extends Scope implements PotentiallyAbstract {
 	public boolean hasMetaClassField(String field) {
 		
 		//FIXME make it more flexible.
-		if(field.equals("name")) {
+		if(field.equals("name") || field.equals("simpleName")) {
 			return true;
 		}
 		
@@ -598,7 +599,6 @@ public class ClassDef extends Scope implements PotentiallyAbstract {
 	@Override
 	public String getDescription() {
 		
-		//return "class "+clazz.fullName+location;
 		return clazz.fullName;
 		
 	}

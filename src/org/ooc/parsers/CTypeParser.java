@@ -6,6 +6,7 @@ import java.io.IOException;
 import org.ooc.errors.CompilationFailedError;
 import org.ooc.errors.SourceContext;
 import org.ooc.nodes.types.CType;
+import org.ooc.nodes.types.Type;
 import org.ubi.SourceReader;
 import org.ubi.SyntaxError;
 
@@ -47,12 +48,13 @@ public class CTypeParser implements Parser {
 
 	private void readCTypeName(final SourceContext context, SourceReader reader)
 			throws EOFException, CompilationFailedError {
-		String name;
-		name = reader.readName();
-		if(name.isEmpty()) {
-			throw new CompilationFailedError(reader.getLocation(), "Expected a type name after 'ctype' keyword.");
+		
+		Type type = Type.read(context, reader);
+		if(type == null) {
+			throw new CompilationFailedError(reader.getLocation(), "Expected a type after 'ctype' keyword.");
 		}
-		context.add(new CType(reader.getLocation(), name));
+		context.add(new CType(reader.getLocation(), type));
+		
 	}
 	
 }

@@ -191,7 +191,29 @@ cover String {
 		
 	}
 	
-	//TODO eagle2com: Add negative indexes!!!
+	/**
+	 * @return a copy of a subset of this string, beginning
+	 * at the specified index.
+	 */
+	func substring(Int start) {
+		
+		Int _length = length();
+		if(start > _length) {
+			printf("String.substring: out of bounds exception. length = %d, start = %d\n",
+				_length, start);
+			Int x = 0;
+			x = x/x;
+		}
+		
+		Int diff = _length - start;
+		String sub = malloc(diff + 1);
+		sub[diff + 1] = '\0';
+		memcpy(sub, this + start, diff);
+		return sub;
+		
+	}
+	
+	//TODO eagle2com: Add negative indices.
 	func subrange(Int index, Int range) -> String {
 		
 		Int absRange = abs(range);
@@ -215,7 +237,8 @@ cover String {
 			return s;
 		}
 		else{
-			printf("String: out of bound exception\n");
+			printf("String.subrange: out of bounds exception. length = %d, index = %d, range = %d\n",
+				this.length, index, range);
 			Int x = 0;
 			x = x/x;
 		}

@@ -11,6 +11,7 @@ import org.ooc.nodes.clazz.MemberAccess;
 import org.ooc.nodes.clazz.StaticMemberAccess;
 import org.ooc.nodes.control.If;
 import org.ooc.nodes.control.Scope;
+import org.ooc.nodes.operators.Arrow;
 import org.ooc.nodes.operators.Assignment;
 import org.ooc.nodes.operators.EqualityTest;
 import org.ooc.nodes.others.Block;
@@ -64,11 +65,24 @@ public class ConstructorDef extends FunctionDef {
 			scope.add(malloc);
 			scope.add(new LineSeparator(location));
 			
+			/** Reflection: name field */
 			scope.add(new StaticMemberAccess(location, clazz, function.clazz.getStaticClassVariable()));
-			scope.add(new RawCode(location, "->name "));
+			scope.add(new Arrow(location));
+			scope.add(new RawCode(location, "name "));
 			scope.add(new Assignment(location));
 			scope.add(new StringLiteral(location, function.clazz.fullName));
-			scope.add(new LineSeparator(location)); }
+			scope.add(new LineSeparator(location));
+			
+			/** Reflection: fullName field */
+			scope.add(new StaticMemberAccess(location, clazz, function.clazz.getStaticClassVariable()));
+			scope.add(new Arrow(location));
+			scope.add(new RawCode(location, "simpleName "));
+			scope.add(new Assignment(location));
+			scope.add(new StringLiteral(location, function.clazz.simpleName));
+			scope.add(new LineSeparator(location));
+			
+			}
+			
 		initClassInstance.add(scope); }
 		
 		initClassInstance.add(new MemberAccess(location, function.clazz.getThis(), function.clazz.getClassVariable()));

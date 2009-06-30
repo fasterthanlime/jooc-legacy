@@ -23,8 +23,8 @@ class Time {
 		return val->tm_hour;
 	}
 	
-	static func sleepSec(TimeType duration) {
-		sleep(duration);
+	static func sleepSec(Float duration) {
+		usleep(duration * 1_000_000);
 	}
 
 }

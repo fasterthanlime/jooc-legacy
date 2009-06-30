@@ -7,6 +7,7 @@ import org.ooc.nodes.RootNode;
 import org.ooc.nodes.clazz.ClassDef;
 import org.ooc.nodes.others.SyntaxNode;
 import org.ooc.nodes.others.SyntaxNodeList;
+import org.ooc.nodes.types.CType;
 import org.ooc.nodes.types.Type;
 import org.ooc.parsers.TypeParser;
 
@@ -64,9 +65,9 @@ public class TypeResolutionFeature extends SingleFeature<Type> {
     		
     	}
     	
+    	SourceContext sourceContext = type.getSourceContext();
+    	
     	if(!type.isResolved) {
-    		
-    		SourceContext sourceContext = type.getSourceContext();
     		
     		/* Fifth place to look: the includes */
     		if(manager.getContext().getTypeDef(type.name) != null) {
@@ -78,6 +79,26 @@ public class TypeResolutionFeature extends SingleFeature<Type> {
     		}
     		
     	}
+    	
+    	if(!type.isResolved) {
+    		
+    		for(CType ctype: manager.getContext().source.getRoot().getNodesTyped(CType.class, true)) {
+    			System.out.println("Got ctype  "+ctype.name+", type = "+type.name);
+    			if(type.name.equals(ctype.name)) {
+    				type.isResolved = true;
+    			}
+    		}
+    		
+    	}
+    	
+    	if(!type.isResolved && sourceContext != null) {
+			for(CType ctype: sourceContext.source.getRoot().getNodesTyped(CType.class, true)) {
+				System.out.println("Got ctype  "+ctype.name+", type = "+type.name);
+				if(type.name.equals(ctype.name)) {
+					type.isResolved = true;
+				}
+			}
+		}
     	
     	if(type.isResolved) {
     		type.lock();
@@ -97,7 +118,6 @@ public class TypeResolutionFeature extends SingleFeature<Type> {
 		ClassDef def = root.context.getClassDef(type.name);
 		if(def != null) {
 		
-			//System.err.println("slamadunk: Resolved '"+type.name+"' in context "+context.getDescription());
 			type.clazz = def.clazz;
 			type.isResolved = true;
 			type.isCover = type.clazz.isCover;

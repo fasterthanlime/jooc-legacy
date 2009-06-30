@@ -213,7 +213,6 @@ public class FunctionCall extends Parenthesis {
 		
 		if(getNearestPrevNotTyped(TransparentBlock.class) != null) {
 			manager.warn("Call #"+hash+" to a super-constructor should be the first statement in a constructor. (There's a "+getPrev().getDescription()+" before)", this);
-			//return false;
 		}
 		
 		if(classDef.clazz.zuperFullName.isEmpty()) {

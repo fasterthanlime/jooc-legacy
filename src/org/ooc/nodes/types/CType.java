@@ -2,7 +2,6 @@ package org.ooc.nodes.types;
 
 import java.io.IOException;
 
-import org.ooc.nodes.others.SyntaxNode;
 import org.ooc.parsers.TypeParser;
 import org.ubi.FileLocation;
 
@@ -15,35 +14,27 @@ import org.ubi.FileLocation;
  * 
  * @author Amos Wenger
  */
-public class CType extends SyntaxNode {
-
-	private final String name;
+public class CType extends Type {
 
 	/**
 	 * Default constructor
+	 * @param location
+	 * @param model
 	 */
-	public CType(FileLocation location, String name) {
+	public CType(FileLocation location, Type model) {
 		
-		super(location);
-		this.name = name;
+		super(location, model.getContext(), model.name, model.getPointerLevel(), model.getArrayLevel());
+		isResolved = true;
 		TypeParser.addType(name);
 		
 	}
+
 	
-	
+	@Override
 	public void writeToCSource(Appendable a) throws IOException {
 	
 		// Hahahaha. As if.
 		
 	}
-	
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
-
-
 	
 }
