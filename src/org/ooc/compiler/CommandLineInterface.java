@@ -252,11 +252,8 @@ public class CommandLineInterface {
 	    	while(st.hasMoreElements()) {
 	    		String path = st.nextToken();
 	    		if(path.contains("ooc.jar")) {
-	    			System.out.println("Got path: "+path);
 	    			OOC_DIST = new File(path).getCanonicalPath();
-	    			System.out.println("Step 1: "+OOC_DIST);
 	    			OOC_DIST = new File(OOC_DIST).getParentFile().getParent();
-	    			System.out.println("Step 2: "+OOC_DIST);
 	    			break;
 	    		}
 	    	}
