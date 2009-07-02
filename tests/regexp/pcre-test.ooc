@@ -6,7 +6,7 @@ func main {
     printf("Let's go to find \"%s\" PCRE pattern into \"%s\" string\n", pattern, haystack);
 
     //new regexp
-    PReg re = new ("Pince.{2,3}");
+    PReg re = new (pattern);
 
     //get matches
     ArrayList ar = re.match (haystack);

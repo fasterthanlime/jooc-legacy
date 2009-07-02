@@ -30,7 +30,7 @@ class PReg {
         //offsets = malloc (30 * sizeof(offsets));
         Int len = strlen(haystack);
         Int size;
-        String niddle;
+        String needle;
         ArrayList toReturn = new;
 
         /*Int ret = pcre_exec (reg, null, haystack, len, start, 0, offsets, 30 );
@@ -42,21 +42,21 @@ class PReg {
             end = offsets[i+1];
             
             size = end - start;
-            niddle = malloc (sizeof(niddle) * size +1 );
-            strncpy(niddle, &haystack[start],size);
-            niddle[size] = '\0';
-            printf ("needle : %s\n", niddle);
-            toReturn.add(niddle);
+            needle = malloc (sizeof(needle) * size +1 );
+            strncpy(needle, &haystack[start],size);
+            needle[size] = '\0';
+            printf ("needle : %s\n", needle);
+            toReturn.add(needle);
         }*/
 
         while (pcre_exec (reg, null, haystack, len, start, 0, offsets, 30 ) >= 0 ) {
             start = offsets[0];
             end = offsets[1];
             size = end - start;
-            niddle = malloc (sizeof(niddle) * size +1 );
-            strncpy(niddle, &haystack[start],size);
-            niddle[size] = '\0';
-            toReturn.add(niddle);
+            needle = malloc (sizeof(needle) * size +1 );
+            strncpy(needle, &haystack[start],size);
+            needle[size] = '\0';
+            toReturn.add(needle);
             start += end;
         }
         return toReturn;
