@@ -245,7 +245,7 @@ class SparseList from List {
 	}
 	
 	implement iterator {
-		return new SparseListIterator(this);
+		return (Iterator) new SparseListIterator(this);
 	}
 
 }

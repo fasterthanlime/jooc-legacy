@@ -28,7 +28,7 @@ class File {
 	
 	func children -> List {
 		
-		List list = new ArrayList;
+		List list = (List) new ArrayList;
 		Dir dp;
 		DirEntry* ep;
      
@@ -69,7 +69,12 @@ class File {
 	
 	func name -> String {
 		
-		return path.substring(path.indexOf("/"));
+		Int idx = path.lastIndexOf('/');
+		if(idx == -1) {
+			return path;
+		} else {
+			return path.substring(idx + 1);
+		}
 		
 	}
 	

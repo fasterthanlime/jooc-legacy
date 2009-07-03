@@ -16,7 +16,7 @@ import java.util.List;
  * @author Amos Wenger
  */
 public class SourceReader {
-    
+	
 	/**
 	 * The case sensibility setting, e.g. whether 'A' == 'a' or 'A' != 'a'
 	 * @author Amos Wenger
@@ -102,7 +102,7 @@ public class SourceReader {
 
     /**
      * Read one character from the source at current position.
-     * @return The character read, as a codepoint
+     * @return The character read
      * @throws EOFException When the end of the file is reached.
      */
     public char read() throws EOFException {
@@ -122,7 +122,7 @@ public class SourceReader {
     /**
      * Read one character from the source at current position, without advancing
      * the pointer
-     * @return The character read, as a codepoint
+     * @return The character read
      * @throws EOFException When the end of the file is reached.
      */
     public char peek() {
@@ -214,14 +214,14 @@ public class SourceReader {
     }
 
     /**
-     * @param codePoint
-     * @return true if the last-but-one char equals 'codePoint'.
+     * @param character
+     * @return true if the last-but-one char equals 'character'.
      */
-    public boolean backMatches(int codePoint, boolean trueIfStartpos) {
+    public boolean backMatches(char character, boolean trueIfStartpos) {
         if(index <= 0) {
             return trueIfStartpos;
         }
-		return content[index - 1] == codePoint;
+		return content[index - 1] == character;
     }
 
     /**
@@ -244,6 +244,42 @@ public class SourceReader {
             ++count;
         }
         return match;
+    }
+    
+    /**
+     * Test if a "candidate" matches the next character in the content, and if there's
+     * whitespace after it.
+     * @param candidate
+     * @param keepEnd
+     * @return
+     * @throws EOFException
+     */
+    public boolean matchesSpaced(String candidate, boolean keepEnd) throws EOFException {
+    	int mark = mark();
+    	boolean result = matches(candidate, true) && hasWhitespace(false);
+    	if(!keepEnd) {
+    		reset(mark);
+    	}
+    	return result;
+    }
+    
+    /**
+     * Test if a "candidate" matches the next character in the content, and if there's
+     * characters other than "A-Za-z0-9_" after iti
+     * @param candidate
+     * @param keepEnd
+     * @return
+     * @throws EOFException
+     */
+    public boolean matchesNonident(String candidate, boolean keepEnd) throws EOFException {
+    	int mark = mark();
+    	boolean result = matches(candidate, true);
+    	char c = peek();
+    	result &= ((c == '_') || Character.isLetterOrDigit(c));
+    	if(!keepEnd) {
+    		reset(mark);
+    	}
+    	return result;
     }
 
     /**
@@ -271,11 +307,11 @@ public class SourceReader {
 
         mark();
         int i = 0;
-        int c, c2;
+        char c, c2;
         boolean result = true;
         while(i < candidate.length()) {
             c = read();
-            c2 = candidate.codePointAt(i);
+            c2 = candidate.charAt(i);
             if(c2 != c) {
                 if((caseMode == CaseSensibility.SENSITIVE) || (Character.toLowerCase(c2) != Character.toLowerCase(c))) {
                     result = false;
@@ -302,9 +338,9 @@ public class SourceReader {
 
         mark();
         if(hasNext()) {
-            int codePoint = read();
-            if(Character.isLetter(codePoint) || codePoint == '_') {
-                sB.appendCodePoint(codePoint);
+            char chr = read();
+            if(Character.isLetter(chr) || chr == '_') {
+                sB.append(chr);
             } else {
                 reset();
                 return "";
@@ -313,9 +349,9 @@ public class SourceReader {
 
         read : while(hasNext()) {
             mark();
-            int codePoint = read();
-            if(Character.isLetterOrDigit(codePoint) || codePoint == '_') {
-                sB.appendCodePoint(codePoint);
+            char chr = read();
+            if(Character.isLetterOrDigit(chr) || chr == '_') {
+                sB.append(chr);
             } else {
                 reset();
                 break read;
@@ -366,9 +402,9 @@ public class SourceReader {
 
         int myMark = mark();
         while(hasNext()) {
-            int c = read();
+            char c = read();
             if(candidates.indexOf(c) != -1) {
-                sB.appendCodePoint(c);
+                sB.append(c);
             } else if(ignored.indexOf(c) != -1) {
                 // look up in the sky, and think of how lucky you are and others aren't.
             } else {
@@ -389,7 +425,7 @@ public class SourceReader {
 
     /**
      * Read a C-style character literal, e.g. any character or an escape sequence,
-     * and return it as a codePoint.
+     * and return it as a char.
      */
     @SuppressWarnings("fallthrough")
 	public char readCharLiteral() throws EOFException, SyntaxError {
@@ -452,7 +488,7 @@ public class SourceReader {
     public String readStringLiteral(char delimiter) throws EOFException {
 
         StringBuilder buffer = new StringBuilder();
-        int c;
+        char c;
         reading : while(true) {
             mark();
             c = read();
@@ -483,7 +519,7 @@ public class SourceReader {
                 case '"':
                     break reading;
                 default: // TODO : wonder if newline is a syntax error in a string literal
-                    buffer.appendCodePoint(c);
+                    buffer.append(c);
             }
         }
 
@@ -550,38 +586,38 @@ public class SourceReader {
     }
 
     /**
-     * Read until the character "codePoint", and return the characters read.
+     * Read until the character "chr", and return the characters read.
      * Example:
      * <code>
      * String myLine = sourceReader.readUntil(';');
      * </code>
-     * @param codePoint The end delimiter.
+     * @param chr The end delimiter.
      * @throws java.io.EOFException
      */
-    public String readUntil(int codePoint) throws EOFException {
-        return readUntil(codePoint, false);
+    public String readUntil(char chr) throws EOFException {
+        return readUntil(chr, false);
     }
 
     /**
-     * Read until the character "codePoint", and return the characters read.
-     * @param codePoint The end delimiter.
+     * Read until the character "chr", and return the characters read.
+     * @param chr The end delimiter.
      * @param keepEnd If false, leave the position before the end delimiter.
      * If true, include the delimiter in the returned String, and leave the
      * position after.
      * @throws java.io.EOFException
      */
-    public String readUntil(int codePoint, boolean keepEnd) throws EOFException {
+    public String readUntil(char chr, boolean keepEnd) throws EOFException {
 
         StringBuilder sB = new StringBuilder();
 
-        int codePointRead = -1;
-        while(hasNext() && (codePointRead = read()) != codePoint) {
-            sB.appendCodePoint(codePointRead);
+        char chrRead = 0;
+        while(hasNext() && (chrRead = read()) != chr) {
+            sB.append(chrRead);
         }
         if(!keepEnd) {
             reset(index - 1); // chop off the last character
-        } else if(codePointRead != -1) {
-            sB.appendCodePoint(codePointRead);
+        } else if(chrRead != 0) {
+            sB.append(chrRead);
         }
         
         return sB.toString();
@@ -620,7 +656,7 @@ public class SourceReader {
                     return sB.toString();
                 }
             }
-            sB.appendCodePoint(read());
+            sB.append(read());
         } } catch(EOFException e) {
         	// Normal operation.
         }
@@ -637,7 +673,7 @@ public class SourceReader {
         StringBuilder output = new StringBuilder();
         
         try { while(hasNext()) {
-           output.appendCodePoint(read());
+           output.append(read());
         } } catch(EOFException e) {
         	// Well, that's the point
         }
@@ -650,14 +686,14 @@ public class SourceReader {
      * Read a block delimited by "start" and "end". It deals with nested blocks, e.g.
      * with '{' and '}', it will match '{{}}' in one piece.
      * Note : the final end delimiter is eaten, No need to skip it.
-     * @param startCodePoint the start delimiter
-     * @param endCodePoint the end delimiter
+     * @param startChr the start delimiter
+     * @param endChr the end delimiter
      * @return the content of the block
      * @throws org.ubi.SyntaxError
      * @throws java.io.IOException
      */
-    public String readBlock(char startCodePoint, char endCodePoint) throws SyntaxError, EOFException {
-        return readBlock(startCodePoint, endCodePoint, '\0');
+    public String readBlock(char startChr, char endChr) throws SyntaxError, EOFException {
+        return readBlock(startChr, endChr, '\0');
     }
 
     /**
@@ -667,44 +703,44 @@ public class SourceReader {
      * e.g. with '"' and '"' delimiters, and '\\' escapeChar, there can be escape sequence in
      * what looks obviously like a String literal.
      * Note : the final end delimiter is eaten, No need to skip it.
-     * @param startCodePoint the start delimiter
-     * @param endCodePoint the end delimiter
+     * @param startChr the start delimiter
+     * @param endChr the end delimiter
      * @return the content of the block
      * @throws org.ubi.SyntaxError
      * @throws java.io.IOException
      */
-    public String readBlock(char startCodePoint, char endCodePoint, char escapeChar) throws SyntaxError, EOFException {
+    public String readBlock(char startChr, char endChr, char escapeChar) throws SyntaxError, EOFException {
 
         skipWhitespace();
         mark();
         char c;
-        if((c = read()) != startCodePoint) {
+        if((c = read()) != startChr) {
             reset();
             throw new SyntaxError(getLocation(), "Trying to read block delimited by "
-            		+spelled(startCodePoint)+spelled(endCodePoint)
+            		+spelled(startChr)+spelled(endChr)
             		+", but "+spelled(c)+" found instead.");
         }
 
         StringBuilder output = new StringBuilder();
 
         int count = 1;
-        int codePoint;
+        char chr;
 
         try { reading: while(true) {
-            codePoint = read();
-            if(codePoint == escapeChar) {
-                output.appendCodePoint(codePoint);
-                codePoint = read();
+            chr = read();
+            if(chr == escapeChar) {
+                output.append(chr);
+                chr = read();
             }
 
-            if(codePoint == endCodePoint) {
+            if(chr == endChr) {
                 if(--count <= 0) {
                     break reading;
                 }
-            } else if(codePoint == startCodePoint) {
+            } else if(chr == startChr) {
                 ++count;
             }
-            output.appendCodePoint(codePoint);
+            output.append(chr);
         } } catch(EOFException e) {
         	// Normal operation
         }
@@ -740,7 +776,7 @@ public class SourceReader {
         StringBuilder output = new StringBuilder();
 
         int count = 1;
-        char codePoint;
+        char chr;
 
         try { reading: while(true) {
 
@@ -751,12 +787,12 @@ public class SourceReader {
             } else if(matches(start, true)) {
                 ++count;
             } else {
-                codePoint = read();
-                if(codePoint == escapeChar) {
-                    output.appendCodePoint(codePoint);
-                    codePoint = read();
+                chr = read();
+                if(chr == escapeChar) {
+                    output.append(chr);
+                    chr = read();
                 }
-                output.appendCodePoint(codePoint);
+                output.append(chr);
             }
 
         } } catch(EOFException e) {
@@ -776,13 +812,13 @@ public class SourceReader {
     }
 
     /**
-     * Return a String representation of a codePoint, with spelled
+     * Return a String representation of a character, with spelled
      * out representations of newlines, tabs, etc.
      * Example: spelled(32) = " ";
      * Example: spelled('\n') = "\\n";
      */
-    public static String spelled(char codePoint) {
-        switch(codePoint) {
+    public static String spelled(char character) {
+        switch(character) {
         	case '\"':
         		return "\\\"";
             case '\t':
@@ -794,7 +830,7 @@ public class SourceReader {
             case '\0':
                 return "\\0";
             default:
-                return Character.toString(codePoint);
+                return Character.toString(character);
         }
     }
 

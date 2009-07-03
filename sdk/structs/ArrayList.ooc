@@ -221,7 +221,7 @@ class ArrayList from List {
 	}
 	
 	implement iterator {
-		return new ArrayListIterator(this);
+		return (Iterator) new ArrayListIterator(this);
 	}
 	
 }
