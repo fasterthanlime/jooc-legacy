@@ -1,7 +1,8 @@
 import structs.SparseList;
+import Event;
 
-abstract class EventDispatcher
-{
+abstract class EventDispatcher {
+	
 	SparseList listeners;
 	
 	func new {
@@ -17,27 +18,27 @@ abstract class EventDispatcher
 	}
 	
 	func removeEventListener(Func listener, Int eventType){
-		for(EventListener eventListener: listeners)
-		{
-			if(eventListener.listener == listener && eventListener.event == eventType)
-			{
+		for(EventListener eventListener: listeners) {
+			
+			if(eventListener.listener == listener && eventListener.event == eventType) {
 				listeners.removeElement(eventListener);
 			}
+			
 		}
 	}
 	
 	func dispatchEvent(Event event){
 		event.target = this;
-		for(Func listener : listeners) 
-		{
-			listener(event);
+		for(EventListener listener : listeners) {
+			listener.listener(event);
 		}
 	}
 }
 
-class EventListener
-{
+class EventListener {
+	
 	Func listener;
 	Int event;
 	func new(=listener, =event);
+	
 }
