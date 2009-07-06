@@ -176,6 +176,17 @@ public class SourceReader {
     public void rewind(int offset) {
         this.index -= offset;
     }
+    
+    /**
+     * Advance position from given offset.
+     * @param offset
+     * @throws EOFException 
+     */
+    public void skip(int offset) throws EOFException {
+    	for(int i = 0; i < offset; i++) {
+    		read();
+    	}
+	}
 
     /**
      * @return the current line number
@@ -275,7 +286,7 @@ public class SourceReader {
     	int mark = mark();
     	boolean result = matches(candidate, true);
     	char c = peek();
-    	result &= ((c == '_') || Character.isLetterOrDigit(c));
+    	result &= !((c == '_') || Character.isLetterOrDigit(c));
     	if(!keepEnd) {
     		reset(mark);
     	}
