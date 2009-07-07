@@ -28,7 +28,7 @@ public class SourceReader {
         INSENSITIVE
     }
 
-    private ArrayList<Integer> newlineIndexes;
+    private ArrayList<Integer> newlineIndices;
     private String fileName;
     private char[] content;
     private int index;
@@ -97,7 +97,7 @@ public class SourceReader {
         this.content = content.toCharArray();
         this.index = 0;
         this.mark = 0;
-        this.newlineIndexes = new ArrayList<Integer> ();
+        this.newlineIndices = new ArrayList<Integer> ();
     }
 
     /**
@@ -112,8 +112,8 @@ public class SourceReader {
         }
         char character = content[index++];
         if(character == '\n') {
-            if(newlineIndexes.isEmpty() || newlineIndexes.get(newlineIndexes.size() - 1).intValue() < index) {
-                newlineIndexes.add(new Integer(index));
+            if(newlineIndices.isEmpty() || newlineIndices.get(newlineIndices.size() - 1).intValue() < index) {
+                newlineIndices.add(new Integer(index));
             }
         }
         return character;
@@ -176,13 +176,24 @@ public class SourceReader {
     public void rewind(int offset) {
         this.index -= offset;
     }
+    
+    /**
+     * Advance position from given offset.
+     * @param offset
+     * @throws EOFException 
+     */
+    public void skip(int offset) throws EOFException {
+    	for(int i = 0; i < offset; i++) {
+    		read();
+    	}
+	}
 
     /**
      * @return the current line number
      */
     public int getLineNumber() {
         int lineNumber = 0;
-        while(lineNumber < newlineIndexes.size() && newlineIndexes.get(lineNumber).intValue() < index) {
+        while(lineNumber < newlineIndices.size() && newlineIndices.get(lineNumber).intValue() < index) {
             lineNumber++;
         }
         return lineNumber + 1;
@@ -196,7 +207,7 @@ public class SourceReader {
         if(lineNumber == 1) {
             return index + 1;
         }
-		return index - newlineIndexes.get(getLineNumber() - 2).intValue() + 1;
+		return index - newlineIndices.get(getLineNumber() - 2).intValue() + 1;
     }
 
     /**
@@ -275,7 +286,7 @@ public class SourceReader {
     	int mark = mark();
     	boolean result = matches(candidate, true);
     	char c = peek();
-    	result &= ((c == '_') || Character.isLetterOrDigit(c));
+    	result &= !((c == '_') || Character.isLetterOrDigit(c));
     	if(!keepEnd) {
     		reset(mark);
     	}
@@ -897,10 +908,30 @@ public class SourceReader {
      * @return
      */
     public boolean endToken(Token token) {
-
+ 
     	token.length = index - token.start;
     	return true;
     	
     }
+
+	@SuppressWarnings("boxing")
+	public String getLine(int lineNumber) throws IOException {
+
+		int mark = mark();
+		
+		if(newlineIndices.size() > lineNumber) {
+			reset(newlineIndices.get(lineNumber));
+		} else {
+			reset(0);
+			for(int i = 1; i < lineNumber; i++) {
+				readLine();
+			}
+		}
+		
+		String line = readLine();
+		reset(mark);
+		return line;
+		
+	}
 
 }

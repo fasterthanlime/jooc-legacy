@@ -1,6 +1,9 @@
 package org.ooc.errors;
 
+import java.io.IOException;
+
 import org.ubi.FileLocation;
+import org.ubi.SourceReader;
 
 /**
  * Error issued when the compilation process has failed in an unrecoverable way.
@@ -17,6 +20,9 @@ public class CompilationFailedError extends Error {
 	private boolean printed;
 
 	private final FileLocation location;
+	
+	private String line;
+	private String cursor;
 
 	/**
 	 * Default constructor from another throwable
@@ -32,8 +38,31 @@ public class CompilationFailedError extends Error {
 	 * @param message
 	 */
 	public CompilationFailedError(FileLocation location, String message) {
+		
 		super(location == null ? message : location + ": " + message);
 		this.location = location;
+		if(location != null) {
+			try {
+				
+				SourceReader reader = SourceReader.getReaderFromPath(location.getFileName());
+				this.line = reader.getLine(location.getLineNumber());
+				StringBuffer sb = new StringBuffer(line.length());
+				for(int i = 0; i < location.getLinePos() - 1; i++) {
+					char c = line.charAt(i);
+					if(c == '\t') {
+						sb.append('\t');
+					} else {
+						sb.append(' ');
+					}
+				}
+				sb.append("^");
+				cursor = sb.toString();
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
 	}
 	
 	
@@ -53,6 +82,24 @@ public class CompilationFailedError extends Error {
 	 */
 	public FileLocation getLocation() {
 		return location;
+	}
+	
+	@Override
+	public String toString() {
+
+		return getMessage();
+		
+	}
+	
+	@Override
+	public String getMessage() {
+
+		if(line == null) {
+			return super.getMessage();
+		}
+		
+		return "\n" + super.getMessage().trim() + "\n" + line + cursor;
+		
 	}
 	
 }
