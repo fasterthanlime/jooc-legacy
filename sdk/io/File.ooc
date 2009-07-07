@@ -63,10 +63,23 @@ class File {
 		
 		FileStat stat;
 		lstat(path, &stat);
-		return (stat.st_mode & S_IFDIR);
-		
+		return S_ISDIR(stat.st_mode);	
 	}
-	
+
+	func isReg -> Bool {
+
+		FileStat stat;
+		lstat(path, &stat);
+		return S_ISREG(stat.st_mode);
+	}
+
+	func isLnk -> Bool {
+
+		FileStat stat;
+		lstat(path, &stat);	
+		return S_ISLNK(stat.st_mode);
+	}
+
 	func name -> String {
 		
 		Int idx = path.lastIndexOf('/');
