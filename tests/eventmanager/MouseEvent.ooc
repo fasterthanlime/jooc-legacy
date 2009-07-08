@@ -1,12 +1,14 @@
-import Event;
+import event.Event;
 
 class MouseEvent from Event {
-	
-	static Int OVER = 5;
-	static Int CLIC = 6;
+	static const Int CLIC = 0;
+	static const Int OVER = 1;
 	
 	Int x;
 	Int y;
-	func new(=type, =x, =y);
 	
+	func new(Int eventType, =x, =y)
+	{
+		super(eventType);
+	}
 }
