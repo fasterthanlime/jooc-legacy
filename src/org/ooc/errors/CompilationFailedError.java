@@ -41,6 +41,11 @@ public class CompilationFailedError extends Error {
 		
 		super(location == null ? message : location + ": " + message);
 		this.location = location;
+		fillLine(location);
+		
+	}
+	
+	private void fillLine(FileLocation location) {
 		if(location != null) {
 			try {
 				
@@ -62,10 +67,8 @@ public class CompilationFailedError extends Error {
 				e.printStackTrace();
 			}
 		}
-		
 	}
-	
-	
+
 	@Override
 	public void printStackTrace() {
 	

@@ -15,4 +15,3 @@ class Mine {
 func main {
 	printf("And value is %d\n", new Mine(42).value());
 }
-
