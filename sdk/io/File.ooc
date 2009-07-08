@@ -66,14 +66,14 @@ class File {
 		return S_ISDIR(stat.st_mode);	
 	}
 
-	func isReg -> Bool {
+	func isFile -> Bool {
 
 		FileStat stat;
 		lstat(path, &stat);
 		return S_ISREG(stat.st_mode);
 	}
 
-	func isLnk -> Bool {
+	func isLink -> Bool {
 
 		FileStat stat;
 		lstat(path, &stat);	
