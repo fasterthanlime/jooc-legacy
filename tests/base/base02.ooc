@@ -1,5 +1,0 @@
-func main {
-
-	call()
-
-}

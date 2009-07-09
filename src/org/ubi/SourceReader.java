@@ -183,8 +183,12 @@ public class SourceReader {
      * @throws EOFException 
      */
     public void skip(int offset) throws EOFException {
-    	for(int i = 0; i < offset; i++) {
-    		read();
+    	if(offset < 0) {
+    		rewind(-offset);
+    	} else {
+    		for(int i = 0; i < offset; i++) {
+    			read();
+    		}
     	}
 	}
 
@@ -223,6 +227,15 @@ public class SourceReader {
     public FileLocation getLocation() {
         return new FileLocation(fileName, getLineNumber(), getLinePos(), index);
     }
+    
+    public FileLocation getLocation(int start) throws EOFException {
+    	int mark = mark();
+    	reset(0);
+    	skip(start);
+    	FileLocation loc = getLocation();
+    	reset(mark);
+		return loc;
+	}
 
     /**
      * @param character
@@ -931,6 +944,19 @@ public class SourceReader {
 		String line = readLine();
 		reset(mark);
 		return line;
+		
+	}
+
+	/**
+	 * Get a slice of the source, specifying the start position
+	 * and the length of the slice.
+	 * @param start
+	 * @param length
+	 * @return
+	 */
+	public String getSlice(int start, int length) {
+
+		return new String(content, start, length);
 		
 	}
 

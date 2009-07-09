@@ -24,6 +24,10 @@ class File {
 		}
 	}
 	
+	static Int CAN_READ  = 0x100;
+  	static Int CAN_WRITE = 0x010;
+  	static Int CAN_EXEC  = 0x001;
+	
 	func new(=path);
 	
 	func children -> List {
@@ -66,18 +70,39 @@ class File {
 		return S_ISDIR(stat.st_mode);	
 	}
 
-	func isReg -> Bool {
+	func isFile -> Bool {
 
 		FileStat stat;
 		lstat(path, &stat);
 		return S_ISREG(stat.st_mode);
 	}
 
-	func isLnk -> Bool {
+	func isLink -> Bool {
 
 		FileStat stat;
 		lstat(path, &stat);	
 		return S_ISLNK(stat.st_mode);
+	}
+	
+	func ownerPerm -> Int {
+
+		FileStat stat;
+  		lstat(path, &stat);
+  		return (stat.st_mode & S_IRWXU);
+	}
+
+	func groupPerm -> Int {
+	
+		FileStat stat;
+  		lstat(path, &stat);
+ 		return (stat.st_mode & S_IRWXG);
+	}
+
+	func otherPerm -> Int {
+
+		FileStat stat;
+ 		lstat(path, &stat);
+  		return (stat.st_mode & S_IRWXO);
 	}
 
 	func name -> String {

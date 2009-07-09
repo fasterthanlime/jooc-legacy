@@ -7,4 +7,3 @@ func douche -> Int {
 func main {
 	printf("And four equals? %d\n", douche());
 }
-
