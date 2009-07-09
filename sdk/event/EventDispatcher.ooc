@@ -12,19 +12,28 @@ abstract class EventDispatcher {
 		listeners = new(1);
 	}
 	
-	func addEventListener(Func listener, Int event) {
-		listeners.add(new EventListener(listener, event));
+	func addEventListener(Func listener, Int eventType) {
+		for(EventListener eventListener: listeners) {
+			//WTF ?
+			//if(eventListener.listener == listener && eventListener.eventType == eventType) {
+			if(eventListener->listener == listener && eventListener->eventType == eventType) {
+				return;
+			}
+		}
+		listeners.add(new EventListener(listener, eventType));
 	}
 	
 	func removeEventListener(Func listener, Int eventType) -> Bool{
 		for(EventListener eventListener: listeners) {
-			
-			if(eventListener.listener == listener && eventListener.eventType == eventType) {
+			//WTF ?
+			//if(eventListener.listener == listener && eventListener.eventType == eventType) {
+			if(eventListener->listener == listener && eventListener->eventType == eventType) {
 				listeners.removeElement(eventListener);
 				return true;
 			}
 			
 		}
+		return false;
 	}
 	
 	func dispatchEvent(Event event){

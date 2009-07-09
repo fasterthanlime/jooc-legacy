@@ -1,5 +1,17 @@
-import MouseEvent, event.EventDispatcher;
+/**
+ * Test suite for ooc's event manager.
+ * Output and expected output must be the same.
+ * 
+ * Copyright (C) 2009 Adrien Béraud <adrienberaud@gmail.com>
+ * Published under the General Public Licence 3.0
+ */
 
+import event.EventDispatcher;
+import MouseEvent;
+
+/**
+ * Simple class that throw events.
+ */
 class TestObject from EventDispatcher 
 {
 	String obj_name;
@@ -18,12 +30,40 @@ class TestObject from EventDispatcher
 }
 
 func main {
+	puts("Expected output :");
+	puts("Event received from object1 : clic");
+	puts("Event received from object2 : over");
+	puts("Event received from object1 : over");
+	puts("Event received from object2 : clic");
+	puts("Output :");
 	
-	TestObject obj1 = new("objet1");
-	TestObject obj2 = new("objet2");
+	TestObject obj1 = new("object1");
+	TestObject obj2 = new("object2");
 	
 	obj1.addEventListener(cool, MouseEvent.CLIC);
 	obj2.addEventListener(cool, MouseEvent.OVER);
+	
+	obj1.clic;
+	obj1.over;
+	
+	obj2.clic;
+	obj2.over;
+	
+	obj1.removeEventListener(cool, MouseEvent.CLIC);
+	obj2.removeEventListener(cool, MouseEvent.OVER);
+	
+	obj1.clic;
+	obj1.over;
+	
+	obj2.clic;
+	obj2.over;
+	
+	obj1.addEventListener(cool, MouseEvent.OVER);
+	obj2.addEventListener(cool, MouseEvent.CLIC);
+	obj1.addEventListener(cool, MouseEvent.OVER);
+	obj2.addEventListener(cool, MouseEvent.CLIC);
+	obj1.addEventListener(cool, MouseEvent.OVER);
+	obj2.addEventListener(cool, MouseEvent.CLIC);
 	
 	obj1.clic;
 	obj1.over;
@@ -35,7 +75,7 @@ func main {
 func cool(MouseEvent e) {
 	TestObject target = e.target;
 	String obj_name = target.obj_name;
-	printf("Hi, we received an event from %s : ", obj_name);
+	printf("Event received from %s : ", obj_name);
 	
 	/*switch(e.type)
 	{
