@@ -1,17 +1,13 @@
 /**
  * Test suite for ooc's event manager.
  * Output and expected output must be the same.
- * 
- * Copyright (C) 2009 Adrien Béraud <adrienberaud@gmail.com>
- * Published under the General Public Licence 3.0
+ * @author Adrien Béraud <adrienberaud@gmail.com>
+ * @version 0.3
  */
 
 import event.EventDispatcher;
 import MouseEvent;
 
-/**
- * Simple class that throw events.
- */
 class TestObject from EventDispatcher 
 {
 	String obj_name;
@@ -40,6 +36,7 @@ func main {
 	TestObject obj1 = new("object1");
 	TestObject obj2 = new("object2");
 	
+	//test simple event dispatching
 	obj1.addEventListener(cool, MouseEvent.CLIC);
 	obj2.addEventListener(cool, MouseEvent.OVER);
 	
@@ -49,6 +46,7 @@ func main {
 	obj2.clic;
 	obj2.over;
 	
+	//test removing listeners
 	obj1.removeEventListener(cool, MouseEvent.CLIC);
 	obj2.removeEventListener(cool, MouseEvent.OVER);
 	
@@ -58,6 +56,7 @@ func main {
 	obj2.clic;
 	obj2.over;
 	
+	//test multiple similar listeners detection
 	obj1.addEventListener(cool, MouseEvent.OVER);
 	obj2.addEventListener(cool, MouseEvent.CLIC);
 	obj1.addEventListener(cool, MouseEvent.OVER);
