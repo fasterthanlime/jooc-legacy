@@ -1,78 +1,61 @@
 /**
-* Regexp system to get matches, test patterns...
+* Regexp system to get matches, test patterns... and cover String type to add methods like "match", "split" or "replace"
 * @author Patrice Ferlet <metal3d@gmail.com>
 */
 
 import structs.ArrayList;
+import text.POSIXRegexp;
+import text.PCRE;
 
-include sys/types;
-include regex;
-//some ctype we need
-ctype regmatch_t;
-typedef regmatch_t *PRegMatch;
-typedef size_t SizeType;
-typedef regex_t PRegExp;
-
+abstract class RegexpInterface {
+    abstract func setPattern(String pattern)-> Bool;
+    abstract func match(String subject) -> ArrayList;
+}
 
 
 class Regexp {
 
+    static const Int PCRE = 0;
+    static const Int POSIX = 1;
+
+    static Int DEFAULT_TYPE = 1;
+
     String pattern;
-    PRegExp preg;    
-    func new(=pattern){
-        //compile regexp only one time per class !
-        if (regcomp (&preg, pattern, REG_EXTENDED) != 0){
-            return false;
-        }
-    };
+    PRegExp preg;
 
     /**
-    * Try to find matches from pattern in haystack to return niddles (yes, niddle*s*)
-    *
-    * @param String pattern
-    * @param String haystack
-    * @return ArrayList (String) niddles
+    * Create Regexp by engine type
+    * @param
     */
-    func match (String haystack) -> ArrayList {
-        Int matches;
-        SizeType nmatch=0;
-        PRegMatch pmatch;
-        ArrayList ret = new;
-        
-        //prepare matches
-        nmatch = preg.re_nsub;
-        pmatch = malloc (sizeof (pmatch) * nmatch);
-            
-        //now, we will parse
-        Int start =0;
-        Int end = 0;
-        if (pmatch) {
-            while (regexec (&preg, haystack+end, nmatch, pmatch, 0) == 0 ){
-                //move pointer on sentence
-                start = pmatch->rm_so+end;
-                end   = pmatch->rm_eo+end;
-
-                //To allocate memory
-                SizeType size = end - start;
-                String niddle = malloc (sizeof(niddle) * (size + 1));
-
-                //if we have size, we have something to insert
-                if (niddle) {
-                    strncpy (niddle, &haystack[start], size);
-                    niddle[size] = '\0';
-                    //append resulut into List
-                    ret.add(niddle);
-                }
-            }
-            //we can return ArrayList
-            return ret;
-        }
-        else {
-            //ho my god...
-            fprintf (stderr, "Out of memory error on Regexp matching process\n");
-            return false;
-        }
-        //error...
-        return false;
+    static func get() -> RegexpInterface{
+        Int type = Regexp.DEFAULT_TYPE;
+        //for now, const Int are not supported... 
+        if(type == Regexp.PCRE )
+                return new PCRE;
+        //default...
+        return new POSIXRegexp;
     }
+
+    /**
+    * set regexp engine
+    * @param Int Engine
+    */
+    static func setEngine (Int engine){
+        Regexp.DEFAULT_TYPE = engine;
+    }
+
+}
+
+
+/**
+* Append "match" "replace" and "split" to String type
+*/
+cover String {
+    func match(String pattern) -> ArrayList {
+        RegexpInterface re = Regexp.get();
+        re.setPattern(pattern);
+
+        return re.match(this);
+    }
+
 }

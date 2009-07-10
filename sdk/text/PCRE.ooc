@@ -11,16 +11,20 @@ typedef pcre *Pcre_reg;
 /**
  * PReg is PCRE Regular expression class
  */
-class PReg {
+class PCRE from RegexpInterface {
 
     Pcre_reg reg;
     String error;
     Int errnum;
     
 
-    func new(String pattern) {
+    func setPattern(String pattern) {
         reg = pcre_compile (pattern, 0, &error, &errnum, null);
         //todo, check errors
+        if (!reg) {
+            return false;
+        }
+        return true;
     }
 
     func match (String haystack) -> ArrayList{
@@ -32,22 +36,6 @@ class PReg {
         Int size;
         String needle;
         ArrayList toReturn = new;
-
-        /*Int ret = pcre_exec (reg, null, haystack, len, start, 0, offsets, 30 );
-        printf("%d found\n", ret);
-
-        for (Int i: 0..ret){
-            printf("Found %d!\n",i);
-            start = offsets[i];
-            end = offsets[i+1];
-            
-            size = end - start;
-            needle = malloc (sizeof(needle) * size +1 );
-            strncpy(needle, &haystack[start],size);
-            needle[size] = '\0';
-            printf ("needle : %s\n", needle);
-            toReturn.add(needle);
-        }*/
 
         while (pcre_exec (reg, null, haystack, len, start, 0, offsets, 30 ) >= 0 ) {
             start = offsets[0];
