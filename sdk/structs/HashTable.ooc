@@ -2,6 +2,7 @@ include stdlib;
 include memory;
 
 import lang.String;
+import Array;
 import ArrayList;
 
 /**
@@ -44,6 +45,10 @@ class HashTable {
 	func new(=capacity) {
 		size = 0;
 		buckets = malloc(capacity * sizeof(ArrayList));
+		if (buckets == null) {
+			printf("Out of memory: failed to allocate %d bytes\n", capacity * sizeof(ArrayList));
+			exit(1);
+		}
 		for (UInt i = 0; i < capacity; i++) {
 			buckets[i] = new;
 		}
@@ -136,6 +141,7 @@ class HashTable {
 	 * @return Bool
 	 */
 	func put(String key, Object value) -> Bool {
+		Float load;
 		UInt hash;
 		HashEntry entry = getEntry(key);
 		if (entry) {
@@ -146,7 +152,10 @@ class HashTable {
 			entry = new(key, value);
 			buckets[hash].add(entry);
 			size++;
-			/* TODO: Resize table */
+			load = (Float)size / (Float)capacity;
+			if (load >= 0.7) {
+				resize(capacity * 2);
+			}
 		}
 		return true;
 	}
@@ -181,11 +190,51 @@ class HashTable {
 		HashEntry entry = getEntry(key);
 		UInt hash = ac_X31_hash(key) % capacity;
 		if (entry) {
+			size--;
 			return buckets[hash].removeElement(entry);
 		}
 		else {
 			return false;
 		}
+	}
+	
+	/**
+	 * Resizes the hash table to a new capacity
+	 * @param UInt _capacity The new table capacity
+	 * @return Bool
+	 */
+	func resize(UInt _capacity) -> Bool {
+		/* Keep track of old settings */
+		UInt old_capacity = capacity;
+		ArrayList* old_buckets = malloc(old_capacity * sizeof(ArrayList));
+		if (old_buckets == null) {
+			printf("Out of memory: failed to allocate %d bytes\n", old_capacity * sizeof(ArrayList));
+			exit(1);
+		}
+		for (UInt i = 0; i < old_capacity; i++) {
+			old_buckets[i] = buckets[i].clone();
+		}
+		/* Transfer old buckets to new buckets! */
+		capacity = _capacity;
+		buckets = malloc(capacity * sizeof(ArrayList));
+		if (buckets == null) {
+			printf("Out of memory: failed to allocate %d bytes\n", capacity * sizeof(ArrayList));
+			exit(1);
+		}
+		for (UInt i = 0; i < capacity; i++) {
+			buckets[i] = new;
+		}
+		HashEntry entry;
+		for (UInt bucket = 0; bucket < old_capacity; bucket++) {
+			if (old_buckets[bucket].size() > 0) {
+				Iterator iter = old_buckets[bucket].iterator();
+				while (iter.hasNext()) {
+					entry = iter.next();
+					put(entry.key, entry.value);
+				}
+			}
+		}
+		return true;
 	}
 	
 }
