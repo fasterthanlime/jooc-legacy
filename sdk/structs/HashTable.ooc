@@ -9,22 +9,10 @@ import ArrayList;
  */
 class HashEntry {
 
-	/**
-	 * The key associated with the entry
-	 */
 	String key;
 	
-	/**
-	 * The value associated with the entry
-	 */
 	Object value;
 	
-	/**
-	 * Builds a new hash entry
-	 * @param String key The key for the hash entry
-	 * @param Object value The value for the hash entry
-	 * @return HashEntry
-	 */
 	func new(=key, =value);
 	
 }
@@ -34,19 +22,10 @@ class HashEntry {
  */
 class HashTable {
 
-	/**
-	 * Current size of the table
-	 */
 	UInt size;
 	
-	/**
-	 * Total capacity of the table (number of hash buckets)
-	 */
 	UInt capacity;
 	
-	/**
-	 * Collection of hash buckets
-	 */
 	ArrayList* buckets;
 	
 	/**
