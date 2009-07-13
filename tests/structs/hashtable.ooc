@@ -22,8 +22,24 @@ func main(Int argc, String[] argv) {
 	ht.resize(50);
 	printf("Still contains foo? %s\n", ht.contains("foo") ? "yes" : "no");
 	
+	/* Add a few keys */
+	printf("Adding keys bar, baz, quux\n");
+	ht.put("bar", "bar");
+	ht.put("baz", "baz");
+	ht.put("quux", "quux");
+	
+	/* Test removal */
 	printf("Removing foo\n");
 	ht.remove("foo");
 	printf("Contains foo now? %s\n", ht.contains("foo") ? "yes" : "no");
+	
+	/* Check out the keys */
+	printf("Keys: ");
+	Iterator key_iter = ht.keys.iterator();
+	while (key_iter.hasNext()) {
+		String key = key_iter.next();
+		printf("%s=%s ", key, (String)ht.get(key));
+	}
+	printf("\n");
 	
 }

@@ -2,7 +2,6 @@ include stdlib;
 include memory;
 
 import lang.String;
-import Array;
 import ArrayList;
 
 /**
@@ -29,6 +28,8 @@ class HashTable {
 	
 	ArrayList* buckets;
 	
+	ArrayList keys;
+	
 	/**
 	 * Returns a hash table with 100 buckets
 	 * @return HashTable
@@ -52,6 +53,7 @@ class HashTable {
 		for (UInt i = 0; i < capacity; i++) {
 			buckets[i] = new;
 		}
+		keys = new;
 	}
 
 	/*
@@ -148,6 +150,7 @@ class HashTable {
 			entry.value = value;
 		}
 		else {
+			keys.add(key);
 			hash = ac_X31_hash(key) % capacity;
 			entry = new(key, value);
 			buckets[hash].add(entry);
@@ -158,6 +161,13 @@ class HashTable {
 			}
 		}
 		return true;
+	}
+	
+	/**
+	 * Alias of put
+	 */
+	func add(String key, Object value) -> Bool {
+		return put(key, value);
 	}
 	
 	/**
@@ -182,7 +192,7 @@ class HashTable {
 	}
 	
 	/**
-	 * Removes the entry associated with the key.
+	 * Removes the entry associated with the key
 	 * @param String key The key to remove
 	 * @return Bool
 	 */
@@ -190,6 +200,12 @@ class HashTable {
 		HashEntry entry = getEntry(key);
 		UInt hash = ac_X31_hash(key) % capacity;
 		if (entry) {
+			for (UInt i = 0; i < keys.size; i++) {
+				printf("%s == %s ?\n", key, keys.get(i));
+				if (key.equals(keys.get(i))) {
+					printf("Removed %s\n", keys.remove(i));
+				}
+			}
 			size--;
 			return buckets[hash].removeElement(entry);
 		}
