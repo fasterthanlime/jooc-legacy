@@ -40,6 +40,7 @@ public class CommandLineInterface {
         boolean daemon = false;
         boolean run = false;
         boolean timing = false;
+        boolean ignoreUnknownArgs = false;
         int daemonPort = -1;
         
         boolean gui = false;
@@ -101,6 +102,10 @@ public class CommandLineInterface {
         			
         			dynamicLibs.add(arg.substring(2));
         			
+        		} else if(option.startsWith("freeargs")) {
+        			
+        			ignoreUnknownArgs = true;
+        			
         		} else if(option.equals("noclean")) {
         			
         			props.clean = false;
@@ -158,7 +163,7 @@ public class CommandLineInterface {
         		} else {
         			
         			System.err.println("Unrecognized option: '"+arg+"'");
-        			System.exit(1);
+        			if(!ignoreUnknownArgs) System.exit(1);
         			
         		}
         	} else {

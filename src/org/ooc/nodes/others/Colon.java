@@ -92,18 +92,18 @@ public class Colon extends RawCode {
                 Range range = (Range) next;
                 For forr = (For) getParent();
                 if(range.lower instanceof Typed && range.upper instanceof Typed /* && range.lower.isAssembled() && range.upper.isAssembled()*/) {
-                	Typed lowerTyped = (Typed) range.lower;
-                	Typed upperTyped = (Typed) range.upper;
-                	if(true || lowerTyped.getType().name.equals("int") && upperTyped.getType().name.equals("int")) { // That sucks.
+                	//Typed lowerTyped = (Typed) range.lower;
+                	//Typed upperTyped = (Typed) range.upper;
+                	//if(true || lowerTyped.getType().name.equals("int") && upperTyped.getType().name.equals("int")) { // That sucks.
 	                    forr.index = ((VariableDecl) prev).variable;
 	                    forr.lower = range.lower;
 	                    forr.upper = range.upper;
 	                    forr.reverse = range.reverse;
-                	} else {
-                		manager.queue(range, "Range after Colon still dirty, queuing.");
-                		manager.queue(this, "Range after Colon still dirty, queuing the Colon in prevision.");
+                	//} else {
+	                    //manager.queue(range, "Range after Colon still dirty, queuing.");
+                		//manager.queue(this, "Range after Colon still dirty, queuing the Colon in prevision.");
                 		//manager.errAndFail("Unknown lower type "+lowerTyped.getType()+" / upper type "+upperTyped.getType(), this);
-                	}
+                	//}
                 } else {
                 	manager.queue(range, "Range after Colon unknown type, queuing.");
                 	manager.queue(this, "Range lower ("+range.lower.getClass().getSimpleName()

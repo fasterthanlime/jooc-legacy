@@ -454,45 +454,86 @@ public class SourceReader {
     @SuppressWarnings("fallthrough")
 	public char readCharLiteral() throws EOFException, SyntaxError {
 
-        char c;
-        //while(true) {
-            mark();
-            c = read();
-            switch(c) {
-                case '\'':
-                    throw new SyntaxError(getLocation(), "Empty char literal !");
-                case '\\':
-                    char c2 = read();
-                    switch(c2) {
-                        case '\\': // backslash
-                            c = '\\'; break;
-                        case '0': // null char
-                            c = '\0'; break;
-                        case 'n': // newline
-                            c = '\n'; break;
-                        case 't': // tab
-                            c = '\t'; break;
-                        case 'b': // backspace
-                            c = '\b'; break;
-                        case 'f': // form feed
-                            c = '\f'; break;
-                        case 'r': // carriage return
-                            c = '\r'; break;
-                        case '\'': // simple quote
-                            c = '\''; break;
-                        default:
-                        	throw new SyntaxError(getLocation(), "Invalid escape sequence : \\"+spelled(c));
-                    }
-                // intentional fallthrough
-                default:
-                    c2 = read();
-                    if(c2 != '\'') {
-                    	throw new SyntaxError(getLocation(), "Char literal too long.");
-                    }
-                    return c;
-            }
-        //}
+        mark();
+        char c = read();
+        switch(c) {
+            case '\'':
+                throw new SyntaxError(getLocation(), "Empty char literal !");
+            case '\\':
+                char c2 = read();
+                switch(c2) {
+                    case '\\': // backslash
+                        c = '\\'; break;
+                    case '0': // null char
+                        c = '\0'; break;
+                    case 'n': // newline
+                        c = '\n'; break;
+                    case 't': // tab
+                        c = '\t'; break;
+                    case 'b': // backspace
+                        c = '\b'; break;
+                    case 'f': // form feed
+                        c = '\f'; break;
+                    case 'r': // carriage return
+                        c = '\r'; break;
+                    case '\'': // simple quote
+                        c = '\''; break;
+                    default:
+                    	throw new SyntaxError(getLocation(), "Invalid escape sequence : \\"+spelled(c));
+                }
+            // intentional fallthrough
+            default:
+                c2 = read();
+                if(c2 != '\'') {
+                	throw new SyntaxError(getLocation(), "Char literal too long.");
+                }
+                return c;
+        }
+        
     }
+    
+    /**
+     * Parse a C-style character literal from an input string, e.g. any character
+     * or an escape sequence, and return it as a char.
+     */
+    @SuppressWarnings("fallthrough")
+	public static char parseCharLiteral(String input) throws SyntaxError {
+    	
+        char c = input.charAt(0);
+        switch(c) {
+            case '\'':
+                throw new SyntaxError(null, "Empty char literal !");
+            case '\\':
+                char c2 = input.charAt(1);
+                switch(c2) {
+                    case '\\': // backslash
+                        c = '\\'; break;
+                    case '0': // null char
+                        c = '\0'; break;
+                    case 'n': // newline
+                        c = '\n'; break;
+                    case 't': // tab
+                        c = '\t'; break;
+                    case 'b': // backspace
+                        c = '\b'; break;
+                    case 'f': // form feed
+                        c = '\f'; break;
+                    case 'r': // carriage return
+                        c = '\r'; break;
+                    case '\'': // simple quote
+                        c = '\''; break;
+                    default:
+                    	throw new SyntaxError(null, "Invalid escape sequence : \\"+spelled(c));
+                }
+            // intentional fallthrough
+            default:
+                if(input.length() > 1) {
+                	throw new SyntaxError(null, "Char literal too long.");
+                }
+                return c;
+        }
+    	
+	}
 
     /**
      * Read a C-like string literal, e.g. enclosed by '"', and with C-like escape sequences,
@@ -536,13 +577,14 @@ public class SourceReader {
                             buffer.append('\r'); break;
                         default: // delimiter
                             if(c2 == delimiter) { // freakin' java switches. *growl*
-                                buffer.append('"');
+                                buffer.append(delimiter);
                             } break;
                     }
                     break;
-                case '"':
-                    break reading;
                 default: // TODO : wonder if newline is a syntax error in a string literal
+                	if(c == delimiter) {
+                		break reading;
+                	}
                     buffer.append(c);
             }
         }

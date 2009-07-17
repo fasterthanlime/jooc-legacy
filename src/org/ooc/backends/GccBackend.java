@@ -43,11 +43,8 @@ class GccBackend extends Backend {
 	private class CommandFailedException extends Exception {
 
 		private static final long serialVersionUID = -3792947243264725228L;
-		public final int returnCode;
-		
 		public CommandFailedException(String commandName, int returnCode) {
 			super(commandName+" failed with return code "+returnCode);
-			this.returnCode = returnCode;
 		}
 		
 	}

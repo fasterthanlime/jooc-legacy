@@ -35,7 +35,7 @@ class FileWriter from Writer {
 		fputc(c, file);
 	}
 	
-	func write(Char[] cbuf, Int off, Int len) {
+	func write(Char* cbuf, Int off, Int len) {
 		// The size of a Char is always 1
 		fwrite(cbuf + off, 1, len, file);
 	}

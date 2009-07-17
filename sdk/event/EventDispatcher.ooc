@@ -39,7 +39,7 @@ abstract class EventDispatcher {
 	 * @return		true if the listener have been successfully removed, false if no corresponding listener/event couple have been found.
 	 * @see			addEventListener
 	 */
-	func removeEventListener(Func listener, Int eventType) -> Bool{
+	func removeEventListener(Func listener, Int eventType) -> Bool {
 		for(EventListener eventListener: listeners) {
 			//if(eventListener.@listener == @listener && eventListener.eventType == eventType) {
 			if(eventListener->listener == listener && eventListener->eventType == eventType) {
