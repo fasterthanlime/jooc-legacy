@@ -28,6 +28,8 @@ class HashTable {
 	
 	ArrayList* buckets;
 	
+	ArrayList keys;
+	
 	/**
 	 * Returns a hash table with 100 buckets
 	 * @return HashTable
@@ -44,9 +46,14 @@ class HashTable {
 	func new(=capacity) {
 		size = 0;
 		buckets = malloc(capacity * sizeof(ArrayList));
+		if (buckets == null) {
+			printf("Out of memory: failed to allocate %d bytes\n", capacity * sizeof(ArrayList));
+			exit(1);
+		}
 		for (UInt i = 0; i < capacity; i++) {
 			buckets[i] = new;
 		}
+		keys = new;
 	}
 
 	/*
@@ -136,19 +143,31 @@ class HashTable {
 	 * @return Bool
 	 */
 	func put(String key, Object value) -> Bool {
+		Float load;
 		UInt hash;
 		HashEntry entry = getEntry(key);
 		if (entry) {
 			entry.value = value;
 		}
 		else {
+			keys.add(key);
 			hash = ac_X31_hash(key) % capacity;
 			entry = new(key, value);
 			buckets[hash].add(entry);
 			size++;
-			/* TODO: Resize table */
+			load = (Float)size / (Float)capacity;
+			if (load >= 0.7) {
+				resize(capacity * 2);
+			}
 		}
 		return true;
+	}
+	
+	/**
+	 * Alias of put
+	 */
+	func add(String key, Object value) -> Bool {
+		return put(key, value);
 	}
 	
 	/**
@@ -173,7 +192,7 @@ class HashTable {
 	}
 	
 	/**
-	 * Removes the entry associated with the key.
+	 * Removes the entry associated with the key
 	 * @param String key The key to remove
 	 * @return Bool
 	 */
@@ -181,11 +200,57 @@ class HashTable {
 		HashEntry entry = getEntry(key);
 		UInt hash = ac_X31_hash(key) % capacity;
 		if (entry) {
+			for (UInt i = 0; i < keys.size; i++) {
+				printf("%s == %s ?\n", key, keys.get(i));
+				if (key.equals(keys.get(i))) {
+					printf("Removed %s\n", keys.remove(i));
+				}
+			}
+			size--;
 			return buckets[hash].removeElement(entry);
 		}
 		else {
 			return false;
 		}
+	}
+	
+	/**
+	 * Resizes the hash table to a new capacity
+	 * @param UInt _capacity The new table capacity
+	 * @return Bool
+	 */
+	func resize(UInt _capacity) -> Bool {
+		/* Keep track of old settings */
+		UInt old_capacity = capacity;
+		ArrayList* old_buckets = malloc(old_capacity * sizeof(ArrayList));
+		if (old_buckets == null) {
+			printf("Out of memory: failed to allocate %d bytes\n", old_capacity * sizeof(ArrayList));
+			exit(1);
+		}
+		for (UInt i = 0; i < old_capacity; i++) {
+			old_buckets[i] = buckets[i].clone();
+		}
+		/* Transfer old buckets to new buckets! */
+		capacity = _capacity;
+		buckets = malloc(capacity * sizeof(ArrayList));
+		if (buckets == null) {
+			printf("Out of memory: failed to allocate %d bytes\n", capacity * sizeof(ArrayList));
+			exit(1);
+		}
+		for (UInt i = 0; i < capacity; i++) {
+			buckets[i] = new;
+		}
+		HashEntry entry;
+		for (UInt bucket = 0; bucket < old_capacity; bucket++) {
+			if (old_buckets[bucket].size() > 0) {
+				Iterator iter = old_buckets[bucket].iterator();
+				while (iter.hasNext()) {
+					entry = iter.next();
+					put(entry.key, entry.value);
+				}
+			}
+		}
+		return true;
 	}
 	
 }

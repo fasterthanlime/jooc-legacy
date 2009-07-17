@@ -75,6 +75,7 @@ class ArrayList from List {
 		memmove(data+index+list.size(), data+index, (size-index) * sizeof(Object));
 		for(Int i: 0..list.size) {
 			data[index+i] = list.get(i);
+			size++;
 		}
 	}
 	
