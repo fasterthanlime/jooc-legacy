@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.ooc.errors.AssemblyManager;
-import org.ooc.errors.CompilationFailedError;
 import org.ooc.errors.SourceContext;
 import org.ooc.nodes.control.Scope;
 import org.ooc.nodes.doc.Comment;
@@ -23,6 +22,7 @@ import org.ooc.structures.Field;
 import org.ooc.structures.Function;
 import org.ooc.structures.Member;
 import org.ooc.structures.Variable;
+import org.ubi.CompilationFailedError;
 import org.ubi.FileLocation;
 
 /**

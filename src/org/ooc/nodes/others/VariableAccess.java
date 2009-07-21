@@ -3,6 +3,8 @@ package org.ooc.nodes.others;
 import java.io.IOException;
 
 import org.ooc.errors.AssemblyManager;
+import org.ooc.nodes.clazz.MemberAccess;
+import org.ooc.nodes.clazz.StaticMemberAccess;
 import org.ooc.nodes.interfaces.Typed;
 import org.ooc.nodes.operators.Dot;
 import org.ooc.nodes.types.Type;

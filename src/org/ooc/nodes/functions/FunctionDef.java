@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 
 import org.ooc.errors.AssemblyManager;
-import org.ooc.errors.CompilationFailedError;
 import org.ooc.errors.SourceContext;
 import org.ooc.nodes.clazz.ClassDef;
 import org.ooc.nodes.clazz.MemberAccess;
@@ -22,6 +21,7 @@ import org.ooc.nodes.types.Type;
 import org.ooc.structures.Clazz;
 import org.ooc.structures.Function;
 import org.ooc.structures.Variable;
+import org.ubi.CompilationFailedError;
 import org.ubi.FileLocation;
 
 /**

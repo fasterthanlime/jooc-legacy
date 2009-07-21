@@ -25,10 +25,10 @@ import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 
 import org.ooc.errors.AssemblyManager;
-import org.ooc.errors.CompilationFailedError;
 import org.ooc.errors.SourceContext;
 import org.ooc.nodes.others.SyntaxNode;
 import org.ooc.nodes.others.SyntaxNodeList;
+import org.ubi.CompilationFailedError;
 
 /**
  * A widget which represents every node in the syntax tree.

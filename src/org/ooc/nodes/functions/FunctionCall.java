@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.ListIterator;
 
 import org.ooc.errors.AssemblyManager;
-import org.ooc.errors.CompilationFailedError;
 import org.ooc.nodes.array.Subscript;
 import org.ooc.nodes.clazz.ClassDef;
 import org.ooc.nodes.clazz.Instantiation;
@@ -19,15 +18,16 @@ import org.ooc.nodes.others.Comma;
 import org.ooc.nodes.others.LineSeparator;
 import org.ooc.nodes.others.Name;
 import org.ooc.nodes.others.Parenthesis;
-import org.ooc.nodes.others.TransparentBlock;
 import org.ooc.nodes.others.SyntaxNode;
 import org.ooc.nodes.others.SyntaxNodeList;
+import org.ooc.nodes.others.TransparentBlock;
 import org.ooc.nodes.others.VariableAccess;
 import org.ooc.nodes.others.VariableDecl;
 import org.ooc.nodes.types.Type;
 import org.ooc.structures.Clazz;
 import org.ooc.structures.Function;
 import org.ooc.structures.Variable;
+import org.ubi.CompilationFailedError;
 import org.ubi.FileLocation;
 
 /**

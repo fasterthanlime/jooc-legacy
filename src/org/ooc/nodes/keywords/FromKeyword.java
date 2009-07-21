@@ -3,7 +3,7 @@ package org.ooc.nodes.keywords;
 import java.io.EOFException;
 import java.io.IOException;
 
-import org.ooc.errors.CompilationFailedError;
+import org.ubi.CompilationFailedError;
 import org.ubi.FileLocation;
 import org.ubi.SourceReader;
 import org.ubi.SyntaxError;

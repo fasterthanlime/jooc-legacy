@@ -2,7 +2,6 @@ package org.ooc.parsers;
 
 import java.io.IOException;
 
-import org.ooc.errors.CompilationFailedError;
 import org.ooc.errors.SourceContext;
 import org.ooc.nodes.keywords.AbstractKeyword;
 import org.ooc.nodes.keywords.ConstKeyword;
@@ -10,6 +9,7 @@ import org.ooc.nodes.keywords.ReverseKeyword;
 import org.ooc.nodes.keywords.StaticKeyword;
 import org.ooc.nodes.keywords.UnmangledKeyword;
 import org.ooc.nodes.others.RawCode;
+import org.ubi.CompilationFailedError;
 import org.ubi.FileLocation;
 import org.ubi.SourceReader;
 

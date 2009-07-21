@@ -2,6 +2,7 @@ package org.ooc.nodes.clazz;
 
 import java.io.IOException;
 
+import org.ooc.features.core.StaticClassAccessFeature;
 import org.ooc.nodes.types.TypeReference;
 import org.ubi.FileLocation;
 

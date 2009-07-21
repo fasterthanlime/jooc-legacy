@@ -4,7 +4,6 @@ import java.io.EOFException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.ooc.errors.CompilationFailedError;
 import org.ooc.errors.SourceContext;
 import org.ooc.nodes.clazz.ClassDef;
 import org.ooc.nodes.clazz.Instantiation;
@@ -22,6 +21,7 @@ import org.ooc.structures.Clazz;
 import org.ooc.structures.Function;
 import org.ooc.structures.Variable;
 import org.ooc.structures.VariableAlias;
+import org.ubi.CompilationFailedError;
 import org.ubi.FileLocation;
 import org.ubi.SourceReader;
 

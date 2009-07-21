@@ -3,10 +3,10 @@ package org.ooc.parsers;
 import java.io.EOFException;
 import java.io.IOException;
 
-import org.ooc.errors.CompilationFailedError;
 import org.ooc.errors.SourceContext;
 import org.ooc.nodes.types.CType;
 import org.ooc.nodes.types.Type;
+import org.ubi.CompilationFailedError;
 import org.ubi.SourceReader;
 import org.ubi.SyntaxError;
 

@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.ooc.errors.AssemblyManager;
 import org.ooc.nodes.control.Scope;
+import org.ooc.parsers.EnumParser;
 import org.ubi.FileLocation;
 
 /**

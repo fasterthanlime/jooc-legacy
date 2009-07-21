@@ -8,8 +8,8 @@ import org.ooc.backends.ProjectInfo;
 import org.ooc.compiler.ContentProvider;
 import org.ooc.compiler.SourceInfo;
 import org.ooc.errors.AssemblyManager;
-import org.ooc.errors.CompilationFailedError;
 import org.ooc.errors.SourceContext;
+import org.ubi.CompilationFailedError;
 import org.ubi.SourceReader;
 import org.ubi.SyntaxError;
 

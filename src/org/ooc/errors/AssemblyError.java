@@ -1,6 +1,7 @@
 package org.ooc.errors;
 
 import org.ooc.nodes.others.SyntaxNode;
+import org.ubi.CompilationFailedError;
 import org.ubi.SyntaxError;
 
 /**

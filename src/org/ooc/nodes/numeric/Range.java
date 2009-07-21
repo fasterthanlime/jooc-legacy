@@ -3,13 +3,13 @@ package org.ooc.nodes.numeric;
 import java.io.IOException;
 
 import org.ooc.errors.AssemblyManager;
-import org.ooc.errors.CompilationFailedError;
 import org.ooc.nodes.control.For;
 import org.ooc.nodes.interfaces.Typed;
 import org.ooc.nodes.keywords.ReverseKeyword;
 import org.ooc.nodes.others.Comma;
 import org.ooc.nodes.others.SyntaxNode;
 import org.ooc.nodes.others.SyntaxNodeList;
+import org.ubi.CompilationFailedError;
 import org.ubi.FileLocation;
 
 /**

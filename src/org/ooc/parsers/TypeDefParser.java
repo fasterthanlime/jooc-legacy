@@ -3,9 +3,9 @@ package org.ooc.parsers;
 import java.io.IOException;
 
 import org.ooc.errors.SourceContext;
+import org.ooc.nodes.types.Type;
 import org.ooc.nodes.types.TypeDef;
 import org.ooc.nodes.types.TypeDefFunctionPointer;
-import org.ooc.nodes.types.Type;
 import org.ubi.SourceReader;
 import org.ubi.SyntaxError;
 

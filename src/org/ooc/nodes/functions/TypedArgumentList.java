@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.ooc.errors.AssemblyManager;
-import org.ooc.errors.CompilationFailedError;
 import org.ooc.errors.SourceContext;
 import org.ooc.nodes.clazz.ClassDef;
 import org.ooc.nodes.interfaces.Typed;
@@ -18,8 +17,10 @@ import org.ooc.nodes.types.Type;
 import org.ooc.structures.AssignedVariableAlias;
 import org.ooc.structures.Variable;
 import org.ooc.structures.VariableAlias;
+import org.ubi.CompilationFailedError;
 import org.ubi.FileLocation;
 import org.ubi.SourceReader;
+import org.ubi.SyntaxError;
 
 /**
  * A typed argument list represents e.g. the list of arguments to a function,

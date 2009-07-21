@@ -8,8 +8,8 @@ import java.util.Map;
 import org.ooc.compiler.BuildProperties;
 import org.ooc.compiler.pkgconfig.PkgInfo;
 import org.ooc.nodes.CHeader;
-import org.ooc.nodes.types.TypeDef;
 import org.ooc.nodes.types.Type;
+import org.ooc.nodes.types.TypeDef;
 import org.ubi.SourceReader;
 import org.ubi.SyntaxError;
 

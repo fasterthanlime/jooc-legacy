@@ -1,5 +1,7 @@
 package org.ooc.errors;
 
+import org.ubi.CompilationFailedError;
+
 /**
  * Thrown when the pass limit is maxed out, thus the compilation process is
  * abandoned

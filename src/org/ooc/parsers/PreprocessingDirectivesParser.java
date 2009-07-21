@@ -2,7 +2,6 @@ package org.ooc.parsers;
 
 import java.io.IOException;
 
-import org.ooc.errors.CompilationFailedError;
 import org.ooc.errors.SourceContext;
 import org.ooc.nodes.libs.Include;
 import org.ooc.nodes.libs.Include.IncludePosition;
@@ -10,6 +9,7 @@ import org.ooc.nodes.libs.Include.IncludeType;
 import org.ooc.nodes.preprocessor.Define;
 import org.ooc.nodes.preprocessor.Macro;
 import org.ooc.nodes.preprocessor.RawPreprocessorDirective;
+import org.ubi.CompilationFailedError;
 import org.ubi.FileLocation;
 import org.ubi.SourceReader;
 

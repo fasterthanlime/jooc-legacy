@@ -1,5 +1,9 @@
 package org.ooc.structures;
 
+import java.io.IOException;
+
+import org.ooc.nodes.keywords.ConstKeyword;
+import org.ooc.nodes.keywords.StaticKeyword;
 import org.ooc.nodes.others.SyntaxNode;
 import org.ooc.nodes.others.VariableAccess;
 import org.ooc.nodes.types.Type;

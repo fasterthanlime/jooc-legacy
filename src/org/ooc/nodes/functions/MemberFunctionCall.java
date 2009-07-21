@@ -4,12 +4,12 @@ import java.io.IOException;
 import java.util.List;
 
 import org.ooc.errors.AssemblyManager;
-import org.ooc.errors.CompilationFailedError;
 import org.ooc.nodes.clazz.ClassDef;
 import org.ooc.nodes.others.SyntaxNode;
 import org.ooc.nodes.others.VariableAccess;
 import org.ooc.nodes.types.Type;
 import org.ooc.structures.PointerToFunction;
+import org.ubi.CompilationFailedError;
 import org.ubi.FileLocation;
 
 /**

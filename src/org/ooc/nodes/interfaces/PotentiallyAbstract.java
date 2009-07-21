@@ -1,5 +1,7 @@
 package org.ooc.nodes.interfaces;
 
+import org.ooc.nodes.keywords.AbstractKeyword;
+
 /**
  * Used for class definitions and function definitions
  * @see {@link AbstractKeyword}

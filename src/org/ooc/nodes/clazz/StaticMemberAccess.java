@@ -3,11 +3,11 @@ package org.ooc.nodes.clazz;
 import java.io.IOException;
 
 import org.ooc.errors.AssemblyManager;
-import org.ooc.errors.CompilationFailedError;
 import org.ooc.errors.SourceContext;
 import org.ooc.nodes.others.VariableAccess;
 import org.ooc.structures.Clazz;
 import org.ooc.structures.Variable;
+import org.ubi.CompilationFailedError;
 import org.ubi.FileLocation;
 
 /**

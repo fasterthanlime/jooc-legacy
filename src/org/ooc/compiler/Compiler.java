@@ -4,10 +4,10 @@ import java.util.Collection;
 
 import org.ooc.backends.ProjectInfo;
 import org.ooc.compiler.libraries.LibraryManager;
-import org.ooc.errors.CompilationFailedError;
 import org.ooc.errors.MaxedOutPassLimit;
 import org.ooc.errors.SourceContext;
 import org.ooc.parsers.SourceParser;
+import org.ubi.CompilationFailedError;
 
 /**
  * ooc's public interface to compile

@@ -5,13 +5,13 @@ import java.io.IOException;
 import java.util.StringTokenizer;
 
 import org.ooc.compiler.Compiler;
-import org.ooc.errors.CompilationFailedError;
 import org.ooc.errors.SourceContext;
 import org.ooc.nodes.libs.Include;
 import org.ooc.nodes.libs.Use;
 import org.ooc.nodes.libs.Include.IncludeLanguage;
 import org.ooc.nodes.libs.Include.IncludePosition;
 import org.ooc.nodes.libs.Include.IncludeType;
+import org.ubi.CompilationFailedError;
 import org.ubi.SourceReader;
 
 class DependenciesParser implements Parser {

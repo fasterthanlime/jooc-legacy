@@ -3,7 +3,6 @@ package org.ooc.nodes.preprocessor;
 import java.io.EOFException;
 
 import org.ooc.errors.AssemblyManager;
-import org.ooc.errors.CompilationFailedError;
 import org.ooc.nodes.interfaces.Typed;
 import org.ooc.nodes.numeric.BooleanLiteral;
 import org.ooc.nodes.numeric.NumberLiteral;
@@ -15,6 +14,7 @@ import org.ooc.parsers.BooleanLiteralParser;
 import org.ooc.parsers.NullLiteralParser;
 import org.ooc.parsers.NumberLiteralParser;
 import org.ooc.parsers.StringLiteralParser;
+import org.ubi.CompilationFailedError;
 import org.ubi.FileLocation;
 import org.ubi.SourceReader;
 import org.ubi.SyntaxError;

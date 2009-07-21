@@ -12,6 +12,7 @@ import org.ooc.nodes.RootNode;
 import org.ooc.nodes.others.SyntaxNode;
 import org.ooc.nodes.others.SyntaxNodeList;
 import org.ooc.nodes.types.Type;
+import org.ubi.CompilationFailedError;
 import org.ubi.SyntaxError;
 
 /**

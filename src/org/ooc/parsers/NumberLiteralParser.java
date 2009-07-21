@@ -4,13 +4,14 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.math.BigInteger;
 
-import org.ooc.errors.CompilationFailedError;
 import org.ooc.errors.SourceContext;
 import org.ooc.nodes.numeric.DoubleLiteral;
 import org.ooc.nodes.numeric.FloatLiteral;
 import org.ooc.nodes.numeric.IntLiteral;
 import org.ooc.nodes.numeric.NumberLiteral;
+import org.ubi.CompilationFailedError;
 import org.ubi.SourceReader;
+import org.ubi.SyntaxError;
 
 /**
  * Parse number literals, (e.g. int, floats, doubles, etc.)

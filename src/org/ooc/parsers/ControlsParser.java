@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.ooc.errors.CompilationFailedError;
 import org.ooc.errors.SourceContext;
 import org.ooc.nodes.control.Else;
 import org.ooc.nodes.control.For;
@@ -13,6 +12,7 @@ import org.ooc.nodes.control.If;
 import org.ooc.nodes.others.RawCode;
 import org.ooc.nodes.others.VersionBlock;
 import org.ooc.nodes.others.VersionBlock.Version;
+import org.ubi.CompilationFailedError;
 import org.ubi.FileLocation;
 import org.ubi.SourceReader;
 
