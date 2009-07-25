@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.ooc.errors.SourceContext;
 import org.ooc.nodes.clazz.ClassDef;
-import org.ooc.nodes.clazz.Cover;
 import org.ooc.nodes.types.Type;
 import org.ubi.CompilationFailedError;
 import org.ubi.FileLocation;

@@ -1,7 +1,5 @@
 package org.ooc.nodes.interfaces;
 
-import org.ooc.nodes.keywords.StaticKeyword;
-
 /**
  * Used for function definitions
  * @see {@link StaticKeyword}

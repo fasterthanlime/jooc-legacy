@@ -6,7 +6,6 @@ import java.io.IOException;
 import org.ooc.errors.SourceContext;
 import org.ooc.nodes.functions.FunctionCall;
 import org.ubi.SourceReader;
-import org.ubi.SyntaxError;
 
 /**
  * Parse a function call

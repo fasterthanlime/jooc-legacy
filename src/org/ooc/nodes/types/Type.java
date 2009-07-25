@@ -8,7 +8,6 @@ import org.ooc.errors.SourceContext;
 import org.ooc.nodes.array.ArrayDecl;
 import org.ooc.nodes.array.Subscript;
 import org.ooc.nodes.clazz.ClassDef;
-import org.ooc.nodes.clazz.Cover;
 import org.ooc.nodes.operators.Star;
 import org.ooc.nodes.others.Name;
 import org.ooc.nodes.others.SyntaxNode;

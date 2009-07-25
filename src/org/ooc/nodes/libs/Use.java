@@ -2,8 +2,6 @@ package org.ooc.nodes.libs;
 
 import java.io.IOException;
 
-import org.ooc.compiler.libraries.Library;
-import org.ooc.compiler.libraries.LibraryManager;
 import org.ooc.errors.AssemblyManager;
 import org.ooc.errors.SourceContext;
 import org.ooc.nodes.RootNode;

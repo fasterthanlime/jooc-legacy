@@ -11,7 +11,6 @@ import org.ooc.nodes.numeric.IntLiteral;
 import org.ooc.nodes.numeric.NumberLiteral;
 import org.ubi.CompilationFailedError;
 import org.ubi.SourceReader;
-import org.ubi.SyntaxError;
 
 /**
  * Parse number literals, (e.g. int, floats, doubles, etc.)

@@ -20,7 +20,6 @@ import org.ooc.structures.VariableAlias;
 import org.ubi.CompilationFailedError;
 import org.ubi.FileLocation;
 import org.ubi.SourceReader;
-import org.ubi.SyntaxError;
 
 /**
  * A typed argument list represents e.g. the list of arguments to a function,

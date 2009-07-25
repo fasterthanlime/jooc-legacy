@@ -3,7 +3,6 @@ package org.ooc.nodes.others;
 import java.io.IOException;
 
 import org.ooc.errors.AssemblyManager;
-import org.ooc.nodes.clazz.ClassDef;
 import org.ubi.FileLocation;
 
 /**
