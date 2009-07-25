@@ -1,9 +1,9 @@
 <project name="ooc" default="compile" basedir=".">
     <description>
-        simple example build file
+        ooc build file
     </description>
   <!-- set global properties for this build -->
-  <property name="src" location="src"/>
+  <property name="src" location="src:../ubi/src"/>
   <property name="build" location="utils/build"/>
 
   <target name="init">
