@@ -45,6 +45,7 @@ public abstract class TrioFeature<K,V,M> extends Feature {
 		
 	}
 
+	@SuppressWarnings("unchecked")
 	private boolean applyForward(AssemblyManager manager, SyntaxNode first) {
 		
 		if(!(firstType.isInstance(first))) {
@@ -61,12 +62,13 @@ public abstract class TrioFeature<K,V,M> extends Feature {
 			return false;
 		}
 		
-		applyImpl(manager, firstType.cast(first), secondType.cast(second), thirdType.cast(third));
+		applyImpl(manager, (K) first, (V) second, (M) third);
 		return true;
 		
 	}
 	
 	/*
+	@SuppressWarnings("unchecked")
 	private boolean applyBackward(AssemblyManager manager, SyntaxNode third) {
 		
 		if(!(thirdType.isInstance(third))) {
@@ -83,7 +85,7 @@ public abstract class TrioFeature<K,V,M> extends Feature {
 			return false;
 		}
 		
-		applyImpl(manager, firstType.cast(first), secondType.cast(second), thirdType.cast(third));
+		applyImpl(manager, (K) first, (V) second, (M) third);
 		return true;
 		
 	}

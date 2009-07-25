@@ -368,11 +368,12 @@ public abstract class SyntaxNode implements WriteableToPureC {
 	/**
 	 * @return the nearest node of type 'type' to the left of this one
 	 */
+	@SuppressWarnings("unchecked")
 	public<T> T getNearestPrevTyped(Class<T> type) {
 		SyntaxNode prev = getPrev();
 		while(prev != null) {
 			if(type.isInstance(prev)) {
-				return type.cast(prev);
+				return (T) prev;
 			}
 			prev = prev.getPrev();
 		}
@@ -382,11 +383,12 @@ public abstract class SyntaxNode implements WriteableToPureC {
 	/**
 	 * @return the nearest node of type 'type' to the right of this one
 	 */
+	@SuppressWarnings("unchecked")
 	public<T> T getNearestNextTyped(Class<T> type) {
 		SyntaxNode next = getNext();
 		while(next != null) {
 			if(type.isInstance(next)) {
-				return type.cast(next);
+				return (T) next;
 			}
 			next = next.getNext();
 		}

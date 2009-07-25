@@ -28,6 +28,7 @@ public abstract class CoupleFeature<K,V> extends Feature {
 	
 	
 	@Override
+	@SuppressWarnings("unchecked")
 	public void applyImpl(AssemblyManager manager, SyntaxNode first) {
 		
 		if(!(firstType.isInstance(first))) {
@@ -39,7 +40,7 @@ public abstract class CoupleFeature<K,V> extends Feature {
 			return;
 		}
 		
-		applyImpl(manager, firstType.cast(first), secondType.cast(second));
+		applyImpl(manager, (K) first, (V) second);
 		
 	}
 	

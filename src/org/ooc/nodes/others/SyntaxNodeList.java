@@ -150,12 +150,13 @@ public class SyntaxNodeList extends SyntaxNode {
      * @return all nodes of type clazz in this SyntaxGroup, and all its children
      * if recursive is true.
      */
+    @SuppressWarnings("unchecked")
 	public<T> List<T> getNodesTyped(Class<T> clazz, boolean recursive) {
     	
         ArrayList<T> list = new ArrayList<T>();
         for(SyntaxNode node: nodes) {
             if(clazz.isInstance(node)) {
-                list.add(clazz.cast(node));
+                list.add((T) node);
             }
             if(recursive && node instanceof SyntaxNodeList) {
             	list.addAll(((SyntaxNodeList) node).getNodesTyped(clazz, true));
@@ -214,9 +215,10 @@ public class SyntaxNodeList extends SyntaxNode {
      * @param clazz The type to search for.
      * @return the nearest parent of type clazz.
      */
+    @SuppressWarnings("unchecked")
 	public <T extends SyntaxNode> T getNearest(Class<T> clazz) {
         if(clazz.isInstance(this)) {
-            return clazz.cast(this);
+            return (T) this;
         } else if(getParent() != null) {
             return getParent().getNearest(clazz);
         } else {
