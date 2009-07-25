@@ -24,14 +24,13 @@ public abstract class SingleFeature<K> extends Feature {
 	
 	
 	@Override
-	@SuppressWarnings("unchecked")
 	public void applyImpl(AssemblyManager manager, SyntaxNode node) {
 		
 		if(!(type.isInstance(node))) {
 			return;
 		}
 		
-		applyImpl(manager, (K) node);
+		applyImpl(manager, type.cast(node));
 		
 	}
 	

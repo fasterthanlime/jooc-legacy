@@ -207,14 +207,13 @@ public class SourceContext {
      * @param clazz
      * @return the nearest node of the right type, or null if none matches.
      */
-    @SuppressWarnings("unchecked")
 	public <T extends SyntaxNode>T getNearest(Class<T> clazz) {
 
         int index = stack.size() - 1;
         while(index > 0) {
             SyntaxNodeList current = stack.get(index--);
             if(clazz.isInstance(current)) {
-                return (T) current;
+                return clazz.cast(current);
             }
         }
         return null;
