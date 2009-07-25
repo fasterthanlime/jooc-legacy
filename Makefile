@@ -19,3 +19,6 @@ prepare:
 clean:
 	ant clean
 	rm -rf bin
+
+nogcj: prepare
+	ant -f build-nogcj.xml
