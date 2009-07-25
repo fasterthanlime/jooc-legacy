@@ -18,7 +18,6 @@ import org.ooc.structures.Variable;
 import org.ubi.CompilationFailedError;
 import org.ubi.FileLocation;
 import org.ubi.SourceReader;
-import org.ubi.SyntaxError;
 
 /**
  * The usage of a type in the code, e.g. "int" or "MyClass"
