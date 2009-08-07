@@ -156,5 +156,20 @@ public class FileUtils {
 		return new File(buffer.toString());
 		
 	}
+
+	public static File relativize(File toRelativize, File reference) throws IOException {
+		
+		String toRelPath = toRelativize.getCanonicalPath();
+		String refPath = reference.getCanonicalPath();
+		
+		if(toRelPath.length() > refPath.length()) {
+			String diff = toRelPath.substring(refPath.length());
+			while(diff.startsWith(File.separator)) diff = diff.substring(1);
+			return new File(diff);
+		}
+		//FIXME too tired to get it right
+		return toRelativize;
+		
+	}
 	
 }
