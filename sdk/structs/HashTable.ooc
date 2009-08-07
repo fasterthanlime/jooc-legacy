@@ -10,11 +10,11 @@ import ArrayList;
 class HashEntry {
 
 	String key;
-	
+
 	Object value;
-	
+
 	func new(=key, =value);
-	
+
 }
 
 /**
@@ -23,13 +23,13 @@ class HashEntry {
 class HashTable {
 
 	UInt size;
-	
+
 	UInt capacity;
-	
+
 	ArrayList* buckets;
-	
+
 	ArrayList keys;
-	
+
 	/**
 	 * Returns a hash table with 100 buckets
 	 * @return HashTable
@@ -37,7 +37,7 @@ class HashTable {
 	func new {
 		this(100);
 	}
-	
+
 	/**
 	 * Returns a hash table of a specified bucket capacity.
 	 * @param UInt capacity The number of buckets to use
@@ -70,22 +70,22 @@ class HashTable {
 
 		UInt h = seed ^ len;
 		const Octet* data = (Octet*)key;
-	   	
+
 		while(len >= 4) {
 			UInt k = *(UInt*)data;
-		   	
-			k *= m; 
-			k ^= k >> r; 
-			k *= m; 
-		   	
-			h *= m; 
+
+			k *= m;
+			k ^= k >> r;
+			k *= m;
+
+			h *= m;
 			h ^= k;
-		
+
 			data += 4;
 			len -= 4;
 		}
 
-	   	switch(len) {
+    switch(len) {
 			case 3: h ^= data[2] << 16;
 			case 2: h ^= data[1] << 8;
 			case 1: h ^= data[0];
@@ -95,10 +95,10 @@ class HashTable {
 		h ^= h >> 13;
 		h *= m;
 		h ^= h >> 15;
-	   
+
 		return h;
 	}
-	
+
 	/*
 	 * khash's ac_X31_hash_string
 	 * http://attractivechaos.awardspace.com/khash.h.html
@@ -115,7 +115,7 @@ class HashTable {
 		}
 		return h;
 	}
-	
+
 	/**
 	 * Returns the HashEntry associated with a key.
 	 * @access private
@@ -134,7 +134,7 @@ class HashTable {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Puts a key/value pair in the hash table. If the pair already exists,
 	 * it is overwritten.
@@ -162,14 +162,14 @@ class HashTable {
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Alias of put
 	 */
 	func add(String key, Object value) -> Bool {
 		return put(key, value);
 	}
-	
+
 	/**
 	 * Returns the value associated with the key. Returns null if the key
 	 * does not exist.
@@ -181,7 +181,7 @@ class HashTable {
 		HashEntry entry = getEntry(key);
 		return entry ? entry.value : null;
 	}
-	
+
 	/**
 	 * Returns whether or not the key exists in the hash table.
 	 * @param String key The key to check
@@ -190,7 +190,7 @@ class HashTable {
 	func contains(String key) -> Bool {
 		return getEntry(key) ? true : false;
 	}
-	
+
 	/**
 	 * Removes the entry associated with the key
 	 * @param String key The key to remove
@@ -201,9 +201,8 @@ class HashTable {
 		UInt hash = ac_X31_hash(key) % capacity;
 		if (entry) {
 			for (UInt i = 0; i < keys.size; i++) {
-				printf("%s == %s ?\n", key, keys.get(i));
 				if (key.equals(keys.get(i))) {
-					printf("Removed %s\n", keys.remove(i));
+          keys.remove(i);
 				}
 			}
 			size--;
@@ -213,7 +212,7 @@ class HashTable {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Resizes the hash table to a new capacity
 	 * @param UInt _capacity The new table capacity
@@ -230,6 +229,8 @@ class HashTable {
 		for (UInt i = 0; i < old_capacity; i++) {
 			old_buckets[i] = buckets[i].clone();
 		}
+    /* Clear key list */
+    keys.clear();
 		/* Transfer old buckets to new buckets! */
 		capacity = _capacity;
 		buckets = malloc(capacity * sizeof(ArrayList));
@@ -252,5 +253,5 @@ class HashTable {
 		}
 		return true;
 	}
-	
+
 }
