@@ -37,11 +37,6 @@ public class SourceInfo {
 	public final String underName;
 
 	/**
-	 * e.g. "src/"
-	 */
-	public String sourceElementPath;
-	
-	/**
 	 * Default constructor
 	 * @param fullSourceName @link {@link SourceInfo#fullName}
 	 */
@@ -51,7 +46,6 @@ public class SourceInfo {
 		pakageName = (index == -1) ? "" : fullSourceName.substring(0, index);
 		simpleName = fullSourceName.substring(index + 1);
 		pakage = new ArrayList<String>();
-		sourceElementPath = "";
 		 
 		if(pakageName.isEmpty()) {
 			fullName = simpleName;

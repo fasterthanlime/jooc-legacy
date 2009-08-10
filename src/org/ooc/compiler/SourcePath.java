@@ -86,25 +86,6 @@ public class SourcePath {
 	}
 	
 	/**
-	 * Get the path element in which SourceInfo was found.
-	 * @param info
-	 * @return
-	 * @throws FileNotFoundException
-	 */
-	public File getPathElement(SourceInfo info) throws FileNotFoundException {
-		
-		for(File sourcePathElement: paths.values()) {
-			File candidate = new File(sourcePathElement, info.getPath());
-			if(candidate.exists()) {
-				return sourcePathElement;
-			}
-		}
-		
-		throw new FileNotFoundException("Class not found : '"+info.fullName+"', sourcePath = "+paths);
-
-	}
-	
-	/**
 	 * Find the module described by the specified SourceInfo in the
 	 * source path and return a file to its .ooc source
 	 * @param info
@@ -118,7 +99,6 @@ public class SourcePath {
 		for(File sourcePathElement: paths.values()) {
 			File candidate = new File(sourcePathElement, path);
 			if(candidate.exists()) {
-				info.sourceElementPath = sourcePathElement.getPath();
 				return candidate;
 			}
 		}
