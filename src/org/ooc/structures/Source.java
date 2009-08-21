@@ -21,9 +21,9 @@ import org.ooc.nodes.others.SyntaxNodeList;
  */
 public class Source implements WriteableToPureC {
 
-	private final SourceInfo info;
-    private final String headerDefine;
-    private final RootNode root;
+	protected final SourceInfo info;
+    protected final String headerDefine;
+    protected final RootNode root;
     /**
      * Default constructor
      * @param root

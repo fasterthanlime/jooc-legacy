@@ -38,7 +38,7 @@ public class ClassDef extends Scope implements PotentiallyAbstract {
 	 */
     public final Clazz clazz;
 
-	private List<Field> fields;
+	protected List<Field> fields;
 
 	/**
 	 * The constructor head contains all sorts of thing which should be added
@@ -63,8 +63,8 @@ public class ClassDef extends Scope implements PotentiallyAbstract {
 	 */
 	public final SyntaxNodeList constructorTail;
 
-	private VariableDecl classMember;
-	private VariableDecl staticClassMember;
+	protected VariableDecl classMember;
+	protected VariableDecl staticClassMember;
 	
 	/**
 	 * Default constructor
@@ -265,7 +265,7 @@ public class ClassDef extends Scope implements PotentiallyAbstract {
         
     }
 
-	private List<Clazz> getFamily(SourceContext context) {
+	protected List<Clazz> getFamily(SourceContext context) {
 
 		List<Clazz> family = new ArrayList<Clazz>();
 		
@@ -438,7 +438,7 @@ public class ClassDef extends Scope implements PotentiallyAbstract {
      * type _MyClass_myField;
      * </code>
      */
-    private void writeStaticFieldsDefinitions(Appendable a) throws IOException  {
+    protected void writeStaticFieldsDefinitions(Appendable a) throws IOException  {
 
     	if(!fields.isEmpty()) {
     		a.append('\n');
@@ -468,7 +468,7 @@ public class ClassDef extends Scope implements PotentiallyAbstract {
      * extern type _MyClass_myField;
      * </code>
      */
-    private void writeStaticFieldsDeclarations(Appendable a) throws IOException {
+    protected void writeStaticFieldsDeclarations(Appendable a) throws IOException {
 
     	if(!fields.isEmpty()) {
     		a.append('\n');
@@ -488,7 +488,7 @@ public class ClassDef extends Scope implements PotentiallyAbstract {
     /**
      * Write structure fields (e.g. "instance" variables and functions)
      */
-    private void writeInstanceStructFieldsDeclarations(Appendable a) throws IOException {
+    protected void writeInstanceStructFieldsDeclarations(Appendable a) throws IOException {
 
     	if(!fields.isEmpty()) {
     		a.append('\n');
@@ -508,7 +508,7 @@ public class ClassDef extends Scope implements PotentiallyAbstract {
 
     }
     
-    private void writeClassStructFieldsDeclarations(Appendable a) throws IOException {
+    protected void writeClassStructFieldsDeclarations(Appendable a) throws IOException {
     	
 		// FIXME make it more flexible. (Use a VariableDecl?)
     	a.append('\n');
@@ -558,7 +558,7 @@ public class ClassDef extends Scope implements PotentiallyAbstract {
 		
 	}
 
-    private void writeMethodSignatures(Appendable a) throws IOException {
+    protected void writeMethodSignatures(Appendable a) throws IOException {
 
         for(Field field: fields) {
         	if(field instanceof Function) {

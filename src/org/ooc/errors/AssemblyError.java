@@ -15,7 +15,7 @@ public class AssemblyError extends SyntaxError {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 3859238898523263251L;
+	protected static final long serialVersionUID = 3859238898523263251L;
 
 	/** The problematic node */
 	public final SyntaxNode node;

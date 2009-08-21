@@ -15,7 +15,7 @@ import org.ubi.SyntaxError;
  */
 class DocumentationParser implements Parser {
 
-	final private StringBuilder block = new StringBuilder();
+	final protected StringBuilder block = new StringBuilder();
 	
 	
 	public boolean parse(final SourceContext context) throws IOException {

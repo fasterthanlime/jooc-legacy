@@ -12,8 +12,8 @@ import org.ubi.FileLocation;
  */
 public class StructDef extends SyntaxNode {
 
-	private String name;
-	private String block;
+	protected String name;
+	protected String block;
 	
 	/**
 	 * Default constructor

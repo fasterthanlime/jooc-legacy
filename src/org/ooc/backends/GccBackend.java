@@ -33,16 +33,16 @@ import org.ooc.outputting.FileUtils;
  */
 class GccBackend extends Backend {
 
-	private String gccPath;
-	private List<String> cFlags;
-	private boolean clean;
-	private boolean verbose;
-	private boolean shout;
-	private FileOutputter fileOutputter;
+	protected String gccPath;
+	protected List<String> cFlags;
+	protected boolean clean;
+	protected boolean verbose;
+	protected boolean shout;
+	protected FileOutputter fileOutputter;
 	
-	private class CommandFailedException extends Exception {
+	protected class CommandFailedException extends Exception {
 
-		private static final long serialVersionUID = -3792947243264725228L;
+		protected static final long serialVersionUID = -3792947243264725228L;
 		public CommandFailedException(String commandName, int returnCode) {
 			super(commandName+" failed with return code "+returnCode);
 		}
@@ -95,7 +95,7 @@ class GccBackend extends Backend {
 	 * @param defaultValue the value that should be returned if the token doesn't end with "yes" or "no"
 	 * @return the parsed value, or defaultValue
 	 */
-	private boolean parseYesNo(String token, String optionFullName, boolean defaultValue) {
+	protected boolean parseYesNo(String token, String optionFullName, boolean defaultValue) {
 		
 		String yesNo = token.substring(optionFullName.length()); 
 		if(yesNo.equals("yes")) {
@@ -114,7 +114,7 @@ class GccBackend extends Backend {
 	 * Tries to find gcc. First try the CC environment variable.
 	 * If not set, tries to find 'gcc' and 'gcc.exe' in the PATH.
 	 */
-	private void determineGccPath(BuildProperties props) throws Error {
+	protected void determineGccPath(BuildProperties props) throws Error {
 		
 		Map<String, String> env = System.getenv();
 		
@@ -297,7 +297,7 @@ class GccBackend extends Backend {
 		
 	}
 
-	private void addDependenciesRecursive(ProjectInfo info, List<String> args, SourceContext source) {
+	protected void addDependenciesRecursive(ProjectInfo info, List<String> args, SourceContext source) {
 
 		for(SourceContext dependency: source.getDependencies()) {
 			String path = info.getOutPath(dependency.source.getInfo().fullName, ".o");
@@ -309,7 +309,7 @@ class GccBackend extends Backend {
 		
 	}
 
-	private void addFlags(List<String> args, BuildProperties props) {
+	protected void addFlags(List<String> args, BuildProperties props) {
 		
 		args.add(gccPath);
 		args.addAll(cFlags);
@@ -325,7 +325,7 @@ class GccBackend extends Backend {
 		
 	}
 
-	private void addLibraryPaths(ProjectInfo info, BuildProperties props,
+	protected void addLibraryPaths(ProjectInfo info, BuildProperties props,
 			List<String> args) {
 		
 		for(String path: props.libPath) {
@@ -335,7 +335,7 @@ class GccBackend extends Backend {
 		
 	}
 
-	private void addIncludePaths(ProjectInfo info, BuildProperties props,
+	protected void addIncludePaths(ProjectInfo info, BuildProperties props,
 			List<String> args) {
 		
 		for(String path: props.incPath) {
@@ -345,7 +345,7 @@ class GccBackend extends Backend {
 		
 	}
 	
-	private void launchGCC(List<String> args) throws CommandFailedException, IOException, InterruptedException {
+	protected void launchGCC(List<String> args) throws CommandFailedException, IOException, InterruptedException {
 		
 		StringBuilder commandLine = new StringBuilder();
 		for(String arg: args) {

@@ -23,14 +23,14 @@ import org.ubi.SyntaxError;
  */
 public class AssemblyManager {
 
-    private final Map<SyntaxNode, AssemblyError> errors = new HashMap<SyntaxNode, AssemblyError>();
-    private final Map<SyntaxNode, String> warnings = new HashMap<SyntaxNode, String>();
+    protected final Map<SyntaxNode, AssemblyError> errors = new HashMap<SyntaxNode, AssemblyError>();
+    protected final Map<SyntaxNode, String> warnings = new HashMap<SyntaxNode, String>();
     
-    private final List<SyntaxNode> queue = new ArrayList<SyntaxNode>();
-    private final List<SyntaxNode> queueCache = new ArrayList<SyntaxNode>();
-    private final Set<SyntaxNode> set = new HashSet<SyntaxNode>();
+    protected final List<SyntaxNode> queue = new ArrayList<SyntaxNode>();
+    protected final List<SyntaxNode> queueCache = new ArrayList<SyntaxNode>();
+    protected final Set<SyntaxNode> set = new HashSet<SyntaxNode>();
     
-    private final Map<SyntaxNode, String> reasons = new HashMap<SyntaxNode, String>();
+    protected final Map<SyntaxNode, String> reasons = new HashMap<SyntaxNode, String>();
 	
 	/* FIXME currently, the compiler is implemented in such a way that it will
 	   reach MAX_PASSES if the code is something like (((((((((((((((((((( etc.
@@ -39,13 +39,13 @@ public class AssemblyManager {
 	   implementation of the ooc compiler (ie. this). If anyone is motivated enough
 	   feel free to tackle this */
     
-    private int passCount = 0;
-	private final static int MAX_PASSES = 256;
-	//private final static int MAX_PASSES = 24;
+    protected int passCount = 0;
+	protected final static int MAX_PASSES = 256;
+	//protected final static int MAX_PASSES = 24;
 	
-    private SourceContext context;
+    protected SourceContext context;
 
-	private List<AssemblyErrorListener> assemblyErrorListeners;
+	protected List<AssemblyErrorListener> assemblyErrorListeners;
 
     /**
      * Creates an assembly manager for a specific source context
@@ -320,7 +320,7 @@ public class AssemblyManager {
      * @param node
      * @throws CompilationFailedError it's caught by the {@link Compiler} anyway.
      */
-    private void fail(SyntaxNode node) throws CompilationFailedError {
+    protected void fail(SyntaxNode node) throws CompilationFailedError {
     	
         print(false);
         throw new MaxedOutPassLimit(passCount);

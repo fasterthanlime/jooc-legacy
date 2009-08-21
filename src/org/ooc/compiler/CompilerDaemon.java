@@ -23,9 +23,9 @@ import org.ooc.backends.ProjectInfo;
  */
 public class CompilerDaemon {
 
-	private static ServerSocket serverSocket;
-	private static boolean isRunning;
-	private static Date startDate = new Date();
+	protected static ServerSocket serverSocket;
+	protected static boolean isRunning;
+	protected static Date startDate = new Date();
 	
 	protected CompilerDaemon(int port) throws Exception {
 		
@@ -59,7 +59,7 @@ public class CompilerDaemon {
 		
 	}
 
-	private void handleSocket(final Socket socket) {
+	protected void handleSocket(final Socket socket) {
 		
 		new Thread(new Runnable() {
 			

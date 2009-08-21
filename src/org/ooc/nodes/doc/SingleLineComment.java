@@ -15,7 +15,7 @@ import org.ubi.FileLocation;
  */
 public class SingleLineComment extends LineSeparator implements Comment {
 
-	private final String content;
+	protected final String content;
 	
 	/**
 	 * Default constructor

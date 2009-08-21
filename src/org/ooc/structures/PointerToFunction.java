@@ -13,7 +13,7 @@ import org.ooc.nodes.types.Type;
  */
 public class PointerToFunction extends Function {
 
-	private VariableAccess access;
+	protected VariableAccess access;
 
 	/**
 	 * Default constructor

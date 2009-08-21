@@ -35,7 +35,7 @@ import org.ubi.FileLocation;
  */
 public class Scope extends Block {
 
-    private ArrayList<Variable> variables;
+    protected ArrayList<Variable> variables;
 
     /**
      * Default constructor

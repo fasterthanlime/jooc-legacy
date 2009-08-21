@@ -65,19 +65,19 @@ public abstract class SyntaxNode implements WriteableToPureC {
 	};
 	
 	/** used to generate nodes' hashes */
-	private static int lastHash = 0;
+	protected static int lastHash = 0;
 	
 	/** true if the node has never ever been assembled. */
-    private transient boolean virgin;
+    protected transient boolean virgin;
     
     /** true if this node shouldn't ever be assembled again */
-    private transient boolean locked;
+    protected transient boolean locked;
     
     /** This node's parent */
-    private SyntaxNodeList parent;
+    protected SyntaxNodeList parent;
     
     /** This node's context */
-    private SyntaxNodeList context;
+    protected SyntaxNodeList context;
     
 	/** The location of the node, e.g. file name, line number, etc. */
     public final FileLocation location;
@@ -233,7 +233,7 @@ public abstract class SyntaxNode implements WriteableToPureC {
         return false;
     }
 
-    private int getIndentLevel() {
+    protected int getIndentLevel() {
         int level = 0;
         SyntaxNode current = this;
         while(current != null) {

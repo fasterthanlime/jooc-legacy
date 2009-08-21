@@ -34,11 +34,11 @@ import org.ooc.outputting.FileUtils;
  */
 public class MakeBackend extends Backend {
 
-	private String userCflags;
-	private List<String> userStaticLibs;
-	private FileOutputter outputter;
+	protected String userCflags;
+	protected List<String> userStaticLibs;
+	protected FileOutputter outputter;
 	
-	private AbstractCompiler cc;
+	protected AbstractCompiler cc;
 
 	protected MakeBackend(String params) {
 		
@@ -238,7 +238,7 @@ public class MakeBackend extends Backend {
 		
 	}
 
-	private String copyStaticLib(BuildProperties props, String staticLib)
+	protected String copyStaticLib(BuildProperties props, String staticLib)
 			throws IOException {
 
 		File libFile = new File(staticLib);
@@ -272,7 +272,7 @@ public class MakeBackend extends Backend {
 		
 	}
 
-	private List<String> getCppModulesPaths(ProjectInfo info, BuildProperties props)
+	protected List<String> getCppModulesPaths(ProjectInfo info, BuildProperties props)
 			throws IOException {
 		
 		List<String> wittyPaths = new ArrayList<String>();

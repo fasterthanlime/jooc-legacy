@@ -14,7 +14,7 @@ import org.ooc.ShellUtils;
  */
 public class PkgConfigFrontend {
 
-	private static Map<String, PkgInfo> cache = new HashMap<String, PkgInfo>();
+	protected static Map<String, PkgInfo> cache = new HashMap<String, PkgInfo>();
 	
 	/**
 	 * 

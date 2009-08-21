@@ -40,7 +40,7 @@ public class VariableDeclParser implements Parser {
 		
 	}
 
-	private boolean readVarDecl(final SourceContext context, SourceReader reader)
+	protected boolean readVarDecl(final SourceContext context, SourceReader reader)
 			throws EOFException {
 		
 		boolean isConst = false;

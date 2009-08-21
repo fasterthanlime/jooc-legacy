@@ -15,7 +15,7 @@ import org.ubi.FileLocation;
  */
 public class ArrayAccess extends VariableAccess implements LinearNode {
 	
-	private VariableAccess access;
+	protected VariableAccess access;
 
 	/**
 	 * Create a new array access

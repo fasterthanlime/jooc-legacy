@@ -19,7 +19,7 @@ import org.ubi.FileLocation;
  */
 public class StaticMemberAccess extends VariableAccess {
 
-	private Clazz clazz;
+	protected Clazz clazz;
 
 	/**
 	 * Default constructor

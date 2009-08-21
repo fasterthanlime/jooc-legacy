@@ -31,9 +31,9 @@ import org.ubi.FileLocation;
  */
 public class ConstructorDef extends FunctionDef {
 
-	private List<Function> functionsToInit;
-	private ClassDef classDef;
-	private Block initClassInstance;
+	protected List<Function> functionsToInit;
+	protected ClassDef classDef;
+	protected Block initClassInstance;
 
 	/**
 	 * Default constructor
@@ -141,7 +141,7 @@ public class ConstructorDef extends FunctionDef {
 	/**
      * Write to 'a' the assignment to the function pointer used in C code generation.
      */
-    private void writePointerAssignment(Appendable a, Function function, Clazz destClazz) throws IOException {
+    protected void writePointerAssignment(Appendable a, Function function, Clazz destClazz) throws IOException {
     	
     	if(function.isStatic) {
     		return; // Don't write assignment for static functions
@@ -204,7 +204,7 @@ public class ConstructorDef extends FunctionDef {
 		
 	}
 
-	private boolean hasCallTo(SourceContext context, ConstructorDef def) {
+	protected boolean hasCallTo(SourceContext context, ConstructorDef def) {
 		
 		ClassDef classDef = getNearest(ClassDef.class);
 		List<ConstructorDef> constructors = classDef.getNodesTyped(ConstructorDef.class);

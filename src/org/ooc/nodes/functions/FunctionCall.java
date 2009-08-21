@@ -52,7 +52,7 @@ public class FunctionCall extends Parenthesis {
      */
     public Clazz clazz;
 
-    private boolean memberFunctionCheck = false;
+    protected boolean memberFunctionCheck = false;
 
     /**
      * Default constructor. Create a function call with specified name.
@@ -197,7 +197,7 @@ public class FunctionCall extends Parenthesis {
         
     }
 
-	private boolean handleSuperCall(AssemblyManager manager,
+	protected boolean handleSuperCall(AssemblyManager manager,
 			ClassDef classDef) throws CompilationFailedError {
 		
 		if(classDef == null) {
@@ -249,7 +249,7 @@ public class FunctionCall extends Parenthesis {
 		
 	}
 	
-	private boolean handleThisCall(AssemblyManager manager,
+	protected boolean handleThisCall(AssemblyManager manager,
 			ClassDef classDef) throws CompilationFailedError {
 		
 		if(classDef == null) {
@@ -291,7 +291,7 @@ public class FunctionCall extends Parenthesis {
 		
 	}
 
-	private void templateFromFunction(FunctionDef source, AssemblyManager manager) {
+	protected void templateFromFunction(FunctionDef source, AssemblyManager manager) {
 		
 		SyntaxNodeList code = new SyntaxNodeList(location);
 		
@@ -313,7 +313,7 @@ public class FunctionCall extends Parenthesis {
 		
 	}
 
-	private void handleCascadeCall(AssemblyManager manager, FunctionCall call) {
+	protected void handleCascadeCall(AssemblyManager manager, FunctionCall call) {
 		
 		getPrev().drop(); // Remove the Dot
 		

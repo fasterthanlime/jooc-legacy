@@ -109,7 +109,7 @@ public class TypeResolutionFeature extends SingleFeature<Type> {
 		
 	}
 
-	private void tryContext(Type type, SyntaxNode contextNode) {
+	protected void tryContext(Type type, SyntaxNode contextNode) {
 		
 		RootNode root = contextNode.getRoot();
 		if(root == null) {

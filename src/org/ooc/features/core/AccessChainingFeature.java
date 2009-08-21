@@ -51,7 +51,7 @@ public class AccessChainingFeature extends CoupleFeature<VariableAccess, Dot> {
 		
 	}
 
-	private void handleRegular(AssemblyManager manager, VariableAccess access,
+	protected void handleRegular(AssemblyManager manager, VariableAccess access,
 			Dot dot, Type type, SyntaxNode next) {
 		
 		ClassDef def = type.clazz.getClassDef();
@@ -81,7 +81,7 @@ public class AccessChainingFeature extends CoupleFeature<VariableAccess, Dot> {
 		
 	}
 
-	private void handleMeta(AssemblyManager manager, VariableAccess access, Dot dot,
+	protected void handleMeta(AssemblyManager manager, VariableAccess access, Dot dot,
 			Type type, SyntaxNode next) {
 
 		ClassDef def = type.metaClazz.getClassDef();
@@ -104,7 +104,7 @@ public class AccessChainingFeature extends CoupleFeature<VariableAccess, Dot> {
 		
 	}
 
-	private void handleMemberAccess(AssemblyManager manager, Dot dot, VariableAccess access, ClassDef def) {
+	protected void handleMemberAccess(AssemblyManager manager, Dot dot, VariableAccess access, ClassDef def) {
 		
 		Name name = (Name) dot.getNext();
 		Variable member = def.getMember(manager.getContext(), name.content);
@@ -123,7 +123,7 @@ public class AccessChainingFeature extends CoupleFeature<VariableAccess, Dot> {
 		
 	}
 	
-	private void handleMemberFunctionCall(AssemblyManager manager, Dot dot,
+	protected void handleMemberFunctionCall(AssemblyManager manager, Dot dot,
 			VariableAccess access, ClassDef def, FunctionCall call) {
 		
 		Function func = def.getImplementation(manager.getContext(),

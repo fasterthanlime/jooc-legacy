@@ -16,8 +16,8 @@ import org.ubi.FileLocation;
  */
 public class Cast extends VariableAccess {
 
-    private TypeReference ref;
-    private VariableAccess access;
+    protected TypeReference ref;
+    protected VariableAccess access;
 
     /**
      * Default constructor

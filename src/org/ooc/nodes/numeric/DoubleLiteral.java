@@ -12,9 +12,9 @@ import org.ubi.FileLocation;
  */
 public class DoubleLiteral extends NumberLiteral {
 
-    private double value;
+    protected double value;
     
-    private final static Type type = Type.baseType("Double");
+    protected final static Type type = Type.baseType("Double");
 
     /**
      * Default constructor

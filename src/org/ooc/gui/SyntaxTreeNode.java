@@ -17,11 +17,11 @@ public class SyntaxTreeNode extends DefaultMutableTreeNode {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1853169754176247105L;
+	protected static final long serialVersionUID = 1853169754176247105L;
 
-	private final SyntaxNode node;
-	private final String description;
-	private final String info;
+	protected final SyntaxNode node;
+	protected final String description;
+	protected final String info;
 
 	/**
 	 * Default constructor

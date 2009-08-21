@@ -9,7 +9,7 @@ import org.ooc.nodes.types.Type;
  */
 public class FunctionVariable extends Variable {
 
-	private Function function;
+	protected Function function;
 
 	/**
 	 * Default constructor

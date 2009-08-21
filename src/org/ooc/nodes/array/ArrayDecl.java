@@ -16,9 +16,9 @@ import org.ubi.FileLocation;
  */
 public class ArrayDecl extends VariableDecl {
 
-    private Subscript subscript;
-    private Type type;
-	private Type baseType;
+    protected Subscript subscript;
+    protected Type type;
+	protected Type baseType;
 
 	/**
 	 * Default constructor

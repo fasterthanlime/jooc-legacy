@@ -24,7 +24,7 @@ import org.ooc.parsers.SourceParser;
  */
 public class SyntaxTreeWindow {
 	
-	private final JFrame frame;
+	protected final JFrame frame;
 	
 	/**
 	 * Default Constructor

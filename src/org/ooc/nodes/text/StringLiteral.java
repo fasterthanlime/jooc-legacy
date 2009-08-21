@@ -14,7 +14,7 @@ import org.ubi.SourceReader;
  */
 public class StringLiteral extends Literal {
 
-	private String content;
+	protected String content;
 	/** the String type */
 	public final static Type type = Type.baseType("String");
 	

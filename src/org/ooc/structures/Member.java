@@ -12,8 +12,8 @@ import org.ooc.nodes.types.Type;
  */
 public class Member implements Field {
 
-    private VariableDecl variableDecl;
-	private Clazz clazz;
+    protected VariableDecl variableDecl;
+	protected Clazz clazz;
 
     /**
      * Default constructor

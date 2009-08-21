@@ -11,7 +11,7 @@ import org.ubi.FileLocation;
  */
 public class Macro extends Define {
 
-	private String args;
+	protected String args;
 
 	/**
 	 * Default constructor

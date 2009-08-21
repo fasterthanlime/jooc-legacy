@@ -19,7 +19,7 @@ import org.ooc.errors.AssemblyError;
  */
 public class ErrorsPanel extends JPanel implements AssemblyErrorListener {
 
-	private static class AssemblyErrorNode {
+	protected static class AssemblyErrorNode {
 
 		final AssemblyError error;
 		
@@ -39,7 +39,7 @@ public class ErrorsPanel extends JPanel implements AssemblyErrorListener {
 			return error.getSimpleMessage()+" "+error.node.location;
 		}
 		
-		private class NodePart {
+		protected class NodePart {
 			
 			AssemblyErrorNode node;
 			NodePart(AssemblyErrorNode node) {
@@ -48,7 +48,7 @@ public class ErrorsPanel extends JPanel implements AssemblyErrorListener {
 			
 		}
 		
-		private class DescriptionPart extends NodePart {
+		protected class DescriptionPart extends NodePart {
 			
 			DescriptionPart(AssemblyErrorNode node) {
 				super(node);
@@ -62,7 +62,7 @@ public class ErrorsPanel extends JPanel implements AssemblyErrorListener {
 			
 		}
 		
-		private class ResourcePart extends NodePart {
+		protected class ResourcePart extends NodePart {
 			
 			ResourcePart(AssemblyErrorNode node) {
 				super(node);
@@ -76,7 +76,7 @@ public class ErrorsPanel extends JPanel implements AssemblyErrorListener {
 			
 		}
 		
-		private class LinePart extends NodePart {
+		protected class LinePart extends NodePart {
 			
 			LinePart(AssemblyErrorNode node) {
 				super(node);
@@ -96,10 +96,10 @@ public class ErrorsPanel extends JPanel implements AssemblyErrorListener {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -2538471777650663317L;
+	protected static final long serialVersionUID = -2538471777650663317L;
 	
 	JTable table;
-	private DefaultTableModel errorNodes;
+	protected DefaultTableModel errorNodes;
 
 	/**
 	 * Default constructor

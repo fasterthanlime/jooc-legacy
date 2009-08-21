@@ -22,7 +22,7 @@ public class Function implements Field {
 	 */
     public static final String FUNCTIONS_PREFIX = "__";
     
-    private String name;
+    protected String name;
     
     /**
      * The return type of this function.
@@ -72,7 +72,7 @@ public class Function implements Field {
         this(name, returnType, clazz, args, false);
     }
 
-    private Function(String name, Type returnType, Clazz clazz, TypedArgumentList args, boolean isAbstract) {
+    protected Function(String name, Type returnType, Clazz clazz, TypedArgumentList args, boolean isAbstract) {
         this.name = name;
         this.returnType = returnType;
         this.clazz = clazz;
@@ -210,7 +210,7 @@ public class Function implements Field {
         
     }
 
-	private boolean shouldWriteStatic() {
+	protected boolean shouldWriteStatic() {
 		
 		//return !isConstructor() && !name.equals("main") && !isUnmangled;
 		return false;

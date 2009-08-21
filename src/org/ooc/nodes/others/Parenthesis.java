@@ -18,7 +18,7 @@ import org.ubi.FileLocation;
  */
 public class Parenthesis extends SyntaxNodeList implements Typed, LinearNode {
 
-    private int nameCheck = 0;
+    protected int nameCheck = 0;
 
     /**
      * Default constructor

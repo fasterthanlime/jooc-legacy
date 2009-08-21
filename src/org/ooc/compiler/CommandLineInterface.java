@@ -20,7 +20,7 @@ import org.ooc.gui.SyntaxTreeWindow;
  */
 public class CommandLineInterface {
 	
-	private static String OOC_DIST = System.getenv("OOC_DIST");
+	protected static String OOC_DIST = System.getenv("OOC_DIST");
 	
     /**
      * @param args the command line arguments
@@ -246,7 +246,7 @@ public class CommandLineInterface {
 
     }
 
-	private static void findDist() throws IOException {
+	protected static void findDist() throws IOException {
 		
 		/** 
 		 * First try: assume we're launched with java -jar bin/ooc.jar and

@@ -46,7 +46,7 @@ public abstract class TrioFeature<K,V,M> extends Feature {
 	}
 
 	@SuppressWarnings("unchecked")
-	private boolean applyForward(AssemblyManager manager, SyntaxNode first) {
+	protected boolean applyForward(AssemblyManager manager, SyntaxNode first) {
 		
 		if(!(firstType.isInstance(first))) {
 			return false;
@@ -69,7 +69,7 @@ public abstract class TrioFeature<K,V,M> extends Feature {
 	
 	/*
 	@SuppressWarnings("unchecked")
-	private boolean applyBackward(AssemblyManager manager, SyntaxNode third) {
+	protected boolean applyBackward(AssemblyManager manager, SyntaxNode third) {
 		
 		if(!(thirdType.isInstance(third))) {
 			return false;

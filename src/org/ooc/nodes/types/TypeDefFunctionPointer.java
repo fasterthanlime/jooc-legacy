@@ -20,7 +20,7 @@ import org.ubi.FileLocation;
 public class TypeDefFunctionPointer extends TypeDef {
 
 	/** The arguments of the function pointed by this typedef */
-	private final String args;
+	protected final String args;
 
 	/**
 	 * Default constructor

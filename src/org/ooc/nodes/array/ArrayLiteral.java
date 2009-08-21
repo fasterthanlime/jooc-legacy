@@ -19,7 +19,7 @@ import org.ubi.FileLocation;
  */
 public class ArrayLiteral extends SyntaxNodeList {
 
-    private Type type;
+    protected Type type;
 
     /**
      * Default constructor

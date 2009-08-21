@@ -14,9 +14,9 @@ import org.ubi.SourceReader;
  */
 public class CharLiteral extends Literal {
 
-	private String content;
+	protected String content;
 	
-	private final static Type type = Type.baseType("Char");
+	protected final static Type type = Type.baseType("Char");
 	
 	/**
 	 * Default constructor

@@ -24,9 +24,9 @@ import org.ubi.SourceReader;
  */
 public class Instantiation extends FunctionCall {
 
-    private String clazzName;
+    protected String clazzName;
 
-    private Instantiation(FileLocation location, String typeName) {
+    protected Instantiation(FileLocation location, String typeName) {
     	 
         super(location, typeName+"_new");
         clazzName = typeName;

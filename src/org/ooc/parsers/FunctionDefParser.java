@@ -174,7 +174,7 @@ class FunctionDefParser implements Parser {
 
     }
 	
-    private static void addHeritage(List<Variable> list, FunctionDef funcDef, Variable memberVariable, FileLocation location, Clazz clazz) {
+    protected static void addHeritage(List<Variable> list, FunctionDef funcDef, Variable memberVariable, FileLocation location, Clazz clazz) {
     	
         list.add(memberVariable);
         Block superHeritage = new TransparentBlock(location);

@@ -56,7 +56,7 @@ public class Clazz {
      * The class we have subclassed from. Can be null, if it's a root class. 
      * (Note: in ooc, not every class is a subclass of Object)
      */
-    private Clazz zuper;
+    protected Clazz zuper;
     
     /**
      * The fullName of our super class (or the empty string if we are a root class)
@@ -84,9 +84,9 @@ public class Clazz {
      * a cached version of such a Variable, which can be easily shared, instead
      * of creating several instances.
      */
-    private Variable thisVariable;
-    private Variable classVariable;
-    private Variable staticClassVariable;
+    protected Variable thisVariable;
+    protected Variable classVariable;
+    protected Variable staticClassVariable;
     
     /**
      * The type of our class. Has an arrayLevel and pointerLevel of 0, of course.
@@ -94,13 +94,13 @@ public class Clazz {
      * natural handling of variable declarations, either of basic types (int, float, ..)
      * or class types (MyClass, ...)
      */
-	private Type type;
-	private Type classType;
+	protected Type type;
+	protected Type classType;
 	
 	/**
 	 * The classDef associated to this clazz
 	 */
-	private ClassDef classDef;
+	protected ClassDef classDef;
 	
 	/**
 	 * Default constructor.

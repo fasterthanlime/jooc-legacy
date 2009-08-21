@@ -40,14 +40,14 @@ public class SyntaxTreeWidget extends JPanel {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 6559650063649450237L;
+	protected static final long serialVersionUID = 6559650063649450237L;
 	
 	SyntaxTreeNode root;
 	TreeModel model;
 	JTree tree;
 	AssemblyManager manager;
 	int passNumber;
-	private String title;
+	protected String title;
 	
 	/**
 	 * Shows tree of 'source', show errors in errorsPanel
@@ -150,7 +150,7 @@ public class SyntaxTreeWidget extends JPanel {
 		
 	}
 	
-	private void process(SyntaxTreeNode treeNode) {
+	protected void process(SyntaxTreeNode treeNode) {
 		
 		SyntaxNode node = treeNode.getNode();
 		if(node instanceof SyntaxNodeList) {

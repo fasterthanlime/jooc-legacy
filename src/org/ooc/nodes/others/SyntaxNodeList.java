@@ -135,7 +135,7 @@ public class SyntaxNodeList extends SyntaxNode {
     	}
     }
     
-    private void damage() {
+    protected void damage() {
     	setLocked(false);
     }
 
@@ -180,7 +180,7 @@ public class SyntaxNodeList extends SyntaxNode {
      * if offset = 1, it gets the one after the one just after ;))
      * or null if we've hit the boundaries of the node list.
      */
-    private SyntaxNode getNext(SyntaxNode node, int offset) {
+    protected SyntaxNode getNext(SyntaxNode node, int offset) {
         int index = nodes.indexOf(node) + 1 - offset;
         if(index >= 0 && index < nodes.size()) {
             return nodes.get(index);
@@ -201,7 +201,7 @@ public class SyntaxNodeList extends SyntaxNode {
      * if offset = 1, it gets the one before the one just before ;)),
      * or null if we've hit the boundaries of the node list.
      */
-    private SyntaxNode getPrev(SyntaxNode node, int offset) {
+    protected SyntaxNode getPrev(SyntaxNode node, int offset) {
         int index = nodes.indexOf(node) - 1 - offset;
         if(index >= 0 && index < nodes.size()) {
             return nodes.get(index);

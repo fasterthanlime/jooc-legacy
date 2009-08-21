@@ -22,7 +22,7 @@ class CharLiteralParser implements Parser {
 	    
 	}
 	
-	private static CharLiteral readCharLiteral(SourceReader reader) throws SyntaxError, EOFException {
+	protected static CharLiteral readCharLiteral(SourceReader reader) throws SyntaxError, EOFException {
 
     	return new CharLiteral(reader.getLocation(), SourceReader.spelled(reader.readCharLiteral()));
         

@@ -19,7 +19,7 @@ import org.ubi.FileLocation;
  */
 public class TypeReference extends SyntaxNode {
 
-	private Type type;
+	protected Type type;
 	
 	/**
 	 * Default constructor

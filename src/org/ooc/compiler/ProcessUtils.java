@@ -24,8 +24,8 @@ public class ProcessUtils {
 	 */
 	public static class StreamRelay {
 		
-		private final InputStream inStream;
-		private final OutputStream outStream;
+		protected final InputStream inStream;
+		protected final OutputStream outStream;
 		
 		/**
 		 * Create a new relay between an input and an output stream.
@@ -64,8 +64,8 @@ public class ProcessUtils {
 	 */
 	public static class CharRelay {
 		
-		private final Reader reader;
-		private final Writer writer;
+		protected final Reader reader;
+		protected final Writer writer;
 		
 		/**
 		 * Create a new relay between an input stream and a writer.

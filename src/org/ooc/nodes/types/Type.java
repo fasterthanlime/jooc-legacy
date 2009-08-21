@@ -68,8 +68,8 @@ public class Type extends SyntaxNode {
 	
 	/** The name of the type, such as "int" or "MyClass" */
 	public String name;
-    private final int pointerLevel;
-    private final int arrayLevel;
+    protected final int pointerLevel;
+    protected final int arrayLevel;
 
 	/** true if should not be checked for validity */
 	public boolean isValid;
@@ -154,7 +154,7 @@ public class Type extends SyntaxNode {
 		
 	}
 
-	private void writeBrackets(Appendable a) throws IOException {
+	protected void writeBrackets(Appendable a) throws IOException {
 		if(arrayLevel > 0) {
 	        for(int i = 0; i < arrayLevel; i++) {
 	            a.append("[]");
@@ -162,7 +162,7 @@ public class Type extends SyntaxNode {
         }
 	}
 
-	private void writeStars(Appendable a) throws IOException {
+	protected void writeStars(Appendable a) throws IOException {
 		if(pointerLevel > 0) {
             a.append(' ');
             for(int i = 0; i < pointerLevel; i++) {
@@ -171,7 +171,7 @@ public class Type extends SyntaxNode {
         }
 	}
 
-	private void writeName(Appendable a) throws IOException {
+	protected void writeName(Appendable a) throws IOException {
 		
 		if(clazz != null) {
     		if(clazz.isCover || isCover) {

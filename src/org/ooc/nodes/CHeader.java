@@ -15,9 +15,9 @@ import org.ooc.nodes.types.TypeDef;
 public class CHeader {
 
 	/** Type definitions */
-	private final String path;
-	private final Map<String, TypeDef> typeDefs;
-	private final List<CHeader> dependencies;
+	protected final String path;
+	protected final Map<String, TypeDef> typeDefs;
+	protected final List<CHeader> dependencies;
 	
 	/**
 	 * Default constructor
@@ -62,7 +62,7 @@ public class CHeader {
 		
 	}
 
-	private void getTypeDefs(List<TypeDef> list, List<CHeader> done) {
+	protected void getTypeDefs(List<TypeDef> list, List<CHeader> done) {
 		
 		if(done.contains(this)) {
 			return;
@@ -80,7 +80,7 @@ public class CHeader {
 		
 	}
 
-	private TypeDef getTypeDef(String name, List<CHeader> done) {
+	protected TypeDef getTypeDef(String name, List<CHeader> done) {
 		
 		if(done.contains(this)) {
 			return null;

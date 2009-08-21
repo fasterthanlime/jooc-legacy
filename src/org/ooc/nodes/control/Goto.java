@@ -12,7 +12,7 @@ import org.ubi.FileLocation;
  */
 public class Goto extends SyntaxNode {
 
-	private final String label;
+	protected final String label;
 
 	/**
 	 * Default constructor for a goto to 'label'

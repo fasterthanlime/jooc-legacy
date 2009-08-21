@@ -13,9 +13,9 @@ import org.ubi.FileLocation;
  */
 public class MultiLineComment extends SyntaxNode implements Comment {
 
-	private final String before;
-	private final String after;
-	private final ArrayList<String> lines;
+	protected final String before;
+	protected final String after;
+	protected final ArrayList<String> lines;
 	
 	/**
 	 * Default constructor

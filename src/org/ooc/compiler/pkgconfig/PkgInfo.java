@@ -48,7 +48,7 @@ public class PkgInfo {
 		
 	}
 
-	private void extractTokens(String prefix, String string, List<String> list) {
+	protected void extractTokens(String prefix, String string, List<String> list) {
 		
 		int prefixLength = prefix.length();
 		

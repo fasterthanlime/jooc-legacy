@@ -13,7 +13,7 @@ import org.ubi.FileLocation;
  */
 public class NullLiteral extends Literal {
 
-	private final static Type type = Type.baseType("null");
+	protected final static Type type = Type.baseType("null");
 	
 	/**
 	 * Default constructor

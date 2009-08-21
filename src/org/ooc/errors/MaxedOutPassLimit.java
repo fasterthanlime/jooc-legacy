@@ -13,7 +13,7 @@ public class MaxedOutPassLimit extends CompilationFailedError {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 4857062585280357766L;
+	protected static final long serialVersionUID = 4857062585280357766L;
 	
 	/**
 	 * Default constructor

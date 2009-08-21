@@ -18,7 +18,7 @@ import org.ubi.FileLocation;
  */
 public class Initialization extends SyntaxNode {
 
-	private SyntaxNode value;
+	protected SyntaxNode value;
 
 	/**
 	 * Default constructor to a specified value

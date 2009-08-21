@@ -22,9 +22,9 @@ import org.ubi.SourceReader;
 public class TypeParser implements Parser {
 
 	/** A list of common type names, from longest to shortest */
-	private final static List<String> stdTypes;
+	protected final static List<String> stdTypes;
 	/** A map from common type names to an array of their "components" */
-	private final static Map<String, String[]> stdTypesMap;
+	protected final static Map<String, String[]> stdTypesMap;
 	
 	static {
 		

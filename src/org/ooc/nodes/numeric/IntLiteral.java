@@ -12,7 +12,7 @@ import org.ubi.FileLocation;
  */
 public class IntLiteral extends NumberLiteral {
     
-    private int value;
+    protected int value;
     
     /** The int type */
     public final static Type type = Type.baseType("Int");

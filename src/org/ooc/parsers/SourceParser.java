@@ -20,10 +20,10 @@ import org.ubi.SyntaxError;
  */
 public class SourceParser {
 	
-    private final Parser[] parsers;
-    private final Map<String, SourceContext> sources;
-	private boolean assembleDefault;
-	private final ContentProvider provider;
+    protected final Parser[] parsers;
+    protected final Map<String, SourceContext> sources;
+	protected boolean assembleDefault;
+	protected final ContentProvider provider;
     
     /**
      * Create a new source parser and initialize all sub-parsers.
@@ -146,7 +146,7 @@ public class SourceParser {
         
     }
 
-	private void addStandardLib(ProjectInfo projInfo, SourceContext context) throws IOException {
+	protected void addStandardLib(ProjectInfo projInfo, SourceContext context) throws IOException {
 
 		if(!context.source.getInfo().fullName.equals("OocLib")) {
 			SourceContext oocLib = parse(projInfo, "OocLib");
@@ -161,7 +161,7 @@ public class SourceParser {
 	 * @return
 	 * @throws SyntaxError 
 	 */
-	private void parse(final SourceContext context) throws IOException {
+	protected void parse(final SourceContext context) throws IOException {
 
 		try {
 		
@@ -204,7 +204,7 @@ public class SourceParser {
 	 * Test all parsers, in order.
 	 * @throws SyntaxError 
 	 */
-	private boolean parsersMatch(final SourceContext context) throws IOException, SyntaxError {
+	protected boolean parsersMatch(final SourceContext context) throws IOException, SyntaxError {
 
 		boolean success = false;
 

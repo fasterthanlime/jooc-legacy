@@ -21,8 +21,8 @@ import org.ubi.FileLocation;
  */
 public class MemberAccess extends VariableAccess {
 
-    private Variable member;
-	private VariableAccess access;
+    protected Variable member;
+	protected VariableAccess access;
 
     /**
      * Create a member access from a variable access.

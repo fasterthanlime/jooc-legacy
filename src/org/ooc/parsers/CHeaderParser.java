@@ -22,7 +22,7 @@ import org.ubi.SyntaxError;
 public class CHeaderParser {
 
 	/** Map paths => CHeader structures */
-	private static final Map<String, CHeader> cache = new HashMap<String, CHeader>();
+	protected static final Map<String, CHeader> cache = new HashMap<String, CHeader>();
 	
 	/**
 	 * Parse a C header from specified path.
@@ -61,7 +61,7 @@ public class CHeaderParser {
 		
 	}
 
-	private static SourceReader findAndOpenHeader(String path, BuildProperties props) throws IOException {
+	protected static SourceReader findAndOpenHeader(String path, BuildProperties props) throws IOException {
 
 		File file = new File("/usr/include/"+path);
 		if(file.exists()) {
@@ -100,7 +100,7 @@ public class CHeaderParser {
 		
 	}
 
-	private static boolean parse(SourceReader reader, CHeader header, BuildProperties props) throws IOException {
+	protected static boolean parse(SourceReader reader, CHeader header, BuildProperties props) throws IOException {
 
 		if(!reader.hasNext()) {
 			return true;

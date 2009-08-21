@@ -13,9 +13,9 @@ import org.ubi.FileLocation;
  */
 public class BooleanLiteral extends Literal {
 
-	private boolean value;
+	protected boolean value;
 	
-	private final static Type type = Type.baseType("boolean");
+	protected final static Type type = Type.baseType("boolean");
 
 	/**
 	 * Default constructor

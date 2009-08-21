@@ -35,7 +35,7 @@ public class InitializationFeature extends CoupleFeature<VariableDecl, Assignmen
 			Assignment ass) {
 
 		if(!(ass.getParent() instanceof ClassDef)) {
-			return; // We only deal with members. This is a private club.
+			return; // We only deal with members. This is a protected club.
 		}
 		
 		ClassDef def = (ClassDef) ass.getParent();

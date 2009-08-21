@@ -13,7 +13,7 @@ import java.util.HashMap;
  */
 public class SourcePath {
 	
-	private HashMap<String, File> paths;
+	protected HashMap<String, File> paths;
 	
 	/**
 	 * Default constructor

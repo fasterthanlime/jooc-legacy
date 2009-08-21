@@ -55,7 +55,7 @@ class ClassDefParser implements Parser {
 		
 	}
 	
-	private Cover readCover(SourceContext context, SourceReader sourceReader) throws IOException, SyntaxError {
+	protected Cover readCover(SourceContext context, SourceReader sourceReader) throws IOException, SyntaxError {
 		
 		sourceReader.skipWhitespace();
 	    String name = sourceReader.readName();
@@ -70,7 +70,7 @@ class ClassDefParser implements Parser {
 		
 	}
 
-	private ClassDef readClassDef(SourceContext context, SourceReader sourceReader) throws IOException, SyntaxError {
+	protected ClassDef readClassDef(SourceContext context, SourceReader sourceReader) throws IOException, SyntaxError {
 
 	    sourceReader.skipWhitespace();
 	    String name = sourceReader.readName();
@@ -91,7 +91,7 @@ class ClassDefParser implements Parser {
 		
 	}
 
-	private boolean overrideMatches(SourceContext context) throws IOException {
+	protected boolean overrideMatches(SourceContext context) throws IOException {
 
 		SourceReader reader = context.reader;
 		
@@ -121,7 +121,7 @@ class ClassDefParser implements Parser {
 		
 	}
 
-	private boolean implementMatches(SourceContext context) throws IOException {
+	protected boolean implementMatches(SourceContext context) throws IOException {
 		
 		SourceReader reader = context.reader;
 

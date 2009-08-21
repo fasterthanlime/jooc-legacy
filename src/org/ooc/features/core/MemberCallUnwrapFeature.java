@@ -25,7 +25,7 @@ import org.ubi.FileLocation;
  */
 public class MemberCallUnwrapFeature extends SingleFeature<MemberFunctionCall> {
 
-	private static List<MemberFunctionCall> callsDone = new ArrayList<MemberFunctionCall>();
+	protected static List<MemberFunctionCall> callsDone = new ArrayList<MemberFunctionCall>();
 	
 	/**
 	 * Default constructor

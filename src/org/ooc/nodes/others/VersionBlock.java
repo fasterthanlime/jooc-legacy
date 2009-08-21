@@ -18,7 +18,7 @@ import org.ubi.FileLocation;
  */
 public class VersionBlock extends Scope {
 
-	private static Map<String, String> map = new HashMap<String, String>();
+	protected static Map<String, String> map = new HashMap<String, String>();
 	
 	/**
 	 * A version string, corresponding to a #define 
@@ -59,7 +59,7 @@ public class VersionBlock extends Scope {
 		
 	}
 	
-	private List<Version> versions;
+	protected List<Version> versions;
 
 	/**
 	 * Default constructor

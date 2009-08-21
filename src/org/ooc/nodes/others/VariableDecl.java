@@ -27,7 +27,7 @@ public class VariableDecl extends SyntaxNode implements Typed, PotentiallyStatic
 	 */
     public Variable variable;
     
-    private Initialization initialization;
+    protected Initialization initialization;
 
 	/**
      * Creates a VariableDeclaration to a specified variable.

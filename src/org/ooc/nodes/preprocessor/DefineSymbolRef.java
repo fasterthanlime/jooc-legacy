@@ -26,8 +26,8 @@ import org.ubi.SyntaxError;
  */
 public class DefineSymbolRef extends RawCode implements Typed {
 
-	private final Define defineSymbol;
-	private Type type;
+	protected final Define defineSymbol;
+	protected Type type;
 	
 	/**
 	 * Default constructor
@@ -49,7 +49,7 @@ public class DefineSymbolRef extends RawCode implements Typed {
 		
 	}
 
-	private void resolve() {
+	protected void resolve() {
 		
 		SourceReader reader = SourceReader.getReaderFromText(location.toString()+":#"+content, defineSymbol.content);
 		

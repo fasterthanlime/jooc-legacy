@@ -20,7 +20,7 @@ public class Variable {
     /**
      * Our variable's name, e.g. "myVariable"
      */
-    private String name;
+    protected String name;
     
     /**
      * {@link StaticKeyword} 

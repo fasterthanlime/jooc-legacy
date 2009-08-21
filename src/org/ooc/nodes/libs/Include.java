@@ -67,11 +67,11 @@ public class Include extends PreprocessorDirective {
     	CPP,
     }
 
-    private final IncludeType type;
-    private final IncludePosition position;
-    private final IncludeLanguage language;
-    private final String path;
-	private transient CHeader header;
+    protected final IncludeType type;
+    protected final IncludePosition position;
+    protected final IncludeLanguage language;
+    protected final String path;
+	protected transient CHeader header;
 
 	/**
 	 * Default constructor
@@ -141,7 +141,7 @@ public class Include extends PreprocessorDirective {
     	}
     }
     
-    private void write(Appendable a) throws IOException {
+    protected void write(Appendable a) throws IOException {
     	
     	a.append("#include ");
         switch(type) {

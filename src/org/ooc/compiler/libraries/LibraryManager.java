@@ -22,7 +22,7 @@ import org.ooc.nodes.libs.Include.IncludeType;
  */
 public class LibraryManager {
 
-	private Map<String, Library> libs;
+	protected Map<String, Library> libs;
 	
 	/**
 	 * Default constructor.
@@ -173,7 +173,7 @@ public class LibraryManager {
 		
 	}
 	
-	private void resolveIncludes(Use use, String name) {
+	protected void resolveIncludes(Use use, String name) {
 		
 		Library lib = libs.get(name);
 		if(lib != null) {
@@ -190,7 +190,7 @@ public class LibraryManager {
 		
 	}
 
-	private <T> boolean addOnce(T element, List<T> list) {
+	protected <T> boolean addOnce(T element, List<T> list) {
 		
 		if(list.contains(element)) {
 			return false;

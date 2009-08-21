@@ -16,9 +16,9 @@ import org.ubi.CompilationFailedError;
  */
 public class Compiler {
 	
-	private final SourceParser parser;
+	protected final SourceParser parser;
 
-	private FileContentProvider provider;
+	protected FileContentProvider provider;
 	
 	/**
 	 * @see LibraryManager

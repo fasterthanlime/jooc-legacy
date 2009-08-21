@@ -16,7 +16,7 @@ import org.ubi.SyntaxError;
  */
 public class FromKeyword extends Keyword {
 	
-	private final String superClass;
+	protected final String superClass;
 	
 	/**
 	 * Default constructor
@@ -49,7 +49,7 @@ public class FromKeyword extends Keyword {
         }
     }
 
-    private static FromKeyword read(SourceReader reader) throws SyntaxError, EOFException {
+    protected static FromKeyword read(SourceReader reader) throws SyntaxError, EOFException {
 
         reader.skipWhitespace();
         FileLocation location = reader.getLocation();

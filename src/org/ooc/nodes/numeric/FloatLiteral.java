@@ -12,9 +12,9 @@ import org.ubi.FileLocation;
  */
 public class FloatLiteral extends NumberLiteral {
 
-	private float value;
+	protected float value;
 	
-	private final static Type type = Type.baseType("Float");
+	protected final static Type type = Type.baseType("Float");
 
 	/**
 	 * Default constructor

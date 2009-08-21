@@ -46,7 +46,7 @@ public class CTypeParser implements Parser {
 		
 	}
 
-	private void readCTypeName(final SourceContext context, SourceReader reader)
+	protected void readCTypeName(final SourceContext context, SourceReader reader)
 			throws EOFException, CompilationFailedError {
 		
 		Type type = Type.read(context, reader);

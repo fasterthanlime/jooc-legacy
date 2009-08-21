@@ -23,11 +23,11 @@ import org.ubi.FileLocation;
  */
 public class ForEach extends SyntaxNodeList {
 
-    private VariableDecl decl;
-    private VariableAccess collection;
-    private Variable iterator;
+    protected VariableDecl decl;
+    protected VariableAccess collection;
+    protected Variable iterator;
     
-    private Block init;
+    protected Block init;
 
     /**
      * Default constructor
