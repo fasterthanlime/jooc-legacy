@@ -2,11 +2,10 @@ package org.ooc;
 
 import java.io.File;
 import java.io.StringWriter;
-import java.util.Properties;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 import org.ooc.compiler.ProcessUtils;
-import org.ooc.compiler.ReadEnv;
 
 /**
  * Utilities for launching processes
@@ -21,19 +20,19 @@ public class ShellUtils {
 	 */
 	public static File findExecutable(String executableName) {
 		
-		Properties env;
+		Map<String, String> env;
 		try {
-			env = ReadEnv.getEnvVars();
+			env = System.getenv();
 		} catch(Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 		
-		String pathVar = env.getProperty("PATH");
+		String pathVar = env.get("PATH");
 		if(pathVar == null) {
-			pathVar = env.getProperty("Path");
+			pathVar = env.get("Path");
 		} if(pathVar == null) {
-			pathVar = env.getProperty("path");
+			pathVar = env.get("path");
 		} if(pathVar == null) {
 			System.err.println("PATH environment variable not found!");
 			return null;

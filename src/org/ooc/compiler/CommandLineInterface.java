@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Properties;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 import org.ooc.ShellUtils;
@@ -264,7 +264,7 @@ public class CommandLineInterface {
 	    	}
     	}
     	
-		Properties env = ReadEnv.getEnvVars();
+		Map<String, String> env = System.getenv();
 		
 		/**
 		 * Second try: assume we're launched as GCJ-compiled executable, and
