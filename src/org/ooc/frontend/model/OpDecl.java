@@ -30,7 +30,68 @@ public class OpDecl extends Declaration {
 		LT,
 		LTE,
 		EQ,
-		NE,
+		NE;
+		
+		public String toPrettyString() {
+			switch(this) {
+			case ADD:
+				return "+";
+			case DIV:
+				return "/";
+			case IDX_ASS:
+				return "[]=";
+			case IDX:
+				return "[]";
+			case MUL:
+				return "*";
+			case SUB:
+				return "-";
+			case B_AND:
+				return "&";
+			case B_OR:
+				return "&&";
+			case L_AND:
+				return "|";
+			case L_OR:
+				return "||";
+			case MOD:
+				return "%";
+			case EQ:
+				return "++";
+			case GT:
+				return ">";
+			case GTE:
+				return ">=";
+			case LT:
+				return "<";
+			case LTE:
+				return "<=";
+			case NE:
+				return "!=";
+			case ASS:
+				return "=";
+			case ADD_ASS:
+				return "+=";
+			case DIV_ASS:
+				return "/=";
+			case MUL_ASS:
+				return "*=";
+			case SUB_ASS:
+				return "-=";
+			default:
+				return "unknown";
+			}
+		}
+
+		public boolean isNumeric() {
+			switch(this) {
+			case ADD: case SUB: case MUL: case DIV:
+			case ADD_ASS: case SUB_ASS: case MUL_ASS: case DIV_ASS:
+				return true;
+			default:
+				return false;
+			}
+		}
 	}
 	
 	protected OpType opType;
@@ -87,53 +148,7 @@ public class OpDecl extends Declaration {
 	}
 
 	public String getOpString() {
-		switch(opType) {
-		case ADD:
-			return "+";
-		case DIV:
-			return "/";
-		case IDX_ASS:
-			return "[]=";
-		case IDX:
-			return "[]";
-		case MUL:
-			return "*";
-		case SUB:
-			return "-";
-		case B_AND:
-			return "&";
-		case B_OR:
-			return "&&";
-		case L_AND:
-			return "|";
-		case L_OR:
-			return "||";
-		case MOD:
-			return "%";
-		case EQ:
-			return "++";
-		case GT:
-			return ">";
-		case GTE:
-			return ">=";
-		case LT:
-			return "<";
-		case LTE:
-			return "<=";
-		case NE:
-			return "!=";
-		case ASS:
-			return "=";
-		case ADD_ASS:
-			return "+=";
-		case DIV_ASS:
-			return "/=";
-		case MUL_ASS:
-			return "*=";
-		case SUB_ASS:
-			return "-=";
-		}
-		return null;
+		return opType.toPrettyString();
 	}
 	
 	@Override

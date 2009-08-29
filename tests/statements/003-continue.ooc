@@ -1,23 +1,23 @@
 main: func {
 
 	willContinue := true
-	willBreak := true
+	willBreak := false
 	i := 0
 
 	while (true) {
-		printf ("Run %d\n", i++)
+		printf ("Run %d\n", i += 1)
 		if (willContinue) {
-			printf ("Continue-ing\n")
-			willContinue = false;
-			continue;
-		}
-		if (!willBreak) {
-			printf ("Breaking\n")
-			willBreak = false;
-		} else {
+			"Continuing.." println()
+			willContinue = false
+			continue
+		} else if(willBreak) {
+			"Breaking!" println()
 			break;
+		} else  {
+			"Now will break" println()
+			willBreak = true
 		}
-		printf ("Loop ended normally\n")
+		"Loop ended normally" println()
 	}
 
 }

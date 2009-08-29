@@ -29,8 +29,7 @@ public class FunctionDeclWriter {
 			
 			for(Line line: functionDecl.getBody()) {
 				cgen.current.nl();
-				line.getStatement().accept(cgen);
-				cgen.current.app(';');
+				line.accept(cgen);
 			}
 			cgen.current.closeSpacedBlock();
 		}

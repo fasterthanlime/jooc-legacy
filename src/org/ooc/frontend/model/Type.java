@@ -11,6 +11,12 @@ import org.ooc.middle.hobgoblins.Resolver;
 
 public class Type extends Node implements MustBeResolved {
 
+	public static class Classification {
+		public static final int POINTER = 1;
+		public static final int NUMBER = 2;
+		public static final int CLASS = 4;
+	}
+
 	protected String name;
 	protected int pointerLevel;
 	protected int referenceLevel;
@@ -162,7 +168,6 @@ public class Type extends Node implements MustBeResolved {
 				for(TypeParam param: params) {
 					if(param.name.equals(name)) {
 						ref = param;
-						System.out.println("Found ref in param "+param);
 						return false;
 					}
 				}
@@ -234,11 +239,18 @@ public class Type extends Node implements MustBeResolved {
 	}
 	
 	public int getClassification() {
-		if(!isFlat()) return 0; // 0 = pointer
-		if(name.equals("Int")  || name.equals("Short")
-		|| name.equals("Char") || name.equals("Long")
-		|| name.equals("Octet")|| name.equals("UChar")) return 1; // 1 = integers
-		return 2; // 2 = others
+		if(!isFlat()) return Classification.POINTER;
+		
+		if(name.equals("Int")   || name.equals("UInt")  || name.equals("Short")
+		|| name.equals("UShort")|| name.equals("Long")  || name.equals("ULong")
+		|| name.equals("LLong") || name.equals("ULLong")|| name.equals("Char")
+		|| name.equals("UChar") || name.equals("Int8")  || name.equals("Int16")
+		|| name.equals("Int32") || name.equals("Int64") || name.equals("UInt8")
+		|| name.equals("UInt16")|| name.equals("UInt32")|| name.equals("UInt64")
+		|| name.equals("SizeT")
+		) return Classification.NUMBER;
+		
+		return Classification.CLASS;
 	}
 
 	public void resolve(Resolver res) {
@@ -246,3 +258,4 @@ public class Type extends Node implements MustBeResolved {
 	}
 	
 }
+

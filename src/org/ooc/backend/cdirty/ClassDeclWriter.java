@@ -36,7 +36,7 @@ public class ClassDeclWriter {
 			FunctionDecl decl, CGenerator cgen) throws IOException {
 
 		TypeWriter.writeSpaced(decl.getReturnType(), cgen);
-		cgen.current.app(className).app('_').app(decl.getName());
+		cgen.current.app(className).app('_').app(decl.getSuffixedName());
 		writeFuncArgs(decl, cgen);
 
 	}
@@ -265,11 +265,11 @@ public class ClassDeclWriter {
 				continue;
 
 			if (decl.isFinal() || decl.isAbstract()) {
-				writeDesignatedInit(decl.getName(), writerClass.getName() + "_"
-						+ decl.getName(), cgen);
+				writeDesignatedInit(decl.getSuffixedName(), writerClass.getName() + "_"
+						+ decl.getSuffixedName(), cgen);
 			} else {
-				writeDesignatedInit(decl.getName(), writerClass.getName() + "_"
-						+ decl.getName() + "_impl", cgen);
+				writeDesignatedInit(decl.getSuffixedName(), writerClass.getName() + "_"
+						+ decl.getSuffixedName() + "_impl", cgen);
 			}
 
 		}
@@ -304,7 +304,9 @@ public class ClassDeclWriter {
 	public static void writeFuncPointer(FunctionDecl decl, CGenerator cgen)
 			throws IOException {
 		decl.getReturnType().accept(cgen);
-		cgen.current.app(" (*").app(decl.getName()).app(")(");
+		cgen.current.app(" (*");
+		decl.writeSuffixedName(cgen.current);
+		cgen.current.app(")(");
 		int numArgs = decl.getArguments().size() - 1;
 		Node[] args = decl.getArguments().getNodes();
 		for (int i = 0; i <= numArgs; i++) {

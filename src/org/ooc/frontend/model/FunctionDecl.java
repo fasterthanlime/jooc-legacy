@@ -289,5 +289,10 @@ public class FunctionDecl extends Declaration implements Scope, Generic {
 
 	@Override
 	public void getFunctions(NodeList<FunctionDecl> functions) {}
+
+	public String getSuffixedName() {
+		if(suffix.isEmpty()) return name;
+		return name+"_"+suffix;
+	}
 	
 }

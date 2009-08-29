@@ -4,7 +4,18 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
-import org.ooc.frontend.model.*;
+import org.ooc.frontend.model.Argument;
+import org.ooc.frontend.model.ClassDecl;
+import org.ooc.frontend.model.Dereference;
+import org.ooc.frontend.model.Expression;
+import org.ooc.frontend.model.FunctionCall;
+import org.ooc.frontend.model.FunctionDecl;
+import org.ooc.frontend.model.Instantiation;
+import org.ooc.frontend.model.MemberCall;
+import org.ooc.frontend.model.NodeList;
+import org.ooc.frontend.model.TypeDecl;
+import org.ooc.frontend.model.TypeParam;
+import org.ooc.middle.OocCompilationError;
 
 public class FunctionCallWriter {
 
@@ -55,20 +66,32 @@ public class FunctionCallWriter {
 	public static void writeGenericCallArgs(NodeList<Expression> callArgs,
 			FunctionDecl impl, List<TypeParam> typeParams, CGenerator cgen) throws IOException {
 		
+		NodeList<Argument> implArgs = impl.getArguments();
+		
 		// FIXME must write a list of expressions given by FunctionCall instead
-		for(int i = 0; i < typeParams.size(); i++) {
-			cgen.current.append(callArgs.get(i).getType().getName()+"_class(), ");
+		for(TypeParam typeParam: typeParams) {
+			boolean done = false;
+			int i = 0;
+			for(Argument implArg: implArgs) {
+				if(implArg.getType().getName().equals(typeParam.getName())) {
+					Expression callArg = callArgs.get(i);
+					cgen.current.append(callArg.getType().getName()+"_class(), ");
+					done = true;
+					break;
+				}
+				i++;
+			}
+			if(!done)
+				throw new OocCompilationError(callArgs, cgen.module,
+						"Couldn't find argument in "+callArgs+" to figure out generic type "+typeParam);
 		}
 		
 		int i = 0;
 		Iterator<Expression> iter = callArgs.iterator();
-		NodeList<Argument> implArgs = impl.getArguments();
 		while(iter.hasNext()) {
 			Expression expr = iter.next();
 			Argument arg = implArgs.get(i);
 			for(TypeParam param: typeParams) {
-				System.out.println("arg.getType().getName() = "+arg.getType().getName()
-					+", param.getName() = "+param.getName());
 				if(arg.getType().getName().equals(param.getName())) {
 					cgen.current.app("&");
 				}

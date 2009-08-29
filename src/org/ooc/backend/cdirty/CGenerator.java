@@ -15,6 +15,7 @@ import org.ooc.frontend.model.Assignment;
 import org.ooc.frontend.model.BinaryCombination;
 import org.ooc.frontend.model.Block;
 import org.ooc.frontend.model.BoolLiteral;
+import org.ooc.frontend.model.FlowControl;
 import org.ooc.frontend.model.BuiltinType;
 import org.ooc.frontend.model.Cast;
 import org.ooc.frontend.model.CharLiteral;
@@ -359,7 +360,6 @@ public class CGenerator extends Generator implements Visitor {
 	@Override
 	public void visit(Cast cast) throws IOException {
 		if(cast.getExpression().getType().getRef() instanceof TypeParam) {
-			System.out.println("Cast has a typeparam!");
 			VariableAccess access = (VariableAccess) cast.getExpression();
 			current.app("*((");
 			cast.getType().accept(this);
@@ -421,5 +421,10 @@ public class CGenerator extends Generator implements Visitor {
 
 	@Override
 	public void visit(MultiMap<?, ?> list) throws IOException {}
+
+	@Override
+	public void visit(FlowControl flow) throws IOException {
+		current.app(flow.getKeyword()).app(";");
+	}
 
 }

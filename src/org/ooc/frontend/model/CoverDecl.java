@@ -39,7 +39,7 @@ public class CoverDecl extends TypeDecl implements MustBeResolved {
 			type.referenceLevel = fromType.referenceLevel;
 			instanceType.referenceLevel = fromType.referenceLevel;
 		}
-		if(fromType == null || !fromType.getName().equals("void")) {
+		if(fromType == null || !(fromType.getName().equals("void") && fromType.isFlat())) {
 			addClassDecl();
 		}
 	}

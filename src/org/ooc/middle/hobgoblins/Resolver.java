@@ -8,6 +8,7 @@ import org.ooc.frontend.model.NodeList;
 import org.ooc.frontend.model.interfaces.MustBeResolved;
 import org.ooc.frontend.parser.BuildParams;
 import org.ooc.middle.Hobgoblin;
+import org.ooc.middle.OocCompilationError;
 import org.ooc.middle.walkers.Opportunist;
 import org.ooc.middle.walkers.SketchyNosy;
 
@@ -47,7 +48,7 @@ public class Resolver implements Hobgoblin {
 			if(count > MAX) {
 				fatal = true;
 				nosy.start().visit(module);
-				System.exit(0);
+				throw new OocCompilationError(module, module, "Resolver is running in circles. Abandoning.");
 			}
 			running = false;
 			nosy.start().visit(module);

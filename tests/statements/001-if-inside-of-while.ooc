@@ -3,7 +3,7 @@ main: func {
 	count := 500
 	while (count) {
 		if (true) {
-			printf ("Hi world!\n")
+			"Hi world!" println()
 		}
 		count -= 1
 	}

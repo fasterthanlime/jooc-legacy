@@ -2,6 +2,7 @@ package org.ooc.frontend.model;
 
 import java.io.EOFException;
 import java.io.IOException;
+import java.util.List;
 
 import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.OpDecl.OpType;
@@ -77,14 +78,21 @@ public abstract class BinaryOperation extends Expression implements MustBeResolv
 		
 		OpType opType = getOpType();		
 		for(OpDecl op: res.module.getOps()) {
-			if(tryOp(stack, opType, op)) break;
+			if(tryOp(stack, opType, op)) return false;
 		}
 		for(Import imp: res.module.getImports()) {
 			for(OpDecl op: imp.getModule().getOps()) {
-				if(tryOp(stack, opType, op)) break;
+				if(tryOp(stack, opType, op)) return false;
 			}
 		}
 		
+		/*
+		if(fopType.isNumeric() && left.getType().getClassification() == Classification.CLASS) {
+			System.err.println(new OocCompilationError(this, stack, "Using operator "+opType.toPrettyString()+" between non-numeric types."
+					+" Maybe you want to overload it? Do it like this: operator "
+					+opType.toPrettyString()+" (left: "+left.getType()+", right: "+right.getType()+") { ... }").toString());
+		}
+		*/
 		return false;
 		
 	}
@@ -99,18 +107,28 @@ public abstract class BinaryOperation extends Expression implements MustBeResolv
 						+op.getFunc().getArgsRepr());
 			}
 			NodeList<Argument> args = op.getFunc().getArguments();
-			if(args.get(0).getType().equals(left.getType())
-					&& args.get(1).getType().equals(right.getType())) {
-				FunctionCall call = new FunctionCall(op.getFunc(), startToken);
-				call.getArguments().add(left);
-				call.getArguments().add(right);
-				stack.peek().replace(this, call);
-				end = true;
+			Argument first = args.get(0);
+			Argument second = args.get(1);			
+			if(first.getType().equals(left.getType())) {
+				if(second.getType().equals(right.getType()) || isGeneric(second.getType(), op.getFunc().getTypeParams())) {
+					FunctionCall call = new FunctionCall(op.getFunc(), startToken);
+					call.getArguments().add(left);
+					call.getArguments().add(right);
+					stack.peek().replace(this, call);
+					end = true;
+				}
 			}
 		}
 		return end;
 	}
 	
+	private boolean isGeneric(Type type, List<TypeParam> typeParams) {
+		for(TypeParam typeParam: typeParams) {
+			if(type.getName().equals(typeParam.getName())) return true;
+		}
+		return false;
+	}
+
 	@Override
 	public boolean replace(Node oldie, Node kiddo) {
 		if(oldie == left) {

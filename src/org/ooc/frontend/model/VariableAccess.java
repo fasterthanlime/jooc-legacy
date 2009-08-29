@@ -139,7 +139,6 @@ public class VariableAccess extends Access implements MustBeResolved {
 			for(TypeParam param: params) {
 				if(param.name.equals(name)) {
 					ref = param.getArgument();
-					System.out.println("Found argument ref in param "+param+", "+ref);
 					return false;
 				}
 			}

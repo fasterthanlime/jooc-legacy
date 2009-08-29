@@ -10,6 +10,7 @@ import org.ooc.frontend.model.Assignment;
 import org.ooc.frontend.model.BinaryCombination;
 import org.ooc.frontend.model.Block;
 import org.ooc.frontend.model.BoolLiteral;
+import org.ooc.frontend.model.FlowControl;
 import org.ooc.frontend.model.BuiltinType;
 import org.ooc.frontend.model.Cast;
 import org.ooc.frontend.model.CharLiteral;
@@ -98,6 +99,7 @@ public interface Visitor {
 	public void visit(Else else1) throws IOException;
 	public void visit(While while1) throws IOException;
 	public void visit(Foreach foreach) throws IOException;
+	public void visit(FlowControl break1) throws IOException;
 
 	public void visit(VariableAccess variableAccess) throws IOException;
 	public void visit(MemberAccess memberAccess) throws IOException;

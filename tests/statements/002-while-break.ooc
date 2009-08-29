@@ -2,7 +2,7 @@ main: func {
 
 	while (true) {
 		if (true) {
-			printf ("Hi world!\n")
+			"Hi world!" println()
 			break
 		}
 	}

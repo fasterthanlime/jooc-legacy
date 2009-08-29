@@ -28,7 +28,7 @@ public class Else extends ControlStatement {
 
 	@Override
 	public boolean hasChildren() {
-		return true;
+		return !body.isEmpty();
 	}
 
 }

@@ -18,7 +18,7 @@ public abstract class Node implements Visitable {
 	public abstract boolean replace(Node oldie, Node kiddo);
 	
 	public String generateTempName(String seed, NodeList<Node> stack) {
-		String name = seed;
+		String name = seed.toLowerCase();
 		int i = 0;
 		while(hasVariable(name, stack)) {
 			name = seed + (i++);

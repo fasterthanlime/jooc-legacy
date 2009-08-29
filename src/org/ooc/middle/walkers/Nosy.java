@@ -11,6 +11,7 @@ import org.ooc.frontend.model.Assignment;
 import org.ooc.frontend.model.BinaryCombination;
 import org.ooc.frontend.model.Block;
 import org.ooc.frontend.model.BoolLiteral;
+import org.ooc.frontend.model.FlowControl;
 import org.ooc.frontend.model.BuiltinType;
 import org.ooc.frontend.model.Cast;
 import org.ooc.frontend.model.CharLiteral;
@@ -368,6 +369,11 @@ public class Nosy<T> implements Visitor {
 	@Override
 	public void visit(MultiMap<?, ?> list) throws IOException {
 		visit((Node) list);
+	}
+
+	@Override
+	public void visit(FlowControl break1) throws IOException {
+		visit((Node) break1);
 	}
 	
 }

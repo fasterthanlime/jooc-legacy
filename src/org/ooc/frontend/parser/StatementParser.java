@@ -2,12 +2,14 @@ package org.ooc.frontend.parser;
 
 import java.io.IOException;
 
+import org.ooc.frontend.model.FlowControl;
 import org.ooc.frontend.model.Conditional;
 import org.ooc.frontend.model.Else;
 import org.ooc.frontend.model.Expression;
 import org.ooc.frontend.model.Foreach;
 import org.ooc.frontend.model.Return;
 import org.ooc.frontend.model.Statement;
+import org.ooc.frontend.model.FlowControl.Mode;
 import org.ooc.frontend.model.tokens.TokenReader;
 import org.ooc.frontend.model.tokens.Token.TokenType;
 import org.ubi.SourceReader;
@@ -29,6 +31,9 @@ public class StatementParser {
 			ControlStatementFiller.fill(sReader, reader, else1);
 			return else1;
 		}
+		
+		if(reader.peek().type == TokenType.BREAK_KW) return new FlowControl(Mode.BREAK, reader.read());
+		if(reader.peek().type == TokenType.CONTINUE_KW) return new FlowControl(Mode.CONTINUE, reader.read());
 		
 		Return ret = ReturnParser.parse(sReader, reader);
 		if(ret != null) return ret;
