@@ -1,0 +1,11 @@
+There are 4 basic cases to handle:
+
+1) We access a variable as 'myVariable'
+2) We call a function as 'myFunction(...)'
+3) We access a member variable as 'myObject.myVariable'
+4) We call a member function as 'myObject.myFunction()'
+
+and two fallback cases:
+
+5) We call a no-argument function as 'myFunction'
+6) We call a no-argument member function as 'myObject.myFunction'

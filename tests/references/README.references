@@ -1,0 +1,70 @@
+// References in ooc - a proposal
+
+Int value = 42; // declares variable named 'value', of type Int, assign it 42
+@value; // get address of value ('@' acts nearly like '&' in C)
+
+func addOne_pointer(Int* input) { // classic C syntax
+	input@ += 1; // need to dereference, otherwise we'd modify the pointer
+}
+
+addOne_pointer(@value);
+
+// Define the same function but using a reference, this time
+// We still define we want an Int*, e.g. and Int's address,
+// and '@' means "but I want to handle it as if it was dereferenced once"
+// '@@' means as if dereferenced twice, and so on.
+
+func addOne_reference(Int* input@) { // same signature as far as the caller is concerned
+	input += 1; // no longer needs the dereference, it's all handled automatically
+}
+
+// We still have to write '@value', ie. we know
+// it's potentially being modified, and it's being
+// passed by reference. The calling semantics are clear.
+
+addOne_reference(@value);
+
+
+// Now a note on why '@' is different from '&'
+// In C, you'd write
+void* ptr = &(myStruct.member);
+
+// in ooc, you write
+Void* ptr = myStruct.@member
+
+// which means it works for cascadeCalls, e.g.
+generateName(BlahFactory.getInstance.@name)
+
+// e.g. it would take several lines in C, and you'd need parenthesis
+
+
+
+
+
+Int** dbPointer;
+
+
+pi: Float
+pi = 3.14
+
+dbPointer : Int**
+
+(dbPointer: Int) * 3
+
+dbPointer: Int * 3
+dbPointer: Int*  3 // ERROR
+
+
+Pointer<Pointer<Int>> dbPointer;
+
+
+
+
+
+
+Pointer<<Int>> dbPointer;
+
+
+
+
+

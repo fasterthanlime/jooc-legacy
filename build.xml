@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project ooc-frontend">
+	<!-- set global properties for this build -->
+	<property name="build" location="build/javac-classes"/>
+	<property name="bin" location="bin"/>
+
+	<target name="init">
+		<!-- Create the time stamp -->
+		<tstamp/>
+		<!-- Create the build directory structure used by compile -->
+		<mkdir dir="${build}"/>
+		<mkdir dir="${bin}"/>
+	</target>
+
+	<target name="compile" depends="init"
+			description="compile the source " >
+		<!-- Compile the java code from ${src} into ${build} -->
+		<javac destdir="${build}" debug="true">
+			<src path="../ubi/src"/>
+			<src path="../ooc/src"/>
+			<src path="src"/>
+		</javac>
+	</target>
+
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+    <target name="create_run_jar" depends="compile">
+        <jar destfile="bin/ooc.jar" filesetmanifest="mergewithoutmain">
+            <manifest>
+                <attribute name="Main-Class" value="org.ooc.frontend.CommandLine"/>
+                <attribute name="Class-Path" value="."/>
+            </manifest>
+            <fileset dir="${build}"/>
+        </jar>
+    </target>
+	
+	<target name="clean"
+        description="clean up" >
+		<!-- Delete the ${build} directory trees -->
+		<delete dir="${build}"/>
+	</target>
+	
+</project>

@@ -1,0 +1,3 @@
+#!/bin/sh
+export OOC_DIST=/blue/Dev/ooc-frontend/
+java -jar ${OOC_DIST}/bin/ooc.jar -sourcepath=. $*

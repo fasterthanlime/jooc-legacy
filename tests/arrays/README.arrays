@@ -1,0 +1,10 @@
+I'm unsure how to handle this currently, but it's in my opinion
+that we should support out-of-the-box:
+
+ * Multi-dimensional arrays
+ * Dynamic-sized arrays (e.g. better realloc)
+ * Subsetting (ie. slicing)
+ * Array literals
+
+Tuples should be implemented as arrays - they're only an invariant
+subset of them.

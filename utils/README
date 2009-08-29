@@ -1,0 +1,3 @@
+The main launching script is o3c (for ooc 0.3)
+oof parses and outputs back ooc code (useful for refactoring, and for checking the parser works)
+ooft displays the raw list of tokens as parsed

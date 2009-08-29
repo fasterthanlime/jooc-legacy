@@ -1,0 +1,60 @@
+// Interfaces is a list of functions that a class promise to implement.
+
+Iterator: interface <T> {
+
+	hasNext: func -> Bool
+	next: func -> T
+
+}
+
+Iterable: interface <T> {
+
+	iterator: func -> Iterator<T>	
+
+}
+
+Array: class <T> {
+
+	size: SizeT | private, get
+	data: T* | private, get
+	
+	new: func(=size) {
+		data = GC_malloc(size * sizeof(T))
+	}
+
+	get: func(index: Int) -> T {
+		data[index]
+	}
+
+}
+
+operator [] for Array = array.get
+
+ArrayIterator: class <T> {
+
+	array: Array<T>
+	index = 0 : Int
+
+	new(=array)
+
+}
+
+implement Iterator<T> for ArrayIterator<T> {
+
+	hasNext: func -> Bool {
+		index < array.size
+	}
+
+	next: func -> T {
+		array[i++]
+	}
+
+}
+
+implement Iterable<T> for Array<T> {
+
+	iterator: func -> Iterator<T> {
+		new ArrayIterator<T> (this)
+	}
+
+}

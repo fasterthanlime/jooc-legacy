@@ -1,0 +1,6 @@
+ooc should be able to parse correctly most C headers for type declarations (typedef, struct, union)
+preprocessor declarations (constants & macros), and function declarations with arg types, return types, etc.
+
+We don't care about C++ headers, though. C is enough of a mess to parse, and C++'s ABI isn't standardized
+anyway, so we couldn't link with them or we should rely on a C++ compiler, which would pretty much defeat
+ooc's purpose.

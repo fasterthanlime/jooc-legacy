@@ -1,0 +1,7 @@
+Exceptions shouldn't induce additional costs when not used
+(e.g. most people disable C++ exceptions because of the slow down)
+
+For now the solution is to return a ReturnValue structure containing
+a pointer to an exception (may be NULL if no exception is thrown) and
+a pointer to the returned value (may be NULL if an exception is thrown).
+

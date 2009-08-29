@@ -1,0 +1,3 @@
+Should look something like Java's and work something like C++'s, except
+less atrocious (e.g. should be kept simpler - C++ messes up metaprogramming
+and programming too much)

@@ -1,0 +1,4 @@
+#!/bin/bash
+# Launching script for the new ooc frontend. Copy to /usr/bin/ and modify PROJ_DIR
+PROJ_DIR=/blue/Dev/
+java -classpath $PROJ_DIR/ooc/build/classes:$PROJ_DIR/ooc-frontend/bin org.ooc.frontend.test.CommandLine $*
