@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.ooc.ShellUtils;
-import org.ooc.compiler.ProcessUtils;
+import org.ooc.utils.ProcessUtils;
+import org.ooc.utils.ShellUtils;
 
 public abstract class BaseCompiler implements AbstractCompiler {
 	

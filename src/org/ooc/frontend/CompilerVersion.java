@@ -1,4 +1,4 @@
-package org.ooc.compiler;
+package org.ooc.frontend;
 
 
 /**

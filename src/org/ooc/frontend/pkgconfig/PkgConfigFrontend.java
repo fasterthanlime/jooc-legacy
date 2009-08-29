@@ -1,10 +1,10 @@
-package org.ooc.compiler.pkgconfig;
+package org.ooc.frontend.pkgconfig;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.ooc.ShellUtils;
+import org.ooc.utils.ShellUtils;
 
 /**
  * A frontend to pkgconfig, to retrieve information for packages,

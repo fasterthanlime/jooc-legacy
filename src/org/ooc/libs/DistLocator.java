@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-import org.ooc.outputting.FileUtils;
+import org.ooc.utils.FileUtils;
 
 public class DistLocator {
 

@@ -1,4 +1,4 @@
-package org.ooc.compiler.pkgconfig;
+package org.ooc.frontend.pkgconfig;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package org.ooc.outputting;
+package org.ooc.utils;
 
 import java.io.BufferedWriter;
 import java.io.File;

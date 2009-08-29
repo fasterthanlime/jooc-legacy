@@ -1,4 +1,4 @@
-package org.ooc.compiler;
+package org.ooc.utils;
 
 import java.io.IOException;
 import java.io.InputStream;

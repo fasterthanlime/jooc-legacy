@@ -1,4 +1,4 @@
-package org.ooc.compiler;
+package org.ooc.frontend;
 
 /**
  * Contain the online (rather inline) help of the ooc compiler
