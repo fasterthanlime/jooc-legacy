@@ -119,7 +119,7 @@ public class Type extends Node implements MustBeResolved {
 	}
 
 	public boolean isVoid() {
-		return (name.equals("void") || name.equals("Void")) && (getPointerLevel() == 0);
+		return (name.equals("void") || name.equals("Void")) && isFlat();
 	}
 
 	public boolean isFlat() {

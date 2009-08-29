@@ -220,7 +220,8 @@ public class ClassDeclWriter {
 
 		cgen.current.app("Class *").app(classDecl.getName()).app("_class()")
 				.openSpacedBlock();
-		cgen.current.app("static bool __done__ = false;").nl();
+		if (!classDecl.getSuperName().isEmpty())
+			cgen.current.app("static bool __done__ = false;").nl();
 		cgen.current.app("static ").app(classDecl.getName()).app(
 				"Class class = ");
 		writeFuncPointers(classDecl, classDecl, cgen);

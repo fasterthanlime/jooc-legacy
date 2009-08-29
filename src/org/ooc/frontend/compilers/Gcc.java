@@ -60,6 +60,8 @@ public class Gcc extends BaseCompiler {
 		super.reset();
 		command.add("-pipe");
 		command.add("-combine");
+		command.add("-std=c99");
+		command.add("-Wall");
 	}
 
 }
