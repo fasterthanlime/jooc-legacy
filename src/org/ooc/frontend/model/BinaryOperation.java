@@ -78,11 +78,11 @@ public abstract class BinaryOperation extends Expression implements MustBeResolv
 		
 		OpType opType = getOpType();		
 		for(OpDecl op: res.module.getOps()) {
-			if(tryOp(stack, opType, op)) return false;
+			if(tryOp(stack, opType, op, res)) return false;
 		}
 		for(Import imp: res.module.getImports()) {
 			for(OpDecl op: imp.getModule().getOps()) {
-				if(tryOp(stack, opType, op)) return false;
+				if(tryOp(stack, opType, op, res)) return false;
 			}
 		}
 		
@@ -97,8 +97,8 @@ public abstract class BinaryOperation extends Expression implements MustBeResolv
 		
 	}
 
-	private boolean tryOp(NodeList<Node> stack, OpType opType, OpDecl op)
-			throws OocCompilationError, EOFException {
+	private boolean tryOp(NodeList<Node> stack, OpType opType, OpDecl op, Resolver res)
+			throws OocCompilationError, IOException {
 		boolean end = false;
 		if(op.getOpType() == opType) {
 			if(op.getFunc().getArguments().size() != 2) {
@@ -115,6 +115,7 @@ public abstract class BinaryOperation extends Expression implements MustBeResolv
 					call.getArguments().add(left);
 					call.getArguments().add(right);
 					stack.peek().replace(this, call);
+					call.resolve(stack, res, true);
 					end = true;
 				}
 			}

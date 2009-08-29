@@ -100,9 +100,11 @@ public class FunctionCall extends Access implements MustBeResolved {
 	@Override
 	public boolean resolve(final NodeList<Node> mainStack, final Resolver res, final boolean fatal) throws IOException {
 
-		if (name.equals("this")) resolveConstructorCall(mainStack, false);
-		else if (name.equals("super")) resolveConstructorCall(mainStack, true);
-		else resolveRegular(mainStack, res, fatal);
+		if(impl == null) {
+			if (name.equals("this")) resolveConstructorCall(mainStack, false);
+			else if (name.equals("super")) resolveConstructorCall(mainStack, true);
+			else resolveRegular(mainStack, res, fatal);
+		}
 	
 		if(impl != null) {
 			List<TypeParam> params = impl.getTypeParams();
@@ -113,8 +115,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 						Argument arg = implArgs.get(i);
 						if(!arg.getType().getName().equals(param.getName())) continue;
 						Expression expr = arguments.get(i);
-						if(expr instanceof VariableAccess) {
-						} else {
+						if(!(expr instanceof VariableAccess)) {
 							VariableDeclFromExpr vdfe = new VariableDeclFromExpr(
 									generateTempName(param.getName()+"param", mainStack), expr, startToken);
 							arguments.replace(expr, vdfe);
