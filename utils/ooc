@@ -1,3 +1,6 @@
 #!/bin/sh
 export OOC_DIST=/opt/ooc/
 java -jar ${OOC_DIST}/bin/ooc.jar $*
+
+# You can copy this script to /usr/bin/
+# And adjust OOC_DIST to your ooc location
