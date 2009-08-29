@@ -80,8 +80,8 @@ abstract class Widget from GObject {
 	 * @param y the y coordinate of the desired position for this widget, or
 	 * -1 for default position
 	 */
-	func setPosition(gint x, gint y) {
-		gtk_widget_set_usize(getWidget(), x, y);
+	func setUPosition(gint x, gint y) {
+		gtk_widget_set_uposition(getWidget(), x, y);
 	}
 	
 	/**
