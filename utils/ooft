@@ -1,4 +1,0 @@
-#!/bin/bash
-# To launch the new ooc frontend's tokenizer. Copy to /usr/bin and modify PROJ_DIR to your liking
-PROJ_DIR=/blue/Dev/
-java -classpath $PROJ_DIR/ooc/build/classes:$PROJ_DIR/ooc-frontend/bin org.ooc.frontend.model.TokenParser $*

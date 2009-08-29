@@ -16,8 +16,7 @@
 			description="compile the source " >
 		<!-- Compile the java code from ${src} into ${build} -->
 		<javac destdir="${build}" debug="true">
-			<src path="../ubi/src"/>
-			<src path="../ooc/src"/>
+			<src path="legacy/legacy-src"/>
 			<src path="src"/>
 		</javac>
 	</target>
