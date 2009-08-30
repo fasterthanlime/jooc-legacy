@@ -35,7 +35,7 @@ public class VariableAccess extends Access implements MustBeResolved {
 		return ref;
 	}
 	
-	public void setRef(VariableDecl ref) {
+	public void setRef(Declaration ref) {
 		this.ref = ref;
 	}
 

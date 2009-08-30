@@ -37,7 +37,7 @@ public class LineParser {
 		}
 		body.add(new Line(statement));
 		
-		while(reader.peek().type == TokenType.L_ARROW) {
+		while(reader.peek().type == TokenType.DOT) {
 			Expression expr = null;
 			if(statement instanceof MemberCall) {
 				MemberCall memberCall = (MemberCall) statement;
@@ -46,25 +46,26 @@ public class LineParser {
 				expr = (Expression) statement;
 			} else {
 				throw new CompilationFailedError(sReader.getLocation(reader.peek()),
-						"Arrows '<-' for chain-calls should be used after member function calls only");
+						"Dots '.' for chain-calls should be used after member function calls only");
 			}
 			reader.skip();
 			Token startToken = reader.peek();
 			FunctionCall otherCall = FunctionCallParser.parse(sReader, reader);
 			if(otherCall == null) {
 				throw new CompilationFailedError(sReader.getLocation(reader.peek()),
-					"Expected function call after an arrow '<-'");
+					"Expected function call after a dot '.'");
 			}
 			statement = new MemberCall(expr, otherCall, startToken);
 			body.add(new Line(statement));
 		}
 		
 		if(!(statement instanceof ControlStatement)) {
-			Token next = reader.read();
-			if(next.type != TokenType.LINESEP) {
+			Token next = reader.peek();
+			if(next.type != TokenType.LINESEP && next.type != TokenType.CLOS_BRACK && next.type != TokenType.CLOS_PAREN) {
 				throw new CompilationFailedError(sReader.getLocation(next),
 						"Missing semi-colon at the end of a line (got a "+next+" instead)");
 			}
+			if(next.type == TokenType.LINESEP) reader.skip();
 		}
 		
 		return true;

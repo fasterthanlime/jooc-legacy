@@ -186,7 +186,11 @@ public class CommandLine {
         			} else if(lowerArg.endsWith(".o") || lowerArg.endsWith(".c") || lowerArg.endsWith(".cpp")) {
             			additionals.add(arg);
             		} else {
-        				modulePaths.add(arg);
+            			if(!lowerArg.endsWith(".ooc")) {
+            				modulePaths.add(arg+".ooc");
+            			} else {
+            				modulePaths.add(arg);
+            			}
             		}
         	}
 		}
@@ -298,7 +302,7 @@ public class CommandLine {
 		long tt5 = System.nanoTime();
 
 		if(params.timing) {
-			System.out.printf("parse: %.2f ms\ttink: %.2f ms\tout: %.2f\tcc: %.2f ms\tTOTAL %.2f ms\n",
+			System.out.printf("parse: %.2f ms\ttinker: %.2f ms\toutput: %.2f ms\tcc: %.2f ms\tTOTAL %.2f ms\n",
 					Float.valueOf((tt2 - tt1) / 1000000.0f),
 					Float.valueOf((tt3 - tt2) / 1000000.0f),
 					Float.valueOf((tt4 - tt3) / 1000000.0f),

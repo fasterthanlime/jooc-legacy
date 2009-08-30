@@ -6,9 +6,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.ooc.frontend.Visitor;
+import org.ooc.frontend.model.interfaces.MustBeUnwrapped;
 import org.ooc.frontend.model.tokens.Token;
 
-public class FunctionDecl extends Declaration implements Scope, Generic {
+public class FunctionDecl extends Declaration implements Scope, Generic, MustBeUnwrapped {
 
 	public static Type type = new Type("Func", Token.defaultToken);
 	
@@ -293,6 +294,21 @@ public class FunctionDecl extends Declaration implements Scope, Generic {
 	public String getSuffixedName() {
 		if(suffix.isEmpty()) return name;
 		return name+"_"+suffix;
+	}
+
+	@Override
+	public boolean unwrap(NodeList<Node> stack) throws IOException {
+		if(name.isEmpty()) {
+			Module module = stack.getModule();
+			name = stack.get(0).generateTempName(module.getUnderName()+"_closure", stack);
+			VariableAccess varAcc = new VariableAccess(name, startToken);
+			varAcc.setRef(this);
+			stack.peek().replace(this, varAcc);
+			module.getBody().add(this);
+			
+			return true;
+		}
+		return false;
 	}
 	
 }
