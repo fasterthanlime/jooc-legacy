@@ -211,13 +211,23 @@ public class Module extends Node implements Scope {
 
 	@Override
 	public VariableDecl getVariable(String name) {
-		for(Node node: body) {
+		VariableDecl varDecl = getVariableInBody(name, body);
+		if (varDecl != null) return varDecl;
+		for(Import imp: imports) {
+			varDecl = getVariableInBody(name, imp.getModule().body);
+			if (varDecl != null) return varDecl;
+		}
+		return null;
+	}
+
+	private VariableDecl getVariableInBody(String name, NodeList<Node> list) {
+		for(Node node: list) {
 			if(node instanceof Line) {
 				node = ((Line) node).getStatement();
 			}
 			if(node instanceof VariableDecl) {
 				VariableDecl varDecl = (VariableDecl) node;
-				if(varDecl.getName().equals(name)) return varDecl;
+				if(varDecl.hasAtom(name)) return varDecl;
 			}
 		}
 		return null;

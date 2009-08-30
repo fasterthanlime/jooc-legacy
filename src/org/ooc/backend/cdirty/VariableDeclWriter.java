@@ -30,7 +30,7 @@ public class VariableDeclWriter {
 				VariableDeclAtom atom = iter.next();
 				TypeWriter.writeSpaced(funcDecl.getReturnType(), cgen);
 				cgen.current.app("(*").app(atom.getName()).app(")");
-				ClassDeclWriter.writeFuncArgs(funcDecl, cgen);
+				FunctionDeclWriter.writeFuncArgs(funcDecl, cgen);
 				writeInitAndComma(cgen, type, iter, atom);
 			}
 			

@@ -45,6 +45,11 @@ memcpy: extern func (Pointer, Pointer, SizeT)
 scanf: extern func (String, ...)
 printf: extern func (String, ...)
 sprintf: extern func (String, String, ...)
+
+fprintf: extern func (Stream, String, ...)
+Stream: cover from Int
+stdout, stderr, stdin : extern Stream
+
 println: func (str: String) {
 	printf("%s\n", str)
 }

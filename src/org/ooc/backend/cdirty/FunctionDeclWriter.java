@@ -45,6 +45,21 @@ public class FunctionDeclWriter {
 		}
 		functionDecl.writeFullName(cgen.current);
 		
+		writeFuncArgs(functionDecl, cgen);
+		
+		if(returnType instanceof FuncType) {
+			TypeWriter.writeFuncPointerEnd((FuncType) returnType, cgen);
+		}
+		
+	}
+
+	public static void writeFuncArgs(FunctionDecl functionDecl, CGenerator cgen)
+			throws IOException {
+		writeFuncArgs(functionDecl, cgen, functionDecl.isConstructor());
+	}
+
+	public static void writeFuncArgs(FunctionDecl functionDecl,
+			CGenerator cgen, boolean shouldSkipFirst) throws IOException {
 		cgen.current.app('(');
 		boolean isFirst = true;
 		for(TypeParam param: functionDecl.getTypeParams()) {
@@ -53,17 +68,17 @@ public class FunctionDeclWriter {
 			param.getArgument().accept(cgen);
 		}
 		
+		boolean skipFirst = shouldSkipFirst;
 		for(Argument arg: functionDecl.getArguments()) {
+			if(skipFirst) {
+				skipFirst = false;
+				continue;
+			}
 			if(!isFirst) cgen.current.app(", ");
 			isFirst = false;
 			arg.accept(cgen);
 		}
 		cgen.current.app(')');
-		
-		if(returnType instanceof FuncType) {
-			TypeWriter.writeFuncPointerEnd((FuncType) returnType, cgen);
-		}
-		
 	}
 	
 }

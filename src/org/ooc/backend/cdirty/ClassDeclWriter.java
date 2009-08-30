@@ -32,38 +32,6 @@ public class ClassDeclWriter {
 		
 	}
 
-	public static void writeMemberFuncPrototype(String className,
-			FunctionDecl decl, CGenerator cgen) throws IOException {
-
-		TypeWriter.writeSpaced(decl.getReturnType(), cgen);
-		cgen.current.app(className).app('_').app(decl.getSuffixedName());
-		writeFuncArgs(decl, cgen);
-
-	}
-
-	public static void writeFuncArgs(FunctionDecl decl, CGenerator cgen) throws IOException {
-		writeFuncArgs(decl, false, cgen);
-	}
-
-	public static void writeFuncArgs(FunctionDecl decl, boolean skipFirst,
-			CGenerator cgen) throws IOException {
-
-		cgen.current.app('(');
-		Iterator<Argument> iter = decl.getArguments().iterator();
-		if (iter.hasNext()) { // of course, no point of doing all cgen if we
-								// have no arguments
-			if (skipFirst)
-				iter.next(); // especially that.
-			while (iter.hasNext()) {
-				iter.next().accept(cgen);
-				if (iter.hasNext())
-					cgen.current.app(", ");
-			}
-		}
-		cgen.current.app(')');
-
-	}
-
 	public static void writeTypelessFuncArgs(FunctionDecl decl, CGenerator cgen)
 			throws IOException {
 
@@ -87,7 +55,8 @@ public class ClassDeclWriter {
 				continue;
 
 			cgen.current.nl();
-			writeMemberFuncPrototype(className, decl, cgen);
+			//writeMemberFuncPrototype(className, decl, cgen);
+			FunctionDeclWriter.writeFuncPrototype(decl, cgen);
 			cgen.current.openBlock();
 			decl.getBody().accept(cgen);
 			cgen.current.closeSpacedBlock();
@@ -104,7 +73,7 @@ public class ClassDeclWriter {
 				continue;
 
 			cgen.current.nl();
-			writeMemberFuncPrototype(className, decl, cgen);
+			FunctionDeclWriter.writeFuncPrototype(decl, cgen);
 			cgen.current.openSpacedBlock();
 
 			if (!decl.getReturnType().isVoid())
@@ -180,8 +149,7 @@ public class ClassDeclWriter {
 			if (!decl.isFinal())
 				cgen.current.app("_impl");
 
-			// if is constuctor, don't write the first arg
-			writeFuncArgs(decl, decl.isConstructor(), cgen);
+			FunctionDeclWriter.writeFuncArgs(decl, cgen);
 
 			cgen.current.openBlock();
 
@@ -205,7 +173,7 @@ public class ClassDeclWriter {
 				cgen.current.app("void ").app(className).app("_construct");
 				if (!decl.getSuffix().isEmpty())
 					cgen.current.app('_').app(decl.getSuffix());
-				writeFuncArgs(decl, cgen);
+				FunctionDeclWriter.writeFuncArgs(decl, cgen, false);
 				cgen.current.openBlock();
 				for (Line line : decl.getBody())
 					line.accept(cgen);
@@ -288,14 +256,14 @@ public class ClassDeclWriter {
 			cgen.current.nl();
 			TypeWriter.writeSpaced(decl.getReturnType(), cgen);
 			decl.writeFullName(cgen.current);
-			writeFuncArgs(decl, decl.isConstructor(), cgen);
+			FunctionDeclWriter.writeFuncArgs(decl, cgen);
 			cgen.current.app(';');
 
 			if (decl.getName().equals("new")) {
 				cgen.current.nl().app("void ").app(className).app("_construct");
 				if (!decl.getSuffix().isEmpty())
 					cgen.current.app('_').app(decl.getSuffix());
-				writeFuncArgs(decl, cgen);
+				FunctionDeclWriter.writeFuncArgs(decl, cgen, false);
 				cgen.current.app(';');
 			}
 		}
