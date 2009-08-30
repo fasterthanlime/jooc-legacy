@@ -231,10 +231,7 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped {
 		}
 		
 		NodeList<Line> body = (NodeList<Line>) stack.get(bodyIndex);
-		Block block = new Block(body.startToken);
-		block.body.add(new Line(this));
-		block.body.add(line);
-		body.replace(line, new Line(block));
+		body.addAfter(line, new Line(this));
 		
 		return true;
 		

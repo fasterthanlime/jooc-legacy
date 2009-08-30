@@ -1,6 +1,8 @@
 package org.ooc.frontend.model;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.interfaces.MustBeResolved;
@@ -8,7 +10,7 @@ import org.ooc.frontend.model.tokens.Token;
 import org.ooc.middle.OocCompilationError;
 import org.ooc.middle.hobgoblins.Resolver;
 
-public class ClassDecl extends TypeDecl implements MustBeResolved {
+public class ClassDecl extends TypeDecl implements MustBeResolved, Generic {
 
 	protected boolean isAbstract;
 	
@@ -17,6 +19,8 @@ public class ClassDecl extends TypeDecl implements MustBeResolved {
 	protected FunctionDecl initialize;
 	protected FunctionDecl load;
 	protected FunctionDecl defaultConstructor;
+
+	protected List<TypeParam> typeParams;
 	
 	public ClassDecl(String name, String superName, boolean isAbstract, Token startToken) {
 		super(name, (superName.isEmpty() && !name.equals("Object")) ? "Object" : superName, startToken);
@@ -31,6 +35,7 @@ public class ClassDecl extends TypeDecl implements MustBeResolved {
 		FunctionDecl constructor = new FunctionDecl("new", "", false, false, false, false, startToken);
 		addFunction(constructor);
 		this.defaultConstructor = constructor;
+		this.typeParams = new ArrayList<TypeParam>();
 	}
 	
 	@Override
@@ -142,6 +147,11 @@ public class ClassDecl extends TypeDecl implements MustBeResolved {
 		}
 		return superRef == null;
 		
+	}
+
+	@Override
+	public List<TypeParam> getTypeParams() {
+		return typeParams;
 	}
 	
 }

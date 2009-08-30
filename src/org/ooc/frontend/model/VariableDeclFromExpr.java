@@ -5,7 +5,6 @@ import java.io.IOException;
 import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.interfaces.MustBeResolved;
 import org.ooc.frontend.model.tokens.Token;
-import org.ooc.middle.OocCompilationError;
 import org.ooc.middle.hobgoblins.Resolver;
 
 public class VariableDeclFromExpr extends VariableDecl implements MustBeResolved {
@@ -37,12 +36,6 @@ public class VariableDeclFromExpr extends VariableDecl implements MustBeResolved
 	@Override
 	public String toString() {
 		return getClass().getSimpleName()+" of type "+getType()+" : "+getName();
-	}
-	
-	@Override
-	public boolean unwrap(NodeList<Node> stack) throws OocCompilationError,
-			IOException {
-		return super.unwrap(stack);
 	}
 	
 	@Override

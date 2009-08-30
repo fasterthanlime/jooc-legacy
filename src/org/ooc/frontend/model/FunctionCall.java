@@ -243,6 +243,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 		
 		if(impl == null) {
 			VariableDecl varDecl = getVariable(name, stack);
+			//System.out.println("Looking for varDecl "+name+", got "+varDecl);
 			if(varDecl != null) {
 				if(varDecl.getName().equals(name)) {
 					if(varDecl.getType() instanceof FuncType) {

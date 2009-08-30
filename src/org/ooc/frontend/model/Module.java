@@ -25,7 +25,7 @@ public class Module extends Node implements Scope {
 	protected String fileName;
 	protected FunctionDecl loadFunc;
 	private boolean isMain;
-	private final SourceReader reader;
+	private final transient SourceReader reader;
 	
 	public long lastModified;
 	

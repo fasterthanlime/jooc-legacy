@@ -79,13 +79,7 @@ public class FunctionDeclParser {
 			} else if(tok.type == TokenType.LESSTHAN) {
 				reader.skip();
 				typeParams = new ArrayList<TypeParam>();
-				while(reader.peek().type != TokenType.GREATERTHAN) {
-					Token nameTok = reader.read();
-					typeParams.add(new TypeParam(nameTok.get(sReader), nameTok));
-					if(reader.peek().type != TokenType.COMMA) break;
-					reader.skip();
-				}
-				reader.skip();
+				TypeParamParser.parse(sReader, reader, typeParams);
 			} else break;
 		}
 		

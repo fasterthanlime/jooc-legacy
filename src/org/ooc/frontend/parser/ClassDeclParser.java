@@ -1,10 +1,13 @@
 package org.ooc.frontend.parser;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.ooc.frontend.model.ClassDecl;
 import org.ooc.frontend.model.FunctionDecl;
 import org.ooc.frontend.model.OocDocComment;
+import org.ooc.frontend.model.TypeParam;
 import org.ooc.frontend.model.VariableDecl;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.frontend.model.tokens.TokenReader;
@@ -39,9 +42,16 @@ public class ClassDeclParser {
 		
 		boolean isAbstract = reader.peek().type == TokenType.ABSTRACT_KW;
 		if(isAbstract) reader.skip();
+		List<TypeParam> typeParams = null;
 		
 		if(reader.readWhiteless().type == TokenType.CLASS_KW) {
 		
+			if(reader.peek().type == TokenType.LESSTHAN) {
+				reader.skip();
+				typeParams = new ArrayList<TypeParam>();
+				TypeParamParser.parse(sReader, reader, typeParams);
+			}
+			
 			String superName = "";
 			if(reader.peek().type == TokenType.EXTENDS_KW) {
 				reader.skip();
@@ -51,7 +61,6 @@ public class ClassDeclParser {
 					"Expected super-class name after the from keyword.");
 				}
 				superName = tSuper.get(sReader);
-				
 			}
 			
 			Token t2 = reader.read();

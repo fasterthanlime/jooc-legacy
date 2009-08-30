@@ -42,6 +42,7 @@ public class Parser {
 		final Module module = new Module(fullName, sReader);
 		ModuleParser.parse(module, fullName, file,
 				sReader, new TokenReader(tokens), Parser.this);
+		//new XStream().toXML(module, new FileWriter(file.getName()+".xml"));
 		return module;
 	}
 		

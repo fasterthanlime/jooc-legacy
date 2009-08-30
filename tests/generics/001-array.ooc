@@ -4,7 +4,7 @@ Array: class <T> {
 	size: SizeT
 
 	new: func (=size) {
-		data = GC_malloc(sizeof(T) * size)
+		data = gc_malloc(sizeof(T) * size)
 	}
 
 	get: func (index: SizeT) -> T {
@@ -27,6 +27,6 @@ main: func {
 	printf("%d, ", arr get(\1..10))
 	println()
 
-	0
+	return 0
 
 }

@@ -20,7 +20,7 @@ public class NodeList<T extends Node> extends Node implements Iterable<T> {
 	@SuppressWarnings("unchecked")
 	public NodeList(Token startToken) {
 		super(startToken);
-		nodes = (T[]) new Node[20];
+		nodes = (T[]) new Node[10];
 		size = 0;
 	}
 
@@ -259,5 +259,13 @@ public class NodeList<T extends Node> extends Node implements Iterable<T> {
 
 	public Module getModule() {
 		return (Module) nodes[0];
+	}
+
+	public void addAfter(T afterWhat, T kiddo) {
+		int index = indexOf(afterWhat);
+		if(index == -1) {
+			throw new Error("Trying to add "+kiddo+" after "+afterWhat+", but it can't be found in the list.");
+		}
+		add(index, kiddo);
 	}
 }

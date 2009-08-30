@@ -22,6 +22,7 @@ public class Type extends Node implements MustBeResolved {
 	protected int referenceLevel;
 	protected Declaration ref;
 	protected boolean isArray;
+	protected List<Type> typeParams;
 	
 	public Type(String name, Token startToken) {
 		this(name, 0, startToken);
