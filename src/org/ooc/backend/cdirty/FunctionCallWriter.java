@@ -109,7 +109,11 @@ public class FunctionCallWriter {
 			for(Argument implArg: implArgs) {
 				if(implArg.getType().getName().equals(typeParam.getName())) {
 					Expression callArg = callArgs.get(i);
-					cgen.current.append(callArg.getType().getName()+"_class(), ");
+					if(callArg.getType().getRef() instanceof TypeParam) {
+						cgen.current.app(callArg.getType().getName()).app(", ");
+					} else {
+						cgen.current.app(callArg.getType().getName()).app("_class(), ");
+					}
 					done = true;
 					break;
 				}
