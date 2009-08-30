@@ -1,8 +1,7 @@
 package org.ooc.frontend.model;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashMap;
 
 import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.interfaces.MustBeResolved;
@@ -20,7 +19,7 @@ public class ClassDecl extends TypeDecl implements MustBeResolved, Generic {
 	protected FunctionDecl load;
 	protected FunctionDecl defaultConstructor;
 
-	protected List<TypeParam> typeParams;
+	protected LinkedHashMap<String, GenericType> typeParams;
 	
 	public ClassDecl(String name, String superName, boolean isAbstract, Token startToken) {
 		super(name, (superName.isEmpty() && !name.equals("Object")) ? "Object" : superName, startToken);
@@ -35,7 +34,7 @@ public class ClassDecl extends TypeDecl implements MustBeResolved, Generic {
 		FunctionDecl constructor = new FunctionDecl("new", "", false, false, false, false, startToken);
 		addFunction(constructor);
 		this.defaultConstructor = constructor;
-		this.typeParams = new ArrayList<TypeParam>();
+		this.typeParams = new LinkedHashMap<String, GenericType>();
 	}
 	
 	@Override
@@ -150,7 +149,7 @@ public class ClassDecl extends TypeDecl implements MustBeResolved, Generic {
 	}
 
 	@Override
-	public List<TypeParam> getTypeParams() {
+	public LinkedHashMap<String, GenericType> getGenericTypes() {
 		return typeParams;
 	}
 	

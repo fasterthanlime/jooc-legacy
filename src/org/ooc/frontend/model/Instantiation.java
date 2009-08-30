@@ -11,17 +11,25 @@ import org.ooc.middle.hobgoblins.Resolver;
 
 public class Instantiation extends FunctionCall {
 
-	public Instantiation(FunctionCall call, Token startToken) {
-		super(call.name, call.suffix, startToken);
-		arguments.setAll(call.arguments);
-	}
+	protected Type type;
 
-	public Instantiation(String name, String suffix, Token startToken) {
-		super(name, suffix, startToken);
+	public Instantiation(Type type, String suffix, Token startToken) {
+		super("", suffix, startToken);
+		this.type = type;
 	}
 	
 	public Instantiation(Token startToken) {
 		super("", "", startToken);
+		this.type = null;
+	}
+	
+	@Override
+	public Type getType() {
+		return type;
+	}
+	
+	public void setType(Type type) {
+		this.type = type;
 	}
 	
 	@Override
@@ -32,9 +40,9 @@ public class Instantiation extends FunctionCall {
 	@Override
 	public boolean resolve(NodeList<Node> stack, Resolver res, boolean fatal) throws IOException {
 		
-		if(name.isEmpty()) guessName(stack);
+		if(type == null) guessName(stack);
 		
-		TypeDecl decl = res.module.getType(name);
+		TypeDecl decl = res.module.getType(type.getName());
 		if(decl != null) {
 			for(FunctionDecl func: decl.getFunctions()) {
 				if(!func.isConstructor()) continue;
@@ -52,7 +60,7 @@ public class Instantiation extends FunctionCall {
 		
 		if(fatal && impl == null) {
 			throw new OocCompilationError(this, stack, "Couldn't find a constructor in "
-					+name+" for arguments "+getArgsRepr());
+					+type+" for arguments "+getArgsRepr());
 		}
 		
 		return impl == null;
@@ -78,7 +86,7 @@ public class Instantiation extends FunctionCall {
 		if(stack.peek() instanceof Assignment) {
 			Assignment ass = (Assignment) stack.peek();
 			if (ass.getLeft().getType() == null) return false;
-			name = ass.getLeft().getType().getName();
+			type = ass.getLeft().getType();
 		} else if(stack.peek() instanceof VariableDeclAtom) {
 			VariableDeclAtom vda = (VariableDeclAtom) stack.peek();
 			if(vda.getExpression() == this) {
@@ -87,10 +95,10 @@ public class Instantiation extends FunctionCall {
 					throw new OocCompilationError(this, stack, "Couldn't guess type of 'new'"
 							+stack.peek().getClass().getSimpleName()+")");
 				}
-				name = vd.getType().getName();
+				type = vd.getType();
 			}
 		} else if(stack.peek() instanceof Cast) {
-			name = ((Cast) stack.peek()).getType().getName();
+			type = ((Cast) stack.peek()).getType();
 		} else {
 			throw new OocCompilationError(this, stack, "Couldn't guess type of 'new'");
 		}

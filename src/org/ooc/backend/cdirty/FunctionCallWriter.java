@@ -2,7 +2,7 @@ package org.ooc.backend.cdirty;
 
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.List;
+import java.util.LinkedHashMap;
 
 import org.ooc.frontend.model.Argument;
 import org.ooc.frontend.model.ClassDecl;
@@ -10,11 +10,11 @@ import org.ooc.frontend.model.Dereference;
 import org.ooc.frontend.model.Expression;
 import org.ooc.frontend.model.FunctionCall;
 import org.ooc.frontend.model.FunctionDecl;
+import org.ooc.frontend.model.GenericType;
 import org.ooc.frontend.model.Instantiation;
 import org.ooc.frontend.model.MemberCall;
 import org.ooc.frontend.model.NodeList;
 import org.ooc.frontend.model.TypeDecl;
-import org.ooc.frontend.model.TypeParam;
 import org.ooc.frontend.model.VarArg;
 import org.ooc.middle.OocCompilationError;
 
@@ -43,6 +43,10 @@ public class FunctionCallWriter {
 		
 		NodeList<Expression> args = functionCall.getArguments();
 		cgen.current.app('(');
+		if(functionCall.getReturnArg() != null) {
+			functionCall.getReturnArg().accept(cgen);
+			if(!args.isEmpty()) cgen.current.app(", ");
+		}
 		if(functionCall.isConstructorCall() && impl.getTypeDecl() instanceof ClassDecl) {
 			cgen.current.app('(');
 			impl.getTypeDecl().getInstanceType().accept(cgen);
@@ -69,7 +73,7 @@ public class FunctionCallWriter {
 	}
 
 	public static void writeCallArgs(NodeList<Expression> callArgs, FunctionDecl impl, CGenerator cgen) throws IOException {
-		List<TypeParam> typeParams = impl.getTypeParams();
+		LinkedHashMap<String, GenericType> typeParams = impl.getGenericTypes();
 		if(typeParams.isEmpty()) {
 			Iterator<Expression> iter = callArgs.iterator();
 			int argIndex = 0;
@@ -99,17 +103,17 @@ public class FunctionCallWriter {
 	}
 
 	public static void writeGenericCallArgs(NodeList<Expression> callArgs,
-			FunctionDecl impl, List<TypeParam> typeParams, CGenerator cgen) throws IOException {
+			FunctionDecl impl, LinkedHashMap<String, GenericType> typeParams, CGenerator cgen) throws IOException {
 		
 		NodeList<Argument> implArgs = impl.getArguments();
 		
-		for(TypeParam typeParam: typeParams) {
+		for(GenericType typeParam: typeParams.values()) {
 			boolean done = false;
 			int i = 0;
 			for(Argument implArg: implArgs) {
 				if(implArg.getType().getName().equals(typeParam.getName())) {
 					Expression callArg = callArgs.get(i);
-					if(callArg.getType().getRef() instanceof TypeParam) {
+					if(callArg.getType().getRef() instanceof GenericType) {
 						cgen.current.app(callArg.getType().getName()).app(", ");
 					} else {
 						cgen.current.app(callArg.getType().getName()).app("_class(), ");
@@ -129,10 +133,9 @@ public class FunctionCallWriter {
 		while(iter.hasNext()) {
 			Expression expr = iter.next();
 			Argument arg = implArgs.get(argIndex);
-			for(TypeParam param: typeParams) {
-				if(arg.getType().getName().equals(param.getName())) {
-					cgen.current.app("&");
-				}
+			GenericType typeParam = typeParams.get(arg.getType().getName());
+			if(typeParam != null) {
+				cgen.current.app("(Pointer) &");
 			}
 			writeCallArg(expr, impl, argIndex, cgen);
 			if(iter.hasNext()) cgen.current.app(", ");

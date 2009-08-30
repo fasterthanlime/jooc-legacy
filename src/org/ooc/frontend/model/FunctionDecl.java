@@ -1,9 +1,8 @@
 package org.ooc.frontend.model;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
+import java.util.LinkedHashMap;
 
 import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.interfaces.MustBeUnwrapped;
@@ -25,8 +24,12 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 
 	protected String suffix;
 	protected final NodeList<Line> body;
+	
 	protected Type returnType;
-	protected final List<TypeParam> typeParams;
+	// when the return type is generic, the returnArg is a pointer.
+	protected Argument returnArg;
+	
+	protected final LinkedHashMap<String, GenericType> typeParams;
 	protected final NodeList<Argument> arguments;
 	
 	public FunctionDecl(String name, String suffix, boolean isFinal,
@@ -44,10 +47,11 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 		this.body = new NodeList<Line>(startToken);
 		this.returnType = name.equals("main") ? IntLiteral.type : new Type("void", Token.defaultToken);
 		this.arguments = new NodeList<Argument>(startToken);
-		this.typeParams = new ArrayList<TypeParam>();
+		this.typeParams = new LinkedHashMap<String, GenericType>();
+		this.returnArg = new RegularArgument(NullLiteral.type, generateTempName("returnArg"), startToken);
 	}
 	
-	public List<TypeParam> getTypeParams() {
+	public LinkedHashMap<String, GenericType> getGenericTypes() {
 		return typeParams;
 	}
 	
@@ -156,11 +160,12 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 	
 	@Override
 	public void acceptChildren(Visitor visitor) throws IOException {
-		if (typeParams.size() > 0) for (TypeParam typeParam: typeParams) {
+		if (typeParams.size() > 0) for (GenericType typeParam: typeParams.values()) {
 			typeParam.getType().accept(visitor);
 		}
 		arguments.accept(visitor);
 		returnType.accept(visitor);
+		returnArg.getType().accept(visitor);
 		body.accept(visitor);
 	}
 
@@ -300,7 +305,7 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 	public boolean unwrap(NodeList<Node> stack) throws IOException {
 		if(name.isEmpty()) {
 			Module module = stack.getModule();
-			name = stack.get(0).generateTempName(module.getUnderName()+"_closure", stack);
+			name = stack.get(0).generateTempName(module.getUnderName()+"_closure");
 			VariableAccess varAcc = new VariableAccess(name, startToken);
 			varAcc.setRef(this);
 			stack.peek().replace(this, varAcc);
@@ -313,6 +318,10 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 
 	public boolean isExternWithName() {
 		return externName != null && !externName.isEmpty();
+	}
+
+	public Argument getReturnArg() {
+		return returnArg;
 	}
 	
 }

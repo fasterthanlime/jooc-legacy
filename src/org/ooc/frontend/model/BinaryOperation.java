@@ -1,7 +1,7 @@
 package org.ooc.frontend.model;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.LinkedHashMap;
 
 import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.OpDecl.OpType;
@@ -109,7 +109,7 @@ public abstract class BinaryOperation extends Expression implements MustBeResolv
 			Argument first = args.get(0);
 			Argument second = args.get(1);			
 			if(first.getType().equals(left.getType())) {
-				if(second.getType().equals(right.getType()) || isGeneric(second.getType(), op.getFunc().getTypeParams())) {
+				if(second.getType().equals(right.getType()) || isGeneric(second.getType(), op.getFunc().getGenericTypes())) {
 					FunctionCall call = new FunctionCall(op.getFunc(), startToken);
 					call.getArguments().add(left);
 					call.getArguments().add(right);
@@ -122,11 +122,8 @@ public abstract class BinaryOperation extends Expression implements MustBeResolv
 		return end;
 	}
 	
-	private boolean isGeneric(Type type, List<TypeParam> typeParams) {
-		for(TypeParam typeParam: typeParams) {
-			if(type.getName().equals(typeParam.getName())) return true;
-		}
-		return false;
+	private boolean isGeneric(Type type, LinkedHashMap<String, GenericType> linkedHashMap) {
+		return linkedHashMap.containsKey(type.getName());
 	}
 
 	@Override

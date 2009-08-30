@@ -95,7 +95,7 @@ public class ArrayLiteral extends Literal implements MustBeUnwrapped, MustBeReso
 		//, thus we need to unwrap
 		if(varDeclIndex == -1 || (stack.size() - varDeclIndex) > 3) {
 			stack.peek().replace(this, new VariableDeclFromExpr(
-					generateTempName("array", stack), this, startToken));
+					generateTempName("array"), this, startToken));
 			return true;
 		}
 		

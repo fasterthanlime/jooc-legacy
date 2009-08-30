@@ -1,7 +1,6 @@
 package org.ooc.frontend.model;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.ooc.frontend.Levenshtein;
 import org.ooc.frontend.Visitor;
@@ -75,20 +74,20 @@ public class VariableAccess extends Access implements MustBeResolved {
 	}
 
 	@Override
-	public boolean resolve(final NodeList<Node> mainStack, final Resolver res, final boolean fatal) throws IOException {
+	public boolean resolve(final NodeList<Node> stack, final Resolver res, final boolean fatal) throws IOException {
 
 		if(isResolved()) return false;
 		
 		{
-			VariableDecl varDecl = getVariable(name, mainStack);
+			VariableDecl varDecl = getVariable(name, stack);
 			if(varDecl != null) {
 				if(varDecl.isMember()) {
 					VariableAccess thisAccess = new VariableAccess("this", startToken);
 					thisAccess.setRef(varDecl);
 					MemberAccess membAcc =  new MemberAccess(thisAccess, name, startToken);
-					membAcc.resolve(mainStack, res, fatal);
+					membAcc.resolve(stack, res, fatal);
 					membAcc.setRef(varDecl);
-					if(!mainStack.peek().replace(VariableAccess.this, membAcc)) {
+					if(!stack.peek().replace(VariableAccess.this, membAcc)) {
 						throw new Error("Couldn't replace a VariableAccess with a MemberAccess!");
 					}
 				}
@@ -98,7 +97,7 @@ public class VariableAccess extends Access implements MustBeResolved {
 		}
 		
 		{
-			FunctionDecl func = getFunction(name, null, mainStack);
+			FunctionDecl func = getFunction(name, null, stack);
 			if(func != null) {
 				ref = func;
 				return false;
@@ -106,9 +105,9 @@ public class VariableAccess extends Access implements MustBeResolved {
 		}
 		
 		if(ref != null) return false;
-		int typeIndex = mainStack.find(TypeDecl.class);
+		int typeIndex = stack.find(TypeDecl.class);
 		if(typeIndex != -1) {
-			TypeDecl typeDecl = (TypeDecl) mainStack.get(typeIndex);
+			TypeDecl typeDecl = (TypeDecl) stack.get(typeIndex);
 			if(name.equals("This")) {
 				name = typeDecl.getName();
 				ref = typeDecl;
@@ -121,9 +120,9 @@ public class VariableAccess extends Access implements MustBeResolved {
 				MemberAccess membAccess = new MemberAccess(thisAccess, name, startToken);
 				membAccess.setRef(varDecl);
 				System.out.println("Trying to replace a varAcc "+this
-						+" with a membAcc "+membAccess+". Stack = "+mainStack);
-				if(!mainStack.peek().replace(this, membAccess)) {
-					throw new Error("Couldn't replace a VariableAccess with a MemberAccess! Stack = "+mainStack);
+						+" with a membAcc "+membAccess+". Stack = "+stack);
+				if(!stack.peek().replace(this, membAccess)) {
+					throw new Error("Couldn't replace a VariableAccess with a MemberAccess! Stack = "+stack);
 				}
 				return true;
 			}
@@ -132,25 +131,19 @@ public class VariableAccess extends Access implements MustBeResolved {
 		ref = res.module.getType(name);
 		if(ref != null) return true;
 		
-		int genIndex = mainStack.find(Generic.class);
-		if(genIndex != -1) {
-			Generic gen = (Generic) mainStack.get(genIndex);
-			List<TypeParam> params = gen.getTypeParams();
-			for(TypeParam param: params) {
-				if(param.name.equals(name)) {
-					ref = param.getArgument();
-					return false;
-				}
-			}
+		GenericType genType = getGenericType(stack, name);
+		if(genType != null) {
+			ref = genType.getArgument();
+			return false;
 		}
-
+		
 		if(fatal && ref == null) {
 			String message = "Couldn't resolve access to variable "+name;
-			String guess = guessCorrectName(mainStack, res);
+			String guess = guessCorrectName(stack, res);
 			if(guess != null) {
 				message += " Did you mean "+guess+" ?";
 			}
-			throw new OocCompilationError(this, mainStack, message);
+			throw new OocCompilationError(this, stack, message);
 		}
 		
 		return ref == null;

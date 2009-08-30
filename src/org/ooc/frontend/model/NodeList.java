@@ -182,17 +182,6 @@ public class NodeList<T extends Node> extends Node implements Iterable<T> {
 		return true;
 	}
 
-	@SuppressWarnings("unchecked")
-	public void addBefore(Line ref, T kiddo) {
-		int index = indexOf((T) ref);
-		if(index == -1) {
-			throw new ArrayIndexOutOfBoundsException("Trying to add a "
-					+kiddo.getClass().getName()+" before a "+ref.getClass().getSimpleName()+
-					" in a "+this.getClass().getSimpleName()+", but couldn't find reference node.");
-		}
-		add(index, (T) ref);
-	}
-
 	public void addAll(NodeList<T> list) {
 		int newSize = size + list.size;
 		ensureCapacity(newSize);
@@ -260,12 +249,20 @@ public class NodeList<T extends Node> extends Node implements Iterable<T> {
 	public Module getModule() {
 		return (Module) nodes[0];
 	}
+	
+	public void addBefore(T beforeWhat, T kiddo) {
+		int index = indexOf(beforeWhat);
+		if(index == -1) {
+			throw new Error("Trying to add "+kiddo+" before "+beforeWhat+", but it can't be found in the list.");
+		}
+		add(index, kiddo);
+	}
 
 	public void addAfter(T afterWhat, T kiddo) {
 		int index = indexOf(afterWhat);
 		if(index == -1) {
 			throw new Error("Trying to add "+kiddo+" after "+afterWhat+", but it can't be found in the list.");
 		}
-		add(index, kiddo);
+		add(index + 1, kiddo);
 	}
 }

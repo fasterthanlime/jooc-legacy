@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.ooc.frontend.model.ClassDecl;
 import org.ooc.frontend.model.FuncType;
 import org.ooc.frontend.model.Type;
-import org.ooc.frontend.model.TypeParam;
+import org.ooc.frontend.model.GenericType;
 
 public class TypeWriter {
 
@@ -15,12 +15,12 @@ public class TypeWriter {
 			return;
 		}
 		
-		if(type.getRef() instanceof TypeParam) {
+		if(type.getRef() instanceof GenericType) {
 			cgen.current.append("Pointer");
-			return;
+		} else {
+			cgen.current.app(type.getName());
 		}
 		
-		cgen.current.app(type.getName());
 		if(!type.isFlat()) {
 			cgen.current.app(' ');
 		}

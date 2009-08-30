@@ -1,6 +1,8 @@
 package org.ooc.frontend.parser;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.ooc.frontend.model.FuncType;
 import org.ooc.frontend.model.Type;
@@ -18,6 +20,7 @@ public class TypeParser {
 		int pointerLevel = 0;
 		int referenceLevel = 0;
 		boolean isArray = false;
+		List<Type> typeParams = null;
 		
 		Token startToken = reader.peek();
 		
@@ -59,6 +62,23 @@ public class TypeParser {
 			}
 			return funcType;
 		}
+		
+		if(reader.peek().type == TokenType.LESSTHAN) {
+			reader.skip();
+			while(reader.peek().type != TokenType.GREATERTHAN) {
+				Type innerType = TypeParser.parse(sReader, reader);
+				if(innerType == null) {
+					typeParams = null;
+					break;
+				}
+				if(typeParams == null) typeParams = new ArrayList<Type>(); 
+				typeParams.add(innerType);
+				if(reader.peek().type != TokenType.COMMA) break;
+			}
+			if(reader.read().type != TokenType.GREATERTHAN) {
+				typeParams = null;
+			}
+		}
 
 		while(reader.peek().type == TokenType.OPEN_SQUAR) {
 			reader.skip();
@@ -82,6 +102,7 @@ public class TypeParser {
 		if(!name.isEmpty()) {
 			Type type = new Type(name.trim(), pointerLevel, referenceLevel, startToken);
 			type.setArray(isArray);
+			if(typeParams != null) type.getTypeParams().addAll(typeParams);
 			return type;
 		}
 		return null;

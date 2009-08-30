@@ -5,12 +5,12 @@ import java.io.IOException;
 import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.tokens.Token;
 
-public class TypeParam extends TypeDecl {
+public class GenericType extends TypeDecl {
 
 	private Type type;
 	private Argument argument;
 	
-	public TypeParam(String name, Token startToken) {
+	public GenericType(String name, Token startToken) {
 		super(name, "", startToken);
 		type = new Type("Class", Token.defaultToken);
 		argument = new RegularArgument(type, name, startToken);

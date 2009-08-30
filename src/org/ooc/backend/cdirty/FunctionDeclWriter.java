@@ -2,7 +2,12 @@ package org.ooc.backend.cdirty;
 
 import java.io.IOException;
 
-import org.ooc.frontend.model.*;
+import org.ooc.frontend.model.Argument;
+import org.ooc.frontend.model.FuncType;
+import org.ooc.frontend.model.FunctionDecl;
+import org.ooc.frontend.model.Line;
+import org.ooc.frontend.model.Type;
+import org.ooc.frontend.model.GenericType;
 
 public class FunctionDeclWriter {
 
@@ -38,7 +43,9 @@ public class FunctionDeclWriter {
 	public static void writeFuncPrototype(FunctionDecl functionDecl, CGenerator cgen) throws IOException {
 		
 		Type returnType = functionDecl.getReturnType();
-		if(returnType instanceof FuncType) {
+		if (returnType.getRef() instanceof GenericType) {
+			cgen.current.append("void ");
+		} else if(returnType instanceof FuncType) {
 			TypeWriter.writeFuncPointerStart((FuncType) returnType, cgen);
 		} else {
 			TypeWriter.writeSpaced(returnType, cgen);
@@ -62,7 +69,13 @@ public class FunctionDeclWriter {
 			CGenerator cgen, boolean shouldSkipFirst) throws IOException {
 		cgen.current.app('(');
 		boolean isFirst = true;
-		for(TypeParam param: functionDecl.getTypeParams()) {
+		Type returnType = functionDecl.getReturnType();
+		if(returnType.getRef() instanceof GenericType) {
+			if(!isFirst) cgen.current.app(", ");
+			isFirst = false;
+			functionDecl.getReturnArg().accept(cgen);
+		}
+		for(GenericType param: functionDecl.getGenericTypes().values()) {
 			if(!isFirst) cgen.current.app(", ");
 			isFirst = false;
 			param.getArgument().accept(cgen);

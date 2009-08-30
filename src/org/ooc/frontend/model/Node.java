@@ -18,12 +18,8 @@ public abstract class Node implements Visitable {
 
 	public abstract boolean replace(Node oldie, Node kiddo);
 	
-	public String generateTempName(String nameSeed, NodeList<Node> stack) {
+	public String generateTempName(String nameSeed) {
 		return nameSeed.toLowerCase() + (seedNumber++);
-	}
-
-	public boolean hasVariable(String name, NodeList<Node> stack) {
-		return getVariable(name, stack) != null;
 	}
 
 	public VariableDecl getVariable(String name, NodeList<Node> stack) {
@@ -46,6 +42,18 @@ public abstract class Node implements Visitable {
 		FunctionDecl func = ((Scope) stack.get(index)).getFunction(name, call);
 		if(func != null) return func;
 		return getFunction(name, call, stack, stack.find(Scope.class, index - 1));
+	}
+	
+	public GenericType getGenericType(NodeList<Node> stack, String paramName) {
+		int genIndex = stack.find(Generic.class);
+		while(genIndex != -1) {
+			Generic gen = (Generic) stack.get(genIndex);
+			GenericType genType = gen.getGenericTypes().get(paramName);
+			if(genType != null) return genType;
+			genIndex = stack.find(Generic.class, genIndex - 1);
+		}
+		
+		return null;
 	}
 	
 }

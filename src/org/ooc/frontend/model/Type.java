@@ -1,6 +1,9 @@
 package org.ooc.frontend.model;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import org.ooc.frontend.Visitor;
@@ -37,6 +40,12 @@ public class Type extends Node implements MustBeResolved {
 		this.name = name;
 		this.pointerLevel = pointerLevel;
 		this.referenceLevel = referenceLevel;
+		this.typeParams = new ArrayList<Type>();
+	}
+	
+	public List<Type> getTypeParams() {
+		if(typeParams == null) return Collections.emptyList();
+		return typeParams;
 	}
 
 	public String getName() {
@@ -100,6 +109,16 @@ public class Type extends Node implements MustBeResolved {
 		for(int i = 0; i < referenceLevel; i++) {
 			sb.append('@');
 		}
+		if(!typeParams.isEmpty()) {
+			sb.append('<');
+			Iterator<Type> iter = typeParams.iterator();
+			while(iter.hasNext()) {
+				sb.append(iter.next().toString());
+				if(iter.hasNext()) sb.append(", ");
+			}
+			sb.append('>');
+		}
+		
 		return sb.toString();
 		
 	}
@@ -162,16 +181,10 @@ public class Type extends Node implements MustBeResolved {
 		}
 		
 		if(ref == null) {
-			int genIndex = stack.find(Generic.class);
-			if(genIndex != -1) {
-				Generic gen = (Generic) stack.get(genIndex);
-				List<TypeParam> params = gen.getTypeParams();
-				for(TypeParam param: params) {
-					if(param.name.equals(name)) {
-						ref = param;
-						return false;
-					}
-				}
+			GenericType param = getGenericType(stack, name);
+			if(param != null) {
+				ref = param;
+				return false;
 			}
 		}
 		
@@ -182,7 +195,7 @@ public class Type extends Node implements MustBeResolved {
 		return ref == null;
 		
 	}
-	
+
 	@Override
 	public boolean isResolved() {
 		return ref != null;

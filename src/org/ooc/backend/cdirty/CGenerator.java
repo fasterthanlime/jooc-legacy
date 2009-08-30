@@ -32,6 +32,7 @@ import org.ooc.frontend.model.Foreach;
 import org.ooc.frontend.model.FuncType;
 import org.ooc.frontend.model.FunctionCall;
 import org.ooc.frontend.model.FunctionDecl;
+import org.ooc.frontend.model.GenericType;
 import org.ooc.frontend.model.If;
 import org.ooc.frontend.model.Import;
 import org.ooc.frontend.model.Include;
@@ -57,7 +58,6 @@ import org.ooc.frontend.model.Return;
 import org.ooc.frontend.model.StringLiteral;
 import org.ooc.frontend.model.Sub;
 import org.ooc.frontend.model.Type;
-import org.ooc.frontend.model.TypeParam;
 import org.ooc.frontend.model.Use;
 import org.ooc.frontend.model.ValuedReturn;
 import org.ooc.frontend.model.VarArg;
@@ -360,25 +360,18 @@ public class CGenerator extends Generator implements Visitor {
 	
 	@Override
 	public void visit(Cast cast) throws IOException {
-		if(cast.getExpression().getType().getRef() instanceof TypeParam) {
-			VariableAccess access = (VariableAccess) cast.getExpression();
-			current.app("*((");
-			cast.getType().accept(this);
-			current.app("*)");
-			AccessWriter.writeVariable(access, false, this);
-			current.app(')');
-			return;
-		}
-		
-		current.app("((");
-		cast.getType().accept(this);
-		current.app(") ");
-		cast.getExpression().accept(this);
-		current.app(")");
+		CastWriter.write(cast, this);
 	}
 
 	@Override
 	public void visit(AddressOf addressOf) throws IOException {
+		if(addressOf.getExpression() instanceof VariableAccess) {
+			VariableAccess varAcc = (VariableAccess) addressOf.getExpression();
+			if(varAcc.getRef().getType().getRef() instanceof GenericType) {
+				AccessWriter.writeVariable(varAcc, false, this);
+				return;
+			}
+		}
 		current.app("&(");
 		addressOf.getExpression().accept(this);
 		current.app(')');

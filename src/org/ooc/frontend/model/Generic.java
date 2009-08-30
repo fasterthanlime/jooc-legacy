@@ -1,9 +1,9 @@
 package org.ooc.frontend.model;
 
-import java.util.List;
+import java.util.LinkedHashMap;
 
 public interface Generic {
 
-	public List<TypeParam> getTypeParams();
+	public LinkedHashMap<String, GenericType> getGenericTypes();
 	
 }

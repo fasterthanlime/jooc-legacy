@@ -3,9 +3,12 @@ package org.ooc.frontend.model;
 import java.io.IOException;
 
 import org.ooc.frontend.Visitor;
+import org.ooc.frontend.model.interfaces.MustBeResolved;
 import org.ooc.frontend.model.tokens.Token;
+import org.ooc.middle.OocCompilationError;
+import org.ooc.middle.hobgoblins.Resolver;
 
-public class ValuedReturn extends Return {
+public class ValuedReturn extends Return implements MustBeResolved {
 
 	protected Expression expression;
 
@@ -48,6 +51,50 @@ public class ValuedReturn extends Return {
 		}
 		
 		return super.replace(oldie, kiddo);
+		
+	}
+
+	@Override
+	public boolean isResolved() {
+		return false;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public boolean resolve(NodeList<Node> stack, Resolver res, boolean fatal)
+			throws IOException {
+		
+		int funcIndex = stack.find(FunctionDecl.class);
+		if(funcIndex == -1) {
+			throw new OocCompilationError(this, stack, "'return' outside a function: wtf?");
+		}
+		FunctionDecl decl = (FunctionDecl) stack.get(funcIndex);
+		Type returnType = decl.getReturnType();
+		GenericType param = getGenericType(stack, returnType.getName());
+		if(param != null) {
+			FunctionCall call = new FunctionCall("memcpy", "", startToken);
+			call.getArguments().add(new VariableAccess(decl.getReturnArg(), startToken));
+			
+			if(expression instanceof ArrayAccess) {
+				ArrayAccess arrAccess = (ArrayAccess) expression;
+				expression = new Add(new AddressOf(arrAccess.variable, startToken), arrAccess.index, startToken);
+			} else {
+				expression = new AddressOf(expression, startToken);
+			}
+			call.getArguments().add(expression);
+			
+			VariableAccess tAccess = new VariableAccess(param.getName(), startToken); 
+			tAccess.setRef(param);
+			call.getArguments().add(new MemberAccess(tAccess, "size", startToken));
+			stack.peek().replace(this, call);
+			
+			int lineIndex = stack.find(Line.class);
+			((NodeList<Node>) stack.get(lineIndex - 1)).addAfter(stack.get(lineIndex), new Line(new Return(startToken)));
+			
+			return true;
+		}
+		
+		return false;
 		
 	}
 	

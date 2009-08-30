@@ -231,7 +231,14 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped {
 		}
 		
 		NodeList<Line> body = (NodeList<Line>) stack.get(bodyIndex);
-		body.addAfter(line, new Line(this));
+		if(parent instanceof Foreach) {
+			Block block = new Block(startToken);
+			block.getBody().add(new Line(this));
+			block.getBody().add(line);
+			body.replace(line, new Line(block));
+		} else {
+			body.addBefore(line, new Line(this));
+		}
 		
 		return true;
 		

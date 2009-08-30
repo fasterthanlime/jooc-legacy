@@ -7,7 +7,7 @@ import java.util.List;
 import org.ooc.frontend.model.FunctionDecl;
 import org.ooc.frontend.model.OocDocComment;
 import org.ooc.frontend.model.Type;
-import org.ooc.frontend.model.TypeParam;
+import org.ooc.frontend.model.GenericType;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.frontend.model.tokens.TokenReader;
 import org.ooc.frontend.model.tokens.Token.TokenType;
@@ -66,7 +66,7 @@ public class FunctionDeclParser {
 		}
 		
 		String suffix = "";
-		List<TypeParam> typeParams = null;
+		List<GenericType> genTypes = null;
 		while(true) {
 			Token tok = reader.peek();
 			if(tok.type == TokenType.TILDE) {
@@ -78,15 +78,19 @@ public class FunctionDeclParser {
 				}
 			} else if(tok.type == TokenType.LESSTHAN) {
 				reader.skip();
-				typeParams = new ArrayList<TypeParam>();
-				TypeParamParser.parse(sReader, reader, typeParams);
+				genTypes = new ArrayList<GenericType>();
+				TypeParamParser.parse(sReader, reader, genTypes);
 			} else break;
 		}
 		
 		FunctionDecl functionDecl = new FunctionDecl(
 				name, suffix, isFinal, isStatic, isAbstract, externName, startToken);
 		functionDecl.setProto(isProto);
-		if(typeParams != null) functionDecl.getTypeParams().addAll(typeParams);
+		if(genTypes != null) {
+			for(GenericType genType: genTypes) {
+				functionDecl.getGenericTypes().put(genType.getName(), genType);
+			}
+		}
 		if(comment != null) functionDecl.setComment(comment);
 		
 		ArgumentListFiller.fill(sReader, reader, functionDecl.isExtern(), functionDecl.getArguments());
@@ -121,7 +125,7 @@ public class FunctionDeclParser {
 			if(!LineParser.fill(sReader, reader, functionDecl.getBody()) && reader.hasNext()
 					&& reader.peek().type != TokenType.CLOS_BRACK) {
 				throw new CompilationFailedError(sReader.getLocation(reader.peek()),
-						"Expected statement in function body. Found "+reader.peek().type+" instead.");
+						"Expected statement in function body. Found "+reader.peek()+" instead.");
 			}
 		}
 		reader.skip();

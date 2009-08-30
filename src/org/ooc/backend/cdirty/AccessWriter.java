@@ -54,7 +54,7 @@ public class AccessWriter {
 		
 		if(doTypeParams) {
 			Declaration ref = variableAccess.getRef().getType().getRef();
-			if(ref instanceof TypeParam) refLevel++;
+			if(ref instanceof GenericType) refLevel++;
 		}
 		
 		if(refLevel > 0) {

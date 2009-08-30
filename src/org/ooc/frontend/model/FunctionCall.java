@@ -3,7 +3,7 @@ package org.ooc.frontend.model;
 import java.io.EOFException;
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.List;
+import java.util.LinkedHashMap;
 
 import org.ooc.frontend.Levenshtein;
 import org.ooc.frontend.Visitor;
@@ -18,6 +18,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 	protected String suffix;
 	protected final NodeList<Expression> arguments;
 	protected FunctionDecl impl;
+	protected AddressOf returnArg;
 	
 	public FunctionCall(String name, String suffix, Token startToken) {
 		super(startToken);
@@ -25,6 +26,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 		this.suffix = suffix;
 		this.arguments = new NodeList<Expression>(startToken);
 		this.impl = null;
+		this.returnArg = null;
 	}
 	
 	public FunctionCall(FunctionDecl func, Token startToken) {
@@ -58,6 +60,10 @@ public class FunctionCall extends Access implements MustBeResolved {
 	
 	public NodeList<Expression> getArguments() {
 		return arguments;
+	}
+	
+	public AddressOf getReturnArg() {
+		return returnArg;
 	}
 
 	@Override
@@ -98,18 +104,18 @@ public class FunctionCall extends Access implements MustBeResolved {
 	}
 
 	@Override
-	public boolean resolve(final NodeList<Node> mainStack, final Resolver res, final boolean fatal) throws IOException {
+	public boolean resolve(final NodeList<Node> stack, final Resolver res, final boolean fatal) throws IOException {
 
 		if(impl == null) {
-			if (name.equals("this")) resolveConstructorCall(mainStack, false);
-			else if (name.equals("super")) resolveConstructorCall(mainStack, true);
-			else resolveRegular(mainStack, res, fatal);
+			if (name.equals("this")) resolveConstructorCall(stack, false);
+			else if (name.equals("super")) resolveConstructorCall(stack, true);
+			else resolveRegular(stack, res, fatal);
 		}
 	
 		if(impl != null) {
-			List<TypeParam> params = impl.getTypeParams();
+			LinkedHashMap<String, GenericType> params = impl.getGenericTypes();
 			if(!params.isEmpty()) {
-				for(TypeParam param: params) {
+				for(GenericType param: params.values()) {
 					NodeList<Argument> implArgs = impl.getArguments();
 					for(int i = 0; i < implArgs.size(); i++) {
 						Argument arg = implArgs.get(i);
@@ -117,13 +123,28 @@ public class FunctionCall extends Access implements MustBeResolved {
 						Expression expr = arguments.get(i);
 						if(!(expr instanceof VariableAccess)) {
 							VariableDeclFromExpr vdfe = new VariableDeclFromExpr(
-									generateTempName(param.getName()+"param", mainStack), expr, startToken);
+									generateTempName(param.getName()+"param"), expr, startToken);
 							arguments.replace(expr, vdfe);
-							NodeList<Node> stack = new NodeList<Node>();
-							stack.addAll(mainStack);
-							stack.add(arguments);
-							vdfe.unwrapToVarAcc(stack);
+							NodeList<Node> subStack = new NodeList<Node>();
+							subStack.addAll(stack);
+							subStack.add(arguments);
+							vdfe.unwrapToVarAcc(subStack);
 						}
+					}
+				}
+			}
+		}
+		
+		if(impl != null) {
+			Type returnType = impl.getReturnType();
+			GenericType genType = impl.getGenericTypes().get(returnType.getName());
+			if(genType != null) {
+				Node parent = stack.peek();
+				if(parent instanceof Assignment) {
+					Assignment ass = (Assignment) parent;
+					if(ass.getLeft() instanceof Access) {
+						returnArg = new AddressOf(ass.getLeft(), startToken);
+						stack.get(stack.size() - 2).replace(ass, this);
 					}
 				}
 			}
@@ -131,11 +152,11 @@ public class FunctionCall extends Access implements MustBeResolved {
 		
 		if(impl == null && fatal) {
 			String message = "Couldn't resolve call to function "+name+getArgsRepr()+".";
-			String guess = guessCorrectName(mainStack, res);
+			String guess = guessCorrectName(stack, res);
 			if(guess != null) {
 				message += " Did you mean "+guess+" ?";
 			}
-			throw new OocCompilationError(this, mainStack, message);
+			throw new OocCompilationError(this, stack, message);
 		}
 		
 		return impl == null;

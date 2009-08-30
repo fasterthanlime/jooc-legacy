@@ -3,6 +3,7 @@ package org.ooc.frontend.parser;
 import java.io.IOException;
 
 import org.ooc.frontend.model.Instantiation;
+import org.ooc.frontend.model.Type;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.frontend.model.tokens.TokenReader;
 import org.ooc.frontend.model.tokens.Token.TokenType;
@@ -17,11 +18,9 @@ public class InstantiationParser {
 		
 		Token startToken = reader.read();
 		if(startToken.type == TokenType.NEW_KW) {
-			Token tName = reader.peek();
-			if(tName.type == TokenType.NAME) {
+			Type type = TypeParser.parse(sReader, reader);
+			if(type != null) {
 				Instantiation inst = null;
-				reader.skip();
-				String name = tName.get(sReader);
 				String suffix = "";
 				if(reader.peek().type == TokenType.TILDE) {
 					reader.skip();
@@ -32,7 +31,7 @@ public class InstantiationParser {
 					}
 					suffix = tSuffix.get(sReader);
 				}
-				inst = new Instantiation(name, suffix, startToken);
+				inst = new Instantiation(type, suffix, startToken);
 				ExpressionListFiller.fill(sReader, reader, inst.getArguments());
 				return inst;
 			}
