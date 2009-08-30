@@ -28,5 +28,10 @@ public class VarArg extends Argument {
 
 	@Override
 	public void acceptChildren(Visitor visitor) throws IOException {}
+	
+	@Override
+	public String toString() {
+		return getClass().getSimpleName();
+	}
 
 }

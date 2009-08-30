@@ -310,5 +310,9 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 		}
 		return false;
 	}
+
+	public boolean isExternWithName() {
+		return externName != null && !externName.isEmpty();
+	}
 	
 }

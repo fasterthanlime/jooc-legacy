@@ -15,7 +15,6 @@ import org.ooc.frontend.model.Assignment;
 import org.ooc.frontend.model.BinaryCombination;
 import org.ooc.frontend.model.Block;
 import org.ooc.frontend.model.BoolLiteral;
-import org.ooc.frontend.model.FlowControl;
 import org.ooc.frontend.model.BuiltinType;
 import org.ooc.frontend.model.Cast;
 import org.ooc.frontend.model.CharLiteral;
@@ -28,6 +27,7 @@ import org.ooc.frontend.model.Div;
 import org.ooc.frontend.model.Else;
 import org.ooc.frontend.model.Expression;
 import org.ooc.frontend.model.FloatLiteral;
+import org.ooc.frontend.model.FlowControl;
 import org.ooc.frontend.model.Foreach;
 import org.ooc.frontend.model.FuncType;
 import org.ooc.frontend.model.FunctionCall;
@@ -233,6 +233,7 @@ public class CGenerator extends Generator implements Visitor {
 	@Override
 	public void visit(Line line) throws IOException {
 		current.nl();
+		if(line.getStatement() instanceof FunctionCall) FunctionCallWriter.noCast = (FunctionCall) line.getStatement();
 		line.getStatement().accept(this);
 		if(!(line.getStatement() instanceof ControlStatement)) {
 			current.app(';');

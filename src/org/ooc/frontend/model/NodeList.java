@@ -98,7 +98,7 @@ public class NodeList<T extends Node> extends Node implements Iterable<T> {
 	}
 	
 	public T get(int i) {
-		if(i > size) throw new ArrayIndexOutOfBoundsException(i);
+		if(i >= size) throw new ArrayIndexOutOfBoundsException(i);
 		return nodes[i];
 	}
 	

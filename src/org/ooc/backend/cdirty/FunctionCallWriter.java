@@ -15,13 +15,18 @@ import org.ooc.frontend.model.MemberCall;
 import org.ooc.frontend.model.NodeList;
 import org.ooc.frontend.model.TypeDecl;
 import org.ooc.frontend.model.TypeParam;
+import org.ooc.frontend.model.VarArg;
 import org.ooc.middle.OocCompilationError;
 
 public class FunctionCallWriter {
 
+	public static FunctionCall noCast = null;
+	
 	public static void write(FunctionCall functionCall, CGenerator cgen) throws IOException {
 
 		FunctionDecl impl = functionCall.getImpl();
+		writePrelude(cgen, impl, functionCall);
+		
 		if(functionCall.isConstructorCall()) {
 			cgen.current.app(impl.getTypeDecl().getName());
 			if(impl.getTypeDecl() instanceof ClassDecl) {
@@ -50,17 +55,47 @@ public class FunctionCallWriter {
 		
 	}
 
+	private static void writePrelude(CGenerator cgen, FunctionDecl impl, FunctionCall call)
+			throws IOException {
+		if(noCast != null && call == noCast) {
+			noCast = null;
+			return;
+		}
+		if(impl.isExternWithName() && !impl.getReturnType().isVoid()) {
+			cgen.current.app('(');
+			impl.getReturnType().accept(cgen);
+			cgen.current.app(") ");
+		}
+	}
+
 	public static void writeCallArgs(NodeList<Expression> callArgs, FunctionDecl impl, CGenerator cgen) throws IOException {
 		List<TypeParam> typeParams = impl.getTypeParams();
 		if(typeParams.isEmpty()) {
 			Iterator<Expression> iter = callArgs.iterator();
+			int argIndex = 0;
 			while(iter.hasNext()) {
-				iter.next().accept(cgen);
+				writeCallArg(iter.next(), impl, argIndex, cgen);
 				if(iter.hasNext()) cgen.current.app(", ");
+				argIndex++;
 			}
 		} else {
 			writeGenericCallArgs(callArgs, impl, typeParams, cgen);
 		}
+	}
+
+	private static void writeCallArg(Expression callArg, FunctionDecl impl, int argIndex, CGenerator cgen)
+			throws IOException {
+		NodeList<Argument> implArgs = impl.getArguments();
+		int realIndex = (impl.isMember() && !impl.isStatic()) ? argIndex + 1 : argIndex;
+		if(argIndex != -1 && realIndex < implArgs.size() && impl.isExternWithName()) {
+			Argument arg = implArgs.get(realIndex);
+			if(!(arg instanceof VarArg)) {
+				cgen.current.app('(');
+				arg.getType().accept(cgen);
+				cgen.current.app(") ");
+			}
+		}
+		callArg.accept(cgen);
 	}
 
 	public static void writeGenericCallArgs(NodeList<Expression> callArgs,
@@ -68,7 +103,6 @@ public class FunctionCallWriter {
 		
 		NodeList<Argument> implArgs = impl.getArguments();
 		
-		// FIXME must write a list of expressions given by FunctionCall instead
 		for(TypeParam typeParam: typeParams) {
 			boolean done = false;
 			int i = 0;
@@ -86,19 +120,19 @@ public class FunctionCallWriter {
 						"Couldn't find argument in "+callArgs+" to figure out generic type "+typeParam);
 		}
 		
-		int i = 0;
+		int argIndex = 0;
 		Iterator<Expression> iter = callArgs.iterator();
 		while(iter.hasNext()) {
 			Expression expr = iter.next();
-			Argument arg = implArgs.get(i);
+			Argument arg = implArgs.get(argIndex);
 			for(TypeParam param: typeParams) {
 				if(arg.getType().getName().equals(param.getName())) {
 					cgen.current.app("&");
 				}
 			}
-			expr.accept(cgen);
+			writeCallArg(expr, impl, argIndex, cgen);
 			if(iter.hasNext()) cgen.current.app(", ");
-			i++;
+			argIndex++;
 		}
 		
 	}
@@ -106,6 +140,7 @@ public class FunctionCallWriter {
 	public static void writeMember(MemberCall memberCall, CGenerator cgen) throws IOException {
 		
 		FunctionDecl impl = memberCall.getImpl();
+		writePrelude(cgen, impl, memberCall);
 		if(impl.isFromPointer()) {
 			boolean isArrow = memberCall.getExpression().getType().getRef() instanceof ClassDecl;
 			
@@ -147,6 +182,7 @@ public class FunctionCallWriter {
 
 	public static void writeInst(Instantiation inst, CGenerator cgen) throws IOException {
 		FunctionDecl impl = inst.getImpl();
+		writePrelude(cgen, impl, inst);
 		impl.writeFullName(cgen.current);
 		cgen.current.app('(');
 		writeCallArgs(inst.getArguments(), impl, cgen);

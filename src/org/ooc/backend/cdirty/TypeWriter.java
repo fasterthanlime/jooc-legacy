@@ -26,7 +26,7 @@ public class TypeWriter {
 		}
 		
 		if(type.getRef() == null) {
-			throw new Error("Unresolved Type "+type.getName()+" !!");
+			throw new Error("Unresolved type '"+type.getName()+"' !!");
 		}
 		
 		writeStars(type, cgen);
