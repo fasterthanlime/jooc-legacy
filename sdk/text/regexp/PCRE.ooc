@@ -1,5 +1,7 @@
 import text.regexp.RegexpBackend
 
+use text/regexp/pcre
+
 PCRE: class extends RegexpBackend {
 	error: String
 	errorNum: Int
