@@ -1,43 +1,6 @@
-RegexpBackend: abstract class {
-	PCRE = 0, POSIX = 1, DEFAULT_TYPE = 0 : static const Int
-	
-	pattern: String
-	
-	setPattern: abstract func(pattern: String)
-	
-	getPattern: func -> String {
-		return pattern
-	}
-	
-	matches: abstract func -> Bool
-}
-
-PCRE: class extends RegexpBackend {
-	error: String
-	errorNum: Int
-	//reg: pcre@
-	
-	setPattern: func(pattern: String) {
-		this pattern = pattern
-		
-		//reg = pcre_compile(pattern, 0, error&, errorNum&, null);
-	}
-	
-	matches: func -> Bool {
-		return false;
-	}
-}
-
-POSIX: class extends RegexpBackend {
-	setPattern: func(pattern: String) {
-		this pattern = pattern
-	}
-	
-	matches: func -> Bool {
-		return false;
-	}
-}
-
+import text.regexp.RegexpBackend
+import text.regexp.PCRE
+import text.regexp.POSIX
 
 Regexp: class {
 	regexpBackend: RegexpBackend
@@ -73,8 +36,8 @@ Regexp: class {
 		return regexpBackend getPattern()
 	}
 	
-	matches: func -> Bool {
-		return regexpBackend matches()
+	matches: func(haystack: String) -> Bool {
+		return regexpBackend matches(haystack)
 	}
 
 	getEngine: func -> Int {
