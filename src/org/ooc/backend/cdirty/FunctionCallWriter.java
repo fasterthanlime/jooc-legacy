@@ -135,7 +135,7 @@ public class FunctionCallWriter {
 			Argument arg = implArgs.get(argIndex);
 			GenericType typeParam = typeParams.get(arg.getType().getName());
 			if(typeParam != null) {
-				cgen.current.app("(Pointer) &");
+				cgen.current.app("(Octet*) &");
 			}
 			writeCallArg(expr, impl, argIndex, cgen);
 			if(iter.hasNext()) cgen.current.app(", ");

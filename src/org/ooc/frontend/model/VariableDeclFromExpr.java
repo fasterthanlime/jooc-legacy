@@ -22,7 +22,12 @@ public class VariableDeclFromExpr extends VariableDecl implements MustBeResolved
 	public Type getType() {
 		VariableDeclAtom atom = atoms.get(0);
 		Expression expr = atom.getExpression();
-		if(expr == null) return atom.assign.getRight().getType();
+		if(expr == null) {
+			if(atom.assign != null) {
+				return atom.assign.getRight().getType();
+			}
+			return null;
+		}
 		return expr.getType();
 	}
 	

@@ -75,17 +75,20 @@ public class ValuedReturn extends Return implements MustBeResolved {
 			FunctionCall call = new FunctionCall("memcpy", "", startToken);
 			call.getArguments().add(new VariableAccess(decl.getReturnArg(), startToken));
 			
+			VariableAccess tAccess = new VariableAccess(param.getName(), startToken); 
+			tAccess.setRef(param);
+			MemberAccess sizeAccess = new MemberAccess(tAccess, "size", startToken);
+			
 			if(expression instanceof ArrayAccess) {
 				ArrayAccess arrAccess = (ArrayAccess) expression;
-				expression = new Add(new AddressOf(arrAccess.variable, startToken), arrAccess.index, startToken);
+				expression = new Add(new AddressOf(arrAccess.variable, startToken),
+						new Mul(arrAccess.index, sizeAccess, startToken), startToken);
 			} else {
 				expression = new AddressOf(expression, startToken);
 			}
 			call.getArguments().add(expression);
 			
-			VariableAccess tAccess = new VariableAccess(param.getName(), startToken); 
-			tAccess.setRef(param);
-			call.getArguments().add(new MemberAccess(tAccess, "size", startToken));
+			call.getArguments().add(sizeAccess);
 			stack.peek().replace(this, call);
 			
 			int lineIndex = stack.find(Line.class);

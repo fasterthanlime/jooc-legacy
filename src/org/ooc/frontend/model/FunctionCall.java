@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 
 import org.ooc.frontend.Levenshtein;
 import org.ooc.frontend.Visitor;
+import org.ooc.frontend.model.VariableDecl.VariableDeclAtom;
 import org.ooc.frontend.model.interfaces.MustBeResolved;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.middle.OocCompilationError;
@@ -103,6 +104,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 		return impl != null;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean resolve(final NodeList<Node> stack, final Resolver res, final boolean fatal) throws IOException {
 
@@ -146,6 +148,29 @@ public class FunctionCall extends Access implements MustBeResolved {
 						returnArg = new AddressOf(ass.getLeft(), startToken);
 						stack.get(stack.size() - 2).replace(ass, this);
 					}
+				} else if(parent instanceof VariableDeclAtom) {
+					VariableDeclAtom atom = (VariableDeclAtom) parent;
+					int varDeclIndex = stack.find(VariableDecl.class);
+					VariableDecl decl = (VariableDecl) stack.get(varDeclIndex);
+					parent.replace(this, null);
+					
+					int lineIndex = stack.find(Line.class, varDeclIndex);
+					Line line = (Line) stack.get(lineIndex);
+					
+					if(decl instanceof VariableDeclFromExpr) {
+						System.out.println("Is VDFE, replacing!");
+						VariableDecl newDecl = new VariableDecl(getRealType(genType), false, false, startToken);
+						newDecl.getAtoms().add(atom);
+						System.out.println("newDecl is "+newDecl);
+						stack.get(varDeclIndex - 1).replace(decl, newDecl);
+						decl = newDecl;
+					}
+					
+					NodeList<Line> list = (NodeList<Line>) stack.get(lineIndex - 1);
+					VariableAccess varAcc = new VariableAccess(atom.getName(), startToken);
+					varAcc.setRef(decl);
+					returnArg = new AddressOf(varAcc, startToken);
+					list.addAfter(line, new Line(this));
 				}
 			}
 		}
@@ -161,6 +186,17 @@ public class FunctionCall extends Access implements MustBeResolved {
 		
 		return impl == null;
 		
+	}
+
+	private Type getRealType(GenericType genType) {
+		int i = 0;
+		for(Argument arg: impl.getArguments()) {
+			if(arg.getType().getName().equals(genType.getName())) {
+				return arguments.get(i).getType();
+			}
+			i++;
+		}
+		return null;
 	}
 
 	protected String guessCorrectName(final NodeList<Node> mainStack, final Resolver res) {
@@ -264,7 +300,6 @@ public class FunctionCall extends Access implements MustBeResolved {
 		
 		if(impl == null) {
 			VariableDecl varDecl = getVariable(name, stack);
-			//System.out.println("Looking for varDecl "+name+", got "+varDecl);
 			if(varDecl != null) {
 				if(varDecl.getName().equals(name)) {
 					if(varDecl.getType() instanceof FuncType) {

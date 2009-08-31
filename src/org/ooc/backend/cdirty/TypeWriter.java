@@ -16,10 +16,10 @@ public class TypeWriter {
 		}
 		
 		if(type.getRef() instanceof GenericType) {
-			cgen.current.append("Pointer");
-		} else {
-			cgen.current.app(type.getName());
+			cgen.current.append("Octet *");
+			return;
 		}
+		cgen.current.app(type.getName());
 		
 		if(!type.isFlat()) {
 			cgen.current.app(' ');

@@ -13,7 +13,18 @@ main: func {
 	for (i : Int in 0..3) {
 		value : Int
 		value = get(data, i)
-		printf("data[%d] = %d\n", i, value)
+		printf("data get(%d) = %d\n", i, value)
+	}
+	
+	chars := ['a', 'b', 'c']
+	for (i : Int in 0..3) printf("chars[%d] = %c\n", i, chars[i])
+	
+	for (i : Int in 0..3) {
+		value : Char
+		value = get(chars, i)
+		printf("chars get(%d) = %c\n", i, value)
 	}
 	
 }
+
+usleep: extern proto func (Int)
