@@ -9,18 +9,32 @@ RegexpBackend: abstract class {
 		return pattern
 	}
 	
-	match: abstract func -> Bool
+	matches: abstract func -> Bool
 }
 
 PCRE: class extends RegexpBackend {
+	error: String
+	errorNum: Int
+	//reg: pcre@
+	
 	setPattern: func(pattern: String) {
 		this pattern = pattern
+		
+		//reg = pcre_compile(pattern, 0, error&, errorNum&, null);
+	}
+	
+	matches: func -> Bool {
+		return false;
 	}
 }
 
 POSIX: class extends RegexpBackend {
 	setPattern: func(pattern: String) {
 		this pattern = pattern
+	}
+	
+	matches: func -> Bool {
+		return false;
 	}
 }
 
@@ -59,8 +73,8 @@ Regexp: class {
 		return regexpBackend getPattern()
 	}
 	
-	match: func -> Bool {
-		return regexpBackend match()
+	matches: func -> Bool {
+		return regexpBackend matches()
 	}
 
 	getEngine: func -> Int {
@@ -70,8 +84,7 @@ Regexp: class {
 }
 
 main: func {
-	rx := Regexp new()
-	rx setPattern("Test")
+	rx := Regexp new~withPattern("Test")
 	printf("Engine: %d\n", rx getEngine());
 	printf("Pattern: %s\n", rx getPattern());
 }
