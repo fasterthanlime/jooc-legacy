@@ -29,7 +29,8 @@ public class FunctionDeclWriter {
 			cgen.current.openBlock();
 			
 			if(functionDecl.isEntryPoint()) {
-				cgen.current.nl().app(cgen.module.getLoadFuncName()).app("();");
+				cgen.current.nl().app("GC_INIT();");
+				cgen.current.nl().app(cgen.module.getLoadFunc().getName()).app("();");
 			}
 			
 			for(Line line: functionDecl.getBody()) {
