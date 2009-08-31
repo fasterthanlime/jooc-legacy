@@ -15,7 +15,9 @@ public enum Target {
 	/** Solaris, OpenSolaris */
 	SOLARIS,
 	/** Haiku */
-	HAIKU;
+	HAIKU,
+	/** Mac OS X */
+	OSX;
 
 	static Target instance;
 	
@@ -26,8 +28,7 @@ public enum Target {
 		
 		if(instance == null) {
 		
-			String os = System.getProperty("os.name");
-			os = os.toLowerCase();
+			String os = System.getProperty("os.name").toLowerCase();
 			
 			if(os.contains("windows")) {
 				instance = Target.WIN;
@@ -35,6 +36,8 @@ public enum Target {
 				instance = Target.LINUX;
 			} else if(os.contains("sunos")) {
 				instance = Target.SOLARIS;
+			} else if(os.startsWith("mac os x")) {
+				instance = Target.OSX;
 			} else {
 				System.err.println("Unknown operating system: '"+os+"', assuming Linux..");
 				instance = Target.LINUX; // Default
@@ -78,6 +81,8 @@ public enum Target {
 			return "solaris" + getArch();
 		case HAIKU:
 			return "haiku" + getArch();
+		case OSX:
+			return "osx" + getArch();
 		default:
 			return super.toString();
 		}
