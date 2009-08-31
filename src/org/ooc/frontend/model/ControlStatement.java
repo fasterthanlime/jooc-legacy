@@ -38,7 +38,7 @@ public abstract class ControlStatement extends Statement implements Scope {
 	}
 	
 	@Override
-	public FunctionDecl getFunction(String name, FunctionCall call) {
+	public FunctionDecl getFunction(String name, String suffix, FunctionCall call) {
 		return null;
 	}
 	

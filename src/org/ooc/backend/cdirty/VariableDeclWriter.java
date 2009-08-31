@@ -45,14 +45,11 @@ public class VariableDeclWriter {
 			} else {
 				cgen.current.app(type.getName()).app(' ');
 			}
-
-			String typePrefix = isStatic && (typeDecl != null) ?
-					(typeDecl.getType().getMangledName()) + "_" : "";
 			
 			Iterator<VariableDeclAtom> iter = variableDecl.getAtoms().iterator();
 			while(iter.hasNext()) {
 				VariableDeclAtom atom = iter.next();
-				cgen.current.app(typePrefix).app(atom.getName());
+				cgen.current.app(atom.getName());
 				if(type.isArray()) for(int i = 0; i < type.getPointerLevel(); i++) {
 					cgen.current.app("[]");
 				}

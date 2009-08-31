@@ -97,7 +97,7 @@ public class VariableAccess extends Access implements MustBeResolved {
 		}
 		
 		{
-			FunctionDecl func = getFunction(name, null, stack);
+			FunctionDecl func = getFunction(name, "", null, stack);
 			if(func != null) {
 				ref = func;
 				return false;

@@ -211,10 +211,8 @@ public class Function implements Field {
     }
 
 	protected boolean shouldWriteStatic() {
-		
 		//return !isConstructor() && !name.equals("main") && !isUnmangled;
 		return false;
-		
 	}
     
     /**

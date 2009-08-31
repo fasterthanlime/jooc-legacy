@@ -260,7 +260,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 		}
 		
 		for(FunctionDecl decl: typeDecl.getFunctions()) {
-			if(decl.isConstructor()) {
+			if(decl.getName().equals("init")) {
 				if(matchesArgs(decl)) {
 					impl = decl;
 					return;
@@ -272,7 +272,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 	
 	protected void resolveRegular(NodeList<Node> stack, Resolver res, boolean fatal) throws IOException {
 		
-		impl = getFunction(name, this, stack);
+		impl = getFunction(name, suffix, this, stack);
 
 		if(impl == null) {
 			Module module = (Module) stack.get(0);
@@ -341,15 +341,12 @@ public class FunctionCall extends Access implements MustBeResolved {
 	}
 
 	public boolean matches(FunctionDecl decl) {
-	
 		return matchesName(decl) && matchesArgs(decl);
-		
 	}
 
 	public boolean matchesArgs(FunctionDecl decl) {
 		int numArgs = decl.getArguments().size();
-		if(decl.isMember() && !decl.isStatic()
-				 && !(decl.isConstructor() && decl.getTypeDecl() instanceof CoverDecl)) numArgs--;
+		if(decl.isMember() && !decl.isStatic()) numArgs--;
 		
 		if(numArgs == arguments.size()
 			|| ((numArgs > 0 && decl.getArguments().getLast() instanceof VarArg)
@@ -360,14 +357,11 @@ public class FunctionCall extends Access implements MustBeResolved {
 	}
 
 	public boolean matchesName(FunctionDecl decl) {
-		
 		if(!decl.getName().equals(name)) return false;
 		
 		if(!decl.getSuffix().isEmpty() && !suffix.isEmpty()
 				&& !decl.getSuffix().equals(suffix)) return false;
-		
 		return true;
-		
 	}
 	
 	public String getArgsRepr() {

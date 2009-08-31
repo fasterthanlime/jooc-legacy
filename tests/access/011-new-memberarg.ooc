@@ -1,6 +1,6 @@
 main: func {
 
-	new IntContainer(42)
+	IntContainer new(42)
 
 }
 
@@ -8,7 +8,7 @@ IntContainer: class {
 
 	value: Int
 
-	new: func(.value) {
+	init: func(.value) {
 		this value = value
 		print()
 	}

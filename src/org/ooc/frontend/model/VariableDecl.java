@@ -258,9 +258,9 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped {
 			atom.assign = assign;
 			Line line = new Line(assign);
 			if(isStatic) {
-				classDecl.getLoadFunc().getBody().add(line);
+				classDecl.getFunction("load", "", null).getBody().add(line);
 			} else {
-				classDecl.getInitializeFunc().getBody().add(line);
+				classDecl.getFunction("defaults", "", null).getBody().add(line);
 			}
 			atom.expression = null;
 		

@@ -189,10 +189,6 @@ public class Module extends Node implements Scope {
 		return underName;
 	}
 
-	public String getLoadFuncName() {
-		return loadFunc.getName();
-	}
-	
 	public FunctionDecl getLoadFunc() {
 		return loadFunc;
 	}
@@ -243,11 +239,11 @@ public class Module extends Node implements Scope {
 	}
 
 	@Override
-	public FunctionDecl getFunction(String name, FunctionCall call) {
+	public FunctionDecl getFunction(String name, String suffix, FunctionCall call) {
 		for(Node node: body) {
 			if(node instanceof FunctionDecl) {
 				FunctionDecl func = (FunctionDecl) node;
-				if(func.getName().equals(name)
+				if(func.isNamed(name, suffix)
 						&& (call == null || call.matches(func))) return func;
 			}
 		}

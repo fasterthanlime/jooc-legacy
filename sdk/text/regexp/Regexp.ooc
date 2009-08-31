@@ -1,7 +1,6 @@
 RegexpBackend: abstract class {
-	PCRE: const Int = 0
-	POSIX: const Int = 1
-	DEFAULT_TYPE: const Int = 0
+	PCRE = 0, POSIX = 1, DEFAULT_TYPE = 0 : static const Int
+	DUMMY_FIELD: const Int = 0
 	
 	setPattern: abstract func
 	match: abstract func -> Bool
@@ -18,9 +17,9 @@ Regexp: class {
 	regexpBackend: RegexpBackend
 	type: Int
 	
-	new: func {
+	init: func {
 		type = RegexpBackend DEFAULT_TYPE
-		regexpBackend = new PCRE
+		regexpBackend = PCRE new()
 	}
 	
 	setPattern: func {
@@ -35,5 +34,5 @@ Regexp: class {
 }
 
 main: func {
-	new Regexp;
+	Regexp new()
 }

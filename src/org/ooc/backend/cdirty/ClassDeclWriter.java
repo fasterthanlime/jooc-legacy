@@ -1,9 +1,15 @@
 package org.ooc.backend.cdirty;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
-import org.ooc.frontend.model.*;
+import org.ooc.frontend.model.Argument;
+import org.ooc.frontend.model.ClassDecl;
+import org.ooc.frontend.model.FunctionDecl;
+import org.ooc.frontend.model.Node;
+import org.ooc.frontend.model.VariableDecl;
 
 public class ClassDeclWriter {
 	
@@ -11,34 +17,41 @@ public class ClassDeclWriter {
 		
 		cgen.current = cgen.hw;
 		
-		String className = classDecl.getName();
-		
-		writeObjectStruct(classDecl, className, cgen);
-		writeClassStruct(classDecl, className, cgen);
-		writeMemberFuncPrototypes(classDecl, className, cgen);
+		writeObjectStruct(classDecl, cgen);
+		writeClassStruct(classDecl, cgen);
+		writeMemberFuncPrototypes(classDecl, cgen);
 		
 		/* Now implementations */
 		cgen.current = cgen.cw;
 		cgen.current.nl();
 		
-		writeInitializeClassFunc(classDecl, className, cgen);
-		writeDestroyFunc(classDecl, className, cgen);
-		writeInstanceImplFuncs(classDecl, className, cgen);
+		writeInstanceImplFuncs(classDecl, cgen);
 		writeClassGettingFunction(classDecl, cgen);
-		writeInstanceVirtualFuncs(classDecl, className, cgen);
-		writeStaticFuncs(classDecl, className, cgen);
+		writeInstanceVirtualFuncs(classDecl, cgen);
+		writeStaticFuncs(classDecl, cgen);
 		
 		cgen.current.nl();
 		
 	}
 
-	public static void writeTypelessFuncArgs(FunctionDecl decl, CGenerator cgen)
+	public static void writeTypelessFuncArgs(FunctionDecl decl, ClassDecl baseClass, CGenerator cgen)
 			throws IOException {
 
+		boolean isFirst = true;
+		
 		cgen.current.app('(');
 		Iterator<Argument> iter = decl.getArguments().iterator();
 		while (iter.hasNext()) {
-			cgen.current.app(iter.next().getName());
+			Argument arg = iter.next();
+			if(isFirst) {
+				isFirst = false;
+				if(arg.getName().equals("this")) {
+					cgen.current.app("(");
+					baseClass.getType().accept(cgen);
+					cgen.current.app(") ");
+				}
+			}
+			cgen.current.app(arg.getName());
 			if (iter.hasNext())
 				cgen.current.app(", ");
 		}
@@ -46,8 +59,7 @@ public class ClassDeclWriter {
 
 	}
 
-	public static void writeStaticFuncs(ClassDecl classDecl, String className,
-			CGenerator cgen) throws IOException {
+	public static void writeStaticFuncs(ClassDecl classDecl, CGenerator cgen) throws IOException {
 
 		for (FunctionDecl decl : classDecl.getFunctions()) {
 
@@ -55,7 +67,6 @@ public class ClassDeclWriter {
 				continue;
 
 			cgen.current.nl();
-			//writeMemberFuncPrototype(className, decl, cgen);
 			FunctionDeclWriter.writeFuncPrototype(decl, cgen);
 			cgen.current.openBlock();
 			decl.getBody().accept(cgen);
@@ -65,7 +76,7 @@ public class ClassDeclWriter {
 	}
 
 	public static void writeInstanceVirtualFuncs(ClassDecl classDecl,
-			String className, CGenerator cgen) throws IOException {
+			CGenerator cgen) throws IOException {
 
 		for (FunctionDecl decl : classDecl.getFunctions()) {
 
@@ -76,13 +87,15 @@ public class ClassDeclWriter {
 			FunctionDeclWriter.writeFuncPrototype(decl, cgen);
 			cgen.current.openSpacedBlock();
 
+			ClassDecl baseClass = classDecl.getBaseClass(decl);
+			
 			if (!decl.getReturnType().isVoid())
 				cgen.current.app("return ");
-			cgen.current.app("((").app(className).app(
+			cgen.current.app("((").app(baseClass.getName()).app(
 					"Class *)((Object *)this)->class)->");
 			decl.writeSuffixedName(cgen.current);
 
-			writeTypelessFuncArgs(decl, cgen);
+			writeTypelessFuncArgs(decl, baseClass, cgen);
 			cgen.current.app(";").closeSpacedBlock();
 
 		}
@@ -95,46 +108,8 @@ public class ClassDeclWriter {
 						" *this)");
 	}
 
-	public static void writeInitializeClassFunc(ClassDecl classDecl,
-			String className, CGenerator cgen) throws IOException {
-
-		writeBuiltinClassFuncName(className, "void", "initialize", cgen);
-		cgen.current.openBlock();
-		if (!classDecl.getSuperName().isEmpty()) {
-			cgen.current.nl();
-			cgen.current.app(classDecl.getSuperName());
-			cgen.current.app("_class()->initialize((Object *) this);");
-		}
-		for (Line line : classDecl.getInitializeFunc().getBody())
-			line.accept(cgen);
-		cgen.current.closeSpacedBlock();
-
-		cgen.current.nl().app("void ").app(className).app("_load()")
-				.openBlock();
-		cgen.current.nl().app("static bool __done__ = false;").nl().app(
-				"if (!__done__)").openBlock();
-		cgen.current.nl().app("__done__ = true;");
-		for (Line line : classDecl.getLoadFunc().getBody()) {
-			line.accept(cgen);
-		}
-		cgen.current.closeBlock().closeSpacedBlock();
-
-	}
-
-	public static void writeDestroyFunc(ClassDecl classDecl, String className,
-			CGenerator cgen) throws IOException {
-
-		cgen.current.nl();
-		writeBuiltinClassFuncName(className, "void", "destroy", cgen);
-		cgen.current.openBlock().openSpacedBlock();
-		cgen.current
-				.app("const Class *super = ((Object *) this)->class->super;");
-		cgen.current.nl().app("if(super) super->destroy((Object *) this);");
-		cgen.current.closeSpacedBlock().closeSpacedBlock();
-	}
-
 	public static void writeInstanceImplFuncs(ClassDecl classDecl,
-			String className, CGenerator cgen) throws IOException {
+			CGenerator cgen) throws IOException {
 
 		// Non-static (ie. instance) functions
 		for (FunctionDecl decl : classDecl.getFunctions()) {
@@ -152,33 +127,8 @@ public class ClassDeclWriter {
 			FunctionDeclWriter.writeFuncArgs(decl, cgen);
 
 			cgen.current.openBlock();
-
-			/* Special case: constructor */
-			if (decl.isConstructor()) {
-				cgen.current.nl().app(className).app(" *this = (").app(
-						className).app(" *) Class_newInstance((Class *)").app(
-						className).app("_class());");
-				cgen.current.nl().app(className).app("_construct");
-				if (!decl.getSuffix().isEmpty())
-					cgen.current.app('_').app(decl.getSuffix());
-				writeTypelessFuncArgs(decl, cgen);
-				cgen.current.app(";").nl().app("return this;");
-			} else {
-				decl.getBody().accept(cgen);
-			}
+			decl.getBody().accept(cgen);
 			cgen.current.closeSpacedBlock();
-
-			// Special case: constructor, now write the corresponding construct
-			if (decl.isConstructor()) {
-				cgen.current.app("void ").app(className).app("_construct");
-				if (!decl.getSuffix().isEmpty())
-					cgen.current.app('_').app(decl.getSuffix());
-				FunctionDeclWriter.writeFuncArgs(decl, cgen, false);
-				cgen.current.openBlock();
-				for (Line line : decl.getBody())
-					line.accept(cgen);
-				cgen.current.closeSpacedBlock();
-			}
 		}
 
 	}
@@ -192,7 +142,7 @@ public class ClassDeclWriter {
 			cgen.current.app("static bool __done__ = false;").nl();
 		cgen.current.app("static ").app(classDecl.getName()).app(
 				"Class class = ");
-		writeFuncPointers(classDecl, classDecl, cgen);
+		writeClassStructInitializers(classDecl, classDecl, new HashSet<FunctionDecl>(), cgen);
 		cgen.current.app(';');
 		cgen.current.nl().app("Class *classPtr = (Class *) &class;");
 		if (!classDecl.getSuperName().isEmpty()) {
@@ -204,41 +154,41 @@ public class ClassDeclWriter {
 		cgen.current.nl().app("return classPtr;").closeSpacedBlock();
 	}
 
-	public static void writeFuncPointers(ClassDecl writerClass,
-			ClassDecl coreClass, CGenerator cgen) throws IOException {
+	public static void writeClassStructInitializers(ClassDecl writerClass,
+			ClassDecl coreClass, Set<FunctionDecl> done, CGenerator cgen) throws IOException {
 
 		cgen.current.openBlock();
 
 		if (!writerClass.isRootClass() && !writerClass.getSuperName().isEmpty()) {
-
-			writeFuncPointers(writerClass.getSuperRef(), coreClass, cgen);
-
+			writeClassStructInitializers(writerClass.getSuperRef(), coreClass, done, cgen);
 		} else {
-
 			cgen.current.openBlock();
 			cgen.current.nl().app(".size = ").app("sizeof(").app(
 					coreClass.getName()).app("),");
 			cgen.current.nl().app(".name = ").app('"').app(coreClass.getName())
 					.app("\",");
-			writeDesignatedInit("initialize", "(void (*)(Object *))"
-					+ coreClass.getName() + "_initialize", cgen);
-			writeDesignatedInit("destroy", "(void (*)(Object *))"
-					+ coreClass.getName() + "_destroy", cgen);
-
 			cgen.current.closeBlock().app(',');
-
 		}
 
-		for (FunctionDecl decl : writerClass.getFunctions()) {
-			if (decl.isStatic() || decl.isConstructor())
+		for (FunctionDecl currentDecl : writerClass.getFunctions()) {
+			if (currentDecl.isStatic())
 				continue;
+			
+			if(done.contains(currentDecl)) continue;
+			
+			FunctionDecl coreDecl = null;
+			if(coreClass != writerClass) {
+				coreDecl = coreClass.getFunction(currentDecl.getName(), currentDecl.getSuffix(), null, false);
+				if(done.contains(coreDecl)) continue;
+				if(coreDecl != null) {
+					done.add(coreDecl);
+				}
+			}
 
-			if (decl.isFinal() || decl.isAbstract()) {
-				writeDesignatedInit(decl.getSuffixedName(), writerClass.getName() + "_"
-						+ decl.getSuffixedName(), cgen);
+			if (currentDecl.isFinal() || currentDecl.isAbstract()) {
+				writeDesignatedInit(currentDecl, coreDecl, false, cgen);
 			} else {
-				writeDesignatedInit(decl.getSuffixedName(), writerClass.getName() + "_"
-						+ decl.getSuffixedName() + "_impl", cgen);
+				writeDesignatedInit(currentDecl, coreDecl, true, cgen);
 			}
 
 		}
@@ -249,9 +199,9 @@ public class ClassDeclWriter {
 	}
 
 	public static void writeMemberFuncPrototypes(ClassDecl classDecl,
-			String className, CGenerator cgen) throws IOException {
+			CGenerator cgen) throws IOException {
 
-		cgen.current.nl().app("Class *").app(className).app("_class();").nl();
+		cgen.current.nl().app("Class *").app(classDecl.getName()).app("_class();").nl();
 		for (FunctionDecl decl : classDecl.getFunctions()) {
 			cgen.current.nl();
 			TypeWriter.writeSpaced(decl.getReturnType(), cgen);
@@ -260,21 +210,21 @@ public class ClassDeclWriter {
 			cgen.current.app(';');
 
 			if (decl.getName().equals("new")) {
-				cgen.current.nl().app("void ").app(className).app("_construct");
+				cgen.current.nl().app("void ").app(classDecl.getName()).app("_construct");
 				if (!decl.getSuffix().isEmpty())
 					cgen.current.app('_').app(decl.getSuffix());
-				FunctionDeclWriter.writeFuncArgs(decl, cgen, false);
+				FunctionDeclWriter.writeFuncArgs(decl, cgen);
 				cgen.current.app(';');
 			}
 		}
 		cgen.current.nl();
 	}
 
-	public static void writeFuncPointer(FunctionDecl decl, CGenerator cgen)
+	public static void writeFuncPointer(FunctionDecl decl, boolean doName, CGenerator cgen)
 			throws IOException {
 		decl.getReturnType().accept(cgen);
 		cgen.current.app(" (*");
-		decl.writeSuffixedName(cgen.current);
+		if(doName) decl.writeSuffixedName(cgen.current);
 		cgen.current.app(")(");
 		int numArgs = decl.getArguments().size() - 1;
 		Node[] args = decl.getArguments().getNodes();
@@ -286,10 +236,10 @@ public class ClassDeclWriter {
 		cgen.current.app(')');
 	}
 
-	public static void writeClassStruct(ClassDecl classDecl, String className, CGenerator cgen)
+	public static void writeClassStruct(ClassDecl classDecl, CGenerator cgen)
 			throws IOException {
 
-		cgen.current.nl().app("struct _").app(className).app("Class")
+		cgen.current.nl().app("struct _").app(classDecl.getName()).app("Class")
 				.openSpacedBlock();
 		if (classDecl.isRootClass()) {
 			cgen.current.app("struct _Class __super__;");
@@ -300,18 +250,33 @@ public class ClassDeclWriter {
 
 		/* Now write all virtual functions prototypes in the class struct */
 		for (FunctionDecl decl : classDecl.getFunctions()) {
-			if (decl.isStatic() || decl.isConstructor())
+			if (decl.isStatic())
 				continue;
+			
+			if(classDecl.getSuperRef() != null) {
+				FunctionDecl superDecl = classDecl.getSuperRef().getFunction(decl.getName(), decl.getSuffix(), null);
+				if(superDecl != null && !superDecl.isAbstract()) continue;
+			}
+			
 			cgen.current.nl();
-			writeFuncPointer(decl, cgen);
+			writeFuncPointer(decl, true, cgen);
 			cgen.current.app(';');
 		}
+		
+		for (VariableDecl decl : classDecl.getVariables()) {
+			if (!decl.isStatic())
+				continue;
+			cgen.current.nl();
+			decl.accept(cgen);
+			cgen.current.app(';');
+		}
+		
 		cgen.current.closeBlock().app(';').nl().nl();
 	}
 
-	public static void writeObjectStruct(ClassDecl classDecl, String className, CGenerator cgen)
+	public static void writeObjectStruct(ClassDecl classDecl, CGenerator cgen)
 			throws IOException {
-		cgen.current.nl().app("struct _").app(className).openSpacedBlock();
+		cgen.current.nl().app("struct _").app(classDecl.getName()).openSpacedBlock();
 
 		if (classDecl.isClassClass()) {
 			cgen.current.app("Class *class;");
@@ -329,14 +294,6 @@ public class ClassDeclWriter {
 		}
 
 		cgen.current.closeBlock().app(';').nl().nl();
-
-		for (VariableDecl decl : classDecl.getVariables()) {
-			if (!decl.isStatic())
-				continue;
-			cgen.current.nl();
-			decl.accept(cgen);
-			cgen.current.app(';');
-		}
 	}
 
 	public static void writeStructTypedef(String structName, CGenerator cgen) throws IOException {
@@ -345,10 +302,19 @@ public class ClassDeclWriter {
 				structName).app(";");
 	}
 
-	public static void writeDesignatedInit(String contract, String implementation, CGenerator cgen)
+	public static void writeDesignatedInit(FunctionDecl decl, FunctionDecl coreDecl, boolean impl, CGenerator cgen)
 			throws IOException {
-		cgen.current.nl().app('.').app(contract).app(" = ").app(implementation).app(
-				',');
+		
+			cgen.current.nl().app('.').app(decl.getSuffixedName()).app(" = ");
+			if(coreDecl != null) {
+				cgen.current.app("(");
+				writeFuncPointer(decl, false, cgen);
+				cgen.current.app(") ");
+			}
+			cgen.current.app(coreDecl != null ? coreDecl.getFullName() : decl.getFullName());
+			if(impl) cgen.current.app("_impl");
+			cgen.current.app(',');
+			
 	}
 
 }

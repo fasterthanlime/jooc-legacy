@@ -15,7 +15,6 @@ import org.ooc.frontend.model.Dereference;
 import org.ooc.frontend.model.Div;
 import org.ooc.frontend.model.Expression;
 import org.ooc.frontend.model.FunctionCall;
-import org.ooc.frontend.model.Instantiation;
 import org.ooc.frontend.model.IntLiteral;
 import org.ooc.frontend.model.Literal;
 import org.ooc.frontend.model.MemberAccess;
@@ -247,9 +246,6 @@ public class ExpressionParser {
 		Literal literal = LiteralParser.parse(sReader, reader);
 		if(literal != null) return literal;
 
-		Instantiation instantiation = InstantiationParser.parse(sReader, reader);
-		if(instantiation != null) return instantiation;
-		
 		FunctionCall funcCall = FunctionCallParser.parse(sReader, reader);
 		if(funcCall != null) return funcCall;
 		

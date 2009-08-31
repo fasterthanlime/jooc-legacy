@@ -23,11 +23,13 @@ public class MemberAssignArgument extends MemberArgument {
 	protected void doReplace(NodeList<Node> stack, VariableDecl decl,
 			FunctionDecl funcDecl) {
 		
-		funcDecl.getBody().add(0, new Line(new Assignment(
-				new MemberAccess(name, startToken),
-				new VariableAccess(name, startToken),
-				startToken
-		)));
+		if(!funcDecl.getName().equals("new")) {
+			funcDecl.getBody().add(0, new Line(new Assignment(
+					new MemberAccess(name, startToken),
+					new VariableAccess(name, startToken),
+					startToken
+			)));
+		}
 		
 		stack.peek().replace(this, new RegularArgument(decl.getType(), name, startToken));
 		

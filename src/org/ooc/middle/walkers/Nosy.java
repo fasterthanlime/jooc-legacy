@@ -11,7 +11,6 @@ import org.ooc.frontend.model.Assignment;
 import org.ooc.frontend.model.BinaryCombination;
 import org.ooc.frontend.model.Block;
 import org.ooc.frontend.model.BoolLiteral;
-import org.ooc.frontend.model.FlowControl;
 import org.ooc.frontend.model.BuiltinType;
 import org.ooc.frontend.model.Cast;
 import org.ooc.frontend.model.CharLiteral;
@@ -22,13 +21,13 @@ import org.ooc.frontend.model.Dereference;
 import org.ooc.frontend.model.Div;
 import org.ooc.frontend.model.Else;
 import org.ooc.frontend.model.FloatLiteral;
+import org.ooc.frontend.model.FlowControl;
 import org.ooc.frontend.model.Foreach;
 import org.ooc.frontend.model.FunctionCall;
 import org.ooc.frontend.model.FunctionDecl;
 import org.ooc.frontend.model.If;
 import org.ooc.frontend.model.Import;
 import org.ooc.frontend.model.Include;
-import org.ooc.frontend.model.Instantiation;
 import org.ooc.frontend.model.IntLiteral;
 import org.ooc.frontend.model.Line;
 import org.ooc.frontend.model.MemberAccess;
@@ -139,11 +138,6 @@ public class Nosy<T> implements Visitor {
 	@Override
 	public void visit(MemberCall memberCall) throws IOException {
 		visit((Node) memberCall);	
-	}
-
-	@Override
-	public void visit(Instantiation inst) throws IOException {
-		visit((Node) inst);	
 	}
 
 	@Override

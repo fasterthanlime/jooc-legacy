@@ -158,5 +158,10 @@ public class MemberAccess extends VariableAccess {
 		
 		
 	}
+	
+	@Override
+	public String toString() {
+		return getClass().getSimpleName()+" "+expression+"."+name;
+	}
 
 }

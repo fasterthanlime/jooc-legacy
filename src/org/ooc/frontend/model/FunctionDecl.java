@@ -169,10 +169,6 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 		body.accept(visitor);
 	}
 
-	public boolean isConstructor() {
-		return name.equals("new");
-	}
-	
 	@Override
 	public boolean replace(Node oldie, Node kiddo) {
 		
@@ -207,8 +203,8 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 	@Override
 	public String toString() {
 		
+		String name = isMember() ? typeDecl.getType() + "." + getSuffixedName() : getSuffixedName();
 		String repr = getClass().getSimpleName()+" : "+name+getArgsRepr();
-		if(isMember()) repr = "[member] " + repr;
 		return repr;
 		
 	}
@@ -289,7 +285,7 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 	}
 
 	@Override
-	public FunctionDecl getFunction(String name, FunctionCall call) {
+	public FunctionDecl getFunction(String name, String suffix, FunctionCall call) {
 		return null;
 	}
 
@@ -322,6 +318,14 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 
 	public Argument getReturnArg() {
 		return returnArg;
+	}
+
+	public boolean isNamed(String name, String suffix) {
+		return this.name.equals(name) && (suffix.isEmpty() || this.suffix.equals(suffix));
+	}
+
+	public boolean isSpecialFunc() {
+		return name.equals("defaults") || name.equals("destroy") || name.equals("load");
 	}
 	
 }

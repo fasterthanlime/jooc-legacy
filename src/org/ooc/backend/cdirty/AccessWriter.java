@@ -2,18 +2,37 @@ package org.ooc.backend.cdirty;
 
 import java.io.IOException;
 
-import org.ooc.frontend.model.*;
+import org.ooc.frontend.model.ArrayAccess;
+import org.ooc.frontend.model.ClassDecl;
+import org.ooc.frontend.model.Declaration;
+import org.ooc.frontend.model.Dereference;
+import org.ooc.frontend.model.Expression;
+import org.ooc.frontend.model.GenericType;
+import org.ooc.frontend.model.MemberAccess;
+import org.ooc.frontend.model.TypeDecl;
+import org.ooc.frontend.model.VariableAccess;
+import org.ooc.frontend.model.VariableDecl;
 
 public class AccessWriter {
 
 	public static void writeMember(MemberAccess memberAccess, CGenerator cgen) throws IOException {
 
+		if(memberAccess.getExpression() instanceof VariableAccess) {
+			VariableAccess varAcc = (VariableAccess) memberAccess.getExpression();
+			if(varAcc.getRef() instanceof TypeDecl) {
+				if(memberAccess.getName().equals("class")) {
+					cgen.current.app(varAcc.getName()).app("_class()");
+					return;
+				}
+			}
+		}
+		
 		TypeDecl typeDecl = memberAccess.getRef().getTypeDecl();
 		boolean isStatic = ((VariableDecl) memberAccess.getRef()).isStatic();
 		
 		if(isStatic) {
 		
-			cgen.current.app(typeDecl.getType().getMangledName()).app('_').app(memberAccess.getName());
+			cgen.current.app("((").app(typeDecl.getType().getMangledName()).app("Class*) ").app(typeDecl.getType().getMangledName()).app("_class())->").app(memberAccess.getName());
 			
 		} else {
 		

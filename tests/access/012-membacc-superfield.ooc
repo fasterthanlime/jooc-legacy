@@ -1,19 +1,19 @@
 main: func {
 
-	new Dog("Dogbert") print()
+	Dog new("Dogbert") print()
 
 }
 
-Animal: class {
+Animal: abstract class {
 
 	name: String
-	new: func(=name)
+	init: func(=name)
 
 }
 
 Dog: class extends Animal {
 
-	new: func(.name) {
+	init: func(.name) {
 		super(name)
 	}
 

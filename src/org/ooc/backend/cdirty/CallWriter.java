@@ -11,14 +11,13 @@ import org.ooc.frontend.model.Expression;
 import org.ooc.frontend.model.FunctionCall;
 import org.ooc.frontend.model.FunctionDecl;
 import org.ooc.frontend.model.GenericType;
-import org.ooc.frontend.model.Instantiation;
 import org.ooc.frontend.model.MemberCall;
 import org.ooc.frontend.model.NodeList;
 import org.ooc.frontend.model.TypeDecl;
 import org.ooc.frontend.model.VarArg;
 import org.ooc.middle.OocCompilationError;
 
-public class FunctionCallWriter {
+public class CallWriter {
 
 	public static FunctionCall noCast = null;
 	
@@ -30,7 +29,7 @@ public class FunctionCallWriter {
 		if(functionCall.isConstructorCall()) {
 			cgen.current.app(impl.getTypeDecl().getName());
 			if(impl.getTypeDecl() instanceof ClassDecl) {
-				cgen.current.app("_construct");
+				cgen.current.app("_init");
 			} else{
 				cgen.current.app("_new");
 			}
@@ -185,15 +184,6 @@ public class FunctionCallWriter {
 		
 		cgen.current.app(')');
 		
-	}
-
-	public static void writeInst(Instantiation inst, CGenerator cgen) throws IOException {
-		FunctionDecl impl = inst.getImpl();
-		writePrelude(cgen, impl, inst);
-		impl.writeFullName(cgen.current);
-		cgen.current.app('(');
-		writeCallArgs(inst.getArguments(), impl, cgen);
-		cgen.current.app(')');
 	}
 	
 }

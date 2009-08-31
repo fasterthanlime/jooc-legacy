@@ -33,15 +33,15 @@ public abstract class Node implements Visitable {
 		return getVariable(name, stack, stack.find(Scope.class, index - 1));
 	}
 	
-	public FunctionDecl getFunction(String name, FunctionCall call, NodeList<Node> stack) {
-		return getFunction(name, call, stack, stack.find(Scope.class));
+	public FunctionDecl getFunction(String name, String suffix, FunctionCall call, NodeList<Node> stack) {
+		return getFunction(name, suffix, call, stack, stack.find(Scope.class));
 	}
 
-	public FunctionDecl getFunction(String name, FunctionCall call, NodeList<Node> stack, int index) {
+	public FunctionDecl getFunction(String name, String suffix, FunctionCall call, NodeList<Node> stack, int index) {
 		if(index == -1) return null;
-		FunctionDecl func = ((Scope) stack.get(index)).getFunction(name, call);
+		FunctionDecl func = ((Scope) stack.get(index)).getFunction(name, suffix, call);
 		if(func != null) return func;
-		return getFunction(name, call, stack, stack.find(Scope.class, index - 1));
+		return getFunction(name, suffix, call, stack, stack.find(Scope.class, index - 1));
 	}
 	
 	public GenericType getGenericType(NodeList<Node> stack, String paramName) {

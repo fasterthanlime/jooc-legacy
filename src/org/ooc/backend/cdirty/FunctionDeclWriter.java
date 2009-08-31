@@ -60,14 +60,9 @@ public class FunctionDeclWriter {
 		}
 		
 	}
-
-	public static void writeFuncArgs(FunctionDecl functionDecl, CGenerator cgen)
-			throws IOException {
-		writeFuncArgs(functionDecl, cgen, functionDecl.isConstructor());
-	}
-
+	
 	public static void writeFuncArgs(FunctionDecl functionDecl,
-			CGenerator cgen, boolean shouldSkipFirst) throws IOException {
+			CGenerator cgen) throws IOException {
 		cgen.current.app('(');
 		boolean isFirst = true;
 		Type returnType = functionDecl.getReturnType();
@@ -82,12 +77,7 @@ public class FunctionDeclWriter {
 			param.getArgument().accept(cgen);
 		}
 		
-		boolean skipFirst = shouldSkipFirst;
 		for(Argument arg: functionDecl.getArguments()) {
-			if(skipFirst) {
-				skipFirst = false;
-				continue;
-			}
 			if(!isFirst) cgen.current.app(", ");
 			isFirst = false;
 			arg.accept(cgen);

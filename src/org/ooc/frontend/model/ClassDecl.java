@@ -15,26 +15,24 @@ public class ClassDecl extends TypeDecl implements MustBeResolved, Generic {
 	
 	protected OocDocComment comment;
 
-	protected FunctionDecl initialize;
-	protected FunctionDecl load;
-	protected FunctionDecl defaultConstructor;
-
 	protected LinkedHashMap<String, GenericType> typeParams;
+	
+	protected FunctionDecl defaultInit = null;
 	
 	public ClassDecl(String name, String superName, boolean isAbstract, Token startToken) {
 		super(name, (superName.isEmpty() && !name.equals("Object")) ? "Object" : superName, startToken);
 		this.isAbstract = isAbstract;
-		this.initialize = new FunctionDecl("initialize", "", false, false, false, false, startToken);
-		this.initialize.getArguments().add(new RegularArgument(instanceType, "this", startToken));
-		this.initialize.setTypeDecl(this);
-		this.load = new FunctionDecl("load", "", false, false, false, false, startToken);
-		this.load.setStatic(true);
-		this.load.setTypeDecl(this);
 		this.superRef = null;
-		FunctionDecl constructor = new FunctionDecl("new", "", false, false, false, false, startToken);
-		addFunction(constructor);
-		this.defaultConstructor = constructor;
 		this.typeParams = new LinkedHashMap<String, GenericType>();
+		
+		addFunction(new FunctionDecl("load",     "", false, true,  false, false, startToken));
+		addFunction(new FunctionDecl("defaults", "", false, false, false, false, startToken));
+		addFunction(new FunctionDecl("destroy",  "", false, false, false, false, startToken));
+		if(!isAbstract) {
+			FunctionDecl init = new FunctionDecl("init",     "", false, false, false, false, startToken);
+			addFunction(init);
+			defaultInit = init;
+		}
 	}
 	
 	@Override
@@ -62,14 +60,6 @@ public class ClassDecl extends TypeDecl implements MustBeResolved, Generic {
 		this.comment = comment;
 	}
 	
-	public FunctionDecl getInitializeFunc() {
-		return initialize;
-	}
-	
-	public FunctionDecl getLoadFunc() {
-		return load;
-	}
-	
 	public boolean isAbstract() {
 		return isAbstract;
 	}
@@ -77,19 +67,50 @@ public class ClassDecl extends TypeDecl implements MustBeResolved, Generic {
 	public void setAbstract(boolean isAbstract) {
 		this.isAbstract = isAbstract;
 	}
-	
-	@Override
-	public void addFunction(FunctionDecl decl) {
-		if(defaultConstructor != null && decl.isConstructor()) {
-			functions.remove(defaultConstructor);
-			defaultConstructor = null;
-		}
-		super.addFunction(decl);
-	}
 
 	@Override
 	public Type getType() {
 		return getInstanceType();
+	}
+	
+	@Override
+	public void addFunction(FunctionDecl decl) {
+		
+		
+		if(decl.getName().equals("init")) {
+			if(defaultInit != null) {
+				FunctionDecl newFunc = getFunction("new", "", null);
+				functions.remove(defaultInit);
+				functions.remove(newFunc);
+				defaultInit = null;
+			}
+			
+			FunctionDecl constructor = new FunctionDecl("new", decl.getSuffix(), false, true, false, false, decl.startToken);
+			constructor.setReturnType(getType());
+			constructor.arguments.addAll(decl.getArguments());
+			
+			VariableAccess thisTypeAccess = new VariableAccess(name, decl.startToken);
+			thisTypeAccess.setRef(this);
+			VariableAccess classAccess = new MemberAccess(thisTypeAccess, "class", decl.startToken);
+			MemberCall allocCall = new MemberCall(classAccess, "alloc", "", decl.startToken);
+			Cast cast = new Cast(allocCall, getType(), decl.startToken);
+			VariableDeclFromExpr vdfe = new VariableDeclFromExpr("this", cast, decl.startToken);
+			constructor.body.add(new Line(vdfe));
+
+			VariableAccess thisAccess = new VariableAccess(vdfe, decl.startToken);
+			thisAccess.setRef(vdfe);
+			
+			FunctionCall initCall = new FunctionCall(decl, decl.startToken);
+			for(Argument arg: constructor.getArguments()) {
+				initCall.getArguments().add(new VariableAccess(arg, decl.startToken));
+			}
+			constructor.body.add(new Line(new MemberCall(thisAccess, initCall, decl.startToken)));
+			constructor.body.add(new Line(new ValuedReturn(thisAccess, decl.startToken)));
+			
+			addFunction(constructor);
+		}
+		
+		super.addFunction(decl);
 	}
 	
 	@Override
@@ -106,8 +127,6 @@ public class ClassDecl extends TypeDecl implements MustBeResolved, Generic {
 	public void acceptChildren(Visitor visitor) throws IOException {
 		variables.accept(visitor);
 		functions.accept(visitor);
-		initialize.accept(visitor);
-		load.accept(visitor);
 		instanceType.accept(visitor);
 	}
 	
@@ -151,6 +170,15 @@ public class ClassDecl extends TypeDecl implements MustBeResolved, Generic {
 	@Override
 	public LinkedHashMap<String, GenericType> getGenericTypes() {
 		return typeParams;
+	}
+
+	public ClassDecl getBaseClass(FunctionDecl decl) {
+		if(superRef != null) {
+			ClassDecl base = ((ClassDecl) superRef).getBaseClass(decl);
+			if(base != null) return base;
+		}
+		if(getFunction(decl.getName(), decl.getSuffix(), null) != null) return this;
+		return null;
 	}
 	
 }

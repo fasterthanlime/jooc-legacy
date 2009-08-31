@@ -13,7 +13,7 @@ public interface Scope {
 
 	public VariableDecl getVariable(String name);
 	public void getVariables(NodeList<VariableDecl> variables);
-	public FunctionDecl getFunction(String name, FunctionCall call);
+	public FunctionDecl getFunction(String name, String suffix, FunctionCall call);
 	public void getFunctions(NodeList<FunctionDecl> functions);
 	
 }

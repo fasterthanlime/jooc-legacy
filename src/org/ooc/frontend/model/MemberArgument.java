@@ -55,7 +55,7 @@ public class MemberArgument extends Argument {
 					" you been up to?");
 		}		
 		FunctionDecl funcDecl = (FunctionDecl) stack.get(funcIndex);
-
+		
 		doReplace(stack, varDecl, funcDecl);
 		return false;
 		

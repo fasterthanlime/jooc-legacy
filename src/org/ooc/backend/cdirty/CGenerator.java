@@ -36,7 +36,6 @@ import org.ooc.frontend.model.GenericType;
 import org.ooc.frontend.model.If;
 import org.ooc.frontend.model.Import;
 import org.ooc.frontend.model.Include;
-import org.ooc.frontend.model.Instantiation;
 import org.ooc.frontend.model.IntLiteral;
 import org.ooc.frontend.model.Line;
 import org.ooc.frontend.model.MemberAccess;
@@ -156,17 +155,12 @@ public class CGenerator extends Generator implements Visitor {
 
 	@Override
 	public void visit(FunctionCall functionCall) throws IOException {
-		FunctionCallWriter.write(functionCall, this);
+		CallWriter.write(functionCall, this);
 	}
 
 	@Override
 	public void visit(MemberCall memberCall) throws IOException {
-		FunctionCallWriter.writeMember(memberCall, this);
-	}
-
-	@Override
-	public void visit(Instantiation inst) throws IOException {
-		FunctionCallWriter.writeInst(inst, this);
+		CallWriter.writeMember(memberCall, this);
 	}
 
 	@Override
@@ -233,7 +227,7 @@ public class CGenerator extends Generator implements Visitor {
 	@Override
 	public void visit(Line line) throws IOException {
 		current.nl();
-		if(line.getStatement() instanceof FunctionCall) FunctionCallWriter.noCast = (FunctionCall) line.getStatement();
+		if(line.getStatement() instanceof FunctionCall) CallWriter.noCast = (FunctionCall) line.getStatement();
 		line.getStatement().accept(this);
 		if(!(line.getStatement() instanceof ControlStatement)) {
 			current.app(';');

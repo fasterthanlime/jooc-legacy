@@ -69,17 +69,21 @@ public abstract class TypeDecl extends Declaration implements Scope {
 	}
 	
 	public FunctionDecl getFunction(FunctionCall call) {
-		return getFunction(call.getName(), call);
+		return getFunction(call.getName(), call.getSuffix(), call);
+	}
+	
+	public FunctionDecl getFunction(String name, String suffix, FunctionCall call, boolean recursive) {
+		for(FunctionDecl func : functions) {
+			if(func.getName().equals(name) && (suffix.isEmpty() || func.getSuffix().equals(suffix))
+					&& (call == null || call.matches(func))) return func;
+		}
+		if(recursive && superRef != null) return superRef.getFunction(name, suffix, call);
+		return null;
 	}
 	
 	@Override
-	public FunctionDecl getFunction(String name, FunctionCall call) {
-		for(FunctionDecl func : functions) {
-			if(func.getName().equals(name)
-					&& (call == null || call.matches(func))) return func;
-		}
-		if(superRef != null) return superRef.getFunction(name, call);
-		return null;
+	public FunctionDecl getFunction(String name, String suffix, FunctionCall call) {
+		return getFunction(name, suffix, call, true);
 	}
 	
 	@Override
@@ -91,22 +95,22 @@ public abstract class TypeDecl extends Declaration implements Scope {
 		decl.setTypeDecl(this);
 		
 		if(!decl.isStatic()) {
-			if(decl.isConstructor()) {
-				decl.setFinal(true);
-				decl.setReturnType(getInstanceType());
-			}
 			if(shouldAddThis(decl)) {
 				Token tok = decl.getArguments().isEmpty() ? startToken : decl.getArguments().getFirst().startToken;
 				decl.getArguments().add(0, new RegularArgument(getInstanceType(), "this",
 						tok));
 			}
 		}
+		
+		if(decl.isSpecialFunc()) {
+			FunctionDecl already = getFunction(decl.getName(), decl.getSuffix(), null);
+			if(already != null) functions.remove(already);
+		}
 		functions.add(decl);
 	}
 
 	private boolean shouldAddThis(FunctionDecl decl) {
 		if(decl.isStatic()) return false;
-		if(decl.isConstructor() && (this instanceof CoverDecl)) return false;
 		return true;
 	}
 	

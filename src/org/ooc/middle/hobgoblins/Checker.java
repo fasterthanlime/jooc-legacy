@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import org.ooc.frontend.model.ClassDecl;
 import org.ooc.frontend.model.CoverDecl;
 import org.ooc.frontend.model.Expression;
 import org.ooc.frontend.model.FunctionCall;
@@ -82,12 +81,6 @@ public class Checker implements Hobgoblin {
 			}
 			
 			private void checkFunctionDecl(FunctionDecl node, NodeList<Node> stack) throws IOException {
-				if(node.isConstructor() && stack.find(TypeDecl.class) == -1) {
-					// TODO forbid functions named load in modules (or __load__?)
-					throw new OocCompilationError(node, stack,
-						"Declaration of a function named 'new' outside a class is forbidden!" +
-						" Functions named 'new' are only used as constructors in classes.");
-				}
 				if(!node.getName().isEmpty()) {
 					if(Character.isUpperCase(node.getName().charAt(0)) && !node.isExtern()) {
 						throw new OocCompilationError(node, stack,
@@ -118,8 +111,7 @@ public class Checker implements Hobgoblin {
 					}
 				}
 				
-				if(!node.getReturnType().isVoid() && !node.isExtern() && !node.isAbstract()
-						&& !(node.isConstructor()&& stack.find(ClassDecl.class) != -1)) {
+				if(!node.getReturnType().isVoid() && !node.isExtern() && !node.isAbstract()) {
 					
 					if(node.getBody().isEmpty()) {
 						if(node.getName().equals("main")) {

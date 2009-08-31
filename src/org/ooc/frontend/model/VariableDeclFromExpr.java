@@ -35,7 +35,9 @@ public class VariableDeclFromExpr extends VariableDecl implements MustBeResolved
 	public void acceptChildren(Visitor visitor) throws IOException {
 		atoms.accept(visitor);
 		Type type = getType();
-		if(type != null) type.accept(visitor);
+		if(type != null && !type.getName().equals("This")) {
+			type.accept(visitor);
+		}
 	}
 	
 	@Override
@@ -46,10 +48,8 @@ public class VariableDeclFromExpr extends VariableDecl implements MustBeResolved
 	@Override
 	protected void unwrapToClassInitializers(NodeList<Node> hierarchy,
 			ClassDecl classDecl) {
-		
 		super.unwrapToClassInitializers(hierarchy, classDecl);
 		atoms.get(0).setExpression(null);
-		
 	}
 
 	@Override
