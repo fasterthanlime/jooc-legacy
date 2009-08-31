@@ -42,7 +42,8 @@ public class Gcc extends BaseCompiler {
 
 	@Override
 	public void setOutputPath(String path) {
-		command.add("-o"+path);
+		command.add("-o");
+		command.add(path);
 	}
 
 	@Override
