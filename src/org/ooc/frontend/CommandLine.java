@@ -374,6 +374,7 @@ public class CommandLine {
 			Collection<String> libs = getFlagsFromUse(module);
 			for(String lib: libs) compiler.addObjectFile(lib);
 			
+			compiler.addDynamicLibrary("pthread");
 			if(params.dynGC) {
 				compiler.addDynamicLibrary("gc");
 			} else {
