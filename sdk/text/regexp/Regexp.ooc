@@ -13,9 +13,15 @@ RegexpBackend: abstract class {
 }
 
 PCRE: class extends RegexpBackend {
+	setPattern: func(pattern: String) {
+		this pattern = pattern
+	}
 }
 
 POSIX: class extends RegexpBackend {
+	setPattern: func(pattern: String) {
+		this pattern = pattern
+	}
 }
 
 
