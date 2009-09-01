@@ -115,7 +115,7 @@ public class FunctionDeclParser {
 		token = reader.readWhiteless();
 		if(token.type != TokenType.OPEN_BRACK) {
 			throw new CompilationFailedError(sReader.getLocation(reader.prev()),
-					"Expected opening brace after function name.");
+					"Expected body, e.g. {} after a function name (even for empty functions)");
 		}
 	
 		while(reader.hasNext() && reader.peek().type != TokenType.CLOS_BRACK) {
