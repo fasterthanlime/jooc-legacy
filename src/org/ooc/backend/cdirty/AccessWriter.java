@@ -75,6 +75,11 @@ public class AccessWriter {
 	
 	public static void writeVariable(VariableAccess variableAccess, boolean doTypeParams, CGenerator cgen) throws IOException {
 		
+		if(variableAccess.getRef() instanceof TypeDecl) {
+			cgen.current.app(variableAccess.getName()).app("_class()");
+			return;
+		}
+		
 		int refLevel = variableAccess.getRef().getType().getReferenceLevel();
 		
 		if(doTypeParams) {
