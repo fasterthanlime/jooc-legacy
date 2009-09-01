@@ -2,8 +2,7 @@ import text.regexp.RegexpBackend
 
 use text/regexp/pcre
 
-PcreStruct: cover from pcre
-Pcre: cover from PcreStruct*
+Pcre: cover from pcre*
 pcre_compile: extern func (String, Int, String**, Int*, Pointer) -> Pcre
 
 PCRE: class extends RegexpBackend {
