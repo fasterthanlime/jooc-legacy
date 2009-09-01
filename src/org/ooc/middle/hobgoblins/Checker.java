@@ -188,6 +188,10 @@ public class Checker implements Hobgoblin {
 				
 				NodeList<FunctionDecl> functions = new NodeList<FunctionDecl>();
 				classDecl.getFunctionsRecursive(functions);
+				
+				for(FunctionDecl function: functions) {
+					
+				}
 			}
 			
 			private void checkValuedReturn(ValuedReturn node,

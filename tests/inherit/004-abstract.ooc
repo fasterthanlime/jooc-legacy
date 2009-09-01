@@ -17,7 +17,7 @@ Dog: class extends Animal {
 
 }
 
-Cat: class extends Animal {}
+//Cat: class extends Animal {}
 
 main: func {
 

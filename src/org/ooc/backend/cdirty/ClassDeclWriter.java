@@ -193,7 +193,7 @@ public class ClassDeclWriter {
 				}
 			}
 			
-			if (parentDecl.isFinal() || parentDecl.isAbstract()) {
+			if (parentDecl.isFinal() || (realDecl == null && parentDecl.isAbstract())) {
 				writeDesignatedInit(parentDecl, realDecl, false, cgen);
 			} else {
 				writeDesignatedInit(parentDecl, realDecl, true, cgen);
