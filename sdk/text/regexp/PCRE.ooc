@@ -11,7 +11,7 @@ pcre_free: extern func(Pointer)
 
 
 PCRE: class extends RegexpBackend {
-	TEST = 0, TEST1 = 1 : static const Int
+	CASELESS = CASELESS : static const Int
 
 	error: String
 	errorNum: Int

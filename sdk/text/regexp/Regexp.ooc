@@ -54,7 +54,7 @@ main: func {
 	printf("Engine: %d\n", rx getEngine());
 	printf("Pattern: %s\n", rx getPattern());
 	
-	if (rx matches("Hello world"))
+	if (rx matches("Hello world", PCRE CASELESS))
 		printf("Matches!\n")
 	else
 		printf("No match\n");
