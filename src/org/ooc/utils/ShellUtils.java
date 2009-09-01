@@ -59,7 +59,13 @@ public class ShellUtils {
 		String result = null;
 		
 		try {
-			
+		
+			System.out.print("Launching with ");
+			for(String str: command) {
+				System.out.print(str);
+				System.out.print(" ");
+			}
+			System.out.println();
 			StringWriter writer = new StringWriter();
 			Process p = new ProcessBuilder(command).start();
 			ProcessUtils.redirectIO(p, writer);
