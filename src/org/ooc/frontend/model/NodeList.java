@@ -204,14 +204,31 @@ public class NodeList<T extends Node> extends Node implements Iterable<T> {
 	
 	@Override
 	public String toString() {
+		return toString(false);
+	}
+	
+	public String toString(boolean stackLike) {
+		return toString(stackLike, 0);
+	}
+	
+	public String toString(boolean stackLike, int offset) {
 		if(size == 0) return "[]";
-		StringBuilder sB = new StringBuilder("[");
+		StringBuilder sB = new StringBuilder();
+		if(stackLike) sB.append('\n');
 		int index = 0;
 		while(index < size) {
-			sB.append(nodes[index++].toString());
-			if(index < size) sB.append(", ");
+			T node = nodes[index++];
+			if(node instanceof NodeList<?>) {
+				sB.append(((NodeList<?>) node).toString(false, stackLike ? offset + index : offset));
+			} else {
+				for(int i = 0; i < offset; i++) sB.append("  ");
+				if(stackLike) {
+					for(int i = 0; i < index; i++) sB.append("  ");
+				}
+				sB.append(node.toString());
+			}
+			if(index < size) sB.append("\n");
 		}
-		sB.append(']');
 		return sB.toString();
 	}
 

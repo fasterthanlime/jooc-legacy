@@ -154,7 +154,8 @@ public class Checker implements Hobgoblin {
 			
 			private void checkVariableDecl(VariableDecl node, NodeList<Node> stack) throws EOFException {
 				Type varDeclType = node.getType();
-				if(varDeclType != null && !varDeclType.getName().isEmpty() && Character.isLowerCase(varDeclType.getName().charAt(0))) {
+				if(varDeclType != null && varDeclType.getRef() != null && !varDeclType.getRef().isExtern()
+						&& !varDeclType.getName().isEmpty() && Character.isLowerCase(varDeclType.getName().charAt(0))) {
 					throw new OocCompilationError(varDeclType, stack,
 							"Variable declaration has type '"+varDeclType.getName()+
 							"', which begins with a lowercase letter."+

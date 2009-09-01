@@ -8,6 +8,7 @@ Pointer: cover from void*
 
 // variable-size integer types
 Int: cover from int
+int: extern cover
 UInt: cover from unsigned int
 Short: cover from short
 UShort: cover from unsigned short

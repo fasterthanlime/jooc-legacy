@@ -195,7 +195,7 @@ public class Type extends Node implements MustBeResolved {
 			int index = stack.find(TypeDecl.class);
 			if(index == -1) {
 				Thread.dumpStack();
-				throw new OocCompilationError(this, stack, "Using 'This' outside a type definition. Wtf? stack = "+stack);
+				throw new OocCompilationError(this, stack, "Using 'This' outside a type definition. Wtf? stack = "+stack.toString(true));
 			}
 			TypeDecl typeDecl = (TypeDecl) stack.get(index);
 			name = typeDecl.getName();
@@ -212,7 +212,8 @@ public class Type extends Node implements MustBeResolved {
 		}
 		
 		if(ref == null && fatal) {
-			throw new OocCompilationError(this, stack, "Couldn't resolve type "+getName());
+			Thread.dumpStack();
+			throw new OocCompilationError(this, stack, "Couldn't resolve type "+getName()+", stack = "+stack.toString(true));
 		}
 		
 		return ref == null;
