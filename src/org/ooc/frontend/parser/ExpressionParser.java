@@ -20,6 +20,7 @@ import org.ooc.frontend.model.Literal;
 import org.ooc.frontend.model.MemberAccess;
 import org.ooc.frontend.model.MemberCall;
 import org.ooc.frontend.model.Mod;
+import org.ooc.frontend.model.Module;
 import org.ooc.frontend.model.Mul;
 import org.ooc.frontend.model.Not;
 import org.ooc.frontend.model.RangeLiteral;
@@ -38,18 +39,18 @@ import org.ubi.SourceReader;
 
 public class ExpressionParser {
 
-	public static Expression parse(SourceReader sReader, TokenReader reader) throws IOException {
-		return parse(sReader, reader, false);
+	public static Expression parse(Module module, SourceReader sReader, TokenReader reader) throws IOException {
+		return parse(module, sReader, reader, false);
 	}
 	
-	public static Expression parse(SourceReader sReader, TokenReader reader, boolean noDecl) throws IOException {
+	public static Expression parse(Module module, SourceReader sReader, TokenReader reader, boolean noDecl) throws IOException {
 		
 		int mark = reader.mark();
 		
 		Token firstToken = reader.peek();
 		if(firstToken.type == TokenType.BANG) {
 			reader.skip();
-			Expression inner = ExpressionParser.parse(sReader, reader);
+			Expression inner = ExpressionParser.parse(module, sReader, reader);
 			if(inner == null) {
 				reader.reset(mark);
 				return null;
@@ -59,7 +60,7 @@ public class ExpressionParser {
 		
 		if(firstToken.type == TokenType.MINUS) {
 			reader.skip();
-			Expression inner = ExpressionParser.parse(sReader, reader);
+			Expression inner = ExpressionParser.parse(module, sReader, reader);
 			if(inner == null) {
 				reader.reset(mark);
 				return null;
@@ -70,13 +71,13 @@ public class ExpressionParser {
 		Expression expr = null;
 		if(reader.peek().type == TokenType.OPEN_PAREN) {
 			reader.skip();
-			expr = parse(sReader, reader);
+			expr = parse(module, sReader, reader);
 			if(reader.read().type != TokenType.CLOS_PAREN) {
 				throw new CompilationFailedError(sReader.getLocation(reader.prev())
 						, "Expected closing parenthesis.");
 			}
 		} else {
-			expr = parseFlatNoparen(sReader, reader, noDecl);
+			expr = parseFlatNoparen(module, sReader, reader, noDecl);
 		}
 		
 		if(expr == null) return null;
@@ -86,7 +87,7 @@ public class ExpressionParser {
 			Token token = reader.peek();
 			
 			if(token.isNameToken()) {
-				FunctionCall call = FunctionCallParser.parse(sReader, reader);
+				FunctionCall call = FunctionCallParser.parse(module, sReader, reader);
 				if(call != null) {
 					expr = new MemberCall(expr, call, token);
 					continue ;
@@ -102,7 +103,7 @@ public class ExpressionParser {
 			if(token.type == TokenType.DOUBLE_DOT) {
 				
 				reader.skip();
-				Expression upper = ExpressionParser.parse(sReader, reader);
+				Expression upper = ExpressionParser.parse(module, sReader, reader);
 				if(upper == null) {
 					throw new CompilationFailedError(sReader.getLocation(reader.peek()),
 							"Expected expression for the upper part of a range literal");
@@ -115,7 +116,7 @@ public class ExpressionParser {
 			if(token.type == TokenType.OPEN_SQUAR) {
 
 				reader.skip();
-				Expression index = ExpressionParser.parse(sReader, reader);
+				Expression index = ExpressionParser.parse(module, sReader, reader);
 				if(index == null) {
 					throw new CompilationFailedError(sReader.getLocation(reader.peek()),
 						"Expected expression for the index of an array access");
@@ -132,7 +133,7 @@ public class ExpressionParser {
 			if(token.type == TokenType.ASSIGN) {
 				
 				reader.skip();
-				Expression rvalue = ExpressionParser.parse(sReader, reader);
+				Expression rvalue = ExpressionParser.parse(module, sReader, reader);
 				if(rvalue == null) {
 					throw new CompilationFailedError(sReader.getLocation(reader.peek()),
 						"Expected expression after '='.");
@@ -173,7 +174,7 @@ public class ExpressionParser {
 					|| token.type == TokenType.AMPERSAND) {
 				
 				reader.skip();
-				Expression rvalue = ExpressionParser.parse(sReader, reader);
+				Expression rvalue = ExpressionParser.parse(module, sReader, reader);
 				if(rvalue == null) {
 					throw new CompilationFailedError(sReader.getLocation(reader.peek()),
 						"Expected rvalue after binary operator");
@@ -239,18 +240,18 @@ public class ExpressionParser {
 		
 	}
 	
-	protected static Expression parseFlatNoparen(SourceReader sReader, TokenReader reader, boolean noDecl) throws IOException {
+	protected static Expression parseFlatNoparen(Module module, SourceReader sReader, TokenReader reader, boolean noDecl) throws IOException {
 		
 		int mark = reader.mark();
 		
-		Literal literal = LiteralParser.parse(sReader, reader);
+		Literal literal = LiteralParser.parse(module, sReader, reader);
 		if(literal != null) return literal;
 
-		FunctionCall funcCall = FunctionCallParser.parse(sReader, reader);
+		FunctionCall funcCall = FunctionCallParser.parse(module, sReader, reader);
 		if(funcCall != null) return funcCall;
 		
 		if(!noDecl) {
-			Declaration declaration = DeclarationParser.parse(sReader, reader);
+			Declaration declaration = DeclarationParser.parse(module, sReader, reader);
 			if(declaration != null) return declaration;
 		}
 				

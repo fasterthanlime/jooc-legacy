@@ -3,6 +3,7 @@ package org.ooc.frontend.parser;
 import java.io.IOException;
 
 import org.ooc.frontend.model.Expression;
+import org.ooc.frontend.model.Module;
 import org.ooc.frontend.model.NodeList;
 import org.ooc.frontend.model.tokens.TokenReader;
 import org.ooc.frontend.model.tokens.Token.TokenType;
@@ -11,12 +12,12 @@ import org.ubi.SourceReader;
 
 public class ExpressionListFiller {
 	
-	public static boolean fill(SourceReader sReader, TokenReader reader,
+	public static boolean fill(Module module, SourceReader sReader, TokenReader reader,
 			NodeList<Expression> list) throws IOException {
-		return fill(sReader, reader, list, TokenType.OPEN_PAREN, TokenType.CLOS_PAREN);
+		return fill(module, sReader, reader, list, TokenType.OPEN_PAREN, TokenType.CLOS_PAREN);
 	}
 
-	public static boolean fill(SourceReader sReader, TokenReader reader,
+	public static boolean fill(Module module, SourceReader sReader, TokenReader reader,
 			NodeList<Expression> list, byte opening, byte closing) throws IOException {
 
 		int mark = reader.mark();
@@ -43,7 +44,7 @@ public class ExpressionListFiller {
 				}
 			} else {
 				reader.skipWhitespace();
-				Expression expr = ExpressionParser.parse(sReader, reader);
+				Expression expr = ExpressionParser.parse(module, sReader, reader);
 				if(expr == null) {
 					throw new CompilationFailedError(sReader.getLocation(reader.peek()),
 							"Expected expression as argument of function call");

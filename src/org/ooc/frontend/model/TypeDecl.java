@@ -69,26 +69,14 @@ public abstract class TypeDecl extends Declaration implements Scope {
 	}
 	
 	public FunctionDecl getFunction(FunctionCall call) {
-		if(name.equals("String")) {
-			System.out.println("Should get call "+call.getProtoRepr()+" in type "+this);
-		}
 		return getFunction(call.getName(), call.getSuffix(), call);
 	}
 	
 	public FunctionDecl getFunction(String name, String suffix, FunctionCall call, boolean recursive) {
 		for(FunctionDecl func : functions) {
-			if(this.name.equals("String")) {
-				System.out.println("For "+name+" reviewing "+func.getProtoRepr());
-			}
 			if(func.getName().equals(name) && (suffix.isEmpty() || func.getSuffix().equals(suffix))
 					&& (call == null || call.matches(func))) {
-				if(this.name.equals("String")) {
-					System.out.println("Match!");
-				}
 				return func;
-			}
-			if(this.name.equals("String")) {
-				System.out.println("Doesn't match");
 			}
 		}
 		if(recursive && superRef != null) return superRef.getFunction(name, suffix, call);

@@ -4,8 +4,11 @@ import java.io.IOException;
 
 import org.ooc.frontend.model.CoverDecl;
 import org.ooc.frontend.model.FunctionDecl;
+import org.ooc.frontend.model.Import;
+import org.ooc.frontend.model.Module;
 import org.ooc.frontend.model.OocDocComment;
 import org.ooc.frontend.model.Type;
+import org.ooc.frontend.model.TypeDecl;
 import org.ooc.frontend.model.VariableDecl;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.frontend.model.tokens.TokenReader;
@@ -15,7 +18,7 @@ import org.ubi.SourceReader;
 
 public class CoverDeclParser {
 
-	public static CoverDecl parse(SourceReader sReader, TokenReader reader) throws IOException {
+	public static CoverDecl parse(Module module, SourceReader sReader, TokenReader reader) throws IOException {
 		int mark = reader.mark();
 		
 		OocDocComment comment = null;
@@ -63,6 +66,17 @@ public class CoverDeclParser {
 			coverDecl.setExternName(externName);
 			if(comment != null) coverDecl.setComment(comment);
 			
+			System.out.println("In cache "+ModuleParser.cache);
+			for(Import imp: module.getImports()) {
+				Module depMod = imp.getModule();
+				if(depMod != null) {
+					TypeDecl base = depMod.getType(name);
+					System.out.println("Found base = "+base);
+					coverDecl.absorb((CoverDecl) base);
+				}
+				System.out.println("null depMode :/");
+			}
+			
 			Token t2 = reader.read();
 			if(t2.type != TokenType.OPEN_BRACK) {
 				if(t2.type == TokenType.LINESEP) {
@@ -78,7 +92,7 @@ public class CoverDeclParser {
 					reader.skip(); continue;
 				}
 				
-				VariableDecl varDecl = VariableDeclParser.parse(sReader, reader);
+				VariableDecl varDecl = VariableDeclParser.parse(module, sReader, reader);
 				if(varDecl != null) {
 					if(reader.read().type != TokenType.LINESEP) {
 						throw new CompilationFailedError(sReader.getLocation(reader.prev()),
@@ -93,9 +107,8 @@ public class CoverDeclParser {
 					continue;
 				}
 				
-				FunctionDecl funcDecl = FunctionDeclParser.parse(sReader, reader, false);
+				FunctionDecl funcDecl = FunctionDeclParser.parse(module, sReader, reader, false);
 				if(funcDecl != null) {
-					System.out.println("Added functionDecl "+funcDecl.getProtoRepr()+" to cover "+coverDecl.getName());
 					coverDecl.addFunction(funcDecl);
 					continue;
 				}

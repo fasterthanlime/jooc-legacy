@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import org.ooc.frontend.model.Import;
 import org.ooc.frontend.model.Module;
 import org.ooc.frontend.model.Tokenizer;
 import org.ooc.frontend.model.tokens.Token;
@@ -26,10 +27,10 @@ public class Parser {
 			throw new CompilationFailedError(null, "File "+path+" not found in sourcePath."
 				+" sourcePath = "+params.sourcePath);
 		}
-		return parse(path, file);
+		return parse(path, file, null);
 	}
 
-	public Module parse(final String path, final File file) throws IOException {
+	public Module parse(final String path, final File file, Import imp) throws IOException {
 		if(params.verbose)
 			System.out.println("Parsing "+path);
 		
@@ -40,6 +41,7 @@ public class Parser {
 			.replace(File.separatorChar, '.').replace('/', '.');
 		
 		final Module module = new Module(fullName, sReader);
+		if(imp != null) imp.setModule(module);
 		ModuleParser.parse(module, fullName, file,
 				sReader, new TokenReader(tokens), Parser.this);
 		//new XStream().toXML(module, new FileWriter(file.getName()+".xml"));

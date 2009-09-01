@@ -8,6 +8,7 @@ import org.ooc.frontend.model.CharLiteral;
 import org.ooc.frontend.model.FloatLiteral;
 import org.ooc.frontend.model.IntLiteral;
 import org.ooc.frontend.model.Literal;
+import org.ooc.frontend.model.Module;
 import org.ooc.frontend.model.NullLiteral;
 import org.ooc.frontend.model.StringLiteral;
 import org.ooc.frontend.model.IntLiteral.Format;
@@ -20,7 +21,7 @@ import org.ubi.SyntaxError;
 
 public class LiteralParser {
 
-	public static Literal parse(SourceReader sReader, TokenReader reader) throws IOException {
+	public static Literal parse(Module module, SourceReader sReader, TokenReader reader) throws IOException {
 
 		int mark = reader.mark();
 		
@@ -59,7 +60,7 @@ public class LiteralParser {
 		if(token.type == TokenType.OPEN_SQUAR) {
 			ArrayLiteral arrayLiteral = new ArrayLiteral(token);
 			reader.rewind();
-			if(!ExpressionListFiller.fill(sReader, reader, arrayLiteral.getElements(),
+			if(!ExpressionListFiller.fill(module, sReader, reader, arrayLiteral.getElements(),
 					TokenType.OPEN_SQUAR, TokenType.CLOS_SQUAR)) {
 				throw new CompilationFailedError(null, "Malformed array literal");
 			}

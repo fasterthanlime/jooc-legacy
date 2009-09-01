@@ -7,6 +7,7 @@ import java.util.List;
 import org.ooc.frontend.model.ClassDecl;
 import org.ooc.frontend.model.FunctionDecl;
 import org.ooc.frontend.model.GenericType;
+import org.ooc.frontend.model.Module;
 import org.ooc.frontend.model.OocDocComment;
 import org.ooc.frontend.model.VariableDecl;
 import org.ooc.frontend.model.tokens.Token;
@@ -17,7 +18,7 @@ import org.ubi.SourceReader;
 
 public class ClassDeclParser {
 
-	public static ClassDecl parse(SourceReader sReader, TokenReader reader) throws IOException {
+	public static ClassDecl parse(Module module, SourceReader sReader, TokenReader reader) throws IOException {
 		int mark = reader.mark();
 		
 		OocDocComment comment = null;
@@ -76,7 +77,7 @@ public class ClassDeclParser {
 			
 				if(reader.skipWhitespace()) continue;
 				
-				VariableDecl varDecl = VariableDeclParser.parse(sReader, reader);
+				VariableDecl varDecl = VariableDeclParser.parse(module, sReader, reader);
 				if(varDecl != null) {
 					if(reader.read().type != TokenType.LINESEP) {
 						throw new CompilationFailedError(sReader.getLocation(reader.prev()),
@@ -86,7 +87,7 @@ public class ClassDeclParser {
 					continue;
 				}
 				
-				FunctionDecl funcDecl = FunctionDeclParser.parse(sReader,reader, false);
+				FunctionDecl funcDecl = FunctionDeclParser.parse(module, sReader, reader, false);
 				if(funcDecl != null) {
 					classDecl.addFunction(funcDecl);
 					continue;

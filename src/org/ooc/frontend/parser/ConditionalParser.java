@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.ooc.frontend.model.Conditional;
 import org.ooc.frontend.model.Expression;
 import org.ooc.frontend.model.If;
+import org.ooc.frontend.model.Module;
 import org.ooc.frontend.model.While;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.frontend.model.tokens.TokenReader;
@@ -14,7 +15,7 @@ import org.ubi.SourceReader;
 
 public class ConditionalParser {
 
-	public static Conditional parse(
+	public static Conditional parse(Module module,
 			SourceReader sReader, TokenReader reader) throws IOException {
 		
 		int mark = reader.mark();
@@ -30,7 +31,7 @@ public class ConditionalParser {
 				"Expected opening parenthesis after "+startToken.get(sReader));
 		}
 		
-		Expression condition = ExpressionParser.parse(sReader, reader);
+		Expression condition = ExpressionParser.parse(module, sReader, reader);
 		if(condition == null) {
 			throw new CompilationFailedError(sReader.getLocation(reader.peek()),
 					"Expected expression as while condition");
@@ -51,7 +52,7 @@ public class ConditionalParser {
 			return null;
 		}
 		
-		ControlStatementFiller.fill(sReader, reader, statement);
+		ControlStatementFiller.fill(module, sReader, reader, statement);
 		
 		return statement;
 		

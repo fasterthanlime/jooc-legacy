@@ -5,7 +5,6 @@ import java.io.IOException;
 import org.ooc.frontend.model.Module;
 import org.ooc.frontend.parser.BuildParams;
 import org.ooc.middle.hobgoblins.Checker;
-import org.ooc.middle.hobgoblins.CoverMerger;
 import org.ooc.middle.hobgoblins.Resolver;
 import org.ooc.middle.hobgoblins.Unwrapper;
 
@@ -25,7 +24,6 @@ public class Tinkerer implements Hobgoblin {
 	public void process(Module module, BuildParams params) throws IOException {
 
 		new Unwrapper().process(module, params);
-		new CoverMerger().process(module, params);
 		new Resolver().process(module, params);
 		new Checker().process(module, params);
 		

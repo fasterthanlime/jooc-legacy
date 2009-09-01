@@ -7,6 +7,7 @@ import org.ooc.frontend.model.Expression;
 import org.ooc.frontend.model.FunctionCall;
 import org.ooc.frontend.model.Line;
 import org.ooc.frontend.model.MemberCall;
+import org.ooc.frontend.model.Module;
 import org.ooc.frontend.model.NodeList;
 import org.ooc.frontend.model.Statement;
 import org.ooc.frontend.model.tokens.Token;
@@ -17,7 +18,7 @@ import org.ubi.SourceReader;
 
 public class LineParser {
 
-	public static boolean fill(SourceReader sReader, TokenReader reader, NodeList<Line> body) throws IOException {
+	public static boolean fill(Module module, SourceReader sReader, TokenReader reader, NodeList<Line> body) throws IOException {
 		
 		int mark = reader.mark();
 		
@@ -30,7 +31,7 @@ public class LineParser {
 			return false;
 		}
 		
-		Statement statement = StatementParser.parse(sReader, reader);
+		Statement statement = StatementParser.parse(module, sReader, reader);
 		if(statement == null) {
 			reader.reset(mark);
 			return false;
@@ -50,7 +51,7 @@ public class LineParser {
 			}
 			reader.skip();
 			Token startToken = reader.peek();
-			FunctionCall otherCall = FunctionCallParser.parse(sReader, reader);
+			FunctionCall otherCall = FunctionCallParser.parse(module, sReader, reader);
 			if(otherCall == null) {
 				throw new CompilationFailedError(sReader.getLocation(reader.peek()),
 					"Expected function call after a dot '.'");

@@ -3,6 +3,7 @@ package org.ooc.frontend.parser;
 import java.io.IOException;
 
 import org.ooc.frontend.model.FunctionDecl;
+import org.ooc.frontend.model.Module;
 import org.ooc.frontend.model.OpDecl;
 import org.ooc.frontend.model.OpDecl.OpType;
 import org.ooc.frontend.model.tokens.Token;
@@ -13,7 +14,7 @@ import org.ubi.SourceReader;
 
 public class OpDeclParser {
 
-	public static OpDecl parse(SourceReader sReader, TokenReader reader) throws IOException {
+	public static OpDecl parse(Module module, SourceReader sReader, TokenReader reader) throws IOException {
 		
 		Token startToken = reader.peek();
 		if(startToken.type != TokenType.OPERATOR_KW) return null;
@@ -69,7 +70,7 @@ public class OpDeclParser {
 			throw new CompilationFailedError(null, "Trying to overload unknown operator "+token);
 		}
 		
-		FunctionDecl decl = FunctionDeclParser.parse(sReader, reader, true);
+		FunctionDecl decl = FunctionDeclParser.parse(module, sReader, reader, true);
 		if(decl == null) {
 			throw new CompilationFailedError(null, "Expected function after operator overloading of "+type);
 		}

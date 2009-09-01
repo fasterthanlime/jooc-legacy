@@ -3,6 +3,7 @@ package org.ooc.frontend.parser;
 import java.io.IOException;
 
 import org.ooc.frontend.model.Expression;
+import org.ooc.frontend.model.Module;
 import org.ooc.frontend.model.NodeList;
 import org.ooc.frontend.model.Type;
 import org.ooc.frontend.model.VariableDecl;
@@ -16,7 +17,7 @@ import org.ubi.SourceReader;
 
 public class VariableDeclParser {
 
-	public static VariableDecl parse(SourceReader sReader, TokenReader reader) throws IOException {
+	public static VariableDecl parse(Module module, SourceReader sReader, TokenReader reader) throws IOException {
 		int mark = reader.mark();
 		
 		Token tName = reader.peek();
@@ -33,7 +34,7 @@ public class VariableDeclParser {
 			Expression expr = null;
 			if(reader.peek().type == TokenType.ASSIGN) {
 				reader.skip();
-				expr = ExpressionParser.parse(sReader, reader, true);
+				expr = ExpressionParser.parse(module, sReader, reader, true);
 				if(expr == null) {
 					throw new CompilationFailedError(sReader.getLocation(reader.prev()),
 							"Expected expression as an initializer to a variable declaration.");
@@ -53,7 +54,7 @@ public class VariableDeclParser {
 					} else break;
 				}
 				
-				expr = ExpressionParser.parse(sReader, reader);
+				expr = ExpressionParser.parse(module, sReader, reader);
 				if(expr == null) {
 					throw new CompilationFailedError(sReader.getLocation(reader.prev()),
 							"Expected expression as an initializer to a variable declaration.");
@@ -101,7 +102,7 @@ public class VariableDeclParser {
 		if(atoms.size() == 1 && atoms.get(0).getExpression() == null) {
 			if(reader.peek().type == TokenType.ASSIGN) {
 				reader.skip();
-				Expression expr = ExpressionParser.parse(sReader, reader);
+				Expression expr = ExpressionParser.parse(module, sReader, reader);
 				if(expr == null) {
 					throw new CompilationFailedError(sReader.getLocation(reader.prev()),
 							"Expected expression as an initializer to a variable declaration.");

@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.tokens.Token;
+import org.ooc.frontend.parser.ModuleParser;
 
 public class Import extends Node {
 
@@ -25,6 +26,7 @@ public class Import extends Node {
 	}
 	
 	public Module getModule() {
+		if(module == null) return ModuleParser.cache.get(name);
 		return module;
 	}
 	

@@ -5,9 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.ooc.frontend.model.FunctionDecl;
+import org.ooc.frontend.model.GenericType;
+import org.ooc.frontend.model.Module;
 import org.ooc.frontend.model.OocDocComment;
 import org.ooc.frontend.model.Type;
-import org.ooc.frontend.model.GenericType;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.frontend.model.tokens.TokenReader;
 import org.ooc.frontend.model.tokens.Token.TokenType;
@@ -16,7 +17,7 @@ import org.ubi.SourceReader;
 
 public class FunctionDeclParser {
 
-	public static FunctionDecl parse(SourceReader sReader, TokenReader reader, boolean skipFunc) throws IOException {
+	public static FunctionDecl parse(Module module, SourceReader sReader, TokenReader reader, boolean skipFunc) throws IOException {
 
 		int mark = reader.mark();
 		
@@ -119,7 +120,7 @@ public class FunctionDeclParser {
 		while(reader.hasNext() && reader.peek().type != TokenType.CLOS_BRACK) {
 			reader.skipWhitespace();
 		
-			if(!LineParser.fill(sReader, reader, functionDecl.getBody()) && reader.hasNext()
+			if(!LineParser.fill(module, sReader, reader, functionDecl.getBody()) && reader.hasNext()
 					&& reader.peek().type != TokenType.CLOS_BRACK) {
 				throw new CompilationFailedError(sReader.getLocation(reader.peek()),
 						"Expected statement in function body. Found "+reader.peek()+" instead.");
