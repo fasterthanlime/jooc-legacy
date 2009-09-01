@@ -7,7 +7,7 @@ operator [] (negate: Negate, index: Int) -> Int {
 }
 
 main: func {
-	negate := new Negate
+	negate := Negate new()
 	for (i: Int in 0..10) {
 		printf("Negate of %d is %d\n", i, negate[i])
 	}

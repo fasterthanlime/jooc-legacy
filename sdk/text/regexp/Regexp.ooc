@@ -1,6 +1,5 @@
 RegexpBackend: abstract class {
 	PCRE = 0, POSIX = 1, DEFAULT_TYPE = 0 : static const Int
-	DUMMY_FIELD: const Int = 0
 	
 	pattern: String
 	
