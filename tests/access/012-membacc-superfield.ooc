@@ -7,7 +7,7 @@ main: func {
 Animal: abstract class {
 
 	name: String
-	init: func(=name)
+	init: func(=name) {}
 
 }
 

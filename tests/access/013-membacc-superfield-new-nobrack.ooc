@@ -7,13 +7,13 @@ main: func {
 Animal: class {
 
 	name: String
-	init: func(=name)
+	init: func(=name) {}
 
 }
 
 Dog: class extends Animal {
 
-	init: func(.name) super(name)
+	init: func(.name) { super(name) }
 
 	print: func {
 		printf("My name is %s\n", this name)

@@ -30,9 +30,9 @@ Object: abstract class {
 	class: Class
 	
 	/// Instance initializer: set default values for a new instance of this class
-	defaults: func
+	defaults: func {}
 	
 	/// Finalizer: cleans up any objects belonging to this instance
-	destroy: func
+	destroy: func {}
 	
 }

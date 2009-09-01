@@ -7,7 +7,7 @@ atol: extern func (String) -> Long
 
 String: cover from Char* {
 	
-	length: func -> Int strlen(this)
+	length: func -> Int { strlen(this) }
 	
 	equals: func(other: String) -> Bool {
 		if ((this == null) || (other == null)) {
@@ -24,15 +24,15 @@ String: cover from Char* {
 		return true
 	}
 	
-	toInt: func -> Int atoi(this)
+	toInt: func -> Int { atoi(this) }
 	
-	toLong: func -> Long atol(this)
+	toLong: func -> Long { atol(this) }
 	
-	toLLong: func -> LLong atol(this)
+	toLLong: func -> LLong { atol(this) }
 	
 	/* TODO: toDouble */
 	
-	isEmpty: func -> Bool ((this == null) || (this[0] == 0))
+	isEmpty: func -> Bool { (this == null) || (this[0] == 0) }
 	
 	startsWith: func(s: String) -> Bool {
 		if (this length() < s length()) return false

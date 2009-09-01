@@ -1,8 +1,8 @@
-add: func (left, right: Int) -> Int left + right;
+add: func (left, right: Int) -> Int { left + right }
 
 Dog: class {
 
-	bark: func println("Woof!")
+	bark: func { println("Woof!") }
 	
 }
 
@@ -11,6 +11,6 @@ main: func {
 	b := 2
 	printf("1 + 2 = %d\n", add(a, b))
 	
-	dog := new Dog
+	dog := Dog new()
 	dog bark()
 }

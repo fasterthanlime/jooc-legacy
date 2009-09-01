@@ -95,28 +95,25 @@ public class FunctionDeclParser {
 		
 		ArgumentListFiller.fill(sReader, reader, functionDecl.isExtern(), functionDecl.getArguments());
 		
-		if(reader.peek().type == TokenType.LINESEP) return functionDecl;
-		
-		Token token = reader.read();
+		Token token = reader.peek();
 		if(token.type == TokenType.ARROW) {
+			reader.skip();
 			Type returnType = TypeParser.parse(sReader, reader);
 			if(returnType == null) {
 				throw new CompilationFailedError(sReader.getLocation(reader.peek()),
 						"Expected return type after arrow");
 			}
 			functionDecl.setReturnType(returnType);
-			token = reader.read();
 		}
 		
-		if(token.type == TokenType.LINESEP) return functionDecl; // empty func is actually legal
-
-		if(token.type != TokenType.OPEN_BRACK) {
-			reader.rewind();
-			if(!LineParser.fill(sReader, reader, functionDecl.getBody())) {
-				throw new CompilationFailedError(sReader.getLocation(reader.prev()),
-						"Expected opening brace after function name.");
-			}
+		if(externName != null || isAbstract) {
 			return functionDecl;
+		}
+
+		token = reader.readWhiteless();
+		if(token.type != TokenType.OPEN_BRACK) {
+			throw new CompilationFailedError(sReader.getLocation(reader.prev()),
+					"Expected opening brace after function name.");
 		}
 	
 		while(reader.hasNext() && reader.peek().type != TokenType.CLOS_BRACK) {

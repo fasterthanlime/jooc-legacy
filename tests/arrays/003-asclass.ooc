@@ -5,7 +5,7 @@ IntArray: class {
 	size: SizeT
 	data: Int*
 	
-	new: func(=size) {
+	init: func(=size) {
 		data = gc_calloc(sizeof(Int), size)
 	}
 	
@@ -22,7 +22,7 @@ IntArray: class {
 main: func {
 	
 	max := 20
-	array := new IntArray(max)
+	array := IntArray new(max)
 	for(i: Int in 0..max) array set(i, i)
 	for(i: Int in 0..max) printf("array[%d] = %d\n", i, array get(i))
 	
