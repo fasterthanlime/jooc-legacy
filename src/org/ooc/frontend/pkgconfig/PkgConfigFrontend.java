@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.ooc.utils.ShellUtils;
+import org.ubi.CompilationFailedError;
 
 /**
  * A frontend to pkgconfig, to retrieve information for packages,
@@ -33,10 +34,13 @@ public class PkgConfigFrontend {
 			throw new Error("Error! the 'pkg-config' tool, necessary to resolve package '"
 					+pkgName+"' couldn't be find in the $PATH, which is "+System.getenv("PATH"));
 		}
-		System.out.println("Found pkg-config at "+path);
-		
 		String libs = ShellUtils.getOutput(path.getPath(), "--libs", pkgName);
 		String cflags = ShellUtils.getOutput(path.getPath(), "--cflags", pkgName);
+		
+		if(libs == null) {
+			throw new CompilationFailedError(null, "Can't find package '"+pkgName
+					+"' in PKG_CONFIG_PATH. Have you configured pkg-config correctly?");
+		}
 		
 		PkgInfo pkgInfo = new PkgInfo(pkgName, libs, cflags);
 		cache.put(pkgName, pkgInfo);

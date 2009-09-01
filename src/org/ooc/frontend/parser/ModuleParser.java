@@ -84,7 +84,7 @@ public class ModuleParser {
 				
 				Token errToken = reader.peek();
 				throw new CompilationFailedError(sReader.getLocation(errToken),
-						"Expected declaration, include, or import in source unit, but got "+errToken.type);
+						"Expected declaration, include, or import in source unit, but got "+errToken);
 				
 			}
 	
