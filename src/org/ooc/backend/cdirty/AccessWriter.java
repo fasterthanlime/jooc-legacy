@@ -31,8 +31,14 @@ public class AccessWriter {
 		boolean isStatic = ((VariableDecl) memberAccess.getRef()).isStatic();
 		
 		if(isStatic) {
-		
-			cgen.current.app("((").app(typeDecl.getType().getMangledName()).app("Class*) ").app(typeDecl.getType().getMangledName()).app("_class())->").app(memberAccess.getName());
+
+			if(memberAccess.getRef().isExtern() && !memberAccess.getRef().getExternName().isEmpty()) {
+				cgen.current.app(memberAccess.getRef().getExternName());
+				return;
+			}
+			cgen.current.app("((").app(typeDecl.getType().getMangledName())
+				.app("Class*) ").app(typeDecl.getType().getMangledName())
+				.app("_class())->").app(memberAccess.getName());
 			
 		} else {
 		

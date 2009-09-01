@@ -120,8 +120,6 @@ public class VariableAccess extends Access implements MustBeResolved {
 				thisAccess.setRef(varDecl);
 				MemberAccess membAccess = new MemberAccess(thisAccess, name, startToken);
 				membAccess.setRef(varDecl);
-				System.out.println("Trying to replace a varAcc "+this
-						+" with a membAcc "+membAccess+". Stack = "+stack);
 				if(!stack.peek().replace(this, membAccess)) {
 					throw new Error("Couldn't replace a VariableAccess with a MemberAccess! Stack = "+stack);
 				}

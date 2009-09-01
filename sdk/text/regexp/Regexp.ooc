@@ -44,9 +44,9 @@ Regexp: class {
 		return regexpBackend matches(haystack, options)
 	}
 
-	getEngine: func -> Int {
-		return type
-	}
+	getEngine: func -> Int { type }
+	
+	getEngineName: func -> String { regexpBackend getName() }
 	
 }
 

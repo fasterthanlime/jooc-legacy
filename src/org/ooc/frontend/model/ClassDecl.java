@@ -14,7 +14,6 @@ public class ClassDecl extends TypeDecl implements MustBeResolved, Generic {
 	protected boolean isAbstract;
 	
 	protected OocDocComment comment;
-
 	protected LinkedHashMap<String, GenericType> typeParams;
 	
 	protected FunctionDecl defaultInit = null;

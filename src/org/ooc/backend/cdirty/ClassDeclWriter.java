@@ -170,15 +170,14 @@ public class ClassDeclWriter {
 		}
 
 		for (FunctionDecl parentDecl : parentClass.getFunctions()) {
-			if (parentDecl.isStatic())
-				continue;
+			if (parentDecl.isStatic()) continue;
 			
-			if(done.contains(parentDecl)) {
+			if(done.contains(parentDecl) && !parentDecl.getName().equals("init")) {
 				continue;
 			}
 			
 			FunctionDecl realDecl = null;
-			if(realClass != parentClass) {
+			if(realClass != parentClass && !parentDecl.getName().equals("init")) {
 				realDecl = realClass.getFunction(parentDecl.getName(), parentDecl.getSuffix(), null, false);
 				if(realDecl != null) {
 					if(done.contains(realDecl)) {
@@ -308,16 +307,16 @@ public class ClassDeclWriter {
 				structName).app(";");
 	}
 
-	public static void writeDesignatedInit(FunctionDecl decl, FunctionDecl coreDecl, boolean impl, CGenerator cgen)
+	public static void writeDesignatedInit(FunctionDecl parentDecl, FunctionDecl realDecl, boolean impl, CGenerator cgen)
 			throws IOException {
 		
-			cgen.current.nl().app('.').app(decl.getSuffixedName()).app(" = ");
-			if(coreDecl != null) {
+			cgen.current.nl().app('.').app(parentDecl.getSuffixedName()).app(" = ");
+			if(realDecl != null) {
 				cgen.current.app("(");
-				writeFuncPointer(decl, false, cgen);
+				writeFuncPointer(parentDecl, false, cgen);
 				cgen.current.app(") ");
 			}
-			cgen.current.app(coreDecl != null ? coreDecl.getFullName() : decl.getFullName());
+			cgen.current.app(realDecl != null ? realDecl.getFullName() : parentDecl.getFullName());
 			if(impl) cgen.current.app("_impl");
 			cgen.current.app(',');
 			

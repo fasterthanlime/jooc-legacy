@@ -1,6 +1,5 @@
 package org.ooc.frontend.model;
 
-import java.io.EOFException;
 import java.io.IOException;
 
 import org.ooc.frontend.Levenshtein;
@@ -77,8 +76,8 @@ public class MemberAccess extends VariableAccess {
 		exprType = exprType.getFlatType(res);
 		if(exprType.getRef() == null) exprType.resolve(res);
 
-		if(!tryResolve(stack, exprType)) {
-			tryResolve(stack, exprType.getFlatType(res));
+		if(!tryResolve(stack, exprType, res)) {
+			tryResolve(stack, exprType.getFlatType(res), res);
 		}
 		
 		if(ref != null && ref.getType() == null && ref instanceof MustBeResolved) {
@@ -136,8 +135,8 @@ public class MemberAccess extends VariableAccess {
 		
 	}
 
-	private boolean tryResolve(NodeList<Node> stack, Type exprType)
-			throws OocCompilationError, EOFException {
+	private boolean tryResolve(NodeList<Node> stack, Type exprType, Resolver res)
+			throws OocCompilationError, IOException {
 		
 		Declaration decl = exprType.getRef();
 		if(decl == null) return false;
@@ -161,11 +160,22 @@ public class MemberAccess extends VariableAccess {
 			return true;
 		}
 
-		if(ref == null && name.equals("class") && exprType.getRef() instanceof CoverDecl) {
+		if(ref == null && exprType.getRef() instanceof CoverDecl && name.equals("class")) {
 			if(!stack.peek().replace(this, new MemberCall(expression, "class", "", startToken))) {
 				throw new OocCompilationError(this, stack, "Couldn't replace class access with member call");
 			}
 			return true;
+		}
+		
+		if(ref == null && exprType.getRef() instanceof ClassDecl
+				&& (name.equals("name") || name.equals("size") || name.equals("super")
+						 || name.equals("size"))) {
+			MemberAccess membAcc = new MemberAccess(expression, "class", startToken);
+			this.expression = membAcc;
+			NodeList<Node> subStack = new NodeList<Node>();
+			subStack.push(this);
+			membAcc.resolve(subStack, res, true);
+			tryResolve(stack, expression.getType(), res);
 		}
 		
 		return ref != null;
