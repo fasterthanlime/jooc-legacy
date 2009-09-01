@@ -18,13 +18,9 @@ PCRE: class extends RegexpBackend {
 	
 	setPattern: func(pattern: String) {
 		this pattern = pattern
-		
-		re = pcre_compile(pattern, 0, error&, errorNum&, null);
-		
-		if (! re)
+				
+		if (! (re = pcre_compile(pattern, 0, error&, errorNum&, null)))
 			printf("PCRE compilation failed at expression offset %d: %s\n", errorNum, error)
-		else
-			printf("PCRE compilation was successful\n")
 	}
 	
 	matches: func(haystack: String) -> Bool {
