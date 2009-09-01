@@ -92,7 +92,9 @@ public class MemberAccess extends VariableAccess {
 					if(ref instanceof VariableDecl) {
 						VariableDecl varDecl = (VariableDecl) ref;
 						if(!varDecl.isStatic() && !ref.getName().equals("class")) {
-							throw new OocCompilationError(this, stack, "Trying to access member variable "+exprType+"."+name+" as if it was static. But it's not.");
+							throw new OocCompilationError(this, stack, 
+									"Trying to access member variable "+exprType
+									+"."+name+" as if it were static. But it's not.");
 						}
 					}
 				}
@@ -176,6 +178,10 @@ public class MemberAccess extends VariableAccess {
 			subStack.push(this);
 			membAcc.resolve(subStack, res, true);
 			tryResolve(stack, expression.getType(), res);
+		}
+		
+		if(ref == null) {
+			ref = typeDecl.getFunction(name, "", null);
 		}
 		
 		return ref != null;

@@ -310,7 +310,7 @@ public class CGenerator extends Generator implements Visitor {
 			}
 		} else {
 			if(type instanceof FuncType) {
-				TypeWriter.writeFuncPointer((FuncType) type, regularArgument.getName(), this);
+				TypeWriter.writeFuncPointer((FunctionDecl) type.getRef(), regularArgument.getName(), this);
 			} else {
 				TypeWriter.writeSpaced(type, this);
 				current.app(regularArgument.getName());

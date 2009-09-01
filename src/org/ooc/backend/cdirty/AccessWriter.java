@@ -7,11 +7,12 @@ import org.ooc.frontend.model.ClassDecl;
 import org.ooc.frontend.model.Declaration;
 import org.ooc.frontend.model.Dereference;
 import org.ooc.frontend.model.Expression;
+import org.ooc.frontend.model.FunctionDecl;
 import org.ooc.frontend.model.GenericType;
 import org.ooc.frontend.model.MemberAccess;
+import org.ooc.frontend.model.PotentiallyStatic;
 import org.ooc.frontend.model.TypeDecl;
 import org.ooc.frontend.model.VariableAccess;
-import org.ooc.frontend.model.VariableDecl;
 
 public class AccessWriter {
 
@@ -28,7 +29,15 @@ public class AccessWriter {
 		}
 		
 		TypeDecl typeDecl = memberAccess.getRef().getTypeDecl();
-		boolean isStatic = ((VariableDecl) memberAccess.getRef()).isStatic();
+		boolean isStatic = ((PotentiallyStatic) memberAccess.getRef()).isStatic();
+		
+		if(memberAccess.getRef() instanceof FunctionDecl) {
+			FunctionDecl funcDecl = (FunctionDecl) memberAccess.getRef();
+			cgen.current.app("((").app(funcDecl.getTypeDecl().getName()).app("Class *) ");
+			memberAccess.getExpression().accept(cgen);
+			cgen.current.app(")->").app(memberAccess.getName());
+			return;
+		}
 		
 		if(isStatic) {
 

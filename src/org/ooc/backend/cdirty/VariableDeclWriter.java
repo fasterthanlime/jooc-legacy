@@ -3,7 +3,6 @@ package org.ooc.backend.cdirty;
 import java.io.IOException;
 import java.util.Iterator;
 
-import org.ooc.frontend.model.FuncType;
 import org.ooc.frontend.model.FunctionDecl;
 import org.ooc.frontend.model.Type;
 import org.ooc.frontend.model.TypeDecl;
@@ -21,10 +20,9 @@ public class VariableDeclWriter {
 		//if(variableDecl.isConst()) cgen.current.app("const ");
 		
 		Type type = variableDecl.getType();
-		if(type instanceof FuncType) {
+		if(type.getName().equals("Func")) {
 			
-			FuncType funcType = (FuncType) variableDecl.getType();
-			FunctionDecl funcDecl = funcType.getDecl();
+			FunctionDecl funcDecl = (FunctionDecl) type.getRef();
 			Iterator<VariableDeclAtom> iter = variableDecl.getAtoms().iterator();
 			while(iter.hasNext()) {
 				VariableDeclAtom atom = iter.next();

@@ -9,7 +9,7 @@ import org.ooc.frontend.model.interfaces.MustBeUnwrapped;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.middle.OocCompilationError;
 
-public class VariableDecl extends Declaration implements MustBeUnwrapped {
+public class VariableDecl extends Declaration implements MustBeUnwrapped, PotentiallyStatic {
 
 	public static class VariableDeclAtom extends Node {
 		String name;

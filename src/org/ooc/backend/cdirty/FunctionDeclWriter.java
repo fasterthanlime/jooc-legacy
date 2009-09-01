@@ -47,7 +47,7 @@ public class FunctionDeclWriter {
 		if (returnType.getRef() instanceof GenericType) {
 			cgen.current.append("void ");
 		} else if(returnType instanceof FuncType) {
-			TypeWriter.writeFuncPointerStart((FuncType) returnType, cgen);
+			TypeWriter.writeFuncPointerStart((FunctionDecl) returnType.getRef(), cgen);
 		} else {
 			TypeWriter.writeSpaced(returnType, cgen);
 		}
@@ -56,7 +56,7 @@ public class FunctionDeclWriter {
 		writeFuncArgs(functionDecl, cgen);
 		
 		if(returnType instanceof FuncType) {
-			TypeWriter.writeFuncPointerEnd((FuncType) returnType, cgen);
+			TypeWriter.writeFuncPointerEnd((FunctionDecl) returnType.getRef(), cgen);
 		}
 		
 	}

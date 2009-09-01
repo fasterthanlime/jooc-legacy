@@ -3,15 +3,15 @@ package org.ooc.backend.cdirty;
 import java.io.IOException;
 
 import org.ooc.frontend.model.ClassDecl;
-import org.ooc.frontend.model.FuncType;
-import org.ooc.frontend.model.Type;
+import org.ooc.frontend.model.FunctionDecl;
 import org.ooc.frontend.model.GenericType;
+import org.ooc.frontend.model.Type;
 
 public class TypeWriter {
 
 	public static void write(Type type, CGenerator cgen) throws IOException {
 		if(type.getName().equals("Func")) {
-			writeFuncPointer((FuncType) type, "", cgen);
+			writeFuncPointer(((FunctionDecl) type.getRef()), "", cgen);
 			return;
 		}
 		
@@ -49,18 +49,18 @@ public class TypeWriter {
 		if(type.isFlat()) cgen.current.app(' ');
 	}
 
-	public static void writeFuncPointer(FuncType type, String name, CGenerator cgen) throws IOException {
-		writeFuncPointerStart(type, cgen);
+	public static void writeFuncPointer(FunctionDecl decl, String name, CGenerator cgen) throws IOException {
+		writeFuncPointerStart(decl, cgen);
 		cgen.current.app(name);
-		writeFuncPointerEnd(type, cgen);		
+		writeFuncPointerEnd(decl, cgen);		
 	}
 
-	public static AwesomeWriter writeFuncPointerEnd(FuncType type, CGenerator cgen)
+	public static AwesomeWriter writeFuncPointerEnd(FunctionDecl decl, CGenerator cgen)
 			throws IOException {
 		return cgen.current.app(")()");
 	}
 
-	public static AwesomeWriter writeFuncPointerStart(FuncType type, CGenerator cgen)
+	public static AwesomeWriter writeFuncPointerStart(FunctionDecl decl, CGenerator cgen)
 			throws IOException {
 		return cgen.current.app("void (*");
 	}

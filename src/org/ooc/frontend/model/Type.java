@@ -166,7 +166,9 @@ public class Type extends Node implements MustBeResolved {
 	}
 	
 	public boolean resolve(NodeList<Node> stack, Resolver res, boolean fatal) throws IOException {
-
+		
+		if(ref != null) return false;
+		
 		ref = stack.getModule().getType(name);
 
 		if(ref == null && name.equals("This")) {
