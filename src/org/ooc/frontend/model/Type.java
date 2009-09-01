@@ -26,6 +26,7 @@ public class Type extends Node implements MustBeResolved {
 	protected Declaration ref;
 	protected boolean isArray;
 	protected List<Type> typeParams;
+	protected boolean isConst;
 	
 	private static Type voidType = null;
 	
@@ -51,6 +52,7 @@ public class Type extends Node implements MustBeResolved {
 		this.pointerLevel = pointerLevel;
 		this.referenceLevel = referenceLevel;
 		this.typeParams = new ArrayList<Type>();
+		this.isConst = false;
 	}
 	
 	public List<Type> getTypeParams() {
@@ -88,6 +90,14 @@ public class Type extends Node implements MustBeResolved {
 	
 	public void setRef(Declaration ref) {
 		this.ref = ref;
+	}
+	
+	public boolean isConst() {
+		return isConst;
+	}
+	
+	public void setConst(boolean isConst) {
+		this.isConst = isConst;
 	}
 
 	@Override

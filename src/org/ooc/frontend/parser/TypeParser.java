@@ -25,6 +25,7 @@ public class TypeParser {
 		List<Type> typeParams = null;
 		
 		Token startToken = reader.peek();
+		boolean isConst = false;
 		
 		//TODO add more checks
 		while(reader.hasNext()) {
@@ -44,6 +45,9 @@ public class TypeParser {
 			} else if(t.type == TokenType.UNION) {
 				reader.skip();
 				name += "union ";
+			} else if(t.type == TokenType.CONST_KW) {
+				reader.skip();
+				isConst = true;
 			} else break;
 		}
 			
@@ -104,7 +108,6 @@ public class TypeParser {
 		if(!name.isEmpty()) {
 			Type type = new Type(name.trim(), pointerLevel, referenceLevel, startToken);
 			if(name.equals("This")) {
-				System.out.println("Just parsed type 'This', stack = "+module.parseStack);
 				if(!module.parseStack.isEmpty()) {
 					Declaration decl = (Declaration) module.parseStack.peek();
 					type.setRef(decl);
@@ -112,6 +115,7 @@ public class TypeParser {
 				}
 			}
 			type.setArray(isArray);
+			if(isConst) type.setConst(true);
 			if(typeParams != null) type.getTypeParams().addAll(typeParams);
 			return type;
 		}

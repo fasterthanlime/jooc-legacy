@@ -19,6 +19,8 @@ public class TypeWriter {
 			cgen.current.append("Octet *");
 			return;
 		}
+		
+		if(type.isConst()) cgen.current.app("const ");
 		cgen.current.app(type.getName());
 		
 		if(!type.isFlat()) {
