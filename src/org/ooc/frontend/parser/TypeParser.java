@@ -108,7 +108,7 @@ public class TypeParser {
 				if(!module.parseStack.isEmpty()) {
 					Declaration decl = (Declaration) module.parseStack.peek();
 					type.setRef(decl);
-					//type.setName(decl.getName());
+					type.setName(decl.getName());
 				}
 			}
 			type.setArray(isArray);
