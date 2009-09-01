@@ -4,19 +4,28 @@ use text/regexp/pcre
 
 Pcre: cover from pcre*
 pcre_compile: extern func (String, Int, String**, Int*, Pointer) -> Pcre
+pcre_exec: extern func(Pcre, Pointer, String, Int, Int, Int*, Int)
+pcre_free: extern func(Pointer)
 
 PCRE: class extends RegexpBackend {
 	error: String
 	errorNum: Int
-	reg: Pcre
+	re: Pcre
+	
+	destroy: func {
+		pcre_free(re)
+	}
 	
 	setPattern: func(pattern: String) {
 		this pattern = pattern
 		
-		reg = pcre_compile(pattern, 0, error&, errorNum&, null);
+		re = pcre_compile(pattern, 0, error&, errorNum&, null);
+		
+		if (! re)
+			printf("PCRE compliation failed at expression offset %d: %s\n", errorNum, error)
 	}
 	
 	matches: func(haystack: String) -> Bool {
-		return false;
+		return pcre_exec(reg, null, haystack, haystack length(), 0, 0, null, 10) > 0;
 	}
 }
