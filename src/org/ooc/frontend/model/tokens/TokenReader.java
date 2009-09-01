@@ -12,7 +12,7 @@ public class TokenReader extends ListReader<Token> {
 
 	public boolean skipWhitespace() {
 		boolean result = false;
-		while(peek().type == TokenType.LINESEP) {
+		while(hasNext() && peek().type == TokenType.LINESEP) {
 			skip();
 			result = true;
 		}
@@ -23,6 +23,7 @@ public class TokenReader extends ListReader<Token> {
 		int index2 = index;
 		while(list.get(index2).type == TokenType.LINESEP) {
 			index2++;
+			if(index2 >= length) return null;
 		}
 		return list.get(index2);
 	}

@@ -51,3 +51,4 @@ main: func {
 	printf("Engine: %d\n", rx getEngine());
 	printf("Pattern: %s\n", rx getPattern());
 }
+

@@ -101,13 +101,6 @@ public class ClassDeclWriter {
 		}
 	}
 
-	public static void writeBuiltinClassFuncName(String className,
-			String returnType, String name, CGenerator cgen) throws IOException {
-		cgen.current.nl().app("static ").app(returnType).app(' ')
-				.app(className).app('_').app(name).app('(').app(className).app(
-						" *this)");
-	}
-
 	public static void writeInstanceImplFuncs(ClassDecl classDecl,
 			CGenerator cgen) throws IOException {
 
@@ -117,12 +110,14 @@ public class ClassDeclWriter {
 				continue;
 
 			cgen.current.nl();
-			if (!decl.isFinal())
-				cgen.current.app("static ");
+			if (!decl.isFinal()) {
+				//cgen.current.app("static ");
+			}
 			TypeWriter.writeSpaced(decl.getReturnType(), cgen);
 			decl.writeFullName(cgen.current);
-			if (!decl.isFinal())
+			if (!decl.isFinal()) {
 				cgen.current.app("_impl");
+			}
 
 			FunctionDeclWriter.writeFuncArgs(decl, cgen);
 
@@ -211,21 +206,24 @@ public class ClassDeclWriter {
 
 		cgen.current.nl().app("Class *").app(classDecl.getName()).app("_class();").nl();
 		for (FunctionDecl decl : classDecl.getFunctions()) {
-			cgen.current.nl();
-			TypeWriter.writeSpaced(decl.getReturnType(), cgen);
-			decl.writeFullName(cgen.current);
-			FunctionDeclWriter.writeFuncArgs(decl, cgen);
-			cgen.current.app(';');
-
-			if (decl.getName().equals("new")) {
-				cgen.current.nl().app("void ").app(classDecl.getName()).app("_construct");
-				if (!decl.getSuffix().isEmpty())
-					cgen.current.app('_').app(decl.getSuffix());
-				FunctionDeclWriter.writeFuncArgs(decl, cgen);
-				cgen.current.app(';');
+			
+			writePrototype(classDecl, cgen, decl, false);
+			if(!decl.isStatic() && !decl.isAbstract() && !decl.isFinal()) {
+				writePrototype(classDecl, cgen, decl, true);
 			}
+			
 		}
 		cgen.current.nl();
+	}
+
+	private static void writePrototype(ClassDecl classDecl, CGenerator cgen,
+			FunctionDecl decl, boolean writeImpl) throws IOException {
+		cgen.current.nl();
+		TypeWriter.writeSpaced(decl.getReturnType(), cgen);
+		decl.writeFullName(cgen.current);
+		if(writeImpl) cgen.current.app("_impl");
+		FunctionDeclWriter.writeFuncArgs(decl, cgen);
+		cgen.current.app(';');
 	}
 
 	public static void writeFuncPointer(FunctionDecl decl, boolean doName, CGenerator cgen)
