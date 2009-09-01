@@ -7,11 +7,11 @@ Regexp: class {
 	type: Int
 
 	
-	init: func ~withType(=type) {
+	init: func~withType(=type) {
 		setup()
 	}
 	
-	init: func ~withPattern(pattern: String) {
+	init: func~withPattern(pattern: String) {
 		this()
 		setPattern(pattern)
 	}
@@ -39,6 +39,9 @@ Regexp: class {
 	matches: func(haystack: String) -> Bool {
 		return regexpBackend matches(haystack)
 	}
+	
+	matches: func~withOptions(haystack: String, options: Int) {
+	}
 
 	getEngine: func -> Int {
 		return type
@@ -55,5 +58,8 @@ main: func {
 		printf("Matches!\n")
 	else
 		printf("No match\n");
+		
+	// if (string =~ /^Hello, (\w+)/i)
+		
 }
 

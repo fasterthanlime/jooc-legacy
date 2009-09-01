@@ -6,6 +6,10 @@ POSIX: class extends RegexpBackend {
 	}
 	
 	matches: func(haystack: String) -> Bool {
-		return false;
+		return false
+	}
+	
+	matches: func~withOptions(haystack: String, options: Int) -> Bool {
+		return false
 	}
 }

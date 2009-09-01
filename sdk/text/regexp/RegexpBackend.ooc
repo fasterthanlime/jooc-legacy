@@ -10,4 +10,5 @@ RegexpBackend: abstract class {
 	}
 	
 	matches: abstract func(haystack: String) -> Bool
+	matches: abstract func~withOptions(haystack: String, options: Int) -> Bool
 }

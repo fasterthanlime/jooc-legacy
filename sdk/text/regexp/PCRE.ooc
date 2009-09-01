@@ -3,11 +3,15 @@ import text.regexp.RegexpBackend
 use text/regexp/pcre
 
 Pcre: cover from pcre*
+CASELESS: extern func
+
 pcre_compile: extern func (String, Int, String**, Int*, Pointer) -> Pcre
 pcre_exec: extern func(Pcre, Pointer, String, Int, Int, Int, Int*, Int)
 pcre_free: extern func(Pointer)
 
 PCRE: class extends RegexpBackend {
+	TEST = 0, TEST1 = 1 : static const Int
+
 	error: String
 	errorNum: Int
 	re: Pcre
@@ -18,13 +22,18 @@ PCRE: class extends RegexpBackend {
 	
 	setPattern: func(pattern: String) {
 		this pattern = pattern
-				
-		if (! (re = pcre_compile(pattern, 0, error&, errorNum&, null)))
+		
+		re = pcre_compile(pattern, 0, error&, errorNum&, null)
+		if (! re)
 			printf("PCRE compilation failed at expression offset %d: %s\n", errorNum, error)
 	}
 	
 	matches: func(haystack: String) -> Bool {
+		return matches(haystack, 0)
+	}
+	
+	matches: func ~withOptions(haystack: String, options: Int) -> Bool { 
 		// offsets := gc_malloc(10 * sizeof(Int)) as Int*
-		return pcre_exec(this re, null, haystack, haystack length(), 0, 0, null, 0) >= 0		
+		return pcre_exec(re, null, haystack, haystack length(), 0, options, null, 0) >= 0
 	}
 }
