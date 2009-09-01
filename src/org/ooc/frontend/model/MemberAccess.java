@@ -86,6 +86,20 @@ public class MemberAccess extends VariableAccess {
 			must.resolve(stack, res, fatal);
 		}
 		
+		if(ref != null) {
+			if(expression instanceof VariableAccess) {
+				VariableAccess varAcc = (VariableAccess) expression;
+				if(varAcc.getRef() instanceof TypeDecl) {
+					if(ref instanceof VariableDecl) {
+						VariableDecl varDecl = (VariableDecl) ref;
+						if(!varDecl.isStatic() && !ref.getName().equals("class")) {
+							throw new OocCompilationError(this, stack, "Trying to access member variable "+exprType+"."+name+" as if it was static. But it's not.");
+						}
+					}
+				}
+			}
+		}
+		
 		if(fatal && ref == null) {
 			String message = "Can't resolve access to member "+exprType+"."+name;
 			String guess = guessCorrectName((TypeDecl) exprType.getRef());
