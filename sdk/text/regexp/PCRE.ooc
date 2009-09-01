@@ -4,7 +4,7 @@ use text/regexp/pcre
 
 Pcre: cover from pcre*
 pcre_compile: extern func (String, Int, String**, Int*, Pointer) -> Pcre
-pcre_exec: extern func(Pcre, Pointer, String, Int, Int, Int*, Int)
+pcre_exec: extern func(Pcre, Pointer, String, Int, Int, Int, Int*, Int)
 pcre_free: extern func(Pointer)
 
 PCRE: class extends RegexpBackend {
