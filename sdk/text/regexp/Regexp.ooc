@@ -47,8 +47,13 @@ Regexp: class {
 }
 
 main: func {
-	rx := Regexp new~withPattern("Test")
+	rx := Regexp new~withPattern("^Hello \\w+$")
 	printf("Engine: %d\n", rx getEngine());
 	printf("Pattern: %s\n", rx getPattern());
+	
+	if (rx matches("Hello world"))
+		printf("Matches!\n")
+	else
+		printf("No match\n");
 }
 
