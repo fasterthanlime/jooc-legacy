@@ -115,10 +115,10 @@ public abstract class TypeDecl extends Declaration implements Scope {
 	}
 	
 	public void getFunctionsRecursive(NodeList<FunctionDecl> functions) {
-		for(FunctionDecl decl: functions) {
+		for(FunctionDecl decl: this.functions) {
 			boolean already = false;
 			for(FunctionDecl decl2: functions) {
-				if(decl.sameProto(decl2)) {
+				if(decl != decl2 && decl.sameProto(decl2)) {
 					already = true;
 					break;
 				}

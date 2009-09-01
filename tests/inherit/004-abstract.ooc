@@ -17,7 +17,10 @@ Dog: class extends Animal {
 
 }
 
-//Cat: class extends Animal {}
+Cat: class extends Animal {
+	// comment the next line to test the "must implement all abstract methods" error message
+	setThing: func {}
+}
 
 main: func {
 

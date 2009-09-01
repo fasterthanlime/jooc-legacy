@@ -4,7 +4,6 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Set;
 
 import org.ooc.frontend.model.ClassDecl;
 import org.ooc.frontend.model.CoverDecl;
@@ -184,13 +183,18 @@ public class Checker implements Hobgoblin {
 				
 				if(!(node instanceof ClassDecl)) return;
 				ClassDecl classDecl = (ClassDecl) node;
+				
 				if(classDecl.isAbstract()) return;
 				
 				NodeList<FunctionDecl> functions = new NodeList<FunctionDecl>();
 				classDecl.getFunctionsRecursive(functions);
 				
-				for(FunctionDecl function: functions) {
-					
+				for(FunctionDecl decl: functions) {
+					FunctionDecl realDecl = classDecl.getFunction(decl.getName(), decl.getSuffix(), null);
+					if(realDecl.isAbstract()) {
+						throw new OocCompilationError(classDecl, stack, "Class "+classDecl.getName()
+								+" must implement "+decl.getProtoRepr()+", or be declared abstract.");
+					}
 				}
 			}
 			
