@@ -93,7 +93,7 @@ public class VariableDeclParser {
 			}
 		}
 		
-		Type type = TypeParser.parse(sReader, reader);
+		Type type = TypeParser.parse(module, sReader, reader);
 		if(type == null) {
 			reader.reset(mark);
 			return null;

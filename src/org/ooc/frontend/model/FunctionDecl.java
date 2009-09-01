@@ -11,7 +11,6 @@ import org.ooc.frontend.model.tokens.Token;
 public class FunctionDecl extends Declaration implements Scope, Generic, MustBeUnwrapped, PotentiallyStatic {
 
 	public static Type type = new FuncType(Token.defaultToken);
-	public static Type voidType = null;
 	
 	protected OocDocComment comment;
 	
@@ -46,18 +45,10 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 		this.isStatic = isStatic;
 		this.isAbstract = isAbstract;
 		this.body = new NodeList<Line>(startToken);
-		this.returnType = name.equals("main") ? IntLiteral.type : getVoidType();
+		this.returnType = name.equals("main") ? IntLiteral.type : Type.getVoid();
 		this.arguments = new NodeList<Argument>(startToken);
 		this.typeParams = new LinkedHashMap<String, GenericType>();
 		this.returnArg = new RegularArgument(NullLiteral.type, generateTempName("returnArg"), startToken);
-	}
-	
-	private Type getVoidType() {
-		if(voidType == null) {
-			voidType = new Type("void", Token.defaultToken);
-			voidType.setRef(new BuiltinType("void"));
-		}
-		return voidType;
 	}
 
 	public LinkedHashMap<String, GenericType> getGenericTypes() {

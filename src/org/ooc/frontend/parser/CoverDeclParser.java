@@ -29,7 +29,7 @@ public class CoverDeclParser {
 		
 		Token startToken = reader.peek();
 		String name = "";
-		Type tName = TypeParser.parse(sReader, reader);
+		Type tName = TypeParser.parse(module, sReader, reader);
 		if(tName != null) {
 			name = tName.toString();
 			if(reader.read().type != TokenType.COLON) {
@@ -48,7 +48,7 @@ public class CoverDeclParser {
 				Token token = reader.peek();
 				if(token.type == TokenType.FROM_KW) {
 					reader.skip();
-					overType = TypeParser.parse(sReader, reader);
+					overType = TypeParser.parse(module, sReader, reader);
 					if(overType == null) {
 						throw new CompilationFailedError(sReader.getLocation(reader.peek()),
 						"Expected cover's base type name after the from keyword.");
@@ -63,6 +63,7 @@ public class CoverDeclParser {
 			}
 			
 			CoverDecl coverDecl = new CoverDecl(name, superName, overType, startToken);
+			module.parseStack.push(coverDecl);
 			coverDecl.setExternName(externName);
 			if(comment != null) coverDecl.setComment(comment);
 			
@@ -95,6 +96,7 @@ public class CoverDeclParser {
 			Token t2 = reader.read();
 			if(t2.type != TokenType.OPEN_BRACK) {
 				if(t2.type == TokenType.LINESEP) {
+					module.parseStack.pop(coverDecl);
 					return coverDecl; // empty cover, acts like a typedef
 				}
 				throw new CompilationFailedError(sReader.getLocation(t2),
@@ -140,6 +142,7 @@ public class CoverDeclParser {
 			}
 			reader.skip();
 			
+			module.parseStack.pop(coverDecl);
 			return coverDecl;
 			
 		}

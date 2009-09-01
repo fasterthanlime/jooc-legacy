@@ -71,40 +71,6 @@ public class Unwrapper implements Hobgoblin {
 
 	}
 
-	/*
-	private void addBuiltins(Module module) {
-		decls.add(new BuiltinType("void"));
-		decls.add(new BuiltinType("short"));
-		decls.add(new BuiltinType("unsigned short"));
-		decls.add(new BuiltinType("int"));		
-		decls.add(new BuiltinType("unsigned int"));
-		decls.add(new BuiltinType("long"));
-		decls.add(new BuiltinType("unsigned long"));
-		decls.add(new BuiltinType("long long"));
-		decls.add(new BuiltinType("unsigned long long"));
-		decls.add(new BuiltinType("long double"));
-		decls.add(new BuiltinType("unsigned long double"));
-		decls.add(new BuiltinType("float"));
-		decls.add(new BuiltinType("double"));
-		decls.add(new BuiltinType("char"));
-		decls.add(new BuiltinType("unsigned char"));
-		decls.add(new BuiltinType("signed char"));
-		
-		decls.add(new BuiltinType("bool"));
-		
-		decls.add(new BuiltinType("int8_t"));
-		decls.add(new BuiltinType("int16_t"));
-		decls.add(new BuiltinType("int32_t"));
-		
-		decls.add(new BuiltinType("uint8_t"));
-		decls.add(new BuiltinType("uint16_t"));
-		decls.add(new BuiltinType("uint32_t"));
-		
-		decls.add(new BuiltinType("size_t"));		
-		decls.add(new BuiltinType("time_t"));
-	}
-	*/
-
 	private void resolveSuper(Module module, HashSet<Module> hashSet) throws OocCompilationError,
 			EOFException {
 		

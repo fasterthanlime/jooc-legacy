@@ -71,6 +71,7 @@ public class ClassDeclParser {
 			}
 			
 			ClassDecl classDecl = new ClassDecl(name, superName, isAbstract, tName);
+			module.parseStack.push(classDecl);
 			if(comment != null) classDecl.setComment(comment);
 			
 			while(reader.hasNext() && reader.peek().type != TokenType.CLOS_BRACK) {
@@ -108,6 +109,8 @@ public class ClassDeclParser {
 					classDecl.getGenericTypes().put(genType.getName(), genType);
 				}
 			}
+			
+			module.parseStack.pop(classDecl);
 			return classDecl;
 			
 		}

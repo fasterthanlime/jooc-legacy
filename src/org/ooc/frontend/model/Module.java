@@ -27,6 +27,8 @@ public class Module extends Node implements Scope {
 	private boolean isMain;
 	private final transient SourceReader reader;
 	
+	public NodeList<Node> parseStack = new NodeList<Node>();
+	
 	public long lastModified;
 	
 	public Module(String fullName, SourceReader reader) {

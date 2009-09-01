@@ -219,6 +219,17 @@ public class NodeList<T extends Node> extends Node implements Iterable<T> {
 		if(size + 1 > nodes.length) realloc();
 		nodes[size++] = node;
 	}
+	
+	/**
+	 * Checked pop: ensures it's this node we are removing
+	 * @param coverDecl
+	 */
+	public void pop(T node) {
+		if(peek() == node)
+			pop();
+		else
+			throw new Error("Unmatched node in checked pop: "+node+". peek is "+peek());
+	}
 
 	public void pop() {
 		if(size <= 0) throw new ArrayIndexOutOfBoundsException(0);

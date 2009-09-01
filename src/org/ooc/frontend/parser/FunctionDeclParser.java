@@ -94,13 +94,13 @@ public class FunctionDeclParser {
 		}
 		if(comment != null) functionDecl.setComment(comment);
 		
-		ArgumentListFiller.fill(sReader, reader, functionDecl.isExtern(), functionDecl.getArguments());
+		ArgumentListFiller.fill(module, sReader, reader, functionDecl.isExtern(), functionDecl.getArguments());
 		
 		Token token = reader.peek();
 		if(token.type == TokenType.ARROW) {
 			reader.skip();
 			reader.skipWhitespace();
-			Type returnType = TypeParser.parse(sReader, reader);
+			Type returnType = TypeParser.parse(module, sReader, reader);
 			if(returnType == null) {
 				throw new CompilationFailedError(sReader.getLocation(reader.peek()),
 						"Expected return type after arrow");

@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.ooc.frontend.model.Declaration;
 import org.ooc.frontend.model.FuncType;
+import org.ooc.frontend.model.Module;
 import org.ooc.frontend.model.Type;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.frontend.model.tokens.TokenReader;
@@ -14,7 +16,7 @@ import org.ubi.SourceReader;
 
 public class TypeParser {
 
-	public static Type parse(SourceReader sReader, TokenReader reader) throws IOException {
+	public static Type parse(Module module, SourceReader sReader, TokenReader reader) throws IOException {
 		
 		String name = "";
 		int pointerLevel = 0;
@@ -51,10 +53,10 @@ public class TypeParser {
 		
 		if(name.equals("Func")) {
 			FuncType funcType = new FuncType(startToken);
-			ArgumentListFiller.fill(sReader, reader, true, funcType.getDecl().getArguments());
+			ArgumentListFiller.fill(module, sReader, reader, true, funcType.getDecl().getArguments());
 			if(reader.peek().type == TokenType.ARROW) {
 				reader.read();
-				funcType.getDecl().setReturnType(TypeParser.parse(sReader, reader));
+				funcType.getDecl().setReturnType(TypeParser.parse(module, sReader, reader));
 				if(funcType.getDecl().getReturnType() == null) {
 					throw new CompilationFailedError(sReader.getLocation(reader.peek()),
 							"Expected function pointer return type after the arrow '->'");
@@ -66,7 +68,7 @@ public class TypeParser {
 		if(reader.peek().type == TokenType.LESSTHAN) {
 			reader.skip();
 			while(reader.peek().type != TokenType.GREATERTHAN) {
-				Type innerType = TypeParser.parse(sReader, reader);
+				Type innerType = TypeParser.parse(module, sReader, reader);
 				if(innerType == null) {
 					typeParams = null;
 					break;
@@ -101,6 +103,14 @@ public class TypeParser {
 		
 		if(!name.isEmpty()) {
 			Type type = new Type(name.trim(), pointerLevel, referenceLevel, startToken);
+			if(name.equals("This")) {
+				System.out.println("Just parsed type 'This', stack = "+module.parseStack);
+				if(!module.parseStack.isEmpty()) {
+					Declaration decl = (Declaration) module.parseStack.peek();
+					type.setRef(decl);
+					//type.setName(decl.getName());
+				}
+			}
 			type.setArray(isArray);
 			if(typeParams != null) type.getTypeParams().addAll(typeParams);
 			return type;

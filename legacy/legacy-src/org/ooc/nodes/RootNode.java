@@ -38,7 +38,7 @@ public class RootNode extends Scope {
 		
 		this.context = context;
 		Function function = new Function("loadModule_"+moduleUnderName,
-				new Type(location, this, "void"), null, new TypedArgumentList(location, new ArrayList<Variable>()));
+				Type.getVoid(), null, new TypedArgumentList(location, new ArrayList<Variable>()));
 		loadModule = new FunctionDef(location, function);
 		
 	}

@@ -27,6 +27,16 @@ public class Type extends Node implements MustBeResolved {
 	protected boolean isArray;
 	protected List<Type> typeParams;
 	
+	private static Type voidType = null;
+	
+	public static Type getVoid() {
+		if(voidType == null) {
+			voidType = new Type("Void", Token.defaultToken);
+			voidType.setRef(new BuiltinType("void"));
+		}
+		return voidType;
+	}
+	
 	public Type(String name, Token startToken) {
 		this(name, 0, startToken);
 	}

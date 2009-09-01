@@ -214,7 +214,7 @@ public class ExpressionParser {
 			if(token.type == TokenType.AS_KW) {
 				
 				reader.skip();
-				Type type = TypeParser.parse(sReader, reader);
+				Type type = TypeParser.parse(module, sReader, reader);
 				if(type == null) {
 					throw new CompilationFailedError(sReader.getLocation(reader.prev()),
 							"Expected destination type after 'as' keyword (e.g. for casting)");

@@ -8,6 +8,7 @@ import java.util.List;
 import org.ooc.frontend.model.Argument;
 import org.ooc.frontend.model.MemberArgument;
 import org.ooc.frontend.model.MemberAssignArgument;
+import org.ooc.frontend.model.Module;
 import org.ooc.frontend.model.NodeList;
 import org.ooc.frontend.model.RegularArgument;
 import org.ooc.frontend.model.Type;
@@ -20,7 +21,7 @@ import org.ubi.SourceReader;
 
 public class ArgumentListFiller {
 
-	public static boolean fill(SourceReader sReader, TokenReader reader, boolean isExtern, NodeList<Argument> args) throws EOFException, IOException, CompilationFailedError {
+	public static boolean fill(Module module, SourceReader sReader, TokenReader reader, boolean isExtern, NodeList<Argument> args) throws EOFException, IOException, CompilationFailedError {
 		
 		if(reader.peek().type == TokenType.OPEN_PAREN) {
 			reader.skip();
@@ -38,7 +39,7 @@ public class ArgumentListFiller {
 								"Expected comma between arguments of a function definition");
 					}
 				} else {
-					if(!parseInto(sReader, reader, isExtern, args)) {
+					if(!parseInto(module, sReader, reader, isExtern, args)) {
 						throw new CompilationFailedError(sReader.getLocation(reader.peek()),
 								"Expected argument specification of a function definition");
 					}
@@ -52,7 +53,7 @@ public class ArgumentListFiller {
 		
 	}
 	
-	public static boolean parseInto(SourceReader sReader, TokenReader reader, boolean isExtern, NodeList<Argument> args) throws IOException {
+	public static boolean parseInto(Module module, SourceReader sReader, TokenReader reader, boolean isExtern, NodeList<Argument> args) throws IOException {
 		
 		int mark = reader.mark();
 		
@@ -65,12 +66,12 @@ public class ArgumentListFiller {
 		}
 		
 		Token token = reader.readWhiteless();
-		if(tryRegular(sReader, reader, args, mark, token)) return true;
+		if(tryRegular(module, sReader, reader, args, mark, token)) return true;
 		if(tryAssign(sReader, reader, args, token)) return true;
 		if(tryMember(sReader, reader, args, token)) return true;
 		
 		if(isExtern) {
-			Type type = TypeParser.parse(sReader, reader);
+			Type type = TypeParser.parse(module, sReader, reader);
 			if(type == null) {
 				throw new CompilationFailedError(sReader.getLocation(reader.peek()),
 					"Expected argument type in extern func definition ':'");
@@ -116,7 +117,7 @@ public class ArgumentListFiller {
 		return true;
 	}
 
-	protected static boolean tryRegular(SourceReader sReader, TokenReader reader,
+	protected static boolean tryRegular(Module module, SourceReader sReader, TokenReader reader,
 			NodeList<Argument> args, int mark, Token token)
 			throws CompilationFailedError, IOException {
 		
@@ -145,7 +146,7 @@ public class ArgumentListFiller {
 				isConst = true;
 				reader.skip();
 			}
-			Type type = TypeParser.parse(sReader, reader);
+			Type type = TypeParser.parse(module, sReader, reader);
 			if(type == null) {
 				throw new CompilationFailedError(sReader.getLocation(reader.peek()),
 						"Expected argument type after its name and ':'");
