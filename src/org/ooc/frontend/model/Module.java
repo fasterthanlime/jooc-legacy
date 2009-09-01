@@ -271,8 +271,11 @@ public class Module extends Node implements Scope {
 		TypeDecl typeDecl = getTypes().get(typeName);
 		if(typeDecl != null) return typeDecl;
 		for(Import imp: imports) {
-			typeDecl = imp.getModule().getTypes().get(typeName);
-			if(typeDecl != null) return typeDecl;
+			Module module = imp.getModule();
+			if(module != null) {
+				typeDecl = module.getTypes().get(typeName);
+				if(typeDecl != null) return typeDecl;
+			}
 		}
 		return null;
 	}

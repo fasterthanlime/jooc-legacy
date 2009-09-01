@@ -66,12 +66,30 @@ public class CoverDeclParser {
 			coverDecl.setExternName(externName);
 			if(comment != null) coverDecl.setComment(comment);
 			
+			boolean absorbed = false;
 			for(Import imp: module.getImports()) {
 				Module depMod = imp.getModule();
 				if(depMod != null) {
 					TypeDecl base = depMod.getType(name);
 					if(base != null) {
+						System.out.println("Found base "+base+", absorbing");
 						coverDecl.absorb((CoverDecl) base);
+						absorbed = true;
+						break;
+					}
+				}
+			}
+			if(!absorbed) {
+				outer: for(Module other: ModuleParser.cache.values()) {
+					for(Import imp: other.getImports()) {
+						if(imp.getName().equals(module.getFullName())) {
+							TypeDecl addon = other.getType(name);
+							if(addon != null) {
+								System.out.println("Found addon "+addon+", revert-absorbing");
+								((CoverDecl) addon).absorb(coverDecl);
+								break outer;
+							}
+						}
 					}
 				}
 			}
