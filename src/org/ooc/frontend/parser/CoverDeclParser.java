@@ -95,6 +95,7 @@ public class CoverDeclParser {
 				
 				FunctionDecl funcDecl = FunctionDeclParser.parse(sReader, reader, false);
 				if(funcDecl != null) {
+					System.out.println("Added functionDecl "+funcDecl.getProtoRepr()+" to cover "+coverDecl.getName());
 					coverDecl.addFunction(funcDecl);
 					continue;
 				}

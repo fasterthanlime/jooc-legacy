@@ -21,9 +21,6 @@ public class Parser {
 	}
 	
 	public Module parse(final String path) throws IOException {
-		if(params.verbose)
-			System.out.println("Parsing "+path);
-		
 		final File file = params.sourcePath.getFile(path);
 		if(file == null) {
 			throw new CompilationFailedError(null, "File "+path+" not found in sourcePath."
@@ -33,6 +30,9 @@ public class Parser {
 	}
 
 	public Module parse(final String path, final File file) throws IOException {
+		if(params.verbose)
+			System.out.println("Parsing "+path);
+		
 		final SourceReader sReader = SourceReader.getReaderFromFile(file);
 		final List<Token> tokens = new Tokenizer().parse(sReader);
 		
