@@ -40,7 +40,8 @@ Regexp: class {
 		return regexpBackend matches(haystack)
 	}
 	
-	matches: func~withOptions(haystack: String, options: Int) {
+	matches: func~withOptions(haystack: String, options: Int) -> Bool {
+		return regexpBackend matches(haystack, options)
 	}
 
 	getEngine: func -> Int {
