@@ -64,6 +64,9 @@ public class CallWriter {
 			noCast = null;
 			return;
 		}
+		if(impl.getReturnType().isVoid()) {
+			throw new OocCompilationError(call, cgen.module, "Trying to use void function as an expression!");
+		}
 		if(impl.isExternWithName() && !impl.getReturnType().isVoid()) {
 			cgen.current.app('(');
 			impl.getReturnType().accept(cgen);
