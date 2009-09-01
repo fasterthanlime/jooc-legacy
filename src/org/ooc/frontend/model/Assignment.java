@@ -99,4 +99,9 @@ public class Assignment extends BinaryOperation {
 		return null;
 	}
 	
+	@Override
+	public String toString() {
+		return "Assignment: "+left.toString()+" = "+right.toString();
+	}
+	
 }

@@ -76,8 +76,8 @@ public class VariableDeclParser {
 		
 		boolean isConst = false;
 		boolean isStatic = false;
-		
 		String externName = null;
+		
 		while(true) {
 			Token t = reader.peek();
 			if(t.type == TokenType.CONST_KW) {
@@ -98,7 +98,6 @@ public class VariableDeclParser {
 			reader.reset(mark);
 			return null;
 		}
-
 		if(atoms.size() == 1 && atoms.get(0).getExpression() == null) {
 			if(reader.peek().type == TokenType.ASSIGN) {
 				reader.skip();
@@ -114,6 +113,7 @@ public class VariableDeclParser {
 		VariableDecl decl = new VariableDecl(type, isConst, isStatic, declStartToken.cloneEnclosing(reader.prev()));
 		decl.setExternName(externName);
 		decl.getAtoms().addAll(atoms);
+		
 		return decl;
 	}
 

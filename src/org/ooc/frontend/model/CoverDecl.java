@@ -104,7 +104,6 @@ public class CoverDecl extends TypeDecl implements MustBeResolved {
 			done.add(addon);
 			function = addon.getFunction(name, suffix, call, recursive, done);
 			if(function != null) {
-				System.out.println("Found "+function+" in addon "+addon);
 				return function;
 			}
 		}
@@ -113,7 +112,6 @@ public class CoverDecl extends TypeDecl implements MustBeResolved {
 				done.add(base);
 				function = base.getFunction(name, suffix, call, recursive, done);
 				if(function != null) {
-					System.out.println("Found "+function+" in base "+base);
 					return function;
 				}
 			}
@@ -179,14 +177,12 @@ public class CoverDecl extends TypeDecl implements MustBeResolved {
 
 	public void absorb(CoverDecl node) {
 		assert(variables.isEmpty());
-		System.out.println(this+" just absorbed "+node+" as its base.");
 		base = node;
 		base.addAddon(this);
 		if(classGettingFunc != null) functions.remove(classGettingFunc);
 	}
 
 	private void addAddon(CoverDecl addon) {
-		System.out.println(this+" just got "+addon+" as a new addon.");
 		addons.add(addon);
 	}
 

@@ -72,7 +72,6 @@ public class CoverDeclParser {
 				if(depMod != null) {
 					TypeDecl base = depMod.getType(name);
 					if(base != null) {
-						System.out.println("Found base "+base+", absorbing");
 						coverDecl.absorb((CoverDecl) base);
 						absorbed = true;
 						break;
@@ -85,7 +84,6 @@ public class CoverDeclParser {
 						if(imp.getName().equals(module.getFullName())) {
 							TypeDecl addon = other.getType(name);
 							if(addon != null) {
-								System.out.println("Found addon "+addon+", revert-absorbing");
 								((CoverDecl) addon).absorb(coverDecl);
 								break outer;
 							}

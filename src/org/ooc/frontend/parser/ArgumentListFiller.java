@@ -27,7 +27,8 @@ public class ArgumentListFiller {
 			boolean comma = false;
 			while(true) {
 				
-				if(reader.peek().type == TokenType.CLOS_PAREN) {
+				if(reader.peekWhiteless().type == TokenType.CLOS_PAREN) {
+					reader.skipWhitespace();
 					reader.skip(); // skip the ')'
 					break;
 				}
@@ -63,7 +64,7 @@ public class ArgumentListFiller {
 			return true;
 		}
 		
-		Token token = reader.read();
+		Token token = reader.readWhiteless();
 		if(tryRegular(sReader, reader, args, mark, token)) return true;
 		if(tryAssign(sReader, reader, args, token)) return true;
 		if(tryMember(sReader, reader, args, token)) return true;

@@ -252,12 +252,14 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped {
 			VariableAccess access = isStatic ?
 					new VariableAccess(typeDecl.getType().getName(), atom.startToken)
 					: new VariableAccess("this", atom.startToken);
+					
 			Assignment assign = new Assignment(
 				new MemberAccess(access, atom.getName(), atom.startToken), atom.getExpression(), atom.startToken
 			);
 			atom.assign = assign;
 			Line line = new Line(assign);
 			if(isStatic) {
+				access.setRef(classDecl);
 				classDecl.getFunction("load", "", null).getBody().add(line);
 			} else {
 				classDecl.getFunction("defaults", "", null).getBody().add(line);
@@ -281,7 +283,10 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped {
 	
 	@Override
 	public String toString() {
-		String repr = type+": ";
+		String repr = "";
+		if(isConst) repr = "const " + repr;
+		if(isStatic) repr = "static " + repr;
+		repr += type+": ";
 		Iterator<VariableDeclAtom> iter = atoms.iterator();
 		while(iter.hasNext()) {
 			repr += iter.next().getName();
