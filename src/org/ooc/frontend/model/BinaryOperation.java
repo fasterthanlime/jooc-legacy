@@ -67,10 +67,26 @@ public abstract class BinaryOperation extends Expression implements MustBeResolv
 	public boolean resolve(NodeList<Node> stack, Resolver res, boolean fatal)
 			throws IOException {
 		
-		if(left.getType() == null || right.getType() == null) {
+		if(left.getType() == null) {
+			if(left instanceof MustBeResolved) {
+				System.out.println("Resolving left "+left);
+				((MustBeResolved) left).resolve(stack, res, fatal);
+			}
 			if(fatal) {
 				throw new OocCompilationError(this, stack, "Can't resolve type of left "+
-						left+" or right "+right+" operand. Wtf?");
+						left+" operand. Wtf?");
+			}
+			return true;
+		}
+		
+		if(right.getType() == null) {
+			if(right instanceof MustBeResolved) {
+				System.out.println("Resolving right "+right);
+				((MustBeResolved) right).resolve(stack, res, fatal);
+			}
+			if(fatal) {
+				throw new OocCompilationError(this, stack, "Can't resolve type of right "
+						+right+" operand. Seriously.");
 			}
 			return true;
 		}

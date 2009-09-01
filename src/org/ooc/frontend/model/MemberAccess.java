@@ -66,6 +66,7 @@ public class MemberAccess extends VariableAccess {
 		
 		Type exprType = expression.getType();
 		if(exprType == null) {
+			System.out.println("Null exprType for "+expression);
 			if(fatal) {
 				throw new OocCompilationError(this, stack, "Accessing member "
 						+name+" in an expression "+expression.getClass().getSimpleName()
@@ -116,7 +117,6 @@ public class MemberAccess extends VariableAccess {
 	private String guessCorrectName(final TypeDecl typeDeclaration) {
 		
 		if(typeDeclaration == null) {
-			System.out.println("Null TypeDecl for class "+expression.getType()+", returning null");
 			return null;
 		}
 		
@@ -141,7 +141,9 @@ public class MemberAccess extends VariableAccess {
 			throws OocCompilationError, IOException {
 		
 		Declaration decl = exprType.getRef();
-		if(decl == null) return false;
+		if(decl == null) {
+			return false;
+		}
 		
 		if(!(decl instanceof TypeDecl)) {
 			throw new OocCompilationError(this, stack,
@@ -191,7 +193,12 @@ public class MemberAccess extends VariableAccess {
 	
 	@Override
 	public String toString() {
-		return getClass().getSimpleName()+" "+expression+"."+name;
+		if(expression instanceof VariableAccess) {
+			VariableAccess varAcc = (VariableAccess) expression;
+			return getClass().getSimpleName()+" "+varAcc.getName()+":"+varAcc.getType()
+			+"->"+name+":"+getType();
+		}
+		return getClass().getSimpleName()+" "+expression+"."+name+":"+getType();
 	}
 
 }

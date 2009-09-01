@@ -103,7 +103,7 @@ public class FunctionDeclParser {
 			Type returnType = TypeParser.parse(module, sReader, reader);
 			if(returnType == null) {
 				throw new CompilationFailedError(sReader.getLocation(reader.peek()),
-						"Expected return type after arrow");
+						"Expected return type after '->'");
 			}
 			functionDecl.setReturnType(returnType);
 		}

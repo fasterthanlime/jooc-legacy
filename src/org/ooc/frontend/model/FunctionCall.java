@@ -127,10 +127,9 @@ public class FunctionCall extends Access implements MustBeResolved {
 							VariableDeclFromExpr vdfe = new VariableDeclFromExpr(
 									generateTempName(param.getName()+"param"), expr, startToken);
 							arguments.replace(expr, vdfe);
-							NodeList<Node> subStack = new NodeList<Node>();
-							subStack.addAll(stack);
-							subStack.add(arguments);
-							vdfe.unwrapToVarAcc(subStack);
+							stack.push(arguments);
+							vdfe.unwrapToVarAcc(stack);
+							stack.pop(arguments);
 						}
 					}
 				}

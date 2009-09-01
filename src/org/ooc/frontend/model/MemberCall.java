@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.ooc.frontend.Levenshtein;
 import org.ooc.frontend.Visitor;
+import org.ooc.frontend.model.interfaces.MustBeResolved;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.middle.OocCompilationError;
 import org.ooc.middle.hobgoblins.Resolver;
@@ -61,12 +62,22 @@ public class MemberCall extends FunctionCall {
 	}
 	
 	@Override
-	public boolean resolve(NodeList<Node> mainStack, Resolver res, final boolean fatal) throws IOException {
+	public boolean resolve(NodeList<Node> stack, Resolver res, final boolean fatal) throws IOException {
 
 		Type exprType = expression.getType();
 		if(exprType == null) {
+			if(expression instanceof MustBeResolved) {
+				MustBeResolved must = (MustBeResolved) expression;
+				stack.push(this);
+				must.resolve(stack, res, true);
+				stack.pop(this);
+				exprType = expression.getType();
+			}
+		}
+		
+		if(exprType == null) { // still null?
 			if(fatal) {
-				throw new OocCompilationError(this, mainStack, "Calling member function "
+				throw new OocCompilationError(this, stack, "Calling member function "
 						+name+getArgsRepr()+" in an expression "+expression.getClass().getSimpleName()
 						+" which type hasn't been resolved yet!");
 			}
@@ -77,7 +88,7 @@ public class MemberCall extends FunctionCall {
 		
 		if(exprType.getRef() == null) {
 			if(fatal) {
-				throw new OocCompilationError(this, mainStack, "Calling member function "
+				throw new OocCompilationError(this, stack, "Calling member function "
 						+name+getArgsRepr()+" in an expression "+expression
 						+" which type hasn't been ref'd yet. Its type = "+exprType);
 			}
@@ -85,7 +96,7 @@ public class MemberCall extends FunctionCall {
 		}
 		Declaration decl = exprType.getRef();
 		if(!(decl instanceof TypeDecl)) {
-			throw new OocCompilationError(this, mainStack, 
+			throw new OocCompilationError(this, stack, 
 					"Trying to call a member function of not a TypeDecl, but a "
 					+decl.getClass().getSimpleName());
 		}
@@ -110,7 +121,7 @@ public class MemberCall extends FunctionCall {
 				message += " Did you mean "+typeDeclaration.getInstanceType()+"."+guess+" ?";
 			}
 			message += "\nExisting funcs in type "+typeDeclaration.getInstanceType()+": "+typeDeclaration.getFunctionsRepr();
-			throw new OocCompilationError(this, mainStack, message);
+			throw new OocCompilationError(this, stack, message);
 		}
 		
 		return impl == null;
@@ -134,6 +145,11 @@ public class MemberCall extends FunctionCall {
 		
 		return bestMatch;
 		
+	}
+	
+	@Override
+	public String toString() {
+		return expression+"->"+getProtoRepr();
 	}
 	
 }
