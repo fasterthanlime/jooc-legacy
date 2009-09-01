@@ -154,47 +154,55 @@ public class ClassDeclWriter {
 		cgen.current.nl().app("return classPtr;").closeSpacedBlock();
 	}
 
-	public static void writeClassStructInitializers(ClassDecl writerClass,
-			ClassDecl coreClass, Set<FunctionDecl> done, CGenerator cgen) throws IOException {
+	/**
+	 * Write class initializers
+	 * @param parentClass 
+	 */
+	public static void writeClassStructInitializers(ClassDecl parentClass,
+			ClassDecl realClass, Set<FunctionDecl> done, CGenerator cgen) throws IOException {
 
 		cgen.current.openBlock();
 
-		if (!writerClass.isRootClass() && !writerClass.getSuperName().isEmpty()) {
-			writeClassStructInitializers(writerClass.getSuperRef(), coreClass, done, cgen);
+		if (!parentClass.isRootClass() && !parentClass.getSuperName().isEmpty()) {
+			writeClassStructInitializers(parentClass.getSuperRef(), realClass, done, cgen);
 		} else {
 			cgen.current.openBlock();
 			cgen.current.nl().app(".size = ").app("sizeof(").app(
-					coreClass.getName()).app("),");
-			cgen.current.nl().app(".name = ").app('"').app(coreClass.getName())
+					realClass.getName()).app("),");
+			cgen.current.nl().app(".name = ").app('"').app(realClass.getName())
 					.app("\",");
 			cgen.current.closeBlock().app(',');
 		}
 
-		for (FunctionDecl currentDecl : writerClass.getFunctions()) {
-			if (currentDecl.isStatic())
+		for (FunctionDecl parentDecl : parentClass.getFunctions()) {
+			if (parentDecl.isStatic())
 				continue;
 			
-			if(done.contains(currentDecl)) continue;
+			if(done.contains(parentDecl)) {
+				continue;
+			}
 			
-			FunctionDecl coreDecl = null;
-			if(coreClass != writerClass) {
-				coreDecl = coreClass.getFunction(currentDecl.getName(), currentDecl.getSuffix(), null, false);
-				if(done.contains(coreDecl)) continue;
-				if(coreDecl != null) {
-					done.add(coreDecl);
+			FunctionDecl realDecl = null;
+			if(realClass != parentClass) {
+				realDecl = realClass.getFunction(parentDecl.getName(), parentDecl.getSuffix(), null, false);
+				if(realDecl != null) {
+					if(done.contains(realDecl)) {
+						continue;
+					}
+					done.add(realDecl);
 				}
 			}
-
-			if (currentDecl.isFinal() || currentDecl.isAbstract()) {
-				writeDesignatedInit(currentDecl, coreDecl, false, cgen);
+			
+			if (parentDecl.isFinal() || parentDecl.isAbstract()) {
+				writeDesignatedInit(parentDecl, realDecl, false, cgen);
 			} else {
-				writeDesignatedInit(currentDecl, coreDecl, true, cgen);
+				writeDesignatedInit(parentDecl, realDecl, true, cgen);
 			}
 
 		}
 
 		cgen.current.closeBlock();
-		if (coreClass != writerClass)
+		if (realClass != parentClass)
 			cgen.current.app(',');
 	}
 

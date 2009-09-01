@@ -4,7 +4,9 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Set;
 
+import org.ooc.frontend.model.ClassDecl;
 import org.ooc.frontend.model.CoverDecl;
 import org.ooc.frontend.model.Expression;
 import org.ooc.frontend.model.FunctionCall;
@@ -179,6 +181,13 @@ public class Checker implements Hobgoblin {
 						+"'. Types should always begin with a capital letter, e.g. CamelCase (stack = "+stack);
 				
 				}
+				
+				if(!(node instanceof ClassDecl)) return;
+				ClassDecl classDecl = (ClassDecl) node;
+				if(classDecl.isAbstract()) return;
+				
+				NodeList<FunctionDecl> functions = new NodeList<FunctionDecl>();
+				classDecl.getFunctionsRecursive(functions);
 			}
 			
 			private void checkValuedReturn(ValuedReturn node,
