@@ -109,6 +109,7 @@ public class MemberCall extends FunctionCall {
 			if(guess != null) {
 				message += " Did you mean "+typeDeclaration.getInstanceType()+"."+guess+" ?";
 			}
+			message += "\nExisting funcs in type "+typeDeclaration.getInstanceType()+": "+typeDeclaration.getFunctionsRepr();
 			throw new OocCompilationError(this, mainStack, message);
 		}
 		
