@@ -26,6 +26,6 @@ PCRE: class extends RegexpBackend {
 	}
 	
 	matches: func(haystack: String) -> Bool {
-		return pcre_exec(reg, null, haystack, haystack length(), 0, 0, null, 10) > 0;
+		return pcre_exec(re, null, haystack, haystack length(), 0, 0, null, 10) > 0
 	}
 }
