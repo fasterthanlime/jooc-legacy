@@ -66,15 +66,14 @@ public class CoverDeclParser {
 			coverDecl.setExternName(externName);
 			if(comment != null) coverDecl.setComment(comment);
 			
-			System.out.println("In cache "+ModuleParser.cache);
 			for(Import imp: module.getImports()) {
 				Module depMod = imp.getModule();
 				if(depMod != null) {
 					TypeDecl base = depMod.getType(name);
-					System.out.println("Found base = "+base);
-					coverDecl.absorb((CoverDecl) base);
+					if(base != null) {
+						coverDecl.absorb((CoverDecl) base);
+					}
 				}
-				System.out.println("null depMode :/");
 			}
 			
 			Token t2 = reader.read();

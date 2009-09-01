@@ -1,6 +1,9 @@
 package org.ooc.frontend.model;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.Compare.CompareType;
@@ -27,6 +30,7 @@ public class CoverDecl extends TypeDecl implements MustBeResolved {
 	protected Type type;
 	protected Type fromType;
 	protected CoverDecl base;
+	protected List<CoverDecl> addons;
 	protected FunctionDecl classGettingFunc;
 	
 	public CoverDecl(String name, String superName, Type fromType, Token startToken) {
@@ -35,6 +39,7 @@ public class CoverDecl extends TypeDecl implements MustBeResolved {
 		this.type = new Type(name, startToken);
 		this.type.setRef(this);
 		this.base = null;
+		this.addons = new ArrayList<CoverDecl>();
 		if(fromType != null) {
 			type.referenceLevel = fromType.referenceLevel;
 			instanceType.referenceLevel = fromType.referenceLevel;
@@ -81,6 +86,40 @@ public class CoverDecl extends TypeDecl implements MustBeResolved {
 	@Override
 	public void addFunction(FunctionDecl decl) {
 		super.addFunction(decl);
+	}
+	
+	@Override
+	public FunctionDecl getFunction(String name, String suffix,
+			FunctionCall call, boolean recursive) {
+		return getFunction(name, suffix, call, recursive, new HashSet<CoverDecl>());
+	}
+
+	private FunctionDecl getFunction(String name, String suffix,
+			FunctionCall call, boolean recursive, HashSet<CoverDecl> done) {
+		
+		FunctionDecl function = super.getFunction(name, suffix, call, recursive);
+		if(function != null) return function;
+		for(CoverDecl addon: addons) {
+			if(done.contains(addon)) continue;
+			done.add(addon);
+			function = addon.getFunction(name, suffix, call, recursive, done);
+			if(function != null) {
+				System.out.println("Found "+function+" in addon "+addon);
+				return function;
+			}
+		}
+		if(base != null) {
+			if(!done.contains(base)) {
+				done.add(base);
+				function = base.getFunction(name, suffix, call, recursive, done);
+				if(function != null) {
+					System.out.println("Found "+function+" in base "+base);
+					return function;
+				}
+			}
+		}
+		return null;
+		
 	}
 
 	@Override
@@ -140,8 +179,15 @@ public class CoverDecl extends TypeDecl implements MustBeResolved {
 
 	public void absorb(CoverDecl node) {
 		assert(variables.isEmpty());
+		System.out.println(this+" just absorbed "+node+" as its base.");
 		base = node;
+		base.addAddon(this);
 		if(classGettingFunc != null) functions.remove(classGettingFunc);
+	}
+
+	private void addAddon(CoverDecl addon) {
+		System.out.println(this+" just got "+addon+" as a new addon.");
+		addons.add(addon);
 	}
 
 	@Override
