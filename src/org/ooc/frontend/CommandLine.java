@@ -17,6 +17,7 @@ import org.ooc.frontend.compilers.AbstractCompiler;
 import org.ooc.frontend.compilers.Gcc;
 import org.ooc.frontend.compilers.Icc;
 import org.ooc.frontend.compilers.Tcc;
+import org.ooc.frontend.compilers.Clang;
 import org.ooc.frontend.model.Import;
 import org.ooc.frontend.model.Include;
 import org.ooc.frontend.model.Module;
@@ -86,7 +87,7 @@ public class CommandLine {
         			
         			params.editor = arg.substring(arg.indexOf('=') + 1);
         			
-        		} else if(option.startsWith("c")) {
+        		} else if(option.equals("c")) {
         			
         			params.link = false;
         			
@@ -147,6 +148,10 @@ public class CommandLine {
         		} else if(option.equals("tcc")) {
         			
         			compiler = new Tcc();
+        			
+				} else if(option.equals("clang")) {
+        			
+        			compiler = new Clang();
         			
         		} else if(option.equals("help-backends") || option.equals("-help-backends")) {
         			
