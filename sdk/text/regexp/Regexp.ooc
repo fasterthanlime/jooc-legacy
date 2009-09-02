@@ -6,6 +6,10 @@ Regexp: class {
 	regexpBackend: RegexpBackend
 	type: Int
 
+	init: func {
+		type = RegexpBackend DEFAULT_TYPE
+		setup()
+	}
 	
 	init: func~withType(=type) {
 		setup()
@@ -16,9 +20,9 @@ Regexp: class {
 		setPattern(pattern)
 	}
 	
-	init: func {
-		type = RegexpBackend DEFAULT_TYPE
-		setup()
+	init: func~withPatternAndOptions(pattern: String, options: Int) {
+		this()
+		setPattern(pattern, options)
 	}
 	
 	setup: func {
@@ -28,8 +32,12 @@ Regexp: class {
 			regexpBackend = POSIX new()
 	}
 	
+	setPattern: func~withOptions(pattern: String, options: Int) {
+		regexpBackend setPattern(pattern, options)
+	}
+	
 	setPattern: func(pattern: String) {
-		regexpBackend setPattern(pattern)
+		setPattern(pattern, 0)
 	}
 	
 	getPattern: func -> String {
@@ -51,11 +59,11 @@ Regexp: class {
 }
 
 main: func {
-	rx := Regexp new~withPattern("^Hello \\w+$")
+	rx := Regexp new("^Hello \\w+$", PCRE CASELESS)
 	printf("Engine: %d\n", rx getEngine());
 	printf("Pattern: %s\n", rx getPattern());
 	
-	if (rx matches("Hello world", /* PCRE CASELESS */ 0))
+	if (rx matches("HELLO world"))
 		printf("Matches!\n")
 	else
 		printf("No match\n")

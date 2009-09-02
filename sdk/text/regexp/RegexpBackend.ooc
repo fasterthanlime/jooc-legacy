@@ -3,7 +3,7 @@ RegexpBackend: abstract class {
 	
 	pattern: String
 	
-	setPattern: abstract func(pattern: String)
+	setPattern: abstract func(pattern: String, options: Int)
 	
 	getPattern: func -> String {
 		return pattern
