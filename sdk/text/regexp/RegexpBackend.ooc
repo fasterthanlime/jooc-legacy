@@ -9,6 +9,9 @@ RegexpBackend: abstract class {
 		return pattern
 	}
 	
+	getName: abstract func() -> String
+	
 	matches: abstract func(haystack: String) -> Bool
+	
 	matches: abstract func~withOptions(haystack: String, options: Int) -> Bool
 }

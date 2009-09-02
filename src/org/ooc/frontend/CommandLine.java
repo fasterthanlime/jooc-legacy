@@ -17,6 +17,7 @@ import org.ooc.frontend.compilers.AbstractCompiler;
 import org.ooc.frontend.compilers.Gcc;
 import org.ooc.frontend.compilers.Icc;
 import org.ooc.frontend.compilers.Tcc;
+import org.ooc.frontend.compilers.Clang;
 import org.ooc.frontend.model.Import;
 import org.ooc.frontend.model.Include;
 import org.ooc.frontend.model.Module;
@@ -86,7 +87,7 @@ public class CommandLine {
         			
         			params.editor = arg.substring(arg.indexOf('=') + 1);
         			
-        		} else if(option.startsWith("c")) {
+        		} else if(option.equals("c")) {
         			
         			params.link = false;
         			
@@ -148,6 +149,10 @@ public class CommandLine {
         			
         			compiler = new Tcc();
         			
+				} else if(option.equals("clang")) {
+        			
+        			compiler = new Clang();
+        			
         		} else if(option.equals("help-backends") || option.equals("-help-backends")) {
         			
         			Help.printHelpBackends();
@@ -171,7 +176,15 @@ public class CommandLine {
         		} else if(option.equals("slave")) {
         			
         			params.slave = true;
-        			
+
+				} else if(option.startsWith("m")) {
+					
+					String arch = arg.substring(2);
+					if (arch.equals("32") || arch.equals("64"))
+						params.arch = arg.substring(2);
+					else
+						System.out.println("Unrecognized architechture: " + arch);
+			
         		} else {
         			
         			System.err.println("Unrecognized option: '"+arg+"'");
@@ -379,7 +392,7 @@ public class CommandLine {
 				compiler.addDynamicLibrary("gc");
 			} else {
 				compiler.addObjectFile(new File(params.distLocation, "libs/"
-						+ Target.guessHost().toString() + "/libgc.a").getPath());
+						+ Target.guessHost().toString(params.arch.equals("") ? Target.getArch() : params.arch) + "/libgc.a").getPath());
 			}
 		} else {
 			compiler.setCompileOnly();
