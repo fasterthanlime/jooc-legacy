@@ -176,7 +176,15 @@ public class CommandLine {
         		} else if(option.equals("slave")) {
         			
         			params.slave = true;
-        			
+
+				} else if(option.startsWith("m")) {
+					
+					String arch = arg.substring(2);
+					if (arch.equals("32") || arch.equals("64"))
+						params.arch = arg.substring(2);
+					else
+						System.out.println("Unrecognized architechture: " + arch);
+			
         		} else {
         			
         			System.err.println("Unrecognized option: '"+arg+"'");
@@ -384,7 +392,7 @@ public class CommandLine {
 				compiler.addDynamicLibrary("gc");
 			} else {
 				compiler.addObjectFile(new File(params.distLocation, "libs/"
-						+ Target.guessHost().toString() + "/libgc.a").getPath());
+						+ Target.guessHost().toString(params.arch.equals("") ? Target.getArch() : params.arch) + "/libgc.a").getPath());
 			}
 		} else {
 			compiler.setCompileOnly();

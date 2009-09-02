@@ -29,6 +29,8 @@ public class BuildParams {
 	public boolean slave = false;
 	public boolean dynGC = false; // Should link dynamically with libgc (Boehm)
 	
+	public String arch = "";
+	
 	public List<String> dynamicLibs = new ArrayList<String>();
 	
 }

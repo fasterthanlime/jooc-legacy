@@ -68,21 +68,24 @@ public enum Target {
 		
 	}
 	
-	
 	@Override
 	public String toString() {
+		return toString(getArch());
+	}
+	
+	public String toString(String arch) {
 		
 		switch(this) {
 		case WIN:
-			return "win" + getArch();
+			return "win" + arch;
 		case LINUX:
-			return "linux" + getArch();
+			return "linux" + arch;
 		case SOLARIS:
-			return "solaris" + getArch();
+			return "solaris" + arch;
 		case HAIKU:
-			return "haiku" + getArch();
+			return "haiku" + arch;
 		case OSX:
-			return "osx" + getArch();
+			return "osx" + arch;
 		default:
 			return super.toString();
 		}
