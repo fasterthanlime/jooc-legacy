@@ -157,10 +157,8 @@ public class FunctionCall extends Access implements MustBeResolved {
 					Line line = (Line) stack.get(lineIndex);
 					
 					if(decl instanceof VariableDeclFromExpr) {
-						System.out.println("Is VDFE, replacing!");
 						VariableDecl newDecl = new VariableDecl(getRealType(genType), false, false, startToken);
 						newDecl.getAtoms().add(atom);
-						System.out.println("newDecl is "+newDecl);
 						stack.get(varDeclIndex - 1).replace(decl, newDecl);
 						decl = newDecl;
 					}
@@ -345,7 +343,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 
 	public boolean matchesArgs(FunctionDecl decl) {
 		int numArgs = decl.getArguments().size();
-		if(decl.isMember() && !decl.isStatic()) numArgs--;
+		if(decl.hasThis()) numArgs--;
 		
 		if(numArgs == arguments.size()
 			|| ((numArgs > 0 && decl.getArguments().getLast() instanceof VarArg)
@@ -356,11 +354,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 	}
 
 	public boolean matchesName(FunctionDecl decl) {
-		if(!decl.getName().equals(name)) return false;
-		
-		if(!decl.getSuffix().isEmpty() && !suffix.isEmpty()
-				&& !decl.getSuffix().equals(suffix)) return false;
-		return true;
+		return decl.isNamed(name, suffix);
 	}
 	
 	public String getArgsRepr() {
@@ -387,6 +381,32 @@ public class FunctionCall extends Access implements MustBeResolved {
 	@Override
 	public String toString() {
 		return getClass().getSimpleName()+": "+getProtoRepr();
+	}
+
+	public int getScore(FunctionDecl func) {
+		int score = 0;
+		
+		NodeList<Argument> declArgs = func.getArguments();
+		if(matchesArgs(func)) {
+			score += 10;
+		} else {
+			return 0;
+		}
+		
+		if(declArgs.size == 0) return score;
+		
+		Iterator<Argument> declIter = declArgs.iterator();
+		if(func.hasThis() && declIter.hasNext()) declIter.next();
+		Iterator<Expression> callIter = arguments.iterator();
+		while(callIter.hasNext()) {
+			Argument declArg = declIter.next();
+			Expression callArg = callIter.next();
+			if(declArg.getType().equals(callArg.getType())) {
+				score += 10;
+			}
+		}
+		
+		return score;
 	}
 	
 }

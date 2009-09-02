@@ -73,19 +73,30 @@ public abstract class TypeDecl extends Declaration implements Scope {
 	}
 	
 	public FunctionDecl getFunction(String name, String suffix, FunctionCall call, boolean recursive) {
+		return getFunction(name, suffix,call, recursive, 0, null);
+	}
+	
+	public FunctionDecl getFunction(String name, String suffix, FunctionCall call,
+			boolean recursive, int bestScoreParam, FunctionDecl bestMatchParam) {
+		int bestScore = bestScoreParam;
+		FunctionDecl bestMatch = bestMatchParam;
 		for(FunctionDecl func : functions) {
-			if(func.getName().equals(name) && (suffix.isEmpty() || func.getSuffix().equals(suffix))
-					&& (call == null || call.matches(func))) {
-				return func;
+			if(func.getName().equals(name) && (suffix.isEmpty() || func.getSuffix().equals(suffix))) {
+				if(call == null) return func;
+				int score = call.getScore(func);
+				if(score > bestScore) {
+					bestScore = score;
+					bestMatch = func;
+				}
 			}
 		}
-		if(recursive && superRef != null) return superRef.getFunction(name, suffix, call);
-		return null;
+		if(recursive && superRef != null) return superRef.getFunction(name, suffix, call, true, bestScore, bestMatch);
+		return bestMatch;
 	}
 	
 	@Override
 	public FunctionDecl getFunction(String name, String suffix, FunctionCall call) {
-		return getFunction(name, suffix, call, true);
+		return getFunction(name, suffix, call, true, 0, null);
 	}
 	
 	@Override
@@ -97,7 +108,7 @@ public abstract class TypeDecl extends Declaration implements Scope {
 		decl.setTypeDecl(this);
 		
 		if(!decl.isStatic()) {
-			if(shouldAddThis(decl)) {
+			if(!decl.isStatic()) {
 				Token tok = decl.getArguments().isEmpty() ? startToken : decl.getArguments().getFirst().startToken;
 				decl.getArguments().add(0, new RegularArgument(getInstanceType(), "this",
 						tok));
@@ -109,11 +120,6 @@ public abstract class TypeDecl extends Declaration implements Scope {
 			if(already != null) functions.remove(already);
 		}
 		functions.add(decl);
-	}
-
-	private boolean shouldAddThis(FunctionDecl decl) {
-		if(decl.isStatic()) return false;
-		return true;
 	}
 	
 	public void getFunctionsRecursive(NodeList<FunctionDecl> functions) {

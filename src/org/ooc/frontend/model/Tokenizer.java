@@ -57,6 +57,7 @@ public class Tokenizer {
 		new Name("in", TokenType.IN_KW),
 		new Name("version", TokenType.VERSION_KW),
 		new Name("proto", TokenType.PROTO_KW),
+		new Name("inline", TokenType.INLINE_KW),
 		new Name("operator", TokenType.OPERATOR_KW),
 		//TODO I'm not sure if those three should be keywords.
 		//They are remains from C and can be parsed as NAMEs
@@ -250,10 +251,7 @@ public class Tokenizer {
 			if(c == '<') {
 				reader.read();
 				char c2 = reader.peek();
-				if(c2 == '-') {
-					reader.read();
-					tokens.add(new Token(index, 2, TokenType.L_ARROW));
-				} else if(c2 == '=') {
+				if(c2 == '=') {
 					reader.read();
 					tokens.add(new Token(index, 2, TokenType.LESSTHAN_EQUALS));
 				} else {

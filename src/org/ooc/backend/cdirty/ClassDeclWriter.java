@@ -108,11 +108,12 @@ public class ClassDeclWriter {
 		for (FunctionDecl decl : classDecl.getFunctions()) {
 			if (decl.isStatic() || decl.isAbstract())
 				continue;
-
+			
 			cgen.current.nl();
 			if (!decl.isFinal()) {
 				//cgen.current.app("static ");
 			}
+			if (decl.isInline()) cgen.current.app("inline ");
 			TypeWriter.writeSpaced(decl.getReturnType(), cgen);
 			decl.writeFullName(cgen.current);
 			if (!decl.isFinal()) {
@@ -178,7 +179,7 @@ public class ClassDeclWriter {
 			
 			FunctionDecl realDecl = null;
 			if(realClass != parentClass && !parentDecl.getName().equals("init")) {
-				realDecl = realClass.getFunction(parentDecl.getName(), parentDecl.getSuffix(), null, false);
+				realDecl = realClass.getFunction(parentDecl.getName(), parentDecl.getSuffix(), null, false, 0, null);
 				if(realDecl != null) {
 					if(done.contains(realDecl)) {
 						continue;
@@ -269,7 +270,7 @@ public class ClassDeclWriter {
 		}
 		
 		for (VariableDecl decl : classDecl.getVariables()) {
-			if (!decl.isStatic())
+			if (!decl.isStatic() || decl.isExtern())
 				continue;
 			cgen.current.nl();
 			decl.accept(cgen);

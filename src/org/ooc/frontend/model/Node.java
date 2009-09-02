@@ -34,14 +34,25 @@ public abstract class Node implements Visitable {
 	}
 	
 	public FunctionDecl getFunction(String name, String suffix, FunctionCall call, NodeList<Node> stack) {
-		return getFunction(name, suffix, call, stack, stack.find(Scope.class));
+		return getFunction(name, suffix, call, stack, stack.find(Scope.class), 0, null);
 	}
 
-	public FunctionDecl getFunction(String name, String suffix, FunctionCall call, NodeList<Node> stack, int index) {
-		if(index == -1) return null;
-		FunctionDecl func = ((Scope) stack.get(index)).getFunction(name, suffix, call);
-		if(func != null) return func;
-		return getFunction(name, suffix, call, stack, stack.find(Scope.class, index - 1));
+	public FunctionDecl getFunction(String name, String suffix, FunctionCall call, NodeList<Node> stack, int index,
+			int bestScoreParam, FunctionDecl bestMatchParam) {
+		int bestScore = bestScoreParam;
+		FunctionDecl bestMatch = bestMatchParam;
+		if(index == -1) return bestMatch;
+		
+		FunctionDecl function = ((Scope) stack.get(index)).getFunction(name, suffix, call);
+		if(function != null) {
+			if(call == null) return function;
+			int score = call.getScore(function);
+			if(score > bestScore) {
+				bestScore = score;
+				bestMatch = function;
+			}
+		}
+		return getFunction(name, suffix, call, stack, stack.find(Scope.class, index - 1), bestScore, bestMatch);
 	}
 	
 	public GenericType getGenericType(NodeList<Node> stack, String paramName) {

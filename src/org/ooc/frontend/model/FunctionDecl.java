@@ -18,6 +18,7 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 	protected boolean isStatic;
 	protected boolean isAbstract;
 	protected boolean isProto = false;
+	protected boolean isInline = false;
 	protected boolean fromPointer = false;
 	
 	protected TypeDecl typeDecl;
@@ -116,6 +117,14 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 		return typeDecl;
 	}
 	
+	public boolean isInline() {
+		return isInline;
+	}
+	
+	public void setInline(boolean isInline) {
+		this.isInline = isInline;
+	}
+	
 	public void setTypeDecl(TypeDecl typeDecl) {
 		this.typeDecl = typeDecl;
 	}
@@ -125,6 +134,10 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 	 */
 	public boolean isMember() {
 		return typeDecl != null;
+	}
+	
+	public boolean hasThis() {
+		return !isStatic() && isMember();
 	}
 	
 	public NodeList<Line> getBody() {

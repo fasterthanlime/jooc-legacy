@@ -69,7 +69,6 @@ public abstract class BinaryOperation extends Expression implements MustBeResolv
 		
 		if(left.getType() == null) {
 			if(left instanceof MustBeResolved) {
-				System.out.println("Resolving left "+left);
 				((MustBeResolved) left).resolve(stack, res, fatal);
 			}
 			if(fatal) {
@@ -81,7 +80,6 @@ public abstract class BinaryOperation extends Expression implements MustBeResolv
 		
 		if(right.getType() == null) {
 			if(right instanceof MustBeResolved) {
-				System.out.println("Resolving right "+right);
 				((MustBeResolved) right).resolve(stack, res, fatal);
 			}
 			if(fatal) {

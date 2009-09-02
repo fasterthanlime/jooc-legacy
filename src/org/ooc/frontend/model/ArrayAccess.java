@@ -129,7 +129,6 @@ public class ArrayAccess extends Access implements MustBeResolved {
 		
 		Assignment ass = (Assignment) stack.get(assignIndex);
 		if(ass.getLeft() != this) {
-			System.out.println(getClass().getSimpleName()+" not the lvalue, not replacing.");
 			return false;
 		}
 		

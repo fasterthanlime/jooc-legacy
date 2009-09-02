@@ -90,33 +90,54 @@ public class CoverDecl extends TypeDecl implements MustBeResolved {
 	
 	@Override
 	public FunctionDecl getFunction(String name, String suffix,
-			FunctionCall call, boolean recursive) {
-		return getFunction(name, suffix, call, recursive, new HashSet<CoverDecl>());
+			FunctionCall call, boolean recursive, int bestScoreParam, FunctionDecl bestMatchParam) {
+		return getFunction(name, suffix, call, recursive, new HashSet<CoverDecl>(), bestScoreParam, bestMatchParam);
 	}
 
 	private FunctionDecl getFunction(String name, String suffix,
-			FunctionCall call, boolean recursive, HashSet<CoverDecl> done) {
+			FunctionCall call, boolean recursive, HashSet<CoverDecl> done,
+			int bestScoreParam, FunctionDecl bestMatchParam) {
 		
-		FunctionDecl function = super.getFunction(name, suffix, call, recursive);
-		if(function != null) return function;
+		int bestScore = bestScoreParam;
+		FunctionDecl bestMatch = bestMatchParam;
+		FunctionDecl function = super.getFunction(name, suffix, call, recursive, bestScore, bestMatch);
+		if(function != null) {
+			if(call == null) return function;
+			int score = call.getScore(function);
+			if(score > bestScore) {
+				bestScore = score;
+				bestMatch = function;
+			}
+		}
+		
 		for(CoverDecl addon: addons) {
 			if(done.contains(addon)) continue;
 			done.add(addon);
-			function = addon.getFunction(name, suffix, call, recursive, done);
+			function = addon.getFunction(name, suffix, call, recursive, done, bestScore, bestMatch);
 			if(function != null) {
-				return function;
+				if(call == null) return function;
+				int score = call.getScore(function);
+				if(score > bestScore) {
+					bestScore = score;
+					bestMatch = function;
+				}
 			}
 		}
 		if(base != null) {
 			if(!done.contains(base)) {
 				done.add(base);
-				function = base.getFunction(name, suffix, call, recursive, done);
+				function = base.getFunction(name, suffix, call, recursive, done, bestScore, bestMatch);
 				if(function != null) {
-					return function;
+					if(call == null) return function;
+					int score = call.getScore(function);
+					if(score > bestScore) {
+						bestScore = score;
+						bestMatch = function;
+					}
 				}
 			}
 		}
-		return null;
+		return bestMatch;
 		
 	}
 

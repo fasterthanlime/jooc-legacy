@@ -66,7 +66,6 @@ public class MemberAccess extends VariableAccess {
 		
 		Type exprType = expression.getType();
 		if(exprType == null) {
-			System.out.println("Null exprType for "+expression);
 			if(fatal) {
 				throw new OocCompilationError(this, stack, "Accessing member "
 						+name+" in an expression "+expression.getClass().getSimpleName()
@@ -99,6 +98,11 @@ public class MemberAccess extends VariableAccess {
 						}
 					}
 				}
+			}
+			if(ref instanceof FunctionDecl && !expression.getType().getName().equals("Class")) {
+				MemberAccess membAcc = new MemberAccess(expression, "class", startToken);
+				membAcc.resolve(stack, res, fatal);
+				expression = membAcc;
 			}
 		}
 		

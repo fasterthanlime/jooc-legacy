@@ -44,6 +44,7 @@ public class FunctionDeclParser {
 		boolean isAbstract = false;
 		boolean isStatic = false;
 		boolean isFinal = false;
+		boolean isInline = false;
 		String externName = null;
 		
 		Token kw = reader.peek();
@@ -53,6 +54,7 @@ public class FunctionDeclParser {
 			case TokenType.STATIC_KW: reader.skip(); isStatic = true; break;
 			case TokenType.FINAL_KW: reader.skip(); isFinal = true; break;
 			case TokenType.PROTO_KW: reader.skip(); isProto = true; break;
+			case TokenType.INLINE_KW: reader.skip(); isInline = true; break;
 			case TokenType.EXTERN_KW: externName = ExternParser.parse(sReader, reader); break;
 			default: break keywordRead;
 			}
@@ -86,6 +88,7 @@ public class FunctionDeclParser {
 		
 		FunctionDecl functionDecl = new FunctionDecl(
 				name, suffix, isFinal, isStatic, isAbstract, externName, startToken);
+		functionDecl.setInline(isInline);
 		functionDecl.setProto(isProto);
 		if(genTypes != null) {
 			for(GenericType genType: genTypes) {

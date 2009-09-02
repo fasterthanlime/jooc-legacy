@@ -43,6 +43,8 @@ public class FunctionDeclWriter {
 
 	public static void writeFuncPrototype(FunctionDecl functionDecl, CGenerator cgen) throws IOException {
 		
+		if(functionDecl.isInline()) cgen.current.append("inline ");
+			
 		Type returnType = functionDecl.getReturnType();
 		if (returnType.getRef() instanceof GenericType) {
 			cgen.current.append("void ");

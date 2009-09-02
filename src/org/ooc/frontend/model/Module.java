@@ -242,14 +242,27 @@ public class Module extends Node implements Scope {
 
 	@Override
 	public FunctionDecl getFunction(String name, String suffix, FunctionCall call) {
+		return getFunction(name, suffix, call, 0, null);
+	}
+	
+	public FunctionDecl getFunction(String name, String suffix, FunctionCall call,
+			int bestScoreParam, FunctionDecl bestMatchParam) {
+		int bestScore = bestScoreParam;
+		FunctionDecl bestMatch = bestMatchParam;
 		for(Node node: body) {
 			if(node instanceof FunctionDecl) {
-				FunctionDecl func = (FunctionDecl) node;
-				if(func.isNamed(name, suffix)
-						&& (call == null || call.matches(func))) return func;
+				FunctionDecl function = (FunctionDecl) node;
+				if(function.isNamed(name, suffix)) { 
+					if (call == null) return function;
+					int score = call.getScore(function);
+					if(score > bestScore) {
+						bestScore = score;
+						bestMatch = function;
+					}
+				}
 			}
 		}
-		return null;
+		return bestMatch;
 	}
 
 	@Override
