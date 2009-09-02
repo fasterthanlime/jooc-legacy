@@ -1,7 +1,7 @@
 import text.regexp.RegexpBackend
 
 POSIX: class extends RegexpBackend {
-	setPattern: func(pattern: String) {
+	setPattern: func(pattern: String, options: Int) {
 		this pattern = pattern
 	}
 	
