@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.OpDecl.OpType;
 import org.ooc.frontend.model.tokens.Token;
+import org.ooc.middle.hobgoblins.Resolver;
 
 public class Assignment extends BinaryOperation {
 
@@ -102,6 +103,20 @@ public class Assignment extends BinaryOperation {
 	@Override
 	public String toString() {
 		return "Assignment: "+left.toString()+" = "+right.toString();
+	}
+	
+	@Override
+	public boolean resolve(NodeList<Node> stack, Resolver res, boolean fatal)
+			throws IOException {
+		
+		if(right.getType() != null && left.getType() != null) {
+			if(left.getType().isSuperOf(right.getType())) {
+				right = new Cast(right, left.getType(), right.startToken);
+			}
+		}
+		
+		return super.resolve(stack, res, fatal);
+		
 	}
 	
 }

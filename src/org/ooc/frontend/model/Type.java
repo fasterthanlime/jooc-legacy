@@ -116,12 +116,11 @@ public class Type extends Node implements MustBeResolved {
 	@Override
 	public String toString() {
 		
-		if(pointerLevel == 0 && referenceLevel == 0) {
-			return name;
-		}
-		
 		StringBuilder sb = new StringBuilder();
+		if(isConst) sb.append("const ");
 		sb.append(name);
+		if(pointerLevel == 0 && referenceLevel == 0) return sb.toString();
+		
 		for(int i = 0; i < pointerLevel; i++) {
 			if(isArray) sb.append("[]");
 			else sb.append('*');
@@ -293,6 +292,20 @@ public class Type extends Node implements MustBeResolved {
 
 	public void resolve(Resolver res) {
 		ref = res.module.getType(name);
+	}
+
+	public boolean isSuperOf(Type type) {
+		if(type.getRef() instanceof TypeDecl) {
+			TypeDecl typeDecl = (TypeDecl) type.getRef();
+			if(typeDecl.getSuperRef() != null) {
+				Type superType = typeDecl.getSuperRef().getType();
+				if(superType.equals(this)) {
+					return true;
+				}
+				return isSuperOf(superType);
+			}
+		}
+		return false;
 	}
 	
 }

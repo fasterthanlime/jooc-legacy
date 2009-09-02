@@ -299,9 +299,6 @@ public class CGenerator extends Generator implements Visitor {
 
 	@Override
 	public void visit(RegularArgument regularArgument) throws IOException {
-		if(regularArgument.isConst()) {
-			current.app("const ");
-		}
 		Type type = regularArgument.getType();
 		if(type.isArray()) {
 			current.app(type.getName()).app(' ').app(regularArgument.getName());

@@ -3,7 +3,7 @@ import text.regexp.RegexpBackend
 use text/regexp/pcre
 
 Pcre: cover from pcre*
-pcre_compile: extern func (String, Int, String**, Int*, Pointer) -> Pcre
+pcre_compile: extern func (String, Int, const Char**, Int*, Pointer) -> Pcre
 pcre_exec: extern func(Pcre, Pointer, String, Int, Int, Int, Int*, Int) -> Int
 pcre_free: extern func(Pointer)
 

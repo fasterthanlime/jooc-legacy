@@ -93,15 +93,18 @@ public class CallWriter {
 			throws IOException {
 		NodeList<Argument> implArgs = impl.getArguments();
 		int realIndex = (impl.isMember() && !impl.isStatic()) ? argIndex + 1 : argIndex;
-		if(argIndex != -1 && realIndex < implArgs.size() && impl.isExternWithName()) {
+		boolean shouldCast = false;
+		if(argIndex != -1 && realIndex < implArgs.size() && impl.isExtern()) {
 			Argument arg = implArgs.get(realIndex);
 			if(!(arg instanceof VarArg)) {
-				cgen.current.app('(');
+				shouldCast = true;
+				cgen.current.app("((");
 				arg.getType().accept(cgen);
-				cgen.current.app(") ");
+				cgen.current.app(") (");
 			}
 		}
 		callArg.accept(cgen);
+		if(shouldCast) cgen.current.app("))");
 	}
 
 	public static void writeGenericCallArgs(NodeList<Expression> callArgs,

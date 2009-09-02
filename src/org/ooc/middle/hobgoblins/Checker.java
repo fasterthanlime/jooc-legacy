@@ -163,7 +163,7 @@ public class Checker implements Hobgoblin {
 				}
 				for(VariableDeclAtom atom: node.getAtoms()) {
 					if(atom.getName().isEmpty()) continue;
-					if(Character.isUpperCase(atom.getName().charAt(0)) && !node.isConst()
+					if(Character.isUpperCase(atom.getName().charAt(0)) && !node.getType().isConst()
 							&& node.shouldBeLowerCase()) {
 						throw new OocCompilationError(atom, stack,
 								"Upper-case variable name '"+atom.getName()+": "+node.getType()

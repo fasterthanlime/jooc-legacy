@@ -8,11 +8,7 @@ import org.ooc.frontend.model.tokens.Token;
 public class RegularArgument extends Argument {
 
 	public RegularArgument(Type type, String name, Token startToken) {
-		this(type, name, false, startToken);
-	}
-	
-	public RegularArgument(Type type, String name, boolean isConst, Token startToken) {
-		super(type, name, isConst, startToken);
+		super(type, name, startToken);
 	}
 
 	@Override

@@ -59,7 +59,8 @@ public class VariableDeclParser {
 					throw new CompilationFailedError(sReader.getLocation(reader.prev()),
 							"Expected expression as an initializer to a variable declaration.");
 				}
-				VariableDeclFromExpr vdfe = new VariableDeclFromExpr(name, expr, isConst, isStatic, atomStartToken);
+				VariableDeclFromExpr vdfe = new VariableDeclFromExpr(name, expr, isStatic, atomStartToken);
+				vdfe.setConst(isConst);
 				return vdfe;
 			}
 			VariableDeclAtom vda = new VariableDeclAtom(name, expr, atomStartToken);
@@ -74,16 +75,12 @@ public class VariableDeclParser {
 			return null;
 		}
 		
-		boolean isConst = false;
 		boolean isStatic = false;
 		String externName = null;
 		
 		while(true) {
 			Token t = reader.peek();
-			if(t.type == TokenType.CONST_KW) {
-				isConst = true;
-				reader.skip();
-			} else if(t.type == TokenType.STATIC_KW) {
+			if(t.type == TokenType.STATIC_KW) {
 				isStatic = true;
 				reader.skip();
 			} else if(t.type == TokenType.EXTERN_KW) {
@@ -110,7 +107,7 @@ public class VariableDeclParser {
 			}
 		}
 		
-		VariableDecl decl = new VariableDecl(type, isConst, isStatic, declStartToken.cloneEnclosing(reader.prev()));
+		VariableDecl decl = new VariableDecl(type, isStatic, declStartToken.cloneEnclosing(reader.prev()));
 		decl.setExternName(externName);
 		decl.getAtoms().addAll(atoms);
 		

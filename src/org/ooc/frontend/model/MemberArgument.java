@@ -10,11 +10,7 @@ import org.ooc.middle.OocCompilationError;
 public class MemberArgument extends Argument {
 
 	public MemberArgument(String name, Token startToken) {
-		this(name, false, startToken);
-	}
-	
-	public MemberArgument(String name, boolean isConst, Token startToken) {
-		super(new Type("", startToken), name, isConst, startToken);
+		super(new Type("", startToken), name, startToken);
 	}
 	
 	@Override

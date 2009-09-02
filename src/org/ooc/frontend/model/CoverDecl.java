@@ -62,7 +62,7 @@ public class CoverDecl extends TypeDecl implements MustBeResolved {
 		FunctionCall coverSizeOf = new FunctionCall("sizeof", "", startToken);
 		coverSizeOf.arguments.add(new VariableAccess(getName(), startToken));
 		
-		VariableDecl varDecl = new VariableDecl(new Type("Class", startToken), false, true, startToken);
+		VariableDecl varDecl = new VariableDecl(new Type("Class", startToken), true, startToken);
 		NullLiteral nullLiteral = new NullLiteral(startToken);
 		varDecl.atoms.add(new VariableDeclAtom("_class", nullLiteral, startToken));
 		classGettingFunc.body.add(new Line(varDecl));

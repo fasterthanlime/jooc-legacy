@@ -157,7 +157,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 					Line line = (Line) stack.get(lineIndex);
 					
 					if(decl instanceof VariableDeclFromExpr) {
-						VariableDecl newDecl = new VariableDecl(getRealType(genType), false, false, startToken);
+						VariableDecl newDecl = new VariableDecl(getRealType(genType), false, startToken);
 						newDecl.getAtoms().add(atom);
 						stack.get(varDeclIndex - 1).replace(decl, newDecl);
 						decl = newDecl;
@@ -190,9 +190,19 @@ public class FunctionCall extends Access implements MustBeResolved {
 	}
 
 	private void autocast() {
+		if(impl == null) return;
+
+		Iterator<Expression> callArgs = arguments.iterator();
+		Iterator<Argument> implArgs = impl.getArguments().iterator();
+		if(impl.hasThis() && implArgs.hasNext()) implArgs.next();
 		
-		
-		
+		while(implArgs.hasNext() && callArgs.hasNext()) {
+			Expression callArg = callArgs.next();
+			Argument implArg = implArgs.next();
+			if(callArg.getType().isSuperOf(implArg.getType())) {
+				System.out.println(callArg+" is super of "+implArg);
+			}
+		}
 	}
 
 	private Type getRealType(GenericType genType) {

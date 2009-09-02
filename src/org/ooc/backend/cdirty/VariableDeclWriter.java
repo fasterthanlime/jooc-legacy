@@ -39,7 +39,10 @@ public class VariableDeclWriter {
 			if(isStatic && (typeDecl == null)) cgen.current.append("static ");
 			
 			if(!type.isArray()) {
+				boolean isConst = type.isConst();
+				type.setConst(false);
 				TypeWriter.writeSpaced(type, cgen);
+				type.setConst(isConst);
 			} else {
 				cgen.current.app(type.getName()).app(' ');
 			}

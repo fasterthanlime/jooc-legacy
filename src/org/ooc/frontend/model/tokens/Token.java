@@ -146,6 +146,7 @@ public final class Token implements Locatable {
 			"import",
 			"use",
 			"extern",
+			"inline",
 			"proto",
 			
 			"break",

@@ -97,7 +97,7 @@ public class FunctionDeclParser {
 		}
 		if(comment != null) functionDecl.setComment(comment);
 		
-		ArgumentListFiller.fill(module, sReader, reader, functionDecl.isExtern(), functionDecl.getArguments());
+		ArgumentParser.fill(module, sReader, reader, functionDecl.isExtern(), functionDecl.getArguments());
 		
 		Token token = reader.peek();
 		if(token.type == TokenType.ARROW) {

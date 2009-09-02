@@ -100,7 +100,7 @@ public class ClassDeclParser {
 				}
 				
 				throw new CompilationFailedError(sReader.getLocation(reader.peek()),
-						"Expected variable declaration or function declaration in a class declaration, got "+reader.peek().type);
+						"Expected variable declaration or function declaration in a class declaration, got "+reader.peek());
 			
 			}
 			reader.skip();

@@ -8,12 +8,8 @@ import org.ooc.frontend.model.tokens.Token;
 public class VarArg extends Argument {
 
 	public VarArg(Token startToken) {
-		this(false, startToken);
-	}
-	
-	public VarArg(boolean isConst, Token startToken) {
 		// TODO add special trickery to properly handle "any type"
-		super(new Type("", startToken), "...", isConst, startToken);
+		super(new Type("", startToken), "...", startToken);
 	}
 
 	@Override

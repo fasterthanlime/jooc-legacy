@@ -24,8 +24,6 @@ public class LineParser {
 		
 		reader.skipWhitespace();
 		
-		while(reader.peek().type == TokenType.LINESEP) reader.skip();
-		
 		if(!reader.hasNext()) {
 			reader.reset(mark);
 			return false;

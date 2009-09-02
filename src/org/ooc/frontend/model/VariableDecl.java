@@ -69,7 +69,6 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 
 	}
 	
-	protected boolean isConst;
 	protected boolean isStatic;
 	
 	protected Type type;
@@ -77,10 +76,9 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 	
 	protected NodeList<VariableDeclAtom> atoms;
 	
-	public VariableDecl(Type type, boolean isConst, boolean isStatic, Token startToken) {
+	public VariableDecl(Type type, boolean isStatic, Token startToken) {
 		super(null, startToken);
 		this.type = type;
-		this.isConst = isConst;
 		this.isStatic = isStatic;
 		this.atoms = new NodeList<VariableDeclAtom>(startToken);
 	}
@@ -140,14 +138,6 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 	
 	public boolean isMember() {
 		return typeDecl != null;
-	}
-	
-	public boolean isConst() {
-		return isConst;
-	}
-	
-	public void setConst(boolean isConst) {
-		this.isConst = isConst;
 	}
 	
 	public boolean isStatic() {
@@ -284,7 +274,7 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 	@Override
 	public String toString() {
 		String repr = "";
-		if(isConst) repr = "const " + repr;
+		//if(isConst) repr = "const " + repr;
 		if(isStatic) repr = "static " + repr;
 		repr += type+": ";
 		Iterator<VariableDeclAtom> iter = atoms.iterator();

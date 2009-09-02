@@ -227,7 +227,7 @@ public class NodeList<T extends Node> extends Node implements Iterable<T> {
 				}
 				sB.append(node.toString());
 			}
-			if(index < size) sB.append("\n");
+			if(stackLike && index < size) sB.append("\n");
 		}
 		return sB.toString();
 	}

@@ -9,13 +9,23 @@ import org.ooc.middle.hobgoblins.Resolver;
 
 public class VariableDeclFromExpr extends VariableDecl implements MustBeResolved {
 
+	protected boolean isConst;
+	
 	public VariableDeclFromExpr(String name, Expression expression, Token startToken) {
-		this(name, expression, false, false, startToken);
+		this(name, expression, false, startToken);
 	}
 	
-	public VariableDeclFromExpr(String name, Expression expression, boolean isConst, boolean isStatic, Token startToken) {
-		super(null, isConst, isStatic, startToken);
+	public VariableDeclFromExpr(String name, Expression expression, boolean isStatic, Token startToken) {
+		super(null, isStatic, startToken);
 		atoms.add(new VariableDeclAtom(name, expression, startToken));
+	}
+	
+	public boolean isConst() {
+		return isConst;
+	}
+	
+	public void setConst(boolean isConst) {
+		this.isConst = isConst;
 	}
 
 	@Override

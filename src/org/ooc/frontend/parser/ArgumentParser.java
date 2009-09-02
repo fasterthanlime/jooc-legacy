@@ -19,7 +19,7 @@ import org.ooc.frontend.model.tokens.Token.TokenType;
 import org.ubi.CompilationFailedError;
 import org.ubi.SourceReader;
 
-public class ArgumentListFiller {
+public class ArgumentParser {
 
 	public static boolean fill(Module module, SourceReader sReader, TokenReader reader, boolean isExtern, NodeList<Argument> args) throws EOFException, IOException, CompilationFailedError {
 		
@@ -69,6 +69,7 @@ public class ArgumentListFiller {
 		if(tryRegular(module, sReader, reader, args, mark, token)) return true;
 		if(tryAssign(sReader, reader, args, token)) return true;
 		if(tryMember(sReader, reader, args, token)) return true;
+		reader.reset(mark);
 		
 		if(isExtern) {
 			Type type = TypeParser.parse(module, sReader, reader);
@@ -138,14 +139,8 @@ public class ArgumentListFiller {
 			tokens.add(subToken);
 		}
 
-		boolean isConst = false;
-		
 		if(reader.peek().type == TokenType.COLON) {
 			reader.skip();
-			if(reader.peek().type == TokenType.CONST_KW) {
-				isConst = true;
-				reader.skip();
-			}
 			Type type = TypeParser.parse(module, sReader, reader);
 			if(type == null) {
 				throw new CompilationFailedError(sReader.getLocation(reader.peek()),
@@ -153,7 +148,6 @@ public class ArgumentListFiller {
 			}
 			for(int i = 0; i < names.size(); i++) {
 				RegularArgument regArg = new RegularArgument(type, names.get(i), tokens.get(i));
-				regArg.setConst(isConst);
 				args.add(regArg);
 			}
 			return true;

@@ -57,7 +57,7 @@ public class TypeParser {
 		
 		if(name.equals("Func")) {
 			FuncType funcType = new FuncType(startToken);
-			ArgumentListFiller.fill(module, sReader, reader, true, funcType.getDecl().getArguments());
+			ArgumentParser.fill(module, sReader, reader, true, funcType.getDecl().getArguments());
 			if(reader.peek().type == TokenType.ARROW) {
 				reader.read();
 				funcType.getDecl().setReturnType(TypeParser.parse(module, sReader, reader));
@@ -115,7 +115,7 @@ public class TypeParser {
 				}
 			}
 			type.setArray(isArray);
-			if(isConst) type.setConst(true);
+			type.setConst(isConst);
 			if(typeParams != null) type.getTypeParams().addAll(typeParams);
 			return type;
 		}

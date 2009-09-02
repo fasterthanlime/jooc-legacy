@@ -1,6 +1,4 @@
-import text.regexp.RegexpBackend
-import text.regexp.PCRE
-import text.regexp.POSIX
+import text.regexp.[RegexpBackend, PCRE, POSIX]
 
 Regexp: class {
 	regexpBackend: RegexpBackend
