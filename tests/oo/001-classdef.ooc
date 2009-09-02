@@ -8,6 +8,6 @@ Sayer: class {
 
 main: func {
 	
-	new Sayer say()
+	Sayer new() say()
 	
 }
