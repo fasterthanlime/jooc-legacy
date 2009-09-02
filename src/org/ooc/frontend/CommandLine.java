@@ -251,7 +251,9 @@ public class CommandLine {
 		
 	}
 	
-	private void launchEditor(final String editor, final CompilationFailedError err) throws IOException, InterruptedException {
+	private void launchEditor(final String editor, final CompilationFailedError err) {
+		
+		if(err.getLocation() == null) return;
 		
 		Thread thread = new Thread() {
 			@Override
