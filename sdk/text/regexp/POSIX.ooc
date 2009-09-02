@@ -5,9 +5,7 @@ POSIX: class extends RegexpBackend {
 		this pattern = pattern
 	}
 	
-	getName: func -> String {
-		return "POSIX"
-	}
+	getName: func -> String { "POSIX" }
 	
 	matches: func(haystack: String) -> Bool {
 		return false

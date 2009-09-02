@@ -55,10 +55,10 @@ main: func {
 	printf("Engine: %d\n", rx getEngine());
 	printf("Pattern: %s\n", rx getPattern());
 	
-	if (rx matches("Hello world", PCRE CASELESS))
+	if (rx matches("Hello world", /* PCRE CASELESS */ 0))
 		printf("Matches!\n")
 	else
-		printf("No match\n");
+		printf("No match\n")
 		
 	// if (string =~ /^Hello, (\w+)/i)
 		

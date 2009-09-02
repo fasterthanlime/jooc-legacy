@@ -28,13 +28,9 @@ PCRE: class extends RegexpBackend {
 			printf("PCRE compilation failed at expression offset %d: %s\n", errorNum, error)
 	}
 	
-	getName: func -> String {
-		return "PCRE"
-	}
+	getName: func -> String { "PCRE" }
 	
-	matches: func(haystack: String) -> Bool {
-		return matches(haystack, 0)
-	}
+	matches: func(haystack: String) -> Bool { matches(haystack, 0) }
 	
 	matches: func~withOptions(haystack: String, options: Int) -> Bool { 
 		// offsets := gc_malloc(10 * sizeof(Int)) as Int*
