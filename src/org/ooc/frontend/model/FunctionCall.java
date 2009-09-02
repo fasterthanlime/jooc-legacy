@@ -172,6 +172,10 @@ public class FunctionCall extends Access implements MustBeResolved {
 			}
 		}
 		
+		if(impl != null) {
+			autocast();
+		}
+		
 		if(impl == null && fatal) {
 			String message = "Couldn't resolve call to function "+name+getArgsRepr()+".";
 			String guess = guessCorrectName(stack, res);
@@ -182,6 +186,12 @@ public class FunctionCall extends Access implements MustBeResolved {
 		}
 		
 		return impl == null;
+		
+	}
+
+	private void autocast() {
+		
+		
 		
 	}
 

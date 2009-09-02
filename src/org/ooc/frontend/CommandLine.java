@@ -14,10 +14,10 @@ import java.util.StringTokenizer;
 
 import org.ooc.backend.cdirty.CGenerator;
 import org.ooc.frontend.compilers.AbstractCompiler;
+import org.ooc.frontend.compilers.Clang;
 import org.ooc.frontend.compilers.Gcc;
 import org.ooc.frontend.compilers.Icc;
 import org.ooc.frontend.compilers.Tcc;
-import org.ooc.frontend.compilers.Clang;
 import org.ooc.frontend.model.Import;
 import org.ooc.frontend.model.Include;
 import org.ooc.frontend.model.Module;
@@ -251,15 +251,31 @@ public class CommandLine {
 		
 	}
 	
-	private void launchEditor(String editor, CompilationFailedError err) throws IOException, InterruptedException {
+	private void launchEditor(final String editor, final CompilationFailedError err) throws IOException, InterruptedException {
 		
-		ProcessBuilder builder = new ProcessBuilder();
-		FileLocation location = err.getLocation();
-		String absolutePath = new File(location.getFileName()).getAbsolutePath();
-		builder.command(editor, absolutePath+":"+location.getLineNumber()+":"+(location.getLinePos() - 1));
-		Process process = builder.start();
-		ProcessUtils.redirectIO(process);
-		process.waitFor();
+		Thread thread = new Thread() {
+			@Override
+			public void run() {
+				try {
+					ProcessBuilder builder = new ProcessBuilder();
+					FileLocation location = err.getLocation();
+					String absolutePath = new File(location.getFileName()).getAbsolutePath();
+					if(editor.equals("geany")) {
+						builder.command(editor, absolutePath+":"+location.getLineNumber()+":"+(location.getLinePos() - 1));
+					} else if(editor.equals("mate")) {
+						builder.command(editor, absolutePath, "-l", String.valueOf(location.getLineNumber()));
+					} else {
+						builder.command(editor, absolutePath);
+					}
+					ProcessUtils.redirectIO(builder.start());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		thread.setDaemon(true);
+		thread.start();
+		
 	}
 
 	private void compileNasms(List<String> nasms, Collection<String> list) throws IOException, InterruptedException {
