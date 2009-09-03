@@ -3,6 +3,7 @@ include stdlib, stdio, stdint, stdbool, memory, gc/gc, string
 // character and pointer types
 Char: cover from char
 UChar: cover from unsigned char
+WChar: cover from wchar_t
 String: cover from Char*
 Pointer: cover from void*
 
