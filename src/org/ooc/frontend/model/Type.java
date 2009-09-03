@@ -162,7 +162,7 @@ public class Type extends Node implements MustBeResolved {
 	}
 
 	public boolean isFlat() {
-		return pointerLevel == 0 && !(ref instanceof ClassDecl);
+		return pointerLevel == 0 && referenceLevel == 0 && !(ref instanceof ClassDecl);
 	}
 	
 	@Override
@@ -299,7 +299,10 @@ public class Type extends Node implements MustBeResolved {
 			TypeDecl typeDecl = (TypeDecl) type.getRef();
 			if(typeDecl.getSuperRef() != null) {
 				Type superType = typeDecl.getSuperRef().getType();
-				if(superType.equals(this)) {
+				//if(superType.equals(this)) {
+				System.out.println("Comparing "+superType+" and "+this);
+				if(superType.getName().equals(this.getName())) {
+					System.out.println(this+" is super of "+type);
 					return true;
 				}
 				return isSuperOf(superType);

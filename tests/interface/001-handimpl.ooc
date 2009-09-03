@@ -1,3 +1,4 @@
+/** Base class for all Interfaces */
 Interface: class {
 	realThis: Object
 	funcs: Object
@@ -5,11 +6,13 @@ Interface: class {
 	init: func (=realThis, =funcs) {}
 }
 
+/** Killable interface - object class */
 Killable: class extends Interface {
 	kill: inline func { funcs as KillableFuncs doKill(realThis) }
-	init: func ~child (.realThis, funcs: KillableFuncs) { super(realThis, funcs) }
+	init: func (.realThis, funcs: KillableFuncs) { super(realThis, funcs) }
 }
 
+/** Killable interface - funcs class */
 KillableFuncs: class {
 	doKill: Func (Object)
 
@@ -21,12 +24,10 @@ Dog: class {
 	kill: func { "Omg you just killed a dog!" println() }
 }
 
+/** Implement the Killable interface for Dog */
 as_Killable: func ~dog (d: Dog) -> Killable {
 	funcs := static null as KillableFuncs
-	if(!funcs) {
-		"First time casting a Dog to Killable, initialiazing funcs"
-		funcs = KillableFuncs new(Dog kill)
-	}
+	if(!funcs) funcs = KillableFuncs new(Dog kill)
 	return Killable new(d, funcs)
 }
 
@@ -35,7 +36,11 @@ Cat: class {
 	meow: func { "Meooooww says the cat" println() }
 }
 
-//as_Killable: func ~cat (c: Cat) -> Killable { Killable new(c, c kill) }
+as_Killable: func ~cat (c: Cat) -> Killable {
+	funcs := static null as KillableFuncs
+	if(!funcs) funcs = KillableFuncs new(Cat kill)
+	return Killable new(c, funcs)
+}
 
 main: func {
 	"Creating new Dog and killing it" println()
@@ -44,15 +49,13 @@ main: func {
 	"Casting dog to killable and killing it" println()
 	kd := as_Killable(d)
 	kill(kd)
-
-	/*
+	
 	"Creating new Cat and killing it" println()
 	c := Cat new()
 	c kill()
 	"Casting cat to killable and killing it" println()
 	kc := as_Killable(c)
 	kill(kc)
-	*/
 }
 
 kill: func (k: Killable) {

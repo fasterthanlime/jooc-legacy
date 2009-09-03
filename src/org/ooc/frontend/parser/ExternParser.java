@@ -17,14 +17,10 @@ public class ExternParser {
 			if(reader.peek().type == TokenType.OPEN_PAREN) {
 				reader.skip();
 				Token nameToken = reader.read();
-				if(nameToken.type != TokenType.NAME) {
-					throw new CompilationFailedError(null,
-							"Expected name in extern specification, but got "+nameToken.type);
-				}
 				externName = nameToken.get(sReader);
 				if(reader.read().type != TokenType.CLOS_PAREN) {
 					throw new CompilationFailedError(null,
-							"Expected closing parenthesis after extern specification, but got "+reader.peek().type);
+							"Expected closing parenthesis after extern specification, but got "+reader.peek());
 				}
 			} else {
 				externName = "";

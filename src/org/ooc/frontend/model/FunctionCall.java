@@ -199,8 +199,9 @@ public class FunctionCall extends Access implements MustBeResolved {
 		while(implArgs.hasNext() && callArgs.hasNext()) {
 			Expression callArg = callArgs.next();
 			Argument implArg = implArgs.next();
-			if(callArg.getType().isSuperOf(implArg.getType())) {
-				System.out.println(callArg+" is super of "+implArg);
+			if(implArg.getType().isSuperOf(callArg.getType())) {
+				System.out.println("Autocasting "+callArg+"");
+				arguments.replace(callArg, new Cast(callArg, implArg.getType(), callArg.startToken));
 			}
 		}
 	}
