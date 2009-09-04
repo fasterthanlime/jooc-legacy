@@ -1,7 +1,5 @@
 Speaker: class {
 
-	new: func
-
 	say: func {
 		printf(
 "Sometimes,
@@ -13,11 +11,10 @@ Not anymore..
 "
 		)
 	}
-
 }
 
 main: func {
 
-	new Speaker say()
+	Speaker new() say()
 
 }

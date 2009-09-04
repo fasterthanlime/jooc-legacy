@@ -2,7 +2,7 @@ include time
 TimeT: cover from time_t
 srand: extern func (Int)
 rand: extern func -> Int
-time: extern func (TimeT)
+time: extern func (TimeT) -> Int
 
 number: func (max : Int) -> Int {
 	

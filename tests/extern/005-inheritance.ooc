@@ -4,7 +4,7 @@ Animal: extern cover {
 	name: extern String
 }
 
-Dog: extern cover from Animal {
+Dog: extern cover extends Animal {
 	species: extern String
 }
 

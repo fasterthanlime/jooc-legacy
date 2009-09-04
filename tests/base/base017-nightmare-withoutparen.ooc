@@ -4,7 +4,7 @@ Thinga: class {
 
 	getThis: func -> This {
 		this count = this count + 1
-		return this
+		this
 	}
 
 	thingo: func {
@@ -15,7 +15,7 @@ Thinga: class {
 
 main: func {
 
-	thinga = new Thinga() : Thinga
-	new Thinga() getThis() getThis() getThis() getThis() thingo()
+	thinga := Thinga new()
+	Thinga new() getThis() getThis() getThis() getThis() thingo()
 
 }

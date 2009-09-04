@@ -1,4 +1,4 @@
-call: func
+call: func {}
 
 main: func {
 

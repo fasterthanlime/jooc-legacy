@@ -189,7 +189,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 		
 	}
 
-	private void autocast() {
+	protected void autocast() {
 		if(impl == null) return;
 
 		Iterator<Expression> callArgs = arguments.iterator();
@@ -200,7 +200,6 @@ public class FunctionCall extends Access implements MustBeResolved {
 			Expression callArg = callArgs.next();
 			Argument implArg = implArgs.next();
 			if(implArg.getType().isSuperOf(callArg.getType())) {
-				System.out.println("Autocasting "+callArg+"");
 				arguments.replace(callArg, new Cast(callArg, implArg.getType(), callArg.startToken));
 			}
 		}

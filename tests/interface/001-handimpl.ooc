@@ -9,7 +9,7 @@ Interface: class {
 /** Killable interface - object class */
 Killable: class extends Interface {
 	kill: inline func { funcs as KillableFuncs doKill(realThis) }
-	init: func (.realThis, funcs: KillableFuncs) { super(realThis, funcs) }
+	init: func (.realThis, funcs: KillableFuncs) { super(realThis, funcs as Object) }
 }
 
 /** Killable interface - funcs class */

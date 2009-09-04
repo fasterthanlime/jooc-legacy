@@ -295,20 +295,33 @@ public class Type extends Node implements MustBeResolved {
 	}
 
 	public boolean isSuperOf(Type type) {
+		if(this.equals(type)) return false;
+		if(name.isEmpty() || type.name.isEmpty()) return false;
+		
 		if(type.getRef() instanceof TypeDecl) {
 			TypeDecl typeDecl = (TypeDecl) type.getRef();
 			if(typeDecl.getSuperRef() != null) {
 				Type superType = typeDecl.getSuperRef().getType();
-				//if(superType.equals(this)) {
-				System.out.println("Comparing "+superType+" and "+this);
 				if(superType.getName().equals(this.getName())) {
-					System.out.println(this+" is super of "+type);
 					return true;
 				}
 				return isSuperOf(superType);
 			}
 		}
 		return false;
+	}
+
+	public String getHierarchyRepr() {
+		String repr = name;
+		Type t = this;
+		while(t.ref != null) {
+			if(!(t.ref instanceof TypeDecl)) break;
+			TypeDecl typeDecl = (TypeDecl) t.ref;
+			if(typeDecl.getSuperRef() == null) break;
+			t = typeDecl.getSuperRef().getType();
+			repr += ":" + t;
+		}
+		return repr;
 	}
 	
 }

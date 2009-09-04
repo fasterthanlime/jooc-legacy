@@ -1,7 +1,5 @@
 Speaker: class {
 
-	new: func
-
 	say: func {
 		printf("Hello, world\n")
 	}
@@ -10,7 +8,7 @@ Speaker: class {
 
 main: func {
 
-	new Speaker \
+	Speaker new() \
 	say()
 
 }

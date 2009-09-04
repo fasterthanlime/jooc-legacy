@@ -92,9 +92,10 @@ public class CallWriter {
 	private static void writeCallArg(Expression callArg, FunctionDecl impl, int argIndex, CGenerator cgen)
 			throws IOException {
 		NodeList<Argument> implArgs = impl.getArguments();
-		int realIndex = (impl.isMember() && !impl.isStatic()) ? argIndex + 1 : argIndex;
+		int realIndex = argIndex;
+		if (impl.isMember() && !impl.isStatic()) realIndex++;
 		boolean shouldCast = false;
-		if(argIndex != -1 && realIndex < implArgs.size() && impl.isExtern()) {
+		if(argIndex != -1 && realIndex < implArgs.size() && (impl.isExtern() || impl.getName().equals("init"))) {
 			Argument arg = implArgs.get(realIndex);
 			if(!(arg instanceof VarArg)) {
 				shouldCast = true;

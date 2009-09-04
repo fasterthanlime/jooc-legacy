@@ -276,12 +276,12 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 		String repr = "";
 		//if(isConst) repr = "const " + repr;
 		if(isStatic) repr = "static " + repr;
-		repr += type+": ";
 		Iterator<VariableDeclAtom> iter = atoms.iterator();
 		while(iter.hasNext()) {
 			repr += iter.next().getName();
 			if(iter.hasNext()) repr += ", ";
 		}
+		repr += ":"+type;
 		return repr;
 	}
 

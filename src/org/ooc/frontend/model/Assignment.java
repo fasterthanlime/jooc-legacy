@@ -108,7 +108,7 @@ public class Assignment extends BinaryOperation {
 	@Override
 	public boolean resolve(NodeList<Node> stack, Resolver res, boolean fatal)
 			throws IOException {
-		
+	
 		if(right.getType() != null && left.getType() != null) {
 			if(left.getType().isSuperOf(right.getType())) {
 				right = new Cast(right, left.getType(), right.startToken);

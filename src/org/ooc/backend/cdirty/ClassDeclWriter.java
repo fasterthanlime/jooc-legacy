@@ -41,6 +41,7 @@ public class ClassDeclWriter {
 		
 		cgen.current.app('(');
 		Iterator<Argument> iter = decl.getArguments().iterator();
+		int index = 0;
 		while (iter.hasNext()) {
 			Argument arg = iter.next();
 			if(isFirst) {
@@ -51,9 +52,17 @@ public class ClassDeclWriter {
 					cgen.current.app(") ");
 				}
 			}
+			if(decl.getName().equals("init")) {
+				FunctionDecl baseDecl = baseClass.getFunction(decl.getName(), decl.getSuffix(), null);
+				cgen.current.app("(");
+				baseDecl.getArguments().get(index).getType().accept(cgen);
+				cgen.current.app(") ");
+			}
 			cgen.current.app(arg.getName());
-			if (iter.hasNext())
+			if (iter.hasNext()) {
 				cgen.current.app(", ");
+			}
+			index++;
 		}
 		cgen.current.app(')');
 

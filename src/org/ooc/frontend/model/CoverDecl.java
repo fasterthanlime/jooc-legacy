@@ -137,6 +137,9 @@ public class CoverDecl extends TypeDecl implements MustBeResolved {
 				}
 			}
 		}
+		if(bestMatch == null && superRef != null) {
+			return superRef.getFunction(name, suffix, call, recursive, 0, null);
+		}
 		return bestMatch;
 		
 	}

@@ -15,6 +15,6 @@ Thinga: class {
 
 main: func {
 
-	new Thinga getThis() getThis() getThis() getThis() thingo()
+	Thinga new() getThis() getThis() getThis() getThis() thingo()
 
 }

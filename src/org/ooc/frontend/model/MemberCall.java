@@ -113,6 +113,10 @@ public class MemberCall extends FunctionCall {
 			}
 		}
 		
+		if(impl != null) {
+			autocast();
+		}
+		
 		if(fatal && impl == null) {
 			String message = "Couldn't resolve call to function "
 				+typeDeclaration.getInstanceType()+"."+name+getArgsRepr()+".";
