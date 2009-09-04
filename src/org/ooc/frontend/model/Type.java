@@ -294,6 +294,7 @@ public class Type extends Node implements MustBeResolved {
 	}
 
 	public boolean isSuperOf(Type type) {
+		if(type == null) return false;
 		if(this.equals(type)) return false;
 		if(name.isEmpty() || type.name.isEmpty()) return false;
 		
