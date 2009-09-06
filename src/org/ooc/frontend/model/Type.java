@@ -24,9 +24,9 @@ public class Type extends Node implements MustBeResolved {
 	protected int pointerLevel;
 	protected int referenceLevel;
 	protected Declaration ref;
-	protected boolean isArray;
+	protected boolean isArray = false;
 	protected List<Type> typeParams;
-	protected boolean isConst;
+	protected boolean isConst = false;
 	
 	private static Type voidType = null;
 	
@@ -52,7 +52,6 @@ public class Type extends Node implements MustBeResolved {
 		this.pointerLevel = pointerLevel;
 		this.referenceLevel = referenceLevel;
 		this.typeParams = new ArrayList<Type>();
-		this.isConst = false;
 	}
 	
 	public List<Type> getTypeParams() {
@@ -225,6 +224,9 @@ public class Type extends Node implements MustBeResolved {
 	
 	public void setArray(boolean isArray) {
 		this.isArray = isArray;
+		if(isArray) {
+			System.out.println("Setting array type on "+this);
+		}
 	}
 	
 	public boolean isArray() {

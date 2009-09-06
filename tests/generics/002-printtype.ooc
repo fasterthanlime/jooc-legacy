@@ -2,8 +2,8 @@ Dog: class {}
 Hound: class extends Dog {}
 
 main: func {
-	printType(new Dog as Object)
-	printType(new Hound as Object)
+	printType(Dog new())
+	printType(Hound new())
 }
 
 printType: func(o: Object) {

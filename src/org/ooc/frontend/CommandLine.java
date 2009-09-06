@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 import java.util.StringTokenizer;
 
@@ -55,11 +54,7 @@ public class CommandLine {
 		for(String arg: args) {
 			if(arg.startsWith("-")) {
         		String option = arg.substring(1);
-        		if(option.startsWith("locale")) {
-        			
-        			Locale.setDefault(new Locale(arg.substring(arg.indexOf('=') + 1)));
-        		
-        		} else if(option.startsWith("sourcepath")) {
+        		if(option.startsWith("sourcepath")) {
         			
         			String sourcePathOption = arg.substring(arg.indexOf('=') + 1);
         			StringTokenizer tokenizer = new StringTokenizer(sourcePathOption, File.pathSeparator);

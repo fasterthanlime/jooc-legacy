@@ -59,7 +59,6 @@ public class ValuedReturn extends Return implements MustBeResolved {
 		return false;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public boolean resolve(NodeList<Node> stack, Resolver res, boolean fatal)
 			throws IOException {
@@ -72,33 +71,38 @@ public class ValuedReturn extends Return implements MustBeResolved {
 		Type returnType = decl.getReturnType();
 		GenericType param = getGenericType(stack, returnType.getName());
 		if(param != null) {
-			FunctionCall call = new FunctionCall("memcpy", "", startToken);
-			call.getArguments().add(new VariableAccess(decl.getReturnArg(), startToken));
-			
-			VariableAccess tAccess = new VariableAccess(param.getName(), startToken); 
-			tAccess.setRef(param);
-			MemberAccess sizeAccess = new MemberAccess(tAccess, "size", startToken);
-			
-			if(expression instanceof ArrayAccess) {
-				ArrayAccess arrAccess = (ArrayAccess) expression;
-				expression = new Add(new AddressOf(arrAccess.variable, startToken),
-						new Mul(arrAccess.index, sizeAccess, startToken), startToken);
-			} else {
-				expression = new AddressOf(expression, startToken);
-			}
-			call.getArguments().add(expression);
-			
-			call.getArguments().add(sizeAccess);
-			stack.peek().replace(this, call);
-			
-			int lineIndex = stack.find(Line.class);
-			((NodeList<Node>) stack.get(lineIndex - 1)).addAfter(stack.get(lineIndex), new Line(new Return(startToken)));
-			
+			unwrapToMemcpy(stack, decl, param);
 			return true;
 		}
 		
 		return false;
 		
+	}
+
+	@SuppressWarnings("unchecked")
+	private void unwrapToMemcpy(NodeList<Node> stack, FunctionDecl decl,
+			GenericType param) {
+		FunctionCall call = new FunctionCall("memcpy", "", startToken);
+		call.getArguments().add(new VariableAccess(decl.getReturnArg(), startToken));
+		
+		VariableAccess tAccess = new VariableAccess(param.getName(), startToken); 
+		tAccess.setRef(param);
+		MemberAccess sizeAccess = new MemberAccess(tAccess, "size", startToken);
+		
+		if(expression instanceof ArrayAccess) {
+			ArrayAccess arrAccess = (ArrayAccess) expression;
+			expression = new Add(new AddressOf(arrAccess.variable, startToken),
+					new Mul(arrAccess.index, sizeAccess, startToken), startToken);
+		} else {
+			expression = new AddressOf(expression, startToken);
+		}
+		call.getArguments().add(expression);
+		
+		call.getArguments().add(sizeAccess);
+		stack.peek().replace(this, call);
+		
+		int lineIndex = stack.find(Line.class);
+		((NodeList<Node>) stack.get(lineIndex - 1)).addAfter(stack.get(lineIndex), new Line(new Return(startToken)));
 	}
 	
 }

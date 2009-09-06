@@ -3,7 +3,7 @@ Array: class <T> {
 	data: Pointer
 	size: SizeT
 
-	new: func (=size) {
+	init: func (=size) {
 		data = gc_malloc(T size * size)
 	}
 
@@ -21,7 +21,7 @@ main: func {
 
 	max := 10
 	println("Creating an array of ints")
-	arr := new Array<Int> (max)
+	arr := Array<Int> new(max)
 	for (i : Int in 1..max) arr set(i, max - i);
 	printf("Array's content = ")
 	for (i: Int in 1..max) printf("%d, ", arr get(i))

@@ -11,7 +11,8 @@ import org.ooc.middle.OocCompilationError;
 import org.ooc.middle.hobgoblins.Resolver;
 
 public class MemberAccess extends VariableAccess {
-	
+
+	protected boolean dead = false;
 	protected Expression expression;
 
 	public MemberAccess(String variable, Token startToken) {
@@ -88,13 +89,13 @@ public class MemberAccess extends VariableAccess {
 		if(ref != null) {
 			if(expression instanceof VariableAccess) {
 				VariableAccess varAcc = (VariableAccess) expression;
-				if(varAcc.getRef() instanceof TypeDecl) {
+				if(varAcc.getRef() instanceof TypeDecl && !(varAcc.getRef() instanceof GenericType)) {
 					if(ref instanceof VariableDecl) {
 						VariableDecl varDecl = (VariableDecl) ref;
 						if(!varDecl.isStatic() && !ref.getName().equals("class")) {
 							throw new OocCompilationError(this, stack, 
 									"Trying to access member variable "+exprType
-									+"."+name+" as if it were static. But it's not.");
+									+"."+name+" as if it were static. But it's not. (btw, expression = "+varAcc.getRef());
 						}
 					}
 				}
@@ -106,7 +107,7 @@ public class MemberAccess extends VariableAccess {
 			}
 		}
 		
-		if(fatal && ref == null) {
+		if(fatal && ref == null && !dead) {
 			String message = "Can't resolve access to member "+exprType+"."+name;
 			String guess = guessCorrectName((TypeDecl) exprType.getRef());
 			if(guess != null) {
@@ -169,21 +170,25 @@ public class MemberAccess extends VariableAccess {
 		}
 
 		if(ref == null && exprType.getRef() instanceof CoverDecl && name.equals("class")) {
-			if(!stack.peek().replace(this, new MemberCall(expression, "class", "", startToken))) {
+			MemberCall membCall = new MemberCall(expression, "class", "", startToken);
+			if(!stack.peek().replace(this, membCall)) {
 				throw new OocCompilationError(this, stack, "Couldn't replace class access with member call");
 			}
+			membCall.resolve(stack, res, true);
+			dead = true;
 			return true;
 		}
 		
-		if(ref == null && exprType.getRef() instanceof ClassDecl
+		if(ref == null && exprType.getRef() instanceof TypeDecl
 				&& (name.equals("name") || name.equals("size") || name.equals("super")
 						 || name.equals("size"))) {
 			MemberAccess membAcc = new MemberAccess(expression, "class", startToken);
 			this.expression = membAcc;
-			NodeList<Node> subStack = new NodeList<Node>();
-			subStack.push(this);
-			membAcc.resolve(subStack, res, true);
+			stack.push(this);
+			membAcc.resolve(stack, res, true);
+			stack.pop(this);
 			tryResolve(stack, expression.getType(), res);
+			return true;
 		}
 		
 		if(ref == null) {
@@ -191,7 +196,6 @@ public class MemberAccess extends VariableAccess {
 		}
 		
 		return ref != null;
-		
 		
 	}
 	
@@ -202,7 +206,7 @@ public class MemberAccess extends VariableAccess {
 			return getClass().getSimpleName()+" "+varAcc.getName()+":"+varAcc.getType()
 			+"->"+name+":"+getType();
 		}
-		return getClass().getSimpleName()+" "+expression+"."+name+":"+getType();
+		return expression+"."+name+":"+getType();
 	}
 
 }

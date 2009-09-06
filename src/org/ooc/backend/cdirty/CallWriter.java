@@ -15,6 +15,7 @@ import org.ooc.frontend.model.MemberCall;
 import org.ooc.frontend.model.NodeList;
 import org.ooc.frontend.model.TypeDecl;
 import org.ooc.frontend.model.VarArg;
+import org.ooc.frontend.model.VariableAccess;
 import org.ooc.middle.OocCompilationError;
 
 public class CallWriter {
@@ -25,6 +26,16 @@ public class CallWriter {
 
 		FunctionDecl impl = functionCall.getImpl();
 		writePrelude(cgen, impl, functionCall);
+		
+		if(functionCall.getName().equals("sizeof")) {
+			Expression arg = functionCall.getArguments().getFirst();
+			if(!(arg instanceof VariableAccess)) {
+				throw new OocCompilationError(arg, cgen.module, "You can only call sizeof() on a type! What are you doing?");
+			}
+			VariableAccess varAcc = (VariableAccess) arg;
+			cgen.current.app("sizeof(").app(varAcc.getName()).app(")");
+			return;
+		}
 		
 		if(functionCall.isConstructorCall()) {
 			cgen.current.app(impl.getTypeDecl().getName());

@@ -1,13 +1,14 @@
 Dog: class {
-	bloh: func
+	bloh: func {}
 }
+
 Hound: class extends Dog {
 	i := 42
 }
 
 main: func {
-	printType(new Dog)
-	printType(new Hound)
+	printType(Dog new())
+	printType(Hound new())
 	printType('c')
 	printType(42)
 	printType(3.14)

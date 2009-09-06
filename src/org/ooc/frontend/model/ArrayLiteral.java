@@ -78,7 +78,7 @@ public class ArrayLiteral extends Literal implements MustBeUnwrapped, MustBeReso
 			}
 			
 			this.type = new Type(innerType.name, innerType.pointerLevel + 1, startToken);
-			type.isArray = true;
+			type.setArray(true);
 			type.resolve(stack, res, fatal);
 		}
 		
