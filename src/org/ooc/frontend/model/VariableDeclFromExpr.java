@@ -34,11 +34,21 @@ public class VariableDeclFromExpr extends VariableDecl implements MustBeResolved
 		Expression expr = atom.getExpression();
 		if(expr == null) {
 			if(atom.assign != null) {
-				return atom.assign.getRight().getType();
+				Type retType = atom.assign.getRight().getType();
+				if(isConst && retType != null) {
+					retType = retType.copy();
+					retType.setConst(true);
+				}
+				return retType;
 			}
 			return null;
 		}
-		return expr.getType();
+		Type retType = expr.getType();
+		if(isConst && retType != null) {
+			retType = retType.copy();
+			retType.setConst(true);
+		}
+		return retType;
 	}
 	
 	@Override

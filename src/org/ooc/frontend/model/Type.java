@@ -26,7 +26,7 @@ public class Type extends Node implements MustBeResolved {
 	protected Declaration ref;
 	protected boolean isArray = false;
 	protected List<Type> typeParams;
-	protected boolean isConst = false;
+	private boolean isConst = false;
 	
 	private static Type voidType = null;
 	
@@ -224,9 +224,7 @@ public class Type extends Node implements MustBeResolved {
 	
 	public void setArray(boolean isArray) {
 		this.isArray = isArray;
-		if(isArray) {
-			System.out.println("Setting array type on "+this);
-		}
+		//if(isArray) System.out.println("Setting array type on "+this);
 	}
 	
 	public boolean isArray() {
@@ -324,6 +322,12 @@ public class Type extends Node implements MustBeResolved {
 			repr += ":" + t;
 		}
 		return repr;
+	}
+
+	public Type copy() {
+		Type copy = new Type(name, pointerLevel, referenceLevel, startToken);
+		copy.ref = ref;
+		return copy;
 	}
 	
 }
