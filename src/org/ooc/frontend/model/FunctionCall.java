@@ -114,6 +114,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 			else resolveRegular(stack, res, fatal);
 		}
 	
+		// If one generic type is not a VariableAccess, turn it into a VDFE and unwrap it
 		if(impl != null) {
 			LinkedHashMap<String, GenericType> params = impl.getGenericTypes();
 			if(!params.isEmpty()) {
@@ -136,7 +137,8 @@ public class FunctionCall extends Access implements MustBeResolved {
 			}
 		}
 		
-		if(impl != null) {
+		// Turn any outer assign expression into a memcpy
+		if(impl != null && impl.getGenericTypes().size() > 0) {
 			Type returnType = impl.getReturnType();
 			GenericType genType = impl.getGenericTypes().get(returnType.getName());
 			if(genType != null) {
