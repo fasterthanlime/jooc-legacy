@@ -49,15 +49,15 @@ public class OpDecl extends Declaration {
 			case B_AND:
 				return "&";
 			case B_OR:
-				return "&&";
-			case L_AND:
 				return "|";
+			case L_AND:
+				return "&&";
 			case L_OR:
 				return "||";
 			case MOD:
 				return "%";
 			case EQ:
-				return "++";
+				return "==";
 			case GT:
 				return ">";
 			case GTE:
