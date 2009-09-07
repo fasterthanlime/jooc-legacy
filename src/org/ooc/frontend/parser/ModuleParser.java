@@ -125,6 +125,7 @@ public class ModuleParser {
 		Collection<String> paths = parser.params.sourcePath.getRelativePaths("lang");
 		for(String path: paths) {
 			String impName = path.replace('/', '.');
+			if(!impName.toLowerCase().endsWith(".ooc")) continue;
 			impName = impName.substring(0, impName.length() - 4); // ditch the '.ooc'
 			if(!impName.equals(module.getFullName())) {
 				module.getImports().add(new Import(impName, Token.defaultToken));
