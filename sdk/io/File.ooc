@@ -1,3 +1,10 @@
+include sys/stat
+
+FileStat: cover from struct stat
+S_ISDIR: extern func(...) -> Bool
+S_ISREG: extern func(...) -> Bool
+lstat: extern func(String, FileStat*) -> Int
+
 File: class {
 	path: String
 	separator = getSystemSeparator() : static const Char
@@ -16,11 +23,15 @@ File: class {
 	init: func(=path) { }
 	
 	isDir: func -> Bool {
-		return false
+		stat: FileStat
+		lstat(path, stat&)
+		return S_ISDIR(stat st_mode)
 	}
 	
 	isFile: func -> Bool {
-		return false
+		stat: FileStat
+		lstat(path, stat&);
+		return S_ISREG(stat st_mode);
 	}
 	
 	isLink: func -> Bool {
@@ -50,4 +61,9 @@ File: class {
 	name: func -> String {
 		return ""
 	}
+}
+
+main: func {
+	file := File new("sdk/io/File.ooc")
+	dir := File new("sdk/io")
 }
