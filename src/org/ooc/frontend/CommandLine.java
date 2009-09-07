@@ -113,6 +113,7 @@ public class CommandLine {
         		} else if(option.equals("debug") || option.equals("g")) {
         			
         			params.debug = true;
+        			params.clean = false;
         			
         		} else if(option.equals("verbose") || option.equals("v")) {
         			

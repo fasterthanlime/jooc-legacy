@@ -66,7 +66,7 @@ public class VariableDeclFromExpr extends VariableDecl implements MustBeResolved
 	}
 	
 	@Override
-	protected void unwrapToClassInitializers(NodeList<Node> hierarchy,
+	public void unwrapToClassInitializers(NodeList<Node> hierarchy,
 			ClassDecl classDecl) {
 		super.unwrapToClassInitializers(hierarchy, classDecl);
 		atoms.get(0).setExpression(null);

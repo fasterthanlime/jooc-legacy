@@ -177,7 +177,7 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 	}
 
 	@SuppressWarnings("unchecked")
-	protected boolean unwrapToVarAcc(NodeList<Node> stack) throws EOFException {
+	public boolean unwrapToVarAcc(NodeList<Node> stack) throws EOFException {
 
 		Node parent = stack.peek();
 		Node grandpa = stack.get(stack.size() - 2);
@@ -234,7 +234,7 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 		
 	}
 
-	protected void unwrapToClassInitializers(NodeList<Node> hierarchy, ClassDecl classDecl) {		
+	public void unwrapToClassInitializers(NodeList<Node> hierarchy, ClassDecl classDecl) {		
 		
 		for(VariableDeclAtom atom: atoms) {
 

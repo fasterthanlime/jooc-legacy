@@ -114,7 +114,8 @@ public class FunctionCall extends Access implements MustBeResolved {
 			else resolveRegular(stack, res, fatal);
 		}
 	
-		// If one generic type is not a VariableAccess, turn it into a VDFE and unwrap it
+		// If one of the arguments which type is generic is not a VariableAccess
+		// turn it into a VDFE and unwrap it
 		if(impl != null) {
 			LinkedHashMap<String, GenericType> params = impl.getGenericTypes();
 			if(!params.isEmpty()) {
@@ -151,25 +152,19 @@ public class FunctionCall extends Access implements MustBeResolved {
 					}
 				} else if(parent instanceof VariableDeclAtom) {
 					VariableDeclAtom atom = (VariableDeclAtom) parent;
-					int varDeclIndex = stack.find(VariableDecl.class);
-					VariableDecl decl = (VariableDecl) stack.get(varDeclIndex);
-					parent.replace(this, null);
-					
-					int lineIndex = stack.find(Line.class, varDeclIndex);
-					Line line = (Line) stack.get(lineIndex);
-					
-					if(decl instanceof VariableDeclFromExpr) {
-						VariableDecl newDecl = new VariableDecl(getRealType(genType), false, startToken);
-						newDecl.getAtoms().add(atom);
-						stack.get(varDeclIndex - 1).replace(decl, newDecl);
-						decl = newDecl;
-					}
-					
-					NodeList<Line> list = (NodeList<Line>) stack.get(lineIndex - 1);
-					VariableAccess varAcc = new VariableAccess(atom.getName(), startToken);
-					varAcc.setRef(decl);
-					returnArg = new AddressOf(varAcc, startToken);
-					list.addAfter(line, new Line(this));
+					unwrapFromVarDecl(stack, genType,  atom);
+				} else {
+					System.out.println("Parent is a "+parent);
+					VariableDeclFromExpr vdfe = new VariableDeclFromExpr(generateTempName("gencall"),
+							this, startToken);
+					parent.replace(this, vdfe);
+					vdfe.unwrap(stack);
+					stack.push(vdfe);
+					stack.push(vdfe.atoms);
+					VariableDeclAtom atom = vdfe.atoms.get(0);
+					stack.push(atom);
+					unwrapFromVarDecl(stack, genType, atom);
+					return true;
 				}
 			}
 		}
@@ -189,6 +184,32 @@ public class FunctionCall extends Access implements MustBeResolved {
 		
 		return impl == null;
 		
+	}
+
+	@SuppressWarnings("unchecked")
+	private void unwrapFromVarDecl(final NodeList<Node> stack,
+			GenericType genType, VariableDeclAtom atom) {
+		int varDeclIndex = stack.find(VariableDecl.class);
+		VariableDecl decl = (VariableDecl) stack.get(varDeclIndex);
+		atom.replace(this, null);
+		
+		int lineIndex = stack.find(Line.class, varDeclIndex);
+		Line line = (Line) stack.get(lineIndex);
+		
+		if(decl instanceof VariableDeclFromExpr) {
+			VariableDecl newDecl = new VariableDecl(getRealType(genType), false, startToken);
+			newDecl.getAtoms().add(atom);
+			Node node = stack.get(varDeclIndex - 1);
+			System.out.println("node to replace in = "+node);
+			node.replace(decl, newDecl);
+			decl = newDecl;
+		}
+		
+		NodeList<Line> list = (NodeList<Line>) stack.get(lineIndex - 1);
+		VariableAccess varAcc = new VariableAccess(atom.getName(), startToken);
+		varAcc.setRef(decl);
+		returnArg = new AddressOf(varAcc, startToken);
+		list.addAfter(line, new Line(this));
 	}
 
 	protected void autocast() {
@@ -402,7 +423,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 	
 	@Override
 	public String toString() {
-		return getClass().getSimpleName()+": "+getProtoRepr();
+		return getProtoRepr();
 	}
 
 	public int getScore(FunctionDecl func) {

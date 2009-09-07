@@ -21,6 +21,7 @@ Regexp: class {
 	init: func~withPatternAndOptions(pattern: String, options: Int) {
 		this()
 		setPattern(pattern, options)
+		printf("Allocated Regexp at address %p, with type %d\n", this, type)
 	}
 	
 	setup: func {

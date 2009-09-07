@@ -11,7 +11,7 @@ Class: abstract class {
 	
 	/// Create a new instance of the object of type defined by this class
 	alloc: final func -> Object {
-		object := gc_malloc(size) as Object
+		object := gc_malloc(this size) as Object
 		if(object) {
 			object class = this
 			object defaults()
