@@ -365,7 +365,7 @@ public class CGenerator extends Generator implements Visitor {
 		if(addressOf.getExpression() instanceof VariableAccess) {
 			VariableAccess varAcc = (VariableAccess) addressOf.getExpression();
 			if(varAcc.getRef().getType().getRef() instanceof GenericType) {
-				AccessWriter.writeVariable(varAcc, false, this);
+				AccessWriter.write(varAcc, false, this);
 				return;
 			}
 		}

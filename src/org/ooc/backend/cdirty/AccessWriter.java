@@ -29,7 +29,7 @@ public class AccessWriter {
 			}
 		}
 		
-		TypeDecl typeDecl = memberAccess.getRef().getTypeDecl();
+		TypeDecl refTypeDecl = memberAccess.getRef().getTypeDecl();
 		boolean isStatic = ((PotentiallyStatic) memberAccess.getRef()).isStatic();
 		
 		if(memberAccess.getRef() instanceof FunctionDecl) {
@@ -46,13 +46,13 @@ public class AccessWriter {
 				cgen.current.app(memberAccess.getRef().getExternName());
 				return;
 			}
-			cgen.current.app("((").app(typeDecl.getType().getMangledName())
-				.app("Class*) ").app(typeDecl.getType().getMangledName())
+			cgen.current.app("((").app(refTypeDecl.getType().getMangledName())
+				.app("Class*) ").app(refTypeDecl.getType().getMangledName())
 				.app("_class())->").app(memberAccess.getName());
 			
 		} else {
 		
-			boolean isArrow = (typeDecl instanceof ClassDecl);
+			boolean isArrow = (refTypeDecl instanceof ClassDecl);
 			
 			Expression expression = memberAccess.getExpression();
 			if(!isArrow && expression instanceof Dereference) {
@@ -61,11 +61,11 @@ public class AccessWriter {
 				isArrow = true;
 			}
 			
-			if(typeDecl.getType().equals(memberAccess.getExpression().getType())) {		
+			if(refTypeDecl.getType().equals(expression.getType())) {		
 				expression.accept(cgen);
 			} else {
 				cgen.current.app("((");
-				typeDecl.getInstanceType().accept(cgen);
+				refTypeDecl.getInstanceType().accept(cgen);
 				cgen.current.app(')');
 				expression.accept(cgen);
 				cgen.current.app(')');
@@ -76,8 +76,7 @@ public class AccessWriter {
 			} else {
 				cgen.current.app('.');
 			}
-			
-			writeVariable(memberAccess, true, cgen);
+			writeVariable(memberAccess, false, cgen);
 		
 		}
 		
