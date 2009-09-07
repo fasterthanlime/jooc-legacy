@@ -171,7 +171,7 @@ public class ExpressionParser {
 					|| token.type == TokenType.MINUS_ASSIGN || token.type == TokenType.STAR_ASSIGN
 					|| token.type == TokenType.SLASH_ASSIGN || token.type == TokenType.DOUBLE_PIPE
 					|| token.type == TokenType.DOUBLE_AMPERSAND || token.type == TokenType.PIPE
-					|| token.type == TokenType.AMPERSAND) {
+					|| token.type == TokenType.AMPERSAND || token.type == TokenType.BINARY_AND) {
 				
 				reader.skip();
 				Expression rvalue = ExpressionParser.parse(module, sReader, reader);
@@ -200,7 +200,7 @@ public class ExpressionParser {
 					case TokenType.SLASH_ASSIGN: ensureAccess(expr);
 						expr = new Assignment(Mode.DIV, (Access) expr, rvalue, token); break;
 					case TokenType.PIPE: expr = new BinaryCombination(BinaryComp.BINARY_OR, expr, rvalue, token); break;
-					case TokenType.AMPERSAND: expr = new BinaryCombination(BinaryComp.BINARY_AND, expr, rvalue, token); break;
+					case TokenType.AMPERSAND: case TokenType.BINARY_AND: expr = new BinaryCombination(BinaryComp.BINARY_AND, expr, rvalue, token); break;
 					case TokenType.DOUBLE_PIPE:  expr = new BinaryCombination(BinaryComp.LOGICAL_OR,  expr, rvalue, token); break;
 					case TokenType.DOUBLE_AMPERSAND: expr = new BinaryCombination(BinaryComp.LOGICAL_AND, expr, rvalue, token); break;
 					default: throw new CompilationFailedError(sReader.getLocation(reader.prev()),

@@ -123,6 +123,8 @@ public final class Token implements Locatable {
 		public static final byte LONG = 89;
 		public static final byte STRUCT = 90;
 		public static final byte UNION = 91;
+		
+		public static final byte BINARY_AND = 92;
 	}
 	
 	public static final class TokenString {
@@ -239,6 +241,8 @@ public final class Token implements Locatable {
 			"long",
 			"struct",
 			"union",
+			
+			" &",
 		};
 		
 	}

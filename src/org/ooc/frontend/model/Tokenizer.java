@@ -125,7 +125,7 @@ public class Tokenizer {
 		new CharTuple('~', TokenType.TILDE),
 		new CharTuple(':', TokenType.COLON, '=', TokenType.DECL_ASSIGN),
 		new CharTuple('!', TokenType.BANG, '=', TokenType.NOT_EQUALS),
-		new CharTuple('&', TokenType.AMPERSAND, '&', TokenType.DOUBLE_AMPERSAND),
+		//new CharTuple('&', TokenType.AMPERSAND, '&', TokenType.DOUBLE_AMPERSAND),
 		new CharTuple('|', TokenType.PIPE, '|', TokenType.DOUBLE_PIPE),
 		new CharTuple('?', TokenType.QUEST),
 		new CharTuple('#', TokenType.HASH),
@@ -256,6 +256,25 @@ public class Tokenizer {
 					tokens.add(new Token(index, 2, TokenType.LESSTHAN_EQUALS));
 				} else {
 					tokens.add(new Token(index, 1, TokenType.LESSTHAN));
+				}
+				continue;
+			}
+			
+			if(c == '&') {
+				// read the precious one
+				reader.rewind(1);
+				char cprev = reader.read();
+				reader.read(); // skip the '&'
+				boolean binary = false;
+				if(cprev == ' ') binary = true;
+				char c2 = reader.peek();
+				if(c2 == '&') {
+					reader.read();
+					tokens.add(new Token(index, 2, TokenType.DOUBLE_AMPERSAND));
+				} else if(binary) {
+					tokens.add(new Token(index, 1, TokenType.BINARY_AND));
+				} else {
+					tokens.add(new Token(index, 1, TokenType.AMPERSAND));
 				}
 				continue;
 			}
