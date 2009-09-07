@@ -224,10 +224,6 @@ public class Type extends Node implements MustBeResolved {
 	
 	public void setArray(boolean isArray) {
 		this.isArray = isArray;
-		if(isArray) {
-			System.out.println("Setting array type on "+this);
-			Thread.dumpStack();
-		}
 	}
 	
 	public boolean isArray() {

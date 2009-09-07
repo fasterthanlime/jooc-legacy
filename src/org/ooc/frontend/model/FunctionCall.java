@@ -224,7 +224,14 @@ public class FunctionCall extends Access implements MustBeResolved {
 		int i = 0;
 		for(Argument arg: impl.getArguments()) {
 			if(arg.getType().getName().equals(genType.getName())) {
-				return arguments.get(i).getType();
+				Type type = arguments.get(i).getType();
+				Type argType = arg.getType();
+				int level = argType.getPointerLevel();
+				if(level > 0) {
+					type = type.copy();
+					type.setPointerLevel(type.getPointerLevel() - level);
+				}
+				return type;
 			}
 			i++;
 		}
