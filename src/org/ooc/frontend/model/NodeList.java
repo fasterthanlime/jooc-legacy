@@ -173,9 +173,9 @@ public class NodeList<T extends Node> extends Node implements Iterable<T> {
 	public boolean replace(Node oldie, Node kiddo) {
 		int index = indexOf((T) oldie);
 		if(index == -1) {
-			System.out.println("Trying to replace "+oldie+" with "+kiddo+" in a list with "+toString());
 			String oldieClassName = oldie == null ? "null" : oldie.getClass().getName();
 			String kiddoClassName = kiddo == null ? "null" : kiddo.getClass().getSimpleName();
+			System.out.println("Trying to replace "+oldie+" with "+kiddo+" in a list with "+toString());
 			throw new ArrayIndexOutOfBoundsException("Trying to replace a "
 					+oldieClassName+" with a "+kiddoClassName+
 					" in a "+this.getClass().getSimpleName()+", but couldn't find node to replace in NodeList.");
@@ -217,6 +217,7 @@ public class NodeList<T extends Node> extends Node implements Iterable<T> {
 		if(size == 0) return "[]";
 		StringBuilder sB = new StringBuilder();
 		if(stackLike) sB.append('\n');
+		else sB.append('[');
 		int index = 0;
 		while(index < size) {
 			T node = nodes[index++];
@@ -233,6 +234,7 @@ public class NodeList<T extends Node> extends Node implements Iterable<T> {
 			}
 			if(stackLike && index < size) sB.append("\n");
 		}
+		if(!stackLike) sB.append(']');
 		return sB.toString();
 	}
 

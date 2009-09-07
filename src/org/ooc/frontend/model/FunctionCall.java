@@ -192,11 +192,11 @@ public class FunctionCall extends Access implements MustBeResolved {
 			GenericType genType, VariableDeclAtom atom) {
 		int varDeclIndex = stack.find(VariableDecl.class);
 		VariableDecl decl = (VariableDecl) stack.get(varDeclIndex);
-		System.out.println("Found decl at = "+stack.size());
+		System.out.println("Found decl at = "+varDeclIndex+", stack = "+stack.toString(true));
 		atom.replace(this, null);
 		
 		int lineIndex = stack.find(Line.class, varDeclIndex);
-		Line line = (Line) stack.get(lineIndex);
+		Line line = (Line) stack.get(lineIndex);		
 		
 		if(decl instanceof VariableDeclFromExpr) {
 			VariableDecl newDecl = new VariableDecl(getRealType(genType), false, startToken);
@@ -363,9 +363,14 @@ public class FunctionCall extends Access implements MustBeResolved {
 
 	private void transformToMemberCall(final NodeList<Node> stack,
 			final Resolver res) throws IOException {
-		VariableAccess thisAccess = new VariableAccess("this", startToken);
-		thisAccess.resolve(stack, res, true);
-		MemberCall memberCall = new MemberCall(new VariableAccess("this", startToken), this, startToken);
+		MemberCall memberCall = null;
+		if(impl.isStatic()) {
+			memberCall = new MemberCall(new VariableAccess(impl.getTypeDecl().getType().getName(), startToken), this, startToken);
+		} else {
+			VariableAccess thisAccess = new VariableAccess("this", startToken);
+			thisAccess.resolve(stack, res, true);
+			memberCall = new MemberCall(thisAccess, this, startToken);
+		}
 		memberCall.setImpl(impl);
 		stack.peek().replace(this, memberCall);
 	}
