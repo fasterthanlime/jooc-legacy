@@ -39,9 +39,7 @@ Octet: cover from UInt8
 // other types
 Void: cover from void
 void: extern cover
-Bool: cover from bool {
-	repr: func -> String { if(this) return "true"; return "false" }
-}
+Bool: cover from bool
 SizeT: cover from size_t
 
 sizeof: extern func (...) -> SizeT
