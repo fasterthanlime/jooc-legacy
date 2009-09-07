@@ -106,12 +106,8 @@ public class FunctionCall extends Access implements MustBeResolved {
 	}
 
 	@Override
-	public boolean resolve(final NodeList<Node> stack, final Resolver res, final boolean fatal) throws IOException {
+	public Response resolve(final NodeList<Node> stack, final Resolver res, final boolean fatal) throws IOException {
 
-		//System.out.println("Resolving "+this+", stack trace:");
-		//System.out.println(stack.toString(true));
-		//Thread.dumpStack();
-		
 		if(impl == null) {
 			if (name.equals("this")) resolveConstructorCall(stack, false);
 			else if (name.equals("super")) resolveConstructorCall(stack, true);
@@ -133,9 +129,12 @@ public class FunctionCall extends Access implements MustBeResolved {
 							VariableDeclFromExpr vdfe = new VariableDeclFromExpr(
 									generateTempName(param.getName()+"param"), expr, startToken);
 							arguments.replace(expr, vdfe);
+							stack.push(this);
 							stack.push(arguments);
 							vdfe.unwrapToVarAcc(stack);
 							stack.pop(arguments);
+							stack.pop(this);
+							return Response.RESTART;
 						}
 					}
 				}
@@ -154,17 +153,19 @@ public class FunctionCall extends Access implements MustBeResolved {
 						returnArg = new AddressOf(ass.getLeft(), startToken);
 						stack.get(stack.size() - 2).replace(ass, this);
 					}
+					return Response.RESTART;
 				} else if(parent instanceof VariableDeclAtom) {
 					VariableDeclAtom atom = (VariableDeclAtom) parent;
 					unwrapFromVarDecl(stack, genType,  atom);
+					return Response.RESTART;
 				} else if(parent instanceof Line) {
 					// alright =)
 				} else {
-					VariableDeclFromExpr vdfe = new VariableDeclFromExpr(generateTempName("gencall"),
+					VariableDeclFromExpr vdfe = new VariableDeclFromExpr(generateTempName("gcall"),
 							this, startToken);
 					parent.replace(this, vdfe);
 					vdfe.unwrapToVarAcc(stack);
-					return true;
+					return Response.RESTART;
 				}
 			}
 		}
@@ -182,7 +183,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 			throw new OocCompilationError(this, stack, message);
 		}
 		
-		return impl == null;
+		return (impl == null) ? Response.LOOP : Response.OK;
 		
 	}
 

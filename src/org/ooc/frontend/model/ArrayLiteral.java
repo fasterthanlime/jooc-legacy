@@ -62,7 +62,7 @@ public class ArrayLiteral extends Literal implements MustBeUnwrapped, MustBeReso
 	}
 	
 	@Override
-	public boolean resolve(NodeList<Node> stack, Resolver res, boolean fatal)
+	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal)
 			throws IOException {
 		
 		if(!elements.isEmpty()) {
@@ -82,7 +82,7 @@ public class ArrayLiteral extends Literal implements MustBeUnwrapped, MustBeReso
 			type.resolve(stack, res, fatal);
 		}
 		
-		return type == defaultType;
+		return (type == defaultType) ? Response.LOOP : Response.OK; 
 		
 	}
 

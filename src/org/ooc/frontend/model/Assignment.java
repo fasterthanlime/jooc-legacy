@@ -106,7 +106,7 @@ public class Assignment extends BinaryOperation {
 	}
 	
 	@Override
-	public boolean resolve(NodeList<Node> stack, Resolver res, boolean fatal)
+	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal)
 			throws IOException {
 	
 		if(right.getType() != null && left.getType() != null) {

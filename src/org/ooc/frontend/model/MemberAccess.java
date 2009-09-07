@@ -63,7 +63,7 @@ public class MemberAccess extends VariableAccess {
 	}
 	
 	@Override
-	public boolean resolve(NodeList<Node> stack, Resolver res, boolean fatal) throws IOException {
+	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) throws IOException {
 		
 		Type exprType = expression.getType();
 		if(exprType == null) {
@@ -72,7 +72,7 @@ public class MemberAccess extends VariableAccess {
 						+name+" in an expression "+expression.getClass().getSimpleName()
 						+" which type hasn't been resolved yet!");
 			}
-			return true;
+			return Response.LOOP;
 		}
 		exprType = exprType.getFlatType(res);
 		if(exprType.getRef() == null) exprType.resolve(res);
@@ -116,7 +116,7 @@ public class MemberAccess extends VariableAccess {
 			throw new OocCompilationError(this, stack, message);
 		}
 		
-		return ref == null;
+		return (ref == null) ? Response.LOOP : Response.OK;
 	}
 
 	private String guessCorrectName(final TypeDecl typeDeclaration) {

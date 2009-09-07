@@ -62,7 +62,7 @@ public class MemberCall extends FunctionCall {
 	}
 	
 	@Override
-	public boolean resolve(NodeList<Node> stack, Resolver res, final boolean fatal) throws IOException {
+	public Response resolve(NodeList<Node> stack, Resolver res, final boolean fatal) throws IOException {
 
 		Type exprType = expression.getType();
 		if(exprType == null) {
@@ -81,7 +81,7 @@ public class MemberCall extends FunctionCall {
 						+name+getArgsRepr()+" in an expression "+expression.getClass().getSimpleName()
 						+" which type hasn't been resolved yet!");
 			}
-			return true;
+			return Response.LOOP;
 		}
 		exprType = exprType.getFlatType(res);
 		if(exprType.getRef() == null) exprType.resolve(res);
@@ -92,7 +92,7 @@ public class MemberCall extends FunctionCall {
 						+name+getArgsRepr()+" in an expression "+expression
 						+" which type hasn't been ref'd yet. Its type = "+exprType);
 			}
-			return true;
+			return Response.LOOP;
 		}
 		Declaration decl = exprType.getRef();
 		if(!(decl instanceof TypeDecl)) {
@@ -128,7 +128,7 @@ public class MemberCall extends FunctionCall {
 			throw new OocCompilationError(this, stack, message);
 		}
 		
-		return impl == null;
+		return (impl == null) ? Response.LOOP : Response.OK;
 		
 	}
 	

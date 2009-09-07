@@ -75,9 +75,9 @@ public class VariableAccess extends Access implements MustBeResolved {
 	}
 
 	@Override
-	public boolean resolve(final NodeList<Node> stack, final Resolver res, final boolean fatal) throws IOException {
+	public Response resolve(final NodeList<Node> stack, final Resolver res, final boolean fatal) throws IOException {
 
-		if(isResolved()) return false;
+		if(isResolved()) return Response.OK;
 		
 		{
 			VariableDecl varDecl = getVariable(name, stack);
@@ -93,7 +93,7 @@ public class VariableAccess extends Access implements MustBeResolved {
 					}
 				}
 				ref = varDecl;
-				return false;
+				return Response.OK;
 			}
 		}
 		
@@ -101,18 +101,18 @@ public class VariableAccess extends Access implements MustBeResolved {
 			FunctionDecl func = getFunction(name, "", null, stack);
 			if(func != null) {
 				ref = func;
-				return false;
+				return Response.OK;
 			}
 		}
 		
-		if(ref != null) return false;
+		if(ref != null) return Response.OK;
 		int typeIndex = stack.find(TypeDecl.class);
 		if(typeIndex != -1) {
 			TypeDecl typeDecl = (TypeDecl) stack.get(typeIndex);
 			if(name.equals("This")) {
 				name = typeDecl.getName();
 				ref = typeDecl;
-				return true;
+				return Response.RESTART;
 			}
 			VariableDecl varDecl = typeDecl.getVariable(name);
 			if(varDecl != null) {
@@ -123,17 +123,17 @@ public class VariableAccess extends Access implements MustBeResolved {
 				if(!stack.peek().replace(this, membAccess)) {
 					throw new Error("Couldn't replace a VariableAccess with a MemberAccess! Stack = "+stack);
 				}
-				return true;
+				return Response.RESTART;
 			}
 		}
 		
 		ref = res.module.getType(name);
-		if(ref != null) return true;
+		if(ref != null) return Response.OK;
 		
 		GenericType genType = getGenericType(stack, name);
 		if(genType != null) {
 			ref = genType.getArgument();
-			return false;
+			return Response.OK;
 		}
 		
 		if(fatal && ref == null) {
@@ -145,7 +145,7 @@ public class VariableAccess extends Access implements MustBeResolved {
 			throw new OocCompilationError(this, stack, message);
 		}
 		
-		return ref == null;
+		return (ref == null) ? Response.LOOP : Response.OK;
 		
 	}
 

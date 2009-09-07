@@ -60,7 +60,7 @@ public class ValuedReturn extends Return implements MustBeResolved {
 	}
 
 	@Override
-	public boolean resolve(NodeList<Node> stack, Resolver res, boolean fatal)
+	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal)
 			throws IOException {
 		
 		int funcIndex = stack.find(FunctionDecl.class);
@@ -72,10 +72,10 @@ public class ValuedReturn extends Return implements MustBeResolved {
 		GenericType param = getGenericType(stack, returnType.getName());
 		if(param != null) {
 			unwrapToMemcpy(stack, decl, param);
-			return true;
+			return Response.RESTART;
 		}
 		
-		return false;
+		return Response.OK;
 		
 	}
 

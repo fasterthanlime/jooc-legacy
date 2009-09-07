@@ -55,10 +55,10 @@ public class Use extends Node implements MustBeResolved {
 	}
 
 	@Override
-	public boolean resolve(NodeList<Node> stack, Resolver res, boolean fatal)
+	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal)
 			throws IOException {
 		useDef = UseDefParser.parse(identifier, res.params);
-		return useDef == null;
+		return (useDef == null) ? Response.LOOP : Response.OK;
 	}
 
 }

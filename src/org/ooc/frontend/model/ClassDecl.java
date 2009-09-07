@@ -154,15 +154,15 @@ public class ClassDecl extends TypeDecl implements MustBeResolved, Generic {
 	}
 
 	@Override
-	public boolean resolve(NodeList<Node> stack, Resolver res, boolean fatal)
+	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal)
 			throws IOException {
 		
-		if(isResolved()) return false;
+		if(isResolved()) return Response.OK;
 		if(!(superRef instanceof ClassDecl)) {
 			throw new OocCompilationError(this, stack, "Trying to extends a "
 					+superRef.getClass().getSimpleName()+". You can only extend classes.");
 		}
-		return superRef == null;
+		return (superRef == null) ? Response.LOOP : Response.OK;
 		
 	}
 

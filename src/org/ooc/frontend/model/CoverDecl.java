@@ -223,17 +223,17 @@ public class CoverDecl extends TypeDecl implements MustBeResolved {
 	 * so that it's considered 'resolved' (e.g. it's somewhere in C)
 	 */
 	@Override
-	public boolean resolve(NodeList<Node> stack, Resolver res, boolean fatal)
+	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal)
 			throws IOException {
 		
-		if(fromType == null) return false;
+		if(fromType == null) return Response.OK;
 		fromType.resolve(res);
 		
 		if(fromType.ref == null) {
 			fromType.ref = new BuiltinType(fromType);
 		}
 		
-		return fromType.ref == null;
+		return (fromType.ref == null) ? Response.LOOP : Response.OK;
 		
 	}
 

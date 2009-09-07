@@ -20,7 +20,7 @@ public class NodeList<T extends Node> extends Node implements Iterable<T> {
 	@SuppressWarnings("unchecked")
 	public NodeList(Token startToken) {
 		super(startToken);
-		nodes = (T[]) new Node[10];
+		nodes = (T[]) new Node[5];
 		size = 0;
 	}
 
@@ -175,7 +175,7 @@ public class NodeList<T extends Node> extends Node implements Iterable<T> {
 		if(index == -1) {
 			String oldieClassName = oldie == null ? "null" : oldie.getClass().getSimpleName();
 			String kiddoClassName = kiddo == null ? "null" : kiddo.getClass().getSimpleName();
-			System.out.println("Trying to replace "+oldie+" with "+kiddo+" in a list with "+toString());
+			System.out.println("Trying to replace "+oldie+" with "+kiddo+" in a list with \n"+toString());
 			throw new ArrayIndexOutOfBoundsException("Trying to replace a "
 					+oldieClassName+" with a "+kiddoClassName+
 					" in a "+this.getClass().getSimpleName()+", but couldn't find node to replace in NodeList.");
@@ -216,15 +216,18 @@ public class NodeList<T extends Node> extends Node implements Iterable<T> {
 	public String toString(boolean stackLike, int offset) {
 		if(size == 0) return "[]";
 		StringBuilder sB = new StringBuilder();
-		if(stackLike) sB.append('\n');
-		else sB.append('[');
+		for(int i = 0; i < offset; i++) sB.append("  ");
+		if(stackLike) {
+			sB.append('\n');
+		} else {
+			sB.append('[');
+		}
 		int index = 0;
 		while(index < size) {
 			T node = nodes[index++];
 			if(node instanceof NodeList<?>) {
 				sB.append(((NodeList<?>) node).toString(false, stackLike ? offset + index : offset));
 			} else {
-				for(int i = 0; i < offset; i++) sB.append("  ");
 				if(stackLike) {
 					for(int i = 0; i < index; i++) sB.append("  ");
 				} else if(index > 1) {

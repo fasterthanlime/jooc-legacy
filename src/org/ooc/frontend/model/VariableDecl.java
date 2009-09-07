@@ -189,14 +189,16 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 		) {
 			return false;
 		}
-		
+
 		if(atoms.size() != 1) {
 			throw new OocCompilationError(this, stack, "Multi-var decls used an expression.. wtf?");
 		}
 		VariableDeclAtom atom = atoms.get(0);
 		VariableAccess varAcc = new VariableAccess(atom.name, atom.startToken);
 		varAcc.setRef(this);
-		parent.replace(this, varAcc);
+		if(!parent.replace(this, varAcc)) {
+			throw new Error("Couldn't replace "+this+" with "+varAcc+" in "+parent);
+		}
 		
 		if(parent instanceof NodeList<?>) {
 			NodeList<Node> list = (NodeList<Node>) parent;
@@ -215,13 +217,15 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 			throw new Error("Not in a line! How are we supposed to add one? Stack = "+stack);
 		}
 		Line line = (Line) stack.get(lineIndex);
-		int bodyIndex = stack.find(NodeList.class, lineIndex - 1);
+		
+		int bodyIndex = lineIndex - 1;
 		if(bodyIndex == -1) {
 			throw new Error("Didn't find a nodelist containing the line! How are we suppoed to add one? Stack = "+stack);
 		}
-		
 		NodeList<Line> body = (NodeList<Line>) stack.get(bodyIndex);
-		if(parent instanceof Foreach) {
+		
+		int declIndex = stack.find(VariableDecl.class);
+		if(declIndex == -1) {
 			Block block = new Block(startToken);
 			block.getBody().add(new Line(this));
 			block.getBody().add(line);
@@ -229,7 +233,6 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 		} else {
 			body.addBefore(line, new Line(this));
 		}
-		
 		return true;
 		
 	}
@@ -262,13 +265,11 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 
 	@Override
 	public boolean replace(Node oldie, Node kiddo) {
-		
 		if(oldie == type) {
 			type = (Type) kiddo;
 			return true;
 		}
 		return false;
-		
 	}
 	
 	@Override
@@ -282,7 +283,7 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 			if(iter.hasNext()) repr += ", ";
 		}
 		repr += ":"+type;
-		return repr;
+		return getClass().getSimpleName()+"|"+repr;
 	}
 
 	public boolean shouldBeLowerCase() {

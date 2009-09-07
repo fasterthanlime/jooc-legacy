@@ -183,9 +183,9 @@ public class Type extends Node implements MustBeResolved {
 		return super.equals(obj);
 	}
 	
-	public boolean resolve(NodeList<Node> stack, Resolver res, boolean fatal) throws IOException {
+	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) throws IOException {
 		
-		if(ref != null) return false;
+		if(ref != null) return Response.OK;
 		
 		ref = stack.getModule().getType(name);
 
@@ -198,14 +198,14 @@ public class Type extends Node implements MustBeResolved {
 			TypeDecl typeDecl = (TypeDecl) stack.get(index);
 			name = typeDecl.getName();
 			ref = typeDecl;
-			return false;
+			return Response.OK;
 		}
 		
 		if(ref == null) {
 			GenericType param = getGenericType(stack, name);
 			if(param != null) {
 				ref = param;
-				return false;
+				return Response.OK;
 			}
 		}
 		
@@ -213,7 +213,7 @@ public class Type extends Node implements MustBeResolved {
 			throw new OocCompilationError(this, stack, "Couldn't resolve type "+getName());
 		}
 		
-		return ref == null;
+		return (ref == null) ? Response.LOOP : Response.OK;
 		
 	}
 

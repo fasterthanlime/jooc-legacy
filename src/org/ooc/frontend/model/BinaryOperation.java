@@ -64,7 +64,7 @@ public abstract class BinaryOperation extends Expression implements MustBeResolv
 	}
 
 	@Override
-	public boolean resolve(NodeList<Node> stack, Resolver res, boolean fatal)
+	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal)
 			throws IOException {
 		
 		if(left.getType() == null) {
@@ -75,7 +75,7 @@ public abstract class BinaryOperation extends Expression implements MustBeResolv
 				throw new OocCompilationError(this, stack, "Can't resolve type of left "+
 						left+" operand. Wtf?");
 			}
-			return true;
+			return Response.LOOP;
 		}
 		
 		if(right.getType() == null) {
@@ -86,16 +86,16 @@ public abstract class BinaryOperation extends Expression implements MustBeResolv
 				throw new OocCompilationError(this, stack, "Can't resolve type of right "
 						+right+" operand. Seriously.");
 			}
-			return true;
+			return Response.LOOP;
 		}
 		
 		OpType opType = getOpType();		
 		for(OpDecl op: res.module.getOps()) {
-			if(tryOp(stack, opType, op, res)) return false;
+			if(tryOp(stack, opType, op, res)) return Response.OK;
 		}
 		for(Import imp: res.module.getImports()) {
 			for(OpDecl op: imp.getModule().getOps()) {
-				if(tryOp(stack, opType, op, res)) return false;
+				if(tryOp(stack, opType, op, res)) return Response.OK;
 			}
 		}
 		
@@ -106,7 +106,7 @@ public abstract class BinaryOperation extends Expression implements MustBeResolv
 					+opType.toPrettyString()+" (left: "+left.getType()+", right: "+right.getType()+") { ... }").toString());
 		}
 		*/
-		return false;
+		return Response.OK;
 		
 	}
 
