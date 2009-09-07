@@ -173,7 +173,7 @@ public class NodeList<T extends Node> extends Node implements Iterable<T> {
 	public boolean replace(Node oldie, Node kiddo) {
 		int index = indexOf((T) oldie);
 		if(index == -1) {
-			String oldieClassName = oldie == null ? "null" : oldie.getClass().getName();
+			String oldieClassName = oldie == null ? "null" : oldie.getClass().getSimpleName();
 			String kiddoClassName = kiddo == null ? "null" : kiddo.getClass().getSimpleName();
 			System.out.println("Trying to replace "+oldie+" with "+kiddo+" in a list with "+toString());
 			throw new ArrayIndexOutOfBoundsException("Trying to replace a "

@@ -15,7 +15,7 @@ import org.ooc.middle.walkers.SketchyNosy;
 
 public class Resolver implements Hobgoblin {
 
-	protected static final int MAX = 1;
+	protected static final int MAX = 2;
 	boolean running;
 	boolean fatal = false;
 	
@@ -40,7 +40,6 @@ public class Resolver implements Hobgoblin {
 				return true;
 			}
 		});
-		nosy.start().visit(module);
 		
 		int count = 0;
 		running = true;

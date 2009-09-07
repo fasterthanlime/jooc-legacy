@@ -101,13 +101,17 @@ public class FunctionCall extends Access implements MustBeResolved {
 
 	@Override
 	public boolean isResolved() {
-		return impl != null;
+		//return impl != null;
+		return false;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public boolean resolve(final NodeList<Node> stack, final Resolver res, final boolean fatal) throws IOException {
 
+		//System.out.println("Resolving "+this+", stack trace:");
+		//System.out.println(stack.toString(true));
+		//Thread.dumpStack();
+		
 		if(impl == null) {
 			if (name.equals("this")) resolveConstructorCall(stack, false);
 			else if (name.equals("super")) resolveConstructorCall(stack, true);
@@ -153,12 +157,13 @@ public class FunctionCall extends Access implements MustBeResolved {
 				} else if(parent instanceof VariableDeclAtom) {
 					VariableDeclAtom atom = (VariableDeclAtom) parent;
 					unwrapFromVarDecl(stack, genType,  atom);
+				} else if(parent instanceof Line) {
+					// alright =)
 				} else {
-					System.out.println("Parent is a "+parent);
 					VariableDeclFromExpr vdfe = new VariableDeclFromExpr(generateTempName("gencall"),
 							this, startToken);
 					parent.replace(this, vdfe);
-					vdfe.unwrap(stack);
+					vdfe.unwrapToVarAcc(stack);
 					return true;
 				}
 			}
@@ -186,20 +191,11 @@ public class FunctionCall extends Access implements MustBeResolved {
 			GenericType genType, VariableDeclAtom atom) {
 		int varDeclIndex = stack.find(VariableDecl.class);
 		VariableDecl decl = (VariableDecl) stack.get(varDeclIndex);
-		System.out.println("Found decl at = "+varDeclIndex+", stack = "+stack.toString(true));
+		decl.setType(getRealType(genType));
 		atom.replace(this, null);
 		
 		int lineIndex = stack.find(Line.class, varDeclIndex);
 		Line line = (Line) stack.get(lineIndex);		
-		
-		if(decl instanceof VariableDeclFromExpr) {
-			VariableDecl newDecl = new VariableDecl(getRealType(genType), false, startToken);
-			newDecl.getAtoms().add(atom);
-			Node node = stack.get(varDeclIndex - 1);
-			System.out.println("node to replace in = "+node);
-			node.replace(decl, newDecl);
-			decl = newDecl;
-		}
 		
 		NodeList<Line> list = (NodeList<Line>) stack.get(lineIndex - 1);
 		VariableAccess varAcc = new VariableAccess(atom.getName(), startToken);
