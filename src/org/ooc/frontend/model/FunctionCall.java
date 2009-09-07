@@ -159,6 +159,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 							this, startToken);
 					parent.replace(this, vdfe);
 					vdfe.unwrap(stack);
+					System.out.println("Index of vdfe = "+stack.size());
 					stack.push(vdfe);
 					stack.push(vdfe.atoms);
 					VariableDeclAtom atom = vdfe.atoms.get(0);
@@ -191,6 +192,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 			GenericType genType, VariableDeclAtom atom) {
 		int varDeclIndex = stack.find(VariableDecl.class);
 		VariableDecl decl = (VariableDecl) stack.get(varDeclIndex);
+		System.out.println("Found decl at = "+stack.size());
 		atom.replace(this, null);
 		
 		int lineIndex = stack.find(Line.class, varDeclIndex);
