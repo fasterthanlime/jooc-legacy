@@ -1,13 +1,11 @@
 include stdlib, string
 
-strlen: extern func (String) -> SizeT
-strdup: extern func (String) -> String
 atoi: extern func (String) -> Int
 atol: extern func (String) -> Long
 
 String: cover from Char* {
 	
-	length: func -> Int { strlen(this) }
+	length: extern(strlen) func -> SizeT
 	
 	equals: func(other: String) -> Bool {
 		if ((this == null) || (other == null)) {
@@ -24,13 +22,10 @@ String: cover from Char* {
 		return true
 	}
 	
-	toInt: func -> Int { atoi(this) }
-	
-	toLong: func -> Long { atol(this) }
-	
-	toLLong: func -> LLong { atol(this) }
-	
-	/* TODO: toDouble */
+	toInt: extern(atoi) func -> Int
+	toLong: extern(atol) func -> Long
+	toLLong: extern(atoll) func -> LLong
+	toDouble: extern(atof) func -> Double
 	
 	isEmpty: func -> Bool { (this == null) || (this[0] == 0) }
 	
@@ -56,7 +51,8 @@ String: cover from Char* {
 	}
 	
 	indexOf: func(c: Char) -> Int {
-		for(i: Int in 0..this length()) {
+		length := length()
+		for(i: Int in 0..length) {
 			if(this[i] == c) {
 				return i
 			}
@@ -64,23 +60,60 @@ String: cover from Char* {
 		return -1
 	}
 	
-	substring: func(start: Int) -> String {
+	trim: func(c: Char) -> This {
+		start := 0
+		while(this[start] == c) start += 1;
+		end := length()
+		while(this[end - 1] == c) end -= 1;
+		if(start != 0 || end != length()) return substring(start, end)
+		return this
+	}
+	
+	lastIndexOf: func(c: Char) -> Int {
+		// could probably use reverse foreach here
+		i := length()
+		while(i) {
+			if(this[i] == c) {
+				return i
+			}
+			i -= 1
+		}
+		return -1
+	}
+	
+	substring: func ~tillEnd (start: Int) -> This {
 		len = this length() : Int
 		
 		if(start > len) {
-			printf("String.substring: out of bounds: length = %d, start = %d\n",
+			printf("String.substring~tillEnd: out of bounds: length = %d, start = %d\n",
 				len, start);
 			return null
 		}
 		
 		diff = (len - start) : Int
-		sub := gc_malloc(diff + 1) as String
+		sub := gc_malloc(diff + 1) as This
 		sub[diff + 1] = 0
 		memcpy(sub, this + start, diff)
 		return sub
 	}
 	
-	reverse: func -> String {
+	substring: func (start: Int, end: Int) -> This {
+		len = this length() : Int
+		
+		if(start > len || start > end || end > len) {
+			printf("String.substring: out of bounds: length = %d, start = %d, end = %d\n",
+				len, start, end);
+			return null
+		}
+		
+		diff = (end - start) : Int
+		sub := gc_malloc(diff + 1) as This
+		sub[diff + 1] = 0
+		memcpy(sub, this + start, diff)
+		return sub
+	}
+	
+	reverse: func -> This {
 	
 		len := this length()
 	
@@ -88,7 +121,7 @@ String: cover from Char* {
 			return null
 		}
 		
-		result := gc_malloc(len + 1) as String
+		result := gc_malloc(len + 1) as This
 		for (i: Int in 0..len) {
 			result[i] = this[(len-1)-i]
 		}
@@ -98,9 +131,7 @@ String: cover from Char* {
 	}
 	
 	println: func {
-		
 		printf("%s\n", this)
-		
 	}
 	
 }

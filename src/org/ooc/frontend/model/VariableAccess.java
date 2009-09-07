@@ -179,7 +179,7 @@ public class VariableAccess extends Access implements MustBeResolved {
 
 	@Override
 	public String toString() {
-		return name+":"+getType();
+		return "VariableAccess|"+name+":"+getType();
 	}
 
 }

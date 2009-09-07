@@ -159,12 +159,6 @@ public class FunctionCall extends Access implements MustBeResolved {
 							this, startToken);
 					parent.replace(this, vdfe);
 					vdfe.unwrap(stack);
-					System.out.println("Index of vdfe = "+stack.size());
-					stack.push(vdfe);
-					stack.push(vdfe.atoms);
-					VariableDeclAtom atom = vdfe.atoms.get(0);
-					stack.push(atom);
-					unwrapFromVarDecl(stack, genType, atom);
 					return true;
 				}
 			}

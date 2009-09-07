@@ -80,6 +80,7 @@ public class VariableDeclFromExpr extends VariableDecl implements MustBeResolved
 	@Override
 	public boolean resolve(NodeList<Node> stack, Resolver res, boolean fatal)
 			throws IOException {
+		//System.out.println("Resolving "+this);
 		VariableDeclAtom atom = atoms.get(0);
 		Expression expr = atom.getExpression();
 		if(expr != null && expr instanceof MustBeResolved) {

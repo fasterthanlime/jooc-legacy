@@ -206,7 +206,7 @@ public class MemberAccess extends VariableAccess {
 			return getClass().getSimpleName()+" "+varAcc.getName()+":"+varAcc.getType()
 			+"->"+name+":"+getType();
 		}
-		return expression+"."+name+":"+getType();
+		return "MemberAccess|"+expression+"."+name+":"+getType();
 	}
 
 }
