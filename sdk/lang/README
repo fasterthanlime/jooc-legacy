@@ -1,0 +1,9 @@
+lang package rules:
+  - Every class outside lang.* import every lang.* class automatically
+  - In lang.*, classes don't import each other automatically (to avoid circular dependencies)
+  - All covers must be first defined in ooclib.ooc, then additional functions must go in their
+    dedicated file (e.g. String.ooc, Char.ooc)
+
+Note: defining covers twice (or more!) is never a problem for the ooc compiler.
+The second, third, etc. definitions aren't allowed to add members / change the
+from-type, but should be used to add functions.
