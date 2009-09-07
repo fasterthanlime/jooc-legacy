@@ -1,13 +1,15 @@
 package org.ooc.backend.cdirty;
 
 import java.io.IOException;
+import java.util.Iterator;
 
 import org.ooc.frontend.model.Argument;
 import org.ooc.frontend.model.FuncType;
 import org.ooc.frontend.model.FunctionDecl;
+import org.ooc.frontend.model.GenericType;
 import org.ooc.frontend.model.Line;
 import org.ooc.frontend.model.Type;
-import org.ooc.frontend.model.GenericType;
+import org.ooc.frontend.model.TypeDecl;
 
 public class FunctionDeclWriter {
 
@@ -29,6 +31,7 @@ public class FunctionDeclWriter {
 			cgen.current.openBlock();
 			
 			if(functionDecl.isEntryPoint()) {
+				// FIXME what if we want no gc?
 				cgen.current.nl().app("GC_INIT();");
 				cgen.current.nl().app(cgen.module.getLoadFunc().getName()).app("();");
 			}
@@ -42,6 +45,11 @@ public class FunctionDeclWriter {
 	}
 
 	public static void writeFuncPrototype(FunctionDecl functionDecl, CGenerator cgen) throws IOException {
+		writeFuncPrototype(functionDecl, cgen, null);
+	}
+	
+	
+	public static void writeFuncPrototype(FunctionDecl functionDecl, CGenerator cgen, String additionalSuffix) throws IOException {
 		
 		if(functionDecl.isInline()) cgen.current.append("inline ");
 			
@@ -54,6 +62,7 @@ public class FunctionDeclWriter {
 			TypeWriter.writeSpaced(returnType, cgen);
 		}
 		functionDecl.writeFullName(cgen.current);
+		if(additionalSuffix != null) cgen.current.append(additionalSuffix);
 		
 		writeFuncArgs(functionDecl, cgen);
 		
@@ -63,26 +72,76 @@ public class FunctionDeclWriter {
 		
 	}
 	
-	public static void writeFuncArgs(FunctionDecl functionDecl,
-			CGenerator cgen) throws IOException {
+	public static void writeFuncArgs(FunctionDecl functionDecl, CGenerator cgen) throws IOException {
+		writeFuncArgs(functionDecl, ArgsWriteMode.FULL, null, cgen);
+	}
+	
+	public static enum ArgsWriteMode {
+		FULL,
+		NAMES_ONLY,
+		TYPES_ONLY
+	}
+	
+	public static void writeFuncArgs(FunctionDecl functionDecl, ArgsWriteMode mode,
+			TypeDecl baseType, CGenerator cgen) throws IOException {
+		
 		cgen.current.app('(');
 		boolean isFirst = true;
+		
+		Iterator<Argument> iter = functionDecl.getArguments().iterator();
+		if(functionDecl.hasThis()) {
+			if(!isFirst) cgen.current.app(", ");
+			isFirst = false;
+			Argument arg = iter.next();
+			if(mode == ArgsWriteMode.NAMES_ONLY) {
+				if(baseType != null) {
+					cgen.current.app("(");
+					baseType.getType().accept(cgen);
+					cgen.current.app(") ");
+				}
+				cgen.current.app(arg.getName());
+			} else if(mode == ArgsWriteMode.TYPES_ONLY) {
+				arg.getType().accept(cgen);
+			} else {
+				arg.accept(cgen);
+			}
+		}
+		
 		Type returnType = functionDecl.getReturnType();
 		if(returnType.getRef() instanceof GenericType) {
 			if(!isFirst) cgen.current.app(", ");
 			isFirst = false;
-			functionDecl.getReturnArg().accept(cgen);
+			if(mode == ArgsWriteMode.NAMES_ONLY) {
+				cgen.current.app(functionDecl.getReturnArg().getName());
+			} else if(mode == ArgsWriteMode.TYPES_ONLY) {
+				functionDecl.getReturnArg().getType().accept(cgen);
+			} else {
+				functionDecl.getReturnArg().accept(cgen);
+			}
 		}
 		for(GenericType param: functionDecl.getGenericTypes().values()) {
 			if(!isFirst) cgen.current.app(", ");
 			isFirst = false;
-			param.getArgument().accept(cgen);
+			if(mode == ArgsWriteMode.NAMES_ONLY) {
+				cgen.current.app(param.getArgument().getName());
+			} else if(mode == ArgsWriteMode.TYPES_ONLY) {
+				param.getArgument().getType().accept(cgen);
+			} else {
+				param.getArgument().accept(cgen);
+			}
 		}
 		
-		for(Argument arg: functionDecl.getArguments()) {
+		while(iter.hasNext()) {
+			Argument arg = iter.next();
 			if(!isFirst) cgen.current.app(", ");
 			isFirst = false;
-			arg.accept(cgen);
+			if(mode == ArgsWriteMode.NAMES_ONLY) {
+				cgen.current.app(arg.getName());
+			} else if(mode == ArgsWriteMode.TYPES_ONLY) {
+				arg.getType().accept(cgen);
+			} else {
+				arg.accept(cgen);
+			}
 		}
 		cgen.current.app(')');
 	}

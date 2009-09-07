@@ -64,7 +64,8 @@ public class TypeWriter {
 
 	public static AwesomeWriter writeFuncPointerStart(FunctionDecl decl, CGenerator cgen)
 			throws IOException {
-		return cgen.current.app("void (*");
+		decl.getReturnType().accept(cgen);
+		return cgen.current.app(" (*");
 	}
 	
 }

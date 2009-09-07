@@ -87,7 +87,7 @@ public class SketchyNosy implements Visitor {
 	public void visitAll(Node node) throws IOException {
 		stack.push(node);
 		node.acceptChildren(this);
-		stack.pop();
+		stack.pop(node);
 		
 		if(!running) return; // if not running, do nothing
 		if(!oppo.take(node, stack)) running = false; // aborted. (D-Nied. Denied).

@@ -114,35 +114,57 @@ public class FunctionCall extends Access implements MustBeResolved {
 			else resolveRegular(stack, res, fatal);
 		}
 	
+		if(impl != null) {
+			autocast();
+			Response response = handleGenerics(stack);
+			if(response != Response.OK) return response;
+		}
+		
+		if(impl == null && fatal) {
+			String message = "Couldn't resolve call to function "+name+getArgsRepr()+".";
+			String guess = guessCorrectName(stack, res);
+			if(guess != null) {
+				message += " Did you mean "+guess+" ?";
+			}
+			throw new OocCompilationError(this, stack, message);
+		}
+		
+		return (impl == null) ? Response.LOOP : Response.OK;
+		
+	}
+
+	protected Response handleGenerics(final NodeList<Node> stack)
+			throws EOFException {
+		
 		// If one of the arguments which type is generic is not a VariableAccess
 		// turn it into a VDFE and unwrap it
-		if(impl != null) {
-			LinkedHashMap<String, GenericType> params = impl.getGenericTypes();
-			if(!params.isEmpty()) {
-				for(GenericType param: params.values()) {
-					NodeList<Argument> implArgs = impl.getArguments();
-					for(int i = 0; i < implArgs.size(); i++) {
-						Argument arg = implArgs.get(i);
-						if(!arg.getType().getName().equals(param.getName())) continue;
-						Expression expr = arguments.get(i);
-						if(!(expr instanceof VariableAccess)) {
-							VariableDeclFromExpr vdfe = new VariableDeclFromExpr(
-									generateTempName(param.getName()+"param"), expr, startToken);
-							arguments.replace(expr, vdfe);
-							stack.push(this);
-							stack.push(arguments);
-							vdfe.unwrapToVarAcc(stack);
-							stack.pop(arguments);
-							stack.pop(this);
-							return Response.RESTART;
-						}
+		LinkedHashMap<String, GenericType> params = impl.getGenericTypes();
+		if(!params.isEmpty()) {
+			for(GenericType param: params.values()) {
+				Iterator<Argument> iter = impl.getThisLessArgsIter();
+				int i = 0;
+				while(iter.hasNext()) {
+					Argument arg = iter.next();
+					if(!arg.getType().getName().equals(param.getName())) continue;
+					Expression expr = arguments.get(i);
+					if(!(expr instanceof VariableAccess)) {
+						VariableDeclFromExpr vdfe = new VariableDeclFromExpr(
+								generateTempName(param.getName()+"param"), expr, startToken);
+						arguments.replace(expr, vdfe);
+						stack.push(this);
+						stack.push(arguments);
+						vdfe.unwrapToVarAcc(stack);
+						stack.pop(arguments);
+						stack.pop(this);
+						return Response.RESTART;
 					}
+					i++;
 				}
 			}
 		}
 		
-		// Turn any outer assign expression into a memcpy
-		if(impl != null && impl.getGenericTypes().size() > 0) {
+		// Turn any outer assigned access into a returnArg, unwrap if in varDecl.
+		if(impl.getGenericTypes().size() > 0) {
 			Type returnType = impl.getReturnType();
 			GenericType genType = impl.getGenericTypes().get(returnType.getName());
 			if(genType != null) {
@@ -170,20 +192,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 			}
 		}
 		
-		if(impl != null) {
-			autocast();
-		}
-		
-		if(impl == null && fatal) {
-			String message = "Couldn't resolve call to function "+name+getArgsRepr()+".";
-			String guess = guessCorrectName(stack, res);
-			if(guess != null) {
-				message += " Did you mean "+guess+" ?";
-			}
-			throw new OocCompilationError(this, stack, message);
-		}
-		
-		return (impl == null) ? Response.LOOP : Response.OK;
+		return Response.OK;
 		
 	}
 
@@ -223,7 +232,9 @@ public class FunctionCall extends Access implements MustBeResolved {
 
 	private Type getRealType(GenericType genType) {
 		int i = 0;
-		for(Argument arg: impl.getArguments()) {
+		Iterator<Argument> iter = impl.getThisLessArgsIter();
+		while(iter.hasNext()) {
+			Argument arg = iter.next();
 			if(arg.getType().getName().equals(genType.getName())) {
 				Type type = arguments.get(i).getType();
 				Type argType = arg.getType();

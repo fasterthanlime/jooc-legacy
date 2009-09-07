@@ -287,7 +287,7 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 	}
 
 	public boolean shouldBeLowerCase() {
-		return externName == null || !externName.isEmpty();
+		return (externName == null || !externName.isEmpty()) && !(type.getName().equals("Class"));
 	}
 	
 }

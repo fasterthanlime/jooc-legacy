@@ -257,6 +257,7 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 	}
 
 	public String getProtoRepr() {
+		if(typeDecl != null) return typeDecl.getName()+"."+name+getArgsRepr();
 		return name+getArgsRepr();
 	}
 
@@ -339,6 +340,16 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 
 	public boolean isSpecialFunc() {
 		return name.equals("defaults") || name.equals("destroy") || name.equals("load");
+	}
+
+	public Iterator<Argument> getThisLessArgsIter() {
+		Iterator<Argument> iter = getArguments().iterator();
+		if(hasThis()) iter.next();
+		return iter;
+	}
+
+	public boolean hasReturn() {
+		return !getReturnType().isVoid() && !(getReturnType().getRef() instanceof GenericType);
 	}
 	
 }

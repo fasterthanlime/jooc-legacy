@@ -7,6 +7,7 @@ import java.util.Iterator;
 
 import org.ooc.backend.Generator;
 import org.ooc.frontend.Visitor;
+import org.ooc.frontend.model.Access;
 import org.ooc.frontend.model.Add;
 import org.ooc.frontend.model.AddressOf;
 import org.ooc.frontend.model.ArrayAccess;
@@ -172,7 +173,12 @@ public class CGenerator extends Generator implements Visitor {
 
 	@Override
 	public void visit(Assignment assignment) throws IOException {
-		assignment.getLeft().accept(this);
+		Expression left = assignment.getLeft();
+		if(left instanceof Access) {
+			AccessWriter.write((Access) left, false, this);
+		} else {
+			left.accept(this);
+		}
 		current.app(' ').app(assignment.getSymbol()).app(' ');
 		assignment.getRight().accept(this);
 	}

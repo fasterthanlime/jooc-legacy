@@ -106,7 +106,7 @@ public class ClassDeclParser {
 			reader.skip();
 			if(genTypes != null) {
 				for(GenericType genType: genTypes) {
-					classDecl.getGenericTypes().put(genType.getName(), genType);
+					classDecl.addGenericType(genType);
 				}
 			}
 			

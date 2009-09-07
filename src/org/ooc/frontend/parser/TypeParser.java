@@ -16,7 +16,7 @@ import org.ubi.SourceReader;
 
 public class TypeParser {
 
-	public static Type parse(Module module, SourceReader sReader, TokenReader reader) throws IOException {
+	public static Type parse(Module module, SourceReader sReader, TokenReader reader) throws IOException {	
 		
 		String name = "";
 		int pointerLevel = 0;
@@ -83,6 +83,7 @@ public class TypeParser {
 			}
 			if(reader.read().type != TokenType.GREATERTHAN) {
 				typeParams = null;
+				
 			}
 		}
 

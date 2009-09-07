@@ -93,7 +93,7 @@ public class ExpressionParser {
 					continue ;
 				}
 				
-				VariableAccess varAccess = VariableAccessParser.parse(sReader, reader);
+				VariableAccess varAccess = AccessParser.parse(module, sReader, reader);
 				if(varAccess != null) {
 					expr = new MemberAccess(expr, varAccess, token);
 					continue;
@@ -255,7 +255,7 @@ public class ExpressionParser {
 			if(declaration != null) return declaration;
 		}
 				
-		Access access = VariableAccessParser.parse(sReader, reader);
+		Access access = AccessParser.parse(module, sReader, reader);
 		if(access != null) return access;
 		
 		reader.reset(mark);

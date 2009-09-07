@@ -177,4 +177,9 @@ public class ArrayAccess extends Access implements MustBeResolved {
 		
 	}
 	
+	@Override
+	public String toString() {
+		return getClass().getSimpleName() + "|" + variable + "["+index+"]";
+	}
+	
 }

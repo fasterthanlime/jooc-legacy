@@ -9,9 +9,9 @@ import org.ooc.middle.hobgoblins.Resolver;
 public interface MustBeResolved {
 
 	public static enum Response {
-		OK,
-		RESTART,
-		LOOP,
+		OK, /** means resolve() doesn't need to be called ever again */
+		RESTART, /** means the AST has been changed significantly and the Resolved must start over again */
+		LOOP, /** means resolve() is counting on other nodes to resolve before trying again */
 	}
 	
 	/**

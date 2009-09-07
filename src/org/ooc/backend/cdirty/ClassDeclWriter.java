@@ -2,13 +2,11 @@ package org.ooc.backend.cdirty;
 
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
-import org.ooc.frontend.model.Argument;
+import org.ooc.backend.cdirty.FunctionDeclWriter.ArgsWriteMode;
 import org.ooc.frontend.model.ClassDecl;
 import org.ooc.frontend.model.FunctionDecl;
-import org.ooc.frontend.model.Node;
 import org.ooc.frontend.model.VariableDecl;
 
 public class ClassDeclWriter {
@@ -32,40 +30,6 @@ public class ClassDeclWriter {
 		
 		cgen.current.nl();
 		
-	}
-
-	public static void writeTypelessFuncArgs(FunctionDecl decl, ClassDecl baseClass, CGenerator cgen)
-			throws IOException {
-
-		boolean isFirst = true;
-		
-		cgen.current.app('(');
-		Iterator<Argument> iter = decl.getArguments().iterator();
-		int index = 0;
-		while (iter.hasNext()) {
-			Argument arg = iter.next();
-			if(isFirst) {
-				isFirst = false;
-				if(arg.getName().equals("this")) {
-					cgen.current.app("(");
-					baseClass.getType().accept(cgen);
-					cgen.current.app(") ");
-				}
-			}
-			if(decl.getName().equals("init")) {
-				FunctionDecl baseDecl = baseClass.getFunction(decl.getName(), decl.getSuffix(), null);
-				cgen.current.app("(");
-				baseDecl.getArguments().get(index).getType().accept(cgen);
-				cgen.current.app(") ");
-			}
-			cgen.current.app(arg.getName());
-			if (iter.hasNext()) {
-				cgen.current.app(", ");
-			}
-			index++;
-		}
-		cgen.current.app(')');
-
 	}
 
 	public static void writeStaticFuncs(ClassDecl classDecl, CGenerator cgen) throws IOException {
@@ -98,13 +62,12 @@ public class ClassDeclWriter {
 
 			ClassDecl baseClass = classDecl.getBaseClass(decl);
 			
-			if (!decl.getReturnType().isVoid())
-				cgen.current.app("return ");
+			if (decl.hasReturn()) cgen.current.app("return ");
 			cgen.current.app("((").app(baseClass.getName()).app(
 					"Class *)((Object *)this)->class)->");
 			decl.writeSuffixedName(cgen.current);
 
-			writeTypelessFuncArgs(decl, baseClass, cgen);
+			FunctionDeclWriter.writeFuncArgs(decl, ArgsWriteMode.NAMES_ONLY, baseClass, cgen);
 			cgen.current.app(";").closeSpacedBlock();
 
 		}
@@ -118,19 +81,7 @@ public class ClassDeclWriter {
 			if (decl.isStatic() || decl.isAbstract())
 				continue;
 			
-			cgen.current.nl();
-			if (!decl.isFinal()) {
-				//cgen.current.app("static ");
-			}
-			if (decl.isInline()) cgen.current.app("inline ");
-			TypeWriter.writeSpaced(decl.getReturnType(), cgen);
-			decl.writeFullName(cgen.current);
-			if (!decl.isFinal()) {
-				cgen.current.app("_impl");
-			}
-
-			FunctionDeclWriter.writeFuncArgs(decl, cgen);
-
+			FunctionDeclWriter.writeFuncPrototype(decl, cgen, decl.isFinal() ? null : "_impl");
 			cgen.current.openBlock();
 			decl.getBody().accept(cgen);
 			cgen.current.closeSpacedBlock();
@@ -216,39 +167,29 @@ public class ClassDeclWriter {
 		cgen.current.nl().app("Class *").app(classDecl.getName()).app("_class();").nl();
 		for (FunctionDecl decl : classDecl.getFunctions()) {
 			
-			writePrototype(classDecl, cgen, decl, false);
+			cgen.current.newLine();
+			FunctionDeclWriter.writeFuncPrototype(decl, cgen, null);
+			cgen.current.app(';');
 			if(!decl.isStatic() && !decl.isAbstract() && !decl.isFinal()) {
-				writePrototype(classDecl, cgen, decl, true);
+				cgen.current.newLine();
+				FunctionDeclWriter.writeFuncPrototype(decl, cgen, "_impl");
+				cgen.current.app(';');
 			}
 			
 		}
 		cgen.current.nl();
 	}
 
-	private static void writePrototype(ClassDecl classDecl, CGenerator cgen,
-			FunctionDecl decl, boolean writeImpl) throws IOException {
-		cgen.current.nl();
-		TypeWriter.writeSpaced(decl.getReturnType(), cgen);
-		decl.writeFullName(cgen.current);
-		if(writeImpl) cgen.current.app("_impl");
-		FunctionDeclWriter.writeFuncArgs(decl, cgen);
-		cgen.current.app(';');
-	}
-
-	public static void writeFuncPointer(FunctionDecl decl, boolean doName, CGenerator cgen)
+	public static void writeFunctionDeclPointer(FunctionDecl decl, boolean doName, CGenerator cgen)
 			throws IOException {
-		decl.getReturnType().accept(cgen);
+		if(decl.hasReturn()) decl.getReturnType().accept(cgen);
+		else cgen.current.app("void ");
+		
 		cgen.current.app(" (*");
 		if(doName) decl.writeSuffixedName(cgen.current);
-		cgen.current.app(")(");
-		int numArgs = decl.getArguments().size() - 1;
-		Node[] args = decl.getArguments().getNodes();
-		for (int i = 0; i <= numArgs; i++) {
-			args[i].accept(cgen);
-			if (i < numArgs)
-				cgen.current.app(", ");
-		}
-		cgen.current.app(')');
+		cgen.current.app(")");
+		
+		FunctionDeclWriter.writeFuncArgs(decl, ArgsWriteMode.TYPES_ONLY, null, cgen);
 	}
 
 	public static void writeClassStruct(ClassDecl classDecl, CGenerator cgen)
@@ -274,7 +215,7 @@ public class ClassDeclWriter {
 			}
 			
 			cgen.current.nl();
-			writeFuncPointer(decl, true, cgen);
+			writeFunctionDeclPointer(decl, true, cgen);
 			cgen.current.app(';');
 		}
 		
@@ -323,7 +264,7 @@ public class ClassDeclWriter {
 			cgen.current.nl().app('.').app(parentDecl.getSuffixedName()).app(" = ");
 			if(realDecl != null) {
 				cgen.current.app("(");
-				writeFuncPointer(parentDecl, false, cgen);
+				writeFunctionDeclPointer(parentDecl, false, cgen);
 				cgen.current.app(") ");
 			}
 			cgen.current.app(realDecl != null ? realDecl.getFullName() : parentDecl.getFullName());

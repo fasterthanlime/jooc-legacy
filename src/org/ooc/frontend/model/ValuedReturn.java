@@ -85,8 +85,7 @@ public class ValuedReturn extends Return implements MustBeResolved {
 		FunctionCall call = new FunctionCall("memcpy", "", startToken);
 		call.getArguments().add(new VariableAccess(decl.getReturnArg(), startToken));
 		
-		VariableAccess tAccess = new VariableAccess(param.getName(), startToken); 
-		tAccess.setRef(param);
+		VariableAccess tAccess = new VariableAccess(param.getName(), startToken);
 		MemberAccess sizeAccess = new MemberAccess(tAccess, "size", startToken);
 		
 		if(expression instanceof ArrayAccess) {

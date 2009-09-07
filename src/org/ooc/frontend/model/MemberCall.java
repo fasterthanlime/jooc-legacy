@@ -113,7 +113,10 @@ public class MemberCall extends FunctionCall {
 			}
 		}
 		
+		/* Dirty work */
 		if(impl != null) {
+			Response response = handleGenerics(stack);
+			if(response != Response.OK) return response;
 			autocast();
 		}
 		

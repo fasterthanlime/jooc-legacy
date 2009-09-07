@@ -2,6 +2,7 @@ package org.ooc.backend.cdirty;
 
 import java.io.IOException;
 
+import org.ooc.frontend.model.Access;
 import org.ooc.frontend.model.ArrayAccess;
 import org.ooc.frontend.model.ClassDecl;
 import org.ooc.frontend.model.Declaration;
@@ -114,6 +115,12 @@ public class AccessWriter {
 		cgen.current.app('[');
 		arrayAccess.getIndex().accept(cgen);
 		cgen.current.app(']');
+	}
+	
+	public static void write(Access access, boolean doTypeParams, CGenerator cgen) throws IOException {
+		if(access instanceof ArrayAccess) writeArray((ArrayAccess) access, cgen);
+		else if(access instanceof MemberAccess) writeMember((MemberAccess) access, cgen);
+		else writeVariable((VariableAccess) access, doTypeParams, cgen);
 	}
 	
 }

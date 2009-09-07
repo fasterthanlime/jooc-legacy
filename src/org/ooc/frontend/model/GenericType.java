@@ -17,11 +17,6 @@ public class GenericType extends TypeDecl {
 	}
 	
 	@Override
-	public VariableDecl getVariable(String name) {
-		return super.getVariable(name);
-	}
-
-	@Override
 	public boolean replace(Node oldie, Node kiddo) {
 		return false;
 	}

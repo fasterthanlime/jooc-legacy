@@ -1,7 +1,9 @@
 package org.ooc.frontend.model;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.interfaces.MustBeResolved;
@@ -167,8 +169,14 @@ public class ClassDecl extends TypeDecl implements MustBeResolved, Generic {
 	}
 
 	@Override
-	public LinkedHashMap<String, GenericType> getGenericTypes() {
-		return typeParams;
+	public Map<String, GenericType> getGenericTypes() {
+		return Collections.unmodifiableMap(typeParams);
+	}
+	
+	public void addGenericType(GenericType genType) {
+		typeParams.put(genType.name, genType);
+		genType.getArgument().setTypeDecl(this);
+		variables.add(0, genType.getArgument());
 	}
 
 	public ClassDecl getBaseClass(FunctionDecl decl) {

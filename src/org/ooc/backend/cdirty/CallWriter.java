@@ -51,20 +51,8 @@ public class CallWriter {
 			impl.writeFullName(cgen.current);
 		}
 		
-		NodeList<Expression> args = functionCall.getArguments();
 		cgen.current.app('(');
-		if(functionCall.getReturnArg() != null) {
-			functionCall.getReturnArg().accept(cgen);
-			if(!args.isEmpty()) cgen.current.app(", ");
-		}
-		if(functionCall.isConstructorCall() && impl.getTypeDecl() instanceof ClassDecl) {
-			cgen.current.app('(');
-			impl.getTypeDecl().getInstanceType().accept(cgen);
-			cgen.current.app(')');
-			cgen.current.app(" this");
-			if(!args.isEmpty()) cgen.current.app(", ");
-		}
-		writeCallArgs(args, impl, cgen);
+		writeCallArgs(functionCall, impl, cgen);
 		cgen.current.app(')');
 		
 	}
@@ -85,18 +73,39 @@ public class CallWriter {
 		}
 	}
 
-	public static void writeCallArgs(NodeList<Expression> callArgs, FunctionDecl impl, CGenerator cgen) throws IOException {
+	public static void writeCallArgs(FunctionCall functionCall, FunctionDecl impl, CGenerator cgen) throws IOException {
+		NodeList<Expression> callArgs = functionCall.getArguments();
+		
+		boolean isFirst = true;
+		if(functionCall.getReturnArg() != null) {
+			if(!isFirst) {
+				cgen.current.app(", ");
+			} else isFirst = false;
+			functionCall.getReturnArg().accept(cgen);
+		}
+		if(functionCall.isConstructorCall() && impl.getTypeDecl() instanceof ClassDecl) {
+			if(!isFirst) {
+				cgen.current.app(", ");
+			} else isFirst = false;
+			cgen.current.app('(');
+			impl.getTypeDecl().getInstanceType().accept(cgen);
+			cgen.current.app(')');
+			cgen.current.app(" this");
+		}
+		
 		LinkedHashMap<String, GenericType> typeParams = impl.getGenericTypes();
 		if(typeParams.isEmpty()) {
 			Iterator<Expression> iter = callArgs.iterator();
 			int argIndex = 0;
 			while(iter.hasNext()) {
+				if(!isFirst) {
+					cgen.current.app(", ");
+				} else isFirst = false;
 				writeCallArg(iter.next(), impl, argIndex, cgen);
-				if(iter.hasNext()) cgen.current.app(", ");
 				argIndex++;
 			}
 		} else {
-			writeGenericCallArgs(callArgs, impl, typeParams, cgen);
+			writeGenericCallArgs(callArgs, impl, typeParams, cgen, isFirst);
 		}
 	}
 
@@ -120,20 +129,25 @@ public class CallWriter {
 	}
 
 	public static void writeGenericCallArgs(NodeList<Expression> callArgs,
-			FunctionDecl impl, LinkedHashMap<String, GenericType> typeParams, CGenerator cgen) throws IOException {
+			FunctionDecl impl, LinkedHashMap<String, GenericType> typeParams, CGenerator cgen, boolean isFirstArg) throws IOException {
 		
+		boolean isFirst = isFirstArg;
 		NodeList<Argument> implArgs = impl.getArguments();
 		
 		for(GenericType typeParam: typeParams.values()) {
 			boolean done = false;
 			int i = 0;
-			for(Argument implArg: implArgs) {
+			Iterator<Argument> iter = impl.getThisLessArgsIter();
+			while(iter.hasNext()) {
+				Argument implArg = iter.next();
 				if(implArg.getType().getName().equals(typeParam.getName())) {
+					if(!isFirst) cgen.current.app(", ");
+					isFirst = false;
 					Expression callArg = callArgs.get(i);
 					if(callArg.getType().getRef() instanceof GenericType) {
-						cgen.current.app(callArg.getType().getName()).app(", ");
+						cgen.current.app(callArg.getType().getName());
 					} else {
-						cgen.current.app(callArg.getType().getName()).app("_class(), ");
+						cgen.current.app(callArg.getType().getName()).app("_class()");
 					}
 					done = true;
 					break;
@@ -145,17 +159,16 @@ public class CallWriter {
 						"Couldn't find argument in "+callArgs+" to figure out generic type "+typeParam);
 		}
 		
-		int argIndex = 0;
+		int argIndex = impl.hasThis() ? 1 : 0;
 		Iterator<Expression> iter = callArgs.iterator();
 		while(iter.hasNext()) {
+			if(!isFirst) cgen.current.app(", ");
+			isFirst = false;
 			Expression expr = iter.next();
 			Argument arg = implArgs.get(argIndex);
 			GenericType typeParam = typeParams.get(arg.getType().getName());
-			if(typeParam != null) {
-				cgen.current.app("(Octet*) &");
-			}
+			if(typeParam != null) cgen.current.app("(Octet*) &");
 			writeCallArg(expr, impl, argIndex, cgen);
-			if(iter.hasNext()) cgen.current.app(", ");
 			argIndex++;
 		}
 		
@@ -198,7 +211,7 @@ public class CallWriter {
 			memberCall.getExpression().accept(cgen);
 			if(!memberCall.getArguments().isEmpty()) cgen.current.app(", ");
 		}
-		writeCallArgs(memberCall.getArguments(), impl, cgen);
+		writeCallArgs(memberCall, impl, cgen);
 		
 		cgen.current.app(')');
 		
