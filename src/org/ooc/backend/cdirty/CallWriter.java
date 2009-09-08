@@ -221,10 +221,12 @@ public class CallWriter {
 			typeDecl.getInstanceType().accept(cgen);
 			cgen.current.app(") ");
 		}
+		boolean isFirst = true;
 		if(!impl.isStatic() && !impl.isFromPointer()) {
+			isFirst = false;
 			memberCall.getExpression().accept(cgen);
 		}
-		writeCallArgs(memberCall, impl, false, cgen);
+		writeCallArgs(memberCall, impl, isFirst, cgen);
 		
 		cgen.current.app(')');
 		

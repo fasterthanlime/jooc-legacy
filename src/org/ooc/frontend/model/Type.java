@@ -23,7 +23,10 @@ public class Type extends Node implements MustBeResolved {
 	protected int pointerLevel;
 	protected int referenceLevel;
 	protected Declaration ref;
+	
 	protected boolean isArray = false;
+	private int arraySize = -1;
+	
 	protected List<Type> genericTypes;
 	private boolean isConst = false;
 	
@@ -332,6 +335,20 @@ public class Type extends Node implements MustBeResolved {
 
 	public boolean isGeneric() {
 		return ref != null && ref instanceof GenericType;
+	}
+
+	/**
+	 * @return the arraySize
+	 */
+	public int getArraySize() {
+		return arraySize;
+	}
+
+	/**
+	 * @param arraySize the arraySize to set
+	 */
+	public void setArraySize(int arraySize) {
+		this.arraySize = arraySize;
 	}
 	
 }

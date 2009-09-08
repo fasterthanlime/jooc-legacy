@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Iterator;
 
 import org.ooc.frontend.model.FunctionDecl;
+import org.ooc.frontend.model.GenericType;
 import org.ooc.frontend.model.Type;
 import org.ooc.frontend.model.TypeDecl;
 import org.ooc.frontend.model.VariableDecl;
@@ -20,7 +21,16 @@ public class VariableDeclWriter {
 		//if(variableDecl.isConst()) cgen.current.app("const ");
 		
 		Type type = variableDecl.getType();
-		if(type.getName().equals("Func")) {
+		if(type.getRef() instanceof GenericType) {
+			
+			GenericType genType = (GenericType) type.getRef();
+			cgen.current.app("Octet ").app(variableDecl.getName()).app("[");
+			if(genType.getArgument().isMember()) cgen.current.app("this->");
+			cgen.current.app(genType.getName())
+				.app("->size]");
+			return;
+			
+		} else if(type.getName().equals("Func")) {
 			
 			FunctionDecl funcDecl = (FunctionDecl) type.getRef();
 			Iterator<VariableDeclAtom> iter = variableDecl.getAtoms().iterator();
