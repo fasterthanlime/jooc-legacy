@@ -135,8 +135,7 @@ public class Assignment extends BinaryOperation {
 				ArrayAccess arrAcc = (ArrayAccess) left;
 				Expression var = arrAcc.getVariable();
 				if(var.getType().isGeneric()) {
-					GenericType genericType = (GenericType) var.getType().getRef();
-					VariableAccess tAccess = new VariableAccess(genericType.getName(), startToken);
+					VariableAccess tAccess = new VariableAccess(var.getType().getRef().getName(), startToken);
 					MemberAccess sizeAccess = new MemberAccess(tAccess, "size", startToken);
 					realLeft = new Add(arrAcc.variable, new Mul(arrAcc.index, sizeAccess, startToken), startToken);
 				}
@@ -145,8 +144,7 @@ public class Assignment extends BinaryOperation {
 				ArrayAccess arrAcc = (ArrayAccess) right;
 				Expression var = arrAcc.getVariable();
 				if(var.getType().isGeneric()) {
-					GenericType genericType = (GenericType) var.getType().getRef();
-					VariableAccess tAccess = new VariableAccess(genericType.getName(), startToken);
+					VariableAccess tAccess = new VariableAccess(var.getType().getRef().getName(), startToken);
 					MemberAccess sizeAccess = new MemberAccess(tAccess, "size", startToken);
 					realRight = new Add(arrAcc.variable, new Mul(arrAcc.index, sizeAccess, startToken), startToken);
 				}

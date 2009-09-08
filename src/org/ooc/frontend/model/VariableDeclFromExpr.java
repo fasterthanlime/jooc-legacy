@@ -7,7 +7,7 @@ import org.ooc.frontend.model.interfaces.MustBeResolved;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.middle.hobgoblins.Resolver;
 
-public class VariableDeclFromExpr extends VariableDecl implements MustBeResolved {
+public class VariableDeclFromExpr extends VariableDecl {
 
 	protected boolean isConst;
 	
@@ -30,6 +30,7 @@ public class VariableDeclFromExpr extends VariableDecl implements MustBeResolved
 
 	@Override
 	public Type getType() {
+		if(type != null) return type;
 		VariableDeclAtom atom = atoms.get(0);
 		Expression expr = atom.getExpression();
 		if(expr == null) {
@@ -86,7 +87,29 @@ public class VariableDeclFromExpr extends VariableDecl implements MustBeResolved
 			((MustBeResolved) expr).resolve(stack, res, false);
 		}
 		
-		return Response.OK;
+		if(expr != null && expr.getType().isGeneric() && expr.getType().isFlat()) {
+			unwrapToDeclAssign(stack, atom, expr); 
+			return Response.RESTART;
+		}
+		
+		return super.resolve(stack, res, fatal);
+	}
+
+	@SuppressWarnings("unchecked")
+	private void unwrapToDeclAssign(NodeList<Node> stack, VariableDeclAtom atom, Expression expr) {
+		
+		VariableDecl decl = new VariableDecl(expr.getType(), false, startToken);
+		decl.getAtoms().add(new VariableDeclAtom(atom.getName(), null, startToken));
+		
+		VariableAccess acc = new VariableAccess(decl, startToken);
+		Assignment ass = new Assignment(acc, expr, startToken);
+		
+		int lineIndex = stack.find(Line.class);
+		Line line = (Line) stack.get(lineIndex);
+		line.replace(this, decl);
+		NodeList<Line> list = (NodeList<Line>) stack.get(lineIndex - 1);
+		list.addAfter(line, new Line(ass));
+		
 	}
 	
 }

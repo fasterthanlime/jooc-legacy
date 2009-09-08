@@ -158,7 +158,7 @@ public class MemberAccess extends VariableAccess {
 		TypeDecl typeDecl = (TypeDecl) decl;
 		ref = typeDecl.getVariable(name);
 		
-		if(ref == null && name.equals("size") && exprType.isArray) {
+		if(ref == null && name.equals("size") && exprType.isArray()) {
 			FunctionCall sizeofArray = new FunctionCall("sizeof", "", startToken);
 			sizeofArray.getArguments().add(expression);
 			FunctionCall sizeofType = new FunctionCall("sizeof", "", startToken);

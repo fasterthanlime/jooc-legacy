@@ -24,8 +24,8 @@ public class Type extends Node implements MustBeResolved {
 	protected int referenceLevel;
 	protected Declaration ref;
 	
-	protected boolean isArray = false;
-	private int arraySize = -1;
+	private boolean isArray = false;
+	private Expression arraySize = null;
 	
 	protected List<Type> genericTypes;
 	private boolean isConst = false;
@@ -107,11 +107,13 @@ public class Type extends Node implements MustBeResolved {
 	
 	@Override
 	public boolean hasChildren() {
-		return false;
+		return arraySize != null;
 	}
 
 	@Override
-	public void acceptChildren(Visitor visitor) throws IOException {}
+	public void acceptChildren(Visitor visitor) throws IOException {
+		if(arraySize != null) arraySize.accept(visitor);
+	}
 	
 	@Override
 	public String toString() {
@@ -337,17 +339,11 @@ public class Type extends Node implements MustBeResolved {
 		return ref != null && ref instanceof GenericType;
 	}
 
-	/**
-	 * @return the arraySize
-	 */
-	public int getArraySize() {
+	public Expression getArraySize() {
 		return arraySize;
 	}
 
-	/**
-	 * @param arraySize the arraySize to set
-	 */
-	public void setArraySize(int arraySize) {
+	public void setArraySize(Expression arraySize) {
 		this.arraySize = arraySize;
 	}
 	

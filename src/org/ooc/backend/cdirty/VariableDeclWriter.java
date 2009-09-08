@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Iterator;
 
 import org.ooc.frontend.model.FunctionDecl;
-import org.ooc.frontend.model.GenericType;
 import org.ooc.frontend.model.Type;
 import org.ooc.frontend.model.TypeDecl;
 import org.ooc.frontend.model.VariableDecl;
@@ -21,18 +20,7 @@ public class VariableDeclWriter {
 		//if(variableDecl.isConst()) cgen.current.app("const ");
 		
 		Type type = variableDecl.getType();
-		if(type.getRef() instanceof GenericType && !variableDecl.isMember()
-				&& variableDecl.getAtoms().get(0).getExpression() == null) {
-			
-			GenericType genType = (GenericType) type.getRef();
-			cgen.current.app("Octet ").app(variableDecl.getName()).app("[");
-			if(genType.getArgument().isMember()) cgen.current.app("this->");
-			cgen.current.app(genType.getName())
-				.app("->size]");
-			writeInitAndComma(cgen, type, false, variableDecl.getAtoms().get(0));
-			return;
-			
-		} else if(type.getName().equals("Func")) {
+		if(type.getName().equals("Func")) {
 			
 			FunctionDecl funcDecl = (FunctionDecl) type.getRef();
 			Iterator<VariableDeclAtom> iter = variableDecl.getAtoms().iterator();
@@ -63,8 +51,8 @@ public class VariableDeclWriter {
 			while(iter.hasNext()) {
 				VariableDeclAtom atom = iter.next();
 				cgen.current.app(atom.getName());
-				if(type.isArray()) for(int i = 0; i < type.getPointerLevel(); i++) {
-					cgen.current.app("[]");
+				if(type.isArray()) {
+					TypeWriter.writeFinale(type, cgen);
 				}
 				writeInitAndComma(cgen, type, iter.hasNext(), atom);
 			}
@@ -82,7 +70,7 @@ public class VariableDeclWriter {
 		}
 		if(writeComma) {
 			cgen.current.app(", ");
-			TypeWriter.writeStars(type, cgen);
+			TypeWriter.writeFinale(type, cgen);
 		}
 	}
 	

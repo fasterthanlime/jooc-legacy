@@ -80,7 +80,7 @@ public class Compare extends BinaryOperation {
 			isGeneric = true;
 			realRight = new AddressOf(right, right.startToken);
 			if(size == null) {
-				GenericType genericType = (GenericType) left.getType().getRef();
+				GenericType genericType = (GenericType) right.getType().getRef();
 				VariableAccess tAccess = new VariableAccess(genericType.getName(), startToken);
 				size = new MemberAccess(tAccess, "size", startToken);
 			}

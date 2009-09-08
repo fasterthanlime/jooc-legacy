@@ -31,12 +31,15 @@ Container: class <T> {
 	}
 	
 	equals: func (index: Int, element: T) -> Bool {
-		candidate : T
-		candidate = data[index] /* as Int */
-		printf("data[%d] == %d\n", index, candidate)
+		candidate := data[index]
 		return candidate == element
 	}
 
+}
+
+operator [] <T> (c: Container<T>, i: Int) -> T {
+	return c get(i)
+	return
 }
 
 main: func {
@@ -44,10 +47,25 @@ main: func {
 	cont := Container<Int> new(Int, 10)
 	cont set(2, 42)
 	cont set2(3, 24)
+	
+	"Flavor 1" println()
 	printf("cont get(2)  = %d\n", cont get(2))
 	printf("cont get(3)  = %d\n", cont get(3))
-	printf("cont get2(2) = %d\n", cont get2(2))
-	printf("cont get2(3) = %d\n", cont get2(3))
+	
+	"Flavor 2" println()
+	printf("cont get(2) = %d\n", cont get2(2))
+	printf("cont get(3) = %d\n", cont get2(3))
+	
+	"Flavor 3" println()
+	printf("cont get(2) = %d\n", cont get3(2))
+	printf("cont get(3) = %d\n", cont get3(3))
+
+	/*
+	"Flavor operator!" println()
+	printf("cont get(2) = %d\n", cont[2])
+	printf("cont get(3) = %d\n", cont[3])
+	*/
+	
 	printf("cont equals(2, 42) ? %s\n", cont equals(2, 42) repr())
 
 }

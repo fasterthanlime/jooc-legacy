@@ -5,11 +5,13 @@ import java.io.IOException;
 import java.util.Iterator;
 
 import org.ooc.frontend.Visitor;
+import org.ooc.frontend.model.interfaces.MustBeResolved;
 import org.ooc.frontend.model.interfaces.MustBeUnwrapped;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.middle.OocCompilationError;
+import org.ooc.middle.hobgoblins.Resolver;
 
-public class VariableDecl extends Declaration implements MustBeUnwrapped, PotentiallyStatic {
+public class VariableDecl extends Declaration implements MustBeUnwrapped, PotentiallyStatic, MustBeResolved {
 
 	public static class VariableDeclAtom extends Node {
 		String name;
@@ -288,6 +290,31 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 
 	public boolean shouldBeLowerCase() {
 		return (externName == null || !externName.isEmpty()) && !(type.getName().equals("Class"));
+	}
+
+	@Override
+	public boolean isResolved() {
+		return false;
+	}
+
+	@Override
+	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal)
+			throws IOException {
+		
+		Type type = getType();
+		if(!type.isArray() && type.isGeneric() && type.isFlat() && !isMember() && !(this instanceof Argument)) {
+			Type newType = new Type("Octet", type.startToken);
+			newType.setPointerLevel(1);
+			newType.setArray(true);
+			VariableAccess tAccess = new VariableAccess(type.getRef().getName(), startToken);
+			MemberAccess sizeAccess = new MemberAccess(tAccess, "size", startToken);
+			newType.setArraySize(sizeAccess);
+			newType.setRef(type.getRef());
+			setType(newType);
+			return Response.RESTART;
+		}
+		
+		return Response.OK;
 	}
 	
 }

@@ -30,19 +30,27 @@ public class TypeWriter {
 		if(type.getRef() == null) {
 			throw new Error("Unresolved type '"+type.getName()+"' !!");
 		}
-		
-		writeStars(type, cgen);
+		writeFinale(type, cgen);
 	}
 	
-	public static  void writeStars(Type type, CGenerator cgen) throws IOException {
+	public static  void writeFinale(Type type, CGenerator cgen) throws IOException {
 		if(type.getRef() instanceof ClassDecl) {
 			cgen.current.app('*');
 		}
 		
 		int level = type.getPointerLevel() + type.getReferenceLevel();
 		for(int i = 0; i < level; i++) {
-			if(type.isArray()) cgen.current.app("[]");
-			else cgen.current.app('*');
+			if(type.isArray()) {
+				if(i == 0 && type.getArraySize() != null) {
+					cgen.current.app('[');
+					type.getArraySize().accept(cgen);
+					cgen.current.app(']');
+				} else {
+					cgen.current.app("[]");
+				}
+			} else {
+				cgen.current.app('*');
+			}
 		}
 	}
 	
