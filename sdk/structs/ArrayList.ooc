@@ -122,7 +122,7 @@ ArrayList: class<T> extends List {
 			grow()
 		}
 	}
-	
+
 	/** private */
 	grow: func {
 		capacity = capacity * 1.1 + 10
@@ -151,4 +151,12 @@ ArrayList: class<T> extends List {
 	
 	iterator: func -> Iterator<T> { null }
 	
+}
+
+operator [] <T> (list: List<T>, i: Int) -> T {
+	return list get(i)
+}
+
+operator []= <T> (list: List<T>, i: Int, element: T) {
+	list set(i, element)
 }

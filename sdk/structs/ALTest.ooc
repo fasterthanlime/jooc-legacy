@@ -1,8 +1,8 @@
-import ArrayList
+import structs.ArrayList
 
 main: func {
 	
-	max := 5
+	max := 10
 	
 	list := ArrayList<Int> new(Int);
 	for(i in 0..max) {
@@ -15,5 +15,9 @@ main: func {
 		printf("list[%d] = %d\n", i, list get(i))
 	}
 	println()
+	
+	for(i in 0..max) {
+		printf("list[%d] = %d\n", i list[i])
+	}
 
 }
