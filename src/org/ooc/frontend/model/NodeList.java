@@ -10,8 +10,8 @@ import org.ooc.frontend.model.tokens.Token;
 
 public class NodeList<T extends Node> extends Node implements Iterable<T> {
 	
-	T[] nodes;
-	int size;
+	private T[] nodes;
+	private int size;
 	
 	public NodeList() {
 		this(Token.defaultToken);
@@ -130,17 +130,18 @@ public class NodeList<T extends Node> extends Node implements Iterable<T> {
 	public Iterator<T> iterator() {		
 		return new Iterator<T>() {
 
+			NodeList<T> list = NodeList.this;
 			int index = 0;
 			
 			@Override
 			public boolean hasNext() {
-				return index < size;
+				return index < list.size();
 			}
 
 			@Override
 			public T next() {
-				if(index >= size) throw new ArrayIndexOutOfBoundsException(index);
-				return nodes[index++];
+				if(index >= list.size()) throw new ArrayIndexOutOfBoundsException(index);
+				return list.getNodes()[index++];
 			}
 
 			@Override

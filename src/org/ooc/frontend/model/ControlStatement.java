@@ -17,7 +17,7 @@ public abstract class ControlStatement extends Statement implements Scope {
 	
 	@Override
 	public VariableDecl getVariable(String name) {
-		if(body.size > 0) for(Line line: body) {
+		if(body.size() > 0) for(Line line: body) {
 			Node node = line.getStatement();
 			if(node instanceof VariableDecl) {
 				VariableDecl varDecl = (VariableDecl) node;
@@ -29,7 +29,7 @@ public abstract class ControlStatement extends Statement implements Scope {
 	
 	@Override
 	public void getVariables(NodeList<VariableDecl> variables) {
-		if(body.size > 0) for(Line line: body) {
+		if(body.size() > 0) for(Line line: body) {
 			Node node = line.getStatement();
 			if(node instanceof VariableDecl) {
 				variables.add((VariableDecl) node);

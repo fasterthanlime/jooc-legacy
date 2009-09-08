@@ -3,6 +3,7 @@ package org.ooc.frontend.model;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.interfaces.MustBeUnwrapped;
@@ -30,7 +31,7 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 	// when the return type is generic, the returnArg is a pointer.
 	protected Argument returnArg;
 	
-	protected final LinkedHashMap<String, GenericType> typeParams;
+	protected final LinkedHashMap<String, GenericType> genericTypes;
 	protected final NodeList<Argument> arguments;
 	
 	public FunctionDecl(String name, String suffix, boolean isFinal,
@@ -48,12 +49,12 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 		this.body = new NodeList<Line>(startToken);
 		this.returnType = name.equals("main") ? IntLiteral.type : Type.getVoid();
 		this.arguments = new NodeList<Argument>(startToken);
-		this.typeParams = new LinkedHashMap<String, GenericType>();
+		this.genericTypes = new LinkedHashMap<String, GenericType>();
 		this.returnArg = new RegularArgument(NullLiteral.type, generateTempName("returnArg"), startToken);
 	}
 
 	public LinkedHashMap<String, GenericType> getGenericTypes() {
-		return typeParams;
+		return genericTypes;
 	}
 	
 	public void setComment(OocDocComment comment) {
@@ -173,7 +174,7 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 	
 	@Override
 	public void acceptChildren(Visitor visitor) throws IOException {
-		if (typeParams.size() > 0) for (GenericType typeParam: typeParams.values()) {
+		if (genericTypes.size() > 0) for (GenericType typeParam: genericTypes.values()) {
 			typeParam.getType().accept(visitor);
 		}
 		arguments.accept(visitor);
@@ -199,7 +200,7 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 		StringBuilder sB = new StringBuilder();
 		sB.append('(');
 		Iterator<Argument> iter = arguments.iterator();
-		if(isMember() && !isStatic() && iter.hasNext()) iter.next();
+		//if(hasThis()) iter.next();
 		while(iter.hasNext()) {
 			Argument arg = iter.next();
 			if(arg instanceof VarArg) sB.append("...");
@@ -271,10 +272,10 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 
 	@Override
 	public VariableDecl getVariable(String name) {
-		if(arguments.size > 0) for(Argument argument: arguments) {
+		if(arguments.size() > 0) for(Argument argument: arguments) {
 			if(argument.hasAtom(name)) return argument;
 		}
-		if(body.size > 0) for(Line line: body) {
+		if(body.size() > 0) for(Line line: body) {
 			Node node = line.getStatement();
 			if(node instanceof VariableDecl) {
 				VariableDecl varDecl = (VariableDecl) node;
@@ -286,10 +287,10 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 
 	@Override
 	public void getVariables(NodeList<VariableDecl> variables) {
-		if(arguments.size > 0) for(Argument argument: arguments) {
+		if(arguments.size() > 0) for(Argument argument: arguments) {
 			if(argument.hasAtom(name)) variables.add(argument);
 		}
-		if(body.size > 0) for(Line line: body) {
+		if(body.size() > 0) for(Line line: body) {
 			Node node = line.getStatement();
 			if(node instanceof VariableDecl) {
 				VariableDecl varDecl = (VariableDecl) node;
@@ -350,6 +351,22 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 
 	public boolean hasReturn() {
 		return !getReturnType().isVoid() && !(getReturnType().getRef() instanceof GenericType);
+	}
+
+	public GenericType getGenericType(String name) {
+		GenericType genericType = genericTypes.get(name);
+		if(genericType == null && typeDecl != null) {
+			Map<String, GenericType> classGenerics = typeDecl.getGenericTypes();
+			genericType = classGenerics.get(name);
+			return genericType;
+		}
+		return genericType;
+	}
+
+	public boolean isGeneric() {
+		if(genericTypes.size() > 0) return true;
+		if(typeDecl != null && typeDecl.getGenericTypes().size() > 0) return true;
+		return false;
 	}
 	
 }

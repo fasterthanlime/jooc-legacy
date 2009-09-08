@@ -2,7 +2,6 @@ package org.ooc.frontend.model;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -25,7 +24,7 @@ public class Type extends Node implements MustBeResolved {
 	protected int referenceLevel;
 	protected Declaration ref;
 	protected boolean isArray = false;
-	protected List<Type> typeParams;
+	protected List<Type> genericTypes;
 	private boolean isConst = false;
 	
 	private static Type voidType = null;
@@ -51,12 +50,11 @@ public class Type extends Node implements MustBeResolved {
 		this.name = name;
 		this.pointerLevel = pointerLevel;
 		this.referenceLevel = referenceLevel;
-		this.typeParams = new ArrayList<Type>();
+		this.genericTypes = new ArrayList<Type>();
 	}
 	
-	public List<Type> getTypeParams() {
-		if(typeParams == null) return Collections.emptyList();
-		return typeParams;
+	public List<Type> getGenericTypes() {
+		return genericTypes;
 	}
 
 	public String getName() {
@@ -118,7 +116,6 @@ public class Type extends Node implements MustBeResolved {
 		StringBuilder sb = new StringBuilder();
 		if(isConst) sb.append("const ");
 		sb.append(name);
-		if(pointerLevel == 0 && referenceLevel == 0) return sb.toString();
 		
 		for(int i = 0; i < pointerLevel; i++) {
 			if(isArray) sb.append("[]");
@@ -127,9 +124,9 @@ public class Type extends Node implements MustBeResolved {
 		for(int i = 0; i < referenceLevel; i++) {
 			sb.append('@');
 		}
-		if(!typeParams.isEmpty()) {
+		if(!genericTypes.isEmpty()) {
 			sb.append('<');
-			Iterator<Type> iter = typeParams.iterator();
+			Iterator<Type> iter = genericTypes.iterator();
 			while(iter.hasNext()) {
 				sb.append(iter.next().toString());
 				if(iter.hasNext()) sb.append(", ");
@@ -323,10 +320,14 @@ public class Type extends Node implements MustBeResolved {
 		return repr;
 	}
 
-	public Type copy() {
-		Type copy = new Type(name, pointerLevel, referenceLevel, startToken);
-		copy.ref = ref;
-		return copy;
+	@Override
+	public Type clone() {
+		Type clone = new Type(name, pointerLevel, referenceLevel, startToken);
+		clone.ref = ref;
+		clone.isArray = isArray;
+		clone.isConst = isConst;
+		clone.genericTypes.addAll(genericTypes);
+		return clone;
 	}
 	
 }

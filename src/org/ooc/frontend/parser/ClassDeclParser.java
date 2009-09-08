@@ -71,6 +71,9 @@ public class ClassDeclParser {
 			}
 			
 			ClassDecl classDecl = new ClassDecl(name, superName, isAbstract, tName);
+			if(genTypes != null) for(GenericType genType: genTypes) {
+				classDecl.addGenericType(genType);
+			}
 			module.parseStack.push(classDecl);
 			if(comment != null) classDecl.setComment(comment);
 			
@@ -104,11 +107,6 @@ public class ClassDeclParser {
 			
 			}
 			reader.skip();
-			if(genTypes != null) {
-				for(GenericType genType: genTypes) {
-					classDecl.addGenericType(genType);
-				}
-			}
 			
 			module.parseStack.pop(classDecl);
 			return classDecl;

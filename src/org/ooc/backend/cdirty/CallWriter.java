@@ -1,8 +1,8 @@
 package org.ooc.backend.cdirty;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 
 import org.ooc.frontend.model.Argument;
 import org.ooc.frontend.model.ClassDecl;
@@ -93,30 +93,27 @@ public class CallWriter {
 			cgen.current.app(" this");
 		}
 		
-		LinkedHashMap<String, GenericType> typeParams = impl.getGenericTypes();
-		if(typeParams.isEmpty()) {
+		if(!impl.isGeneric()) {
 			Iterator<Expression> iter = callArgs.iterator();
-			int argIndex = 0;
+			int argIndex = -1;
 			while(iter.hasNext()) {
+				argIndex++;
 				if(!isFirst) {
 					cgen.current.app(", ");
 				} else isFirst = false;
 				writeCallArg(iter.next(), impl, argIndex, cgen);
-				argIndex++;
 			}
 		} else {
-			writeGenericCallArgs(callArgs, impl, typeParams, cgen, isFirst);
+			writeGenericCallArgs(callArgs, impl, cgen, isFirst);
 		}
 	}
 
 	private static void writeCallArg(Expression callArg, FunctionDecl impl, int argIndex, CGenerator cgen)
 			throws IOException {
 		NodeList<Argument> implArgs = impl.getArguments();
-		int realIndex = argIndex;
-		if (impl.isMember() && !impl.isStatic()) realIndex++;
 		boolean shouldCast = false;
-		if(argIndex != -1 && realIndex < implArgs.size() && (impl.isExtern() || impl.getName().equals("init"))) {
-			Argument arg = implArgs.get(realIndex);
+		if(argIndex != -1 && argIndex < implArgs.size() && (impl.isExtern() || impl.getName().equals("init"))) {
+			Argument arg = implArgs.get(argIndex);
 			if(!(arg instanceof VarArg)) {
 				shouldCast = true;
 				cgen.current.app("((");
@@ -129,34 +126,13 @@ public class CallWriter {
 	}
 
 	public static void writeGenericCallArgs(NodeList<Expression> callArgs,
-			FunctionDecl impl, LinkedHashMap<String, GenericType> typeParams, CGenerator cgen, boolean isFirstArg) throws IOException {
+			FunctionDecl impl, CGenerator cgen, boolean isFirstArg) throws IOException {
 		
 		boolean isFirst = isFirstArg;
 		NodeList<Argument> implArgs = impl.getArguments();
 		
-		for(GenericType typeParam: typeParams.values()) {
-			boolean done = false;
-			int i = 0;
-			Iterator<Argument> iter = impl.getThisLessArgsIter();
-			while(iter.hasNext()) {
-				Argument implArg = iter.next();
-				if(implArg.getType().getName().equals(typeParam.getName())) {
-					if(!isFirst) cgen.current.app(", ");
-					isFirst = false;
-					Expression callArg = callArgs.get(i);
-					if(callArg.getType().getRef() instanceof GenericType) {
-						cgen.current.app(callArg.getType().getName());
-					} else {
-						cgen.current.app(callArg.getType().getName()).app("_class()");
-					}
-					done = true;
-					break;
-				}
-				i++;
-			}
-			if(!done)
-				throw new OocCompilationError(callArgs, cgen.module,
-						"Couldn't find argument in "+callArgs+" to figure out generic type "+typeParam);
+		for(GenericType typeParam: impl.getGenericTypes().values()) {
+			isFirst = writeGenType(callArgs, impl, cgen, isFirst, typeParam);
 		}
 		
 		int argIndex = impl.hasThis() ? 1 : 0;
@@ -166,12 +142,49 @@ public class CallWriter {
 			isFirst = false;
 			Expression expr = iter.next();
 			Argument arg = implArgs.get(argIndex);
-			GenericType typeParam = typeParams.get(arg.getType().getName());
-			if(typeParam != null) cgen.current.app("(Octet*) &");
+			GenericType genericType = impl.getGenericType(arg.getType().getName());
+			if(genericType != null) cgen.current.app("(Octet*) &");
 			writeCallArg(expr, impl, argIndex, cgen);
 			argIndex++;
 		}
 		
+	}
+
+	private static boolean writeGenType(NodeList<Expression> callArgs,
+			FunctionDecl impl, CGenerator cgen, boolean isFirstParam,
+			GenericType typeParam) throws IOException, OocCompilationError,
+			EOFException {
+		boolean isFirst = isFirstParam;
+		boolean done = false;
+		int i = -1;
+		Iterator<Argument> iter = impl.getThisLessArgsIter();
+		while(iter.hasNext()) {
+			i++;
+			Argument implArg = iter.next();
+			if(implArg.getType().getName().equals(typeParam.getName())) {
+				if(!isFirst) cgen.current.app(", ");
+				isFirst = false;
+				Expression callArg = callArgs.get(i);
+				if(callArg.getType().getRef() instanceof GenericType) {
+					cgen.current.app(callArg.getType().getName());
+				} else {
+					cgen.current.app(callArg.getType().getName()).app("_class()");
+				}
+				done = true;
+				break;
+			}
+			if(implArg.getName().equals(typeParam.getName())) {
+				if(!isFirst) cgen.current.app(", ");
+				isFirst = false;
+				cgen.current.app(implArg.getName());
+				done = true;
+				break;
+			}
+		}
+		if(!done)
+			throw new OocCompilationError(callArgs, cgen.module,
+					"Couldn't find argument in "+callArgs+" to figure out generic type "+typeParam);
+		return isFirst;
 	}
 
 	public static void writeMember(MemberCall memberCall, CGenerator cgen) throws IOException {

@@ -1,9 +1,13 @@
 package org.ooc.frontend.model;
 
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import org.ooc.frontend.model.tokens.Token;
 
 
-public abstract class TypeDecl extends Declaration implements Scope {
+public abstract class TypeDecl extends Declaration implements Scope, Generic {
 
 	protected NodeList<VariableDecl> variables;
 	protected NodeList<FunctionDecl> functions;
@@ -12,6 +16,7 @@ public abstract class TypeDecl extends Declaration implements Scope {
 	protected TypeDecl superRef;
 	
 	protected Type instanceType;
+	protected LinkedHashMap<String, GenericType> genericTypes;
 	
 	public TypeDecl(String name, String superName, Token startToken) {
 		super(name, startToken);
@@ -20,6 +25,7 @@ public abstract class TypeDecl extends Declaration implements Scope {
 		this.functions = new NodeList<FunctionDecl>(startToken);
 		this.instanceType = new Type(name, startToken);
 		instanceType.setRef(this);
+		this.genericTypes = new LinkedHashMap<String, GenericType>();
 	}
 	
 	public String getSuperName() {
@@ -162,6 +168,17 @@ public abstract class TypeDecl extends Declaration implements Scope {
 	
 	public String getFunctionsRepr() {
 		return functions.toString();
+	}
+	
+	@Override
+	public Map<String, GenericType> getGenericTypes() {
+		return Collections.unmodifiableMap(genericTypes);
+	}
+	
+	public void addGenericType(GenericType genType) {
+		genericTypes.put(genType.name, genType);
+		genType.getArgument().setTypeDecl(this);
+		variables.add(0, genType.getArgument());
 	}
 
 }

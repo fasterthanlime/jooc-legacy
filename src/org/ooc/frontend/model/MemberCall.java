@@ -156,7 +156,29 @@ public class MemberCall extends FunctionCall {
 	
 	@Override
 	public String toString() {
-		return expression+"->"+getProtoRepr();
+		return "("+expression+")"+"->"+getProtoRepr();
+	}
+	
+	@Override
+	protected Type getRealType(Type originType) {
+		Type exprType = expression.getType();
+		if(exprType.getGenericTypes().size() > 0) {
+			Declaration ref = exprType.getRef();
+			if(ref instanceof TypeDecl) {
+				TypeDecl typeDecl = (TypeDecl) ref;
+				int i = -1;
+				for(GenericType genType: typeDecl.getGenericTypes().values()) {
+					i++;
+					if(genType.getName().equals(originType.getName())) {
+						Type realType = exprType.getGenericTypes().get(i);
+						realTypizeChildren(realType);
+						return realType;
+					}
+				}
+			}
+		}
+		
+		return super.getRealType(originType);
 	}
 	
 }

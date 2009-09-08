@@ -1,9 +1,6 @@
 package org.ooc.frontend.model;
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.interfaces.MustBeResolved;
@@ -11,12 +8,11 @@ import org.ooc.frontend.model.tokens.Token;
 import org.ooc.middle.OocCompilationError;
 import org.ooc.middle.hobgoblins.Resolver;
 
-public class ClassDecl extends TypeDecl implements MustBeResolved, Generic {
+public class ClassDecl extends TypeDecl implements MustBeResolved {
 
 	protected boolean isAbstract;
 	
 	protected OocDocComment comment;
-	protected LinkedHashMap<String, GenericType> typeParams;
 	
 	protected FunctionDecl defaultInit = null;
 	
@@ -24,7 +20,6 @@ public class ClassDecl extends TypeDecl implements MustBeResolved, Generic {
 		super(name, (superName.isEmpty() && !name.equals("Object")) ? "Object" : superName, startToken);
 		this.isAbstract = isAbstract;
 		this.superRef = null;
-		this.typeParams = new LinkedHashMap<String, GenericType>();
 		
 		addFunction(new FunctionDecl("load",     "", false, true,  false, false, startToken));
 		addFunction(new FunctionDecl("defaults", "", false, false, false, false, startToken));
@@ -77,7 +72,6 @@ public class ClassDecl extends TypeDecl implements MustBeResolved, Generic {
 	@Override
 	public void addFunction(FunctionDecl decl) {
 		
-		
 		if(decl.getName().equals("init")) {
 			if(defaultInit != null) {
 				FunctionDecl newFunc = getFunction("new", "", null);
@@ -87,7 +81,13 @@ public class ClassDecl extends TypeDecl implements MustBeResolved, Generic {
 			}
 			
 			FunctionDecl constructor = new FunctionDecl("new", decl.getSuffix(), false, true, false, false, decl.startToken);
-			constructor.setReturnType(getType());
+			Type retType = getType().clone();
+			for(GenericType genType: genericTypes.values()) {
+				Type e = new Type(genType.getName(), genType.startToken);
+				e.setRef(genType);
+				retType.getGenericTypes().add(e);
+			}
+			constructor.setReturnType(retType);
 			constructor.arguments.addAll(decl.getArguments());
 			
 			VariableAccess thisTypeAccess = new VariableAccess(name, decl.startToken);
@@ -166,17 +166,6 @@ public class ClassDecl extends TypeDecl implements MustBeResolved, Generic {
 		}
 		return (superRef == null) ? Response.LOOP : Response.OK;
 		
-	}
-
-	@Override
-	public Map<String, GenericType> getGenericTypes() {
-		return Collections.unmodifiableMap(typeParams);
-	}
-	
-	public void addGenericType(GenericType genType) {
-		typeParams.put(genType.name, genType);
-		genType.getArgument().setTypeDecl(this);
-		variables.add(0, genType.getArgument());
 	}
 
 	public ClassDecl getBaseClass(FunctionDecl decl) {

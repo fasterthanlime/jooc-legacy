@@ -36,7 +36,7 @@ public class VariableDeclFromExpr extends VariableDecl implements MustBeResolved
 			if(atom.assign != null) {
 				Type retType = atom.assign.getRight().getType();
 				if(isConst && retType != null) {
-					retType = retType.copy();
+					retType = retType.clone();
 					retType.setConst(true);
 				}
 				return retType;
@@ -45,7 +45,7 @@ public class VariableDeclFromExpr extends VariableDecl implements MustBeResolved
 		}
 		Type retType = expr.getType();
 		if(isConst && retType != null) {
-			retType = retType.copy();
+			retType = retType.clone();
 			retType.setConst(true);
 		}
 		return retType == null ? type : retType;

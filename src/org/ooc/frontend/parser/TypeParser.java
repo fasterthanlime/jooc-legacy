@@ -22,7 +22,7 @@ public class TypeParser {
 		int pointerLevel = 0;
 		int referenceLevel = 0;
 		boolean isArray = false;
-		List<Type> typeParams = null;
+		List<Type> genericTypes = null;
 		
 		Token startToken = reader.peek();
 		boolean isConst = false;
@@ -74,16 +74,15 @@ public class TypeParser {
 			while(reader.peek().type != TokenType.GREATERTHAN) {
 				Type innerType = TypeParser.parse(module, sReader, reader);
 				if(innerType == null) {
-					typeParams = null;
+					genericTypes = null;
 					break;
 				}
-				if(typeParams == null) typeParams = new ArrayList<Type>(); 
-				typeParams.add(innerType);
+				if(genericTypes == null) genericTypes = new ArrayList<Type>(); 
+				genericTypes.add(innerType);
 				if(reader.peek().type != TokenType.COMMA) break;
 			}
 			if(reader.read().type != TokenType.GREATERTHAN) {
-				typeParams = null;
-				
+				genericTypes = null;
 			}
 		}
 
@@ -117,7 +116,7 @@ public class TypeParser {
 			}
 			type.setArray(isArray);
 			type.setConst(isConst);
-			if(typeParams != null) type.getTypeParams().addAll(typeParams);
+			if(genericTypes != null) type.getGenericTypes().addAll(genericTypes);
 			return type;
 		}
 		return null;

@@ -70,7 +70,8 @@ public class FunctionCall extends Access implements MustBeResolved {
 	@Override
 	public Type getType() {
 		if(impl != null) {
-			return impl.getReturnType();
+			Type result = getRealType(impl.getReturnType());
+			return result;
 		}
 		return null;
 	}
@@ -136,59 +137,47 @@ public class FunctionCall extends Access implements MustBeResolved {
 	protected Response handleGenerics(final NodeList<Node> stack)
 			throws EOFException {
 		
+		if(impl == null) return Response.LOOP;
+		
 		// If one of the arguments which type is generic is not a VariableAccess
 		// turn it into a VDFE and unwrap it
-		LinkedHashMap<String, GenericType> params = impl.getGenericTypes();
-		if(!params.isEmpty()) {
-			for(GenericType param: params.values()) {
-				Iterator<Argument> iter = impl.getThisLessArgsIter();
-				int i = 0;
-				while(iter.hasNext()) {
-					Argument arg = iter.next();
-					if(!arg.getType().getName().equals(param.getName())) continue;
-					Expression expr = arguments.get(i);
-					if(!(expr instanceof VariableAccess)) {
-						VariableDeclFromExpr vdfe = new VariableDeclFromExpr(
-								generateTempName(param.getName()+"param"), expr, startToken);
-						arguments.replace(expr, vdfe);
-						stack.push(this);
-						stack.push(arguments);
-						vdfe.unwrapToVarAcc(stack);
-						stack.pop(arguments);
-						stack.pop(this);
-						return Response.RESTART;
-					}
-					i++;
-				}
-			}
+		LinkedHashMap<String, GenericType> generics = impl.getGenericTypes();
+		if(!generics.isEmpty()) for(GenericType genType: generics.values()) {
+			Response response = checkGenType(stack, genType);
+			if(response != Response.OK) return response;
+		}
+		if(impl.getTypeDecl() != null) for(GenericType genType: impl.getTypeDecl().getGenericTypes().values()) {
+			Response response = checkGenType(stack, genType);
+			if(response != Response.OK) return response;
 		}
 		
 		// Turn any outer assigned access into a returnArg, unwrap if in varDecl.
-		if(impl.getGenericTypes().size() > 0) {
-			Type returnType = impl.getReturnType();
-			GenericType genType = impl.getGenericTypes().get(returnType.getName());
-			if(genType != null) {
-				Node parent = stack.peek();
-				if(parent instanceof Assignment) {
-					Assignment ass = (Assignment) parent;
-					if(ass.getLeft() instanceof Access) {
-						returnArg = new AddressOf(ass.getLeft(), startToken);
-						stack.get(stack.size() - 2).replace(ass, this);
-					}
-					return Response.RESTART;
-				} else if(parent instanceof VariableDeclAtom) {
-					VariableDeclAtom atom = (VariableDeclAtom) parent;
-					unwrapFromVarDecl(stack, genType,  atom);
-					return Response.RESTART;
-				} else if(parent instanceof Line) {
-					// alright =)
-				} else {
-					VariableDeclFromExpr vdfe = new VariableDeclFromExpr(generateTempName("gcall"),
-							this, startToken);
-					parent.replace(this, vdfe);
-					vdfe.unwrapToVarAcc(stack);
+		Type returnType = impl.getReturnType();
+		GenericType genType = impl.getGenericType(returnType.getName());
+		if(genType != null) {
+			Node parent = stack.peek();
+			if(parent instanceof Assignment) {
+				Assignment ass = (Assignment) parent;
+				if(ass.getLeft() instanceof Access) {
+					System.out.println("Replaced assignment!");
+					returnArg = new AddressOf(ass.getLeft(), startToken);
+					stack.get(stack.size() - 2).replace(ass, this);
 					return Response.RESTART;
 				}
+			} else if(parent instanceof VariableDeclAtom) {
+				VariableDeclAtom atom = (VariableDeclAtom) parent;
+				unwrapFromVarDecl(stack, genType,  atom);
+				return Response.RESTART;
+			} else if(parent instanceof Line) {
+				// alright =)
+			} else {
+				VariableDeclFromExpr vdfe = new VariableDeclFromExpr(generateTempName("gcall"),
+						this, startToken);
+				parent.replace(this, vdfe);
+				Type realType = getRealType(impl.getReturnType());
+				vdfe.setType(realType);
+				vdfe.unwrapToVarAcc(stack);
+				return Response.RESTART;
 			}
 		}
 		
@@ -196,12 +185,47 @@ public class FunctionCall extends Access implements MustBeResolved {
 		
 	}
 
+	private Response checkGenType(final NodeList<Node> stack, GenericType genType)
+			throws EOFException {
+		Iterator<Argument> iter = impl.getThisLessArgsIter();
+		int i = -1;
+		while(iter.hasNext()) {
+			i++;
+			Argument arg = iter.next();
+			if(!arg.getType().getName().equals(genType.getName())) continue;
+			Expression expr = arguments.get(i);
+			if(!(expr instanceof VariableAccess)) {
+				VariableDeclFromExpr vdfe = new VariableDeclFromExpr(
+						generateTempName(genType.getName()+"param"), expr, startToken);
+				arguments.replace(expr, vdfe);
+				stack.push(this);
+				stack.push(arguments);
+				vdfe.unwrapToVarAcc(stack);
+				stack.pop(arguments);
+				stack.pop(this);
+				return Response.RESTART;
+			}
+		}
+		return Response.OK;
+	}
+
 	@SuppressWarnings("unchecked")
 	private void unwrapFromVarDecl(final NodeList<Node> stack,
-			GenericType genType, VariableDeclAtom atom) {
+			GenericType genType, VariableDeclAtom atom) throws OocCompilationError, EOFException {
 		int varDeclIndex = stack.find(VariableDecl.class);
 		VariableDecl decl = (VariableDecl) stack.get(varDeclIndex);
-		decl.setType(getRealType(genType));
+		decl.setType(getRealType(decl.getType(), genType));
+		if(decl.getType().getRef() instanceof GenericType) {
+			String endMsg = "";
+			if(this instanceof MemberCall) {
+				endMsg = " - "+((MemberCall) this).getExpression().getType()
+					+" should be type-specified, (with <Param1, Param2, ...>)";
+			} else {
+				endMsg = " - not enough type information.";
+			}
+			throw new OocCompilationError(this, stack, "Couldn't guess return type of function "
+					+getProtoRepr()+endMsg);
+		}
 		atom.replace(this, null);
 		
 		int lineIndex = stack.find(Line.class, varDeclIndex);
@@ -218,9 +242,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 		if(impl == null) return;
 
 		Iterator<Expression> callArgs = arguments.iterator();
-		Iterator<Argument> implArgs = impl.getArguments().iterator();
-		if(impl.hasThis() && implArgs.hasNext()) implArgs.next();
-		
+		Iterator<Argument> implArgs = impl.getThisLessArgsIter();
 		while(implArgs.hasNext() && callArgs.hasNext()) {
 			Expression callArg = callArgs.next();
 			Argument implArg = implArgs.next();
@@ -229,25 +251,46 @@ public class FunctionCall extends Access implements MustBeResolved {
 			}
 		}
 	}
+	
+	protected Type getRealType(Type originType) {
+		if(!(originType.getRef() instanceof GenericType)) {
+			Type result = originType.clone();
+			realTypizeChildren(result);
+			return result;
+		}
+		GenericType genType = (GenericType) originType.getRef();
+		return getRealType(originType, genType);
+	}
 
-	private Type getRealType(GenericType genType) {
-		int i = 0;
+	private Type getRealType(Type originType, GenericType genType) {
+		int i = -1;
 		Iterator<Argument> iter = impl.getThisLessArgsIter();
+		Type result = originType;
 		while(iter.hasNext()) {
+			i++;
 			Argument arg = iter.next();
 			if(arg.getType().getName().equals(genType.getName())) {
-				Type type = arguments.get(i).getType();
+				Type callArgType = arguments.get(i).getType();
 				Type argType = arg.getType();
 				int level = argType.getPointerLevel();
 				if(level > 0) {
-					type = type.copy();
-					type.setPointerLevel(type.getPointerLevel() - level);
+					callArgType = callArgType.clone();
+					callArgType.setPointerLevel(callArgType.getPointerLevel() - level);
 				}
-				return type;
+				result = callArgType;
+				break;
 			}
-			i++;
 		}
-		return null;
+		realTypizeChildren(result);
+		return result;
+	}
+
+	protected void realTypizeChildren(Type result) {
+		int j = -1;
+		for(Type subType: result.getGenericTypes()) {
+			j++;
+			result.getGenericTypes().set(j, getRealType(subType));
+		}
 	}
 
 	protected String guessCorrectName(final NodeList<Node> mainStack, final Resolver res) {
@@ -452,7 +495,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 			return 0;
 		}
 		
-		if(declArgs.size == 0) return score;
+		if(declArgs.size() == 0) return score;
 		
 		Iterator<Argument> declIter = declArgs.iterator();
 		if(func.hasThis() && declIter.hasNext()) declIter.next();
