@@ -13,6 +13,7 @@ import org.ooc.frontend.model.FunctionDecl;
 import org.ooc.frontend.model.GenericType;
 import org.ooc.frontend.model.MemberCall;
 import org.ooc.frontend.model.NodeList;
+import org.ooc.frontend.model.Type;
 import org.ooc.frontend.model.TypeDecl;
 import org.ooc.frontend.model.VarArg;
 import org.ooc.frontend.model.VariableAccess;
@@ -105,7 +106,7 @@ public class CallWriter {
 				writeCallArg(iter.next(), impl, argIndex, cgen);
 			}
 		} else {
-			writeGenericCallArgs(callArgs, impl, cgen, isFirst);
+			writeGenericCallArgs(functionCall, impl, cgen, isFirst);
 		}
 	}
 
@@ -126,18 +127,18 @@ public class CallWriter {
 		if(shouldCast) cgen.current.app("))");
 	}
 
-	public static void writeGenericCallArgs(NodeList<Expression> callArgs,
+	public static void writeGenericCallArgs(FunctionCall call,
 			FunctionDecl impl, CGenerator cgen, boolean isFirstArg) throws IOException {
 		
 		boolean isFirst = isFirstArg;
 		NodeList<Argument> implArgs = impl.getArguments();
 		
 		for(GenericType typeParam: impl.getGenericTypes().values()) {
-			isFirst = writeGenType(callArgs, impl, cgen, isFirst, typeParam);
+			isFirst = writeGenType(call, impl, cgen, isFirst, typeParam);
 		}
 		
 		int argIndex = impl.hasThis() ? 1 : 0;
-		Iterator<Expression> iter = callArgs.iterator();
+		Iterator<Expression> iter = call.getArguments().iterator();
 		while(iter.hasNext()) {
 			if(!isFirst) cgen.current.app(", ");
 			isFirst = false;
@@ -151,40 +152,23 @@ public class CallWriter {
 		
 	}
 
-	private static boolean writeGenType(NodeList<Expression> callArgs,
+	private static boolean writeGenType(FunctionCall call,
 			FunctionDecl impl, CGenerator cgen, boolean isFirstParam,
 			GenericType typeParam) throws IOException, OocCompilationError,
 			EOFException {
 		boolean isFirst = isFirstParam;
-		boolean done = false;
-		int i = -1;
-		Iterator<Argument> iter = impl.getThisLessArgsIter();
-		while(iter.hasNext()) {
-			i++;
-			Argument implArg = iter.next();
-			if(implArg.getType().getName().equals(typeParam.getName())) {
-				if(!isFirst) cgen.current.app(", ");
-				isFirst = false;
-				Expression callArg = callArgs.get(i);
-				if(callArg.getType().getRef() instanceof GenericType) {
-					cgen.current.app(callArg.getType().getName());
-				} else {
-					cgen.current.app(callArg.getType().getName()).app("_class()");
-				}
-				done = true;
-				break;
-			}
-			if(implArg.getName().equals(typeParam.getName())) {
-				if(!isFirst) cgen.current.app(", ");
-				isFirst = false;
-				cgen.current.app(implArg.getName());
-				done = true;
-				break;
-			}
-		}
-		if(!done)
-			throw new OocCompilationError(callArgs, cgen.module,
-					"Couldn't find argument in "+callArgs+" to figure out generic type "+typeParam);
+		
+		Type realType = call.getRealType(null, typeParam);
+		if(realType == null)
+			throw new OocCompilationError(call, cgen.module,
+					"Couldn't find argument in "+call.getArgsRepr()+" to figure out generic type "+typeParam);
+		
+		if(!isFirst) cgen.current.app(", ");
+		isFirst = false;
+		// FIXME shouldn't it be realType.accept() ?
+		cgen.current.app(realType.getName());
+		if(!realType.isGeneric()) cgen.current.app("_class()");
+		
 		return isFirst;
 	}
 

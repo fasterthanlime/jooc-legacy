@@ -160,7 +160,7 @@ public class MemberCall extends FunctionCall {
 	}
 	
 	@Override
-	protected Type getRealType(Type originType) {
+	public Type getRealType(Type originType) {
 		Type exprType = expression.getType();
 		if(exprType.getGenericTypes().size() > 0) {
 			Declaration ref = exprType.getRef();

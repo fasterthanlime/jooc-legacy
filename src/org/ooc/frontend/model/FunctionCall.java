@@ -4,6 +4,7 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.ooc.frontend.Levenshtein;
 import org.ooc.frontend.Visitor;
@@ -255,7 +256,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 		}
 	}
 	
-	protected Type getRealType(Type originType) {
+	public Type getRealType(Type originType) {
 		if(!(originType.getRef() instanceof GenericType)) {
 			Type result = originType.clone();
 			realTypizeChildren(result);
@@ -265,30 +266,63 @@ public class FunctionCall extends Access implements MustBeResolved {
 		return getRealType(originType, genType);
 	}
 
-	private Type getRealType(Type originType, GenericType genType) {
+	public Type getRealType(Type originType, GenericType genType) {
+		System.out.println("[FC] Looking for "+genType+" in "+this);
+		
 		int i = -1;
 		Iterator<Argument> iter = impl.getThisLessArgsIter();
-		Type result = originType;
+		Type result = null;
 		while(iter.hasNext()) {
 			i++;
 			Argument arg = iter.next();
-			if(arg.getType().getName().equals(genType.getName())) {
-				Type callArgType = arguments.get(i).getType();
-				Type argType = arg.getType();
-				int level = argType.getPointerLevel();
-				if(level > 0) {
-					callArgType = callArgType.clone();
-					callArgType.setPointerLevel(callArgType.getPointerLevel() - level);
-				}
-				result = callArgType;
-				break;
-			}
+			Expression callArg = arguments.get(i);
+			System.out.println("Comparing "+arg+" with "+genType);
+			
+			Type implType = arg.getType();
+			Type realType = callArg.getType();
+			result = tryTypeCombination(genType, implType, realType);
+			if(result != null) break;
 		}
+		
+		
+		if(result == null) result = originType;
 		realTypizeChildren(result);
 		return result;
 	}
 
+	private Type tryTypeCombination(GenericType genType, Type implType, Type realType) {
+		Type result = null;
+		if(implType.getName().equals(genType.getName())) {
+			int level = implType.getPointerLevel();
+			if(level > 0) {
+				result = realType.clone();
+				result.setPointerLevel(realType.getPointerLevel() - level);
+			}
+			result = realType;
+		}
+		if(result == null) {
+			Declaration ref = realType.getRef();
+			if(ref instanceof TypeDecl) {
+				TypeDecl typeDecl = (TypeDecl) ref;
+				System.out.println("Null result, subtypizing in realType "+realType+" with td "+typeDecl);
+				List<Type> realGenTypes = realType.getGenericTypes();
+				int i = -1;
+				for(GenericType subType: typeDecl.getGenericTypes().values()) {
+					i++;
+					Type subRealType = realGenTypes.get(i);
+					System.out.println("Got subType "+subType+" with subRealType "+subRealType);
+					Type subImplType = new Type(subType.getName(), startToken);
+					subImplType.setRef(subType);
+					result = tryTypeCombination(genType, subImplType, subRealType);
+					if(result != null) return result;
+				}
+			}
+		}
+		return result;
+	}
+
 	protected void realTypizeChildren(Type result) {
+		if(result == null) return;
 		int j = -1;
 		for(Type subType: result.getGenericTypes()) {
 			j++;

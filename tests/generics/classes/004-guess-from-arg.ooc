@@ -1,7 +1,12 @@
 Container: class <T> {
-	init: func(=T)
+	init: func(=T) {}
 }
 
 printType: func <T> (cont: Container<T>) {
-	printf("We got a container of %")
+	printf("We got a %s of %s\n", cont class name, T name)
+}
+
+main: func {
+	c := Container<Int> new(Int)
+	printType(c)
 }
