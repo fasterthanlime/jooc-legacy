@@ -1,4 +1,5 @@
 include stdlib, string
+import lang.Int
 
 atoi: extern func (String) -> Int
 atol: extern func (String) -> Long
@@ -136,7 +137,7 @@ String: cover from Char* {
 	
 	times: func (count: Int) -> This {
 		length := length()
-		result := gc_malloc((length * count) + 1) as String
+		result := gc_malloc((length * count) + 1) as Char*
 		for(i in 0..count) {
 			memcpy(result + (i * length), this, length)
 		}
@@ -144,8 +145,29 @@ String: cover from Char* {
 		return result
 	}
 	
+	append: func(other: This) -> This {
+		length := length()
+		rlength := other length()
+		copy := gc_malloc(length + rlength + 1) as Char*
+		memcpy(copy, this, length)
+		memcpy(copy as Char* + length, other, rlength + 1) // copy the final '\0'
+		return copy
+	}
+	
 }
 
 operator * (str: String, count: Int) -> String {
 	return str times(count)
+}
+
+operator + (left, right: String) -> String {
+	return left append(right)
+}
+
+operator + (left: Int, right: String) -> String {
+	left repr() + right
+}
+
+operator + (left: String, right: Int) -> String {
+	left + right repr()
 }

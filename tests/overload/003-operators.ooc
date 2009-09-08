@@ -82,7 +82,8 @@ operator [] (first: Test, second: Int) {
 }
 
 main: func {
-	one, two: Test
+	one := Test new()
+	two := Test new()
 	one + two
 	one - two
 	one * two
