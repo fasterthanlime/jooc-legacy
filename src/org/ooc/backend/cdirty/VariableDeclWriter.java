@@ -21,7 +21,7 @@ public class VariableDeclWriter {
 		//if(variableDecl.isConst()) cgen.current.app("const ");
 		
 		Type type = variableDecl.getType();
-		if(type.getRef() instanceof GenericType) {
+		if(type.getRef() instanceof GenericType && !variableDecl.isMember()) {
 			
 			GenericType genType = (GenericType) type.getRef();
 			cgen.current.app("Octet ").app(variableDecl.getName()).app("[");
