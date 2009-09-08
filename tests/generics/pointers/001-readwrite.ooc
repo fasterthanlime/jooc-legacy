@@ -60,11 +60,9 @@ main: func {
 	printf("cont get(2) = %d\n", cont get3(2))
 	printf("cont get(3) = %d\n", cont get3(3))
 
-	/*
 	"Flavor operator!" println()
 	printf("cont get(2) = %d\n", cont[2])
 	printf("cont get(3) = %d\n", cont[3])
-	*/
 	
 	printf("cont equals(2, 42) ? %s\n", cont equals(2, 42) repr())
 

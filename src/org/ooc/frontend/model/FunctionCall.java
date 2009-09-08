@@ -267,7 +267,6 @@ public class FunctionCall extends Access implements MustBeResolved {
 	}
 
 	public Type getRealType(Type originType, GenericType genType) {
-		System.out.println("[FC] Looking for "+genType+" in "+this);
 		
 		int i = -1;
 		Iterator<Argument> iter = impl.getThisLessArgsIter();
@@ -276,8 +275,6 @@ public class FunctionCall extends Access implements MustBeResolved {
 			i++;
 			Argument arg = iter.next();
 			Expression callArg = arguments.get(i);
-			System.out.println("Comparing "+arg+" with "+genType);
-			
 			Type implType = arg.getType();
 			Type realType = callArg.getType();
 			result = tryTypeCombination(genType, implType, realType);
@@ -304,13 +301,11 @@ public class FunctionCall extends Access implements MustBeResolved {
 			Declaration ref = realType.getRef();
 			if(ref instanceof TypeDecl) {
 				TypeDecl typeDecl = (TypeDecl) ref;
-				System.out.println("Null result, subtypizing in realType "+realType+" with td "+typeDecl);
 				List<Type> realGenTypes = realType.getGenericTypes();
 				int i = -1;
 				for(GenericType subType: typeDecl.getGenericTypes().values()) {
 					i++;
 					Type subRealType = realGenTypes.get(i);
-					System.out.println("Got subType "+subType+" with subRealType "+subRealType);
 					Type subImplType = new Type(subType.getName(), startToken);
 					subImplType.setRef(subType);
 					result = tryTypeCombination(genType, subImplType, subRealType);
