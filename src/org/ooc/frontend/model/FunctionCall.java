@@ -159,7 +159,6 @@ public class FunctionCall extends Access implements MustBeResolved {
 			if(parent instanceof Assignment) {
 				Assignment ass = (Assignment) parent;
 				if(ass.getLeft() instanceof Access) {
-					System.out.println("Replaced assignment!");
 					returnArg = new AddressOf(ass.getLeft(), startToken);
 					stack.get(stack.size() - 2).replace(ass, this);
 					return Response.RESTART;

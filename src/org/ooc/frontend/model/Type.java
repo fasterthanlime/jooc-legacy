@@ -329,6 +329,10 @@ public class Type extends Node implements MustBeResolved {
 		clone.genericTypes.addAll(genericTypes);
 		return clone;
 	}
+
+	public boolean isGeneric() {
+		return ref != null && ref instanceof GenericType;
+	}
 	
 }
 

@@ -12,8 +12,7 @@ Array: class <T> {
 	}
 
 	set: func (index: SizeT, element: T) {
-		//data[index] = element
-		memcpy(data + index * T size, element&, T size)
+		data[index] = element
 	}
 
 }
@@ -29,8 +28,28 @@ main: func {
 	}
 	
 	printf("Array's content = ")
+	isFirst := true
 	for (i: Int in 0..max) {
-		printf("%d, ", arr get(i))
+		if(!isFirst) printf(", ")
+		isFirst = false
+		printf("%d", arr get(i))
+	}
+	println()
+	
+	println("Creating an array of chars")
+	chars := Array<Char> new(Char, max)
+	
+	max = 26
+	for (i : Int in 0..max) {
+		chars set(i, 'a' + i);
+	}
+	
+	printf("Chars's content = ")
+	isFirst = true
+	for (i: Int in 0..max) {
+		if(!isFirst) printf(", ")
+		isFirst = false
+		printf("%c", chars get(i))
 	}
 	println()
 	

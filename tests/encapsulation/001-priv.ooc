@@ -1,21 +1,19 @@
 
-class Dog {
+Dog: class {
 
-	private String name
-	Int age
+	name: private String
+	age: Int
 
-	func new
-
-	func setName(=name)
-	func getName name
+	setName: func (=name)
+	getName: func -> String { name }
 
 }
 
 func main {
 
-	dog = new Dog
+	dog := Dog new()
 	dog setName("Dogbert")
 	dog age = 18
-	printf("I've a dog named %s and aged %d\n", dog getName, dog age)
+	printf("I've a dog named %s and aged %d\n", dog getName(), dog age())
 
 }

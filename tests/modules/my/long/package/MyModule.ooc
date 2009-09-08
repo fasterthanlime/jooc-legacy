@@ -1,8 +1,3 @@
-include stdio;
-
-cover String from char*;
-extern func printf(String, ...);
-
-func call {
+call: func {
 	printf("Hey, here's MyClass =)\n");
 }

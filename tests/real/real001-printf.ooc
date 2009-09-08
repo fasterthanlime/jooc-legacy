@@ -1,6 +1,6 @@
 include stdio;
-cover String from char*;
-extern func printf(String fmt, ...);
+String: cover from char*
+extern func printf(fmt: String, ...)
 
 func main {
 	

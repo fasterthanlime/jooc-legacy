@@ -110,10 +110,10 @@ public class ModuleWriter {
 			throws IOException {
 
 		cgen.current = cgen.hw;
-		cgen.current.nl().app("void ").app(cgen.module.getLoadFunc().getName()).app("();");
+		cgen.current.nl().app("Void ").app(cgen.module.getLoadFunc().getName()).app("();");
 
 		cgen.current = cgen.cw;
-		cgen.current.nl().app("void ").app(cgen.module.getLoadFunc().getName()).app("()").openBlock();
+		cgen.current.nl().app("Void ").app(cgen.module.getLoadFunc().getName()).app("()").openBlock();
 
 		cgen.current.nl().app("static bool __done__ = false;").nl().app("if (!__done__)").openBlock();
 		cgen.current.nl().app("__done__ = true;");

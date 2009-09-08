@@ -1,19 +1,15 @@
-include stdio;
-cover String from char*;
-extern func printf(String, ...);
+Float: cover from float {
 
-cover Float from float {
-
-	func print printf("Value = %f\n", this);
+	print: func { printf("Value = %f\n", this) }
 
 }
 
-func main {
+main: func {
 
-	List<Float> list = new;
-	list.add(0.3);
-	list.add(3.14);
-	list.add(5.72);
-	list/.print; // slashdot syntax =)
+	list := List<Float> new()
+	list add(0.3)
+	list add(3.14)
+	list add(5.72)
+	list\ print() // slashdot syntax =)
 
 }

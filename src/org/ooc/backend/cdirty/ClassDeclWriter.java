@@ -183,7 +183,7 @@ public class ClassDeclWriter {
 	public static void writeFunctionDeclPointer(FunctionDecl decl, boolean doName, CGenerator cgen)
 			throws IOException {
 		if(decl.hasReturn()) decl.getReturnType().accept(cgen);
-		else cgen.current.app("void ");
+		else cgen.current.app("Void ");
 		
 		cgen.current.app(" (*");
 		if(doName) decl.writeSuffixedName(cgen.current);

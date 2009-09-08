@@ -1,9 +1,11 @@
 package org.ooc.frontend.model;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.tokens.Token;
 
 
@@ -155,6 +157,13 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic {
 		}
 		
 		return null;
+	}
+	
+	@Override
+	public void acceptChildren(Visitor visitor) throws IOException {
+		for(GenericType genType: genericTypes.values()) {
+			genType.accept(visitor);
+		}
 	}
 	
 	@Override

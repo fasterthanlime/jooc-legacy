@@ -182,6 +182,7 @@ public class CoverDecl extends TypeDecl implements MustBeResolved {
 		type.accept(visitor);
 		variables.accept(visitor);
 		functions.accept(visitor);
+		super.acceptChildren(visitor);
 	}
 	
 	@Override

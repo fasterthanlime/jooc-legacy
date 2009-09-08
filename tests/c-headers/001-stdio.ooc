@@ -1,7 +1,7 @@
 include stdio
 printf: extern func (String, ...)
 
-func main {
+main: func {
 
 	printf ("Hi, C header world =)\n")
 

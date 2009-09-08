@@ -1,14 +1,8 @@
-include stdio;
-cover String from char*;
-extern func printf(String, ...);
-cover Float from double;
-cover Int from int;
+main: func {
 
-func main {
-
-	Float x = 1.0, y = 4.2, z = 3.7;
+	x = 1.0, y = 4.2, z = 3.7 : Float
 	printf("Assigned to values (%f, %f, %f)\n", x, y, z);
-	for(Float f: (x, y, z)) {
+	for(f: Float in [x, y, z]) {
 		printf("Printing value %f\n", f);
 	}
 

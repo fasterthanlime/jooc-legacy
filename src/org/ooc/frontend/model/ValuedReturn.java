@@ -81,11 +81,11 @@ public class ValuedReturn extends Return implements MustBeResolved {
 
 	@SuppressWarnings("unchecked")
 	private void unwrapToMemcpy(NodeList<Node> stack, FunctionDecl decl,
-			GenericType param) {
+			GenericType genericType) {
 		FunctionCall call = new FunctionCall("memcpy", "", startToken);
 		call.getArguments().add(new VariableAccess(decl.getReturnArg(), startToken));
 		
-		VariableAccess tAccess = new VariableAccess(param.getName(), startToken);
+		VariableAccess tAccess = new VariableAccess(genericType.getName(), startToken);
 		MemberAccess sizeAccess = new MemberAccess(tAccess, "size", startToken);
 		
 		if(expression instanceof ArrayAccess) {

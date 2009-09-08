@@ -129,6 +129,7 @@ public class ClassDecl extends TypeDecl implements MustBeResolved {
 		variables.accept(visitor);
 		functions.accept(visitor);
 		instanceType.accept(visitor);
+		super.acceptChildren(visitor);
 	}
 	
 	@Override

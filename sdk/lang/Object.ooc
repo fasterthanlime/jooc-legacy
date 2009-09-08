@@ -4,7 +4,7 @@ Class: abstract class {
 	size: SizeT
 
 	/// Human readable representation of the name of this class
-    name: String
+	name: String
 	
 	/// Pointer to instance of super-class
 	super: const Class
