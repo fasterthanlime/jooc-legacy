@@ -43,6 +43,8 @@ Bool: cover from bool
 SizeT: cover from size_t
 
 sizeof: extern func (...) -> SizeT
+memcmp: extern func (Pointer, Pointer, SizeT) -> Int
+memmove: extern func (Pointer, Pointer, SizeT)
 memcpy: extern func (Pointer, Pointer, SizeT)
 scanf: extern func (String, ...)
 printf: extern func (String, ...)

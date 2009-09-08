@@ -3,6 +3,7 @@ package org.ooc.backend.cdirty;
 import java.io.IOException;
 
 import org.ooc.frontend.model.*;
+import org.ooc.middle.OocCompilationError;
 
 public class ControlStatementWriter {
 
@@ -53,8 +54,8 @@ public class ControlStatementWriter {
 			foreach.getBody().accept(cgen);
 			cgen.current.closeBlock();
 		} else { 
-			throw new UnsupportedOperationException("Iterating over.. not a Range but a "
-					+foreach.getCollection().getType());
+			throw new OocCompilationError(foreach.getCollection(), cgen.module,
+					"Iterating over.. not a Range but a "+foreach.getCollection().getType());
 		}
 	}
 	

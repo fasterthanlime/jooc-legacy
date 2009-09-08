@@ -23,6 +23,7 @@ import org.ooc.frontend.model.Mod;
 import org.ooc.frontend.model.Module;
 import org.ooc.frontend.model.Mul;
 import org.ooc.frontend.model.Not;
+import org.ooc.frontend.model.Parenthesis;
 import org.ooc.frontend.model.RangeLiteral;
 import org.ooc.frontend.model.Sub;
 import org.ooc.frontend.model.Type;
@@ -72,6 +73,7 @@ public class ExpressionParser {
 		if(reader.peek().type == TokenType.OPEN_PAREN) {
 			reader.skip();
 			expr = parse(module, sReader, reader);
+			expr = new Parenthesis(expr, expr.startToken);
 			if(reader.read().type != TokenType.CLOS_PAREN) {
 				throw new CompilationFailedError(sReader.getLocation(reader.prev())
 						, "Expected closing parenthesis.");

@@ -115,14 +115,44 @@ public class Assignment extends BinaryOperation {
 			}
 		}
 		
-		if(left instanceof ArrayAccess) {
-			ArrayAccess arrAcc = (ArrayAccess) left;
-			Expression var = arrAcc.getVariable();
-			if(var.getType().isGeneric()) {
-				GenericType genericType = (GenericType) var.getType().getRef();
-				System.out.println("Got left generic "+var);
-				
-				unwrapToMemcpy(stack, arrAcc, genericType);
+		boolean isGeneric = false;
+		Expression realLeft = null;
+		Expression realRight = null;
+		Expression size = null;
+		if(left.getType().isGeneric()) {
+			isGeneric = true;
+			GenericType genericType = (GenericType) left.getType().getRef();
+			VariableAccess tAccess = new VariableAccess(genericType.getName(), startToken);
+			size = new MemberAccess(tAccess, "size", startToken);
+			realLeft = new AddressOf(left, left.startToken);
+		}
+		if(right.getType().isGeneric()) {
+			isGeneric = true;
+			realRight = new AddressOf(right, right.startToken);
+		}
+		if(isGeneric) {
+			if(left instanceof ArrayAccess) {
+				ArrayAccess arrAcc = (ArrayAccess) left;
+				Expression var = arrAcc.getVariable();
+				if(var.getType().isGeneric()) {
+					GenericType genericType = (GenericType) var.getType().getRef();
+					VariableAccess tAccess = new VariableAccess(genericType.getName(), startToken);
+					MemberAccess sizeAccess = new MemberAccess(tAccess, "size", startToken);
+					realLeft = new Add(arrAcc.variable, new Mul(arrAcc.index, sizeAccess, startToken), startToken);
+				}
+			}
+			if(right instanceof ArrayAccess) {
+				ArrayAccess arrAcc = (ArrayAccess) right;
+				Expression var = arrAcc.getVariable();
+				if(var.getType().isGeneric()) {
+					GenericType genericType = (GenericType) var.getType().getRef();
+					VariableAccess tAccess = new VariableAccess(genericType.getName(), startToken);
+					MemberAccess sizeAccess = new MemberAccess(tAccess, "size", startToken);
+					realRight = new Add(arrAcc.variable, new Mul(arrAcc.index, sizeAccess, startToken), startToken);
+				}
+			}
+			if(realLeft != null && realRight != null && size != null) {
+				unwrapToMemcpy(stack, realLeft, realRight, size);
 				return Response.RESTART;
 			}
 		}
@@ -131,20 +161,17 @@ public class Assignment extends BinaryOperation {
 		
 	}
 
-	@SuppressWarnings("unchecked")
-	private void unwrapToMemcpy(NodeList<Node> stack, ArrayAccess arrAcc, GenericType genericType) {
+	private void unwrapToMemcpy(NodeList<Node> stack, Expression realLeft, Expression realRight, Expression size) {
 		FunctionCall call = new FunctionCall("memcpy", "", startToken);
-		
-		VariableAccess tAccess = new VariableAccess(genericType.getName(), startToken);
-		MemberAccess sizeAccess = new MemberAccess(tAccess, "size", startToken);
-		
-		call.getArguments().add(new Add(arrAcc.variable, new Mul(arrAcc.index, sizeAccess, startToken), startToken));
-		call.getArguments().add(new AddressOf(right, right.startToken));
-		call.getArguments().add(sizeAccess);
+		NodeList<Expression> args = call.getArguments();
+		if(realLeft == null || realRight == null || size == null) {
+			throw new Error("Heh :/ either of those are null: realLeft = "+realLeft
+					+", realRight = "+realRight+", size = "+size);
+		}
+		args.add(realLeft);
+		args.add(realRight);
+		args.add(size);
 		stack.peek().replace(this, call);
-		
-		int lineIndex = stack.find(Line.class);
-		((NodeList<Node>) stack.get(lineIndex - 1)).addAfter(stack.get(lineIndex), new Line(new Return(startToken)));
 	}
 	
 }

@@ -21,13 +21,15 @@ public class VariableDeclWriter {
 		//if(variableDecl.isConst()) cgen.current.app("const ");
 		
 		Type type = variableDecl.getType();
-		if(type.getRef() instanceof GenericType && !variableDecl.isMember()) {
+		if(type.getRef() instanceof GenericType && !variableDecl.isMember()
+				&& variableDecl.getAtoms().get(0).getExpression() == null) {
 			
 			GenericType genType = (GenericType) type.getRef();
 			cgen.current.app("Octet ").app(variableDecl.getName()).app("[");
 			if(genType.getArgument().isMember()) cgen.current.app("this->");
 			cgen.current.app(genType.getName())
 				.app("->size]");
+			writeInitAndComma(cgen, type, false, variableDecl.getAtoms().get(0));
 			return;
 			
 		} else if(type.getName().equals("Func")) {
@@ -39,7 +41,7 @@ public class VariableDeclWriter {
 				TypeWriter.writeSpaced(funcDecl.getReturnType(), cgen);
 				cgen.current.app("(*").app(atom.getName()).app(")");
 				FunctionDeclWriter.writeFuncArgs(funcDecl, cgen);
-				writeInitAndComma(cgen, type, iter, atom);
+				writeInitAndComma(cgen, type, iter.hasNext(), atom);
 			}
 			
 		} else {
@@ -64,7 +66,7 @@ public class VariableDeclWriter {
 				if(type.isArray()) for(int i = 0; i < type.getPointerLevel(); i++) {
 					cgen.current.app("[]");
 				}
-				writeInitAndComma(cgen, type, iter, atom);
+				writeInitAndComma(cgen, type, iter.hasNext(), atom);
 			}
 			
 		}
@@ -72,13 +74,13 @@ public class VariableDeclWriter {
 	}
 
 	private static void writeInitAndComma(CGenerator cgen, Type type,
-			Iterator<VariableDeclAtom> iter, VariableDeclAtom atom)
+			boolean writeComma, VariableDeclAtom atom)
 			throws IOException {
 		if(atom.getExpression() != null) {
 			cgen.current.app(" = ");
 			atom.getExpression().accept(cgen);
 		}
-		if(iter.hasNext()) {
+		if(writeComma) {
 			cgen.current.app(", ");
 			TypeWriter.writeStars(type, cgen);
 		}

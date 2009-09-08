@@ -91,11 +91,11 @@ public abstract class BinaryOperation extends Expression implements MustBeResolv
 		
 		OpType opType = getOpType();		
 		for(OpDecl op: res.module.getOps()) {
-			if(tryOp(stack, opType, op, res)) return Response.OK;
+			if(tryOp(stack, opType, op, res)) return Response.RESTART;
 		}
 		for(Import imp: res.module.getImports()) {
 			for(OpDecl op: imp.getModule().getOps()) {
-				if(tryOp(stack, opType, op, res)) return Response.OK;
+				if(tryOp(stack, opType, op, res)) return Response.RESTART;
 			}
 		}
 		

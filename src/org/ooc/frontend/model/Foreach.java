@@ -13,7 +13,7 @@ public class Foreach extends ControlStatement implements MustBeResolved {
 	protected Expression variable;
 	protected Expression collection; // must be of type Range or Iterable
 	
-	public Foreach(VariableDecl variable, Expression collection, Token startToken) {
+	public Foreach(Expression variable, Expression collection, Token startToken) {
 		super(startToken);
 		this.variable = variable;
 		this.collection = collection;
