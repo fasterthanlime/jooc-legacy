@@ -210,7 +210,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 		return Response.OK;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "unused" })
 	private void unwrapFromVarDecl(final NodeList<Node> stack,
 			GenericType genType, VariableDeclAtom atom) throws OocCompilationError, EOFException {
 		int varDeclIndex = stack.find(VariableDecl.class);

@@ -117,14 +117,11 @@ public class Foreach extends ControlStatement implements MustBeResolved {
 				NodeList<Line> list = (NodeList<Line>) stack.get(lineIndex - 1);
 				
 				Block block = new Block(startToken);
-				list.replace(line, block);
 				
 				MemberCall iterCall = new MemberCall(collection, "iterator", "", startToken);
 				iterCall.setImpl(iterFunc);
 				VariableDecl vdfe = new VariableDecl(iterCall.getType(), false, startToken);
 				vdfe.getAtoms().add(new VariableDeclAtom(generateTempName("iter"), iterCall, startToken));
-				block.getBody().add(new Line(vdfe));
-				block.getBody().add(line);
 
 				VariableAccess iterAcc = new VariableAccess(vdfe.getName(), startToken);
 				iterAcc.setRef(vdfe);
@@ -132,19 +129,18 @@ public class Foreach extends ControlStatement implements MustBeResolved {
 				MemberCall hasNextCall = new MemberCall(iterAcc, "hasNext", "", startToken);
 				hasNextCall.setImpl(hasNextFunc);
 				While while1 = new While(hasNextCall, startToken);
-				String name = variable instanceof VariableDecl ?
-							((VariableDecl) variable).getName()
-						  : ((VariableAccess) variable).getName();
 				
-				VariableDecl vDecl = new VariableDecl(variable.getType(), false, startToken);
 				MemberCall nextCall = new MemberCall(iterAcc, "next", "", startToken);
 				nextCall.setImpl(nextFunc);
-				VariableDeclAtom atom = new VariableDeclAtom(name, nextCall, startToken);
-				vDecl.getAtoms().add(atom);
-				while1.getBody().add(new Line(vDecl));
+				
+				// FIXME what if variable isn't an Access?
+				while1.getBody().add(new Line(new Assignment((Access) variable, nextCall, startToken)));
 				while1.getBody().addAll(getBody());
 				
-				stack.peek().replace(this, while1);
+				list.replace(line, block);
+				block.getBody().add(new Line(vdfe));
+				block.getBody().add(new Line(while1));
+				
 				return Response.RESTART;
 			}
 		}
