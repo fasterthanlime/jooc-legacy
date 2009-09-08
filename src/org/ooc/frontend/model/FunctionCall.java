@@ -136,8 +136,10 @@ public class FunctionCall extends Access implements MustBeResolved {
 
 	protected Response handleGenerics(final NodeList<Node> stack)
 			throws EOFException {
-		
-		if(impl == null) return Response.LOOP;
+
+		if(impl == null) {
+			return Response.LOOP;
+		}
 		
 		// If one of the arguments which type is generic is not a VariableAccess
 		// turn it into a VDFE and unwrap it
@@ -214,6 +216,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 		int varDeclIndex = stack.find(VariableDecl.class);
 		VariableDecl decl = (VariableDecl) stack.get(varDeclIndex);
 		decl.setType(getRealType(decl.getType(), genType));
+		/*
 		if(decl.getType().getRef() instanceof GenericType) {
 			String endMsg = "";
 			if(this instanceof MemberCall) {
@@ -225,6 +228,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 			throw new OocCompilationError(this, stack, "Couldn't guess return type of function "
 					+getProtoRepr()+endMsg);
 		}
+		*/
 		atom.replace(this, null);
 		
 		int lineIndex = stack.find(Line.class, varDeclIndex);

@@ -1,10 +1,12 @@
 /** Base class for all Interfaces */
+/*
 Interface: class {
 	realThis: Object
 	funcs: Object
 	
 	init: func (=realThis, =funcs) {}
 }
+*/
 
 /** Killable interface - object class */
 Killable: class extends Interface {

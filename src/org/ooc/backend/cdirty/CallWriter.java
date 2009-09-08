@@ -74,19 +74,21 @@ public class CallWriter {
 	}
 
 	public static void writeCallArgs(FunctionCall functionCall, FunctionDecl impl, CGenerator cgen) throws IOException {
+		writeCallArgs(functionCall, impl, true, cgen);
+	}
+	
+	public static void writeCallArgs(FunctionCall functionCall, FunctionDecl impl, boolean isFirstParam, CGenerator cgen) throws IOException {
 		NodeList<Expression> callArgs = functionCall.getArguments();
 		
-		boolean isFirst = true;
+		boolean isFirst = isFirstParam;
 		if(functionCall.getReturnArg() != null) {
-			if(!isFirst) {
-				cgen.current.app(", ");
-			} else isFirst = false;
+			if(!isFirst) cgen.current.app(", ");
+			isFirst = false;
 			functionCall.getReturnArg().accept(cgen);
 		}
 		if(functionCall.isConstructorCall() && impl.getTypeDecl() instanceof ClassDecl) {
-			if(!isFirst) {
-				cgen.current.app(", ");
-			} else isFirst = false;
+			if(!isFirst) cgen.current.app(", ");
+			isFirst = false;
 			cgen.current.app('(');
 			impl.getTypeDecl().getInstanceType().accept(cgen);
 			cgen.current.app(')');
@@ -98,9 +100,8 @@ public class CallWriter {
 			int argIndex = -1;
 			while(iter.hasNext()) {
 				argIndex++;
-				if(!isFirst) {
-					cgen.current.app(", ");
-				} else isFirst = false;
+				if(!isFirst) cgen.current.app(", ");
+				isFirst = false;
 				writeCallArg(iter.next(), impl, argIndex, cgen);
 			}
 		} else {
@@ -222,9 +223,8 @@ public class CallWriter {
 		}
 		if(!impl.isStatic() && !impl.isFromPointer()) {
 			memberCall.getExpression().accept(cgen);
-			if(!memberCall.getArguments().isEmpty()) cgen.current.app(", ");
 		}
-		writeCallArgs(memberCall, impl, cgen);
+		writeCallArgs(memberCall, impl, false, cgen);
 		
 		cgen.current.app(')');
 		

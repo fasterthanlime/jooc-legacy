@@ -1,7 +1,7 @@
 /**
  * List interface for a data container
  */
-List: abstract class<T> extends Iterable {
+List: abstract class <T> extends Iterable {
 
 	/**
 	 * Appends the specified element to the end of this list.
@@ -28,9 +28,9 @@ List: abstract class<T> extends Iterable {
 	 * this list, starting at the specified position.
 	 */
 	addAll: func~withIndex(index: Int, list: List<T>) {
-		/*for(element: T in list) {
+		for(element: T in list) {
 			add(element);
-		}*/
+		}
 	}
 	
 	/**
@@ -109,5 +109,6 @@ List: abstract class<T> extends Iterable {
 	 */
 	size: abstract func() -> Int
 
-	iterator: abstract func -> Iterator
+	iterator: abstract func -> Iterator<T>
+	
 }

@@ -12,7 +12,7 @@ import org.ooc.middle.hobgoblins.Resolver;
 
 public class ArrayLiteral extends Literal implements MustBeUnwrapped, MustBeResolved {
 
-	private static Type defaultType = new Type("Pointer", Token.defaultToken);
+	private static Type defaultType = NullLiteral.type;
 	protected Type type = defaultType;
 	protected NodeList<Expression> elements;
 	

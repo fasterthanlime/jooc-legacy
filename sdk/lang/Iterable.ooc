@@ -1,7 +1,7 @@
 import lang.Iterator
 
-Iterable: abstract class {
+Iterable: abstract class <T> {
 
-	iterator: abstract func -> Iterator
+	iterator: abstract func -> Iterator<T>
 	
 }

@@ -177,5 +177,11 @@ public class ClassDecl extends TypeDecl implements MustBeResolved {
 		if(getFunction(decl.getName(), decl.getSuffix(), null) != null) return this;
 		return null;
 	}
+
+	public boolean isChildOf(String candidate) {
+		if(superName.equals(candidate)) return true;
+		if(superRef != null) return ((ClassDecl) superRef).isChildOf(candidate);
+		return false;
+	}
 	
 }

@@ -1,6 +1,6 @@
-Iterator: abstract class {
+Iterator: abstract class <T> {
 
 	hasNext: abstract func -> Bool
-	next: abstract func -> Pointer
+	next: abstract func -> T
 	
 }
