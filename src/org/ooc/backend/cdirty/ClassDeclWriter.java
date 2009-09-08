@@ -260,13 +260,16 @@ public class ClassDeclWriter {
 
 	public static void writeDesignatedInit(FunctionDecl parentDecl, FunctionDecl realDecl, boolean impl, CGenerator cgen)
 			throws IOException {
-		
+
+			if(realDecl != null && realDecl.isAbstract()) return;
+			
 			cgen.current.nl().app('.').app(parentDecl.getSuffixedName()).app(" = ");
 			if(realDecl != null) {
 				cgen.current.app("(");
 				writeFunctionDeclPointer(parentDecl, false, cgen);
 				cgen.current.app(") ");
 			}
+			
 			cgen.current.app(realDecl != null ? realDecl.getFullName() : parentDecl.getFullName());
 			if(impl) cgen.current.app("_impl");
 			cgen.current.app(',');
