@@ -49,7 +49,6 @@ public class ForeachParser {
 						"Expected expression after 'in' keyword in a foreach");
 			}
 			if(variable instanceof VariableAccess && collection instanceof RangeLiteral) {
-				System.out.println("varAccess with a range!");
 				// FIXME not flexible enough
 				VariableAccess varAcc = ((VariableAccess) variable);
 				VariableDecl vDecl = new VariableDecl(IntLiteral.type, false, startToken);

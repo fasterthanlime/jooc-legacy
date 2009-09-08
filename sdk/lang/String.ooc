@@ -134,4 +134,18 @@ String: cover from Char* {
 		printf("%s\n", this)
 	}
 	
+	times: func (count: Int) -> This {
+		length := length()
+		result := gc_malloc((length * count) + 1) as String
+		for(i in 0..count) {
+			memcpy(result + (i * length), this, length)
+		}
+		result[length * count] = '\0';
+		return result
+	}
+	
+}
+
+operator * (str: String, count: Int) -> String {
+	return str times(count)
 }
