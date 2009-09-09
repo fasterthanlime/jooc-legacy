@@ -76,7 +76,6 @@ ArrayList: class<T> extends List {
 
 	lastIndexOf: func(element: T) -> Int {
 		index := size
-		result := -1
 		while(index) {
 			candidate : T
 			candidate = data[index]
@@ -87,7 +86,7 @@ ArrayList: class<T> extends List {
 	}
 
 	remove: func (index: Int) -> T {
-		return null
+		return
 	}
 
 	/**
