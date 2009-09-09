@@ -39,7 +39,7 @@ Container: class <T> {
 
 operator [] <T> (c: Container<T>, i: Int) -> T {
 	return c get(i)
-	return
+	//return
 }
 
 main: func {

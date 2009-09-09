@@ -98,7 +98,7 @@ public class CallWriter {
 		
 		if(!impl.isGeneric()) {
 			Iterator<Expression> iter = callArgs.iterator();
-			int argIndex = -1;
+			int argIndex = impl.hasThis() ? 0 : -1;
 			while(iter.hasNext()) {
 				argIndex++;
 				if(!isFirst) cgen.current.app(", ");
@@ -137,9 +137,10 @@ public class CallWriter {
 			isFirst = writeGenType(call, impl, cgen, isFirst, typeParam);
 		}
 		
-		int argIndex = impl.hasThis() ? 1 : 0;
+		int argIndex = impl.hasThis() ? 0 : -1;
 		Iterator<Expression> iter = call.getArguments().iterator();
 		while(iter.hasNext()) {
+			argIndex++;
 			if(!isFirst) cgen.current.app(", ");
 			isFirst = false;
 			Expression expr = iter.next();
@@ -147,7 +148,6 @@ public class CallWriter {
 			GenericType genericType = impl.getGenericType(arg.getType().getName());
 			if(genericType != null) cgen.current.app("(Octet*) &");
 			writeCallArg(expr, impl, argIndex, cgen);
-			argIndex++;
 		}
 		
 	}

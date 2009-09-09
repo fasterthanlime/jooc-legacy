@@ -51,8 +51,10 @@ printf: extern func (String, ...)
 sprintf: extern func (String, String, ...)
 
 fprintf: extern func (Stream, String, ...)
-Stream: cover from Int
+FILE: extern cover
+Stream: cover from FILE*
 stdout, stderr, stdin : extern Stream
+fflush: extern func (Stream)
 
 println: func (str: String) {
 	printf("%s\n", str)
