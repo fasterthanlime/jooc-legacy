@@ -29,6 +29,7 @@ import org.ooc.frontend.model.If;
 import org.ooc.frontend.model.Import;
 import org.ooc.frontend.model.Include;
 import org.ooc.frontend.model.IntLiteral;
+import org.ooc.frontend.model.InterfaceDecl;
 import org.ooc.frontend.model.Line;
 import org.ooc.frontend.model.MemberAccess;
 import org.ooc.frontend.model.MemberArgument;
@@ -418,6 +419,12 @@ public class SketchyNosy implements Visitor {
 
 	@Override
 	public void visit(FlowControl node) throws IOException {
+		if(node.hasChildren()) visitAll(node);
+		else if(!oppo.take(node, stack)) running = false;
+	}
+
+	@Override
+	public void visit(InterfaceDecl node) throws IOException {
 		if(node.hasChildren()) visitAll(node);
 		else if(!oppo.take(node, stack)) running = false;
 	}

@@ -6,8 +6,6 @@ import java.io.IOException;
 import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.middle.structs.MultiMap;
-import org.ooc.middle.walkers.Nosy;
-import org.ooc.middle.walkers.Opportunist;
 import org.ubi.SourceReader;
 
 public class Module extends Node implements Scope {
@@ -111,70 +109,6 @@ public class Module extends Node implements Scope {
 		types.accept(visitor);
 		ops.accept(visitor);
 		loadFunc.accept(visitor);
-	}
-	
-	public <T extends Declaration> MultiMap<Node, T> getDeclarationsMap(final Class<T> clazz) throws IOException {
-
-		final MultiMap<Node, T> decls = new MultiMap<Node, T>();
-		this.getDeclarationsMap(clazz, decls);
-		for(Import imp: imports) {
-			imp.getModule().getDeclarationsMap(clazz, decls);
-		}
-		return decls;
-		
-	}
-
-	protected <T extends Declaration> void getDeclarationsMap(final Class<T> clazz,
-			final MultiMap<Node, T> decls) throws IOException {
-		
-		new Nosy<T> (clazz, new Opportunist<T>() {
-	
-			@Override
-			public boolean take(T node, NodeList<Node> stack) throws IOException {
-				
-				int index = stack.find(Scope.class);
-				if(index == -1) {
-					throw new Error("Found declaration "+node.getName()+" of type "
-							+node.getType()+" outside of any NodeList!");
-				}
-				decls.add(stack.get(index), clazz.cast(node));
-				return true;
-				
-			}
-			
-		}).visit(this);
-		
-	}
-	
-	public <T extends Declaration> NodeList<T> getDeclarationsList(final Class<T> clazz) throws IOException {
-
-		final NodeList<T> decls = new NodeList<T>();
-		this.getDeclarationsList(clazz, decls);
-		for(Import imp: imports) {
-			imp.getModule().getDeclarationsList(clazz, decls);
-		}
-		return decls;
-		
-	}
-
-	protected <T extends Declaration> void getDeclarationsList(final Class<T> clazz,
-			final NodeList<T> decls) throws IOException {
-		new Nosy<T> (clazz, new Opportunist<T>() {
-	
-			@Override
-			public boolean take(T node, NodeList<Node> stack) throws IOException {
-				
-				int index = stack.find(Scope.class);
-				if(index == -1) {
-					throw new Error("Found declaration "+node.getName()+" of type "
-							+node.getType()+" outside of any NodeList!");
-				}
-				decls.add(clazz.cast(node));
-				return true;
-				
-			}
-			
-		}).visit(this);
 	}
 	
 	@Override

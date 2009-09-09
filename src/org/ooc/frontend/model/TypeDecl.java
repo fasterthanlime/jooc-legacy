@@ -164,11 +164,29 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic {
 		for(GenericType genType: genericTypes.values()) {
 			genType.accept(visitor);
 		}
+		variables.accept(visitor);
+		functions.accept(visitor);
+		instanceType.accept(visitor);
+	}
+	
+	@Override
+	public boolean hasChildren() {
+		return true;
+	}
+	
+	@Override
+	public boolean replace(Node oldie, Node kiddo) {
+		return false;
 	}
 	
 	@Override
 	public TypeDecl getTypeDecl() {
 		return this;
+	}
+	
+	@Override
+	public Type getType() {
+		return getInstanceType();
 	}
 
 	public String getVariablesRepr() {

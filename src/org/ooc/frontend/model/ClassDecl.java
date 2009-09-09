@@ -63,11 +63,6 @@ public class ClassDecl extends TypeDecl implements MustBeResolved {
 	public void setAbstract(boolean isAbstract) {
 		this.isAbstract = isAbstract;
 	}
-
-	@Override
-	public Type getType() {
-		return getInstanceType();
-	}
 	
 	@Override
 	public void addFunction(FunctionDecl decl) {
@@ -117,24 +112,6 @@ public class ClassDecl extends TypeDecl implements MustBeResolved {
 	@Override
 	public void accept(Visitor visitor) throws IOException {
 		visitor.visit(this);
-	}
-	
-	@Override
-	public boolean hasChildren() {
-		return true;
-	}
-	
-	@Override
-	public void acceptChildren(Visitor visitor) throws IOException {
-		variables.accept(visitor);
-		functions.accept(visitor);
-		instanceType.accept(visitor);
-		super.acceptChildren(visitor);
-	}
-	
-	@Override
-	public boolean replace(Node oldie, Node kiddo) {
-		return false;
 	}
 	
 	@Override

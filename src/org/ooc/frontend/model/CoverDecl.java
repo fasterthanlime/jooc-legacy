@@ -27,7 +27,6 @@ import org.ooc.middle.hobgoblins.Resolver;
 public class CoverDecl extends TypeDecl implements MustBeResolved {
 
 	protected OocDocComment comment;
-	protected Type type;
 	protected Type fromType;
 	protected CoverDecl base;
 	protected List<CoverDecl> addons;
@@ -36,12 +35,9 @@ public class CoverDecl extends TypeDecl implements MustBeResolved {
 	public CoverDecl(String name, String superName, Type fromType, Token startToken) {
 		super(name, superName, startToken);
 		this.fromType = fromType;
-		this.type = new Type(name, startToken);
-		this.type.setRef(this);
 		this.base = null;
 		this.addons = new ArrayList<CoverDecl>();
 		if(fromType != null) {
-			type.referenceLevel = fromType.referenceLevel;
 			instanceType.referenceLevel = fromType.referenceLevel;
 		}
 		if(fromType == null || !fromType.isVoid()) {
@@ -144,12 +140,6 @@ public class CoverDecl extends TypeDecl implements MustBeResolved {
 		
 	}
 
-	@Override
-	public Type getType() {
-		assert (type.getName().equals(name));
-		return type;
-	}
-	
 	public Type getFromType() {
 		return fromType;
 	}
@@ -179,16 +169,13 @@ public class CoverDecl extends TypeDecl implements MustBeResolved {
 	@Override
 	public void acceptChildren(Visitor visitor) throws IOException {
 		if(fromType != null) fromType.accept(visitor);
-		type.accept(visitor);
-		variables.accept(visitor);
-		functions.accept(visitor);
 		super.acceptChildren(visitor);
 	}
 	
 	@Override
 	public boolean replace(Node oldie, Node kiddo) {
-		if(oldie == type) {
-			type = (Type) kiddo;
+		if(oldie == instanceType) {
+			instanceType = (Type) kiddo;
 			return true;
 		}
 		

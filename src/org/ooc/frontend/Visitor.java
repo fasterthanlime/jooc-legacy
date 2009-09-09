@@ -28,6 +28,7 @@ import org.ooc.frontend.model.If;
 import org.ooc.frontend.model.Import;
 import org.ooc.frontend.model.Include;
 import org.ooc.frontend.model.IntLiteral;
+import org.ooc.frontend.model.InterfaceDecl;
 import org.ooc.frontend.model.Line;
 import org.ooc.frontend.model.MemberAccess;
 import org.ooc.frontend.model.MemberArgument;
@@ -106,8 +107,10 @@ public interface Visitor {
 	public void visit(VariableDecl variableDecl) throws IOException;
 	public void visit(VariableDeclAtom variableDeclAtom) throws IOException;
 	public void visit(FunctionDecl functionDecl) throws IOException;
+	
 	public void visit(ClassDecl classDecl) throws IOException;
 	public void visit(CoverDecl cover) throws IOException;
+	public void visit(InterfaceDecl interfaceDecl) throws IOException;
 
 	public void visit(TypeArgument typeArgument) throws IOException;
 	public void visit(RegularArgument regularArgument) throws IOException;

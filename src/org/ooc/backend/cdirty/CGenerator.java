@@ -38,6 +38,7 @@ import org.ooc.frontend.model.If;
 import org.ooc.frontend.model.Import;
 import org.ooc.frontend.model.Include;
 import org.ooc.frontend.model.IntLiteral;
+import org.ooc.frontend.model.InterfaceDecl;
 import org.ooc.frontend.model.Line;
 import org.ooc.frontend.model.MemberAccess;
 import org.ooc.frontend.model.MemberArgument;
@@ -416,6 +417,11 @@ public class CGenerator extends Generator implements Visitor {
 	@Override
 	public void visit(FlowControl flow) throws IOException {
 		current.app(flow.getKeyword()).app(";");
+	}
+
+	@Override
+	public void visit(InterfaceDecl interfaceDecl) throws IOException {
+		// huh.. slack off?
 	}
 
 }

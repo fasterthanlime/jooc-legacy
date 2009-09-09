@@ -26,8 +26,8 @@ import org.ooc.frontend.model.VariableDecl.VariableDeclAtom;
 import org.ooc.frontend.parser.BuildParams;
 import org.ooc.middle.Hobgoblin;
 import org.ooc.middle.OocCompilationError;
-import org.ooc.middle.walkers.Nosy;
 import org.ooc.middle.walkers.Opportunist;
+import org.ooc.middle.walkers.SketchyNosy;
 
 /**
  * The Checker makes sure everything has been resolved properly. It also makes
@@ -43,7 +43,7 @@ public class Checker implements Hobgoblin {
 	@Override
 	public void process(Module module, BuildParams params) throws IOException {
 		
-		Nosy.get(Node.class, new Opportunist<Node>() {
+		SketchyNosy.get(new Opportunist<Node>() {
 
 			@Override
 			public boolean take(Node node, NodeList<Node> stack) throws IOException {
