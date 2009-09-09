@@ -126,7 +126,7 @@ ArrayList: class<T> extends List {
 	/** private */
 	grow: func {
 		capacity = capacity * 1.1 + 10
-		tmpData := gc_realloc(data, capacity * T size) as T*
+		tmpData := gc_realloc(data, capacity * T size)
 		if (tmpData) {
 			data = tmpData
 		} else {
