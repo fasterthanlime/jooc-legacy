@@ -66,6 +66,7 @@ import org.ooc.frontend.model.VariableAccess;
 import org.ooc.frontend.model.VariableDecl;
 import org.ooc.frontend.model.While;
 import org.ooc.frontend.model.VariableDecl.VariableDeclAtom;
+import org.ooc.frontend.parser.BuildParams;
 import org.ooc.frontend.parser.TypeArgument;
 import org.ooc.middle.OocCompilationError;
 import org.ooc.middle.structs.MultiMap;
@@ -89,7 +90,7 @@ public class CGenerator extends Generator implements Visitor {
 	}
 
 	@Override
-	public void generate() throws IOException {
+	public void generate(BuildParams params) throws IOException {
 		module.accept(this);
 		hw.close();
 		cw.close();

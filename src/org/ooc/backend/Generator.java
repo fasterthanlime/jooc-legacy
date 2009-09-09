@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.ooc.frontend.model.Module;
+import org.ooc.frontend.parser.BuildParams;
 
 public abstract class Generator {
 
@@ -13,6 +14,6 @@ public abstract class Generator {
 		this.module = module;
 	}
 	
-	public abstract void generate() throws IOException;
+	public abstract void generate(BuildParams params) throws IOException;
 	
 }

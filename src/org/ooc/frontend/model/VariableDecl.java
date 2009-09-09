@@ -1,6 +1,5 @@
 package org.ooc.frontend.model;
 
-import java.io.EOFException;
 import java.io.IOException;
 import java.util.Iterator;
 
@@ -179,7 +178,7 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 	}
 
 	@SuppressWarnings("unchecked")
-	public boolean unwrapToVarAcc(NodeList<Node> stack) throws EOFException {
+	public boolean unwrapToVarAcc(NodeList<Node> stack) {
 
 		Node parent = stack.peek();
 		Node grandpa = stack.get(stack.size() - 2);

@@ -153,10 +153,12 @@ ArrayList: class<T> extends List {
 	
 }
 
-operator [] <T> (list: List<T>, i: Int) -> T {
-	return list get(i)
-}
+operator [] <T> (list: ArrayList<T>, i: Int) -> T { return list get(i) }
 
+//operator [] <T> (list: List<T>, i: Int) -> T { return list get(i) }
+
+/*
 operator []= <T> (list: List<T>, i: Int, element: T) {
 	list set(i, element)
 }
+*/

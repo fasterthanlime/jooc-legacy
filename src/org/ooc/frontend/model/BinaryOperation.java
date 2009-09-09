@@ -122,8 +122,8 @@ public abstract class BinaryOperation extends Expression implements MustBeResolv
 			NodeList<Argument> args = op.getFunc().getArguments();
 			Argument first = args.get(0);
 			Argument second = args.get(1);			
-			if(first.getType().equals(left.getType())) {
-				if(second.getType().equals(right.getType()) || isGeneric(second.getType(), op.getFunc().getGenericTypes())) {
+			if(first.getType().softEquals(left.getType(), res)) {
+				if(second.getType().softEquals(right.getType(), res) || isGeneric(second.getType(), op.getFunc().getGenericTypes())) {
 					FunctionCall call = new FunctionCall(op.getFunc(), startToken);
 					call.getArguments().add(left);
 					call.getArguments().add(right);

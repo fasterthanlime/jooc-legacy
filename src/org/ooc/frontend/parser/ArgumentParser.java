@@ -89,7 +89,7 @@ public class ArgumentParser {
 
 	protected static boolean tryMember(SourceReader sReader, TokenReader reader,
 			NodeList<Argument> args, Token token)
-			throws CompilationFailedError, EOFException {
+			throws CompilationFailedError {
 		
 		if(token.type != TokenType.DOT) return false;
 		
@@ -105,7 +105,7 @@ public class ArgumentParser {
 
 	protected static boolean tryAssign(SourceReader sReader, TokenReader reader,
 			NodeList<Argument> args, Token token)
-			throws CompilationFailedError, EOFException {
+			throws CompilationFailedError {
 		
 		if(token.type != TokenType.ASSIGN) return false;
 		Token t2 = reader.read();

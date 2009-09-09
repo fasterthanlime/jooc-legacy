@@ -228,14 +228,16 @@ public class SourceReader {
         return new FileLocation(fileName, getLineNumber(), getLinePos(), index);
     }
     
-    public FileLocation getLocation(Locatable loc) throws EOFException {
+    public FileLocation getLocation(Locatable loc) {
     	return getLocation(loc.getStart(), loc.getLength());
     }
     
-    public FileLocation getLocation(int start, int length) throws EOFException {
+    public FileLocation getLocation(int start, int length) {
     	int mark = mark();
     	reset(0);
-    	skip(start);
+    	try {
+    		skip(start);
+    	} catch(EOFException e) {}
     	FileLocation loc = getLocation();
     	loc.length = length;
     	reset(mark);

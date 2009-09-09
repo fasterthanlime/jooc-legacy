@@ -355,7 +355,7 @@ public class CommandLine {
 				output(imp.getModule(), done);
 			}
 		}
-		new CGenerator(params.outPath, module).generate();
+		new CGenerator(params.outPath, module).generate(params);
 	}
 
 	protected void tinker(Module module, Set<Module> done) throws IOException {

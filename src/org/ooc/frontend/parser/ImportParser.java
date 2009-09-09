@@ -1,7 +1,5 @@
 package org.ooc.frontend.parser;
 
-import java.io.EOFException;
-
 import org.ooc.frontend.model.Import;
 import org.ooc.frontend.model.NodeList;
 import org.ooc.frontend.model.tokens.Token;
@@ -13,7 +11,7 @@ import org.ubi.SourceReader;
 public class ImportParser {
 
 	public static boolean fill(SourceReader sReader, 
-			TokenReader reader, NodeList<Import> imports) throws EOFException {
+			TokenReader reader, NodeList<Import> imports) {
 
 		Token startToken = reader.peek();
 		if(startToken.type != TokenType.IMPORT_KW) {
@@ -51,7 +49,7 @@ public class ImportParser {
 
 	private static boolean readMulti(SourceReader sReader, TokenReader reader,
 			NodeList<Import> imports, StringBuilder sb,
-			Token token) throws CompilationFailedError, EOFException {
+			Token token) throws CompilationFailedError {
 		if(reader.peek().type == TokenType.OPEN_SQUAR) {
 			reader.skip();
 			StringBuilder innerSb = new StringBuilder();

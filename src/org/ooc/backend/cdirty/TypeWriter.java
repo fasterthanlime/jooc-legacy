@@ -6,6 +6,7 @@ import org.ooc.frontend.model.ClassDecl;
 import org.ooc.frontend.model.FunctionDecl;
 import org.ooc.frontend.model.GenericType;
 import org.ooc.frontend.model.Type;
+import org.ooc.middle.OocCompilationError;
 
 public class TypeWriter {
 
@@ -28,7 +29,7 @@ public class TypeWriter {
 		}
 		
 		if(type.getRef() == null) {
-			throw new Error("Unresolved type '"+type.getName()+"' !!");
+			throw new OocCompilationError(type, cgen.module, "Unresolved type '"+type.getName()+"' !!");
 		}
 		writeFinale(type, cgen);
 	}

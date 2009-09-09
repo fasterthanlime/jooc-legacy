@@ -107,12 +107,15 @@ public class Type extends Node implements MustBeResolved {
 	
 	@Override
 	public boolean hasChildren() {
-		return arraySize != null;
+		return true;
 	}
 
 	@Override
 	public void acceptChildren(Visitor visitor) throws IOException {
 		if(arraySize != null) arraySize.accept(visitor);
+		for(Type genericType: genericTypes) {
+			genericType.accept(visitor);
+		}
 	}
 	
 	@Override
@@ -336,7 +339,7 @@ public class Type extends Node implements MustBeResolved {
 	}
 
 	public boolean isGeneric() {
-		return ref != null && ref instanceof GenericType;
+		return ref instanceof GenericType;
 	}
 
 	public Expression getArraySize() {
@@ -345,6 +348,22 @@ public class Type extends Node implements MustBeResolved {
 
 	public void setArraySize(Expression arraySize) {
 		this.arraySize = arraySize;
+	}
+
+	public boolean softEquals(Type type, Resolver res) {
+		resolve(res);
+		if(equals(type)) {
+			return true;
+		}
+		Declaration ref = type.getRef();
+		if(ref instanceof TypeDecl) {
+			TypeDecl typeDecl = (TypeDecl) ref;
+			if(typeDecl.getSuperRef() != null) {
+				Type subType = typeDecl.getSuperRef().getType();
+				return softEquals(subType, res);
+			}
+		}
+		return false;
 	}
 	
 }

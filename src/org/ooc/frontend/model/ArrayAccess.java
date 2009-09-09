@@ -1,6 +1,5 @@
 package org.ooc.frontend.model;
 
-import java.io.EOFException;
 import java.io.IOException;
 
 import org.ooc.frontend.Visitor;
@@ -100,30 +99,30 @@ public class ArrayAccess extends Access implements MustBeResolved {
 		int assignIndex = stack.find(Assignment.class);
 		
 		for(OpDecl op: res.module.getOps()) {
-			if(tryOp(stack, assignIndex, op)) break;
+			if(tryOp(stack, res, assignIndex, op)) return Response.RESTART;
 		}
 		for(Import imp: res.module.getImports()) {
 			for(OpDecl op: imp.getModule().getOps()) {
-				if(tryOp(stack, assignIndex, op)) break;
+				if(tryOp(stack, res, assignIndex, op)) return Response.RESTART;
 			}
 		}
 		return Response.OK;
 		
 	}
 
-	private boolean tryOp(NodeList<Node> stack, int assignIndex, OpDecl op)
-		throws OocCompilationError, EOFException {
+	private boolean tryOp(NodeList<Node> stack, Resolver res, int assignIndex, OpDecl op)
+		throws OocCompilationError {
 		
 		if(assignIndex == -1) {
-			if(tryIndexing(op, stack)) return true;
+			if(tryIndexing(op, stack, res)) return true;
 		} else {
-			if(tryIndexedAssign(op, stack, assignIndex)) return true;
+			if(tryIndexedAssign(op, stack, res, assignIndex)) return true;
 		}
 		return false;
 		
 	}
 
-	protected boolean tryIndexedAssign(OpDecl op, NodeList<Node> stack, int assignIndex) throws OocCompilationError, EOFException {
+	protected boolean tryIndexedAssign(OpDecl op, NodeList<Node> stack, Resolver res, int assignIndex) throws OocCompilationError {
 		
 		if(op.getOpType() != OpType.IDX_ASS) return false;
 		
@@ -138,8 +137,8 @@ public class ArrayAccess extends Access implements MustBeResolved {
 					+op.getFunc().getArgsRepr());
 		}
 		NodeList<Argument> args = op.getFunc().getArguments();
-		if(args.get(0).getType().equals(variable.getType())
-				&& args.get(1).getType().equals(index.getType())) {
+		if(args.get(0).getType().softEquals(variable.getType(), res)
+				&& args.get(1).getType().softEquals(index.getType(), res)) {
 			FunctionCall call = new FunctionCall(op.getFunc(), startToken);
 			call.getArguments().add(variable);
 			call.getArguments().add(index);
@@ -154,7 +153,7 @@ public class ArrayAccess extends Access implements MustBeResolved {
 		
 	}
 
-	protected boolean tryIndexing(OpDecl op, NodeList<Node> stack) throws OocCompilationError, EOFException {
+	protected boolean tryIndexing(OpDecl op, NodeList<Node> stack, Resolver res) throws OocCompilationError {
 		
 		if(op.getOpType() != OpType.IDX) return false;
 		
@@ -164,8 +163,8 @@ public class ArrayAccess extends Access implements MustBeResolved {
 					+op.getFunc().getArgsRepr());
 		}
 		NodeList<Argument> args = op.getFunc().getArguments();
-		if(args.get(0).getType().equals(variable.getType())
-				&& args.get(1).getType().equals(index.getType())) {
+		if(args.get(0).getType().softEquals(variable.getType(), res)
+				&& args.get(1).getType().softEquals(index.getType(), res)) {
 			FunctionCall call = new FunctionCall(op.getFunc(), startToken);
 			call.getArguments().add(variable);
 			call.getArguments().add(index);

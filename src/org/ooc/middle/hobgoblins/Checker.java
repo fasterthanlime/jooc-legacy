@@ -1,6 +1,5 @@
 package org.ooc.middle.hobgoblins;
 
-import java.io.EOFException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -57,15 +56,18 @@ public class Checker implements Hobgoblin {
 				return true;
 			}
 			
-			private void checkType(Type node, NodeList<Node> stack) throws IOException {
+			private void checkType(Type node, NodeList<Node> stack) {
+				// Done in CGenerator already.
+				/*
 				if(node.getRef() == null) {
 					throw new OocCompilationError(node, stack,
 							node.getClass().getSimpleName()+" "+node
-							+" hasn't been resolved :(, stack = "+stack);
+							+" hasn't been resolved :(, stack = "+stack.toString(true));
 				}
+				*/
 			}
 			
-			private void checkFunctionCall(FunctionCall node, NodeList<Node> stack) throws IOException {
+			private void checkFunctionCall(FunctionCall node, NodeList<Node> stack) {
 				if(node.getImpl() == null) {
 					throw new OocCompilationError(node, stack,
 							node.getClass().getSimpleName()+" to "+node.getName()
@@ -73,7 +75,7 @@ public class Checker implements Hobgoblin {
 				}
 			}
 			
-			private void checkVariableAccess(VariableAccess node, NodeList<Node> stack) throws IOException {
+			private void checkVariableAccess(VariableAccess node, NodeList<Node> stack) {
 				if(node.getRef() == null) {
 					throw new OocCompilationError(node, stack,
 							node.getClass().getSimpleName()+" to "+node.getName()
@@ -81,7 +83,7 @@ public class Checker implements Hobgoblin {
 				}
 			}
 			
-			private void checkFunctionDecl(FunctionDecl node, NodeList<Node> stack) throws IOException {
+			private void checkFunctionDecl(FunctionDecl node, NodeList<Node> stack) {
 				if(!node.getName().isEmpty()) {
 					if(Character.isUpperCase(node.getName().charAt(0)) && !node.isExtern()) {
 						throw new OocCompilationError(node, stack,
@@ -143,7 +145,7 @@ public class Checker implements Hobgoblin {
 			}
 			
 			void throwError(FunctionDecl node, NodeList<Node> stack, String name)
-			throws OocCompilationError, EOFException {
+			throws OocCompilationError {
 				if(name.equals("class") && stack.find(CoverDecl.class) != -1) return;
 				throw new OocCompilationError(node, stack,
 						"Two functions have the same name '"+name
@@ -152,7 +154,7 @@ public class Checker implements Hobgoblin {
 			}
 			
 			
-			private void checkVariableDecl(VariableDecl node, NodeList<Node> stack) throws EOFException {
+			private void checkVariableDecl(VariableDecl node, NodeList<Node> stack) {
 				Type varDeclType = node.getType();
 				if(varDeclType != null && varDeclType.getRef() != null && !varDeclType.getRef().isExtern()
 						&& !varDeclType.getName().isEmpty() && Character.isLowerCase(varDeclType.getName().charAt(0))) {
@@ -173,7 +175,7 @@ public class Checker implements Hobgoblin {
 			}
 			
 			private void checkTypeDecl(TypeDecl node, NodeList<Node> stack)
-				throws OocCompilationError, EOFException {
+				throws OocCompilationError {
 				if(node.isExtern() || node.getName().isEmpty()) return;
 				if(Character.isLowerCase(node.getName().charAt(0))) {
 					throw new OocCompilationError(node, stack,
@@ -200,7 +202,7 @@ public class Checker implements Hobgoblin {
 			}
 			
 			private void checkValuedReturn(ValuedReturn node,
-					NodeList<Node> stack) throws EOFException {
+					NodeList<Node> stack) {
 
 				FunctionDecl decl = (FunctionDecl) stack.get(stack.find(FunctionDecl.class));
 				if(decl.getReturnType().isVoid()) {

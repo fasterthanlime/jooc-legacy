@@ -350,7 +350,7 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 	}
 
 	public boolean hasReturn() {
-		return !getReturnType().isVoid() && !(getReturnType().getRef() instanceof GenericType);
+		return !getReturnType().isVoid() && !(getReturnType().isGeneric());
 	}
 
 	public GenericType getGenericType(String name) {
