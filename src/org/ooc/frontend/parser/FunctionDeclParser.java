@@ -117,7 +117,7 @@ public class FunctionDeclParser {
 
 		token = reader.readWhiteless();
 		if(token.type != TokenType.OPEN_BRACK) {
-			throw new CompilationFailedError(sReader.getLocation(reader.prev()),
+			throw new CompilationFailedError(sReader.getLocation(reader.prev(2)),
 					"Expected body, e.g. {} after a function name (even for empty functions)");
 		}
 	

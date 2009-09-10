@@ -35,8 +35,8 @@ public class ArgumentParser {
 				}
 				if(comma) {
 					if(reader.read().type != TokenType.COMMA) {
-						throw new CompilationFailedError(sReader.getLocation(reader.prev()),
-								"Expected comma between arguments of a function definition");
+						throw new CompilationFailedError(sReader.getLocation(reader.prev(2)),
+								"Did you forget to close the parenthesis here?");
 					}
 				} else {
 					if(!parseInto(module, sReader, reader, isExtern, args)) {

@@ -87,6 +87,7 @@ public class VariableDeclFromExpr extends VariableDecl {
 			((MustBeResolved) expr).resolve(stack, res, false);
 		}
 		
+		if(expr != null && expr.getType() == null) return Response.LOOP;
 		if(expr != null && expr.getType().isGenericRecursive() && expr.getType().isFlat()) {
 			unwrapToDeclAssign(stack, atom, expr); 
 			return Response.RESTART;

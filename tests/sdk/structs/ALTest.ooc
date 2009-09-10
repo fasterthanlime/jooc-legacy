@@ -3,10 +3,19 @@ import structs.[List, ArrayList]
 main: func {
 	
 	list := ArrayList<Int> new(Int)
-
+	
 	"\nadding a few numbers.." println()
 	for (i in 0..2) list add (i)
 	for (i in 2..4) list += i
+	
+	"\ncreating another with 3, 4.." println()
+	other := ArrayList<Int> new(Int) .add(3) .add(4)
+	
+	testList(list as List<Int>, other as List<Int>)
+
+}
+
+testList: func(list, other: List<Int>) {
 	
 	"\nshowing content with get(i).." println()
 	for (i in 0..list size()) printf("list get(%d) = %d\n", i, list get(i))
@@ -29,14 +38,11 @@ main: func {
 	list removeAt(2)
 	for (i in 0..list size()) printf("list[%d] = %d\n", i, list[i])
 	
-	"\ncreating another with 3, 4.." println()
-	other := ArrayList<Int> new(Int) .add(3) .add(4)
-	
 	"\nshowing content of other list.." println()
 	for (i in 0..other size()) printf("other[%d] = %d\n", i, other[i])
 	
 	"\nadding all to first list and showing!" println()
 	list addAll(other as List<Int>)
 	for (i in 0..list size()) printf("list[%d] = %d\n", i, list[i])
-
+	
 }

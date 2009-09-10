@@ -145,6 +145,13 @@ String: cover from Char* {
 		return result
 	}
 	
+	clone: func -> This {
+		length := length()
+		copy := gc_malloc(length + 1)
+		memcpy(copy, this, length + 1)
+		return copy
+	}
+	
 	append: func(other: This) -> This {
 		length := length()
 		rlength := other length()

@@ -39,8 +39,8 @@ public class ExpressionListFiller {
 			}
 			if(comma) {
 				if(reader.readWhiteless().type != TokenType.COMMA) {
-					throw new CompilationFailedError(sReader.getLocation(reader.prev()),
-							"Expected comma between arguments of a function call");
+					throw new CompilationFailedError(sReader.getLocation(reader.prev(2)),
+							"Did you forget to close the parenthesis here?");
 				}
 			} else {
 				reader.skipWhitespace();

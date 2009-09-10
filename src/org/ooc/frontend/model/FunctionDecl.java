@@ -196,11 +196,15 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 	}
 
 	public String getArgsRepr() {
+		return getArgsRepr(false);
+	}	
+	
+	public String getArgsRepr(boolean skipThis) {
 		
 		StringBuilder sB = new StringBuilder();
 		sB.append('(');
 		Iterator<Argument> iter = arguments.iterator();
-		//if(hasThis()) iter.next();
+		if(skipThis && hasThis()) iter.next();
 		while(iter.hasNext()) {
 			Argument arg = iter.next();
 			if(arg instanceof VarArg) sB.append("...");
@@ -258,8 +262,12 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 	}
 
 	public String getProtoRepr() {
-		if(typeDecl != null) return typeDecl.getName()+"."+name+getArgsRepr();
-		return name+getArgsRepr();
+		return getProtoRepr(false);
+	}
+	
+	public String getProtoRepr(boolean skipThis) {
+		if(typeDecl != null) return typeDecl.getName()+"."+name+getArgsRepr(skipThis);
+		return name+getArgsRepr(skipThis);
 	}
 
 	public boolean sameProto(FunctionDecl decl2) {

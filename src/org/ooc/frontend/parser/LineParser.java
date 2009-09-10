@@ -2,6 +2,7 @@ package org.ooc.frontend.parser;
 
 import java.io.IOException;
 
+import org.ooc.frontend.model.BinaryOperation;
 import org.ooc.frontend.model.ControlStatement;
 import org.ooc.frontend.model.Expression;
 import org.ooc.frontend.model.FunctionCall;
@@ -12,6 +13,7 @@ import org.ooc.frontend.model.NodeList;
 import org.ooc.frontend.model.Statement;
 import org.ooc.frontend.model.VariableAccess;
 import org.ooc.frontend.model.VariableDecl;
+import org.ooc.frontend.model.VariableDeclFromExpr;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.frontend.model.tokens.TokenReader;
 import org.ooc.frontend.model.tokens.Token.TokenType;
@@ -36,13 +38,21 @@ public class LineParser {
 			reader.reset(mark);
 			return false;
 		}
-		body.add(new Line(statement));
+		Line line = new Line(statement);
+		body.add(line);
 		
 		while(reader.peek().type == TokenType.DOT) {
 			Expression expr = null;
 			if(statement instanceof MemberCall) {
 				MemberCall memberCall = (MemberCall) statement;
 				expr = memberCall.getExpression();
+				if(expr instanceof FunctionCall || expr instanceof BinaryOperation) {
+					VariableDeclFromExpr vdfe = new VariableDeclFromExpr(
+							statement.generateTempName("callroot"), expr, statement.startToken);
+					body.addBefore(line, new Line(vdfe));
+					expr = new VariableAccess(vdfe, expr.startToken);
+					memberCall.setExpression(expr);
+				}
 			} else if(statement instanceof VariableDecl) {
 				VariableDecl varDecl = (VariableDecl) statement;
 				expr = new VariableAccess(varDecl, statement.startToken);
@@ -50,7 +60,8 @@ public class LineParser {
 				expr = (Expression) statement;
 			} else {
 				throw new CompilationFailedError(sReader.getLocation(reader.peek()),
-						"Dots '.' for chain-calls should be used after member function calls only");
+						"Dots '.' for chain-calls should be used after expressions, not "
+						+statement.getClass().getSimpleName()+"s.");
 			}
 			reader.skip();
 			Token startToken = reader.peek();

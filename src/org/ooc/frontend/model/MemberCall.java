@@ -125,9 +125,8 @@ public class MemberCall extends FunctionCall {
 				+typeDeclaration.getInstanceType()+"."+name+getArgsRepr()+".";
 			String guess = guessCorrectName(typeDeclaration);
 			if(guess != null) {
-				message += " Did you mean "+typeDeclaration.getInstanceType()+"."+guess+" ?";
+				message += " Did you mean "+guess+" ?";
 			}
-			message += "\nExisting funcs in type "+typeDeclaration.getInstanceType()+": "+typeDeclaration.getFunctionsRepr();
 			throw new OocCompilationError(this, stack, message);
 		}
 		
@@ -146,7 +145,7 @@ public class MemberCall extends FunctionCall {
 			int distance = Levenshtein.distance(name, decl.getName());
 			if(distance < bestDistance) {
 				bestDistance = distance;
-				bestMatch = decl.getProtoRepr();
+				bestMatch = decl.getProtoRepr(true);
 			}
 		}
 		

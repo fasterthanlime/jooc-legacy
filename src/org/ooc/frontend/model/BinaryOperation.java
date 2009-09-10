@@ -99,13 +99,12 @@ public abstract class BinaryOperation extends Expression implements MustBeResolv
 			}
 		}
 		
-		/*
-		if(fopType.isNumeric() && left.getType().getClassification() == Classification.CLASS) {
-			System.err.println(new OocCompilationError(this, stack, "Using operator "+opType.toPrettyString()+" between non-numeric types."
+		if(opType.isNumeric() && left.getType().getRef() instanceof ClassDecl && left.getType().getPointerLevel() == 0) {
+			throw new OocCompilationError(this, stack, "Using operator "+opType.toPrettyString()+" between non-numeric types."
 					+" Maybe you want to overload it? Do it like this: operator "
-					+opType.toPrettyString()+" (left: "+left.getType()+", right: "+right.getType()+") { ... }").toString());
+					+opType.toPrettyString()+" (left: "+left.getType()+", right: "+right.getType()+") { ... }");
 		}
-		*/
+		
 		return Response.OK;
 		
 	}

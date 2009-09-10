@@ -18,7 +18,7 @@ public class CastWriter {
 				cgen.current.app("*((");
 				cast.getType().accept(cgen);
 				cgen.current.app("*)");
-				AccessWriter.writeVariable(access, false, cgen);
+				AccessWriter.write(access, false, cgen);
 				cgen.current.app(')');
 				return;
 			} else if(expr instanceof ArrayAccess) {
