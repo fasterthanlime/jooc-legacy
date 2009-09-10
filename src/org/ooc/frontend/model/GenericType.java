@@ -11,7 +11,7 @@ public class GenericType extends TypeDecl {
 	private Argument argument;
 	
 	public GenericType(String name, Token startToken) {
-		super(name, "", startToken);
+		super(name, null, startToken);
 		type = new Type("Class", Token.defaultToken);
 		argument = new RegularArgument(type, name, startToken);
 	}

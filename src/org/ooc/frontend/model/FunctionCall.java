@@ -500,7 +500,8 @@ public class FunctionCall extends Access implements MustBeResolved {
 		sB.append('(');
 		Iterator<Expression> iter = arguments.iterator();
 		while(iter.hasNext()) {
-			sB.append(iter.next().getType());
+			Expression arg = iter.next();
+			sB.append(arg.getType()+":"+arg);
 			if(iter.hasNext()) sB.append(", ");
 		}
 		sB.append(')');

@@ -8,6 +8,7 @@ import org.ooc.frontend.model.Import;
 import org.ooc.frontend.model.Module;
 import org.ooc.frontend.model.Node;
 import org.ooc.frontend.model.NodeList;
+import org.ooc.frontend.model.Type;
 import org.ooc.frontend.model.TypeDecl;
 import org.ooc.frontend.model.interfaces.MustBeUnwrapped;
 import org.ooc.frontend.parser.BuildParams;
@@ -79,16 +80,15 @@ public class Unwrapper implements Hobgoblin {
 		MultiMap<String, TypeDecl> types = module.getTypes();
 		for (String key : types.keySet()) {
 			for (TypeDecl decl : types.getAll(key)) {
-				String superName = decl.getSuperName();
-				if (superName.isEmpty())
-					continue;
-				TypeDecl superRef = module.getType(superName);
-				decl.setSuperRef(superRef);
+				Type superType = decl.getSuperType();
+				if(superType == null) continue;
+				TypeDecl superRef = module.getType(superType.getName());
 				if (superRef == null) {
 					throw new OocCompilationError(decl, module,
-							"Couldn't resolve parent type " + superName
+							"Couldn't resolve parent type " + superType.getName()
 									+ " of type " + decl.getName());
 				}
+				superType.setRef(superRef);
 			}
 		}
 		

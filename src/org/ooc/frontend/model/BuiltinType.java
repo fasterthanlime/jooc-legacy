@@ -14,7 +14,7 @@ public class BuiltinType extends TypeDecl {
 	}
 	
 	public BuiltinType(String name, Token startToken) {
-		super(name, "", startToken);
+		super(name, null, startToken);
 		type = new Type(name, startToken);
 		type.setRef(this);
 	}

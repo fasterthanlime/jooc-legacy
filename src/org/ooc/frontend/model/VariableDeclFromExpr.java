@@ -63,7 +63,7 @@ public class VariableDeclFromExpr extends VariableDecl {
 	
 	@Override
 	public String toString() {
-		return getClass().getSimpleName()+" "+getName()+":"+getType();
+		return getClass().getSimpleName()+" "+getName()+":"+getType()+" = "+atoms.getFirst().getExpression();
 	}
 	
 	@Override

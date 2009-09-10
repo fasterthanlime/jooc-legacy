@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.tokens.Token;
+import org.ubi.CompilationFailedError;
 
 public class Cast extends Expression {
 
@@ -13,7 +14,7 @@ public class Cast extends Expression {
 	public Cast(Expression expression, Type targetType, Token startToken) {
 		super(startToken);
 		this.expression = expression;
-		this.type = targetType;
+		setType(targetType);
 	}
 
 	@Override
@@ -60,13 +61,28 @@ public class Cast extends Expression {
 		this.expression = expression;
 	}
 
-	public void setType(Type type) {
-		this.type = type;
+	public void setType(Type newType) {
+		this.type = newType;
+		if(type.isGeneric() && expression.getType() != null && expression.getType().isGeneric()) {
+			type = type.clone();
+			TypeDecl dstDecl = (TypeDecl) newType.getRef();
+			Type src = expression.getType();
+			if(dstDecl.getGenericTypes().size() != src.getGenericTypes().size()) {
+				throw new CompilationFailedError(null, "Invalid cast between types "+dstDecl.getType()+" and "+src);
+			}
+			type.getGenericTypes().clear();
+			type.getGenericTypes().addAll(src.getGenericTypes());
+		}
 	}
 	
 	@Override
 	public Expression getInner() {
 		return getExpression();
+	}
+	
+	@Override
+	public String toString() {
+		return "["+expression+" as "+type+"]";
 	}
 
 }

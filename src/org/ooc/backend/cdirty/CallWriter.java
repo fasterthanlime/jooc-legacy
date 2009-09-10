@@ -82,10 +82,14 @@ public class CallWriter {
 		NodeList<Expression> callArgs = functionCall.getArguments();
 		
 		boolean isFirst = isFirstParam;
-		if(functionCall.getReturnArg() != null) {
+		if(functionCall.getImpl().getReturnType().getRef() instanceof GenericType) {
 			if(!isFirst) cgen.current.app(", ");
 			isFirst = false;
-			functionCall.getReturnArg().accept(cgen);
+			if(functionCall.getReturnArg() == null) {
+				cgen.current.app("NULL");
+			} else {
+				functionCall.getReturnArg().accept(cgen);
+			}
 		}
 		if(functionCall.isConstructorCall() && impl.getTypeDecl() instanceof ClassDecl) {
 			if(!isFirst) cgen.current.app(", ");

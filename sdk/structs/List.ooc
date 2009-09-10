@@ -1,7 +1,7 @@
 /**
  * List interface for a data container
  */
-List: abstract class <T> extends Iterable {
+List: abstract class <T> extends Iterable<T> {
 
 	/**
 	 * Appends the specified element to the end of this list.
@@ -19,18 +19,31 @@ List: abstract class <T> extends Iterable {
 	 * end of this list, in the order that they are returned by the
 	 * specified Collection's Iterator.
 	 */
-	addAll: func(list: List<T>) {
-		//addAll(0, list)
+	addAll: func (list: List<T>) {
+		addAll(0, list)
 	}
 	
 	/**
 	 * Inserts all of the elements in the specified Collection into
 	 * this list, starting at the specified position.
 	 */
-	addAll: func~withIndex(index: Int, list: List<T>) {
-		for(element: T in list) {
-			add(element);
+	addAll: func ~atStart (start: Int, list: List<T>) {
+		
+		if(start == 0) {
+			for(element: T in list) {
+				add(element)
+			}
+			return
 		}
+		
+		index := 0
+		iter := list iterator()
+		while(index < start) {
+			iter next()
+			index += 1
+		}
+		while(iter hasNext()) add(iter next())
+		
 	}
 	
 	/**
@@ -43,15 +56,14 @@ List: abstract class <T> extends Iterable {
 	 * @return true if it has removed an element, false if the list
 	 * was empty.
 	 */
-	/*func removeLast -> Bool {
-		Int size = size();
+	removeLast: func -> Bool {
+		size := size()
 		if(size > 0) {
-			remove(size - 1);
-			return true;
-		} else {
-			return false;
+			remove(size - 1)
+			return true
 		}
-	}*/
+		return false
+	}
 	
 	/**
 	 * @return true if this list contains the specified element.
@@ -112,3 +124,11 @@ List: abstract class <T> extends Iterable {
 	iterator: abstract func -> Iterator<T>
 	
 }
+
+/** Operators */
+operator [] <T> (list: List<T>, i: Int) -> T { return list get(i) }
+operator []= <T> (list: List<T>, i: Int, element: T) { list set(i, element) }
+operator += <T> (list: List<T>, element: T) { list add(element) }
+operator -= <T> (list: List<T>, element: T) -> Bool { return list removeElement(element) }
+
+

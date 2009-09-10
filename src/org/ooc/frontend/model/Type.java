@@ -215,7 +215,9 @@ public class Type extends Node implements MustBeResolved {
 		}
 		
 		if(ref == null && fatal) {
-			throw new OocCompilationError(this, stack, "Couldn't resolve type "+getName());
+			Thread.dumpStack();
+			throw new OocCompilationError(this, stack, "Couldn't resolve type "
+					+getName()+", stack = "+stack.toString(true));
 		}
 		
 		return (ref == null) ? Response.LOOP : Response.OK;
@@ -339,7 +341,7 @@ public class Type extends Node implements MustBeResolved {
 	}
 
 	public boolean isGeneric() {
-		return ref instanceof GenericType;
+		return (ref instanceof GenericType) || !genericTypes.isEmpty();
 	}
 
 	public Expression getArraySize() {
@@ -358,8 +360,8 @@ public class Type extends Node implements MustBeResolved {
 		Declaration ref = type.getRef();
 		if(ref instanceof TypeDecl) {
 			TypeDecl typeDecl = (TypeDecl) ref;
-			if(typeDecl.getSuperRef() != null) {
-				Type subType = typeDecl.getSuperRef().getType();
+			if(typeDecl.getSuperType() != null) {
+				Type subType = typeDecl.getSuperType();
 				return softEquals(subType, res);
 			}
 		}

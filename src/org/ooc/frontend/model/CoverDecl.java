@@ -32,8 +32,8 @@ public class CoverDecl extends TypeDecl implements MustBeResolved {
 	protected List<CoverDecl> addons;
 	protected FunctionDecl classGettingFunc;
 	
-	public CoverDecl(String name, String superName, Type fromType, Token startToken) {
-		super(name, superName, startToken);
+	public CoverDecl(String name, Type superType, Type fromType, Token startToken) {
+		super(name, superType, startToken);
 		this.fromType = fromType;
 		this.base = null;
 		this.addons = new ArrayList<CoverDecl>();
@@ -133,8 +133,8 @@ public class CoverDecl extends TypeDecl implements MustBeResolved {
 				}
 			}
 		}
-		if(bestMatch == null && superRef != null) {
-			return superRef.getFunction(name, suffix, call, recursive, 0, null);
+		if(bestMatch == null && getSuperRef() != null) {
+			return getSuperRef().getFunction(name, suffix, call, recursive, 0, null);
 		}
 		return bestMatch;
 		

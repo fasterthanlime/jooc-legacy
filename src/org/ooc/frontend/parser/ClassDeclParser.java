@@ -9,6 +9,7 @@ import org.ooc.frontend.model.FunctionDecl;
 import org.ooc.frontend.model.GenericType;
 import org.ooc.frontend.model.Module;
 import org.ooc.frontend.model.OocDocComment;
+import org.ooc.frontend.model.Type;
 import org.ooc.frontend.model.VariableDecl;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.frontend.model.tokens.TokenReader;
@@ -53,15 +54,10 @@ public class ClassDeclParser {
 				TypeParamParser.parse(sReader, reader, genTypes);
 			}
 			
-			String superName = "";
+			Type superType = null;
 			if(reader.peek().type == TokenType.EXTENDS_KW) {
 				reader.skip();
-				Token tSuper = reader.read();
-				if(tSuper.type != TokenType.NAME) {
-					throw new CompilationFailedError(sReader.getLocation(reader.peek()),
-					"Expected super-class name after the from keyword.");
-				}
-				superName = tSuper.get(sReader);
+				superType = TypeParser.parse(module, sReader, reader);
 			}
 			
 			Token t2 = reader.read();
@@ -70,7 +66,7 @@ public class ClassDeclParser {
 						"Expected opening bracket to begin class declaration.");
 			}
 			
-			ClassDecl classDecl = new ClassDecl(name, superName, isAbstract, tName);
+			ClassDecl classDecl = new ClassDecl(name, superType, isAbstract, tName);
 			if(genTypes != null) for(GenericType genType: genTypes) {
 				classDecl.addGenericType(genType);
 			}

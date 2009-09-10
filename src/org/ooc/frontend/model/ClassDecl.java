@@ -16,10 +16,10 @@ public class ClassDecl extends TypeDecl implements MustBeResolved {
 	
 	protected FunctionDecl defaultInit = null;
 	
-	public ClassDecl(String name, String superName, boolean isAbstract, Token startToken) {
-		super(name, (superName.isEmpty() && !name.equals("Object")) ? "Object" : superName, startToken);
+	public ClassDecl(String name, Type superType, boolean isAbstract, Token startToken) {
+		super(name, (superType == null && !name.equals("Object")) ?
+				new Type("Object", Token.defaultToken) : superType, startToken);
 		this.isAbstract = isAbstract;
-		this.superRef = null;
 		
 		addFunction(new FunctionDecl("load",     "", false, true,  false, false, startToken));
 		addFunction(new FunctionDecl("defaults", "", false, false, false, false, startToken));
@@ -33,7 +33,7 @@ public class ClassDecl extends TypeDecl implements MustBeResolved {
 	
 	@Override
 	public ClassDecl getSuperRef() {
-		return (ClassDecl) superRef;
+		return (ClassDecl) super.getSuperRef();
 	}
 
 	public boolean isObjectClass() {
@@ -118,19 +118,19 @@ public class ClassDecl extends TypeDecl implements MustBeResolved {
 	public VariableDecl getVariable(String name) {
 		VariableDecl variable = super.getVariable(name);
 		if(variable != null) return variable;
-		if(superRef != null) return superRef.getVariable(name);
+		if(getSuperRef() != null) return getSuperRef().getVariable(name);
 		return null;
 	}
 	
 	@Override
 	public void getVariables(NodeList<VariableDecl> variables) {
 		super.getVariables(variables);
-		if(superRef != null) superRef.getVariables(variables);
+		if(getSuperRef() != null) getSuperRef().getVariables(variables);
 	}
 
 	@Override
 	public boolean isResolved() {
-		return superName.isEmpty() || superRef != null;
+		return getSuperRef() != null;
 	}
 
 	@Override
@@ -138,17 +138,17 @@ public class ClassDecl extends TypeDecl implements MustBeResolved {
 			throws IOException {
 		
 		if(isResolved()) return Response.OK;
-		if(!(superRef instanceof ClassDecl)) {
+		if(getSuperType() != null && !(super.getSuperRef() instanceof ClassDecl)) {
 			throw new OocCompilationError(this, stack, "Trying to extends a "
-					+superRef.getClass().getSimpleName()+". You can only extend classes.");
+					+getSuperRef().getClass().getSimpleName()+". You can only extend classes.");
 		}
-		return (superRef == null) ? Response.LOOP : Response.OK;
+		return (getSuperType() != null && getSuperRef() == null) ? Response.LOOP : Response.OK;
 		
 	}
 
 	public ClassDecl getBaseClass(FunctionDecl decl) {
-		if(superRef != null) {
-			ClassDecl base = ((ClassDecl) superRef).getBaseClass(decl);
+		if(getSuperRef() != null) {
+			ClassDecl base = getSuperRef().getBaseClass(decl);
 			if(base != null) return base;
 		}
 		if(getFunction(decl.getName(), decl.getSuffix(), null) != null) return this;
@@ -156,8 +156,8 @@ public class ClassDecl extends TypeDecl implements MustBeResolved {
 	}
 
 	public boolean isChildOf(String candidate) {
-		if(superName.equals(candidate)) return true;
-		if(superRef != null) return ((ClassDecl) superRef).isChildOf(candidate);
+		if(getSuperName().equals(candidate)) return true;
+		if(getSuperRef() != null) return getSuperRef().isChildOf(candidate);
 		return false;
 	}
 	

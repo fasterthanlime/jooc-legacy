@@ -43,7 +43,7 @@ public class CoverDeclParser {
 		if(reader.read().type == TokenType.COVER_KW) {
 
 			Type overType = null;
-			String superName = "";
+			Type superType = null;
 			while(true) {
 				Token token = reader.peek();
 				if(token.type == TokenType.FROM_KW) {
@@ -56,13 +56,13 @@ public class CoverDeclParser {
 					continue;
 				} else if(token.type == TokenType.EXTENDS_KW) {
 					reader.skip();
-					superName = reader.read().get(sReader);
+					superType = TypeParser.parse(module, sReader, reader);
 					continue;
 				}
 				break;
 			}
 			
-			CoverDecl coverDecl = new CoverDecl(name, superName, overType, startToken);
+			CoverDecl coverDecl = new CoverDecl(name, superType, overType, startToken);
 			module.parseStack.push(coverDecl);
 			coverDecl.setExternName(externName);
 			if(comment != null) coverDecl.setComment(comment);

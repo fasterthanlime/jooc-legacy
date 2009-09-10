@@ -3,7 +3,6 @@ package org.ooc.frontend.model;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.tokens.Token;
@@ -14,36 +13,19 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic {
 	protected NodeList<VariableDecl> variables;
 	protected NodeList<FunctionDecl> functions;
 	
-	protected String superName;
-	protected TypeDecl superRef;
+	protected Type superType;
 	
 	protected Type instanceType;
 	protected LinkedHashMap<String, GenericType> genericTypes;
 	
-	public TypeDecl(String name, String superName, Token startToken) {
+	public TypeDecl(String name, Type superType, Token startToken) {
 		super(name, startToken);
-		this.superName = superName;
+		this.superType = superType;
 		this.variables = new NodeList<VariableDecl>(startToken);
 		this.functions = new NodeList<FunctionDecl>(startToken);
 		this.instanceType = new Type(name, startToken);
 		instanceType.setRef(this);
 		this.genericTypes = new LinkedHashMap<String, GenericType>();
-	}
-	
-	public String getSuperName() {
-		return superName;
-	}
-	
-	public void setSuperName(String superName) {
-		this.superName = superName;
-	}
-	
-	public TypeDecl getSuperRef() {
-		return superRef;
-	}
-	
-	public void setSuperRef(TypeDecl superRef) {
-		this.superRef = superRef;
 	}
 	
 	public Type getInstanceType() {
@@ -76,6 +58,18 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic {
 		return functions;
 	}
 	
+	public Type getSuperType() {
+		return superType;
+	}
+	
+	public String getSuperName() {
+		return superType == null ? "" : superType.getName();
+	}
+	
+	public void setSuperType(Type superType) {
+		this.superType = superType;
+	}
+	
 	public FunctionDecl getFunction(FunctionCall call) {
 		return getFunction(call.getName(), call.getSuffix(), call);
 	}
@@ -98,10 +92,15 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic {
 				}
 			}
 		}
-		if(recursive && superRef != null) return superRef.getFunction(name, suffix, call, true, bestScore, bestMatch);
+		if(recursive && getSuperRef() != null) return getSuperRef().getFunction(name, suffix, call, true, bestScore, bestMatch);
 		return bestMatch;
 	}
 	
+	public TypeDecl getSuperRef() {
+		if(superType == null || superType.getRef() == null) return null;
+		return (TypeDecl) superType.getRef();
+	}
+
 	@Override
 	public FunctionDecl getFunction(String name, String suffix, FunctionCall call) {
 		return getFunction(name, suffix, call, true, 0, null);
@@ -141,7 +140,7 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic {
 			}
 			if(!already) functions.add(decl);
 		}
-		if(superRef != null) superRef.getFunctionsRecursive(functions);
+		if(getSuperRef() != null) getSuperRef().getFunctionsRecursive(functions);
 	}
 	
 	public VariableDecl getVariable(String name) {
@@ -161,6 +160,7 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic {
 	
 	@Override
 	public void acceptChildren(Visitor visitor) throws IOException {
+		if(superType != null) superType.accept(visitor);
 		for(GenericType genType: genericTypes.values()) {
 			genType.accept(visitor);
 		}
@@ -198,8 +198,8 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic {
 	}
 	
 	@Override
-	public Map<String, GenericType> getGenericTypes() {
-		return Collections.unmodifiableMap(genericTypes);
+	public LinkedHashMap<String, GenericType> getGenericTypes() {
+		return genericTypes;
 	}
 	
 	public void addGenericType(GenericType genType) {

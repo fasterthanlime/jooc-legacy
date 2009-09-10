@@ -8,7 +8,7 @@ import structs.List
  * to store the list. (This class is roughly equivalent to Vector,
  * except that it is unsynchronized.)
  */
-ArrayList: class<T> extends List {
+ArrayList: class<T> extends List<T> {
 	
 	data : T*
 	capacity : Int
@@ -96,7 +96,12 @@ ArrayList: class<T> extends List {
 	 * removed
 	 */
 	removeElement: func (element: T) -> Bool {
-		return false
+		index := indexOf(element)
+		if(index == -1) return false
+		else {
+			remove(index)
+		}
+		return true
 	}
 
 	/**
@@ -149,16 +154,7 @@ ArrayList: class<T> extends List {
 		return true
 	}
 	
-	iterator: func -> Iterator<T> { null }
+	iterator: func -> Iterator<T> { return null }
 	
 }
 
-operator [] <T> (list: ArrayList<T>, i: Int) -> T { return list get(i) }
-
-//operator [] <T> (list: List<T>, i: Int) -> T { return list get(i) }
-
-/*
-operator []= <T> (list: List<T>, i: Int, element: T) {
-	list set(i, element)
-}
-*/
