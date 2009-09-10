@@ -114,7 +114,7 @@ public class Checker implements Hobgoblin {
 					}
 				}
 				
-				if(!node.getReturnType().isVoid() && !node.getReturnType().isGeneric() && !node.isExtern() && !node.isAbstract()) {
+				if(!node.getReturnType().isVoid() && !node.getReturnType().isGenericRecursive() && !node.isExtern() && !node.isAbstract()) {
 					
 					if(node.getBody().isEmpty()) {
 						if(node.getName().equals("main")) {

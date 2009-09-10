@@ -171,7 +171,7 @@ public class CallWriter {
 		isFirst = false;
 		// FIXME shouldn't it be realType.accept() ?
 		cgen.current.app(realType.getName());
-		if(!realType.isGeneric()) cgen.current.app("_class()");
+		if(!realType.isGenericRecursive()) cgen.current.app("_class()");
 		
 		return isFirst;
 	}

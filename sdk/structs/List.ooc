@@ -59,7 +59,7 @@ List: abstract class <T> extends Iterable<T> {
 	removeLast: func -> Bool {
 		size := size()
 		if(size > 0) {
-			remove(size - 1)
+			removeAt(size - 1)
 			return true
 		}
 		return false
@@ -100,7 +100,7 @@ List: abstract class <T> extends Iterable<T> {
 	 * Removes the element at the specified position in this list.
 	 * @return the element just removed
 	 */
-	remove: abstract func(index: Int) -> T
+	removeAt: abstract func(index: Int) -> T
 	
 	/**
 	 * Removes a single instance of the specified element from this list,
@@ -108,7 +108,7 @@ List: abstract class <T> extends Iterable<T> {
 	 * @return true if at least one occurence of the element has been
 	 * removed
 	 */
-	removeElement: abstract func(element: T) -> Bool 
+	remove: abstract func(element: T) -> Bool 
 
 	/**
 	 * Replaces the element at the specified position in this list with
@@ -129,6 +129,6 @@ List: abstract class <T> extends Iterable<T> {
 operator [] <T> (list: List<T>, i: Int) -> T { return list get(i) }
 operator []= <T> (list: List<T>, i: Int, element: T) { list set(i, element) }
 operator += <T> (list: List<T>, element: T) { list add(element) }
-operator -= <T> (list: List<T>, element: T) -> Bool { return list removeElement(element) }
+operator -= <T> (list: List<T>, element: T) -> Bool { return list remove(element) }
 
 

@@ -115,6 +115,8 @@ public class Assignment extends BinaryOperation {
 			}
 		}
 		
+		if(left.getType() == null || right.getType() == null) return Response.LOOP;
+		
 		boolean isGeneric = false;
 		Expression realLeft = null;
 		Expression realRight = null;

@@ -75,6 +75,10 @@ public class ValuedReturn extends Return implements MustBeResolved {
 			return Response.RESTART;
 		}
 		
+		if(returnType.isSuperOf(expression.getType())) {
+			expression = new Cast(expression, returnType, expression.startToken);
+		}
+		
 		return Response.OK;
 		
 	}
@@ -83,7 +87,9 @@ public class ValuedReturn extends Return implements MustBeResolved {
 	private void unwrapToMemcpy(NodeList<Node> stack, FunctionDecl decl,
 			Declaration genericType) {
 		FunctionCall call = new FunctionCall("memcpy", "", startToken);
-		call.getArguments().add(new VariableAccess(decl.getReturnArg(), startToken));
+		VariableAccess returnArgAcc = new VariableAccess(decl.getReturnArg(), startToken);
+		NodeList<Expression> args = call.getArguments();
+		args.add(returnArgAcc);
 		
 		VariableAccess tAccess = new VariableAccess(genericType.getName(), startToken);
 		MemberAccess sizeAccess = new MemberAccess(tAccess, "size", startToken);
@@ -95,10 +101,12 @@ public class ValuedReturn extends Return implements MustBeResolved {
 		} else {
 			expression = new AddressOf(expression, startToken);
 		}
-		call.getArguments().add(expression);
+		args.add(expression);
+		args.add(sizeAccess);
 		
-		call.getArguments().add(sizeAccess);
-		stack.peek().replace(this, call);
+		If if1 = new If(returnArgAcc, startToken);
+		if1.getBody().add(new Line(call));
+		stack.peek().replace(this, if1);
 		
 		int lineIndex = stack.find(Line.class);
 		((NodeList<Node>) stack.get(lineIndex - 1)).addAfter(stack.get(lineIndex), new Line(new Return(startToken)));

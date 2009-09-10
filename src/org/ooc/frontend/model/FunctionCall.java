@@ -309,6 +309,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 				int i = -1;
 				for(GenericType subType: typeDecl.getGenericTypes().values()) {
 					i++;
+					if(i >= realGenTypes.size()) break;
 					Type subRealType = realGenTypes.get(i);
 					Type subImplType = new Type(subType.getName(), startToken);
 					subImplType.setRef(subType);

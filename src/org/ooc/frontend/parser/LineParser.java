@@ -10,6 +10,8 @@ import org.ooc.frontend.model.MemberCall;
 import org.ooc.frontend.model.Module;
 import org.ooc.frontend.model.NodeList;
 import org.ooc.frontend.model.Statement;
+import org.ooc.frontend.model.VariableAccess;
+import org.ooc.frontend.model.VariableDecl;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.frontend.model.tokens.TokenReader;
 import org.ooc.frontend.model.tokens.Token.TokenType;
@@ -41,6 +43,9 @@ public class LineParser {
 			if(statement instanceof MemberCall) {
 				MemberCall memberCall = (MemberCall) statement;
 				expr = memberCall.getExpression();
+			} else if(statement instanceof VariableDecl) {
+				VariableDecl varDecl = (VariableDecl) statement;
+				expr = new VariableAccess(varDecl, statement.startToken);
 			} else if(statement instanceof Expression) {
 				expr = (Expression) statement;
 			} else {

@@ -23,25 +23,21 @@ ArrayList: class<T> extends List<T> {
 	}
 	
 	add: func (element: T) {
-		ensureCapacity(size + 1);
-		data[size] = element;
+		ensureCapacity(size + 1)
+		data[size] = element
 		size += 1
 	}
 
-	add: func~withIndex(index: Int, element: T) {
-		if(!isValidIndex(index)) {
-			x := 0;
-			x = 1 / x;
-			return;
-		}
-		ensureCapacity(size + 1);
+	add: func ~withIndex (index: Int, element: T) {
+		checkIndex(index)
+		ensureCapacity(size + 1)
 		dst, src: Octet*
 		dst = data + (T size * (index + 1))
 		src = data + (T size * index)
 		bsize := (size - index) * T size
-		memmove(dst, src, bsize);
-		data[index] = element;
-		size += 1;
+		memmove(dst, src, bsize)
+		data[index] = element
+		size += 1
 	}
 
 	addAll: func(list: List<T>) {
@@ -55,11 +51,11 @@ ArrayList: class<T> extends List<T> {
 	}
 
 	clear: func() {
-	
+		size = 0
 	}
 
 	get: func(index: Int) -> T {
-		// TODO: check index
+		checkIndex(index)
 		return data[index]
 	}
 
@@ -85,8 +81,11 @@ ArrayList: class<T> extends List<T> {
 		return -1
 	}
 
-	remove: func (index: Int) -> T {
-		return
+	removeAt: func (index: Int) -> T {
+		element := data[index]
+		memmove(data + (index * T size), data + ((index + 1) * T size), (size - index) * T size)
+		size -= 1
+		return element
 	}
 
 	/**
@@ -95,11 +94,11 @@ ArrayList: class<T> extends List<T> {
 	 * @return true if at least one occurence of the element has been
 	 * removed
 	 */
-	removeElement: func (element: T) -> Bool {
+	remove: func (element: T) -> Bool {
 		index := indexOf(element)
 		if(index == -1) return false
 		else {
-			remove(index)
+			removeAt(index)
 		}
 		return true
 	}
@@ -143,18 +142,30 @@ ArrayList: class<T> extends List<T> {
 	}
 	
 	/** private */
-	isValidIndex: func (i: Int) -> Bool {
-		if(i < 0) {
-			printf("ArrayList: ArrayIndexOutOfBoundException: index=%d < 0\n", i)
-			return false
-		} else if(i >= size) {
-			printf("ArrayList: ArrayIndexOutOfBoundException: index=%d >= size=%d\n", i, size)
-			return false
-		}
-		return true
+	checkIndex: func (index: Int) {
+		if (index < 0) Exception new(This, "Index too small! " + index + " <= 0") throw()
+		if (index >= size) Exception new(This, "Index too big! " + index + " >= " + size()) throw()
 	}
 	
-	iterator: func -> Iterator<T> { return null }
+	iterator: func -> Iterator<T> { return ArrayListIterator new(T, this) }
 	
 }
 
+ArrayListIterator: class <T> extends Iterator<T> {
+	
+	list: ArrayList<T>
+	index := 0
+	
+	init: func(=T, =list) {}
+	
+	hasNext: func -> Bool {
+		return index < list size()
+	}
+	
+	next: func -> T {
+		element := list get(index)
+		index += 1
+		return element
+	}
+	
+}

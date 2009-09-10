@@ -63,7 +63,7 @@ public class Cast extends Expression {
 
 	public void setType(Type newType) {
 		this.type = newType;
-		if(type.isGeneric() && expression.getType() != null && expression.getType().isGeneric()) {
+		if(type.isGenericRecursive() && expression.getType() != null && expression.getType().isGenericRecursive()) {
 			type = type.clone();
 			TypeDecl dstDecl = (TypeDecl) newType.getRef();
 			Type src = expression.getType();

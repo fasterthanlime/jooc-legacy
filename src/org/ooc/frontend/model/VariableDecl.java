@@ -301,7 +301,7 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 			throws IOException {
 		
 		Type type = getType();
-		if(!type.isArray() && type.isGeneric() && type.isFlat() && !isMember() && !(this instanceof Argument)) {
+		if(!type.isArray() && type.isGenericRecursive() && type.isFlat() && !isMember() && !(this instanceof Argument)) {
 			Type newType = new Type("Octet", type.startToken);
 			newType.setPointerLevel(1);
 			newType.setArray(true);

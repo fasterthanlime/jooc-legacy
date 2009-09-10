@@ -163,6 +163,7 @@ public class VariableAccess extends Access implements MustBeResolved {
 		}
 		
 		for(VariableDecl decl: variables) {
+			System.out.println("decl = "+decl);
 			for(VariableDeclAtom atom: decl.getAtoms()) {
 				int distance = Levenshtein.distance(name, atom.getName());
 				if(distance < bestDistance) {

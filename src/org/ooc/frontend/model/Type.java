@@ -341,6 +341,10 @@ public class Type extends Node implements MustBeResolved {
 	}
 
 	public boolean isGeneric() {
+		return ref instanceof GenericType;
+	}
+	
+	public boolean isGenericRecursive() {
 		return (ref instanceof GenericType) || !genericTypes.isEmpty();
 	}
 
