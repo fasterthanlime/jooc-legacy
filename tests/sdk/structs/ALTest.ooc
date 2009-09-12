@@ -2,14 +2,14 @@ import structs.[List, ArrayList]
 
 main: func {
 	
-	list := ArrayList<Int> new(Int)
+	list := ArrayList<Int> new()
 	
 	"\nadding a few numbers.." println()
 	for (i in 0..2) list add (i)
 	for (i in 2..4) list += i
 	
 	"\ncreating another with 3, 4.." println()
-	other := ArrayList<Int> new(Int) .add(3) .add(4)
+	other := ArrayList<Int> new() .add(3) .add(4)
 	
 	testList(list as List<Int>, other as List<Int>)
 

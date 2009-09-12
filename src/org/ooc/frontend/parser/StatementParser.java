@@ -2,6 +2,7 @@ package org.ooc.frontend.parser;
 
 import java.io.IOException;
 
+import org.ooc.frontend.model.Block;
 import org.ooc.frontend.model.Conditional;
 import org.ooc.frontend.model.Else;
 import org.ooc.frontend.model.Expression;
@@ -13,6 +14,7 @@ import org.ooc.frontend.model.Statement;
 import org.ooc.frontend.model.FlowControl.Mode;
 import org.ooc.frontend.model.tokens.TokenReader;
 import org.ooc.frontend.model.tokens.Token.TokenType;
+import org.ubi.CompilationFailedError;
 import org.ubi.SourceReader;
 
 public class StatementParser {
@@ -41,6 +43,19 @@ public class StatementParser {
 		
 		Expression expression = ExpressionParser.parse(module, sReader, reader);
 		if(expression != null) return expression;
+		
+		if(reader.peek().type == TokenType.OPEN_BRACK) {
+			Block block = new Block(reader.peek());
+			reader.skip();
+			while(reader.peek().type != TokenType.CLOS_BRACK) {
+				if(!LineParser.fill(module, sReader, reader, block.getBody())) {
+					throw new CompilationFailedError(sReader.getLocation(reader.peek()),
+							"Expected lines or '}' in block, but got "+reader.peek());
+				}
+			}
+			reader.skip(); // skip the closing bracket.
+			return block;
+		}
 		
 		reader.reset(mark);
 		return null;

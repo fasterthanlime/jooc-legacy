@@ -3,6 +3,7 @@ package org.ooc.frontend.model;
 import java.io.IOException;
 
 import org.ooc.frontend.Visitor;
+import org.ooc.middle.OocCompilationError;
 import org.ooc.middle.hobgoblins.Resolver;
 
 
@@ -44,7 +45,10 @@ public class TypeAccess extends VariableAccess {
 	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal)
 			throws IOException {
 		
-		return type.isResolved() ? Response.OK : Response.LOOP; 
+		if(type.isResolved()) return Response.OK;
+		
+		if(fatal) throw new OocCompilationError(this, stack, "Can't resolve type access to "+type);
+		return Response.LOOP; 
 		
 	}
 	

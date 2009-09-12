@@ -1,13 +1,13 @@
 package org.ooc.frontend.parser;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.ooc.frontend.model.Declaration;
 import org.ooc.frontend.model.FuncType;
 import org.ooc.frontend.model.Module;
+import org.ooc.frontend.model.NodeList;
 import org.ooc.frontend.model.Type;
+import org.ooc.frontend.model.VariableAccess;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.frontend.model.tokens.TokenReader;
 import org.ooc.frontend.model.tokens.Token.TokenType;
@@ -22,7 +22,7 @@ public class TypeParser {
 		int pointerLevel = 0;
 		int referenceLevel = 0;
 		boolean isArray = false;
-		List<Type> genericTypes = null;
+		NodeList<VariableAccess> genericTypes = null;
 		
 		Token startToken = reader.peek();
 		boolean isConst = false;
@@ -72,12 +72,12 @@ public class TypeParser {
 		if(reader.peek().type == TokenType.LESSTHAN) {
 			reader.skip();
 			while(reader.peek().type != TokenType.GREATERTHAN) {
-				Type innerType = TypeParser.parse(module, sReader, reader);
+				VariableAccess innerType = AccessParser.parse(module, sReader, reader);
 				if(innerType == null) {
 					genericTypes = null;
 					break;
 				}
-				if(genericTypes == null) genericTypes = new ArrayList<Type>(); 
+				if(genericTypes == null) genericTypes = new NodeList<VariableAccess>(); 
 				genericTypes.add(innerType);
 				if(reader.peek().type != TokenType.COMMA) break;
 			}
@@ -116,7 +116,9 @@ public class TypeParser {
 			}
 			type.setArray(isArray);
 			type.setConst(isConst);
-			if(genericTypes != null) type.getGenericTypes().addAll(genericTypes);
+			if(genericTypes != null) {
+				type.getTypeParams().addAll(genericTypes);
+			}
 			return type;
 		}
 		return null;

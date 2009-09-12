@@ -79,7 +79,7 @@ public class Checker implements Hobgoblin {
 				if(node.getRef() == null) {
 					throw new OocCompilationError(node, stack,
 							node.getClass().getSimpleName()+" to "+node.getName()
-							+" hasn't been resolved :( Stack = "+stack);
+							+" hasn't been resolved :( stack = "+stack.toString(true));
 				}
 			}
 			

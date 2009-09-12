@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.ooc.frontend.model.FunctionDecl;
-import org.ooc.frontend.model.GenericType;
+import org.ooc.frontend.model.TypeParam;
 import org.ooc.frontend.model.Module;
 import org.ooc.frontend.model.OocDocComment;
 import org.ooc.frontend.model.Type;
@@ -69,7 +69,7 @@ public class FunctionDeclParser {
 		}
 		
 		String suffix = "";
-		List<GenericType> genTypes = null;
+		List<TypeParam> genTypes = null;
 		while(true) {
 			Token tok = reader.peek();
 			if(tok.type == TokenType.TILDE) {
@@ -81,7 +81,7 @@ public class FunctionDeclParser {
 				}
 			} else if(tok.type == TokenType.LESSTHAN) {
 				reader.skip();
-				genTypes = new ArrayList<GenericType>();
+				genTypes = new ArrayList<TypeParam>();
 				TypeParamParser.parse(sReader, reader, genTypes);
 			} else break;
 		}
@@ -91,8 +91,8 @@ public class FunctionDeclParser {
 		functionDecl.setInline(isInline);
 		functionDecl.setProto(isProto);
 		if(genTypes != null) {
-			for(GenericType genType: genTypes) {
-				functionDecl.getGenericTypes().put(genType.getName(), genType);
+			for(TypeParam genType: genTypes) {
+				functionDecl.getTypeParams().put(genType.getName(), genType);
 			}
 		}
 		if(comment != null) functionDecl.setComment(comment);

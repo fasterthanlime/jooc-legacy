@@ -18,7 +18,7 @@ public class AccessParser {
 		Token token = reader.peek();
 		if(token.isNameToken()) {
 			Type type = TypeParser.parse(module, sReader, reader);
-			if(type != null && type.getGenericTypes().size() > 0) {
+			if(type != null && type.getTypeParams().size() > 0) {
 				return new TypeAccess(type);
 			}
 			

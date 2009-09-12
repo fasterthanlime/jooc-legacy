@@ -10,6 +10,7 @@ Array: class <T> {
 		this data2 = gc_malloc(42)
 		data3 = gc_malloc(42)
 		this data4 = gc_malloc(42)
+		"Allocated alright!" println()
 	}
 
 }

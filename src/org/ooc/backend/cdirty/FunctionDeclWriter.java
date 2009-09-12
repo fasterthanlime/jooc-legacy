@@ -6,7 +6,7 @@ import java.util.Iterator;
 import org.ooc.frontend.model.Argument;
 import org.ooc.frontend.model.FuncType;
 import org.ooc.frontend.model.FunctionDecl;
-import org.ooc.frontend.model.GenericType;
+import org.ooc.frontend.model.TypeParam;
 import org.ooc.frontend.model.Line;
 import org.ooc.frontend.model.Type;
 import org.ooc.frontend.model.TypeDecl;
@@ -54,7 +54,7 @@ public class FunctionDeclWriter {
 		if(functionDecl.isInline()) cgen.current.append("inline ");
 			
 		Type returnType = functionDecl.getReturnType();
-		if (returnType.getRef() instanceof GenericType) {
+		if (returnType.getRef() instanceof TypeParam) {
 			cgen.current.append("void ");
 		} else if(returnType instanceof FuncType) {
 			TypeWriter.writeFuncPointerStart((FunctionDecl) returnType.getRef(), cgen);
@@ -108,7 +108,7 @@ public class FunctionDeclWriter {
 		}
 		
 		Type returnType = functionDecl.getReturnType();
-		if(returnType.getRef() instanceof GenericType) {
+		if(returnType.getRef() instanceof TypeParam) {
 			if(!isFirst) cgen.current.app(", ");
 			isFirst = false;
 			if(mode == ArgsWriteMode.NAMES_ONLY) {
@@ -119,7 +119,7 @@ public class FunctionDeclWriter {
 				functionDecl.getReturnArg().accept(cgen);
 			}
 		}
-		for(GenericType param: functionDecl.getGenericTypes().values()) {
+		for(TypeParam param: functionDecl.getTypeParams().values()) {
 			if(!isFirst) cgen.current.app(", ");
 			isFirst = false;
 			if(mode == ArgsWriteMode.NAMES_ONLY) {

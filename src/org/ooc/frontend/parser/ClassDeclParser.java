@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.ooc.frontend.model.ClassDecl;
 import org.ooc.frontend.model.FunctionDecl;
-import org.ooc.frontend.model.GenericType;
+import org.ooc.frontend.model.TypeParam;
 import org.ooc.frontend.model.Module;
 import org.ooc.frontend.model.OocDocComment;
 import org.ooc.frontend.model.Type;
@@ -44,13 +44,13 @@ public class ClassDeclParser {
 		
 		boolean isAbstract = reader.peek().type == TokenType.ABSTRACT_KW;
 		if(isAbstract) reader.skip();
-		List<GenericType> genTypes = null;
+		List<TypeParam> genTypes = null;
 		
 		if(reader.readWhiteless().type == TokenType.CLASS_KW) {
 		
 			if(reader.peek().type == TokenType.LESSTHAN) {
 				reader.skip();
-				genTypes = new ArrayList<GenericType>();
+				genTypes = new ArrayList<TypeParam>();
 				TypeParamParser.parse(sReader, reader, genTypes);
 			}
 			
@@ -67,9 +67,10 @@ public class ClassDeclParser {
 			}
 			
 			ClassDecl classDecl = new ClassDecl(name, superType, isAbstract, tName);
-			if(genTypes != null) for(GenericType genType: genTypes) {
-				classDecl.addGenericType(genType);
+			if(genTypes != null) for(TypeParam genType: genTypes) {
+				classDecl.addTypeParam(genType);
 			}
+			classDecl.addInit();
 			module.parseStack.push(classDecl);
 			if(comment != null) classDecl.setComment(comment);
 			

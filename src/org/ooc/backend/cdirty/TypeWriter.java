@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import org.ooc.frontend.model.ClassDecl;
 import org.ooc.frontend.model.FunctionDecl;
-import org.ooc.frontend.model.GenericType;
+import org.ooc.frontend.model.TypeParam;
 import org.ooc.frontend.model.Type;
 import org.ooc.middle.OocCompilationError;
 
@@ -16,7 +16,7 @@ public class TypeWriter {
 			return;
 		}
 		
-		if(type.getRef() instanceof GenericType) {
+		if(type.getRef() instanceof TypeParam) {
 			cgen.current.append("Octet *");
 			return;
 		}

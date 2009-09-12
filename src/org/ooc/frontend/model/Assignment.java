@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.OpDecl.OpType;
 import org.ooc.frontend.model.tokens.Token;
+import org.ooc.middle.OocCompilationError;
 import org.ooc.middle.hobgoblins.Resolver;
 
 public class Assignment extends BinaryOperation {
@@ -115,7 +116,14 @@ public class Assignment extends BinaryOperation {
 			}
 		}
 		
-		if(left.getType() == null || right.getType() == null) return Response.LOOP;
+		if(left.getType() == null) {
+			if(fatal) throw new OocCompilationError(left, stack, "Left type of assignment unresolved: "+left);
+			return Response.LOOP;
+		}
+		if(right.getType() == null) {
+			if(fatal) throw new OocCompilationError(right, stack, "Right type of assignment unresolved: "+right);
+			return Response.LOOP;
+		}
 		
 		boolean isGeneric = false;
 		Expression realLeft = null;
@@ -123,7 +131,7 @@ public class Assignment extends BinaryOperation {
 		Expression size = null;
 		if(left.getType().isGeneric()) {
 			isGeneric = true;
-			GenericType genericType = (GenericType) left.getType().getRef();
+			TypeParam genericType = (TypeParam) left.getType().getRef();
 			VariableAccess tAccess = new VariableAccess(genericType.getName(), startToken);
 			size = new MemberAccess(tAccess, "size", startToken);
 			realLeft = new AddressOf(left, left.startToken);

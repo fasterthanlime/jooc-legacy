@@ -13,7 +13,7 @@ public class FuncType extends Type {
 		super("Func", startToken);
 		decl = new FunctionDecl("<function pointer>", "", false, false, false, true, startToken);
 		decl.setFromPointer(true);
-		ref = decl;
+		setRef(decl);
 	}
 
 	public FunctionDecl getDecl() {

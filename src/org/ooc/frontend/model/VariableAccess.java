@@ -12,7 +12,7 @@ import org.ooc.middle.hobgoblins.Resolver;
 
 public class VariableAccess extends Access implements MustBeResolved {
 
-	protected String name;
+	private String name;
 	protected Declaration ref;
 	
 	public VariableAccess(String variable, Token startToken) {
@@ -80,6 +80,19 @@ public class VariableAccess extends Access implements MustBeResolved {
 		if(isResolved()) return Response.OK;
 		
 		{
+			int funcIndex = stack.find(FunctionDecl.class);
+			if(funcIndex != -1) {
+				FunctionDecl decl = (FunctionDecl) stack.get(funcIndex);
+				TypeParam genType = decl.getTypeParams().get(name);
+				if(genType != null) {
+					ref = genType.getArgument();
+					return Response.OK;
+				}
+			}
+		}
+		
+		
+		{
 			VariableDecl varDecl = getVariable(name, stack);
 			if(varDecl != null) {
 				if(varDecl.isMember()) {
@@ -87,7 +100,7 @@ public class VariableAccess extends Access implements MustBeResolved {
 					MemberAccess membAcc =  new MemberAccess(thisAccess, name, startToken);
 					membAcc.resolve(stack, res, fatal);
 					if(!stack.peek().replace(VariableAccess.this, membAcc)) {
-						throw new Error("Couldn't replace a VariableAccess with a MemberAccess!");
+						throw new Error("Couldn't replace a VariableAccess with a MemberAccess! stack = "+stack.toString(true));
 					}
 					return Response.RESTART;
 				}
@@ -120,22 +133,27 @@ public class VariableAccess extends Access implements MustBeResolved {
 				MemberAccess membAccess = new MemberAccess(thisAccess, name, startToken);
 				membAccess.setRef(varDecl);
 				if(!stack.peek().replace(this, membAccess)) {
-					throw new Error("Couldn't replace a VariableAccess with a MemberAccess! Stack = "+stack);
+					throw new Error("Couldn't replace a VariableAccess with a MemberAccess! Stack = "+stack.toString(true));
 				}
 				return Response.RESTART;
 			}
 		}
 		
-		ref = res.module.getType(name);
-		if(ref != null) return Response.OK;
-		
-		GenericType genType = getGenericType(stack, name);
+		TypeParam genType = getTypeParam(stack, name);
 		if(genType != null) {
 			ref = genType.getArgument();
 			return Response.OK;
 		}
 		
+		ref = res.module.getType(name);
+		if(ref != null) return Response.OK;
+		
 		if(fatal && ref == null) {
+			if(stack.peek(2) instanceof FunctionCall) {
+				FunctionCall call = (FunctionCall) stack.peek(2);
+				call.throwUnresolvedType(stack, name);
+			}
+			
 			String message = "Couldn't resolve access to variable "+name;
 			String guess = guessCorrectName(stack, res);
 			if(guess != null) {
@@ -163,7 +181,6 @@ public class VariableAccess extends Access implements MustBeResolved {
 		}
 		
 		for(VariableDecl decl: variables) {
-			System.out.println("decl = "+decl);
 			for(VariableDeclAtom atom: decl.getAtoms()) {
 				int distance = Levenshtein.distance(name, atom.getName());
 				if(distance < bestDistance) {

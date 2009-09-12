@@ -4,6 +4,6 @@ import java.util.Map;
 
 public interface Generic {
 
-	public Map<String, GenericType> getGenericTypes();
+	public Map<String, TypeParam> getTypeParams();
 	
 }

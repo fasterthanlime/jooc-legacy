@@ -9,7 +9,6 @@ Pointer: cover from void*
 
 // variable-size integer types
 Int: cover from int
-int: extern cover
 UInt: cover from unsigned int
 Short: cover from short
 UShort: cover from unsigned short
@@ -38,7 +37,6 @@ Octet: cover from UInt8
 
 // other types
 Void: cover from void
-void: extern cover
 Bool: cover from bool
 SizeT: cover from size_t
 

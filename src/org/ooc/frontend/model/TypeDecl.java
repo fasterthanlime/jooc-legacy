@@ -15,7 +15,7 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic {
 	protected Type superType;
 	
 	protected Type instanceType;
-	protected LinkedHashMap<String, GenericType> genericTypes;
+	protected LinkedHashMap<String, TypeParam> typeParams;
 	
 	public TypeDecl(String name, Type superType, Token startToken) {
 		super(name, startToken);
@@ -24,7 +24,7 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic {
 		this.functions = new NodeList<FunctionDecl>(startToken);
 		this.instanceType = new Type(name, startToken);
 		instanceType.setRef(this);
-		this.genericTypes = new LinkedHashMap<String, GenericType>();
+		this.typeParams = new LinkedHashMap<String, TypeParam>();
 	}
 	
 	public Type getInstanceType() {
@@ -114,11 +114,11 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic {
 		decl.setTypeDecl(this);
 		
 		if(!decl.isStatic()) {
-			if(!decl.isStatic()) {
-				Token tok = decl.getArguments().isEmpty() ? startToken : decl.getArguments().getFirst().startToken;
-				decl.getArguments().add(0, new RegularArgument(getInstanceType(), "this",
-						tok));
-			}
+			Token tok = decl.getArguments().isEmpty() ? startToken : decl.getArguments().getFirst().startToken;
+			decl.getArguments().add(0, new RegularArgument(getInstanceType(), "this", tok));
+		} else {
+			// static functions must have the same type params as the class
+			decl.getTypeParams().putAll(typeParams);
 		}
 		
 		if(decl.isSpecialFunc()) {
@@ -160,7 +160,7 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic {
 	@Override
 	public void acceptChildren(Visitor visitor) throws IOException {
 		if(superType != null) superType.accept(visitor);
-		for(GenericType genType: genericTypes.values()) {
+		for(TypeParam genType: typeParams.values()) {
 			genType.accept(visitor);
 		}
 		variables.accept(visitor);
@@ -197,14 +197,34 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic {
 	}
 	
 	@Override
-	public LinkedHashMap<String, GenericType> getGenericTypes() {
-		return genericTypes;
+	public LinkedHashMap<String, TypeParam> getTypeParams() {
+		return typeParams;
 	}
 	
-	public void addGenericType(GenericType genType) {
-		genericTypes.put(genType.name, genType);
+	public void addTypeParam(TypeParam genType) {
+		typeParams.put(genType.name, genType);
 		genType.getArgument().setTypeDecl(this);
 		variables.add(0, genType.getArgument());
+		
+		instanceType.getTypeParams().add(new VariableAccess(genType.getName(), genType.startToken));
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sB = new StringBuilder(getClass().getSimpleName());
+		sB.append(' ');
+		sB.append(name);
+		if(!typeParams.isEmpty()) {
+			sB.append('<');
+			boolean isFirst = true;
+			for(String typeParam: typeParams.keySet()) {
+				if(!isFirst) sB.append(", ");
+				sB.append(typeParam);
+			}
+			sB.append('>');
+		}
+		
+		return sB.toString();
 	}
 
 }

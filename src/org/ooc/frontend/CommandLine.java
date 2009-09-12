@@ -179,7 +179,7 @@ public class CommandLine {
 					if (arch.equals("32") || arch.equals("64"))
 						params.arch = arg.substring(2);
 					else
-						System.out.println("Unrecognized architechture: " + arch);
+						System.out.println("Unrecognized architecture: " + arch);
 			
         		} else {
         			

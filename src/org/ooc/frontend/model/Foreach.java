@@ -141,6 +141,9 @@ public class Foreach extends ControlStatement implements MustBeResolved {
 				block.getBody().add(new Line(vdfe));
 				block.getBody().add(new Line(while1));
 				
+				//Type realType = iterCall.getRealType(iterType);
+				//System.out.println("Real type = "+realType+" for "+iterCall+" with impl "+iterCall.getImpl());
+				
 				return Response.RESTART;
 			}
 		}

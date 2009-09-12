@@ -217,11 +217,11 @@ public class CoverDecl extends TypeDecl implements MustBeResolved {
 		if(fromType == null) return Response.OK;
 		fromType.resolve(res);
 		
-		if(fromType.ref == null) {
-			fromType.ref = new BuiltinType(fromType);
+		if(fromType.getRef() == null) {
+			fromType.setRef(new BuiltinType(fromType));
 		}
-		
-		return (fromType.ref == null) ? Response.LOOP : Response.OK;
+
+		return Response.OK;
 		
 	}
 

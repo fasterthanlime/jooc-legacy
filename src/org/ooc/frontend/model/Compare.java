@@ -72,7 +72,7 @@ public class Compare extends BinaryOperation {
 		if(left.getType().isGenericRecursive()) {
 			isGeneric = true;
 			realLeft = new AddressOf(left, left.startToken);
-			GenericType genericType = (GenericType) left.getType().getRef();
+			TypeParam genericType = (TypeParam) left.getType().getRef();
 			VariableAccess tAccess = new VariableAccess(genericType.getName(), startToken);
 			size = new MemberAccess(tAccess, "size", startToken);
 		}
@@ -80,7 +80,7 @@ public class Compare extends BinaryOperation {
 			isGeneric = true;
 			realRight = new AddressOf(right, right.startToken);
 			if(size == null) {
-				GenericType genericType = (GenericType) right.getType().getRef();
+				TypeParam genericType = (TypeParam) right.getType().getRef();
 				VariableAccess tAccess = new VariableAccess(genericType.getName(), startToken);
 				size = new MemberAccess(tAccess, "size", startToken);
 			}

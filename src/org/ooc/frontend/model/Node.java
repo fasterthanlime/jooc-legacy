@@ -55,11 +55,11 @@ public abstract class Node implements Visitable {
 		return getFunction(name, suffix, call, stack, stack.find(Scope.class, index - 1), bestScore, bestMatch);
 	}
 	
-	public GenericType getGenericType(NodeList<Node> stack, String typeName) {
+	public TypeParam getTypeParam(NodeList<Node> stack, String typeName) {
 		int genIndex = stack.find(Generic.class);
 		while(genIndex != -1) {
 			Generic gen = (Generic) stack.get(genIndex);
-			GenericType genType = gen.getGenericTypes().get(typeName);
+			TypeParam genType = gen.getTypeParams().get(typeName);
 			if(genType != null) return genType;
 			genIndex = stack.find(Generic.class, genIndex - 1);
 		}

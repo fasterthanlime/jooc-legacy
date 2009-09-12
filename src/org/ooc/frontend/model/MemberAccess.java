@@ -69,7 +69,7 @@ public class MemberAccess extends VariableAccess {
 		if(exprType == null) {
 			if(fatal) {
 				throw new OocCompilationError(this, stack, "Accessing member "
-						+name+" in an expression "+expression.getClass().getSimpleName()
+						+getName()+" in an expression "+expression.getClass().getSimpleName()
 						+" which type hasn't been resolved yet!");
 			}
 			return Response.LOOP;
@@ -89,13 +89,13 @@ public class MemberAccess extends VariableAccess {
 		if(ref != null) {
 			if(expression instanceof VariableAccess) {
 				VariableAccess varAcc = (VariableAccess) expression;
-				if(varAcc.getRef() instanceof TypeDecl && !(varAcc.getRef() instanceof GenericType)) {
+				if(varAcc.getRef() instanceof TypeDecl && !(varAcc.getRef() instanceof TypeParam)) {
 					if(ref instanceof VariableDecl) {
 						VariableDecl varDecl = (VariableDecl) ref;
 						if(!varDecl.isStatic() && !ref.getName().equals("class")) {
 							throw new OocCompilationError(this, stack, 
 									"Trying to access member variable "+exprType
-									+"."+name+" as if it were static. But it's not. (btw, expression = "+varAcc.getRef());
+									+"."+getName()+" as if it were static. But it's not. (btw, expression = "+varAcc.getRef());
 						}
 					}
 				}
@@ -108,7 +108,7 @@ public class MemberAccess extends VariableAccess {
 		}
 		
 		if(fatal && ref == null && !dead) {
-			String message = "Can't resolve access to member "+exprType+"."+name;
+			String message = "Can't resolve access to member "+exprType+"."+getName();
 			String guess = guessCorrectName((TypeDecl) exprType.getRef());
 			if(guess != null) {
 				message += " Did you mean "+exprType+"."+guess+" ?";
@@ -130,7 +130,7 @@ public class MemberAccess extends VariableAccess {
 		
 		for(VariableDecl decl: typeDeclaration.getVariables()) {
 			for(VariableDeclAtom atom: decl.atoms) {
-				int distance = Levenshtein.distance(name, atom.getName());
+				int distance = Levenshtein.distance(getName(), atom.getName());
 				if(distance < bestDistance) {
 					bestDistance = distance;
 					bestMatch = atom.getName();
@@ -156,9 +156,9 @@ public class MemberAccess extends VariableAccess {
 		}
 		
 		TypeDecl typeDecl = (TypeDecl) decl;
-		ref = typeDecl.getVariable(name);
+		ref = typeDecl.getVariable(getName());
 		
-		if(ref == null && name.equals("size") && exprType.isArray()) {
+		if(ref == null && getName().equals("size") && exprType.isArray()) {
 			FunctionCall sizeofArray = new FunctionCall("sizeof", "", startToken);
 			sizeofArray.getArguments().add(expression);
 			FunctionCall sizeofType = new FunctionCall("sizeof", "", startToken);
@@ -169,7 +169,7 @@ public class MemberAccess extends VariableAccess {
 			return true;
 		}
 
-		if(ref == null && exprType.getRef() instanceof CoverDecl && name.equals("class")) {
+		if(ref == null && exprType.getRef() instanceof CoverDecl && getName().equals("class")) {
 			MemberCall membCall = new MemberCall(expression, "class", "", startToken);
 			if(!stack.peek().replace(this, membCall)) {
 				throw new OocCompilationError(this, stack, "Couldn't replace class access with member call");
@@ -180,8 +180,8 @@ public class MemberAccess extends VariableAccess {
 		}
 		
 		if(ref == null && exprType.getRef() instanceof TypeDecl
-				&& (name.equals("name") || name.equals("size") || name.equals("super")
-						 || name.equals("size"))) {
+				&& (getName().equals("getName()") || getName().equals("size") || getName().equals("super")
+						 || getName().equals("size"))) {
 			MemberAccess membAcc = new MemberAccess(expression, "class", startToken);
 			this.expression = membAcc;
 			stack.push(this);
@@ -192,7 +192,7 @@ public class MemberAccess extends VariableAccess {
 		}
 		
 		if(ref == null) {
-			ref = typeDecl.getFunction(name, "", null);
+			ref = typeDecl.getFunction(getName(), "", null);
 		}
 		
 		return ref != null;
@@ -204,9 +204,10 @@ public class MemberAccess extends VariableAccess {
 		if(expression instanceof VariableAccess) {
 			VariableAccess varAcc = (VariableAccess) expression;
 			return getClass().getSimpleName()+" "+varAcc.getName()+":"+varAcc.getType()
-			+"->"+name+":"+getType();
+			+"->"+getName()+":"+getType();
 		}
-		return "MemberAccess|"+expression+"."+name+":"+getType();
+		
+		return "MemberAccess|"+expression+"."+getName()+":"+getType();
 	}
 
 }

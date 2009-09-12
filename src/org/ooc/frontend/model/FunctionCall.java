@@ -4,7 +4,6 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.List;
 
 import org.ooc.frontend.Levenshtein;
 import org.ooc.frontend.Visitor;
@@ -18,6 +17,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 
 	protected String name;
 	protected String suffix;
+	protected final NodeList<Expression> typeParams;
 	protected final NodeList<Expression> arguments;
 	protected FunctionDecl impl;
 	protected AddressOf returnArg;
@@ -26,6 +26,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 		super(startToken);
 		this.name = name;
 		this.suffix = suffix;
+		this.typeParams = new NodeList<Expression>();
 		this.arguments = new NodeList<Expression>(startToken);
 		this.impl = null;
 		this.returnArg = null;
@@ -60,6 +61,10 @@ public class FunctionCall extends Access implements MustBeResolved {
 		this.suffix = suffix;
 	}
 	
+	public NodeList<Expression> getTypeParams() {
+		return typeParams;
+	}
+	
 	public NodeList<Expression> getArguments() {
 		return arguments;
 	}
@@ -71,12 +76,33 @@ public class FunctionCall extends Access implements MustBeResolved {
 	@Override
 	public Type getType() {
 		if(impl != null) {
-			Type result = getRealType(impl.getReturnType());
-			return result;
+			Type retType = impl.getReturnType();
+			if(retType.isGenericRecursive()) {
+				Type realType = realTypize(retType.clone());
+				return realType;
+			}
+			return retType;
 		}
 		return null;
 	}
 	
+	private Type realTypize(Type type) {
+		
+		int i = -1;
+		for(VariableAccess exprParam: type.getTypeParams()) {
+			i++;
+			if(exprParam.getType() != null && exprParam.getType().getName().equals("Class")) {
+				VariableAccess expr = resolveTypeParam(exprParam.getName(), null, true);
+				if(expr != null){
+					type.getTypeParams().set(i, expr);
+				}
+			}
+		}
+		
+		return type;
+		
+	}
+
 	@Override
 	public void accept(Visitor visitor) throws IOException {
 		visitor.visit(this);
@@ -89,6 +115,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 	
 	@Override
 	public void acceptChildren(Visitor visitor) throws IOException {
+		typeParams.accept(visitor);
 		arguments.accept(visitor);
 	}
 	
@@ -103,7 +130,6 @@ public class FunctionCall extends Access implements MustBeResolved {
 
 	@Override
 	public boolean isResolved() {
-		//return impl != null;
 		return false;
 	}
 
@@ -111,14 +137,19 @@ public class FunctionCall extends Access implements MustBeResolved {
 	public Response resolve(final NodeList<Node> stack, final Resolver res, final boolean fatal) throws IOException {
 		
 		if(impl == null) {
-			if (name.equals("this")) resolveConstructorCall(stack, false);
-			else if (name.equals("super")) resolveConstructorCall(stack, true);
-			else resolveRegular(stack, res, fatal);
+			if (name.equals("this")) {
+				resolveConstructorCall(stack, false);
+			} else if (name.equals("super")) {
+				resolveConstructorCall(stack, true);
+			}  else {
+				Response response = resolveRegular(stack, res, fatal);
+				if(response != Response.OK) return response;
+			}
 		}
 	
 		if(impl != null) {
 			autocast();
-			Response response = handleGenerics(stack, res);
+			Response response = handleGenerics(stack, res, fatal);
 			if(response != Response.OK) return response;
 		}
 		
@@ -135,26 +166,30 @@ public class FunctionCall extends Access implements MustBeResolved {
 		
 	}
 
-	protected Response handleGenerics(final NodeList<Node> stack, final Resolver res)
+	protected Response handleGenerics(final NodeList<Node> stack, final Resolver res, boolean fatal)
 			throws IOException {
 
-		if(impl == null) return Response.LOOP;
+		if(impl == null) {
+			if(fatal) throw new OocCompilationError(this, stack, "Didn't find implementation for "
+					+this+", can't handle generics.");
+			return Response.LOOP;
+		}
 		
 		// If one of the arguments which type is generic is not a VariableAccess
 		// turn it into a VDFE and unwrap it
-		LinkedHashMap<String, GenericType> generics = impl.getGenericTypes();
-		if(!generics.isEmpty()) for(GenericType genType: generics.values()) {
+		LinkedHashMap<String, TypeParam> generics = impl.getTypeParams();
+		if(!generics.isEmpty()) for(TypeParam genType: generics.values()) {
 			Response response = checkGenType(stack, genType);
 			if(response != Response.OK) return response;
 		}
-		if(impl.getTypeDecl() != null) for(GenericType genType: impl.getTypeDecl().getGenericTypes().values()) {
+		if(impl.getTypeDecl() != null) for(TypeParam genType: impl.getTypeDecl().getTypeParams().values()) {
 			Response response = checkGenType(stack, genType);
 			if(response != Response.OK) return response;
 		}
 		
 		// Turn any outer assigned access into a returnArg, unwrap if in varDecl.
 		Type returnType = impl.getReturnType();
-		GenericType genType = impl.getGenericType(returnType.getName());
+		TypeParam genType = impl.getGenericType(returnType.getName());
 		if(genType != null) {
 			Node parent = stack.peek();
 			if(parent instanceof Assignment) {
@@ -166,8 +201,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 				}
 			} else if(parent instanceof VariableDeclAtom) {
 				VariableDeclAtom atom = (VariableDeclAtom) parent;
-				unwrapFromVarDecl(stack, genType,  atom);
-				return Response.RESTART;
+				return unwrapFromVarDecl(stack, genType,  atom, fatal);
 			} else if(parent instanceof Line) {
 				// alright =)
 			} else {
@@ -181,19 +215,53 @@ public class FunctionCall extends Access implements MustBeResolved {
 					stack.pop(impl);
 					if(impl.getTypeDecl() != null) stack.pop(impl.getTypeDecl());
 				}
-				Type realType = getRealType(implRetType);
-				vdfe.setType(realType);
+				
 				parent.replace(this, vdfe);
 				vdfe.unwrapToVarAcc(stack);
 				return Response.RESTART;
 			}
 		}
 		
+		if(typeParams.size() < impl.getTypeParams().size()) {
+			Iterator<TypeParam> iter = impl.getTypeParams().values().iterator();
+			for(int i = 0; i < typeParams.size(); i++) iter.next();
+			while(iter.hasNext()) {
+				TypeParam typeParam = iter.next();
+				Expression result = resolveTypeParam(typeParam.getName(), stack, fatal);
+				if(result == null) {
+					if(fatal) throwUnresolvedType(stack, typeParam.getName());
+					return Response.LOOP;
+				}
+				typeParams.add(result);
+			}
+			return Response.RESTART;
+		}
+		
 		return Response.OK;
 		
 	}
 
-	private Response checkGenType(final NodeList<Node> stack, GenericType genType) {
+	protected VariableAccess resolveTypeParam(String typeParam, NodeList<Node> stack, boolean fatal) {
+
+		if(impl == null) return null;
+		
+		VariableAccess result = null;
+		
+		int i = -1;
+		for(Argument arg: impl.getArguments()) {
+			i++;
+			if(arg.getType().getName().equals(typeParam)) {
+				Expression callArg = arguments.get(i);
+				result = new MemberAccess(callArg, "class", callArg.startToken);
+				break;
+			}
+		}
+		
+		return result;
+		
+	}
+
+	private Response checkGenType(final NodeList<Node> stack, TypeParam genType) {
 		Iterator<Argument> iter = impl.getThisLessArgsIter();
 		int i = -1;
 		while(iter.hasNext()) {
@@ -217,24 +285,21 @@ public class FunctionCall extends Access implements MustBeResolved {
 	}
 
 	@SuppressWarnings({ "unchecked", "unused" })
-	private void unwrapFromVarDecl(final NodeList<Node> stack,
-			GenericType genType, VariableDeclAtom atom) throws OocCompilationError, EOFException {
+	private Response unwrapFromVarDecl(final NodeList<Node> stack,
+			TypeParam genType, VariableDeclAtom atom, boolean fatal) throws OocCompilationError, EOFException {
+		
 		int varDeclIndex = stack.find(VariableDecl.class);
 		VariableDecl decl = (VariableDecl) stack.get(varDeclIndex);
-		decl.setType(getRealType(decl.getType(), genType));
-		/*
-		if(decl.getType().getRef() instanceof GenericType) {
-			String endMsg = "";
-			if(this instanceof MemberCall) {
-				endMsg = " - "+((MemberCall) this).getExpression().getType()
-					+" should be type-specified, (with <Param1, Param2, ...>)";
-			} else {
-				endMsg = " - not enough type information.";
+		
+		Declaration typeRef = decl.getType().getRef();
+		if(typeRef == null) {
+			if(fatal) {
+				throw new OocCompilationError(this, stack, "Couldn't figure out ref of type "+decl);
 			}
-			throw new OocCompilationError(this, stack, "Couldn't guess return type of function "
-					+getProtoRepr()+endMsg);
+			return Response.LOOP;
 		}
-		*/
+		Expression result = resolveTypeParam(typeRef.getName(), stack, true);
+		decl.setType(result.getType());
 		atom.replace(this, null);
 		
 		int lineIndex = stack.find(Line.class, varDeclIndex);
@@ -245,6 +310,9 @@ public class FunctionCall extends Access implements MustBeResolved {
 		varAcc.setRef(decl);
 		returnArg = new AddressOf(varAcc, startToken);
 		list.addAfter(line, new Line(this));
+		
+		return Response.RESTART;
+		
 	}
 
 	protected void autocast() {
@@ -258,75 +326,6 @@ public class FunctionCall extends Access implements MustBeResolved {
 			if(implArg.getType().isSuperOf(callArg.getType())) {
 				arguments.replace(callArg, new Cast(callArg, implArg.getType(), callArg.startToken));
 			}
-		}
-	}
-	
-	public Type getRealType(Type originType) {
-		if(!(originType.getRef() instanceof GenericType)) {
-			Type result = originType.clone();
-			realTypizeChildren(result);
-			return result;
-		}
-		GenericType genType = (GenericType) originType.getRef();
-		return getRealType(originType, genType);
-	}
-
-	public Type getRealType(Type originType, GenericType genType) {
-		int i = -1;
-		Iterator<Argument> iter = impl.getThisLessArgsIter();
-		Type result = null;
-		while(iter.hasNext()) {
-			i++;
-			Argument arg = iter.next();
-			Expression callArg = arguments.get(i);
-			Type implType = arg.getType();
-			Type realType = callArg.getType();
-			result = tryTypeCombination(genType, implType, realType);
-			if(result != null) break;
-		}
-		
-		
-		if(result == null) result = originType;
-		realTypizeChildren(result);
-		return result;
-	}
-
-	private Type tryTypeCombination(GenericType genType, Type implType, Type realType) {
-		Type result = null;
-		if(implType.getName().equals(genType.getName())) {
-			int level = implType.getPointerLevel();
-			if(level > 0) {
-				result = realType.clone();
-				result.setPointerLevel(realType.getPointerLevel() - level);
-			}
-			result = realType;
-		}
-		if(result == null) {
-			Declaration ref = realType.getRef();
-			if(ref instanceof TypeDecl) {
-				TypeDecl typeDecl = (TypeDecl) ref;
-				List<Type> realGenTypes = realType.getGenericTypes();
-				int i = -1;
-				for(GenericType subType: typeDecl.getGenericTypes().values()) {
-					i++;
-					if(i >= realGenTypes.size()) break;
-					Type subRealType = realGenTypes.get(i);
-					Type subImplType = new Type(subType.getName(), startToken);
-					subImplType.setRef(subType);
-					result = tryTypeCombination(genType, subImplType, subRealType);
-					if(result != null) return result;
-				}
-			}
-		}
-		return result;
-	}
-
-	protected void realTypizeChildren(Type result) {
-		if(result == null) return;
-		int j = -1;
-		for(Type subType: result.getGenericTypes()) {
-			j++;
-			result.getGenericTypes().set(j, getRealType(subType));
 		}
 	}
 
@@ -401,7 +400,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 		
 	}
 	
-	protected void resolveRegular(NodeList<Node> stack, Resolver res, boolean fatal) throws IOException {
+	protected Response resolveRegular(NodeList<Node> stack, Resolver res, boolean fatal) throws IOException {
 		
 		impl = getFunction(name, suffix, this, stack);
 
@@ -437,6 +436,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 						FuncType funcType = (FuncType) varDecl.getType();
 						impl = funcType.getDecl();
 					} else {
+						if(varDecl.getType() == null) return Response.LOOP;
 						throw new OocCompilationError(this, stack, "Trying to call "
 								+name+", which isn't a function pointer (Func), but a "+varDecl.getType());
 					}
@@ -446,7 +446,9 @@ public class FunctionCall extends Access implements MustBeResolved {
 
 		if(impl != null) {
 			if(impl.isMember()) transformToMemberCall(stack, res);
+			return Response.OK;
 		}
+		return Response.LOOP;
 		
 	}
 
@@ -547,6 +549,15 @@ public class FunctionCall extends Access implements MustBeResolved {
 		}
 		
 		return score;
+	}
+
+	public void throwUnresolvedType(NodeList<Node> stack, String typeName) {
+		
+		if(impl != null) {
+			throw new OocCompilationError(this, stack, "Couldn't figure out generic type <"+typeName+"> for "+impl);
+		}
+		throw new OocCompilationError(this, stack, "Couldn't figure out generic type <"+typeName+"> for "+getProtoRepr());
+		
 	}
 	
 }

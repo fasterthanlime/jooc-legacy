@@ -1,0 +1,55 @@
+iterType = Iterator<T>
+Found genType GenericType: T!
+Found genType GenericType: T!
+Real type = Iterator<Int> for (VariableAccess|list:List<Int>)->iterator() with impl FunctionDecl : List<T>.iterator(List<T>)
+iterType = Iterator<T>
+Found genType GenericType: T!
+Found genType GenericType: T!
+Real type = Iterator<T> for (VariableAccess|list:List<T>)->iterator() with impl FunctionDecl : List<T>.iterator(List<T>)
+Found genType GenericType: T!
+Found genType GenericType: T!
+Found genType GenericType: T!
+Found genType GenericType: T!
+Found genType GenericType: T!
+Found genType GenericType: T!
+Found genType GenericType: T!
+Found genType GenericType: T!
+Found genType GenericType: T!
+Found genType GenericType: T!
+Found genType GenericType: T!
+Found genType GenericType: T!
+Found genType GenericType: T!
+Found genType GenericType: T!
+Found genType GenericType: T!
+Found genType GenericType: T!
+Found genType GenericType: T!
+Found genType GenericType: T!
+Found genType GenericType: T!
+Found genType GenericType: T!
+Found genType GenericType: T!
+Found genType GenericType: T!
+Found genType GenericType: T!
+Found genType GenericType: T!
+Found genType GenericType: T!
+Found genType GenericType: T!
+Found genType GenericType: T!
+Found genType GenericType: T!
+Found genType GenericType: T!
+Found genType GenericType: T!
+Found genType GenericType: T!
+Found genType GenericType: T!
+Found genType GenericType: T!
+Found genType GenericType: T!
+Found genType GenericType: T!
+Found genType GenericType: T!
+Found genType GenericType: T!
+Found genType GenericType: T!
+Found genType GenericType: T!
+Found genType GenericType: T!
+iterType = Iterator<T>
+Real type = Iterator<T> for (VariableAccess|list:List<T>)->iterator() with impl FunctionDecl : List<T>.iterator(List<T>)
+ooc_tmp/structs/ArrayList.c: In function ‘ArrayList_iterator_impl’:
+ooc_tmp/structs/ArrayList.c:189: erreur: ‘T’ undeclared (first use in this function)
+ooc_tmp/structs/ArrayList.c:189: erreur: (Each undeclared identifier is reported only once
+ooc_tmp/structs/ArrayList.c:189: erreur: for each function it appears in.)
+C compiler failed, aborting compilation process

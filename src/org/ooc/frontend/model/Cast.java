@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.tokens.Token;
-import org.ubi.CompilationFailedError;
 
 public class Cast extends Expression {
 
@@ -67,11 +66,11 @@ public class Cast extends Expression {
 			type = type.clone();
 			TypeDecl dstDecl = (TypeDecl) newType.getRef();
 			Type src = expression.getType();
-			if(dstDecl.getGenericTypes().size() != src.getGenericTypes().size()) {
-				throw new CompilationFailedError(null, "Invalid cast between types "+dstDecl.getType()+" and "+src);
+			if(dstDecl.getTypeParams().size() != src.getTypeParams().size()) {
+				throw new Error("Invalid cast between types "+dstDecl.getType()+" and "+src);
 			}
-			type.getGenericTypes().clear();
-			type.getGenericTypes().addAll(src.getGenericTypes());
+			type.getTypeParams().clear();
+			type.getTypeParams().addAll(src.getTypeParams());
 		}
 	}
 	

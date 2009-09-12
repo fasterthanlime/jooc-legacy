@@ -69,7 +69,7 @@ public class ValuedReturn extends Return implements MustBeResolved {
 		}
 		FunctionDecl decl = (FunctionDecl) stack.get(funcIndex);
 		Type returnType = decl.getReturnType();
-		GenericType param = getGenericType(stack, returnType.getName());
+		TypeParam param = getTypeParam(stack, returnType.getName());
 		if(param != null) {
 			unwrapToMemcpy(stack, decl, param);
 			return Response.RESTART;
@@ -86,6 +86,17 @@ public class ValuedReturn extends Return implements MustBeResolved {
 	@SuppressWarnings("unchecked")
 	private void unwrapToMemcpy(NodeList<Node> stack, FunctionDecl decl,
 			Declaration genericType) {
+		
+		if(!(expression instanceof VariableAccess)) {
+			VariableDeclFromExpr vdfe = new VariableDeclFromExpr(generateTempName("retval"), expression, startToken);
+			vdfe.setType(expression.getType());
+			expression = vdfe;
+			stack.push(this);
+			vdfe.unwrapToVarAcc(stack);
+			stack.pop(this);
+			return;
+		}
+		
 		FunctionCall call = new FunctionCall("memcpy", "", startToken);
 		VariableAccess returnArgAcc = new VariableAccess(decl.getReturnArg(), startToken);
 		NodeList<Expression> args = call.getArguments();
@@ -110,6 +121,7 @@ public class ValuedReturn extends Return implements MustBeResolved {
 		
 		int lineIndex = stack.find(Line.class);
 		((NodeList<Node>) stack.get(lineIndex - 1)).addAfter(stack.get(lineIndex), new Line(new Return(startToken)));
+		
 	}
 	
 }

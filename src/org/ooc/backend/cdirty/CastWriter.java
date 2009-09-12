@@ -5,13 +5,13 @@ import java.io.IOException;
 import org.ooc.frontend.model.ArrayAccess;
 import org.ooc.frontend.model.Cast;
 import org.ooc.frontend.model.Expression;
-import org.ooc.frontend.model.GenericType;
+import org.ooc.frontend.model.TypeParam;
 import org.ooc.frontend.model.VariableAccess;
 
 public class CastWriter {
 
 	public static void write(Cast cast, CGenerator cgen) throws IOException {
-		if(cast.getExpression().getType().getRef() instanceof GenericType) {
+		if(cast.getExpression().getType().getRef() instanceof TypeParam) {
 			Expression expr = cast.getExpression();
 			if(expr instanceof VariableAccess) {
 				VariableAccess access = (VariableAccess) expr;

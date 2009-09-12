@@ -70,6 +70,10 @@ public class NodeList<T extends Node> extends Node implements Iterable<T> {
 		size--;
 	}
 	
+	public void clear() {
+		size = 0;
+	}
+	
 	public boolean contains(T element) {
 		for (int index = 0; index < size; index++) {
 			if(element.equals(nodes[index])) {
@@ -265,6 +269,10 @@ public class NodeList<T extends Node> extends Node implements Iterable<T> {
 
 	public T peek() {
 		return nodes[size - 1];
+	}
+	
+	public T peek(int i) {
+		return nodes[size - i];
 	}
 	
 	public int find(Class<?> clazz) {

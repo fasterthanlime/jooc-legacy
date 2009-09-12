@@ -1,6 +1,5 @@
 package org.ooc.backend.cdirty;
 
-import java.io.EOFException;
 import java.io.IOException;
 import java.util.Iterator;
 
@@ -10,11 +9,10 @@ import org.ooc.frontend.model.Dereference;
 import org.ooc.frontend.model.Expression;
 import org.ooc.frontend.model.FunctionCall;
 import org.ooc.frontend.model.FunctionDecl;
-import org.ooc.frontend.model.GenericType;
 import org.ooc.frontend.model.MemberCall;
 import org.ooc.frontend.model.NodeList;
-import org.ooc.frontend.model.Type;
 import org.ooc.frontend.model.TypeDecl;
+import org.ooc.frontend.model.TypeParam;
 import org.ooc.frontend.model.VarArg;
 import org.ooc.frontend.model.VariableAccess;
 import org.ooc.middle.OocCompilationError;
@@ -82,7 +80,7 @@ public class CallWriter {
 		NodeList<Expression> callArgs = functionCall.getArguments();
 		
 		boolean isFirst = isFirstParam;
-		if(functionCall.getImpl().getReturnType().getRef() instanceof GenericType) {
+		if(functionCall.getImpl().getReturnType().getRef() instanceof TypeParam) {
 			if(!isFirst) cgen.current.app(", ");
 			isFirst = false;
 			if(functionCall.getReturnArg() == null) {
@@ -137,8 +135,10 @@ public class CallWriter {
 		boolean isFirst = isFirstArg;
 		NodeList<Argument> implArgs = impl.getArguments();
 		
-		for(GenericType typeParam: impl.getGenericTypes().values()) {
-			isFirst = writeGenType(call, impl, cgen, isFirst, typeParam);
+		for(Expression expr: call.getTypeParams()) {
+			if(!isFirst) cgen.current.app(", ");
+			isFirst = false;
+			expr.accept(cgen);
 		}
 		
 		int argIndex = impl.hasThis() ? 0 : -1;
@@ -149,31 +149,11 @@ public class CallWriter {
 			isFirst = false;
 			Expression expr = iter.next();
 			Argument arg = implArgs.get(argIndex);
-			GenericType genericType = impl.getGenericType(arg.getType().getName());
+			TypeParam genericType = impl.getGenericType(arg.getType().getName());
 			if(genericType != null) cgen.current.app("(Octet*) &");
 			writeCallArg(expr, impl, argIndex, cgen);
 		}
 		
-	}
-
-	private static boolean writeGenType(FunctionCall call,
-			FunctionDecl impl, CGenerator cgen, boolean isFirstParam,
-			GenericType typeParam) throws IOException, OocCompilationError,
-			EOFException {
-		boolean isFirst = isFirstParam;
-		
-		Type realType = call.getRealType(null, typeParam);
-		if(realType == null)
-			throw new OocCompilationError(call, cgen.module,
-					"Couldn't find argument in "+call.getArgsRepr()+" to figure out generic type "+typeParam);
-		
-		if(!isFirst) cgen.current.app(", ");
-		isFirst = false;
-		// FIXME shouldn't it be realType.accept() ?
-		cgen.current.app(realType.getName());
-		if(!realType.isGenericRecursive()) cgen.current.app("_class()");
-		
-		return isFirst;
 	}
 
 	public static void writeMember(MemberCall memberCall, CGenerator cgen) throws IOException {

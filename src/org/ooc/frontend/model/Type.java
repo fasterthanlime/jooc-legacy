@@ -1,9 +1,7 @@
 package org.ooc.frontend.model;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.interfaces.MustBeResolved;
@@ -22,12 +20,12 @@ public class Type extends Node implements MustBeResolved {
 	protected String name;
 	protected int pointerLevel;
 	protected int referenceLevel;
-	protected Declaration ref;
+	private Declaration ref;
 	
 	private boolean isArray = false;
 	private Expression arraySize = null;
 	
-	protected List<Type> genericTypes;
+	protected NodeList<VariableAccess> typeParams;
 	private boolean isConst = false;
 	
 	private static Type voidType = null;
@@ -53,11 +51,11 @@ public class Type extends Node implements MustBeResolved {
 		this.name = name;
 		this.pointerLevel = pointerLevel;
 		this.referenceLevel = referenceLevel;
-		this.genericTypes = new ArrayList<Type>();
+		this.typeParams = new NodeList<VariableAccess>(startToken);
 	}
 	
-	public List<Type> getGenericTypes() {
-		return genericTypes;
+	public NodeList<VariableAccess> getTypeParams() {
+		return typeParams;
 	}
 
 	public String getName() {
@@ -113,9 +111,7 @@ public class Type extends Node implements MustBeResolved {
 	@Override
 	public void acceptChildren(Visitor visitor) throws IOException {
 		if(arraySize != null) arraySize.accept(visitor);
-		for(Type genericType: genericTypes) {
-			genericType.accept(visitor);
-		}
+		typeParams.accept(visitor);
 	}
 	
 	@Override
@@ -132,11 +128,11 @@ public class Type extends Node implements MustBeResolved {
 		for(int i = 0; i < referenceLevel; i++) {
 			sb.append('@');
 		}
-		if(!genericTypes.isEmpty()) {
+		if(!typeParams.isEmpty()) {
 			sb.append('<');
-			Iterator<Type> iter = genericTypes.iterator();
+			Iterator<VariableAccess> iter = typeParams.iterator();
 			while(iter.hasNext()) {
-				sb.append(iter.next().toString());
+				sb.append(iter.next().getName());
 				if(iter.hasNext()) sb.append(", ");
 			}
 			sb.append('>');
@@ -207,7 +203,7 @@ public class Type extends Node implements MustBeResolved {
 		}
 		
 		if(ref == null) {
-			GenericType param = getGenericType(stack, name);
+			TypeParam param = getTypeParam(stack, name);
 			if(param != null) {
 				ref = param;
 				return Response.OK;
@@ -216,7 +212,7 @@ public class Type extends Node implements MustBeResolved {
 		
 		if(ref == null && fatal) {
 			throw new OocCompilationError(this, stack, "Couldn't resolve type "
-					+getName());
+					+getName()+", stack = "+stack.toString(true));
 		}
 		
 		return (ref == null) ? Response.LOOP : Response.OK;
@@ -335,16 +331,16 @@ public class Type extends Node implements MustBeResolved {
 		clone.ref = ref;
 		clone.isArray = isArray;
 		clone.isConst = isConst;
-		clone.genericTypes.addAll(genericTypes);
+		clone.typeParams.addAll(typeParams);
 		return clone;
 	}
 
 	public boolean isGeneric() {
-		return ref instanceof GenericType;
+		return ref instanceof TypeParam;
 	}
 	
 	public boolean isGenericRecursive() {
-		return (ref instanceof GenericType) || !genericTypes.isEmpty();
+		return (ref instanceof TypeParam) || !typeParams.isEmpty();
 	}
 
 	public Expression getArraySize() {

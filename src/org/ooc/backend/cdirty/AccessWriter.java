@@ -9,7 +9,7 @@ import org.ooc.frontend.model.Declaration;
 import org.ooc.frontend.model.Dereference;
 import org.ooc.frontend.model.Expression;
 import org.ooc.frontend.model.FunctionDecl;
-import org.ooc.frontend.model.GenericType;
+import org.ooc.frontend.model.TypeParam;
 import org.ooc.frontend.model.MemberAccess;
 import org.ooc.frontend.model.PotentiallyStatic;
 import org.ooc.frontend.model.TypeDecl;
@@ -84,7 +84,7 @@ public class AccessWriter {
 	
 	public static void writeVariable(VariableAccess variableAccess, boolean doTypeParams, CGenerator cgen) throws IOException {
 		
-		if(variableAccess.getRef() instanceof TypeDecl && !(variableAccess.getRef() instanceof GenericType)) {
+		if(variableAccess.getRef() instanceof TypeDecl && !(variableAccess.getRef() instanceof TypeParam)) {
 			cgen.current.app(variableAccess.getName()).app("_class()");
 			return;
 		}
@@ -93,7 +93,7 @@ public class AccessWriter {
 		
 		if(doTypeParams) {
 			Declaration ref = variableAccess.getRef().getType().getRef();
-			if(ref instanceof GenericType) refLevel++;
+			if(ref instanceof TypeParam) refLevel++;
 		}
 		
 		if(refLevel > 0) {

@@ -3,7 +3,7 @@ Array: class <T> {
 	data: T*
 	size: SizeT
 
-	init: func (=T, =size) {
+	init: func (=size) {
 		data = gc_malloc(T size * size)
 	}
 		
@@ -21,15 +21,15 @@ main: func {
 
 	max := 10
 	println("Creating an array of ints")
-	arr := Array<Int> new(Int, max)
+	arr := Array<Int> new(max)
 	
-	for (i : Int in 0..max) {
+	for (i in 0..max) {
 		arr set(i, max - i);
 	}
 	
 	printf("Array's content = ")
 	isFirst := true
-	for (i: Int in 0..max) {
+	for (i in 0..max) {
 		if(!isFirst) printf(", ")
 		isFirst = false
 		printf("%d", arr get(i))
@@ -37,16 +37,16 @@ main: func {
 	println()
 	
 	println("Creating an array of chars")
-	chars := Array<Char> new(Char, max)
+	chars := Array<Char> new(max)
 	
 	max = 26
-	for (i : Int in 0..max) {
-		chars set(i, 'a' + i);
+	for (i in 0..max) {
+		chars set(i, ('a' as Int + i) as Char);
 	}
 	
 	printf("Chars's content = ")
 	isFirst = true
-	for (i: Int in 0..max) {
+	for (i in 0..max) {
 		if(!isFirst) printf(", ")
 		isFirst = false
 		printf("%c", chars get(i))

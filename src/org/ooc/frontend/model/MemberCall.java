@@ -1,6 +1,7 @@
 package org.ooc.frontend.model;
 
 import java.io.IOException;
+import java.util.LinkedHashMap;
 
 import org.ooc.frontend.Levenshtein;
 import org.ooc.frontend.Visitor;
@@ -115,7 +116,7 @@ public class MemberCall extends FunctionCall {
 		
 		/* Dirty work */
 		if(impl != null) {
-			Response response = handleGenerics(stack, res);
+			Response response = handleGenerics(stack, res, fatal);
 			if(response != Response.OK) return response;
 			autocast();
 		}
@@ -159,25 +160,37 @@ public class MemberCall extends FunctionCall {
 	}
 	
 	@Override
-	public Type getRealType(Type originType) {
-		Type exprType = expression.getType();
-		if(exprType.getGenericTypes().size() > 0) {
-			Declaration ref = exprType.getRef();
+	protected VariableAccess resolveTypeParam(String typeParam, NodeList<Node> stack, boolean fatal) {
+		
+		Type type = expression.getType();
+		if(type != null && !type.getTypeParams().isEmpty()) {
+			Declaration ref = type.getRef();
 			if(ref instanceof TypeDecl) {
 				TypeDecl typeDecl = (TypeDecl) ref;
-				int i = -1;
-				for(GenericType genType: typeDecl.getGenericTypes().values()) {
-					i++;
-					if(genType.getName().equals(originType.getName())) {
-						Type realType = exprType.getGenericTypes().get(i);
-						realTypizeChildren(realType);
-						return realType;
+				LinkedHashMap<String, TypeParam> typeParams = typeDecl.getTypeParams();
+				if(!typeParams.isEmpty()) {
+					int i = -1;
+					for(TypeParam candidate: typeParams.values()) {
+						i++;
+						if(candidate.getName().equals(typeParam)) {
+							VariableAccess result = type.getTypeParams().get(i);
+							return result;
+						}
 					}
 				}
 			}
 		}
+		return super.resolveTypeParam(typeParam, stack, fatal);
 		
-		return super.getRealType(originType);
+	}
+	
+	@Override
+	public void throwUnresolvedType(NodeList<Node> stack, String typeName) {
+		
+		throw new OocCompilationError(this, stack,
+				"You should specify type parameters of "+expression.getType().getName()
+				+" for calling "+getProtoRepr()+". E.g. you could write "+expression.getType().getName()+"<Int>");
+		
 	}
 	
 }

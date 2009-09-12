@@ -122,7 +122,7 @@ public abstract class BinaryOperation extends Expression implements MustBeResolv
 			Argument first = args.get(0);
 			Argument second = args.get(1);			
 			if(first.getType().softEquals(left.getType(), res)) {
-				if(second.getType().softEquals(right.getType(), res) || isGeneric(second.getType(), op.getFunc().getGenericTypes())) {
+				if(second.getType().softEquals(right.getType(), res) || isGeneric(second.getType(), op.getFunc().getTypeParams())) {
 					FunctionCall call = new FunctionCall(op.getFunc(), startToken);
 					call.getArguments().add(left);
 					call.getArguments().add(right);
@@ -135,7 +135,7 @@ public abstract class BinaryOperation extends Expression implements MustBeResolv
 		return end;
 	}
 	
-	private boolean isGeneric(Type type, LinkedHashMap<String, GenericType> linkedHashMap) {
+	private boolean isGeneric(Type type, LinkedHashMap<String, TypeParam> linkedHashMap) {
 		return linkedHashMap.containsKey(type.getName());
 	}
 

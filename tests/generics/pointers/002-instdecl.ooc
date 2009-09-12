@@ -1,7 +1,7 @@
 Yay: class <T> {
     message: T
 
-    init: func(=T) {
+    init: func {
 		message = gc_malloc(T size)
 	}
 
@@ -14,6 +14,6 @@ Yay: class <T> {
 
 main: func {
 
-	Yay new(String) setMessage("Yodel?") .printy()
+	Yay<String> new() setMessage("Yodel?") .printy()
 
 }

@@ -31,8 +31,8 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 	// when the return type is generic, the returnArg is a pointer.
 	protected Argument returnArg;
 	
-	protected final LinkedHashMap<String, GenericType> genericTypes;
-	protected final NodeList<Argument> arguments;
+	protected final LinkedHashMap<String, TypeParam> typeParams;
+	private final NodeList<Argument> arguments;
 	
 	public FunctionDecl(String name, String suffix, boolean isFinal,
 			boolean isStatic, boolean isAbstract, boolean isExtern, Token startToken) {
@@ -49,12 +49,12 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 		this.body = new NodeList<Line>(startToken);
 		this.returnType = name.equals("main") ? IntLiteral.type : Type.getVoid();
 		this.arguments = new NodeList<Argument>(startToken);
-		this.genericTypes = new LinkedHashMap<String, GenericType>();
+		this.typeParams = new LinkedHashMap<String, TypeParam>();
 		this.returnArg = new RegularArgument(NullLiteral.type, generateTempName("returnArg"), startToken);
 	}
 
-	public LinkedHashMap<String, GenericType> getGenericTypes() {
-		return genericTypes;
+	public LinkedHashMap<String, TypeParam> getTypeParams() {
+		return typeParams;
 	}
 	
 	public void setComment(OocDocComment comment) {
@@ -174,7 +174,7 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 	
 	@Override
 	public void acceptChildren(Visitor visitor) throws IOException {
-		if (genericTypes.size() > 0) for (GenericType typeParam: genericTypes.values()) {
+		if (typeParams.size() > 0) for (TypeParam typeParam: typeParams.values()) {
 			typeParam.getType().accept(visitor);
 		}
 		arguments.accept(visitor);
@@ -358,13 +358,13 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 	}
 
 	public boolean hasReturn() {
-		return !getReturnType().isVoid() && !(getReturnType().getRef() instanceof GenericType);
+		return !getReturnType().isVoid() && !(getReturnType().getRef() instanceof TypeParam);
 	}
 
-	public GenericType getGenericType(String name) {
-		GenericType genericType = genericTypes.get(name);
+	public TypeParam getGenericType(String name) {
+		TypeParam genericType = typeParams.get(name);
 		if(genericType == null && typeDecl != null) {
-			Map<String, GenericType> classGenerics = typeDecl.getGenericTypes();
+			Map<String, TypeParam> classGenerics = typeDecl.getTypeParams();
 			genericType = classGenerics.get(name);
 			return genericType;
 		}
@@ -372,8 +372,8 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 	}
 
 	public boolean isGeneric() {
-		if(genericTypes.size() > 0) return true;
-		if(typeDecl != null && typeDecl.getGenericTypes().size() > 0) return true;
+		if(typeParams.size() > 0) return true;
+		if(typeDecl != null && typeDecl.getTypeParams().size() > 0) return true;
 		return false;
 	}
 	

@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.interfaces.MustBeResolved;
 import org.ooc.frontend.model.tokens.Token;
+import org.ooc.middle.OocCompilationError;
 import org.ooc.middle.hobgoblins.Resolver;
 
 public class VariableDeclFromExpr extends VariableDecl {
@@ -87,7 +88,12 @@ public class VariableDeclFromExpr extends VariableDecl {
 			((MustBeResolved) expr).resolve(stack, res, false);
 		}
 		
-		if(expr != null && expr.getType() == null) return Response.LOOP;
+		if(expr != null && expr.getType() == null) {
+			if(fatal) {
+				throw new OocCompilationError(expr, stack, "Couldn't resolve "+expr);
+			}
+			return Response.LOOP;
+		}
 		if(expr != null && expr.getType().isGenericRecursive() && expr.getType().isFlat()) {
 			unwrapToDeclAssign(stack, atom, expr); 
 			return Response.RESTART;

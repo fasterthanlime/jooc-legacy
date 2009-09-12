@@ -65,7 +65,8 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 		
 		@Override
 		public String toString() {
-			return super.toString()+": "+name;
+			if(expression != null) return getClass().getSimpleName()+": "+name+"="+expression;
+			return getClass().getSimpleName()+": "+name;
 		}
 
 	}
@@ -190,7 +191,7 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 		) {
 			return false;
 		}
-
+		
 		if(atoms.size() != 1) {
 			throw new OocCompilationError(this, stack, "Multi-var decls used an expression.. wtf?");
 		}
@@ -206,7 +207,7 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 			for(Node node: list) {
 				if(node instanceof VariableAccess) {
 					VariableAccess brother = (VariableAccess) node;
-					if(brother.name.equals(atom.name)) {
+					if(brother.getName().equals(atom.name)) {
 						brother.setRef(this);
 					}
 				}
@@ -288,7 +289,7 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 	}
 
 	public boolean shouldBeLowerCase() {
-		return (externName == null || !externName.isEmpty()) && !(type.getName().equals("Class"));
+		return (externName == null || !externName.isEmpty()) && type != null && !(type.getName().equals("Class"));
 	}
 
 	@Override
@@ -301,6 +302,13 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 			throws IOException {
 		
 		Type type = getType();
+		if(type == null) {
+			if(fatal) {
+				throw new OocCompilationError(this, stack, "Couldn't resolve type of variable decl "+this+", stack = "+stack.toString(true));
+			}
+			return Response.RESTART;
+		}
+		
 		if(!type.isArray() && type.isGenericRecursive() && type.isFlat() && !isMember() && !(this instanceof Argument)) {
 			Type newType = new Type("Octet", type.startToken);
 			newType.setPointerLevel(1);

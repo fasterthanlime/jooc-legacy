@@ -24,7 +24,10 @@ public class ClassDecl extends TypeDecl implements MustBeResolved {
 		addFunction(new FunctionDecl("load",     "", false, true,  false, false, startToken));
 		addFunction(new FunctionDecl("defaults", "", false, false, false, false, startToken));
 		addFunction(new FunctionDecl("destroy",  "", false, false, false, false, startToken));
-		if(!isAbstract) {
+	}
+
+	public void addInit() {
+		if(!isAbstract && defaultInit == null) {
 			FunctionDecl init = new FunctionDecl("init",     "", false, false, false, false, startToken);
 			addFunction(init);
 			defaultInit = init;
@@ -77,13 +80,15 @@ public class ClassDecl extends TypeDecl implements MustBeResolved {
 			
 			FunctionDecl constructor = new FunctionDecl("new", decl.getSuffix(), false, true, false, false, decl.startToken);
 			Type retType = getType().clone();
-			for(GenericType genType: genericTypes.values()) {
-				Type e = new Type(genType.getName(), genType.startToken);
-				e.setRef(genType);
-				retType.getGenericTypes().add(e);
+			retType.getTypeParams().clear();
+			for(TypeParam genType: typeParams.values()) {
+				VariableAccess e = new VariableAccess(genType.getName(), genType.startToken);
+				retType.getTypeParams().add(e);
 			}
 			constructor.setReturnType(retType);
-			constructor.arguments.addAll(decl.getArguments());
+			
+			constructor.getArguments().addAll(decl.getArguments());
+			constructor.getTypeParams().putAll(getTypeParams());
 			
 			VariableAccess thisTypeAccess = new VariableAccess(name, decl.startToken);
 			thisTypeAccess.setRef(this);
@@ -97,13 +102,24 @@ public class ClassDecl extends TypeDecl implements MustBeResolved {
 			thisAccess.setRef(vdfe);
 			
 			FunctionCall initCall = new FunctionCall(decl, decl.startToken);
+			for(TypeParam genType: typeParams.values()) {
+				initCall.getArguments().add(new VariableAccess(genType.getArgument(), decl.startToken));
+			}
 			for(Argument arg: constructor.getArguments()) {
 				initCall.getArguments().add(new VariableAccess(arg, decl.startToken));
 			}
 			constructor.body.add(new Line(new MemberCall(thisAccess, initCall, decl.startToken)));
 			constructor.body.add(new Line(new ValuedReturn(thisAccess, decl.startToken)));
 			
+			int index = 0;
+			for(TypeParam genType: typeParams.values()) {
+				decl.getArguments().add(index++, new MemberAssignArgument(genType.getName(), decl.startToken));
+			}
+			
 			addFunction(constructor);
+		} else if(decl.getName().equals("new")) {
+			FunctionDecl already = getFunction(decl.getName(), decl.getSuffix(), null);
+			if(already != null) { functions.remove(already); }
 		}
 		
 		super.addFunction(decl);
@@ -142,7 +158,13 @@ public class ClassDecl extends TypeDecl implements MustBeResolved {
 			throw new OocCompilationError(this, stack, "Trying to extends a "
 					+getSuperRef().getClass().getSimpleName()+". You can only extend classes.");
 		}
-		return (getSuperType() != null && getSuperRef() == null) ? Response.LOOP : Response.OK;
+		if (getSuperType() != null && getSuperRef() == null) {
+			if(fatal) throw new OocCompilationError(this, stack, "Super-type "
+					+getSuperType()+" of class "+getType()+" couldn't be resolved");
+			return Response.LOOP;
+		}
+		
+		return Response.OK;
 		
 	}
 

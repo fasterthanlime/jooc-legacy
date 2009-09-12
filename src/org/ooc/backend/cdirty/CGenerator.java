@@ -33,7 +33,7 @@ import org.ooc.frontend.model.Foreach;
 import org.ooc.frontend.model.FuncType;
 import org.ooc.frontend.model.FunctionCall;
 import org.ooc.frontend.model.FunctionDecl;
-import org.ooc.frontend.model.GenericType;
+import org.ooc.frontend.model.TypeParam;
 import org.ooc.frontend.model.If;
 import org.ooc.frontend.model.Import;
 import org.ooc.frontend.model.Include;
@@ -366,7 +366,7 @@ public class CGenerator extends Generator implements Visitor {
 	public void visit(AddressOf addressOf) throws IOException {
 		if(addressOf.getExpression() instanceof VariableAccess) {
 			VariableAccess varAcc = (VariableAccess) addressOf.getExpression();
-			if(varAcc.getRef().getType().getRef() instanceof GenericType) {
+			if(varAcc.getRef().getType().getRef() instanceof TypeParam) {
 				AccessWriter.write(varAcc, false, this);
 				return;
 			}

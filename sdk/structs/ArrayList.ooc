@@ -8,17 +8,17 @@ import structs.List
  * to store the list. (This class is roughly equivalent to Vector,
  * except that it is unsynchronized.)
  */
-ArrayList: class<T> extends List<T> {
+ArrayList: class <T> extends List<T> {
 	
 	data : T*
 	capacity : Int
 	size = 0 : Int
 	
-	init: func(.T) {
-		this(T, 10)
+	init: func {
+		this(10)
 	}
 	
-	init: func ~withCapacity (=T, =capacity) { 
+	init: func ~withCapacity (=capacity) { 
 		data = gc_malloc(capacity * T size)
 	}
 	
@@ -50,7 +50,7 @@ ArrayList: class<T> extends List<T> {
 		}
 	}
 
-	clear: func() {
+	clear: func {
 		size = 0
 	}
 
@@ -147,7 +147,7 @@ ArrayList: class<T> extends List<T> {
 		if (index >= size) Exception new(This, "Index too big! " + index + " >= " + size()) throw()
 	}
 	
-	iterator: func -> Iterator<T> { return ArrayListIterator new(T, this) }
+	iterator: func -> Iterator<T> { return ArrayListIterator<T> new(this) }
 	
 }
 
@@ -156,7 +156,7 @@ ArrayListIterator: class <T> extends Iterator<T> {
 	list: ArrayList<T>
 	index := 0
 	
-	init: func(=T, =list) {}
+	init: func(=list) {}
 	
 	hasNext: func -> Bool {
 		return index < list size()
