@@ -302,14 +302,18 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 			throws IOException {
 		
 		Type type = getType();
+		/*
 		if(type == null) {
 			if(fatal) {
-				throw new OocCompilationError(this, stack, "Couldn't resolve type of variable decl "+this+", stack = "+stack.toString(true));
+				Thread.dumpStack();
+				throw new OocCompilationError(this, stack, "Couldn't resolve type of variable decl "
+						+this+", stack = "+stack.toString(true));
 			}
 			return Response.RESTART;
 		}
+		*/
 		
-		if(!type.isArray() && type.isGenericRecursive() && type.isFlat() && !isMember() && !(this instanceof Argument)) {
+		if(type != null && !type.isArray() && type.isGenericRecursive() && type.isFlat() && !isMember() && !(this instanceof Argument)) {
 			Type newType = new Type("Octet", type.startToken);
 			newType.setPointerLevel(1);
 			newType.setArray(true);

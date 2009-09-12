@@ -1,10 +1,18 @@
 A: class {}
 
 B: class {
+	
     /* works: */
-    //a = A new() : static const A
-    /* does not work (NullPointerException): */
-    //b := /*static*/ /* const */ A new()
-	b := A new()
+    a1 = A new() : static const A
+	
+    /* works too =) */
+    a2 := static const A new()
+	
+	init: func {
+		("a1's type is " + a1 class name) println()
+		("a2's type is " + a2 class name) println()
+	}
+
 }
 
+B new()
