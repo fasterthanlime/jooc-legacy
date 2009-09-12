@@ -10,9 +10,12 @@ execv: extern func(String, String*) -> Int
 execvp: extern func(String, String*) -> Int
 execve: extern func(String, String*, String*) -> Int
 wait: extern func(Int*) -> Int
-waitpid: extern func(Pid_T, Int*, Int)
-WEXITSTATUS: extern func (Int*) -> Int
-WIFEXITED: extern func (Int*) -> Int
+waitpid: extern func(Pid_T, Int*, Int) -> Int
+
+WEXITSTATUS: extern func (Int) -> Int
+WIFEXITED: extern func (Int) -> Int
+
+
 
 //null = '\0': String
 SubProcess: class {
@@ -24,36 +27,36 @@ SubProcess: class {
      
     execute: func -> Int {
         pid := fork()    
-        /*status: Int*
-        result: Int/*/
-        if (pid <  0) {
+        status: Int
+        result := 42 // default value and sense of life ;) 
+        if (pid == -1) {
             /* pid < 0 signals error */
             "Error in forking" println()
             "Exit" println() 
             x := 0
             x = 10 / x
             /* TODO: Replace with real real exceptions */
-        } else if (pid > 0) {
-            /* in child process */
+        } else if (pid == 0) {
+            /* in child-process */
             execvp(executable, args)
-            /*
-            wait(status)
-            
-            if (WIFEXITED(status)) { 
-                result = WEXITSTATUS(status)
-            
-        }*/
+        } else {
+            /* In parent-process */
+            waitpid(0, status&, null)
+            if (WIFEXITED(status)) {
+               result = WEXITSTATUS(status) 
+            } 
         }
-        return 0 
+        return result
     }
-        /* replace with exit-code */
+        
 }
 
 /* example
  
-main: func {
+main: func{
    
-    b := SubProcess new(["/bin/ls", ".", null])
-    b execute()
+    b := SubProcess new(["/bin/ls",".", null])
+    printf("%d\n", b execute())
+    
 }
 */
