@@ -1,39 +1,27 @@
-include stdio
 include sys/stat
 include sys/types
-include sys/wait
-include unistd
+
 include fcntl
+
+import mmap
+import wait
+import unistd
 
 O_RDWR: extern Int
 O_RDONLY: extern Int
 O_WRONLY: extern Int
-Pid_T: cover from int
 
-
-dup2: extern func(Int, Int) -> Int
-fork: extern func -> Pid_T
-execv: extern func(String, String*) -> Int
-execvp: extern func(String, String*) -> Int
-execve: extern func(String, String*, String*) -> Int
 
 stdout: extern Int
 freopen: extern func(String, String, FILE*) -> FILE*
 fclose: extern func(FILE*)
-
-wait: extern func(Int*) -> Int
-waitpid: extern func(Pid_T, Int*, Int) -> Int
-
-WEXITSTATUS: extern func (Int) -> Int
-WIFEXITED: extern func (Int) -> Int
 
 open: extern func(String, Int) -> Int
 write: extern func(Int, String, Int)
 close: extern func(Int)
 SubProcess: class {
 
-    args: String*
-    //status: Int*
+    args: String* 
     executable: String
        init: func(=args) {executable=args[0]}
      
