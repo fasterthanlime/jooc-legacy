@@ -146,10 +146,11 @@ public class MemberCall extends FunctionCall {
 			int distance = Levenshtein.distance(name, decl.getName());
 			if(distance < bestDistance) {
 				bestDistance = distance;
-				bestMatch = decl.getProtoRepr(true) + "|" + distance;
+				bestMatch = decl.getProtoRepr(true);
 			}
 		}
 		
+		if(bestDistance > 3) return null;
 		return bestMatch;
 		
 	}

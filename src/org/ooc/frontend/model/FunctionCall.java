@@ -390,12 +390,13 @@ public class FunctionCall extends Access implements MustBeResolved {
 					int distance = Levenshtein.distance(name, decl.getName());
 					if(distance < bestDistance) {
 						bestDistance = distance;
-						bestMatch = decl.getProtoRepr() + "|" + distance;
+						bestMatch = decl.getProtoRepr();
 					}
 				}
 			}
 		}
 		
+		if(bestDistance > 3) return null;
 		return bestMatch;
 		
 	}
