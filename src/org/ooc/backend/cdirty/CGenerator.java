@@ -367,6 +367,7 @@ public class CGenerator extends Generator implements Visitor {
 		if(addressOf.getExpression() instanceof VariableAccess) {
 			VariableAccess varAcc = (VariableAccess) addressOf.getExpression();
 			if(varAcc.getRef().getType().getRef() instanceof TypeParam) {
+				System.out.println("Writing varAccwithTypeparam  "+varAcc);
 				AccessWriter.write(varAcc, false, this);
 				return;
 			}
@@ -379,6 +380,7 @@ public class CGenerator extends Generator implements Visitor {
 	@Override
 	public void visit(Dereference dereference) throws IOException {
 		current.app("(*");
+		System.out.println("Writing dereference "+dereference);
 		dereference.getExpression().accept(this);
 		current.app(')');
 	}

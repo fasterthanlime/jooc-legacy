@@ -1,0 +1,5 @@
+Container: class {
+
+	init: func {}
+
+}

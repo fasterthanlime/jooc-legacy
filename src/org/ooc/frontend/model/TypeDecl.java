@@ -85,6 +85,7 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic {
 			if(func.getName().equals(name) && (suffix.isEmpty() || func.getSuffix().equals(suffix))) {
 				if(call == null) return func;
 				int score = call.getScore(func);
+				if(score == -1) return null;
 				if(score > bestScore) {
 					bestScore = score;
 					bestMatch = func;

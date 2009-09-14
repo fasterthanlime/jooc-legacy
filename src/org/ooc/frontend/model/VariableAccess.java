@@ -159,7 +159,8 @@ public class VariableAccess extends Access implements MustBeResolved {
 			if(guess != null) {
 				message += " Did you mean "+guess+" ?";
 			}
-			throw new OocCompilationError(this, stack, message);
+			Thread.dumpStack();
+			throw new OocCompilationError(this, stack, message+", stack = "+stack.toString(true));
 		}
 		
 		return (ref == null) ? Response.LOOP : Response.OK;

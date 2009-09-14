@@ -90,7 +90,7 @@ public class CallWriter {
 			}
 		}
 		if(functionCall.isConstructorCall() && impl.getTypeDecl() instanceof ClassDecl) {
-			if(!isFirst) cgen.current.app(", ");
+			System.out.println("Castiiiing!");
 			isFirst = false;
 			cgen.current.app('(');
 			impl.getTypeDecl().getInstanceType().accept(cgen);
@@ -184,15 +184,21 @@ public class CallWriter {
 		cgen.current.app('(');
 		
 		TypeDecl typeDecl = impl.getTypeDecl();
-		if(!typeDecl.getInstanceType().equals(memberCall.getExpression().getType())) {
-			cgen.current.app('(');
-			typeDecl.getInstanceType().accept(cgen);
-			cgen.current.app(") ");
-		}
+		
 		boolean isFirst = true;
-		if(!impl.isStatic() && !impl.isFromPointer()) {
-			isFirst = false;
-			memberCall.getExpression().accept(cgen);
+		if(!impl.isStatic()) {
+			if(!typeDecl.getInstanceType().equals(memberCall.getExpression().getType())) {
+				cgen.current.app('(');
+				typeDecl.getInstanceType().accept(cgen);
+				cgen.current.app(") ");
+			}
+			if(!impl.isFromPointer()) {
+				isFirst = false;
+				memberCall.getExpression().accept(cgen);
+			}
+		} else {
+			System.out.println("Writing static member call "+memberCall+", expression = "+
+					memberCall.getExpression()+" is a "+memberCall.getExpression().getClass().getSimpleName());
 		}
 		writeCallArgs(memberCall, impl, isFirst, cgen);
 		

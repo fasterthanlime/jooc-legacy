@@ -158,10 +158,12 @@ public class ClassDecl extends TypeDecl implements MustBeResolved {
 			throw new OocCompilationError(this, stack, "Trying to extends a "
 					+getSuperRef().getClass().getSimpleName()+". You can only extend classes.");
 		}
-		if (getSuperType() != null && getSuperRef() == null) {
-			if(fatal) throw new OocCompilationError(this, stack, "Super-type "
-					+getSuperType()+" of class "+getType()+" couldn't be resolved");
-			return Response.LOOP;
+		if (getSuperType() != null) {
+			if(getSuperRef() == null) {
+				if(fatal) throw new OocCompilationError(this, stack, "Super-type "
+						+getSuperType()+" of class "+getType()+" couldn't be resolved");
+				return Response.LOOP;
+			}
 		}
 		
 		return Response.OK;

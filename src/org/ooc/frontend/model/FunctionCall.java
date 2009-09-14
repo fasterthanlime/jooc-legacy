@@ -21,6 +21,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 	protected final NodeList<Expression> arguments;
 	protected FunctionDecl impl;
 	protected AddressOf returnArg;
+	protected Type realType;
 	
 	public FunctionCall(String name, String suffix, Token startToken) {
 		super(startToken);
@@ -30,6 +31,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 		this.arguments = new NodeList<Expression>(startToken);
 		this.impl = null;
 		this.returnArg = null;
+		this.realType = null;
 	}
 	
 	public FunctionCall(FunctionDecl func, Token startToken) {
@@ -75,27 +77,33 @@ public class FunctionCall extends Access implements MustBeResolved {
 
 	@Override
 	public Type getType() {
+		/*
 		if(impl != null) {
 			Type retType = impl.getReturnType();
 			if(retType.isGenericRecursive()) {
 				Type realType = realTypize(retType.clone());
+				System.out.println(retType+" was generic, real = "+realType+", impl = "+impl);
 				return realType;
 			}
 			return retType;
 		}
-		return null;
+		*/
+		return realType;
 	}
 	
-	private Type realTypize(Type type) {
+	private Type realTypize(Type type, NodeList<Node> stack) {
+		
+		System.out.println("Type typeParams = "+type.getTypeParams());
+		
 		
 		int i = -1;
 		for(VariableAccess exprParam: type.getTypeParams()) {
 			i++;
-			if(exprParam.getType() != null && exprParam.getType().getName().equals("Class")) {
-				VariableAccess expr = resolveTypeParam(exprParam.getName(), null, true);
-				if(expr != null){
-					type.getTypeParams().set(i, expr);
-				}
+			System.out.println("resolving Type Param of "+exprParam);
+			VariableAccess expr = resolveTypeParam(exprParam.getName(), stack, true);
+			if(expr != null){
+				System.out.println("Got expr "+expr);
+				type.getTypeParams().set(i, expr);
 			}
 		}
 		
@@ -142,8 +150,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 			} else if (name.equals("super")) {
 				resolveConstructorCall(stack, true);
 			}  else {
-				Response response = resolveRegular(stack, res, fatal);
-				if(response != Response.OK) return response;
+				resolveRegular(stack, res, fatal);
 			}
 		}
 	
@@ -153,16 +160,19 @@ public class FunctionCall extends Access implements MustBeResolved {
 			if(response != Response.OK) return response;
 		}
 		
- 		if(impl == null && fatal) {
-			String message = "Couldn't resolve call to function "+name+getArgsRepr()+".";
-			String guess = guessCorrectName(stack, res);
-			if(guess != null) {
-				message += " Did you mean "+guess+" ?";
-			}
-			throw new OocCompilationError(this, stack, message);
-		}
+ 		if(impl == null) {
+ 			if(fatal) {
+ 				String message = "Couldn't resolve call to function "+name+getArgsRepr()+".";
+ 				String guess = guessCorrectName(stack, res);
+ 				if(guess != null) {
+ 					message += " Did you mean "+guess+" ?";
+ 				}
+ 				throw new OocCompilationError(this, stack, message);
+ 			}
+ 			return Response.LOOP;
+ 		}
 		
-		return (impl == null) ? Response.LOOP : Response.OK;
+ 		return Response.OK;
 		
 	}
 
@@ -237,6 +247,19 @@ public class FunctionCall extends Access implements MustBeResolved {
 			return Response.RESTART;
 		}
 		
+		Type retType = impl.getReturnType();
+		if(retType.isGenericRecursive()) {
+			Type candidate = realTypize(retType, stack);
+			System.out.println(retType+" was generic, realType = "+realType+", impl = "+impl);
+			if(realType == null) {
+				if(fatal) throw new OocCompilationError(this, stack, "RealType still null, can't resolve generic type "+retType);
+				return Response.LOOP;
+			}
+			realType = candidate;
+		} else {
+			realType = retType;
+		}
+		
 		return Response.OK;
 		
 	}
@@ -291,6 +314,13 @@ public class FunctionCall extends Access implements MustBeResolved {
 		int varDeclIndex = stack.find(VariableDecl.class);
 		VariableDecl decl = (VariableDecl) stack.get(varDeclIndex);
 		
+		if(decl.getType() == null) {
+			if(fatal) {
+				throw new OocCompilationError(this, stack, "Couldn't resolve type of "+decl);
+			}
+			return Response.LOOP;
+		}
+		
 		Declaration typeRef = decl.getType().getRef();
 		if(typeRef == null) {
 			if(fatal) {
@@ -299,7 +329,9 @@ public class FunctionCall extends Access implements MustBeResolved {
 			return Response.LOOP;
 		}
 		Expression result = resolveTypeParam(typeRef.getName(), stack, true);
-		decl.setType(result.getType());
+		if(result != null) {
+			decl.setType(result.getType());
+		}
 		atom.replace(this, null);
 		
 		int lineIndex = stack.find(Line.class, varDeclIndex);
@@ -400,7 +432,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 		
 	}
 	
-	protected Response resolveRegular(NodeList<Node> stack, Resolver res, boolean fatal) throws IOException {
+	protected boolean resolveRegular(NodeList<Node> stack, Resolver res, boolean fatal) throws IOException {
 		
 		impl = getFunction(name, suffix, this, stack);
 
@@ -436,7 +468,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 						FuncType funcType = (FuncType) varDecl.getType();
 						impl = funcType.getDecl();
 					} else {
-						if(varDecl.getType() == null) return Response.LOOP;
+						if(varDecl.getType() == null) return false;
 						throw new OocCompilationError(this, stack, "Trying to call "
 								+name+", which isn't a function pointer (Func), but a "+varDecl.getType());
 					}
@@ -446,9 +478,10 @@ public class FunctionCall extends Access implements MustBeResolved {
 
 		if(impl != null) {
 			if(impl.isMember()) transformToMemberCall(stack, res);
-			return Response.OK;
+			return true;
 		}
-		return Response.LOOP;
+		
+		return false;
 		
 	}
 

@@ -83,6 +83,10 @@ public class ClassDeclWriter {
 			
 			FunctionDeclWriter.writeFuncPrototype(decl, cgen, decl.isFinal() ? null : "_impl");
 			cgen.current.openBlock();
+			if(decl.getName().equals("defaults") && !classDecl.getSuperName().isEmpty()) {
+				cgen.current.nl().app(classDecl.getSuperName()).app("_defaults_impl((")
+					.app(classDecl.getSuperName()).app(" *) this);");
+			}
 			decl.getBody().accept(cgen);
 			cgen.current.closeSpacedBlock();
 		}

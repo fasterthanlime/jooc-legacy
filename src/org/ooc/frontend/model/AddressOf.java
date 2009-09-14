@@ -58,5 +58,10 @@ public class AddressOf extends Access {
 	public boolean hasChildren() {
 		return true;
 	}
+	
+	@Override
+	public String toString() {
+		return "&("+expression+")";
+	}
 
 }
