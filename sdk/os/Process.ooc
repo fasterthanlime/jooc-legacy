@@ -1,27 +1,27 @@
-include stdio
+include sys/stat
 include sys/types
-include sys/wait
-include unistd
 
-Pid_T: cover from int
+include fcntl
 
-fork: extern func -> Pid_T
-execv: extern func(String, String*) -> Int
-execvp: extern func(String, String*) -> Int
-execve: extern func(String, String*, String*) -> Int
-wait: extern func(Int*) -> Int
-waitpid: extern func(Pid_T, Int*, Int) -> Int
+import mmap
+import wait
+import unistd
 
-WEXITSTATUS: extern func (Int) -> Int
-WIFEXITED: extern func (Int) -> Int
+O_RDWR: extern Int
+O_RDONLY: extern Int
+O_WRONLY: extern Int
 
 
+stdout: extern Int
+freopen: extern func(String, String, FILE*) -> FILE*
+fclose: extern func(FILE*)
 
-//null = '\0': String
+open: extern func(String, Int) -> Int
+write: extern func(Int, String, Int)
+close: extern func(Int)
 SubProcess: class {
 
-    args: String*
-    //status: Int*
+    args: String* 
     executable: String
        init: func(=args) {executable=args[0]}
      
@@ -35,10 +35,19 @@ SubProcess: class {
             "Exit" println() 
             x := 0
             x = 10 / x
-            /* TODO: Replace with real real exceptions */
+            /*replace with real real exceptions */
         } else if (pid == 0) {
             /* in child-process */
+            puffer := "hallo"
+            "blub" println()
+            //dup2(stdout, a)
+            a := freopen("huhu", "w", stdout)
             execvp(executable, args)
+            fclose(a)
+            //"hallo" println()
+            //write(a, puffer&, 5)
+            //close(a)
+                                    
         } else {
             /* In parent-process */
             waitpid(0, status&, null)
@@ -51,7 +60,7 @@ SubProcess: class {
         
 }
 
-/* example
+
  
 main: func{
    
@@ -59,4 +68,4 @@ main: func{
     printf("%d\n", b execute())
     
 }
-*/
+
