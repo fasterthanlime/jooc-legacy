@@ -45,7 +45,6 @@ public class MemberArgument extends Argument {
 		if(response != Response.OK) return response;
 		
 		if(expression.getType() == null) {
-			System.out.println("Null exprType, looping... expr is "+expression+" expr ref is "+expression.getRef());
 			if(fatal) throw new OocCompilationError(expression, stack, "Couldn't resolve "
 					+getClass().getSimpleName()+" "+name);
 			

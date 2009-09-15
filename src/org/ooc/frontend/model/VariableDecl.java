@@ -71,7 +71,7 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 
 	}
 	
-	protected boolean isStatic;
+	private boolean isStatic;
 	
 	protected Type type;
 	protected TypeDecl typeDecl;

@@ -67,6 +67,24 @@ public class MemberAccess extends VariableAccess {
 		
 		Type exprType = expression.getType();
 		if(exprType == null) {
+			int typeIndex = stack.find(TypeDecl.class);
+			if(typeIndex != -1) {
+				TypeDecl typeDecl = (TypeDecl) stack.get(typeIndex);
+				VariableDecl var = typeDecl.getVariable(getName());
+				if(var != null && var.isStatic()) {
+					ref = var;
+					if(expression instanceof VariableAccess) {
+						VariableAccess varAcc = (VariableAccess) expression;
+						if(((VariableAccess) expression).getName().equals("this")) {
+							varAcc = new VariableAccess(typeDecl.getName(), expression.startToken);
+							varAcc.resolve(stack, res, fatal);
+							expression = varAcc;
+						}
+					}
+					return Response.OK;
+				}
+			}
+			
 			if(fatal) {
 				throw new OocCompilationError(this, stack, "Accessing member "
 						+getName()+" in an expression "+expression

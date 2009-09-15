@@ -4,6 +4,7 @@ Exception: class {
 	msg : String
 
 	init: func (=origin, =msg) {}
+	init: func ~withMsg (=msg) {}
 
 	throw: func {
 		printf("[%s in %s]: %s\n", this class name, origin name, msg)
