@@ -1,5 +1,6 @@
 package org.ooc.frontend.compilers;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +13,16 @@ public abstract class BaseCompiler implements AbstractCompiler {
 	protected List<String> command = new ArrayList<String>();
 	protected String executablePath;
 	
+	@SuppressWarnings("null")
 	public BaseCompiler(String executableName) {
-		executablePath = ShellUtils.findExecutable(executableName).getName();
+		File execFile = ShellUtils.findExecutable(executableName);
+		if(execFile == null) {
+			ShellUtils.findExecutable(executableName + ".exe");
+			if(execFile == null) {
+				ShellUtils.findExecutable(executableName, true);
+			}
+		}
+		executablePath = execFile.getName();
 		reset();
 	}
 	

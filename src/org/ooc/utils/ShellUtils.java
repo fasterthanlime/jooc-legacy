@@ -5,6 +5,8 @@ import java.io.StringWriter;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import org.ubi.CompilationFailedError;
+
 /**
  * Utilities for launching processes
  *  
@@ -12,11 +14,15 @@ import java.util.StringTokenizer;
  */
 public class ShellUtils {
 
+	public static File findExecutable(String executableName) {
+		return findExecutable(executableName, false);
+	}
+	
 	/**
 	 * @return the path of an executable, if it can be found. It looks in the PATH
 	 * environment variable.
 	 */
-	public static File findExecutable(String executableName) {
+	public static File findExecutable(String executableName, boolean crucial) {
 		
 		Map<String, String> env;
 		try {
@@ -45,6 +51,9 @@ public class ShellUtils {
 			}
 		}
 		
+		if(crucial) {
+			throw new CompilationFailedError(null, "Couldn't find '"+executableName+"' on your system. PATH = ");
+		}
 		return null;
 		
 	}
