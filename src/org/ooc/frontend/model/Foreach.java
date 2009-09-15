@@ -6,6 +6,7 @@ import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.VariableDecl.VariableDeclAtom;
 import org.ooc.frontend.model.interfaces.MustBeResolved;
 import org.ooc.frontend.model.tokens.Token;
+import org.ooc.middle.OocCompilationError;
 import org.ooc.middle.hobgoblins.Resolver;
 
 public class Foreach extends ControlStatement implements MustBeResolved {
@@ -108,6 +109,12 @@ public class Foreach extends ControlStatement implements MustBeResolved {
 				
 				Type iterType = iterFunc.getReturnType();
 				iterType.resolve(res);
+				if(iterType.getRef() == null) {
+					if(fatal) throw new OocCompilationError(this, stack, "couldn't resolve iterType "+iterType);
+					return Response.LOOP;
+				}
+				System.out.println("||||||||||||||||| iterType == "+iterType);
+				
 				ClassDecl iterClass = (ClassDecl) iterType.getRef();
 				FunctionDecl nextFunc = iterClass.getFunction("next", "", null);
 				FunctionDecl hasNextFunc = iterClass.getFunction("hasNext", "", null);
@@ -121,6 +128,7 @@ public class Foreach extends ControlStatement implements MustBeResolved {
 				MemberCall iterCall = new MemberCall(collection, "iterator", "", startToken);
 				iterCall.setImpl(iterFunc);
 				VariableDecl vdfe = new VariableDecl(iterCall.getType(), false, startToken);
+				vdfe.setType(iterType);
 				vdfe.getAtoms().add(new VariableDeclAtom(generateTempName("iter"), iterCall, startToken));
 
 				VariableAccess iterAcc = new VariableAccess(vdfe.getName(), startToken);

@@ -8,14 +8,14 @@ import structs.List
  * to store the list. (This class is roughly equivalent to Vector,
  * except that it is unsynchronized.)
  */
-ArrayList: class <T> extends List<T> {
+ArrayList: class <T> extends List {
 	
 	data : T*
 	capacity : Int
 	size = 0 : Int
 	
 	init: func {
-		this(10)
+		init ~withCapacity (10)
 	}
 	
 	init: func ~withCapacity (=capacity) { 
@@ -151,8 +151,8 @@ ArrayList: class <T> extends List<T> {
 	
 }
 
-ArrayListIterator: class <T> extends Iterator<T> {
-	
+ArrayListIterator: class <T> extends Iterator {
+
 	list: ArrayList<T>
 	index := 0
 	

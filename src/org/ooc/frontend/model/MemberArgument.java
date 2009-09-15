@@ -6,11 +6,15 @@ import java.io.IOException;
 import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.middle.OocCompilationError;
+import org.ooc.middle.hobgoblins.Resolver;
 
 public class MemberArgument extends Argument {
 
+	private VariableAccess expression;
+
 	public MemberArgument(String name, Token startToken) {
 		super(new Type("", startToken), name, startToken);
+		expression = new MemberAccess(name, startToken);
 	}
 	
 	@Override
@@ -20,14 +24,45 @@ public class MemberArgument extends Argument {
 	
 	@Override
 	public boolean hasChildren() {
-		return false;
+		return true;
 	}
-
+	
 	@Override
-	public void acceptChildren(Visitor visitor) throws IOException {}
+	public void acceptChildren(Visitor visitor) throws IOException {
+		expression.accept(visitor);
+	}
+	
+	@Override
+	public Type getType() {
+		return expression.getType();
+	}
+	
+	@Override
+	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal)
+			throws IOException {
+		
+		Response response = super.resolve(stack, res, fatal);
+		if(response != Response.OK) return response;
+		
+		if(expression.getType() == null) {
+			System.out.println("Null exprType, looping... expr is "+expression+" expr ref is "+expression.getRef());
+			if(fatal) throw new OocCompilationError(expression, stack, "Couldn't resolve "
+					+getClass().getSimpleName()+" "+name);
+			
+			return Response.LOOP;
+		}
+		doUnwrap(stack);
+		
+		return Response.OK;
+		
+	}
 	
 	@Override
 	public boolean unwrap(NodeList<Node> stack) throws OocCompilationError, EOFException {
+		return false;
+	}
+	
+	public boolean doUnwrap(NodeList<Node> stack) throws OocCompilationError {
 		
 		int typeIndex = stack.find(TypeDecl.class);
 		if(typeIndex == -1) {

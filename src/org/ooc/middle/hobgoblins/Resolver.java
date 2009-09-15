@@ -16,16 +16,16 @@ import org.ooc.middle.walkers.SketchyNosy;
 
 public class Resolver implements Hobgoblin {
 
-	protected static final int MAX = 1, SAFE_MAX = 1024;
+	protected static final int MAX = 4, SAFE_MAX = 1024;
 	boolean running = false;
 	boolean restarted = false;
-	boolean fatal = false;
+	public boolean fatal = false;
 	
 	public BuildParams params;
 	public Module module;
 	
 	@Override
-	public void process(Module module, BuildParams params) throws IOException {
+	public boolean process(Module module, BuildParams params) throws IOException {
 		
 		this.module = module;
 		this.params = params;
@@ -52,23 +52,30 @@ public class Resolver implements Hobgoblin {
 		
 		int count = 0, safeCount = 0;
 		running = true;
-		while(running) {
-			if(count > MAX || safeCount > SAFE_MAX) {
-				fatal = true;
-				nosy.start().visit(module);
-				throw new OocCompilationError(module, module, "Resolver is running in circles. Abandoning. (count = "
-						+count+"/"+MAX+", safeCount = "+safeCount+"/"+SAFE_MAX+")");
-			}
-			running = false;
+		if(count > MAX || safeCount > SAFE_MAX) {
+			fatal = true;
 			nosy.start().visit(module);
-			safeCount++;
-			if(restarted) {
-				restarted = false;
-			} else {
-				count++;
-			}
+			throw new OocCompilationError(module, module, "Resolver is running in circles. Abandoning. (count = "
+					+count+"/"+MAX+", safeCount = "+safeCount+"/"+SAFE_MAX+")");
 		}
 		
+		running = false;
+		nosy.start().visit(module);
+		
+		safeCount++;
+		if(restarted) {
+			restarted = false;
+		} else {
+			count++;
+		}
+		
+		return running;
+		
+	}
+	
+	@Override
+	public String toString() {
+		return module.getFullName();
 	}
 	
 }

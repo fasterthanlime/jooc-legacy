@@ -69,7 +69,7 @@ public class MemberAccess extends VariableAccess {
 		if(exprType == null) {
 			if(fatal) {
 				throw new OocCompilationError(this, stack, "Accessing member "
-						+getName()+" in an expression "+expression.getClass().getSimpleName()
+						+getName()+" in an expression "+expression
 						+" which type hasn't been resolved yet!");
 			}
 			return Response.LOOP;
@@ -116,7 +116,7 @@ public class MemberAccess extends VariableAccess {
 			throw new OocCompilationError(this, stack, message);
 		}
 		
-		return (ref == null) ? Response.LOOP : Response.OK;
+		return (ref == null && !dead) ? Response.LOOP : Response.OK;
 	}
 
 	private String guessCorrectName(final TypeDecl typeDeclaration) {

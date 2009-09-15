@@ -225,9 +225,15 @@ public class CommandLine {
 			for(String modulePath: modulePaths) {
 				try {
 					int code = parse(modulePath);
-					if(code == 0) successCount++;
+					if(code == 0) {
+						successCount++;
+						ok();
+					} else {
+						fail();	
+					}
 				} catch(CompilationFailedError err) {
 					System.err.println(err);
+					fail();
 					if(!params.editor.isEmpty()) {
 						launchEditor(params.editor, err);
 					}
@@ -239,12 +245,38 @@ public class CommandLine {
 				System.out.println(modulePaths.size()+" compiled ("+successCount
 						+" success, "+(modulePaths.size() - successCount)+" failed)");
 			}
+			
 			if(params.slave) {
 				System.out.println(".-------------( ready )-------------.\n");
 				reader.readLine();
+			} else {
+				if(successCount < modulePaths.size()) {
+					System.exit(1);
+				}
 			}
+			
 		} while(params.slave);
 		
+	}
+
+	private void ok() {
+		if(params.shout) {
+			if(Target.guessHost() == Target.LINUX) {
+				System.out.println("\033[1;32m[ OK ]\033[m");
+			} else {
+				System.out.println("[ OK ]");
+			}
+		}
+	}
+
+	private void fail() {
+		if(params.shout) {
+			if(Target.guessHost() == Target.LINUX) {
+				System.out.println("\033[1;31m[FAIL]\033[m");
+			} else {
+				System.out.println("[FAIL]");
+			}
+		}
 	}
 	
 	private void launchEditor(final String editor, final CompilationFailedError err) {
@@ -321,7 +353,11 @@ public class CommandLine {
 		Module module = new Parser(params).parse(modulePath);
 		module.setMain(true);
 		long tt2 = System.nanoTime();
-		tinker(module, new HashSet<Module>());
+		
+		ArrayList<Module> list = new ArrayList<Module>();
+		collectModules(module, list);
+		tinker(list);
+		
 		long tt3 = System.nanoTime();
 		output(module, new HashSet<Module>());
 		long tt4 = System.nanoTime();
@@ -358,14 +394,18 @@ public class CommandLine {
 		new CGenerator(params.outPath, module).generate(params);
 	}
 
-	protected void tinker(Module module, Set<Module> done) throws IOException {
-		done.add(module);
-		new Tinkerer().process(module, params);
+	protected void collectModules(Module module, List<Module> list) throws IOException {
+		list.add(module);
 		for(Import imp: module.getImports()) {
-			if(!done.contains(imp.getModule())) {
-				tinker(imp.getModule(), done);
+			if(!list.contains(imp.getModule())) {
+				collectModules(imp.getModule(), list);
 			}
 		}
+	}
+	
+	protected void tinker(List<Module> list) throws IOException {
+		Tinkerer tink = new Tinkerer();
+		tink.process(list, params);
 	}
 
 	protected int compile(Module module) throws Error,

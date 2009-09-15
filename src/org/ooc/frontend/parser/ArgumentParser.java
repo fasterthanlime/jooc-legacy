@@ -21,7 +21,7 @@ import org.ubi.SourceReader;
 
 public class ArgumentParser {
 
-	public static boolean fill(Module module, SourceReader sReader, TokenReader reader, boolean isExtern, NodeList<Argument> args) throws EOFException, IOException, CompilationFailedError {
+	public static boolean fill(Module module, SourceReader sReader, TokenReader reader, boolean acceptTypeArgs, NodeList<Argument> args) throws EOFException, IOException, CompilationFailedError {
 		
 		if(reader.peek().type == TokenType.OPEN_PAREN) {
 			reader.skip();
@@ -39,7 +39,7 @@ public class ArgumentParser {
 								"Did you forget to close the parenthesis here?");
 					}
 				} else {
-					if(!parseInto(module, sReader, reader, isExtern, args)) {
+					if(!parseInto(module, sReader, reader, acceptTypeArgs, args)) {
 						throw new CompilationFailedError(sReader.getLocation(reader.peek()),
 								"Expected argument specification of a function definition");
 					}
@@ -53,7 +53,8 @@ public class ArgumentParser {
 		
 	}
 	
-	public static boolean parseInto(Module module, SourceReader sReader, TokenReader reader, boolean isExtern, NodeList<Argument> args) throws IOException {
+	public static boolean parseInto(Module module, SourceReader sReader, TokenReader reader,
+			boolean acceptTypeArgs, NodeList<Argument> args) throws IOException {
 		
 		int mark = reader.mark();
 		
@@ -71,7 +72,7 @@ public class ArgumentParser {
 		if(tryMember(sReader, reader, args, token)) return true;
 		reader.reset(mark);
 		
-		if(isExtern) {
+		if(acceptTypeArgs) {
 			Type type = TypeParser.parse(module, sReader, reader);
 			if(type == null) {
 				throw new CompilationFailedError(sReader.getLocation(reader.peek()),

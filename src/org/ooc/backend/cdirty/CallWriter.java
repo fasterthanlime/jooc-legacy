@@ -196,9 +196,6 @@ public class CallWriter {
 				isFirst = false;
 				memberCall.getExpression().accept(cgen);
 			}
-		} else {
-			System.out.println("Writing static member call "+memberCall+", expression = "+
-					memberCall.getExpression()+" is a "+memberCall.getExpression().getClass().getSimpleName());
 		}
 		writeCallArgs(memberCall, impl, isFirst, cgen);
 		

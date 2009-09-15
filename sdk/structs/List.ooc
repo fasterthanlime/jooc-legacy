@@ -1,7 +1,7 @@
 /**
  * List interface for a data container
  */
-List: abstract class <T> extends Iterable<T> {
+List: abstract class <T> extends Iterable {
 
 	/**
 	 * Appends the specified element to the end of this list.

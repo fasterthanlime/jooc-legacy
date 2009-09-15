@@ -40,7 +40,7 @@ public class Checker implements Hobgoblin {
 	final HashMap<TypeDecl, HashSet<String>> classFuncNames = new HashMap<TypeDecl, HashSet<String>>();
 	
 	@Override
-	public void process(Module module, BuildParams params) throws IOException {
+	public boolean process(Module module, BuildParams params) throws IOException {
 		
 		SketchyNosy.get(new Opportunist<Node>() {
 
@@ -198,6 +198,15 @@ public class Checker implements Hobgoblin {
 						throw new OocCompilationError(classDecl, stack, "Class "+classDecl.getName()
 								+" must implement "+decl.getProtoRepr()+", or be declared abstract.");
 					}
+					
+					ClassDecl baseClass = classDecl.getBaseClass(decl);
+					FunctionDecl baseDecl = baseClass.getFunction(decl.getName(), decl.getSuffix(), null);
+					// TODO check arg types and return type also
+					if(realDecl.getArguments().size() != baseDecl.getArguments().size()) {
+						throw new OocCompilationError(decl, stack, "Class "+classDecl.getName()
+								+" must implement "+decl.getProtoRepr()+" with the same arguments & return type as "
+								+baseDecl.getArguments()+".");
+					}
 				}
 			}
 			
@@ -214,6 +223,8 @@ public class Checker implements Hobgoblin {
 			}
 
 		}).visit(module);
+		
+		return false;
 		
 	}
 

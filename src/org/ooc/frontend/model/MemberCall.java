@@ -79,7 +79,7 @@ public class MemberCall extends FunctionCall {
 		if(exprType == null) { // still null?
 			if(fatal) {
 				throw new OocCompilationError(this, stack, "Calling member function "
-						+name+getArgsRepr()+" in an expression "+expression.getClass().getSimpleName()
+						+name+getArgsRepr()+" in an expression "+expression
 						+" which type hasn't been resolved yet!");
 			}
 			return Response.LOOP;
@@ -175,6 +175,7 @@ public class MemberCall extends FunctionCall {
 						i++;
 						if(candidate.getName().equals(typeParam)) {
 							VariableAccess result = type.getTypeParams().get(i);
+							System.out.println("Got result "+result+" for typeParam "+typeParam);
 							return result;
 						}
 					}

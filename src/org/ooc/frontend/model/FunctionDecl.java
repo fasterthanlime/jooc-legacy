@@ -25,7 +25,7 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 	protected TypeDecl typeDecl;
 
 	protected String suffix;
-	protected final NodeList<Line> body;
+	private final NodeList<Line> body;
 	
 	protected Type returnType;
 	// when the return type is generic, the returnArg is a pointer.

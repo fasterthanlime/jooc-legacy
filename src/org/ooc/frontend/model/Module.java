@@ -66,6 +66,10 @@ public class Module extends Node implements Scope {
 		return fileName;
 	}
 	
+	public String getParentPath() {
+		return new File(getFileName()).getParent();
+	}
+	
 	public String getPath() {
 		return getPath(".ooc");
 	}

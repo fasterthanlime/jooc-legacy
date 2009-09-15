@@ -81,11 +81,6 @@ public class ClassDecl extends TypeDecl implements MustBeResolved {
 			FunctionDecl constructor = new FunctionDecl("new", decl.getSuffix(), false, true, false, false, decl.startToken);
 			Type retType = getType().clone();
 			retType.getTypeParams().clear();
-			for(TypeParam genType: typeParams.values()) {
-				VariableAccess e = new VariableAccess(genType.getName(), genType.startToken);
-				retType.getTypeParams().add(e);
-			}
-			constructor.setReturnType(retType);
 			
 			constructor.getArguments().addAll(decl.getArguments());
 			constructor.getTypeParams().putAll(getTypeParams());
@@ -96,25 +91,27 @@ public class ClassDecl extends TypeDecl implements MustBeResolved {
 			MemberCall allocCall = new MemberCall(classAccess, "alloc", "", decl.startToken);
 			Cast cast = new Cast(allocCall, getType(), decl.startToken);
 			VariableDeclFromExpr vdfe = new VariableDeclFromExpr("this", cast, decl.startToken);
-			constructor.body.add(new Line(vdfe));
+			constructor.getBody().add(new Line(vdfe));
+			
+			for(TypeParam genType: typeParams.values()) {
+				VariableAccess e = new VariableAccess(genType.getName(), constructor.startToken);
+				retType.getTypeParams().add(e);
+				
+				constructor.getBody().add(new Line(new Assignment(
+						new MemberAccess(genType.getName(), startToken), e, constructor.startToken))
+				);
+			}
+			constructor.setReturnType(retType);
 
 			VariableAccess thisAccess = new VariableAccess(vdfe, decl.startToken);
 			thisAccess.setRef(vdfe);
 			
 			FunctionCall initCall = new FunctionCall(decl, decl.startToken);
-			for(TypeParam genType: typeParams.values()) {
-				initCall.getArguments().add(new VariableAccess(genType.getArgument(), decl.startToken));
-			}
 			for(Argument arg: constructor.getArguments()) {
 				initCall.getArguments().add(new VariableAccess(arg, decl.startToken));
 			}
-			constructor.body.add(new Line(new MemberCall(thisAccess, initCall, decl.startToken)));
-			constructor.body.add(new Line(new ValuedReturn(thisAccess, decl.startToken)));
-			
-			int index = 0;
-			for(TypeParam genType: typeParams.values()) {
-				decl.getArguments().add(index++, new MemberAssignArgument(genType.getName(), decl.startToken));
-			}
+			constructor.getBody().add(new Line(new MemberCall(thisAccess, initCall, decl.startToken)));
+			constructor.getBody().add(new Line(new ValuedReturn(thisAccess, decl.startToken)));
 			
 			addFunction(constructor);
 		} else if(decl.getName().equals("new")) {

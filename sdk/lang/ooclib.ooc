@@ -9,18 +9,18 @@ Pointer: cover from void*
 
 // variable-size integer types
 Int: cover from int
-UInt: cover from unsigned int
-Short: cover from short
-UShort: cover from unsigned short
-Long: cover from long
-ULong: cover from unsigned long
-LLong: cover from long long
-ULLong: cover from unsigned long long
+UInt: cover from unsigned int extends Int
+Short: cover from short extends Int
+UShort: cover from unsigned short extends Int
+Long: cover from long extends Int
+ULong: cover from unsigned long extends Int
+LLong: cover from long long extends Int
+ULLong: cover from unsigned long long extends Int
 
 // floating-point types
-Float: cover from float
-Double: cover from double
 LDouble: cover from long double
+Double: cover from double
+Float: cover from float extends Double
 
 // fixed-size integer types
 Int8: cover from int8_t
@@ -47,6 +47,8 @@ memcpy: extern func (Pointer, Pointer, SizeT)
 scanf: extern func (String, ...)
 printf: extern func (String, ...)
 sprintf: extern func (String, String, ...)
+
+exit: extern func (Int)
 
 fprintf: extern func (Stream, String, ...)
 FILE: extern cover

@@ -41,7 +41,7 @@ public class Unwrapper implements Hobgoblin {
 	boolean running;
 
 	@Override
-	public void process(Module module, BuildParams params) throws IOException {
+	public boolean process(Module module, BuildParams params) throws IOException {
 
 		resolveSuper(module, new HashSet<Module>());
 
@@ -69,6 +69,8 @@ public class Unwrapper implements Hobgoblin {
 			nosy.visit(module); // changes running to true if there was damage
 			count++;
 		}
+		
+		return false;
 
 	}
 

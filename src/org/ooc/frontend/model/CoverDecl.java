@@ -61,12 +61,12 @@ public class CoverDecl extends TypeDecl implements MustBeResolved {
 		VariableDecl varDecl = new VariableDecl(new Type("Class", startToken), true, startToken);
 		NullLiteral nullLiteral = new NullLiteral(startToken);
 		varDecl.atoms.add(new VariableDeclAtom("_class", nullLiteral, startToken));
-		classGettingFunc.body.add(new Line(varDecl));
+		classGettingFunc.getBody().add(new Line(varDecl));
 		
 		VariableAccess classAccess = new VariableAccess("_class", startToken);
 		
 		If ifNull = new If(new Compare(classAccess, nullLiteral, CompareType.EQUAL, startToken), startToken);
-		classGettingFunc.body.add(new Line(ifNull));
+		classGettingFunc.getBody().add(new Line(ifNull));
 		
 		ifNull.body.add(new Line(new Assignment(classAccess, malloc, startToken)));
 		ifNull.body.add(new Line(new Assignment(new MemberAccess(classAccess, "size", startToken),
@@ -74,7 +74,7 @@ public class CoverDecl extends TypeDecl implements MustBeResolved {
 		ifNull.body.add(new Line(new Assignment(new MemberAccess(classAccess, "name", startToken),
 				new StringLiteral(name, startToken), startToken)));
 		
-		classGettingFunc.body.add(new Line(new ValuedReturn(classAccess, startToken)));
+		classGettingFunc.getBody().add(new Line(new ValuedReturn(classAccess, startToken)));
 
 		addFunction(classGettingFunc);
 	}

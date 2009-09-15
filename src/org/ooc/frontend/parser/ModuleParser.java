@@ -90,15 +90,20 @@ public class ModuleParser {
 			
 			for(Import imp: module.getImports()) {
 				Module cached = cache.get(imp.getName());
-				File impFile = parser.params.sourcePath.getFile(imp.getPath());
+				String path = imp.getPath();
+				File impFile = parser.params.sourcePath.getFile(path);
 				if(impFile == null) {
-					throw new OocCompilationError(imp, module, "Module not found in sourcepath: "+imp.getPath());
+					path = module.getParentPath() + "/" + imp.getPath();
+					impFile = parser.params.sourcePath.getFile(path);
+					if(impFile == null) {
+						throw new OocCompilationError(imp, module, "Module not found in sourcepath: "+imp.getPath());
+					}
 				}
 				if(cached == null || impFile.lastModified() > cached.lastModified) {
 					if(cached != null) {
-						System.out.println(imp.getPath()+" has been changed, recompiling...");
+						System.out.println(path+" has been changed, recompiling...");
 					}
-					cached = parser.parse(imp.getPath(), impFile, imp);
+					cached = parser.parse(path, impFile, imp);
 					cache.put(imp.getName(), cached);
 				}
 				imp.setModule(cached);

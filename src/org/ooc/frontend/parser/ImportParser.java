@@ -35,6 +35,9 @@ public class ImportParser {
 				sb.setLength(0);
 				startToken = reader.peek();
 			} else if(token.type == TokenType.DOT) {
+				throw new CompilationFailedError(sReader.getLocation(token),
+						"import my.package.MyClass style deprecated, use import my/package/MyClass instead.");
+			} else if(token.type == TokenType.SLASH) {
 				sb.append('.');
 				if(readMulti(sReader, reader, imports, sb, token)) break;
 			} else {

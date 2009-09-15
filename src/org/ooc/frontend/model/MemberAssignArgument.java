@@ -15,9 +15,6 @@ public class MemberAssignArgument extends MemberArgument {
 	public void accept(Visitor visitor) throws IOException {
 		visitor.visit(this);
 	}
-
-	@Override
-	public void acceptChildren(Visitor visitor) throws IOException {}
 	
 	@Override
 	protected void doReplace(NodeList<Node> stack, VariableDecl decl,

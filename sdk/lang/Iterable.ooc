@@ -1,4 +1,4 @@
-import lang.Iterator
+import lang/Iterator
 
 Iterable: abstract class <T> {
 
