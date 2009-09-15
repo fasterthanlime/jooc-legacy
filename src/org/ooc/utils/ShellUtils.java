@@ -35,9 +35,23 @@ public class ShellUtils {
 		String pathVar = env.get("PATH");
 		if(pathVar == null) {
 			pathVar = env.get("Path");
-		} if(pathVar == null) {
-			pathVar = env.get("path");
-		} if(pathVar == null) {
+			if(pathVar == null) {
+				pathVar = env.get("path");
+			}
+		}
+		
+		if(pathVar == null) {
+			env = ReadEnv.getEnvVars();
+			pathVar = env.get("PATH");
+			if(pathVar == null) {
+				pathVar = env.get("Path");
+				if(pathVar == null) {
+					pathVar = env.get("path");
+				}
+			}
+		}
+		
+		if(pathVar == null) {
 			System.err.println("PATH environment variable not found!");
 			return null;
 		}
