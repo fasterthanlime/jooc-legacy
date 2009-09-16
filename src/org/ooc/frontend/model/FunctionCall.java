@@ -278,7 +278,6 @@ public class FunctionCall extends Access implements MustBeResolved {
 			if(!arg.getType().getName().equals(genType.getName())) continue;
 			Expression expr = arguments.get(i);
 			if(!(expr instanceof VariableAccess)) {
-				System.out.println("in "+this+" vdf'ing "+arg);
 				VariableDeclFromExpr vdfe = new VariableDeclFromExpr(
 						generateTempName(genType.getName()+"param"), expr, startToken);
 				arguments.replace(expr, vdfe);

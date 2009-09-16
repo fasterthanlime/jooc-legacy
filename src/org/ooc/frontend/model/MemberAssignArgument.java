@@ -41,7 +41,6 @@ public class MemberAssignArgument extends MemberArgument {
 					new VariableAccess(this, startToken),
 					startToken
 			)));
-			System.out.println("^^^^ Added assign for arg "+ref.getName()+" in "+funcDecl);
 		}
 		
 		stack.peek().replace(this, new RegularArgument(ref.getType(), name, startToken));
