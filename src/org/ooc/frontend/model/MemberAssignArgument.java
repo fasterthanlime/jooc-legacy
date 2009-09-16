@@ -37,7 +37,7 @@ public class MemberAssignArgument extends MemberArgument {
 		
 		if(!funcDecl.getName().equals("new")) {
 			funcDecl.getBody().add(0, new Line(new Assignment(
-					new MemberAccess(ref.getName(), startToken),
+					new MemberAccess(name, startToken),
 					new VariableAccess(this, startToken),
 					startToken
 			)));

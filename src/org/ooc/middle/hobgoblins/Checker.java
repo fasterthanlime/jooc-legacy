@@ -205,7 +205,8 @@ public class Checker implements Hobgoblin {
 					if(realDecl.getArguments().size() != baseDecl.getArguments().size()) {
 						throw new OocCompilationError(decl, stack, "Class "+classDecl.getName()
 							+" must implement "+decl.getProtoRepr()+" with the same arguments & return type as "
-							+baseDecl.getArguments()+". realArgs = "+realDecl.getArgsRepr()+", baseArgs = "+baseDecl.getArgsRepr());
+							+baseDecl.getArguments()+". realArgs = "+realDecl.getArguments()
+							+", baseArgs = "+baseDecl.getArguments());
 					}
 				}
 			}
