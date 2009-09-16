@@ -200,9 +200,9 @@ public class Checker implements Hobgoblin {
 					}
 					
 					ClassDecl baseClass = classDecl.getBaseClass(decl);
-					FunctionDecl baseDecl = baseClass.getFunction(decl.getName(), decl.getSuffix(), null);
+					FunctionDecl baseDecl = baseClass.getFunction(realDecl.getName(), realDecl.getSuffix(), null);
 					// TODO check arg types and return type also
-					if(realDecl.getArguments().size() != baseDecl.getArguments().size()) {
+					if(baseDecl != null && realDecl.getArguments().size() != baseDecl.getArguments().size()) {
 						throw new OocCompilationError(decl, stack, "Class "+classDecl.getName()
 							+" must implement "+decl.getProtoRepr()+" with the same arguments & return type as "
 							+baseDecl.getArguments()+". realArgs = "+realDecl.getArguments()

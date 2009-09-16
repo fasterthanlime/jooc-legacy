@@ -41,5 +41,10 @@ public class FloatLiteral extends Literal {
 	public boolean hasChildren() {
 		return false;
 	}
+	
+	@Override
+	public String toString() {
+		return String.valueOf(value);
+	}
 
 }
