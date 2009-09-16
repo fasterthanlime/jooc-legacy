@@ -1,4 +1,4 @@
-import structs.[List, ArrayList]
+import structs/[List, ArrayList]
 
 main: func {
 	

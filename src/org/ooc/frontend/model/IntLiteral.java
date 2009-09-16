@@ -57,4 +57,9 @@ public class IntLiteral extends Literal {
 		return false;
 	}
 	
+	@Override
+	public String toString() {
+		return "IntLiteral("+value+")";
+	}
+	
 }

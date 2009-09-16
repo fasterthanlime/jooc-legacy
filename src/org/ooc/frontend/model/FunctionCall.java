@@ -178,6 +178,37 @@ public class FunctionCall extends Access implements MustBeResolved {
 			if(response != Response.OK) return response;
 		}
 		
+		// Find all variable accesses to fill this function's type params
+		if(typeParams.size() < impl.getTypeParams().size()) {
+			Iterator<TypeParam> iter = impl.getTypeParams().values().iterator();
+			for(int i = 0; i < typeParams.size(); i++) iter.next();
+			while(iter.hasNext()) {
+				TypeParam typeParam = iter.next();
+				Expression result = resolveTypeParam(typeParam.getName(), stack, fatal);
+				if(result == null) {
+					if(fatal) throwUnresolvedType(stack, typeParam.getName());
+					return Response.LOOP;
+				}
+				typeParams.add(result);
+			}
+			return Response.RESTART;
+		}
+		
+		// Determine the real type of this function call.
+		if(realType == null) {
+			Type retType = impl.getReturnType();
+			if(retType.isGenericRecursive()) {
+				Type candidate = realTypize(retType, stack);
+				if(candidate == null) {
+					if(fatal) throw new OocCompilationError(this, stack, "RealType still null, can't resolve generic type "+retType);
+					return Response.LOOP;
+				}
+				realType = candidate;
+			} else {
+				realType = retType;
+			}
+		}
+		
 		// Turn any outer assigned access into a returnArg, unwrap if in varDecl.
 		Type returnType = impl.getReturnType();
 		TypeParam genType = impl.getGenericType(returnType.getName());
@@ -210,35 +241,6 @@ public class FunctionCall extends Access implements MustBeResolved {
 				parent.replace(this, vdfe);
 				vdfe.unwrapToVarAcc(stack);
 				return Response.RESTART;
-			}
-		}
-		
-		if(typeParams.size() < impl.getTypeParams().size()) {
-			Iterator<TypeParam> iter = impl.getTypeParams().values().iterator();
-			for(int i = 0; i < typeParams.size(); i++) iter.next();
-			while(iter.hasNext()) {
-				TypeParam typeParam = iter.next();
-				Expression result = resolveTypeParam(typeParam.getName(), stack, fatal);
-				if(result == null) {
-					if(fatal) throwUnresolvedType(stack, typeParam.getName());
-					return Response.LOOP;
-				}
-				typeParams.add(result);
-			}
-			return Response.RESTART;
-		}
-		
-		if(realType == null) {
-			Type retType = impl.getReturnType();
-			if(retType.isGenericRecursive()) {
-				Type candidate = realTypize(retType, stack);
-				if(candidate == null) {
-					if(fatal) throw new OocCompilationError(this, stack, "RealType still null, can't resolve generic type "+retType);
-					return Response.LOOP;
-				}
-				realType = candidate;
-			} else {
-				realType = retType;
 			}
 		}
 		
@@ -278,6 +280,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 			if(!arg.getType().getName().equals(genType.getName())) continue;
 			Expression expr = arguments.get(i);
 			if(!(expr instanceof VariableAccess)) {
+				System.out.println("in "+this+" vdf'ing "+arg);
 				VariableDeclFromExpr vdfe = new VariableDeclFromExpr(
 						generateTempName(genType.getName()+"param"), expr, startToken);
 				arguments.replace(expr, vdfe);

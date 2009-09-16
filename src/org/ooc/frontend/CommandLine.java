@@ -225,12 +225,7 @@ public class CommandLine {
 			for(String modulePath: modulePaths) {
 				try {
 					int code = parse(modulePath);
-					if(code == 0) {
-						successCount++;
-						ok();
-					} else {
-						fail();	
-					}
+					if(code == 0) successCount++;
 				} catch(CompilationFailedError err) {
 					System.err.println(err);
 					fail();
@@ -373,13 +368,16 @@ public class CommandLine {
 					Float.valueOf((tt5 - tt1) / 1000000.0f));
 		}
 		
-		if(code == 0 && params.run) {
-			ProcessBuilder builder = new ProcessBuilder();
-			builder.command("./"+module.getSimpleName());
-			Process process = builder.start();
-			ProcessUtils.redirectIO(process);
-			process.waitFor();
-		}
+		if(code == 0) {
+			if(params.shout) ok();
+			if(params.run) {
+				ProcessBuilder builder = new ProcessBuilder();
+				builder.command("./"+module.getSimpleName());
+				Process process = builder.start();
+				ProcessUtils.redirectIO(process);
+				process.waitFor();
+			}
+		} else if(params.shout) fail();
 		return code;
 		
 	}
