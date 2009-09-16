@@ -93,8 +93,7 @@ public class ArrayAccess extends Access implements MustBeResolved {
 	}
 
 	@Override
-	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal)
-			throws IOException {
+	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
 		
 		int assignIndex = stack.find(Assignment.class);
 		

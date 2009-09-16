@@ -82,8 +82,7 @@ public class VariableDeclFromExpr extends VariableDecl {
 	}
 
 	@Override
-	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal)
-			throws IOException {
+	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
 		VariableDeclAtom atom = atoms.get(0);
 		Expression expr = atom.getExpression();
 		if(expr != null && expr instanceof MustBeResolved) {

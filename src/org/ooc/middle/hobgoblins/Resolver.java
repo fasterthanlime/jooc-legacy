@@ -78,4 +78,8 @@ public class Resolver implements Hobgoblin {
 		return module.getFullName();
 	}
 	
+	public boolean isFatal() {
+		return fatal;
+	}
+	
 }

@@ -60,8 +60,7 @@ public class ValuedReturn extends Return implements MustBeResolved {
 	}
 
 	@Override
-	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal)
-			throws IOException {
+	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
 		
 		int funcIndex = stack.find(FunctionDecl.class);
 		if(funcIndex == -1) {

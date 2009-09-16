@@ -99,8 +99,7 @@ public class Foreach extends ControlStatement implements MustBeResolved {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal)
-			throws IOException {
+	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
 		
 		if(collection.getType().getRef() instanceof ClassDecl) {
 			ClassDecl classDecl = (ClassDecl) collection.getType().getRef();

@@ -42,8 +42,7 @@ public class TypeAccess extends VariableAccess {
 	}
 	
 	@Override
-	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal)
-			throws IOException {
+	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
 		
 		if(type.isResolved()) return Response.OK;
 		

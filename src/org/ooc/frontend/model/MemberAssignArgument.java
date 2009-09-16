@@ -26,18 +26,8 @@ public class MemberAssignArgument extends MemberArgument {
 		visitor.visit(this);
 	}
 	
-	public Response doReplace(NodeList<Node> stack, Resolver res, boolean fatal)
-			throws IOException {
-		
-		Response response = super.resolve(stack, res, fatal);
-		if(response != Response.OK) return response;
-		
-		if(ref == null) {
-			if(fatal) {
-				throw new OocCompilationError(this, stack, "Can't resolve member-assign-argument "+getName()+", no such field.");
-			}
-			return Response.LOOP;
-		}
+	@Override
+	protected Response doReplace(NodeList<Node> stack, Resolver res, boolean fatal) {
 		
 		int funcDeclIndex = stack.find(FunctionDecl.class);
 		if(funcDeclIndex == -1) {
@@ -47,10 +37,11 @@ public class MemberAssignArgument extends MemberArgument {
 		
 		if(!funcDecl.getName().equals("new")) {
 			funcDecl.getBody().add(0, new Line(new Assignment(
-					new VariableAccess(ref, startToken),
+					new MemberAccess(ref.getName(), startToken),
 					new VariableAccess(this, startToken),
 					startToken
 			)));
+			System.out.println("^^^^ Added assign for arg "+ref.getName()+" in "+funcDecl);
 		}
 		
 		stack.peek().replace(this, new RegularArgument(ref.getType(), name, startToken));

@@ -40,8 +40,7 @@ public class MemberArgument extends Argument {
 	}
 	
 	@Override
-	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal)
-			throws IOException {
+	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
 		
 		Response response = super.resolve(stack, res, fatal);
 		if(response != Response.OK) return response;
@@ -68,18 +67,6 @@ public class MemberArgument extends Argument {
 			
 			return Response.LOOP;
 		}
-		doUnwrap(stack);
-		
-		return Response.OK;
-		
-	}
-	
-	@Override
-	public boolean unwrap(NodeList<Node> stack) throws OocCompilationError, EOFException {
-		return false;
-	}
-	
-	public boolean doUnwrap(NodeList<Node> stack) throws OocCompilationError {
 		
 		int funcIndex = stack.find(FunctionDecl.class);
 		if(funcIndex == -1) {
@@ -87,15 +74,21 @@ public class MemberArgument extends Argument {
 					+" outside a function definition? What have" +
 					" you been up to?");
 		}		
-		FunctionDecl funcDecl = (FunctionDecl) stack.get(funcIndex);
 		
-		doReplace(stack, ref, funcDecl);
-		return false;
+		return doReplace(stack, res, fatal);
 		
 	}
+	
+	@Override
+	public boolean unwrap(NodeList<Node> stack) throws OocCompilationError, EOFException {
+		return false;
+	}
 
-	protected void doReplace(NodeList<Node> stack, VariableDecl decl, FunctionDecl funcDecl) {
-		stack.peek().replace(this, new RegularArgument(decl.getType(), name, startToken));
+	protected Response doReplace(NodeList<Node> stack, Resolver res, boolean fatal) {
+		
+		stack.peek().replace(this, new RegularArgument(ref.getType(), name, startToken));
+		return Response.OK;
+		
 	}
 	
 }

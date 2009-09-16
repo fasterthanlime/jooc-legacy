@@ -147,8 +147,7 @@ public class ClassDecl extends TypeDecl implements MustBeResolved {
 	}
 
 	@Override
-	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal)
-			throws IOException {
+	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
 		
 		if(isResolved()) return Response.OK;
 		if(getSuperType() != null && !(super.getSuperRef() instanceof ClassDecl)) {

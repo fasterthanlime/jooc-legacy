@@ -64,8 +64,7 @@ public abstract class BinaryOperation extends Expression implements MustBeResolv
 	}
 
 	@Override
-	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal)
-			throws IOException {
+	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
 		
 		if(left.getType() == null) {
 			if(left instanceof MustBeResolved) {
@@ -109,8 +108,7 @@ public abstract class BinaryOperation extends Expression implements MustBeResolv
 		
 	}
 
-	private boolean tryOp(NodeList<Node> stack, OpType opType, OpDecl op, Resolver res)
-			throws OocCompilationError, IOException {
+	private boolean tryOp(NodeList<Node> stack, OpType opType, OpDecl op, Resolver res) {
 		boolean end = false;
 		if(op.getOpType() == opType) {
 			if(op.getFunc().getArguments().size() != 2) {

@@ -298,8 +298,7 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 	}
 
 	@Override
-	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal)
-			throws IOException {
+	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
 		
 		Type type = getType();
 		if(type != null && !type.isArray() && type.isGenericRecursive() && type.isFlat() && !isMember() && !(this instanceof Argument)) {

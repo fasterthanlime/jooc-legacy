@@ -75,7 +75,7 @@ public class VariableAccess extends Access implements MustBeResolved {
 	}
 
 	@Override
-	public Response resolve(final NodeList<Node> stack, final Resolver res, final boolean fatal) throws IOException {
+	public Response resolve(final NodeList<Node> stack, final Resolver res, final boolean fatal) {
 
 		if(isResolved()) return Response.OK;
 		

@@ -184,7 +184,7 @@ public class Type extends Node implements MustBeResolved {
 		return super.equals(obj);
 	}
 	
-	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) throws IOException {
+	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
 		
 		if(ref != null) return Response.OK;
 		

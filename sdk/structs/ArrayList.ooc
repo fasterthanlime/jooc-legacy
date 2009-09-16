@@ -156,7 +156,9 @@ ArrayListIterator: class <T> extends Iterator {
 	list: ArrayList<T>
 	index := 0
 	
-	init: func(=list) {}
+	init: func(=list) {
+		printf("Got list %p\n", list)
+	}
 	
 	hasNext: func -> Bool {
 		return index < list size()

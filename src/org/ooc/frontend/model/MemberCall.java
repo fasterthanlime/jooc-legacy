@@ -63,7 +63,7 @@ public class MemberCall extends FunctionCall {
 	}
 	
 	@Override
-	public Response resolve(NodeList<Node> stack, Resolver res, final boolean fatal) throws IOException {
+	public Response resolve(NodeList<Node> stack, Resolver res, final boolean fatal) {
 
 		Type exprType = expression.getType();
 		if(exprType == null) {

@@ -107,8 +107,7 @@ public class Assignment extends BinaryOperation {
 	}
 	
 	@Override
-	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal)
-			throws IOException {
+	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
 	
 		if(right.getType() != null && left.getType() != null) {
 			if(left.getType().isSuperOf(right.getType())) {

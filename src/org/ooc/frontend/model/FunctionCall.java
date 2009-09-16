@@ -1,6 +1,5 @@
 package org.ooc.frontend.model;
 
-import java.io.EOFException;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -123,7 +122,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 	}
 
 	@Override
-	public Response resolve(final NodeList<Node> stack, final Resolver res, final boolean fatal) throws IOException {
+	public Response resolve(final NodeList<Node> stack, final Resolver res, final boolean fatal) {
 		
 		if(impl == null) {
 			if (name.equals("this")) {
@@ -157,8 +156,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 		
 	}
 
-	protected Response handleGenerics(final NodeList<Node> stack, final Resolver res, boolean fatal)
-			throws IOException {
+	protected Response handleGenerics(final NodeList<Node> stack, final Resolver res, boolean fatal) {
 
 		if(impl == null) {
 			if(fatal) throw new OocCompilationError(this, stack, "Didn't find implementation for "
@@ -295,9 +293,9 @@ public class FunctionCall extends Access implements MustBeResolved {
 		return Response.OK;
 	}
 
-	@SuppressWarnings({ "unchecked", "unused" })
+	@SuppressWarnings({ "unchecked" })
 	private Response unwrapFromVarDecl(final NodeList<Node> stack,
-			TypeParam genType, VariableDeclAtom atom, boolean fatal) throws OocCompilationError, EOFException {
+			TypeParam genType, VariableDeclAtom atom, boolean fatal) throws OocCompilationError {
 		
 		int varDeclIndex = stack.find(VariableDecl.class);
 		VariableDecl decl = (VariableDecl) stack.get(varDeclIndex);
@@ -424,7 +422,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 		
 	}
 	
-	protected boolean resolveRegular(NodeList<Node> stack, Resolver res, boolean fatal) throws IOException {
+	protected boolean resolveRegular(NodeList<Node> stack, Resolver res, boolean fatal) {
 		
 		impl = getFunction(name, suffix, this, stack);
 
@@ -477,8 +475,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 		
 	}
 
-	private void transformToMemberCall(final NodeList<Node> stack,
-			final Resolver res) throws IOException {
+	private void transformToMemberCall(final NodeList<Node> stack, final Resolver res) {
 		MemberCall memberCall = null;
 		if(impl.isStatic()) {
 			memberCall = new MemberCall(new VariableAccess(impl.getTypeDecl().getType().getName(), startToken), this, startToken);

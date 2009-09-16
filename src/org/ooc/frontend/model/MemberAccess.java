@@ -63,7 +63,7 @@ public class MemberAccess extends VariableAccess {
 	}
 	
 	@Override
-	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) throws IOException {
+	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
 		
 		Type exprType = expression.getType();
 		if(exprType == null) {
@@ -160,8 +160,7 @@ public class MemberAccess extends VariableAccess {
 		
 	}
 
-	private boolean tryResolve(NodeList<Node> stack, Type exprType, Resolver res)
-			throws OocCompilationError, IOException {
+	private boolean tryResolve(NodeList<Node> stack, Type exprType, Resolver res) {
 		
 		Declaration decl = exprType.getRef();
 		if(decl == null) {

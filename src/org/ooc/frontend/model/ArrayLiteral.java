@@ -62,8 +62,7 @@ public class ArrayLiteral extends Literal implements MustBeUnwrapped, MustBeReso
 	}
 	
 	@Override
-	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal)
-			throws IOException {
+	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
 		
 		if(!elements.isEmpty()) {
 			Iterator<Expression> iter = elements.iterator();

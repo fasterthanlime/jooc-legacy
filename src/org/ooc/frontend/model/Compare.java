@@ -59,8 +59,7 @@ public class Compare extends BinaryOperation {
 	}
 	
 	@Override
-	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal)
-			throws IOException {
+	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
 		
 		Response response = super.resolve(stack, res, fatal);
 		if(response != Response.OK) return response;

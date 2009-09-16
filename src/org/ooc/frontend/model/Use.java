@@ -8,6 +8,7 @@ import org.ooc.frontend.model.tokens.Token;
 import org.ooc.frontend.parser.UseDefParser;
 import org.ooc.middle.UseDef;
 import org.ooc.middle.hobgoblins.Resolver;
+import org.ubi.CompilationFailedError;
 
 public class Use extends Node implements MustBeResolved {
 
@@ -55,9 +56,12 @@ public class Use extends Node implements MustBeResolved {
 	}
 
 	@Override
-	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal)
-			throws IOException {
-		useDef = UseDefParser.parse(identifier, res.params);
+	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
+		try {
+			useDef = UseDefParser.parse(identifier, res.params);
+		} catch (Exception e) {
+			throw new CompilationFailedError(e);
+		}
 		return (useDef == null) ? Response.LOOP : Response.OK;
 	}
 
