@@ -77,30 +77,19 @@ public class FunctionCall extends Access implements MustBeResolved {
 
 	@Override
 	public Type getType() {
-		//if(realType != null) {
-			//System.out.println("realType = "+realType+" for "+impl);
-		//}
 		return realType;
 	}
 	
 	private Type realTypize(Type type, NodeList<Node> stack) {
-		
-		System.out.println("Should realTypize "+type+" Type typeParams = "+type.getTypeParams());
-		
-		
 		int i = -1;
 		for(VariableAccess exprParam: type.getTypeParams()) {
 			i++;
-			System.out.println("resolving Type Param of "+exprParam);
 			VariableAccess expr = resolveTypeParam(exprParam.getName(), stack, true);
 			if(expr != null){
 				type.getTypeParams().set(i, expr);
 			}
 		}
-		
-		System.out.println(">>>>>>>>> Resolved type "+type);
 		return type;
-		
 	}
 
 	@Override
@@ -243,7 +232,6 @@ public class FunctionCall extends Access implements MustBeResolved {
 			Type retType = impl.getReturnType();
 			if(retType.isGenericRecursive()) {
 				Type candidate = realTypize(retType, stack);
-				System.out.println(retType+" was generic, realType = "+candidate+", impl = "+impl);
 				if(candidate == null) {
 					if(fatal) throw new OocCompilationError(this, stack, "RealType still null, can't resolve generic type "+retType);
 					return Response.LOOP;

@@ -175,7 +175,6 @@ public class MemberCall extends FunctionCall {
 						i++;
 						if(candidate.getName().equals(typeParam)) {
 							VariableAccess result = type.getTypeParams().get(i);
-							System.out.println("Got result "+result+" for typeParam "+typeParam);
 							return result;
 						}
 					}
