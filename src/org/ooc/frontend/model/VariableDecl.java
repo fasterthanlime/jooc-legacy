@@ -303,8 +303,6 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 		
 		Type type = getType();
 		if(type != null && !type.isArray() && type.isGenericRecursive() && type.isFlat() && !isMember() && !(this instanceof Argument)) {
-			System.out.println("Turning "+this+" into damn Octet[], and type = "+type);
-			
 			Type newType = new Type("Octet", type.startToken);
 			newType.setPointerLevel(1);
 			newType.setArray(true);

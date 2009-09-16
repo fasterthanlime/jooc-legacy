@@ -87,8 +87,6 @@ public class ValuedReturn extends Return implements MustBeResolved {
 	private void unwrapToMemcpy(NodeList<Node> stack, FunctionDecl decl,
 			Declaration genericType) {
 		
-		System.out.println("Unwrapping ValuedReturn "+this+" to memcpy.");
-		
 		if(!(expression instanceof Access)) {
 			VariableDeclFromExpr vdfe = new VariableDeclFromExpr(generateTempName("retval"), expression, startToken);
 			vdfe.setType(expression.getType());
@@ -116,8 +114,6 @@ public class ValuedReturn extends Return implements MustBeResolved {
 		}
 		args.add(expression);
 		args.add(sizeAccess);
-		System.out.println("When unwrapping ValuedReturn, got "+returnArgAcc+", "
-				+expression+", "+sizeAccess);
 		
 		If if1 = new If(returnArgAcc, startToken);
 		if1.getBody().add(new Line(call));
