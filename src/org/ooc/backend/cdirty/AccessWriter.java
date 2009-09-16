@@ -5,15 +5,14 @@ import java.io.IOException;
 import org.ooc.frontend.model.Access;
 import org.ooc.frontend.model.ArrayAccess;
 import org.ooc.frontend.model.ClassDecl;
-import org.ooc.frontend.model.Declaration;
 import org.ooc.frontend.model.Dereference;
 import org.ooc.frontend.model.Expression;
 import org.ooc.frontend.model.FunctionDecl;
-import org.ooc.frontend.model.Type;
-import org.ooc.frontend.model.TypeParam;
 import org.ooc.frontend.model.MemberAccess;
 import org.ooc.frontend.model.PotentiallyStatic;
+import org.ooc.frontend.model.Type;
 import org.ooc.frontend.model.TypeDecl;
+import org.ooc.frontend.model.TypeParam;
 import org.ooc.frontend.model.VariableAccess;
 
 public class AccessWriter {
@@ -98,8 +97,9 @@ public class AccessWriter {
 		int refLevel = variableAccess.getRef().getType().getReferenceLevel();
 		
 		if(doTypeParams) {
-			Declaration ref = variableAccess.getRef().getType().getRef();
-			if(ref instanceof TypeParam) refLevel++;
+			if(variableAccess.getType().isGeneric()) {
+				refLevel++;
+			}
 		}
 		
 		if(refLevel > 0) {

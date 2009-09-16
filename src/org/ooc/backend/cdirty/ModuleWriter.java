@@ -122,7 +122,8 @@ public class ModuleWriter {
 			for (TypeDecl typeDecl: cgen.module.getTypes().getAll(key)) {
 				if (typeDecl instanceof ClassDecl) {
 					ClassDecl classDecl = (ClassDecl) typeDecl;
-					cgen.current.nl().app(classDecl.getName()).app("_").app(classDecl.getFunction("load", "", null).getName()).app("();");
+					cgen.current.nl().app(classDecl.getName()).app("_").app(
+							classDecl.getFunction(ClassDecl.LOAD_FUNC_NAME, "", null).getName()).app("();");
 				}
 			}
 		}

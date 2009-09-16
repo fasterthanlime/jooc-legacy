@@ -10,20 +10,26 @@ import org.ooc.middle.hobgoblins.Resolver;
 
 public class ClassDecl extends TypeDecl implements MustBeResolved {
 
+	public static final String DESTROY_FUNC_NAME = "__destroy__";
+	public static final String DEFAULTS_FUNC_NAME = "__defaults__";
+	public static final String LOAD_FUNC_NAME = "__load__";
+
 	protected boolean isAbstract;
 	
 	protected OocDocComment comment;
 	
 	protected FunctionDecl defaultInit = null;
 	
+	
+	
 	public ClassDecl(String name, Type superType, boolean isAbstract, Token startToken) {
 		super(name, (superType == null && !name.equals("Object")) ?
 				new Type("Object", Token.defaultToken) : superType, startToken);
 		this.isAbstract = isAbstract;
 		
-		addFunction(new FunctionDecl("load",     "", false, true,  false, false, startToken));
-		addFunction(new FunctionDecl("defaults", "", false, false, false, false, startToken));
-		addFunction(new FunctionDecl("destroy",  "", false, false, false, false, startToken));
+		addFunction(new FunctionDecl(LOAD_FUNC_NAME,     "", false, true,  false, false, startToken));
+		addFunction(new FunctionDecl(DEFAULTS_FUNC_NAME, "", false, false, false, false, startToken));
+		addFunction(new FunctionDecl(DESTROY_FUNC_NAME,  "", false, false, false, false, startToken));
 	}
 
 	public void addInit() {

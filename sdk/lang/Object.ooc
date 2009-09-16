@@ -14,14 +14,14 @@ Class: abstract class {
 		object := gc_malloc(this size) as Object
 		if(object) {
 			object class = this
-			object defaults()
+			object __defaults__()
 		}
 		return object
 	}
 	
 	// workaround needed to avoid C circular dependency with _ObjectClass
-	defaults: static Func (Class)
-	destroy: static Func (Class)
+	__defaults__: static Func (Class)
+	__destroy__: static Func (Class)
 	
 }
 
@@ -30,9 +30,9 @@ Object: abstract class {
 	class: Class
 	
 	/// Instance initializer: set default values for a new instance of this class
-	defaults: func {}
+	__defaults__: func {}
 	
 	/// Finalizer: cleans up any objects belonging to this instance
-	destroy: func {}
+	__destroy__: func {}
 	
 }

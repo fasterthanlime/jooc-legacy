@@ -348,7 +348,9 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 	}
 
 	public boolean isSpecialFunc() {
-		return name.equals("defaults") || name.equals("destroy") || name.equals("load");
+		return name.equals(ClassDecl.DEFAULTS_FUNC_NAME)
+			|| name.equals(ClassDecl.DESTROY_FUNC_NAME)
+			|| name.equals(ClassDecl.LOAD_FUNC_NAME);
 	}
 
 	public Iterator<Argument> getThisLessArgsIter() {

@@ -255,9 +255,9 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 			Line line = new Line(assign);
 			if(isStatic) {
 				access.setRef(classDecl);
-				classDecl.getFunction("load", "", null).getBody().add(line);
+				classDecl.getFunction(ClassDecl.LOAD_FUNC_NAME, "", null).getBody().add(line);
 			} else {
-				classDecl.getFunction("defaults", "", null).getBody().add(line);
+				classDecl.getFunction(ClassDecl.DEFAULTS_FUNC_NAME, "", null).getBody().add(line);
 			}
 			atom.expression = null;
 		

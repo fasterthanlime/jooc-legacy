@@ -3,6 +3,7 @@ package org.ooc.backend.cdirty;
 import java.io.IOException;
 import java.util.Iterator;
 
+import org.ooc.frontend.model.Access;
 import org.ooc.frontend.model.Argument;
 import org.ooc.frontend.model.ClassDecl;
 import org.ooc.frontend.model.Dereference;
@@ -125,7 +126,11 @@ public class CallWriter {
 				cgen.current.app(") (");
 			}
 		}
-		callArg.accept(cgen);
+		if(callArg instanceof VariableAccess) {
+			AccessWriter.write((Access) callArg, false, cgen);
+		} else {
+			callArg.accept(cgen);
+		}
 		if(shouldCast) cgen.current.app("))");
 	}
 
@@ -148,9 +153,10 @@ public class CallWriter {
 			if(!isFirst) cgen.current.app(", ");
 			isFirst = false;
 			Expression expr = iter.next();
-			Argument arg = implArgs.get(argIndex);
-			TypeParam genericType = impl.getGenericType(arg.getType().getName());
-			if(genericType != null) cgen.current.app("(Octet*) &");
+			Argument implArg = implArgs.get(argIndex);
+			if(implArg.getType().isGeneric() && !expr.getType().isGeneric()) {
+				cgen.current.app("/* o, rly? */ (Octet*) &");
+			}
 			writeCallArg(expr, impl, argIndex, cgen);
 		}
 		
