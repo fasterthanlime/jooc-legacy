@@ -9,6 +9,7 @@ import org.ooc.frontend.model.Declaration;
 import org.ooc.frontend.model.Dereference;
 import org.ooc.frontend.model.Expression;
 import org.ooc.frontend.model.FunctionDecl;
+import org.ooc.frontend.model.Type;
 import org.ooc.frontend.model.TypeParam;
 import org.ooc.frontend.model.MemberAccess;
 import org.ooc.frontend.model.PotentiallyStatic;
@@ -65,8 +66,9 @@ public class AccessWriter {
 				expression.accept(cgen);
 			} else {
 				cgen.current.app("((");
-				refTypeDecl.getInstanceType().accept(cgen);
-				cgen.current.app(')');
+				cgen.current.app(refTypeDecl.getInstanceType().getName());
+				TypeWriter.writeFinale(membExprType(memberAccess), cgen);
+				cgen.current.app(") ");
 				expression.accept(cgen);
 				cgen.current.app(')');
 			}
@@ -80,6 +82,10 @@ public class AccessWriter {
 		
 		}
 		
+	}
+
+	private static Type membExprType(MemberAccess memberAccess) {
+		return memberAccess.getExpression().getType();
 	}
 	
 	public static void writeVariable(VariableAccess variableAccess, boolean doTypeParams, CGenerator cgen) throws IOException {

@@ -9,12 +9,11 @@ import org.ooc.middle.OocCompilationError;
 import org.ooc.middle.hobgoblins.Resolver;
 
 public class MemberArgument extends Argument {
-
-	private VariableAccess expression;
-
+	
+	protected VariableDecl ref = null;
+	
 	public MemberArgument(String name, Token startToken) {
-		super(new Type("", startToken), name, startToken);
-		expression = new MemberAccess(name, startToken);
+		super(null, name, startToken);
 	}
 	
 	@Override
@@ -24,17 +23,20 @@ public class MemberArgument extends Argument {
 	
 	@Override
 	public boolean hasChildren() {
-		return true;
+		return false;
 	}
 	
 	@Override
-	public void acceptChildren(Visitor visitor) throws IOException {
-		expression.accept(visitor);
-	}
+	public void acceptChildren(Visitor visitor) throws IOException {}
 	
 	@Override
 	public Type getType() {
-		return expression.getType();
+		return ref == null ? null : ref.getType();
+	}
+	
+	@Override
+	public boolean isResolved() {
+		return false;
 	}
 	
 	@Override
@@ -43,9 +45,25 @@ public class MemberArgument extends Argument {
 		
 		Response response = super.resolve(stack, res, fatal);
 		if(response != Response.OK) return response;
+
+		if(ref == null) {
+			int typeDeclIndex = stack.find(TypeDecl.class);
+			if(typeDeclIndex == -1) {
+				throw new OocCompilationError(this, stack, "Couldn't resolve "+getClass().getSimpleName()+" "+name
+						+" (not even in a TypeDecl! who d'you think you're kidding?)");
+			}
+			TypeDecl typeDecl = (TypeDecl) stack.get(typeDeclIndex);
+			ref = typeDecl.getVariable(getName());
+		}
 		
-		if(expression.getType() == null) {
-			if(fatal) throw new OocCompilationError(expression, stack, "Couldn't resolve "
+		if(ref == null && fatal) {
+			throw new OocCompilationError(this, stack, getClass().getSimpleName()
+					+" named '"+name+"" +
+					"' doesn't correspond to any real member variable.");
+		}
+		
+		if(getType() == null) {
+			if(fatal) throw new OocCompilationError(type, stack, "Couldn't resolve "
 					+getClass().getSimpleName()+" "+name);
 			
 			return Response.LOOP;
@@ -63,21 +81,6 @@ public class MemberArgument extends Argument {
 	
 	public boolean doUnwrap(NodeList<Node> stack) throws OocCompilationError {
 		
-		int typeIndex = stack.find(TypeDecl.class);
-		if(typeIndex == -1) {
-			throw new OocCompilationError(this, stack, getClass().getSimpleName()
-					+" outside a class definition!");
-		}
-		
-		TypeDecl typeDecl = (TypeDecl) stack.get(typeIndex);
-		VariableDecl varDecl = typeDecl.getVariable(name);
-		if(varDecl == null) {
-			throw new OocCompilationError(this, stack, getClass().getSimpleName()
-					+" named '"+name+"" +
-					"' doesn't correspond to any real member variable.");
-		}
-		
-		
 		int funcIndex = stack.find(FunctionDecl.class);
 		if(funcIndex == -1) {
 			throw new OocCompilationError(this, stack, getClass().getSimpleName()
@@ -86,7 +89,7 @@ public class MemberArgument extends Argument {
 		}		
 		FunctionDecl funcDecl = (FunctionDecl) stack.get(funcIndex);
 		
-		doReplace(stack, varDecl, funcDecl);
+		doReplace(stack, ref, funcDecl);
 		return false;
 		
 	}

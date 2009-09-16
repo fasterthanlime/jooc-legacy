@@ -154,7 +154,7 @@ public class VariableAccess extends Access implements MustBeResolved {
 				//call.throwUnresolvedType(stack, name);
 			//}
 			
-			String message = "Couldn't resolve access to "+name;
+			String message = "Couldn't resolve access to "+name+".";
 			String guess = guessCorrectName(stack, res);
 			if(guess != null) {
 				message += " Did you mean "+guess+" ?";
