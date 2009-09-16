@@ -1,4 +1,4 @@
-import text.regexp.RegexpBackend
+import text/regexp/RegexpBackend
 
 POSIX: class extends RegexpBackend {
 	setPattern: func(pattern: String, options: Int) {

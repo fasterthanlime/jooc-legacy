@@ -1,4 +1,4 @@
-import structs.List
+import structs/List
 
 /**
  * Resizable-array implementation of the List interface. Implements all

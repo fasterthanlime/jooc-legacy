@@ -1,5 +1,4 @@
-import text.regexp.RegexpBackend
-
+import text/regexp/RegexpBackend
 use text/regexp/pcre
 
 Pcre: cover from pcre*
