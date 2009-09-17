@@ -25,13 +25,10 @@ public class Tokenizer {
 	
 	protected static Name[] names = new Name[] {
 		new Name("func", TokenType.FUNC_KW),
-		new Name("new", TokenType.NEW_KW),
 		new Name("class", TokenType.CLASS_KW),
 		new Name("cover", TokenType.COVER_KW),
 		new Name("extern", TokenType.EXTERN_KW),
 		new Name("from", TokenType.FROM_KW),
-		new Name("this", TokenType.THIS_KW),
-		new Name("super", TokenType.SUPER_KW),
 		new Name("if", TokenType.IF_KW),
 		new Name("else", TokenType.ELSE_KW),
 		new Name("for", TokenType.FOR_KW),

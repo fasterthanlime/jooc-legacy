@@ -15,9 +15,6 @@ public final class Token implements Locatable {
 		public static final byte ABSTRACT_KW = 4; // abstract keyword
 		public static final byte EXTENDS_KW = 5; // from keyword
 		public static final byte FROM_KW = 6; // over keyword
-		public static final byte THIS_KW = 7; // this keyword
-		public static final byte SUPER_KW = 8; // super keyword
-		public static final byte NEW_KW = 9; // new keyword
 		
 		public static final byte CONST_KW = 10; // const keyword
 		public static final byte FINAL_KW = 11; // final keyword
@@ -290,9 +287,7 @@ public final class Token implements Locatable {
 	}
 
 	public boolean isNameToken() {
-		return type == TokenType.NAME || type == TokenType.THIS_KW
-			|| type == TokenType.SUPER_KW || type == TokenType.CLASS_KW
-			|| type == TokenType.NEW_KW;
+		return type == TokenType.NAME || type == TokenType.CLASS_KW;
 	}
 	
 }

@@ -310,13 +310,17 @@ public class FunctionCall extends Access implements MustBeResolved {
 		Access result = null;
 		Expression callArg = getRealExpr(typeParam, stack, res, fatal);
 		if(callArg != null) {
-			MemberAccess membAcc = new MemberAccess(callArg, "class", callArg.startToken);
-			NodeList<Access> nl = new NodeList<Access>(1, startToken);
-			nl.add(membAcc);
-			stack.push(nl);
-			membAcc.resolve(stack, res, fatal);
-			stack.pop(nl);
-			result = nl.get(0);
+			if(callArg.getType().getName().equals("Class")) {
+				result = (Access) callArg;
+			} else {
+				MemberAccess membAcc = new MemberAccess(callArg, "class", callArg.startToken);
+				NodeList<Access> nl = new NodeList<Access>(1, startToken);
+				nl.add(membAcc);
+				stack.push(nl);
+				membAcc.resolve(stack, res, fatal);
+				stack.pop(nl);
+				result = nl.get(0);
+			}
 		}
 			
 		return result;

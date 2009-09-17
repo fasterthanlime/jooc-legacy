@@ -19,6 +19,12 @@ Class: abstract class {
 		return object
 	}
 	
+	instanceof: final func (T: Class) -> Bool {
+		if(this == T) return true
+		if(super != null) return super instanceof(T)
+		return false
+	}
+	
 	// workaround needed to avoid C circular dependency with _ObjectClass
 	__defaults__: static Func (Class)
 	__destroy__: static Func (Class)

@@ -2,6 +2,7 @@ import structs/HashMap
 
 main: func {
 	
-	map := HashMap<> new()
+	map := HashMap<String> new()
+	map put("hobo", "haba")
 	
 }
