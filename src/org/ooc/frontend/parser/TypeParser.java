@@ -2,6 +2,7 @@ package org.ooc.frontend.parser;
 
 import java.io.IOException;
 
+import org.ooc.frontend.model.Access;
 import org.ooc.frontend.model.Declaration;
 import org.ooc.frontend.model.FuncType;
 import org.ooc.frontend.model.Module;
@@ -22,7 +23,7 @@ public class TypeParser {
 		int pointerLevel = 0;
 		int referenceLevel = 0;
 		boolean isArray = false;
-		NodeList<VariableAccess> genericTypes = null;
+		NodeList<Access> typeParams = null;
 		
 		Token startToken = reader.peek();
 		boolean isConst = false;
@@ -74,15 +75,15 @@ public class TypeParser {
 			while(reader.peek().type != TokenType.GREATERTHAN) {
 				VariableAccess innerType = AccessParser.parse(module, sReader, reader);
 				if(innerType == null) {
-					genericTypes = null;
+					typeParams = null;
 					break;
 				}
-				if(genericTypes == null) genericTypes = new NodeList<VariableAccess>(); 
-				genericTypes.add(innerType);
+				if(typeParams == null) typeParams = new NodeList<Access>(); 
+				typeParams.add(innerType);
 				if(reader.peek().type != TokenType.COMMA) break;
 			}
 			if(reader.read().type != TokenType.GREATERTHAN) {
-				genericTypes = null;
+				typeParams = null;
 			}
 		}
 
@@ -116,8 +117,8 @@ public class TypeParser {
 			}
 			type.setArray(isArray);
 			type.setConst(isConst);
-			if(genericTypes != null) {
-				type.getTypeParams().addAll(genericTypes);
+			if(typeParams != null) {
+				type.getTypeParams().addAll(typeParams);
 			}
 			return type;
 		}

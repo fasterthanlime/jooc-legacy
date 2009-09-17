@@ -173,43 +173,89 @@ public class ExpressionParser {
 					|| token.type == TokenType.MINUS_ASSIGN || token.type == TokenType.STAR_ASSIGN
 					|| token.type == TokenType.SLASH_ASSIGN || token.type == TokenType.DOUBLE_PIPE
 					|| token.type == TokenType.DOUBLE_AMPERSAND || token.type == TokenType.PIPE
-					|| token.type == TokenType.AMPERSAND || token.type == TokenType.BINARY_AND) {
+					|| token.type == TokenType.AMPERSAND || token.type == TokenType.BINARY_AND
+					|| token.type == TokenType.CARET) {
 				
 				reader.skip();
+				boolean isLessThan = false;
+				boolean isGreaterThan = false;
+				boolean isAssign = false;
+				if(reader.peek().type == TokenType.ASSIGN) {
+					isAssign = true;
+					reader.skip();
+				} else if(reader.peek().type == TokenType.LESSTHAN) {
+					isLessThan = true;
+					reader.skip();
+				} else if(reader.peek().type == TokenType.GREATERTHAN) {
+					isGreaterThan = true;
+					reader.skip();
+				}
+				
 				Expression rvalue = ExpressionParser.parse(module, sReader, reader);
 				if(rvalue == null) {
 					throw new CompilationFailedError(sReader.getLocation(reader.peek()),
 						"Expected rvalue after binary operator");
 				}
 				switch(token.type) {
-					case TokenType.PLUS:  expr = new Add(expr, rvalue, token); break;
-					case TokenType.STAR:  expr = new Mul(expr, rvalue, token); break;
-					case TokenType.MINUS: expr = new Sub(expr, rvalue, token); break;
-					case TokenType.SLASH: expr = new Div(expr, rvalue, token); break;
-					case TokenType.PERCENT: expr = new Mod(expr, rvalue, token); break;
-					case TokenType.GREATERTHAN: expr = new Compare(expr, rvalue, CompareType.GREATER, token); break;
-					case TokenType.GREATERTHAN_EQUALS: expr = new Compare(expr, rvalue, CompareType.GREATER_OR_EQUAL, token); break;
-					case TokenType.LESSTHAN: expr = new Compare(expr, rvalue, CompareType.LESSER, token); break;
-					case TokenType.LESSTHAN_EQUALS: expr = new Compare(expr, rvalue, CompareType.LESSER_OR_EQUAL, token); break;
-					case TokenType.EQUALS: expr = new Compare(expr, rvalue, CompareType.EQUAL, token); break;
-					case TokenType.NOT_EQUALS: expr = new Compare(expr, rvalue, CompareType.NOT_EQUAL, token); break;
-					case TokenType.PLUS_ASSIGN:  ensureAccess(expr);
+					case TokenType.PLUS: 
+						expr = new Add(expr, rvalue, token); break;
+					case TokenType.STAR: 
+						expr = new Mul(expr, rvalue, token); break;
+					case TokenType.MINUS:
+						expr = new Sub(expr, rvalue, token); break;
+					case TokenType.SLASH:
+						expr = new Div(expr, rvalue, token); break;
+					case TokenType.PERCENT:
+						expr = new Mod(expr, rvalue, token); break;
+					case TokenType.GREATERTHAN:
+						if(isGreaterThan) {
+							expr = new BinaryCombination(BinaryComp.RSHIFT, expr, rvalue, token); break;
+						}
+						expr = new Compare(expr, rvalue, CompareType.GREATER, token); break;
+					case TokenType.GREATERTHAN_EQUALS: 
+						expr = new Compare(expr, rvalue, CompareType.GREATER_OR_EQUAL, token); break;
+					case TokenType.LESSTHAN:
+						if(isLessThan) {
+							expr = new BinaryCombination(BinaryComp.LSHIFT, expr, rvalue, token); break;
+						}
+						expr = new Compare(expr, rvalue, CompareType.LESSER, token); break;
+					case TokenType.LESSTHAN_EQUALS:
+						expr = new Compare(expr, rvalue, CompareType.LESSER_OR_EQUAL, token); break;
+					case TokenType.EQUALS:
+						expr = new Compare(expr, rvalue, CompareType.EQUAL, token); break;
+					case TokenType.NOT_EQUALS:
+						expr = new Compare(expr, rvalue, CompareType.NOT_EQUAL, token); break;
+					case TokenType.PLUS_ASSIGN:
+						ensureAccess(expr);
 						expr = new Assignment(Mode.ADD, (Access) expr, rvalue, token); break;
-					case TokenType.MINUS_ASSIGN: ensureAccess(expr);
+					case TokenType.MINUS_ASSIGN:
+						ensureAccess(expr);
 						expr = new Assignment(Mode.SUB, (Access) expr, rvalue, token); break;
-					case TokenType.STAR_ASSIGN:  ensureAccess(expr);
+					case TokenType.STAR_ASSIGN:
+						ensureAccess(expr);
 						expr = new Assignment(Mode.MUL, (Access) expr, rvalue, token); break;
-					case TokenType.SLASH_ASSIGN: ensureAccess(expr);
+					case TokenType.SLASH_ASSIGN:
+						ensureAccess(expr);
 						expr = new Assignment(Mode.DIV, (Access) expr, rvalue, token); break;
-					case TokenType.PIPE: expr = new BinaryCombination(BinaryComp.BINARY_OR, expr, rvalue, token); break;
-					case TokenType.AMPERSAND: case TokenType.BINARY_AND: expr = new BinaryCombination(BinaryComp.BINARY_AND, expr, rvalue, token); break;
-					case TokenType.DOUBLE_PIPE:  expr = new BinaryCombination(BinaryComp.LOGICAL_OR,  expr, rvalue, token); break;
-					case TokenType.DOUBLE_AMPERSAND: expr = new BinaryCombination(BinaryComp.LOGICAL_AND, expr, rvalue, token); break;
+					case TokenType.PIPE:
+						expr = new BinaryCombination(BinaryComp.BITWISE_OR, expr, rvalue, token); break;
+					case TokenType.AMPERSAND:
+						case TokenType.BINARY_AND:
+						expr = new BinaryCombination(BinaryComp.BITWISE_AND, expr, rvalue, token); break;
+					case TokenType.DOUBLE_PIPE: 
+						expr = new BinaryCombination(BinaryComp.LOGICAL_OR,  expr, rvalue, token); break;
+					case TokenType.DOUBLE_AMPERSAND:
+						expr = new BinaryCombination(BinaryComp.LOGICAL_AND, expr, rvalue, token); break;
+					case TokenType.CARET:
+						if(isAssign) {
+							ensureAccess(expr);
+							expr = new Assignment(Mode.B_XOR, (Access) expr, rvalue, token); break;
+						}
+						expr = new BinaryCombination(BinaryComp.BITWISE_XOR, expr, rvalue, token); break;
 					default: throw new CompilationFailedError(sReader.getLocation(reader.prev()),
 							"Unknown binary operation yet "+token.type);
 				}
 				continue;
-				
 				
 			}
 			

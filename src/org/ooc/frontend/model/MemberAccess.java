@@ -162,6 +162,8 @@ public class MemberAccess extends VariableAccess {
 
 	private boolean tryResolve(NodeList<Node> stack, Type exprType, Resolver res) {
 		
+		if(dead) return true;
+		
 		Declaration decl = exprType.getRef();
 		if(decl == null) {
 			return false;
@@ -173,7 +175,9 @@ public class MemberAccess extends VariableAccess {
 		}
 		
 		TypeDecl typeDecl = (TypeDecl) decl;
-		ref = typeDecl.getVariable(getName());
+		if(ref == null) {
+			ref = typeDecl.getVariable(getName());
+		}
 		
 		if(ref == null && getName().equals("size") && exprType.isArray()) {
 			FunctionCall sizeofArray = new FunctionCall("sizeof", "", startToken);
@@ -193,19 +197,21 @@ public class MemberAccess extends VariableAccess {
 			}
 			membCall.resolve(stack, res, true);
 			dead = true;
-			return true;
+			return false;
 		}
 		
-		if(ref == null && exprType.getRef() instanceof TypeDecl
+		if(exprType.getRef() instanceof TypeDecl
 				&& (getName().equals("getName()") || getName().equals("size") || getName().equals("super")
 						 || getName().equals("size"))) {
-			MemberAccess membAcc = new MemberAccess(expression, "class", startToken);
-			this.expression = membAcc;
-			stack.push(this);
-			membAcc.resolve(stack, res, true);
-			stack.pop(this);
-			tryResolve(stack, expression.getType(), res);
-			return true;
+			if(!exprType.getName().equals("Class")) {
+				MemberAccess membAcc = new MemberAccess(expression, "class", startToken);
+				this.expression = membAcc;
+				stack.push(this);
+				membAcc.resolve(stack, res, true);
+				stack.pop(this);
+				tryResolve(stack, expression.getType(), res);
+				return true;
+			}
 		}
 		
 		if(ref == null) {

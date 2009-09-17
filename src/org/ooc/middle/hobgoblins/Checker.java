@@ -199,7 +199,7 @@ public class Checker implements Hobgoblin {
 								+" must implement "+decl.getProtoRepr()+", or be declared abstract.");
 					}
 					
-					ClassDecl baseClass = classDecl.getBaseClass(decl);
+					//ClassDecl baseClass = classDecl.getBaseClass(decl);
 					//FunctionDecl baseDecl = baseClass.getFunction(realDecl.getName(), realDecl.getSuffix(), null);
 					// TODO check arg types and return type also
 					/*

@@ -133,6 +133,8 @@ public class Tokenizer {
 		new CharTuple('+', TokenType.PLUS, '=', TokenType.PLUS_ASSIGN),
 		new CharTuple('*', TokenType.STAR, '=', TokenType.STAR_ASSIGN),
 		new CharTuple('>', TokenType.GREATERTHAN, '=', TokenType.GREATERTHAN_EQUALS),
+		new CharTuple('>', TokenType.GREATERTHAN, '=', TokenType.GREATERTHAN_EQUALS),
+		new CharTuple('^', TokenType.CARET),
 	};
 	
 	public List<Token> parse(SourceReader reader) throws IOException {
@@ -340,7 +342,7 @@ public class Tokenizer {
 				tokens.add(new Token(index, name.length(), TokenType.NAME));
 				continue reading;
 			}
-			throw new CompilationFailedError(reader.getLocation(index, 0), "Unexpected input. Token list is: "+tokens);
+			throw new CompilationFailedError(reader.getLocation(index, 0), "Unexpected input.");
 			
 		}
 		

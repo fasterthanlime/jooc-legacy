@@ -17,10 +17,14 @@ public class NodeList<T extends Node> extends Node implements Iterable<T> {
 		this(Token.defaultToken);
 	}
 	
-	@SuppressWarnings("unchecked")
 	public NodeList(Token startToken) {
+		this(5, startToken);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public NodeList(int initialCapacity, Token startToken) {
 		super(startToken);
-		nodes = (T[]) new Node[5];
+		nodes = (T[]) new Node[initialCapacity];
 		size = 0;
 	}
 
@@ -238,7 +242,8 @@ public class NodeList<T extends Node> extends Node implements Iterable<T> {
 				} else if(index > 1) {
 					sB.append(", ");
 				}
-				sB.append(node.toString());
+				if(node == null) sB.append("null");
+				else sB.append(node.toString());
 			}
 			if(stackLike && index < size) sB.append("\n");
 		}

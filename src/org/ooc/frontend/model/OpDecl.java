@@ -21,8 +21,14 @@ public class OpDecl extends Declaration {
 		MOD,
 		L_OR,
 		L_AND,
+		B_XOR,
+		B_XOR_ASS,
 		B_OR,
 		B_AND,
+		LSHIFT,
+		B_LSHIFT_ASS,
+		RSHIFT,
+		B_RSHIFT_ASS,
 		IDX,
 		IDX_ASS,
 		GT,
@@ -50,6 +56,8 @@ public class OpDecl extends Declaration {
 				return "&";
 			case B_OR:
 				return "|";
+			case B_XOR:
+				return "^";
 			case L_AND:
 				return "&&";
 			case L_OR:
@@ -87,6 +95,7 @@ public class OpDecl extends Declaration {
 			switch(this) {
 			case ADD: case SUB: case MUL: case DIV:
 			case ADD_ASS: case SUB_ASS: case MUL_ASS: case DIV_ASS:
+			case B_AND: case B_OR: case B_XOR:
 				return true;
 			default:
 				return false;

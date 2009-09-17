@@ -25,7 +25,7 @@ public class Type extends Node implements MustBeResolved {
 	private boolean isArray = false;
 	private Expression arraySize = null;
 	
-	protected NodeList<VariableAccess> typeParams;
+	protected NodeList<Access> typeParams;
 	private boolean isConst = false;
 	
 	private static Type voidType = null;
@@ -51,10 +51,10 @@ public class Type extends Node implements MustBeResolved {
 		this.name = name;
 		this.pointerLevel = pointerLevel;
 		this.referenceLevel = referenceLevel;
-		this.typeParams = new NodeList<VariableAccess>(startToken);
+		this.typeParams = new NodeList<Access>(startToken);
 	}
 	
-	public NodeList<VariableAccess> getTypeParams() {
+	public NodeList<Access> getTypeParams() {
 		return typeParams;
 	}
 
@@ -130,9 +130,14 @@ public class Type extends Node implements MustBeResolved {
 		}
 		if(!typeParams.isEmpty()) {
 			sb.append('<');
-			Iterator<VariableAccess> iter = typeParams.iterator();
+			Iterator<Access> iter = typeParams.iterator();
 			while(iter.hasNext()) {
-				sb.append(iter.next().getName());
+				Access element = iter.next();
+				if(element instanceof VariableAccess) {
+					sb.append(((VariableAccess) element).getName());
+				} else if(element instanceof FunctionCall) {
+					sb.append(((FunctionCall) element).getName());
+				}
 				if(iter.hasNext()) sb.append(", ");
 			}
 			sb.append('>');

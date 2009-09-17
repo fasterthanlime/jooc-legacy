@@ -11,8 +11,11 @@ public class BinaryCombination extends BinaryOperation {
 	public static enum BinaryComp {
 		LOGICAL_OR,
 		LOGICAL_AND,
-		BINARY_OR,
-		BINARY_AND,
+		BITWISE_OR,
+		BITWISE_AND,
+		BITWISE_XOR,
+		LSHIFT,
+		RSHIFT,
 	}
 	
 	protected BinaryComp comp;
@@ -47,9 +50,13 @@ public class BinaryCombination extends BinaryOperation {
 		switch(comp) {
 		case LOGICAL_OR: return "||";
 		case LOGICAL_AND: return "&&";
-		case BINARY_OR: return "|";
-		case BINARY_AND: default: return "&";
+		case BITWISE_XOR: return "^";
+		case BITWISE_OR: return "|";
+		case BITWISE_AND: return "&";
+		case LSHIFT: return "<<";
+		case RSHIFT: return ">>";
 		}
+		return "<op>";
 	}
 	
 
@@ -58,8 +65,11 @@ public class BinaryCombination extends BinaryOperation {
 		switch(comp) {
 		case LOGICAL_OR: return OpType.L_OR;
 		case LOGICAL_AND: return OpType.L_AND;
-		case BINARY_OR: return OpType.B_OR;
-		case BINARY_AND: return OpType.B_AND;
+		case BITWISE_XOR: return OpType.B_XOR;
+		case BITWISE_OR: return OpType.B_OR;
+		case BITWISE_AND: return OpType.B_AND;
+		case LSHIFT: return OpType.LSHIFT;
+		case RSHIFT: return OpType.RSHIFT;
 		}
 		return null;
 	}

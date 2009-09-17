@@ -301,7 +301,8 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
 		
 		Type type = getType();
-		if(type != null && !type.isArray() && type.isGenericRecursive() && type.isFlat() && !isMember() && !(this instanceof Argument)) {
+		if(type != null && !type.isArray() && type.isGenericRecursive()
+				&& type.isFlat() && !isMember() && !(this instanceof Argument)) {
 			Type newType = new Type("Octet", type.startToken);
 			newType.setPointerLevel(1);
 			newType.setArray(true);

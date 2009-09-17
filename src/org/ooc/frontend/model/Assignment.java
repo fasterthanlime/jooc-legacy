@@ -16,6 +16,9 @@ public class Assignment extends BinaryOperation {
 		SUB,
 		DIV,
 		MUL,
+		B_XOR,
+		B_LSHIFT,
+		B_RSHIFT,
 	}
 	
 	protected Mode mode;
@@ -95,6 +98,12 @@ public class Assignment extends BinaryOperation {
 			return OpType.MUL_ASS;
 		case SUB:
 			return OpType.SUB_ASS;
+		case B_XOR:
+			return OpType.B_XOR_ASS;
+		case B_LSHIFT:
+			return OpType.B_LSHIFT_ASS;
+		case B_RSHIFT:
+			return OpType.B_RSHIFT_ASS;
 		case REGULAR:
 			return OpType.ASS;
 		}

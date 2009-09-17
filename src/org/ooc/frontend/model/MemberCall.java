@@ -161,7 +161,7 @@ public class MemberCall extends FunctionCall {
 	}
 	
 	@Override
-	protected VariableAccess resolveTypeParam(String typeParam, NodeList<Node> stack, boolean fatal) {
+	protected Expression getRealExpr(String typeParam, NodeList<Node> stack, Resolver res, boolean fatal) {
 		
 		Type type = expression.getType();
 		if(type != null && !type.getTypeParams().isEmpty()) {
@@ -174,14 +174,14 @@ public class MemberCall extends FunctionCall {
 					for(TypeParam candidate: typeParams.values()) {
 						i++;
 						if(candidate.getName().equals(typeParam)) {
-							VariableAccess result = type.getTypeParams().get(i);
+							Access result = type.getTypeParams().get(i);
 							return result;
 						}
 					}
 				}
 			}
 		}
-		return super.resolveTypeParam(typeParam, stack, fatal);
+		return super.getRealExpr(typeParam, stack, res, fatal);
 		
 	}
 	
