@@ -149,6 +149,12 @@ ArrayList: class <T> extends List {
 	
 	iterator: func -> Iterator<T> { return ArrayListIterator<T> new(this) }
 	
+	clone: func -> ArrayList<T> {
+		copy := This<T> new(size())
+		copy addAll(this)
+		return copy
+	}
+	
 }
 
 ArrayListIterator: class <T> extends Iterator {

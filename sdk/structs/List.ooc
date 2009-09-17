@@ -119,9 +119,11 @@ List: abstract class <T> extends Iterable {
 	/**
 	 * @return the number of elements in this list.
 	 */
-	size: abstract func() -> Int
+	size: abstract func -> Int
 
 	iterator: abstract func -> Iterator<T>
+	
+	clone: abstract func -> List<T>
 	
 }
 

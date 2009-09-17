@@ -20,19 +20,19 @@ HashEntry: class <T> {
 /**
  * Simple hash table implementation
  */
-/*
+
 HashMap: class <T> {
 
 	size, capacity: UInt
 
-	buckets: ArrayList<T>*
-	keys: ArrayList<T>
-
+	buckets: ArrayList*
+	keys: ArrayList
+	
 	/**
 	 * Returns a hash table with 100 buckets
 	 * @return HashTable
 	 */
-	/*
+	
 	init: func {
 		init(100)
 	}
@@ -42,10 +42,9 @@ HashMap: class <T> {
 	 * @param UInt capacity The number of buckets to use
 	 * @return HashTable
 	 */
-	/*
-	init: func (=capacity) {
+	init: func ~withCapacity (=capacity) {
 		size = 0
-		buckets = malloc(capacity * ArrayList size)
+		buckets = gc_malloc(capacity * ArrayList size)
 		if (!buckets) {
 			Exception new(This,
 			"Out of memory: failed to allocate " + (capacity * sizeof(ArrayList)) + " bytes\n") throw()
@@ -64,18 +63,17 @@ HashMap: class <T> {
 	 * @param Int len The size of the key (in bytes)
 	 * @param UInt seed The seed value
 	 */
-	/*
 	murmurHash: func(key: T, seed: UInt) -> UInt {
 		
 		len := T size
 		m = 0x5bd1e995 : const UInt
 		r = 24 : const Int
 
-		h = seed ^ len : UInt
+		h : UInt = seed ^ len
 		data := const key as Octet*
 
 		while (len >= 4) {
-			k := data as UInt* @
+			k := (data as UInt*) @
 
 			k *= m
 			k ^= k >> r
@@ -107,7 +105,6 @@ HashMap: class <T> {
 	 * @param String s The string to hash
 	 * @return UInt
 	 */
-	/*
 	ac_X31_hash: func (s: String) -> UInt {
 		h = s@ : UInt
 		if (h) {
@@ -126,10 +123,9 @@ HashMap: class <T> {
 	 * @param String key The key associated with the HashEntry
 	 * @return HashEntry
 	 */
-	/*
 	getEntry: func (key: String) -> HashEntry {
 		entry = null : HashEntry
-		hash = ac_X31_hash(key) % capacity : UInt
+		hash : UInt = ac_X31_hash(key) % capacity
 		iter := buckets[hash] iterator()
 		while (iter hasNext()) {
 			entry = iter next()
@@ -147,7 +143,6 @@ HashMap: class <T> {
 	 * @param Object value The value associated with the key
 	 * @return Bool
 	 */
-	/*
 	put: func (key: String, value: T) -> Bool {
 		load: Float
 		hash: UInt
@@ -158,7 +153,7 @@ HashMap: class <T> {
 		else {
 			keys add(key)
 			hash = ac_X31_hash(key) % capacity
-			entry = new(key, value)
+			entry = HashEntry<T> new(key, value)
 			buckets[hash] add(entry)
 			size += 1
 			load = size / capacity as Float
@@ -207,18 +202,17 @@ HashMap: class <T> {
 	 * @param String key The key to remove
 	 * @return Bool
 	 */
-	/*
 	remove: func (key: String) -> Bool {
 		entry := getEntry(key)
-		hash = ac_X31_hash(key) % capacity : UInt
+		hash : UInt = ac_X31_hash(key) % capacity
 		if (entry) {
 			for (i: UInt in 0.. keys size()) {
-				if (key equals(keys get(i))) {
-					keys remove(i)
+				if (key equals(keys get(i) as String)) {
+					keys removeAt(i)
 				}
 			}
 			size -= 1
-			return buckets[hash] removeElement(entry)
+			return buckets[hash] remove(entry)
 		}
 		return false
 	}
@@ -228,29 +222,28 @@ HashMap: class <T> {
 	 * @param UInt _capacity The new table capacity
 	 * @return Bool
 	 */
-	/*
 	resize: func (_capacity: UInt) -> Bool {
-		/* Keep track of old settings */ /*
+		/* Keep track of old settings */
 		old_capacity := capacity
-		old_buckets = malloc(old_capacity * ArrayList size) : ArrayList<T>*
+		old_buckets = gc_malloc(old_capacity * ArrayList size) : ArrayList<T>*
 		if (!old_buckets) {
 			Exception new(This, "Out of memory: failed to allocate %d bytes\n" + (old_capacity * ArrayList size)) throw()
 		}
 		for (i: UInt in 0..old_capacity) {
 			old_buckets[i] = buckets[i] clone()
 		}
-    /* Clear key list */ /*
+    /* Clear key list */
     keys clear()
-		/* Transfer old buckets to new buckets! */ /*
+		/* Transfer old buckets to new buckets! */
 		capacity = _capacity
-		buckets = malloc(capacity * ArrayList size)
+		buckets = gc_malloc(capacity * ArrayList size)
 		if (!buckets) {
 			Exception new(This, "Out of memory: failed to allocate %d bytes\n" + (capacity * ArrayList size)) throw()
 		}
 		for (i: UInt in 0..capacity) {
 			buckets[i] = ArrayList<T> new()
 		}
-		HashEntry entry
+		entry : HashEntry
 		for (bucket: UInt in 0..old_capacity) {
 			if (old_buckets[bucket] size() > 0) {
 				iter := old_buckets[bucket] iterator()
@@ -260,8 +253,9 @@ HashMap: class <T> {
 				}
 			}
 		}
+	
 		return true
 	}
 
 }
-*/
+

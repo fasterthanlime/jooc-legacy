@@ -62,7 +62,11 @@ public class ClassDeclWriter {
 
 			ClassDecl baseClass = classDecl.getBaseClass(decl);
 			
-			if (decl.hasReturn()) cgen.current.app("return ");
+			if (decl.hasReturn()) {
+				cgen.current.app("return (");
+				decl.getReturnType().accept(cgen);
+				cgen.current.app(")");
+			}
 			cgen.current.app("((").app(baseClass.getName()).app(
 					"Class *)((Object *)this)->class)->");
 			decl.writeSuffixedName(cgen.current);
