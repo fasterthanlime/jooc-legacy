@@ -8,6 +8,6 @@ func main {
 
 }
 
-func answer(Func(Int) callback) {
+func answer(Func (Int) callback) {
 	callback(42)
 }

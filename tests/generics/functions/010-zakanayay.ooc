@@ -1,5 +1,3 @@
-import lang.String
-
 Foobar: class {
     yay: func <T> (test: T) {
         test as String println()

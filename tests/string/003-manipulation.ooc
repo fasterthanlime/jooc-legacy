@@ -14,8 +14,7 @@ main: func -> Int {
 	printf("String '%s' endsWith '%s'? ", test, end)
 	if (test endsWith(end)) {
 		printf("OK\n")
-	}
-	else {
+	} else {
 		printf("FAIL\n")
 	}
 	

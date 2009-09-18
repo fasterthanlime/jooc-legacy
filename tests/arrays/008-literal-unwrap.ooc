@@ -5,9 +5,9 @@ main: func {
 
 }
 
-print: func ~int_array (array: Int[], size: Int) {
+print: func ~intArray (array: Int[], size: Int) {
 	
-	for(i: Int in 0..size) {
+	for(i in 0..size) {
 		printf("array[%d] = %d\n", i, array[i])
 	}
 	

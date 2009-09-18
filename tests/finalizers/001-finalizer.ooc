@@ -1,11 +1,10 @@
-Octet: extern Octet
-usleep: extern func (Int)
+usleep: extern proto func (Int)
 
 main: func {
 
 	max := 10_000
-	for(i: Int in 0..max) {
-		new MemoryChunk
+	for(i in 0..max) {
+		MemoryChunk new()
 	}
 
 }
@@ -14,8 +13,8 @@ MemoryChunk: class {
 
 	data : Octet*
 
-	new: func {
-		data = GC_malloc(sizeof(Octet) * 15000)
+	init: func {
+		data = gc_malloc(Octet size * 15000)
 	}
 
 	destroy: func {

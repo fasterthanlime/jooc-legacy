@@ -1,9 +1,9 @@
 main: func {
-	new Speaker coall();
+	new Speaker coall()
 }
 
 Speaker: class {
-	call: func println("Hi, cruel world");
-	bah: func;
-	clo: func;
+	call: func { println("Hi, cruel world") }
+	bah: func {}
+	clo: func {}
 }

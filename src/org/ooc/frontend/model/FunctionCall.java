@@ -312,6 +312,8 @@ public class FunctionCall extends Access implements MustBeResolved {
 		if(callArg != null) {
 			if(callArg.getType().getName().equals("Class")) {
 				result = (Access) callArg;
+			} else if(callArg.getType().isGeneric()) {
+				result = new VariableAccess(typeParam, callArg.startToken);
 			} else {
 				MemberAccess membAcc = new MemberAccess(callArg, "class", callArg.startToken);
 				NodeList<Access> nl = new NodeList<Access>(1, startToken);

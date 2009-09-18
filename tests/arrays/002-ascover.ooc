@@ -1,6 +1,6 @@
 IntArray: cover from Int* {
 	
-	new: func(size: SizeT) {
+	init: func(size: SizeT) {
 		return gc_calloc(sizeof(Int), size)
 	}
 	

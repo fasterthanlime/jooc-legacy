@@ -1,19 +1,17 @@
-Int: extern Int // sizeof(Int) hack
-
 IntContainer: class {
 	
 	value: Int
 	pointer : Int*
 	
 	new: func {
-		pointer = gc_malloc(sizeof(Int))
+		pointer = gc_malloc(Int size)
 	}
 }
 
 main: func {
 
 	// regular pointer to int (allocate memory for the int)
-	pointer := gc_malloc(sizeof(Int)) as Int*
+	pointer := gc_malloc(Int size) as Int*
 	pointer@ = 32
 	printValue(pointer@)
 	printPointer(pointer) // print expects a pointer: alright

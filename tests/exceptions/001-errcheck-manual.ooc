@@ -38,14 +38,14 @@ ReturnValue: class {
 	exception: Exception
 	value: Pointer
 	
-	new: func (=exception, =value) 
+	init: func (=exception, =value) 
 }
 
 Exception: class {
 	name: String
 	message: String
 	
-	new: func (=name, =message)
+	init: func (=name, =message)
 }
 
 /*************** Two malloc flavors *******************/
@@ -90,19 +90,19 @@ try_alloc_unsafe: func (size: SizeT) {
 
 /*************** Test code *******************/
 
-MAX_ITER = 10000000: const Int
+MAX_ITER := const 10000000
 
 //ALLOC_SIZE = 10000: const Int
 // this makes us go out of memory (for testing exception catching)
-ALLOC_SIZE = 3000000000: const Int
+ALLOC_SIZE := const 3000000000
 
 main: func -> Int {
 	
-	for(i: Int in 0..MAX_ITER) {
+	for(i: in 0..MAX_ITER) {
 		try_alloc_safe(ALLOC_SIZE)
 	}
 	
-	for(i: Int in 0..MAX_ITER) {
+	for(i: in 0..MAX_ITER) {
 		try_alloc_unsafe(ALLOC_SIZE)
 	}
 	

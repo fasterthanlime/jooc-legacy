@@ -1,5 +1,5 @@
 main: func {
-	call;
+	cal()
 }
 
-call: func print("Hi, cruel world");
+call: func { print("Hi, cruel world") }

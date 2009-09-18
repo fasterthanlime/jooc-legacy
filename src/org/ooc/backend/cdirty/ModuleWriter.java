@@ -127,11 +127,11 @@ public class ModuleWriter {
 				}
 			}
 		}
-		for (Node node : cgen.module.getLoadFunc().getBody()) {
-			node.accept(cgen);
-		}
 		for (Import imp : cgen.module.getImports()) {
 			cgen.current.nl().app(imp.getModule().getLoadFunc().getName()).app("();");
+		}
+		for (Node node : cgen.module.getLoadFunc().getBody()) {
+			node.accept(cgen);
 		}
 
 		cgen.current.closeBlock().closeSpacedBlock();

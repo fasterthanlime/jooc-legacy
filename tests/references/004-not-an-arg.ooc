@@ -1,14 +1,14 @@
 Int: cover {
 	
-	print: func printf("number = %d", this)
-	println: func printf("number = %d\n", this)
+	print: func { printf("number = %d", this) }
+	println: func { printf("number = %d\n", this) }
 	
 }
 
 String: cover {
 	
-	print: func printf("%s", this)
-	println: func printf("%s\n", this)
+	print: func { printf("%s", this) }
+	println: func { printf("%s\n", this) }
 	
 }
 

@@ -1,5 +1,3 @@
-Int: extern Int
-
 IntArray: class {
 	
 	size: SizeT

@@ -1,7 +1,7 @@
 
 Dog: class {
 
-	name: private String
+	name: String | private
 	age: Int
 
 	setName: func (=name)

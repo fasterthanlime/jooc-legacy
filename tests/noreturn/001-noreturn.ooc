@@ -1,2 +1,2 @@
 message: func -> String { "koolaid" }
-main: func println(message);
+main: func { println(message) }

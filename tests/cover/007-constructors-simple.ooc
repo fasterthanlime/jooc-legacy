@@ -1,17 +1,17 @@
 include math
 
-sqrt: extern func (Float);
+sqrt: extern func (Float) -> Float
 
 Point3f: cover {
 
 	x, y, z: Float
 
-	new: func (.x, .y, .z) -> This {
+	new: static func (.x, .y, .z) -> This {
 		point: Point3f
 		point x = x
 		point y = y
 		point z = z
-		point
+		return point
 	}
 	length: func -> Float sqrt(squaredLength())
 	squaredLength: func -> Float (x * x + y * y + z * z)

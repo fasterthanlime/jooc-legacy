@@ -1,8 +1,4 @@
-include stdio;
-String: cover from char*
-extern func printf(fmt: String, ...)
-
-func main {
+main: func {
 	
 	printf "Hi, world!\n";
 	

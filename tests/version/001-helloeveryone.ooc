@@ -1,4 +1,4 @@
-include stdio;
+include stdio
 
 func main {
 
