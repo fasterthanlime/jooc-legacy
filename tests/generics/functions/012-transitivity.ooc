@@ -1,16 +1,7 @@
-Test: class <T> {
-    message: T
+func1: func <T> (arg: T) {
 
-    init: func (msg: String) {
-        message = msg
-    }
-
-    print: func {
-        message as String println()
-    }
 }
 
-main: func {
-    test := Test<String> new("Hello There!")
-    test print()
+func2: func <T> (arg: T) {
+    func1(arg)
 }
