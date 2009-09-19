@@ -224,7 +224,7 @@ public class ClassDeclWriter {
 			
 			if(classDecl.getSuperRef() != null) {
 				FunctionDecl superDecl = classDecl.getSuperRef().getFunction(decl.getName(), decl.getSuffix(), null);
-				if(superDecl != null && !superDecl.isAbstract() && !decl.getName().equals("init")) continue;
+				if(superDecl != null && !decl.getName().equals("init")) continue;
 			}
 			
 			cgen.current.nl();

@@ -185,6 +185,12 @@ public class Assignment extends BinaryOperation {
 	}
 
 	private void unwrapToMemcpy(NodeList<Node> stack, Expression realLeft, Expression realRight, Expression size) {
+		
+		if(realLeft == null || realRight == null || size == null) {
+			throw new Error("Heh :/ either of those are null: realLeft = "+realLeft
+					+", realRight = "+realRight+", size = "+size);
+		}
+		
 		Block block = new Block(startToken);
 		
 		If if1 = new If(new Not(realLeft, realLeft.startToken), startToken);
@@ -196,10 +202,6 @@ public class Assignment extends BinaryOperation {
 		
 		FunctionCall call = new FunctionCall("memcpy", "", startToken);
 		NodeList<Expression> args = call.getArguments();
-		if(realLeft == null || realRight == null || size == null) {
-			throw new Error("Heh :/ either of those are null: realLeft = "+realLeft
-					+", realRight = "+realRight+", size = "+size);
-		}
 		args.add(realLeft);
 		args.add(realRight);
 		args.add(size);
