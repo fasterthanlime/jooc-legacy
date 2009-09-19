@@ -10,6 +10,8 @@ import org.ooc.middle.hobgoblins.Resolver;
 
 public class Assignment extends BinaryOperation {
 
+	public boolean dead = false;
+	
 	public static enum Mode {
 		REGULAR,
 		ADD,
@@ -117,7 +119,9 @@ public class Assignment extends BinaryOperation {
 	
 	@Override
 	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
-	
+
+		if(dead) return Response.OK;
+		
 		if(right.getType() != null && left.getType() != null) {
 			if(left.getType().isSuperOf(right.getType())) {
 				right = new Cast(right, left.getType(), right.startToken);
@@ -143,11 +147,14 @@ public class Assignment extends BinaryOperation {
 			VariableAccess tAccess = new VariableAccess(genericType.getName(), startToken);
 			size = new MemberAccess(tAccess, "size", startToken);
 			realLeft = new AddressOf(left, left.startToken);
+			realRight = new AddressOf(right, right.startToken);
 		}
+		/*
 		if(right.getType().isGeneric()) {
 			isGeneric = true;
 			realRight = new AddressOf(right, right.startToken);
 		}
+		*/
 		if(isGeneric) {
 			if(left instanceof ArrayAccess) {
 				ArrayAccess arrAcc = (ArrayAccess) left;
@@ -178,6 +185,15 @@ public class Assignment extends BinaryOperation {
 	}
 
 	private void unwrapToMemcpy(NodeList<Node> stack, Expression realLeft, Expression realRight, Expression size) {
+		Block block = new Block(startToken);
+		
+		If if1 = new If(new Not(realLeft, realLeft.startToken), startToken);
+		FunctionCall alloc = new FunctionCall("gc_malloc", "", startToken);
+		alloc.getArguments().add(size);
+		if1.getBody().add(new Line(new Assignment((Access) realLeft,
+				alloc, startToken)));
+		block.getBody().add(new Line(if1));
+		
 		FunctionCall call = new FunctionCall("memcpy", "", startToken);
 		NodeList<Expression> args = call.getArguments();
 		if(realLeft == null || realRight == null || size == null) {
@@ -187,7 +203,10 @@ public class Assignment extends BinaryOperation {
 		args.add(realLeft);
 		args.add(realRight);
 		args.add(size);
-		stack.peek().replace(this, call);
+		block.getBody().add(new Line(call));
+		
+		stack.peek().replace(this, block);
+		
 	}
 	
 }

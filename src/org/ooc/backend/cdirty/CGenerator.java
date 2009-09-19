@@ -176,8 +176,8 @@ public class CGenerator extends Generator implements Visitor {
 	@Override
 	public void visit(Assignment assignment) throws IOException {
 		Expression left = assignment.getLeft();
-		if(left instanceof Access) {
-			AccessWriter.write((Access) left, false, this);
+		if(left instanceof VariableAccess) {
+			AccessWriter.write((VariableAccess) left, false, this);
 		} else {
 			left.accept(this);
 		}

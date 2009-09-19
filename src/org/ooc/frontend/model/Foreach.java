@@ -101,6 +101,15 @@ public class Foreach extends ControlStatement implements MustBeResolved {
 	@Override
 	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
 		
+		/*
+		if(collection.getType().getRef() == null) {
+			if(fatal) {
+				throw new OocCompilationError(collection, stack, "Couldn't resolve type of foreach's collection.");
+			}
+			return Response.LOOP;
+		}
+		*/
+		
 		if(collection.getType().getRef() instanceof ClassDecl) {
 			ClassDecl classDecl = (ClassDecl) collection.getType().getRef();
 			if(classDecl.isChildOf("Iterable")) {
