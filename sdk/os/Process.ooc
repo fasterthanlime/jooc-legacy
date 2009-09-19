@@ -49,10 +49,10 @@ Pipe: class {
         write(writeFD, arg, len)
     }
 
-    close: func(arg: Int) {
-        if (arg == 0) {
+    close: func(arg: Char) {
+        if (arg == 'r') {
             close(readFD)
-        } else {
+        } else if (arg == 'w') {
             close(writeFD)
         }
     }
@@ -93,12 +93,12 @@ SubProcess: class {
             
             // TODO: use constants instead of magic numbers + refactoring
             
-            stdoutPipe close(0)
+            stdoutPipe close('r')
             execvp(executable, args)
         } else {
             /* In parent-process */
             
-            stdoutPipe close(0)
+            stdoutPipe close('r')
             waitpid(0, status&, null)
             tmp := stdoutPipe read(20)
             tmp as String println()                         
