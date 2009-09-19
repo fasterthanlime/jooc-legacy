@@ -25,11 +25,11 @@ public class Assignment extends BinaryOperation {
 	
 	protected Mode mode;
 	
-	public Assignment(Access left, Expression right, Token startToken) {
+	public Assignment(Expression left, Expression right, Token startToken) {
 		this(Mode.REGULAR, left, right, startToken);
 	}
 	
-	public Assignment(Mode mode, Access lvalue, Expression rvalue, Token startToken) {
+	public Assignment(Mode mode, Expression lvalue, Expression rvalue, Token startToken) {
 		super(lvalue, rvalue, startToken);
 		this.mode = mode;
 		this.left = lvalue;
@@ -196,8 +196,10 @@ public class Assignment extends BinaryOperation {
 		If if1 = new If(new Not(realLeft, realLeft.startToken), startToken);
 		FunctionCall alloc = new FunctionCall("gc_malloc", "", startToken);
 		alloc.getArguments().add(size);
-		if1.getBody().add(new Line(new Assignment((Access) realLeft,
-				alloc, startToken)));
+		Assignment allocAss = new Assignment(realLeft,
+				alloc, startToken);
+		allocAss.dead = true;
+		if1.getBody().add(new Line(allocAss));
 		block.getBody().add(new Line(if1));
 		
 		FunctionCall call = new FunctionCall("memcpy", "", startToken);
