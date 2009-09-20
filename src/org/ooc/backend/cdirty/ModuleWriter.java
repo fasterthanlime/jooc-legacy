@@ -10,6 +10,7 @@ import org.ooc.frontend.model.Import;
 import org.ooc.frontend.model.Include;
 import org.ooc.frontend.model.Module;
 import org.ooc.frontend.model.Node;
+import org.ooc.frontend.model.Type;
 import org.ooc.frontend.model.TypeDecl;
 import org.ooc.frontend.model.Use;
 import org.ooc.middle.UseDef;
@@ -39,7 +40,7 @@ public class ModuleWriter {
 		for(Use use: module.getUses()) {
 			UseDef useDef = use.getUseDef();
 			for(String include: useDef.getIncludes()) {
-				cgen.current.app("#include <").app(include).app(">").nl();
+				cgen.current.nl().app("#include <").app(include).app(">");
 			}
 		}
 		
@@ -47,8 +48,9 @@ public class ModuleWriter {
 			for(TypeDecl node : module.getTypes().getAll(key)) {
 				if(node instanceof ClassDecl) {
 					ClassDecl classDecl = (ClassDecl) node;
-					ClassDeclWriter.writeStructTypedef(classDecl.getName(), cgen);
-					ClassDeclWriter.writeStructTypedef(classDecl.getName()+"Class", cgen);
+					String className = classDecl.getUnderName();
+					ClassDeclWriter.writeStructTypedef(className, cgen);
+					ClassDeclWriter.writeStructTypedef(className+"Class", cgen);
 				} else if(node instanceof CoverDecl) {
 					CoverDeclWriter.writeTypedef((CoverDecl) node, cgen);
 				}
@@ -110,10 +112,14 @@ public class ModuleWriter {
 			throws IOException {
 
 		cgen.current = cgen.hw;
-		cgen.current.nl().app("Void ").app(cgen.module.getLoadFunc().getName()).app("();");
+		cgen.current.nl();
+		Type.getVoid().accept(cgen);
+		cgen.current.app(' ').app(cgen.module.getLoadFunc().getName()).app("();");
 
 		cgen.current = cgen.cw;
-		cgen.current.nl().app("Void ").app(cgen.module.getLoadFunc().getName()).app("()").openBlock();
+		cgen.current.nl();
+		Type.getVoid().accept(cgen);
+		cgen.current.app(' ').app(cgen.module.getLoadFunc().getName()).app("()").openBlock();
 
 		cgen.current.nl().app("static bool __done__ = false;").nl().app("if (!__done__)").openBlock();
 		cgen.current.nl().app("__done__ = true;");

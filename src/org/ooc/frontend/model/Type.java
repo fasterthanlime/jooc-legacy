@@ -33,7 +33,6 @@ public class Type extends Node implements MustBeResolved {
 	public static Type getVoid() {
 		if(voidType == null) {
 			voidType = new Type("Void", Token.defaultToken);
-			voidType.setRef(new BuiltinType("void"));
 		}
 		return voidType;
 	}
@@ -243,7 +242,7 @@ public class Type extends Node implements MustBeResolved {
 	public Type getGroundType(Resolver res) {
 		if(ref instanceof CoverDecl) {
 			CoverDecl coverDecl = (CoverDecl) ref;
-			if(coverDecl.getFromType() != null) {
+			if(coverDecl.getFromType() != null && !name.equals(coverDecl.getFromType().getName())) {
 				Type rawType = coverDecl.getFromType().getGroundType(res);
 				Type groundType = new Type(rawType.name, pointerLevel, referenceLevel, rawType.startToken);
 				if(res == null) {
@@ -369,6 +368,12 @@ public class Type extends Node implements MustBeResolved {
 			}
 		}
 		return false;
+	}
+	
+	public boolean isPrefixed() {
+	
+		return (ref instanceof ClassDecl || (ref instanceof CoverDecl && !((CoverDecl) ref).isExtern()));
+		
 	}
 	
 }

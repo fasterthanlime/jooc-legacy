@@ -30,10 +30,12 @@ public class CallWriter {
 		if(functionCall.getName().equals("sizeof")) {
 			Expression arg = functionCall.getArguments().getFirst();
 			if(!(arg instanceof VariableAccess)) {
-				throw new OocCompilationError(arg, cgen.module, "You can only call sizeof() on a type! What are you doing?");
+				throw new OocCompilationError(arg, cgen.module,
+						"You can only call sizeof() on a type! What the.. are you doing?");
 			}
 			VariableAccess varAcc = (VariableAccess) arg;
-			cgen.current.app("sizeof(").app(varAcc.getName()).app(")");
+			cgen.current.app("sizeof(");
+			cgen.current.app(varAcc.getUnderName()).app(")");
 			return;
 		}
 		
@@ -91,7 +93,6 @@ public class CallWriter {
 			}
 		}
 		if(functionCall.isConstructorCall() && impl.getTypeDecl() instanceof ClassDecl) {
-			System.out.println("Castiiiing!");
 			isFirst = false;
 			cgen.current.app('(');
 			impl.getTypeDecl().getInstanceType().accept(cgen);

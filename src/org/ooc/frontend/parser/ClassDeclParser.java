@@ -66,7 +66,7 @@ public class ClassDeclParser {
 						"Expected opening bracket to begin class declaration.");
 			}
 			
-			ClassDecl classDecl = new ClassDecl(name, superType, isAbstract, tName);
+			ClassDecl classDecl = new ClassDecl(name, superType, isAbstract, module, tName);
 			if(genTypes != null) for(TypeParam genType: genTypes) {
 				classDecl.addTypeParam(genType);
 			}

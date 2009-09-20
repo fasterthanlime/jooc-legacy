@@ -18,7 +18,7 @@ import org.ooc.frontend.model.VariableAccess;
 public class AccessWriter {
 
 	public static void writeMember(MemberAccess memberAccess, CGenerator cgen) throws IOException {
-
+		
 		if(memberAccess.getExpression() instanceof VariableAccess) {
 			VariableAccess varAcc = (VariableAccess) memberAccess.getExpression();
 			if(varAcc.getRef() instanceof TypeDecl) {
@@ -72,7 +72,7 @@ public class AccessWriter {
 				expression.accept(cgen);
 			} else {
 				cgen.current.app("((");
-				cgen.current.app(refTypeDecl.getInstanceType().getName());
+				cgen.current.app(((TypeDecl) refTypeDecl.getInstanceType().getRef()).getUnderName());
 				TypeWriter.writeFinale(membExprType(memberAccess), cgen);
 				cgen.current.app(") ");
 				expression.accept(cgen);
@@ -97,7 +97,7 @@ public class AccessWriter {
 	public static void writeVariable(VariableAccess variableAccess, boolean doTypeParams, CGenerator cgen) throws IOException {
 		
 		if(variableAccess.getRef() instanceof TypeDecl && !(variableAccess.getRef() instanceof TypeParam)) {
-			cgen.current.app(variableAccess.getName()).app("_class()");
+			cgen.current.app(variableAccess.getUnderName()).app("_class()");
 			return;
 		}
 		

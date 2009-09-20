@@ -32,8 +32,8 @@ public class CoverDecl extends TypeDecl implements MustBeResolved {
 	protected List<CoverDecl> addons;
 	protected FunctionDecl classGettingFunc;
 	
-	public CoverDecl(String name, Type superType, Type fromType, Token startToken) {
-		super(name, superType, startToken);
+	public CoverDecl(String name, Type superType, Type fromType, Module module, Token startToken) {
+		super(name, superType, module, startToken);
 		this.fromType = fromType;
 		this.base = null;
 		this.addons = new ArrayList<CoverDecl>();

@@ -17,8 +17,11 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic {
 	protected Type instanceType;
 	protected LinkedHashMap<String, TypeParam> typeParams;
 	
-	public TypeDecl(String name, Type superType, Token startToken) {
+	protected Module module;
+	
+	public TypeDecl(String name, Type superType, Module module, Token startToken) {
 		super(name, startToken);
+		this.module = module;
 		this.superType = superType;
 		this.variables = new NodeList<VariableDecl>(startToken);
 		this.functions = new NodeList<FunctionDecl>(startToken);
@@ -226,6 +229,12 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic {
 		}
 		
 		return sB.toString();
+	}
+	
+	public String getUnderName() {
+		if(module != null && !isExtern())
+			return module.getPackageName() + "_" + getName();
+		return getName();
 	}
 
 }

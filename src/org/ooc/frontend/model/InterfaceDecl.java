@@ -7,8 +7,8 @@ import org.ooc.frontend.model.tokens.Token;
 
 public class InterfaceDecl extends TypeDecl {
 
-	public InterfaceDecl(String name, Token startToken) {
-		super(name, null, startToken);
+	public InterfaceDecl(String name, Module module, Token startToken) {
+		super(name, null, module, startToken);
 	}
 
 	@Override

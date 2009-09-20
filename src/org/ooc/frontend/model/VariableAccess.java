@@ -200,4 +200,11 @@ public class VariableAccess extends Access implements MustBeResolved {
 		return "VariableAccess|"+name+":"+getType();
 	}
 
+	public String getUnderName() {
+		if(ref instanceof TypeDecl) {
+			return ((TypeDecl) ref).getUnderName();
+		}
+		return getName();
+	}
+
 }

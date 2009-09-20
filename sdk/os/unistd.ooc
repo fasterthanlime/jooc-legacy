@@ -1,6 +1,6 @@
 //import structs/ArrayList
 
-include unistd
+include unistd | (__USE_GNU)
 include linux/limits
 
 PIPE_BUF: extern Int

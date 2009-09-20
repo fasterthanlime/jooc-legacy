@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.StringTokenizer;
 
 import org.ooc.middle.UseDef;
+import org.ooc.middle.UseDef.Requirement;
 import org.ubi.CompilationFailedError;
 import org.ubi.SourceReader;
 
@@ -54,12 +55,41 @@ public class UseDefParser {
 			} else if(id.equals("Libs")) {
 				StringTokenizer st = new StringTokenizer(value, ",");
 				while(st.hasMoreTokens()) def.getLibs().add(st.nextToken().trim()); 
-			}else if(id.equals("Includes")) {
+			} else if(id.equals("Includes")) {
 				StringTokenizer st = new StringTokenizer(value, ",");
 				while(st.hasMoreTokens()) def.getIncludes().add(st.nextToken().trim()); 
+			} else if(id.equals("Lib-Paths")) {
+				StringTokenizer st = new StringTokenizer(value, ",");
+				while(st.hasMoreTokens()) {
+					String libPath = st.nextToken().trim();
+					File libFile = new File(file.getParent(), libPath);
+					if(!libFile.isAbsolute()) {
+						libPath = libFile.getCanonicalPath();
+					}
+					def.getLibPaths().add(libPath);
+				} 
+			} else if(id.equals("Include-Paths")) {
+				StringTokenizer st = new StringTokenizer(value, ",");
+				while(st.hasMoreTokens()) {
+					String includePath = st.nextToken().trim();
+					File includeFile = new File(file.getParent(), includePath);
+					if(!includeFile.isAbsolute()) {
+						includePath = includeFile.getCanonicalPath();
+					}
+					def.getIncludePaths().add(includePath);
+				} 
+			} else if(id.equals("Requires")) {
+				StringTokenizer st = new StringTokenizer(value, ",");
+				while(st.hasMoreTokens()) {
+					def.getRequirements().add(new Requirement(st.nextToken().trim(), new int[] {0}));
+				}
 			}
 			
 			reader.skipWhitespace();
+		}
+		
+		for(Requirement req: def.getRequirements()) {
+			req.setDef(parse(req.getName(), params));
 		}
 		
 		return def;

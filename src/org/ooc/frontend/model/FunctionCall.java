@@ -309,7 +309,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 		
 		Access result = null;
 		Expression callArg = getRealExpr(typeParam, stack, res, fatal);
-		if(callArg != null) {
+		if(callArg != null && callArg.getType() != null) {
 			if(callArg.getType().getName().equals("Class")) {
 				result = (Access) callArg;
 			} else if(callArg.getType().isGeneric()) {

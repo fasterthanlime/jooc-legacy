@@ -62,7 +62,7 @@ public class CoverDeclParser {
 				break;
 			}
 			
-			CoverDecl coverDecl = new CoverDecl(name, superType, overType, startToken);
+			CoverDecl coverDecl = new CoverDecl(name, superType, overType, module, startToken);
 			module.parseStack.push(coverDecl);
 			coverDecl.setExternName(externName);
 			if(comment != null) coverDecl.setComment(comment);

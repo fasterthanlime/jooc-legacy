@@ -29,6 +29,7 @@ import org.ooc.frontend.pkgconfig.PkgConfigFrontend;
 import org.ooc.frontend.pkgconfig.PkgInfo;
 import org.ooc.middle.Tinkerer;
 import org.ooc.middle.UseDef;
+import org.ooc.middle.UseDef.Requirement;
 import org.ooc.utils.FileUtils;
 import org.ooc.utils.ProcessUtils;
 import org.ooc.utils.ShellUtils;
@@ -464,36 +465,66 @@ public class CommandLine {
 
 		Set<String> list = new HashSet<String>();
 		Set<Module> done = new HashSet<Module>();
-		getFlagsFromUse(module, list, done);
+		getFlagsFromUse(module, list, done, new HashSet<UseDef>());
 		return list;
 		
 	}
 
-	protected void getFlagsFromUse(Module module, Set<String> list, Set<Module> done) throws IOException, InterruptedException {
+	protected void getFlagsFromUse(Module module, Set<String> flagsDone, Set<Module> modulesDone, Set<UseDef> usesDone) throws IOException, InterruptedException {
 
-		if(done.contains(module)) return;
-		done.add(module);
+		if(modulesDone.contains(module)) return;
+		modulesDone.add(module);
 		
 		for(Use use: module.getUses()) {
 			UseDef useDef = use.getUseDef();
-			compileNasms(useDef.getLibs(), list);
-			for(String pkg: useDef.getPkgs()) {
-				PkgInfo info = PkgConfigFrontend.getInfo(pkg);
-				for(String cflag: info.cflags) {
-					if(!list.contains(cflag)) {
-						list.add(cflag);
-					}
-				}
-				for(String library: info.libraries) {
-					if(!list.contains(library)) {
-						list.add("-l"+library); // FIXME lazy
-					}
-				}
-			}
+			getFlagsFromUse(useDef, flagsDone, usesDone);
 		}
 		
 		for(Import imp: module.getImports()) {
-			getFlagsFromUse(imp.getModule(), list, done);
+			getFlagsFromUse(imp.getModule(), flagsDone, modulesDone, usesDone);
+		}
+		
+	}
+
+	private void getFlagsFromUse(UseDef useDef, Set<String> flagsDone,
+			Set<UseDef> usesDone) throws IOException, InterruptedException {
+		
+		if(usesDone.contains(useDef)) return;
+		usesDone.add(useDef);
+		compileNasms(useDef.getLibs(), flagsDone);
+		for(String pkg: useDef.getPkgs()) {
+			PkgInfo info = PkgConfigFrontend.getInfo(pkg);
+			for(String cflag: info.cflags) {
+				if(!flagsDone.contains(cflag)) {
+					flagsDone.add(cflag);
+				}
+			}
+			for(String library: info.libraries) {
+				 // FIXME lazy
+				String lpath = "-l"+library;
+				if(!flagsDone.contains(lpath)) {
+					flagsDone.add(lpath);
+				}
+			}
+		}
+		for(String includePath: useDef.getIncludePaths()) {
+			 // FIXME lazy too.
+			String ipath = "-I"+includePath;
+			if(!flagsDone.contains(ipath)) {
+				flagsDone.add(ipath);
+			}
+		}
+		
+		for(String libPath: useDef.getLibPaths()) {
+			 // FIXME lazy too.
+			String lpath = "-L"+libPath;
+			if(!flagsDone.contains(lpath)) {
+				flagsDone.add(lpath);
+			}
+		}
+		
+		for(Requirement req: useDef.getRequirements()) {
+			getFlagsFromUse(req.getUseDef(), flagsDone, usesDone);
 		}
 		
 	}

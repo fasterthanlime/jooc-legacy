@@ -145,7 +145,7 @@ public class ExpressionParser {
 						"Attempting to assign to a constant, e.g. "+expr);
 				}
 				if(token.type == TokenType.ASSIGN) {
-					expr = new Assignment((Access) expr, rvalue, token);
+					expr = new Assignment(expr, rvalue, token);
 				}
 				continue;
 				
@@ -227,16 +227,16 @@ public class ExpressionParser {
 						expr = new Compare(expr, rvalue, CompareType.NOT_EQUAL, token); break;
 					case TokenType.PLUS_ASSIGN:
 						ensureAccess(expr);
-						expr = new Assignment(Mode.ADD, (Access) expr, rvalue, token); break;
+						expr = new Assignment(Mode.ADD, expr, rvalue, token); break;
 					case TokenType.MINUS_ASSIGN:
 						ensureAccess(expr);
-						expr = new Assignment(Mode.SUB, (Access) expr, rvalue, token); break;
+						expr = new Assignment(Mode.SUB, expr, rvalue, token); break;
 					case TokenType.STAR_ASSIGN:
 						ensureAccess(expr);
-						expr = new Assignment(Mode.MUL, (Access) expr, rvalue, token); break;
+						expr = new Assignment(Mode.MUL, expr, rvalue, token); break;
 					case TokenType.SLASH_ASSIGN:
 						ensureAccess(expr);
-						expr = new Assignment(Mode.DIV, (Access) expr, rvalue, token); break;
+						expr = new Assignment(Mode.DIV, expr, rvalue, token); break;
 					case TokenType.PIPE:
 						expr = new BinaryCombination(BinaryComp.BITWISE_OR, expr, rvalue, token); break;
 					case TokenType.AMPERSAND:
@@ -249,7 +249,7 @@ public class ExpressionParser {
 					case TokenType.CARET:
 						if(isAssign) {
 							ensureAccess(expr);
-							expr = new Assignment(Mode.B_XOR, (Access) expr, rvalue, token); break;
+							expr = new Assignment(Mode.B_XOR, expr, rvalue, token); break;
 						}
 						expr = new BinaryCombination(BinaryComp.BITWISE_XOR, expr, rvalue, token); break;
 					default: throw new CompilationFailedError(sReader.getLocation(reader.prev()),

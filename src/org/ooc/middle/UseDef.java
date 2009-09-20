@@ -7,7 +7,34 @@ public class UseDef {
 
 	public static class Requirement {
 		String name;
-		List<Integer> version;
+		int[] version;
+		UseDef useDef = null;
+		
+		public Requirement(String name, int[] version) {
+			this.name = name;
+			this.version = version;
+		}
+		
+		@Override
+		public String toString() {
+			return name+" "+version[0];
+		}
+		
+		public String getName() {
+			return name;
+		}
+		
+		public int[] getVersion() {
+			return version;
+		}
+		
+		public UseDef getUseDef() {
+			return useDef;
+		}
+		
+		public void setDef(UseDef def) {
+			this.useDef = def;
+		}
 	}
 	
 	protected String identifier;
@@ -17,6 +44,8 @@ public class UseDef {
 	final protected List<String> pkgs;
 	final protected List<String> libs;
 	final protected List<String> includes;
+	final protected List<String> libPaths;
+	final protected List<String> includePaths;
 	
 	public UseDef(String identifier) {
 		this.identifier = identifier;
@@ -24,6 +53,8 @@ public class UseDef {
 		this.pkgs = new ArrayList<String>();
 		this.libs = new ArrayList<String>();
 		this.includes = new ArrayList<String>();
+		this.libPaths = new ArrayList<String>();
+		this.includePaths = new ArrayList<String>();
 	}
 	
 	public String getIdentifier() {
@@ -64,6 +95,14 @@ public class UseDef {
 	
 	public List<String> getIncludes() {
 		return includes;
+	}
+	
+	public List<String> getLibPaths() {
+		return libPaths;
+	}
+	
+	public List<String> getIncludePaths() {
+		return includePaths;
 	}
 	
 	@Override

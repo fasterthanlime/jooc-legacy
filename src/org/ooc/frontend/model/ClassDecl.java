@@ -22,9 +22,9 @@ public class ClassDecl extends TypeDecl implements MustBeResolved {
 	
 	
 	
-	public ClassDecl(String name, Type superType, boolean isAbstract, Token startToken) {
+	public ClassDecl(String name, Type superType, boolean isAbstract, Module module, Token startToken) {
 		super(name, (superType == null && !name.equals("Object")) ?
-				new Type("Object", Token.defaultToken) : superType, startToken);
+				new Type("Object", Token.defaultToken) : superType, module, startToken);
 		this.isAbstract = isAbstract;
 		
 		addFunction(new FunctionDecl(LOAD_FUNC_NAME,     "", false, true,  false, false, startToken));

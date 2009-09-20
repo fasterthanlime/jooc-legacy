@@ -28,6 +28,7 @@ public class Module extends Node implements Scope {
 	public NodeList<Node> parseStack = new NodeList<Node>();
 	
 	public long lastModified;
+	private String packageName;
 	
 	public Module(String fullName, SourceReader reader) {
 		
@@ -37,8 +38,14 @@ public class Module extends Node implements Scope {
 		this.fullName = fullName; // just to make sure
 		this.fileName = fullName.replace('.', File.separatorChar);
 		int index = fullName.lastIndexOf('.');
-		if(index == -1) name = fullName;
-		else name = fullName.substring(index + 1);
+		if(index == -1) {
+			name = fullName;
+			packageName = "";
+		} else{
+			name = fullName.substring(index + 1);
+			packageName = fullName.substring(0, index);
+		}
+		
 		this.underName = "_"+fullName.replaceAll("[^a-zA-Z0-9_]", "_");
 		
 		this.includes = new NodeList<Include>(startToken);
@@ -231,6 +238,10 @@ public class Module extends Node implements Scope {
 			}
 		}
 		return null;
+	}
+
+	public String getPackageName() {
+		return packageName;
 	}
 	
 }

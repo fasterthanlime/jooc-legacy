@@ -4,13 +4,22 @@ import java.io.IOException;
 
 import org.ooc.frontend.model.ClassDecl;
 import org.ooc.frontend.model.FunctionDecl;
-import org.ooc.frontend.model.TypeParam;
 import org.ooc.frontend.model.Type;
+import org.ooc.frontend.model.TypeDecl;
+import org.ooc.frontend.model.TypeParam;
 import org.ooc.middle.OocCompilationError;
 
 public class TypeWriter {
 
 	public static void write(Type type, CGenerator cgen) throws IOException {
+		write(type, cgen, true);		
+	}
+	
+	public static void write(Type type, CGenerator cgen, boolean doPrefix) throws IOException {
+		if(type.getRef() == null) {
+			throw new OocCompilationError(type, cgen.module, "Unresolved type '"+type.getName()+"' !!");
+		}
+		
 		if(type.getName().equals("Func")) {
 			writeFuncPointer(((FunctionDecl) type.getRef()), "", cgen);
 			return;
@@ -22,15 +31,16 @@ public class TypeWriter {
 		}
 		
 		if(type.isConst()) cgen.current.app("const ");
-		cgen.current.app(type.getName());
+		if(doPrefix && type.getRef() instanceof TypeDecl) {
+			cgen.current.app(((TypeDecl) type.getRef()).getUnderName());
+		} else {
+			cgen.current.app(type.getName());
+		}
 		
 		if(!type.isFlat()) {
 			cgen.current.app(' ');
 		}
 		
-		if(type.getRef() == null) {
-			throw new OocCompilationError(type, cgen.module, "Unresolved type '"+type.getName()+"' !!");
-		}
 		writeFinale(type, cgen);
 	}
 	
@@ -56,7 +66,11 @@ public class TypeWriter {
 	}
 	
 	public static void writeSpaced(Type type, CGenerator cgen) throws IOException {
-		type.accept(cgen);
+		writeSpaced(type, cgen, true);
+	}
+	
+	public static void writeSpaced(Type type, CGenerator cgen, boolean doPrefix) throws IOException {
+		write(type, cgen, doPrefix);
 		if(type.isFlat()) cgen.current.app(' ');
 	}
 

@@ -12,7 +12,7 @@ public class CoverDeclWriter {
 		// addons only add functions to an already imported cover, so
 		// we don't need to struct it again, it would confuse the C compiler
 		if(!cover.isAddon() && !cover.isExtern() && cover.getFromType() == null) {
-			cgen.current.app("struct _").app(cover.getName()).app(' ').openBlock();
+			cgen.current.app("struct _").app(cover.getUnderName()).app(' ').openBlock();
 			for(VariableDecl decl: cover.getVariables()) {
 				cgen.current.nl();
 				decl.accept(cgen);
@@ -32,11 +32,13 @@ public class CoverDeclWriter {
 		if(!cover.isAddon() && !cover.isExtern()) {
 			Type fromType = cover.getFromType();
 			if(fromType == null) {
-				cgen.current.nl().app("typedef struct _").app(cover.getName()).app(' ').app(cover.getName()).app(';');
+				cgen.current.nl().app("typedef struct _").app(cover.getUnderName())
+					.app(' ').app(cover.getUnderName()).app(';');
 			} else {
 				cgen.current.nl().app("typedef ");
-				TypeWriter.writeSpaced(fromType.getGroundType(), cgen);
-				cgen.current.app(cover.getName()).app(';');
+				TypeWriter.writeSpaced(fromType.getGroundType(), cgen, false);
+				//TypeWriter.writeSpaced(fromType, cgen);
+				cgen.current.app(cover.getUnderName()).app(';');
 			}
 		}
 	}
