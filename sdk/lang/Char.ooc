@@ -7,4 +7,11 @@ Char: cover from char {
 		return -1
 	}
 	
+	print: func { 
+		printf("%c", this)
+	}
+	
+	println: func {
+		printf("%c\n", this)
+	}
 }
