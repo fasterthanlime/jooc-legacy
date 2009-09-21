@@ -346,10 +346,17 @@ public class CGenerator extends Generator implements Visitor {
 		Iterator<Expression> iter = arrayLiteral.getElements().iterator();
 		while(iter.hasNext()) {
 			Expression element = iter.next();
+			boolean doCasting = false;
 			if(!element.getType().getName().equals(arrayLiteral.getType().getName())) {
-				
+				doCasting = true;
+				current.app("((");
+				arrayLiteral.getElements().get(0).getType().accept(this);
+				current.app(") ");
 			}
 			element.accept(this);
+			if(doCasting) {
+				current.app(")");
+			}
 			if(iter.hasNext()) current.app(", ");
 		}
 		current.app('}');
