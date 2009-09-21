@@ -617,7 +617,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 		Iterator<Argument> declIter = declArgs.iterator();
 		if(decl.hasThis() && declIter.hasNext()) declIter.next();
 		Iterator<Expression> callIter = arguments.iterator();
-		while(callIter.hasNext()) {
+		while(callIter.hasNext() && declIter.hasNext()) {
 			Argument declArg = declIter.next();
 			Expression callArg = callIter.next();
 			if(declArg.getType() == null) {
