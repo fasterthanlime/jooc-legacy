@@ -60,6 +60,11 @@ public class ModuleWriter {
 		}
 		cgen.current.nl();
 		
+		cgen.current.nl();
+		for(Import imp: module.getImports()) {
+			String include = imp.getModule().getFullName().replace('.', File.separatorChar);
+			cgen.current.app("#include <").app(include).app(".h>").nl();
+		}
 		for(Node node: module.getBody()) {
 			if(node instanceof Line) {
 				Line line = (Line) node;
@@ -68,12 +73,6 @@ public class ModuleWriter {
 					node.accept(cgen);
 				}
 			}
-		}
-		
-		cgen.current.nl();
-		for(Import imp: module.getImports()) {
-			String include = imp.getModule().getFullName().replace('.', File.separatorChar);
-			cgen.current.app("#include <").app(include).app(".h>").nl();
 		}
 		
 		cgen.current = cgen.cw;
@@ -92,7 +91,21 @@ public class ModuleWriter {
 				node.accept(cgen);
 			}
 		}
-		module.acceptChildren(cgen);
+		//module.acceptChildren(cgen);
+		for(Node node: module.getBody()) {
+			if(node instanceof Line) {
+				Line line = (Line) node;
+				Node inner = line.getStatement();
+				if(!(inner instanceof VariableDecl)) {
+					node.accept(cgen);
+				}
+			} else {
+				node.accept(cgen);
+			}
+		}
+		module.getTypes().accept(cgen);
+		module.getOps().accept(cgen);
+		module.getLoadFunc().accept(cgen);
 		
 		ModuleWriter.writeLoadFunc(cgen);
 		if(module.isMain()) writeDefaultMain(cgen);
