@@ -43,7 +43,7 @@ public class Module extends Node implements Scope {
 			packageName = "";
 		} else{
 			name = fullName.substring(index + 1);
-			packageName = fullName.substring(0, index);
+			packageName = fullName.substring(0, index).replaceAll("[^a-zA-Z0-9_]", "_");
 		}
 		
 		this.underName = "_"+fullName.replaceAll("[^a-zA-Z0-9_]", "_");
