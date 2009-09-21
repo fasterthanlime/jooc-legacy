@@ -20,8 +20,6 @@ public class ClassDecl extends TypeDecl implements MustBeResolved {
 	
 	protected FunctionDecl defaultInit = null;
 	
-	
-	
 	public ClassDecl(String name, Type superType, boolean isAbstract, Module module, Token startToken) {
 		super(name, (superType == null && !name.equals("Object")) ?
 				new Type("Object", Token.defaultToken) : superType, module, startToken);

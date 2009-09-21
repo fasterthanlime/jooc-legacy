@@ -161,6 +161,33 @@ public class MemberCall extends FunctionCall {
 	}
 	
 	@Override
+	protected Type getRealType(String typeParam, NodeList<Node> stack,
+			Resolver res, boolean fatal) {
+	
+		Type type = expression.getType();
+		if(type != null && !type.getTypeParams().isEmpty()) {
+			Declaration ref = type.getRef();
+			if(ref instanceof TypeDecl) {
+				TypeDecl typeDecl = (TypeDecl) ref;
+				LinkedHashMap<String, TypeParam> typeParams = typeDecl.getTypeParams();
+				if(!typeParams.isEmpty()) {
+					int i = -1;
+					for(TypeParam candidate: typeParams.values()) {
+						i++;
+						if(candidate.getName().equals(typeParam)) {
+							Access result = type.getTypeParams().get(i);
+							return result.getType();
+						}
+					}
+				}
+			}
+		}
+		
+		return super.getRealType(typeParam, stack, res, fatal);
+		
+	}
+	
+	@Override
 	protected Expression getRealExpr(String typeParam, NodeList<Node> stack, Resolver res, boolean fatal) {
 		
 		Type type = expression.getType();

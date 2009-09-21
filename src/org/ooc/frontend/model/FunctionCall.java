@@ -80,7 +80,6 @@ public class FunctionCall extends Access implements MustBeResolved {
 	
 	private Type realTypize(Type typeArg, Resolver res, NodeList<Node> stack) {
 		
-		
 		Type realType = getRealType(typeArg.getName(), stack, res, true);
 		
 		Type type = null;
@@ -281,6 +280,9 @@ public class FunctionCall extends Access implements MustBeResolved {
 	protected Expression getRealExpr(String typeParam, NodeList<Node> stack, Resolver res, boolean fatal) {
 
 		if(impl == null) return null;
+		
+		Expression result = null;
+		
 		int i = -1;
 		boolean isFirst = true;
 		for(Argument arg: impl.getArguments()) {
@@ -290,10 +292,11 @@ public class FunctionCall extends Access implements MustBeResolved {
 			}
 			i++;
 			if(arg.getType().getName().equals(typeParam)) {
-				return arguments.get(i);
+				result = arguments.get(i);
+				break;
 			}
 		}
-		return null;
+		return result;
 		
 	}
 	
@@ -309,13 +312,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 			} else if(callArg.getType().isGeneric()) {
 				result = new VariableAccess(typeParam, callArg.startToken);
 			} else {
-				MemberAccess membAcc = new MemberAccess(callArg, "class", callArg.startToken);
-				NodeList<Access> nl = new NodeList<Access>(1, startToken);
-				nl.add(membAcc);
-				stack.push(nl);
-				membAcc.resolve(stack, res, fatal);
-				stack.pop(nl);
-				result = nl.get(0);
+				result = (Access) callArg;
 			}
 		}
 			
