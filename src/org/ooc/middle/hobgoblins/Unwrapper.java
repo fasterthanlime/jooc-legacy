@@ -40,13 +40,11 @@ public class Unwrapper implements Hobgoblin {
 	protected static final int MAX = 1024;
 	boolean running;
 
-	@Override
 	public boolean process(Module module, BuildParams params) throws IOException {
 
 		resolveSuper(module, new HashSet<Module>());
 
 		SketchyNosy nosy = new SketchyNosy(new Opportunist<Node>() {
-			@Override
 			public boolean take(Node node, NodeList<Node> stack)
 					throws IOException {
 				if (node instanceof MustBeUnwrapped) {

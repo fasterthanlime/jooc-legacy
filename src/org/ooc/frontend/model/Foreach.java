@@ -36,17 +36,14 @@ public class Foreach extends ControlStatement implements MustBeResolved {
 		this.collection = range;
 	}
 	
-	@Override
 	public void accept(Visitor visitor) throws IOException {
 		visitor.visit(this);
 	}
 	
-	@Override
 	public boolean hasChildren() {
 		return true;
 	}
 	
-	@Override
 	public void acceptChildren(Visitor visitor) throws IOException {
 		variable.accept(visitor);
 		collection.accept(visitor);
@@ -92,13 +89,11 @@ public class Foreach extends ControlStatement implements MustBeResolved {
 		super.getVariables(variables);
 	}
 
-	@Override
 	public boolean isResolved() {
 		return false;
 	}
 
 	@SuppressWarnings("unchecked")
-	@Override
 	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
 		
 		/*

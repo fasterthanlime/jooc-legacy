@@ -34,7 +34,6 @@ public class Compare extends BinaryOperation {
 		this.compareType = compareType;
 	}
 
-	@Override
 	public void accept(Visitor visitor) throws IOException {
 		visitor.visit(this);
 	}

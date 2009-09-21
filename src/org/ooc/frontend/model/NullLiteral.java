@@ -15,22 +15,18 @@ public class NullLiteral extends Literal {
 		// blahbedi blah, blahbidi blah, eeky eeky, ooogoozooooooooo :(
 	}
 	
-	@Override
 	public Type getType() {
 		return type;
 	}
 	
-	@Override
 	public void accept(Visitor visitor) throws IOException {
 		visitor.visit(this);
 	}
 	
-	@Override
 	public boolean hasChildren() {
 		return false;
 	}
 	
-	@Override
 	public void acceptChildren(Visitor visitor) throws IOException {}
 	
 	@Override

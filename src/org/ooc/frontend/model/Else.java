@@ -16,17 +16,14 @@ public class Else extends ControlStatement {
 		return false;
 	}
 
-	@Override
 	public void accept(Visitor visitor) throws IOException {
 		visitor.visit(this);
 	}
 
-	@Override
 	public void acceptChildren(Visitor visitor) throws IOException {
 		body.accept(visitor);
 	}
 
-	@Override
 	public boolean hasChildren() {
 		return !body.isEmpty();
 	}

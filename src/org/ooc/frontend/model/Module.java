@@ -101,17 +101,14 @@ public class Module extends Node implements Scope {
 		return body;
 	}
 
-	@Override
 	public void accept(Visitor visitor) throws IOException {
 		visitor.visit(this);
 	}
 	
-	@Override
 	public boolean hasChildren() {
 		return true;
 	}
 
-	@Override
 	public void acceptChildren(Visitor visitor) throws IOException {
 		includes.accept(visitor);
 		imports.accept(visitor);
@@ -152,7 +149,6 @@ public class Module extends Node implements Scope {
 		return reader;
 	}
 
-	@Override
 	public VariableDecl getVariable(String name) {
 		VariableDecl varDecl = getVariableInBody(name, body);
 		if (varDecl != null) return varDecl;
@@ -176,7 +172,6 @@ public class Module extends Node implements Scope {
 		return null;
 	}
 
-	@Override
 	public void getVariables(NodeList<VariableDecl> variables) {
 		for(Node node: body) {
 			if(node instanceof VariableDecl) {
@@ -185,7 +180,6 @@ public class Module extends Node implements Scope {
 		}
 	}
 
-	@Override
 	public FunctionDecl getFunction(String name, String suffix, FunctionCall call) {
 		return getFunction(name, suffix, call, 0, null);
 	}
@@ -210,7 +204,6 @@ public class Module extends Node implements Scope {
 		return bestMatch;
 	}
 
-	@Override
 	public void getFunctions(NodeList<FunctionDecl> functions) {
 		for(Node node: body) {
 			if(node instanceof FunctionDecl) {

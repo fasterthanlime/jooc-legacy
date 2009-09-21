@@ -15,7 +15,6 @@ public class StringLiteral extends Literal {
 		this.value = value;
 	}
 	
-	@Override
 	public Type getType() {
 		return type;
 	}
@@ -24,17 +23,14 @@ public class StringLiteral extends Literal {
 		return value;
 	}
 	
-	@Override
 	public void accept(Visitor visitor) throws IOException {
 		visitor.visit(this);
 	}
 	
-	@Override
 	public boolean hasChildren() {
 		return true;
 	}
 	
-	@Override
 	public void acceptChildren(Visitor visitor) throws IOException {
 		type.accept(visitor);
 	}

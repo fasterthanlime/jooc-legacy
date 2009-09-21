@@ -41,29 +41,24 @@ public abstract class BinaryOperation extends Expression implements MustBeResolv
 		this.right = right;
 	}
 	
-	@Override
 	public Type getType() {
 		// FIXME probably not right (haha)
 		return getLeft().getType();
 	}
 	
-	@Override
 	public boolean hasChildren() {
 		return true;
 	}
 	
-	@Override
 	public void acceptChildren(Visitor visitor) throws IOException {
 		left.accept(visitor);
 		right.accept(visitor);
 	}
 	
-	@Override
 	public boolean isResolved() {
 		return false;
 	}
 
-	@Override
 	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
 		
 		if(left.getType() == null) {

@@ -156,7 +156,6 @@ public class CoverDecl extends TypeDecl implements MustBeResolved {
 		return base != null;
 	}
 
-	@Override
 	public void accept(Visitor visitor) throws IOException {
 		visitor.visit(this);
 	}
@@ -198,7 +197,6 @@ public class CoverDecl extends TypeDecl implements MustBeResolved {
 		addons.add(addon);
 	}
 
-	@Override
 	public boolean isResolved() {
 		return (fromType == null || fromType.getRef() != null);
 	}
@@ -210,7 +208,6 @@ public class CoverDecl extends TypeDecl implements MustBeResolved {
 	 * If it's not, then a {@link BuiltinType} must be created
 	 * so that it's considered 'resolved' (e.g. it's somewhere in C)
 	 */
-	@Override
 	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
 		
 		if(fromType == null) return Response.OK;

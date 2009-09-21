@@ -59,24 +59,20 @@ public class MultiMap<K, V> extends Node {
 			return list;
 		} else if(o != null) {
 			return new Iterable<V>() {
-			@Override
 			public Iterator<V> iterator() {
 				return new Iterator<V>() {
 					
 					boolean hasNext = true;
 					
-					@Override
 					public boolean hasNext() {
 						return hasNext;
 					}
 
-					@Override
 					public V next() {
 						hasNext = false;
 						return (V) o;
 					}
 
-					@Override
 					public void remove() {
 						map.remove(key);
 					}
@@ -128,13 +124,11 @@ public class MultiMap<K, V> extends Node {
 		return false;
 	}
 
-	@Override
 	public void accept(Visitor visitor) throws IOException {
 		visitor.visit(this);
 	}
 
 	@SuppressWarnings("unchecked")
-	@Override
 	public void acceptChildren(Visitor visitor) throws IOException {
 		for(Object key: map.keySet()) {
 			final Object o = map.get(key);
@@ -149,7 +143,6 @@ public class MultiMap<K, V> extends Node {
 		}
 	}
 
-	@Override
 	public boolean hasChildren() {
 		return map.size() > 0;
 	}

@@ -24,14 +24,12 @@ public class Resolver implements Hobgoblin {
 	public BuildParams params;
 	public Module module;
 	
-	@Override
 	public boolean process(Module module, BuildParams params) throws IOException {
 		
 		this.module = module;
 		this.params = params;
 		
 		SketchyNosy nosy = SketchyNosy.get(new Opportunist<Node>() {
-			@Override
 			public boolean take(Node node, NodeList<Node> stack) throws IOException {
 				if(node instanceof MustBeResolved) {
 					MustBeResolved must = (MustBeResolved) node;

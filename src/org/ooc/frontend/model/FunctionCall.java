@@ -74,7 +74,6 @@ public class FunctionCall extends Access implements MustBeResolved {
 		return returnArg;
 	}
 
-	@Override
 	public Type getType() {
 		return realType;
 	}
@@ -109,17 +108,14 @@ public class FunctionCall extends Access implements MustBeResolved {
 		
 	}
 
-	@Override
 	public void accept(Visitor visitor) throws IOException {
 		visitor.visit(this);
 	}
 	
-	@Override
 	public boolean hasChildren() {
 		return true;
 	}
 	
-	@Override
 	public void acceptChildren(Visitor visitor) throws IOException {
 		typeParams.accept(visitor);
 		arguments.accept(visitor);
@@ -134,12 +130,10 @@ public class FunctionCall extends Access implements MustBeResolved {
 		return false;
 	}
 
-	@Override
 	public boolean isResolved() {
 		return false;
 	}
 
-	@Override
 	public Response resolve(final NodeList<Node> stack, final Resolver res, final boolean fatal) {
 		
 		if(impl == null) {

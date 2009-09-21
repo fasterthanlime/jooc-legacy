@@ -267,12 +267,10 @@ public final class Token implements Locatable {
 		return sReader.getSlice(start, length);
 	}
 
-	@Override
 	public int getLength() {
 		return length;
 	}
 
-	@Override
 	public int getStart() {
 		return start;
 	}

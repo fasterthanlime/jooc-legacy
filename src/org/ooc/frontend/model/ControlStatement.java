@@ -15,7 +15,6 @@ public abstract class ControlStatement extends Statement implements Scope {
 		return body;
 	}
 	
-	@Override
 	public VariableDecl getVariable(String name) {
 		if(body.size() > 0) for(Line line: body) {
 			Node node = line.getStatement();
@@ -27,7 +26,6 @@ public abstract class ControlStatement extends Statement implements Scope {
 		return null;
 	}
 	
-	@Override
 	public void getVariables(NodeList<VariableDecl> variables) {
 		if(body.size() > 0) for(Line line: body) {
 			Node node = line.getStatement();
@@ -37,12 +35,10 @@ public abstract class ControlStatement extends Statement implements Scope {
 		}
 	}
 	
-	@Override
 	public FunctionDecl getFunction(String name, String suffix, FunctionCall call) {
 		return null;
 	}
 	
-	@Override
 	public void getFunctions(NodeList<FunctionDecl> functions) {}
 	
 }

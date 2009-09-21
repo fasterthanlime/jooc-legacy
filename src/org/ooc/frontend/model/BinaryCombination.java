@@ -41,7 +41,6 @@ public class BinaryCombination extends BinaryOperation {
 		this.comp = comp;
 	}
 
-	@Override
 	public void accept(Visitor visitor) throws IOException {
 		visitor.visit(this);
 	}

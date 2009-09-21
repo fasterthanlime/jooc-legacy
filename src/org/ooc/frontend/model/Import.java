@@ -34,17 +34,14 @@ public class Import extends Node {
 		this.module = module;
 	}
 	
-	@Override
 	public void accept(Visitor visitor) throws IOException {
 		visitor.visit(this);
 	}
 	
-	@Override
 	public boolean hasChildren() {
 		return false;
 	}
 	
-	@Override
 	public void acceptChildren(Visitor visitor) throws IOException {}
 	
 	@Override

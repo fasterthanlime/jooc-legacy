@@ -54,12 +54,10 @@ public class ValuedReturn extends Return implements MustBeResolved {
 		
 	}
 
-	@Override
 	public boolean isResolved() {
 		return false;
 	}
 
-	@Override
 	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
 		
 		int funcIndex = stack.find(FunctionDecl.class);

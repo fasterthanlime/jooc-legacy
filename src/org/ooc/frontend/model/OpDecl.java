@@ -128,7 +128,6 @@ public class OpDecl extends Declaration {
 		return false;
 	}
 
-	@Override
 	public Type getType() {
 		return new Type("Operator", Token.defaultToken);
 	}
@@ -141,17 +140,14 @@ public class OpDecl extends Declaration {
 		return func;
 	}
 
-	@Override
 	public void accept(Visitor visitor) throws IOException {
 		visitor.visit(this);
 	}
 
-	@Override
 	public void acceptChildren(Visitor visitor) throws IOException {
 		func.accept(visitor);
 	}
 
-	@Override
 	public boolean hasChildren() {
 		return true;
 	}

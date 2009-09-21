@@ -32,17 +32,14 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 			return false;
 		}
 
-		@Override
 		public void accept(Visitor visitor) throws IOException {
 			visitor.visit(this);
 		}
 
-		@Override
 		public void acceptChildren(Visitor visitor) throws IOException {
 			if(expression != null) expression.accept(visitor);
 		}
 
-		@Override
 		public boolean hasChildren() {
 			return expression != null;
 		}
@@ -150,23 +147,19 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 		this.isStatic = isStatic;
 	}
 	
-	@Override
 	public void accept(Visitor visitor) throws IOException {
 		visitor.visit(this);
 	}
 	
-	@Override
 	public boolean hasChildren() {
 		return true;
 	}
 	
-	@Override
 	public void acceptChildren(Visitor visitor) throws IOException {
 		if(getType() != null) getType().accept(visitor);
 		atoms.accept(visitor);
 	}
 
-	@Override
 	public boolean unwrap(NodeList<Node> stack) throws OocCompilationError, IOException {
 	
 		if(stack.get(stack.size() - 2) instanceof ClassDecl) {
@@ -292,12 +285,10 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 		return (externName == null || !externName.isEmpty()) && type != null && !(type.getName().equals("Class"));
 	}
 
-	@Override
 	public boolean isResolved() {
 		return false;
 	}
 
-	@Override
 	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
 		
 		Type type = getType();

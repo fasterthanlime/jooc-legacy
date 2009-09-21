@@ -31,23 +31,19 @@ public class Cast extends Expression {
 		return false;
 	}
 
-	@Override
 	public Type getType() {
 		return type;
 	}
 
-	@Override
 	public void accept(Visitor visitor) throws IOException {
 		visitor.visit(this);
 	}
 
-	@Override
 	public void acceptChildren(Visitor visitor) throws IOException {
 		type.accept(visitor);
 		expression.accept(visitor);
 	}
 
-	@Override
 	public boolean hasChildren() {
 		return true;
 	}

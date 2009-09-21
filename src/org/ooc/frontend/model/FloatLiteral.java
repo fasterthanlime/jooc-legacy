@@ -20,7 +20,6 @@ public class FloatLiteral extends Literal {
 		return false;
 	}
 
-	@Override
 	public Type getType() {
 		return type;
 	}
@@ -29,15 +28,12 @@ public class FloatLiteral extends Literal {
 		return value;
 	}
 
-	@Override
 	public void accept(Visitor visitor) throws IOException {
 		visitor.visit(this);
 	}
 
-	@Override
 	public void acceptChildren(Visitor visitor) throws IOException {}
 
-	@Override
 	public boolean hasChildren() {
 		return false;
 	}

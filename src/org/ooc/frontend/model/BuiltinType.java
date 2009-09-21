@@ -28,7 +28,6 @@ public class BuiltinType extends TypeDecl {
 		return type ;
 	}
 
-	@Override
 	public void accept(Visitor visitor) throws IOException {
 		visitor.visit(this);
 	}

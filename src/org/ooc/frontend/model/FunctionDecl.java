@@ -157,22 +157,18 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 		return arguments;
 	}
 	
-	@Override
 	public Type getType() {
 		return type;
 	}
 	
-	@Override
 	public void accept(Visitor visitor) throws IOException {
 		visitor.visit(this);
 	}
 	
-	@Override
 	public boolean hasChildren() {
 		return true;
 	}
 	
-	@Override
 	public void acceptChildren(Visitor visitor) throws IOException {
 		if (typeParams.size() > 0) for (TypeParam typeParam: typeParams.values()) {
 			typeParam.getType().accept(visitor);
@@ -278,7 +274,6 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 		return name.equals("main");
 	}
 
-	@Override
 	public VariableDecl getVariable(String name) {
 		if(arguments.size() > 0) for(Argument argument: arguments) {
 			if(argument.hasAtom(name)) return argument;
@@ -293,7 +288,6 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 		return null;
 	}
 
-	@Override
 	public void getVariables(NodeList<VariableDecl> variables) {
 		if(arguments.size() > 0) for(Argument argument: arguments) {
 			if(argument.hasAtom(name)) variables.add(argument);
@@ -306,13 +300,11 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 			}
 		}
 	}
-
-	@Override
+	
 	public FunctionDecl getFunction(String name, String suffix, FunctionCall call) {
 		return null;
 	}
 
-	@Override
 	public void getFunctions(NodeList<FunctionDecl> functions) {}
 
 	public String getSuffixedName() {
@@ -320,7 +312,6 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 		return name+"_"+suffix;
 	}
 
-	@Override
 	public boolean unwrap(NodeList<Node> stack) throws IOException {
 		if(name.isEmpty()) {
 			Module module = stack.getModule();

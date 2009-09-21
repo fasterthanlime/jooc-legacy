@@ -22,13 +22,11 @@ public abstract class Conditional extends ControlStatement {
 		this.condition = condition;
 	}
 	
-	@Override
 	public final void acceptChildren(Visitor visitor) throws IOException {
 		condition.accept(visitor);
 		body.accept(visitor);
 	}
 	
-	@Override
 	public boolean hasChildren() {
 		return true;
 	}

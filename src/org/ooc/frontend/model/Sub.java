@@ -12,7 +12,6 @@ public class Sub extends BinaryOperation {
 		super(left, right, token);
 	}
 	
-	@Override
 	public void accept(Visitor visitor) throws IOException {
 		visitor.visit(this);
 	}

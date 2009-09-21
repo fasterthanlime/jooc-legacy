@@ -39,7 +39,6 @@ public class VariableAccess extends Access implements MustBeResolved {
 		this.ref = ref;
 	}
 
-	@Override
 	public Type getType() {
 		if(ref != null) {
 			return ref.getType();
@@ -47,17 +46,14 @@ public class VariableAccess extends Access implements MustBeResolved {
 		return null;
 	}
 	
-	@Override
 	public void accept(Visitor visitor) throws IOException {
 		visitor.visit(this);
 	}
 	
-	@Override
 	public boolean hasChildren() {
 		return true;
 	}
 	
-	@Override
 	public void acceptChildren(Visitor visitor) throws IOException {}
 	
 	@Override
@@ -69,12 +65,10 @@ public class VariableAccess extends Access implements MustBeResolved {
 		return false;
 	}
 
-	@Override
 	public boolean isResolved() {
 		return ref != null;
 	}
 
-	@Override
 	public Response resolve(final NodeList<Node> stack, final Resolver res, final boolean fatal) {
 
 		if(isResolved()) return Response.OK;

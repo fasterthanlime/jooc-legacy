@@ -46,7 +46,6 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic {
 		return variables;
 	}
 	
-	@Override
 	public void getVariables(NodeList<VariableDecl> variables) {
 		variables.addAll(this.variables);
 	}
@@ -104,12 +103,10 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic {
 		return (TypeDecl) superType.getRef();
 	}
 
-	@Override
 	public FunctionDecl getFunction(String name, String suffix, FunctionCall call) {
 		return getFunction(name, suffix, call, true, 0, null);
 	}
 	
-	@Override
 	public void getFunctions(NodeList<FunctionDecl> functions) {
 		functions.addAll(this.functions);
 	}
@@ -161,7 +158,6 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic {
 		return null;
 	}
 	
-	@Override
 	public void acceptChildren(Visitor visitor) throws IOException {
 		if(superType != null) superType.accept(visitor);
 		for(TypeParam genType: typeParams.values()) {
@@ -172,7 +168,6 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic {
 		instanceType.accept(visitor);
 	}
 	
-	@Override
 	public boolean hasChildren() {
 		return true;
 	}
@@ -187,7 +182,6 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic {
 		return this;
 	}
 	
-	@Override
 	public Type getType() {
 		return getInstanceType();
 	}
@@ -200,7 +194,6 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic {
 		return functions.toString();
 	}
 	
-	@Override
 	public LinkedHashMap<String, TypeParam> getTypeParams() {
 		return typeParams;
 	}

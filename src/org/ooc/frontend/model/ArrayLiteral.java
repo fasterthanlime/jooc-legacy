@@ -31,7 +31,6 @@ public class ArrayLiteral extends Literal implements MustBeUnwrapped, MustBeReso
 		return false;
 	}
 
-	@Override
 	public Type getType() {
 		return type;
 	}
@@ -40,28 +39,23 @@ public class ArrayLiteral extends Literal implements MustBeUnwrapped, MustBeReso
 		return elements;
 	}
 
-	@Override
 	public void accept(Visitor visitor) throws IOException {
 		visitor.visit(this);
 	}
 
-	@Override
 	public void acceptChildren(Visitor visitor) throws IOException {
 		type.accept(visitor);
 		elements.accept(visitor);
 	}
 
-	@Override
 	public boolean hasChildren() {
 		return true;
 	}
 
-	@Override
 	public boolean isResolved() {
 		return type != defaultType;
 	}
 	
-	@Override
 	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
 		
 		if(!elements.isEmpty()) {
@@ -85,7 +79,6 @@ public class ArrayLiteral extends Literal implements MustBeUnwrapped, MustBeReso
 		
 	}
 
-	@Override
 	public boolean unwrap(NodeList<Node> stack) throws IOException {
 		
 		int varDeclIndex = stack.find(VariableDecl.class);

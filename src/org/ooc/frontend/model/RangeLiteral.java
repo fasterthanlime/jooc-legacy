@@ -33,22 +33,18 @@ public class RangeLiteral extends Literal {
 		this.upper = upper;
 	}
 
-	@Override
 	public Type getType() {
 		return type;
 	}
 	
-	@Override
 	public void accept(Visitor visitor) throws IOException {
 		visitor.visit(this);
 	}
 	
-	@Override
 	public boolean hasChildren() {
 		return true;
 	}
 	
-	@Override
 	public void acceptChildren(Visitor visitor) throws IOException {
 		lower.accept(visitor);
 		upper.accept(visitor);

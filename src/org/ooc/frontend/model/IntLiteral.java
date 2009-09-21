@@ -24,7 +24,6 @@ public class IntLiteral extends Literal {
 		this.format = format;
 	}
 	
-	@Override
 	public Type getType() {
 		return type;
 	}
@@ -37,17 +36,14 @@ public class IntLiteral extends Literal {
 		return format;
 	}
 	
-	@Override
 	public void accept(Visitor visitor) throws IOException {
 		visitor.visit(this);
 	}
 	
-	@Override
 	public boolean hasChildren() {
 		return true;
 	}
 	
-	@Override
 	public void acceptChildren(Visitor visitor) throws IOException {
 		visitor.visit(type);
 	}

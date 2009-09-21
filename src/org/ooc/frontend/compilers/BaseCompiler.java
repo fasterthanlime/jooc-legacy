@@ -26,7 +26,6 @@ public abstract class BaseCompiler implements AbstractCompiler {
 		reset();
 	}
 	
-	@Override
 	public int launch() throws IOException, InterruptedException {
 		ProcessBuilder builder = new ProcessBuilder();
 		builder.command(command);
@@ -35,7 +34,6 @@ public abstract class BaseCompiler implements AbstractCompiler {
 		return process.waitFor();
 	}
 	
-	@Override
 	public void printCommandLine() {
 		StringBuilder commandLine = new StringBuilder();
 		for(String arg: command) {
@@ -45,7 +43,6 @@ public abstract class BaseCompiler implements AbstractCompiler {
 		System.out.println(commandLine.toString());
 	}
 	
-	@Override
 	public void reset() {
 		command.clear();
 		command.add(executablePath);

@@ -45,7 +45,6 @@ public class Assignment extends BinaryOperation {
 		return left.getType();
 	}
 	
-	@Override
 	public void accept(Visitor visitor) throws IOException {
 		visitor.visit(this);
 	}

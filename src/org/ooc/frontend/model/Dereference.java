@@ -25,7 +25,6 @@ public class Dereference extends Access {
 		return false;
 	}
 
-	@Override
 	public Type getType() {
 		if(type == null) {
 			Type exprType = expression.getType();
@@ -45,17 +44,14 @@ public class Dereference extends Access {
 		this.expression = expression;
 	}
 
-	@Override
 	public void accept(Visitor visitor) throws IOException {
 		visitor.visit(this);
 	}
 
-	@Override
 	public void acceptChildren(Visitor visitor) throws IOException {
 		expression.accept(visitor);
 	}
 
-	@Override
 	public boolean hasChildren() {
 		return true;
 	}

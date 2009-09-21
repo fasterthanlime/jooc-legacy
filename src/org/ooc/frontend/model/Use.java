@@ -37,25 +37,20 @@ public class Use extends Node implements MustBeResolved {
 		return false;
 	}
 
-	@Override
 	public void accept(Visitor visitor) throws IOException {
 		visitor.visit(this);
 	}
 
-	@Override
 	public void acceptChildren(Visitor visitor) throws IOException {}
 
-	@Override
 	public boolean hasChildren() {
 		return false;
 	}
 
-	@Override
 	public boolean isResolved() {
 		return useDef != null;
 	}
 
-	@Override
 	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
 		try {
 			useDef = UseDefParser.parse(identifier, res.params);

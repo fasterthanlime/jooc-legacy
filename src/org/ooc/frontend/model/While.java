@@ -11,7 +11,6 @@ public class While extends Conditional {
 		super(condition, startToken);
 	}
 	
-	@Override
 	public void accept(Visitor visitor) throws IOException {
 		visitor.visit(this);
 	}

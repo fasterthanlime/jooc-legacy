@@ -15,43 +15,35 @@ public class Gcc extends BaseCompiler {
 		super(executableName);
 	}
 
-	@Override
 	public void addDynamicLibrary(String library) {
 		command.add("-l"+library);
 	}
 
-	@Override
 	public void addIncludePath(String path) {
 		command.add("-I"+path);
 	}
 
-	@Override
 	public void addLibraryPath(String path) {
 		command.add("-L"+path);
 	}
 
-	@Override
 	public void addObjectFile(String file) {
 		command.add(file);
 	}
 
-	@Override
 	public void addOption(String option) {
 		command.add(option);
 	}
 
-	@Override
 	public void setOutputPath(String path) {
 		command.add("-o");
 		command.add(path);
 	}
 
-	@Override
 	public void setCompileOnly() {
 		command.add("-c");
 	}
 
-	@Override
 	public void setDebugEnabled() {
 		command.add("-g");
 	}

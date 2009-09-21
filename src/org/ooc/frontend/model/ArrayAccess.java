@@ -37,7 +37,6 @@ public class ArrayAccess extends Access implements MustBeResolved {
 		this.index = index;
 	}
 	
-	@Override
 	public Type getType() {
 		if(type == null) {
 			Type exprType = variable.getType();
@@ -54,17 +53,14 @@ public class ArrayAccess extends Access implements MustBeResolved {
 		return type;
 	}
 	
-	@Override
 	public void accept(Visitor visitor) throws IOException {
 		visitor.visit(this);
 	}
 	
-	@Override
 	public boolean hasChildren() {
 		return true;
 	}
 	
-	@Override
 	public void acceptChildren(Visitor visitor) throws IOException {
 		variable.accept(visitor);
 		index.accept(visitor);
@@ -87,12 +83,10 @@ public class ArrayAccess extends Access implements MustBeResolved {
 		
 	}
 
-	@Override
 	public boolean isResolved() {
 		return false;
 	}
 
-	@Override
 	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
 		
 		int assignIndex = stack.find(Assignment.class);

@@ -30,7 +30,6 @@ public class TypeParam extends TypeDecl {
 		return argument;
 	}
 
-	@Override
 	public void accept(Visitor visitor) throws IOException {}
 
 	@Override

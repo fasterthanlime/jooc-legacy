@@ -97,17 +97,14 @@ public class Type extends Node implements MustBeResolved {
 		this.isConst = isConst;
 	}
 
-	@Override
 	public void accept(Visitor visitor) throws IOException {
 		visitor.visit(this);
 	}
 	
-	@Override
 	public boolean hasChildren() {
 		return true;
 	}
 
-	@Override
 	public void acceptChildren(Visitor visitor) throws IOException {
 		if(arraySize != null) arraySize.accept(visitor);
 		typeParams.accept(visitor);
@@ -222,7 +219,6 @@ public class Type extends Node implements MustBeResolved {
 		
 	}
 
-	@Override
 	public boolean isResolved() {
 		return ref != null;
 	}

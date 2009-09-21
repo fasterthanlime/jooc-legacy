@@ -22,22 +22,18 @@ public class Parenthesis extends Expression {
 		this.expression = expression;
 	}
 
-	@Override
 	public Type getType() {
 		return expression.getType();
 	}
 
-	@Override
 	public void accept(Visitor visitor) throws IOException {
 		visitor.visit(this);
 	}
 	
-	@Override
 	public boolean hasChildren() {
 		return true;
 	}
 	
-	@Override
 	public void acceptChildren(Visitor visitor) throws IOException {
 		expression.accept(visitor);
 	}

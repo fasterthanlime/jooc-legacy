@@ -128,7 +128,6 @@ public class ClassDecl extends TypeDecl implements MustBeResolved {
 		super.addFunction(decl);
 	}
 	
-	@Override
 	public void accept(Visitor visitor) throws IOException {
 		visitor.visit(this);
 	}
@@ -147,12 +146,10 @@ public class ClassDecl extends TypeDecl implements MustBeResolved {
 		if(getSuperRef() != null) getSuperRef().getVariables(variables);
 	}
 
-	@Override
 	public boolean isResolved() {
 		return getSuperRef() != null;
 	}
 
-	@Override
 	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
 		
 		if(isResolved()) return Response.OK;

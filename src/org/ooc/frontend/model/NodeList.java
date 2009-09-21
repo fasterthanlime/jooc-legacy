@@ -134,25 +134,21 @@ public class NodeList<T extends Node> extends Node implements Iterable<T> {
 		return nodes[size - 2];
 	}
 
-	@Override
 	public Iterator<T> iterator() {		
 		return new Iterator<T>() {
 
 			NodeList<T> list = NodeList.this;
 			int index = 0;
 			
-			@Override
 			public boolean hasNext() {
 				return index < list.size();
 			}
 
-			@Override
 			public T next() {
 				if(index >= list.size()) throw new ArrayIndexOutOfBoundsException(index);
 				return list.getNodes()[index++];
 			}
 
-			@Override
 			public void remove() {
 				NodeList.this.remove(index);
 			}
@@ -160,19 +156,16 @@ public class NodeList<T extends Node> extends Node implements Iterable<T> {
 		};
 	}
 
-	@Override
 	public void accept(Visitor visitor) throws IOException {
 		visitor.visit(this);
 	}
 
-	@Override
 	public void acceptChildren(Visitor visitor) throws IOException {
 		for(int i = 0; i < size; i++) {
 			nodes[i].accept(visitor);
 		}
 	}
 
-	@Override
 	public boolean hasChildren() {
 		return size > 0;
 	}

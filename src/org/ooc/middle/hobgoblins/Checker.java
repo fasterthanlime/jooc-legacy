@@ -40,12 +40,10 @@ public class Checker implements Hobgoblin {
 	final HashSet<String> funcNames = new HashSet<String>();
 	final HashMap<TypeDecl, HashSet<String>> classFuncNames = new HashMap<TypeDecl, HashSet<String>>();
 	
-	@Override
 	public boolean process(Module module, BuildParams params) throws IOException {
 		
 		SketchyNosy.get(new Opportunist<Node>() {
 
-			@Override
 			public boolean take(Node node, NodeList<Node> stack) throws IOException {
 				if(node instanceof Type) checkType((Type) node, stack);
 				else if(node instanceof FunctionCall) checkFunctionCall((FunctionCall) node, stack);

@@ -61,13 +61,11 @@ public class TabbedWriter implements Appendable {
 		return this;
 	}
 
-	@Override
 	public TabbedWriter append(CharSequence csq) throws IOException {
 		appendable.append(csq);
 		return this;
 	}
 
-	@Override
 	public TabbedWriter append(CharSequence csq, int start, int end) throws IOException {
 		appendable.append(csq, start, end);
 		return this;
