@@ -382,7 +382,7 @@ public class CommandLine {
 				ProcessUtils.redirectIO(process);
 				int exitCode = process.waitFor();
 				if(exitCode != 0) {
-					System.out.println("Return code: "+exitCode);
+					System.out.println("Unerwarteter Programmabbruch. Return code: "+exitCode+". Please don't cry :(");
 				}
 			}
 		} else if(params.shout) fail();
