@@ -11,4 +11,13 @@ Reader: abstract class {
 	rewind: abstract func(offset: Int)
 	mark: abstract func() -> Long
 	reset: abstract func(marker: Long)
+	skip: func(offset: Int) {
+		if (offset < 0) {
+			rewind(-offset)
+		}
+		else {
+			for (i: Int in 0..offset)
+				readChar()
+		}
+	}
 }
