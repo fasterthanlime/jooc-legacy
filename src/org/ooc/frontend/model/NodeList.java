@@ -30,7 +30,7 @@ public class NodeList<T extends Node> extends Node implements Iterable<T> {
 	@SuppressWarnings("unchecked")
 	private void realloc() {
 		Object[] oldNodes = nodes;
-		nodes = (T[]) new Object[(size * 3) / 2 + 1];
+		nodes = (T[]) new Node[(size * 3) / 2 + 1];
 		System.arraycopy(oldNodes, 0, nodes, 0, size);
 	}
 	
@@ -38,7 +38,7 @@ public class NodeList<T extends Node> extends Node implements Iterable<T> {
 	private void ensureCapacity(int minCapacity) {
 		if(minCapacity > nodes.length) {
 			Object[] oldNodes = nodes;
-			nodes = (T[]) new Object[minCapacity];
+			nodes = (T[]) new Node[minCapacity];
 			System.arraycopy(oldNodes, 0, nodes, 0, size);
 		}
 	}
