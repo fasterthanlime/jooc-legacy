@@ -124,6 +124,10 @@ List: abstract class <T> extends Iterable {
 	iterator: abstract func -> Iterator<T>
 	
 	clone: abstract func -> List<T>
+
+	lastIndex: func -> SizeT {
+		return size() - 1
+	}
 	
 }
 

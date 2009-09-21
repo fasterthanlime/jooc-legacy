@@ -380,7 +380,10 @@ public class CommandLine {
 				builder.command("./"+module.getSimpleName());
 				Process process = builder.start();
 				ProcessUtils.redirectIO(process);
-				process.waitFor();
+				int exitCode = process.waitFor();
+				if(exitCode != 0) {
+					System.out.println("Return code: "+exitCode);
+				}
 			}
 		} else if(params.shout) fail();
 		return code;

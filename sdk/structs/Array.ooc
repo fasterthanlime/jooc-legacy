@@ -32,6 +32,10 @@ Array: class <T> extends Iterable {
 		return ArrayIterator<T> new(this);
 	}
 
+	lastIndex: func -> SizeT {
+		return size - 1
+	}
+
 }
 
 ArrayIterator: class <T> extends Iterator {
