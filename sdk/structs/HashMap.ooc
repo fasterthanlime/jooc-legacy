@@ -176,7 +176,6 @@ HashMap: class <T> {
 	 * @param String key The key associated with the value
 	 * @return Object
 	 */
-	/*
 	get: func (key: String) -> T {
 		entry := getEntry(key)
 		if (entry) return entry value
@@ -188,7 +187,6 @@ HashMap: class <T> {
 	 * @param String key The key to check
 	 * @return Bool
 	 */
-	/*
 	contains: func (key: String) -> Bool {
 		//return getEntry(key) ? true : false
 		if(getEntry(key)) return true
