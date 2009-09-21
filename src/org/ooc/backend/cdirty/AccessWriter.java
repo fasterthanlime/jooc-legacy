@@ -53,8 +53,8 @@ public class AccessWriter {
 				cgen.current.app(memberAccess.getRef().getExternName());
 				return;
 			}
-			cgen.current.app("((").app(refTypeDecl.getType().getMangledName())
-				.app("Class*) ").app(refTypeDecl.getType().getMangledName())
+			cgen.current.app("((").app(refTypeDecl.getType().getUnderName())
+				.app("Class*) ").app(refTypeDecl.getType().getName())
 				.app("_class())->").app(memberAccess.getName());
 			
 		} else {
