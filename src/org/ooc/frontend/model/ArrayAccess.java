@@ -42,11 +42,11 @@ public class ArrayAccess extends Access implements MustBeResolved {
 		if(type == null) {
 			Type exprType = variable.getType();
 			if(exprType != null) {
-				//Declaration ref = exprType.getRef();
-				//if(ref instanceof CoverDecl) {
-					//Type fromType = ((CoverDecl) ref).getFromType();
-					//if(fromType != null) exprType = fromType;
-				//}
+				Declaration ref = exprType.getRef();
+				if(ref instanceof CoverDecl) {
+					Type fromType = ((CoverDecl) ref).getFromType();
+					if(fromType != null && fromType.getRef() instanceof CoverDecl) exprType = fromType;
+				}
 				type = new Type(exprType.getName(), exprType.getPointerLevel() - 1, exprType.startToken);
 				type.setRef(exprType.getRef());
 			}

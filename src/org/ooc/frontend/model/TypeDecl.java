@@ -232,7 +232,7 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic {
 	}
 	
 	public String getUnderName() {
-		if(module != null && !isExtern())
+		if(module != null && !module.getPackageName().isEmpty() && !isExtern())
 			return module.getPackageName() + "_" + getName();
 		return getName();
 	}
