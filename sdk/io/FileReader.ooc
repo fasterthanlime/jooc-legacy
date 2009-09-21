@@ -1,6 +1,6 @@
 import io/Reader
 
-fopen: extern func(...)
+fopen: extern func(filename: Char*, mode: Char*) -> FILE*
 
 FileReader: class extends Reader {
 
@@ -8,10 +8,8 @@ FileReader: class extends Reader {
 	
 	init: func(fileName: String) {
 		file = fopen(fileName, "r");
-		if(!file) {
-			printf("[io.FileReader] File not found: %s\n", fileName);
-			exit(1);
-		}
+		if (!file) 
+			Exception new("File not found: " + fileName) throw()
 	}
 
 	read: func(chars: String, offset: Int, count: Int) {
@@ -40,5 +38,5 @@ FileReader: class extends Reader {
 }
 
 main: func() {
-	"Test" println()
+	fr := FileReader new("asdf") 
 }
