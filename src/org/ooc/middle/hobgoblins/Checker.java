@@ -83,7 +83,7 @@ public class Checker implements Hobgoblin {
 			}
 			
 			private void checkFunctionDecl(FunctionDecl node, NodeList<Node> stack) {
-				if(!node.getName().isEmpty()) {
+				if(node.getName().length() > 0) {
 					if(Character.isUpperCase(node.getName().charAt(0)) && !node.isExtern()) {
 						throw new OocCompilationError(node, stack,
 								"Upper-case function name '"+node.getProtoRepr()
@@ -156,7 +156,7 @@ public class Checker implements Hobgoblin {
 			private void checkVariableDecl(VariableDecl node, NodeList<Node> stack) {
 				Type varDeclType = node.getType();
 				if(varDeclType != null && varDeclType.getRef() != null && !varDeclType.getRef().isExtern()
-						&& !varDeclType.getName().isEmpty()
+						&& varDeclType.getName().length() > 0
 						&& !(varDeclType.getRef() instanceof TypeParam)
 						&& Character.isLowerCase(varDeclType.getName().charAt(0))) {
 					throw new OocCompilationError(varDeclType, stack,
@@ -165,7 +165,7 @@ public class Checker implements Hobgoblin {
 							" Types should always begin with an uppercase letter, e.g. CamelCase");
 				}
 				for(VariableDeclAtom atom: node.getAtoms()) {
-					if(atom.getName().isEmpty()) continue;
+					if(atom.getName().length() == 0) continue;
 					if(Character.isUpperCase(atom.getName().charAt(0)) && !node.getType().isConst()
 							&& node.shouldBeLowerCase()) {
 						throw new OocCompilationError(atom, stack,
@@ -177,7 +177,7 @@ public class Checker implements Hobgoblin {
 			
 			private void checkTypeDecl(TypeDecl node, NodeList<Node> stack)
 				throws OocCompilationError {
-				if(node.isExtern() || node.getName().isEmpty()) return;
+				if(node.isExtern() || node.getName().length() == 0) return;
 				if(Character.isLowerCase(node.getName().charAt(0))) {
 					throw new OocCompilationError(node, stack,
 						"Lower-case type name '"+node.getName()

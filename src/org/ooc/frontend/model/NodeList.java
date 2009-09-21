@@ -1,7 +1,6 @@
 package org.ooc.frontend.model;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -28,13 +27,19 @@ public class NodeList<T extends Node> extends Node implements Iterable<T> {
 		size = 0;
 	}
 
+	@SuppressWarnings("unchecked")
 	private void realloc() {
-		nodes = Arrays.copyOf(nodes, (size * 3) / 2 + 1);
+		Object[] oldNodes = nodes;
+		nodes = (T[]) new Object[(size * 3) / 2 + 1];
+		System.arraycopy(oldNodes, 0, nodes, 0, size);
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void ensureCapacity(int minCapacity) {
 		if(minCapacity > nodes.length) {
-			nodes = Arrays.copyOf(nodes, minCapacity);
+			Object[] oldNodes = nodes;
+			nodes = (T[]) new Object[minCapacity];
+			System.arraycopy(oldNodes, 0, nodes, 0, size);
 		}
 	}
 	

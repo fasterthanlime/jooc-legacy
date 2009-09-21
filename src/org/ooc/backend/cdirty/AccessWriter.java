@@ -49,7 +49,7 @@ public class AccessWriter {
 		
 		if(isStatic) {
 
-			if(memberAccess.getRef().isExtern() && !memberAccess.getRef().getExternName().isEmpty()) {
+			if(memberAccess.getRef().isExtern() && memberAccess.getRef().getExternName().length() > 0) {
 				cgen.current.app(memberAccess.getRef().getExternName());
 				return;
 			}

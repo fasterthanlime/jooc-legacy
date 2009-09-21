@@ -251,7 +251,7 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 	public void writeSuffixedName(Appendable dst) throws IOException {
 		
 		dst.append(getExternName());
-		if(!suffix.isEmpty()) {
+		if(suffix.length() > 0) {
 			dst.append('_').append(suffix);
 		}
 		
@@ -308,12 +308,12 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 	public void getFunctions(NodeList<FunctionDecl> functions) {}
 
 	public String getSuffixedName() {
-		if(suffix.isEmpty()) return name;
+		if(suffix.length() == 0) return name;
 		return name+"_"+suffix;
 	}
 
 	public boolean unwrap(NodeList<Node> stack) throws IOException {
-		if(name.isEmpty()) {
+		if(name.length() == 0) {
 			Module module = stack.getModule();
 			name = stack.get(0).generateTempName(module.getUnderName()+"_closure");
 			VariableAccess varAcc = new VariableAccess(name, startToken);
@@ -327,7 +327,7 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 	}
 
 	public boolean isExternWithName() {
-		return externName != null && !externName.isEmpty();
+		return externName != null && externName.length() > 0;
 	}
 
 	public Argument getReturnArg() {
@@ -335,7 +335,7 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 	}
 
 	public boolean isNamed(String name, String suffix) {
-		return this.name.equals(name) && (suffix.isEmpty() || this.suffix.equals(suffix));
+		return this.name.equals(name) && (suffix.length() == 0 || this.suffix.equals(suffix));
 	}
 
 	public boolean isSpecialFunc() {

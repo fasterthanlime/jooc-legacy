@@ -39,7 +39,7 @@ public class ClassDeclWriter {
 
 		for (FunctionDecl decl : classDecl.getFunctions()) {
 
-			if (!decl.isStatic() || (decl.isExtern() && !decl.getExternName().isEmpty()))
+			if (!decl.isStatic() || (decl.isExtern() && decl.getExternName().length() > 0))
 				continue;
 
 			cgen.current.nl();
@@ -85,12 +85,12 @@ public class ClassDeclWriter {
 
 		// Non-static (ie. instance) functions
 		for (FunctionDecl decl : classDecl.getFunctions()) {
-			if (decl.isStatic() || decl.isAbstract() || (decl.isExtern() && !decl.getExternName().isEmpty()))
+			if (decl.isStatic() || decl.isAbstract() || (decl.isExtern() && decl.getExternName().length() > 0))
 				continue;
 			
 			FunctionDeclWriter.writeFuncPrototype(decl, cgen, decl.isFinal() ? null : "_impl");
 			cgen.current.openBlock();
-			if(decl.getName().equals(ClassDecl.DEFAULTS_FUNC_NAME) && !classDecl.getSuperName().isEmpty()) {
+			if(decl.getName().equals(ClassDecl.DEFAULTS_FUNC_NAME) && classDecl.getSuperName().length() > 0) {
 				cgen.current.nl().app(classDecl.getSuperName()).app("_")
 					.app(ClassDecl.DEFAULTS_FUNC_NAME).app("_impl((")
 					.app(classDecl.getSuperRef().getUnderName()).app(" *) this);");
@@ -106,14 +106,14 @@ public class ClassDeclWriter {
 
 		cgen.current.app(CLASS_NAME).app(" *").app(classDecl.getName()).app("_class()")
 				.openSpacedBlock();
-		if (!classDecl.getSuperName().isEmpty())
+		if (classDecl.getSuperName().length() > 0)
 			cgen.current.app("static bool __done__ = false;").nl();
 		cgen.current.app("static ").app(classDecl.getUnderName()).app(
 				"Class class = ");
 		writeClassStructInitializers(classDecl, classDecl, new HashSet<FunctionDecl>(), cgen);
 		cgen.current.app(';');
 		cgen.current.nl().app(CLASS_NAME).app(" *classPtr = (").app(CLASS_NAME).app(" *) &class;");
-		if (!classDecl.getSuperName().isEmpty()) {
+		if (classDecl.getSuperName().length() > 0) {
 			cgen.current.nl().app("if(!__done__)").openBlock().nl().app(
 					"__done__ = true;").nl().app("classPtr->super = ").app(
 					classDecl.getSuperName()).app("_class();").closeBlock();
@@ -131,7 +131,7 @@ public class ClassDeclWriter {
 
 		cgen.current.openBlock();
 
-		if (!parentClass.isRootClass() && !parentClass.getSuperName().isEmpty()) {
+		if (!parentClass.isRootClass() && parentClass.getSuperName().length() > 0) {
 			writeClassStructInitializers(parentClass.getSuperRef(), realClass, done, cgen);
 		} else {
 			cgen.current.openBlock();
@@ -179,7 +179,7 @@ public class ClassDeclWriter {
 		cgen.current.nl().app(CLASS_NAME).app(" *").app(classDecl.getName()).app("_class();").nl();
 		for (FunctionDecl decl : classDecl.getFunctions()) {
 			
-			if(decl.isExtern() && !decl.getExternName().isEmpty()) {
+			if(decl.isExtern() && decl.getExternName().length() > 0) {
 				continue;
 			}
 			

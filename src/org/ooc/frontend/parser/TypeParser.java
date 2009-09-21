@@ -106,7 +106,7 @@ public class TypeParser {
 			reader.skip();
 		}
 		
-		if(!name.isEmpty()) {
+		if(name.length() > 0) {
 			Type type = new Type(name.trim(), pointerLevel, referenceLevel, startToken);
 			if(name.equals("This")) {
 				if(!module.parseStack.isEmpty()) {

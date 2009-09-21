@@ -284,7 +284,7 @@ public class Tokenizer {
 				if(c2 == 'x') {
 					reader.read();
 					String lit = reader.readMany("0123456789abcdefABCDEF", "_", true);
-					if(lit.isEmpty()) {
+					if(lit.length() == 0) {
 						throw new CompilationFailedError(reader.getLocation(index, 0), "Empty hexadecimal number literal");
 					}
 					tokens.add(new Token(index + 2, reader.mark()
@@ -293,7 +293,7 @@ public class Tokenizer {
 				} else if(c2 == 'c') {
 					reader.read();
 					String lit = reader.readMany("01234567", "_", true);
-					if(lit.isEmpty()) {
+					if(lit.length() == 0) {
 						throw new CompilationFailedError(reader.getLocation(index, 0), "Empty octal number literal");
 					}
 					tokens.add(new Token(index + 2, reader.mark()
@@ -302,7 +302,7 @@ public class Tokenizer {
 				} else if(c2 == 'b') {
 					reader.read();
 					String lit = reader.readMany("01", "_", true);
-					if(lit.isEmpty()) {
+					if(lit.length() == 0) {
 						throw new CompilationFailedError(reader.getLocation(index, 0), "Empty binary number literal");
 					}
 					tokens.add(new Token(index + 2, reader.mark()

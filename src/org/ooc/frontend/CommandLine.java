@@ -234,7 +234,7 @@ public class CommandLine {
 				} catch(CompilationFailedError err) {
 					System.err.println(err);
 					fail();
-					if(!params.editor.isEmpty()) {
+					if(params.editor.length() > 0) {
 						launchEditor(params.editor, err);
 					}
 				}

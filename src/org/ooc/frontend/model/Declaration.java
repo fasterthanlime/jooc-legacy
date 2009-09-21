@@ -32,12 +32,12 @@ public abstract class Declaration extends Expression {
 	}
 	
 	public String getExternName() {
-		if(externName == null || externName.isEmpty()) return getName();
+		if(externName == null || externName.length() == 0) return getName();
 		return externName;
 	}
 	
 	public String getExternName(VariableAccess variableAccess) {
-		if(externName == null || externName.isEmpty()) return variableAccess.getName();
+		if(externName == null || externName.length() == 0) return variableAccess.getName();
 		return externName;
 	}
 	

@@ -467,7 +467,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 		}
 		
 		for(FunctionDecl decl: typeDecl.getFunctions()) {
-			if(decl.getName().equals("init") && (suffix.isEmpty() || decl.getSuffix().equals(suffix))) {
+			if(decl.getName().equals("init") && (suffix.length() == 0 || decl.getSuffix().equals(suffix))) {
 				if(matchesArgs(decl)) {
 					impl = decl;
 					return;
@@ -594,7 +594,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 	}
 	
 	public String getProtoRepr() {
-		if(suffix.isEmpty()) {
+		if(suffix.length() == 0) {
 			return name+getArgsRepr();
 		}
 		return name+"~"+suffix+getArgsRepr();
