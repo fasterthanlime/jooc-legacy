@@ -161,7 +161,15 @@ String: cover from Char* {
 		return copy
 	}
 	
+	charAt: func(index: Int) -> Char {
+		this[index]
+	}
+	
 }
+
+//operator [] (string: String, index: Int) {
+//	string charAt(index)
+//}
 
 operator * (str: String, count: Int) -> String {
 	return str times(count)
