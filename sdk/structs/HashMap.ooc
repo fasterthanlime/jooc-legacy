@@ -11,7 +11,6 @@ HashEntry: class <T> {
 	value: T
 
 	init: func (=key, .value) {
-		this value = gc_malloc(T size)
 		this value = value
 	}
 
