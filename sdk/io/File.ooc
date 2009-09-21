@@ -34,7 +34,7 @@ File: class {
 		return '/'
 	}
 
-	init: func(=path) { }
+	init: func(=path) {}
 	
 	isDir: func -> Bool {
 		stat: FileStat
@@ -94,13 +94,13 @@ File: class {
 }
 
 main: func {
-	file := File new("/bin/ls")
-	dir := File new("/bin/")
+	file := File new("/bin/ls") as File
+	dir := File new("/bin/") as File
 	
 	printf("%s\t(name = %s)\tisFile? %s\tisDir? %s\tsize: %d\n", file path, file name(), file isFile() repr(), file isDir() repr(), file stSize())
 	printf("%s\t(name = %s)\tisFile? %s\tisDir? %s\tsize: %d\n", dir path, dir name(), dir isFile() repr(), dir isDir() repr(), dir stSize())
 	
-	asdf := File new("asdf")
+	asdf := File new("asdf") as File
 	printf("%s exists? %s\n", asdf name(), asdf exists() repr())
 	printf("%s exists? %s\n", file name(), file exists() repr())
 	

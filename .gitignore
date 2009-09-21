@@ -1,7 +1,7 @@
 *.class
 *.gen
 *~
-bin/*
-build/*
-utils/test-suite
+./bin/*
+./build/*
+./utils/test-suite
 ooc_tmp
