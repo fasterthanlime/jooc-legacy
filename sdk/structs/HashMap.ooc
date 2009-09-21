@@ -166,7 +166,6 @@ HashMap: class <T> {
 	/**
 	 * Alias of put
 	 */
-	/*
 	add: func (key: String, value: T) -> Bool {
 		return put(key, value)
 	}
