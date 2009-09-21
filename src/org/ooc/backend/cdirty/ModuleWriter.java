@@ -8,11 +8,13 @@ import org.ooc.frontend.model.CoverDecl;
 import org.ooc.frontend.model.FunctionDecl;
 import org.ooc.frontend.model.Import;
 import org.ooc.frontend.model.Include;
+import org.ooc.frontend.model.Line;
 import org.ooc.frontend.model.Module;
 import org.ooc.frontend.model.Node;
 import org.ooc.frontend.model.Type;
 import org.ooc.frontend.model.TypeDecl;
 import org.ooc.frontend.model.Use;
+import org.ooc.frontend.model.VariableDecl;
 import org.ooc.middle.UseDef;
 
 public class ModuleWriter {
@@ -57,6 +59,16 @@ public class ModuleWriter {
 			}
 		}
 		cgen.current.nl();
+		
+		for(Node node: module.getBody()) {
+			if(node instanceof Line) {
+				Line line = (Line) node;
+				Node inner = line.getStatement();
+				if(inner instanceof VariableDecl) {
+					node.accept(cgen);
+				}
+			}
+		}
 		
 		cgen.current.nl();
 		for(Import imp: module.getImports()) {
