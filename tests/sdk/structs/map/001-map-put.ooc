@@ -3,6 +3,10 @@ import structs/HashMap
 main: func {
 	
 	map := HashMap<String> new()
-	map put("hobo", "haba")
+	for(i in 0..100) {
+		key := "hobo" + i repr()
+		map put(key, "haba")
+		printf("Adding key %s\n", key)
+	}
 	
 }

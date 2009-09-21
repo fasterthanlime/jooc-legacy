@@ -43,7 +43,7 @@ HashMap: class <T> {
 	 */
 	init: func ~withCapacity (=capacity) {
 		size = 0
-		buckets = gc_malloc(capacity * ArrayList size)
+		buckets = gc_malloc(capacity * Pointer size)
 		if (!buckets) {
 			Exception new(This,
 			"Out of memory: failed to allocate " + (capacity * sizeof(ArrayList)) + " bytes\n") throw()
@@ -221,7 +221,7 @@ HashMap: class <T> {
 	resize: func (_capacity: UInt) -> Bool {
 		/* Keep track of old settings */
 		old_capacity := capacity
-		old_buckets = gc_malloc(old_capacity * ArrayList size) : ArrayList<T>*
+		old_buckets = gc_malloc(old_capacity * Pointer size) : ArrayList<T>*
 		if (!old_buckets) {
 			Exception new(This, "Out of memory: failed to allocate %d bytes\n" + (old_capacity * ArrayList size)) throw()
 		}
@@ -232,7 +232,7 @@ HashMap: class <T> {
     keys clear()
 		/* Transfer old buckets to new buckets! */
 		capacity = _capacity
-		buckets = gc_malloc(capacity * ArrayList size)
+		buckets = gc_malloc(capacity * Pointer size)
 		if (!buckets) {
 			Exception new(This, "Out of memory: failed to allocate %d bytes\n" + (capacity * ArrayList size)) throw()
 		}
