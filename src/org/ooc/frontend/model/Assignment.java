@@ -174,7 +174,8 @@ public class Assignment extends BinaryOperation {
 					realRight = new Add(arrAcc.variable, new Mul(arrAcc.index, sizeAccess, startToken), startToken);
 				}
 			}
-			if(realLeft != null && realRight != null && size != null) {
+			if(realLeft != null && realRight != null && size != null
+					&& (left.getType().isFlat() || left.getType().isArray())) {
 				unwrapToMemcpy(stack, realLeft, realRight, size);
 				return Response.RESTART;
 			}
@@ -191,25 +192,39 @@ public class Assignment extends BinaryOperation {
 					+", realRight = "+realRight+", size = "+size);
 		}
 		
-		Block block = new Block(startToken);
-		
-		If if1 = new If(new Not(realLeft, realLeft.startToken), startToken);
-		FunctionCall alloc = new FunctionCall("gc_malloc", "", startToken);
-		alloc.getArguments().add(size);
-		Assignment allocAss = new Assignment(realLeft,
-				alloc, startToken);
-		allocAss.dead = true;
-		if1.getBody().add(new Line(allocAss));
-		block.getBody().add(new Line(if1));
-		
 		FunctionCall call = new FunctionCall("memcpy", "", startToken);
 		NodeList<Expression> args = call.getArguments();
 		args.add(realLeft);
 		args.add(realRight);
 		args.add(size);
-		block.getBody().add(new Line(call));
+
+		// why test if left is an array?
+		// because when declaring a variable of type which resolves to a TypeParam, e.g.
+		// value: T
+		// Then it translates to
+		// uint8_t value[T->size]
+		// That's an optimization. Thus, this will never be null, and it'll never
+		// need being malloc'd.
+		if(realLeft instanceof Access && !(left.getType().isArray())) {
 		
-		stack.peek().replace(this, block);
+			Block block = new Block(startToken);
+			
+			If if1 = new If(new Not(realLeft, realLeft.startToken), startToken);
+			FunctionCall alloc = new FunctionCall("gc_malloc", "", startToken);
+			alloc.getArguments().add(size);
+			Assignment allocAss = new Assignment(realLeft,
+					alloc, startToken);
+			allocAss.dead = true;
+			if1.getBody().add(new Line(allocAss));
+			block.getBody().add(new Line(if1));
+			block.getBody().add(new Line(call));
+			stack.peek().replace(this, block);
+		
+		} else {
+			
+			stack.peek().replace(this, call);
+			
+		}
 		
 	}
 	

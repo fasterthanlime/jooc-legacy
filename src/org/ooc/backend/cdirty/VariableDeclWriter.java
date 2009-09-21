@@ -44,7 +44,7 @@ public class VariableDeclWriter {
 				TypeWriter.writeSpaced(type, cgen);
 				type.setConst(isConst);
 			} else {
-				cgen.current.app(type.getName()).app(' ');
+				cgen.current.app(type.getUnderName()).app(' ');
 			}
 			
 			Iterator<VariableDeclAtom> iter = variableDecl.getAtoms().iterator();

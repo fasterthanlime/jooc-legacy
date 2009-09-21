@@ -32,5 +32,7 @@ public class BuildParams {
 	public String arch = "";
 	
 	public List<String> dynamicLibs = new ArrayList<String>();
+
+	public int blowup = 128; /** maximum number of rounds the {@link Tinkerer} will do before blowing up. */
 	
 }

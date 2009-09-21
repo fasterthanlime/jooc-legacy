@@ -17,6 +17,7 @@ import org.ooc.frontend.model.NodeList;
 import org.ooc.frontend.model.Return;
 import org.ooc.frontend.model.Type;
 import org.ooc.frontend.model.TypeDecl;
+import org.ooc.frontend.model.TypeParam;
 import org.ooc.frontend.model.ValuedReturn;
 import org.ooc.frontend.model.VariableAccess;
 import org.ooc.frontend.model.VariableDecl;
@@ -157,7 +158,9 @@ public class Checker implements Hobgoblin {
 			private void checkVariableDecl(VariableDecl node, NodeList<Node> stack) {
 				Type varDeclType = node.getType();
 				if(varDeclType != null && varDeclType.getRef() != null && !varDeclType.getRef().isExtern()
-						&& !varDeclType.getName().isEmpty() && Character.isLowerCase(varDeclType.getName().charAt(0))) {
+						&& !varDeclType.getName().isEmpty()
+						&& !(varDeclType.getRef() instanceof TypeParam)
+						&& Character.isLowerCase(varDeclType.getName().charAt(0))) {
 					throw new OocCompilationError(varDeclType, stack,
 							"Variable declaration has type '"+varDeclType.getName()+
 							"', which begins with a lowercase letter."+

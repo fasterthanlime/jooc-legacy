@@ -303,7 +303,7 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 		Type type = getType();
 		if(type != null && !type.isArray() && type.isGenericRecursive()
 				&& type.isFlat() && !isMember() && !(this instanceof Argument)) {
-			Type newType = new Type("Octet", type.startToken);
+			Type newType = new Type("uint8_t", type.startToken);
 			newType.setPointerLevel(1);
 			newType.setArray(true);
 			VariableAccess tAccess = new VariableAccess(type.getRef().getName(), startToken);

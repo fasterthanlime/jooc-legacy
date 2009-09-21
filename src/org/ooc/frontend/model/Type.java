@@ -375,6 +375,13 @@ public class Type extends Node implements MustBeResolved {
 		return (ref instanceof ClassDecl || (ref instanceof CoverDecl && !((CoverDecl) ref).isExtern()));
 		
 	}
+
+	public String getUnderName() {
+		
+		if(isPrefixed()) return ((TypeDecl) ref).getUnderName();
+		return getName();
+		
+	}
 	
 }
 

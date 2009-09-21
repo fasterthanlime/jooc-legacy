@@ -113,7 +113,7 @@ public class MemberAccess extends VariableAccess {
 						if(!varDecl.isStatic() && !ref.getName().equals("class")) {
 							throw new OocCompilationError(this, stack, 
 									"Trying to access member variable "+exprType
-									+"."+getName()+" as if it were static. But it's not. (btw, expression = "+varAcc.getRef());
+									+"."+getName()+" as if it were static. But it's not. (btw, expression's ref = "+varAcc.getRef());
 						}
 					}
 				}
@@ -199,9 +199,10 @@ public class MemberAccess extends VariableAccess {
 			dead = true;
 			return false;
 		}
-		
-		if(exprType.getRef() instanceof TypeDecl
-				&& (getName().equals("getName()") || getName().equals("size") || getName().equals("super")
+
+		if(expression instanceof VariableAccess
+				&& ((VariableAccess) expression).getRef() instanceof TypeDecl
+				&& (getName().equals("size") || getName().equals("super")
 						 || getName().equals("size"))) {
 			if(!exprType.getName().equals("Class")) {
 				MemberAccess membAcc = new MemberAccess(expression, "class", startToken);

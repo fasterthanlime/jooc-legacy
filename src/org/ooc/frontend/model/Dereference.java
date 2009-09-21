@@ -30,11 +30,6 @@ public class Dereference extends Access {
 		if(type == null) {
 			Type exprType = expression.getType();
 			if(exprType != null) {
-				Declaration ref = exprType.getRef();
-				if(ref instanceof CoverDecl) {
-					Type fromType = ((CoverDecl) ref).getFromType();
-					if(fromType != null) exprType = fromType;
-				}
 				type = new Type(exprType.getName(), exprType.getPointerLevel() - 1, exprType.startToken);
 				type.setRef(exprType.getRef());
 			}

@@ -124,6 +124,10 @@ public class CommandLine {
         			
         			params.run = true;
         			
+        		} else if(option.startsWith("blowup=")) {
+        			
+        			params.blowup = Integer.parseInt(option.substring("blowup=".length()));
+        			
         		} else if(option.equals("V") || option.equals("-version") || option.equals("version")) {
         			
         			CompilerVersion.printVersion();

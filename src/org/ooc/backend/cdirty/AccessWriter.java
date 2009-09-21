@@ -35,11 +35,11 @@ public class AccessWriter {
 		if(memberAccess.getRef() instanceof FunctionDecl) {
 			FunctionDecl funcDecl = (FunctionDecl) memberAccess.getRef();
 			TypeDecl typeDecl = funcDecl.getTypeDecl();
-			String typeName = typeDecl.getName();
+			String typeName = typeDecl.getUnderName();
 			if(typeDecl instanceof ClassDecl) {
 				ClassDecl classDecl = (ClassDecl) typeDecl;
 				ClassDecl baseClass = classDecl.getBaseClass(funcDecl);
-				typeName = baseClass.getName();
+				typeName = baseClass.getUnderName();
 			}
 			cgen.current.app("((").app(typeName).app("Class *) ");
 			memberAccess.getExpression().accept(cgen);
@@ -97,7 +97,7 @@ public class AccessWriter {
 	public static void writeVariable(VariableAccess variableAccess, boolean doTypeParams, CGenerator cgen) throws IOException {
 		
 		if(variableAccess.getRef() instanceof TypeDecl && !(variableAccess.getRef() instanceof TypeParam)) {
-			cgen.current.app(variableAccess.getUnderName()).app("_class()");
+			cgen.current.app(variableAccess.getName()).app("_class()");
 			return;
 		}
 		

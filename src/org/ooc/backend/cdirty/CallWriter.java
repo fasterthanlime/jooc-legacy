@@ -156,7 +156,7 @@ public class CallWriter {
 			Expression expr = iter.next();
 			Argument implArg = implArgs.get(argIndex);
 			if(implArg.getType().isGeneric() && !expr.getType().isGeneric()) {
-				cgen.current.app("(Octet*) &");
+				cgen.current.app("(uint8_t*) &");
 			}
 			writeCallArg(expr, impl, argIndex, cgen);
 		}

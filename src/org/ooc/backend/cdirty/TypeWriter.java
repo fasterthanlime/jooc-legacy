@@ -26,7 +26,7 @@ public class TypeWriter {
 		}
 		
 		if(type.getRef() instanceof TypeParam) {
-			cgen.current.append("Octet *");
+			cgen.current.append("uint8_t *");
 			return;
 		}
 		

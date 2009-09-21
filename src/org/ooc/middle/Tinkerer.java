@@ -24,8 +24,6 @@ import org.ubi.CompilationFailedError;
  */
 public class Tinkerer {
 
-	final int MAX = 128;
-	
 	public void process(List<Module> modules, BuildParams params) throws IOException {
 
 		for(Module module: modules) {
@@ -62,12 +60,12 @@ public class Tinkerer {
 				
 			}
 			
-			if(round == MAX) {
+			if(round == params.blowup) {
 				for(Resolver resolver: resolvers) {
 					resolver.fatal = true;
 				}
 			}
-			if(round > MAX) {
+			if(round > params.blowup) {
 				throw new CompilationFailedError(null, "Tinkerer goind round in circles. Remaining modules = "+resolvers);
 			}
 			

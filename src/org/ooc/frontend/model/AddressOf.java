@@ -30,7 +30,8 @@ public class AddressOf extends Access {
 		if(type == null) {
 			Type exprType = expression.getType();
 			if(exprType != null) {
-				this.type = new Type(exprType.getName(), exprType.getPointerLevel() + 1, exprType.startToken);
+				type = new Type(exprType.getName(), exprType.getPointerLevel() + 1, exprType.startToken);
+				type.setRef(exprType.getRef());
 			}
 		}
 		return type;
