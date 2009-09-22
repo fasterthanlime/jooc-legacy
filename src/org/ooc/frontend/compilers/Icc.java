@@ -11,6 +11,10 @@ public class Icc extends Gcc {
 		super("icc");
 	}
 	
+	public Icc(String executableName) {
+		super(executableName);
+	}
+	
 	@Override
 	public void reset() {
 		command.clear();

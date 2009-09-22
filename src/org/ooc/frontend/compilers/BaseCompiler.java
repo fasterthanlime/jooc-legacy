@@ -15,11 +15,14 @@ public abstract class BaseCompiler implements AbstractCompiler {
 	
 	@SuppressWarnings("null")
 	public BaseCompiler(String executableName) {
-		File execFile = ShellUtils.findExecutable(executableName);
-		if(execFile == null) {
-			execFile = ShellUtils.findExecutable(executableName + ".exe");
+		File execFile = new File(executableName);
+		if(!execFile.exists()) {
+			execFile = ShellUtils.findExecutable(executableName);
 			if(execFile == null) {
-				ShellUtils.findExecutable(executableName, true);
+				execFile = ShellUtils.findExecutable(executableName + ".exe");
+				if(execFile == null) {
+					ShellUtils.findExecutable(executableName, true);
+				}
 			}
 		}
 		executablePath = execFile.getName();

@@ -138,22 +138,30 @@ public class CommandLine {
         			Help.printHelp();
         			System.exit(0);
         			
-        		} else if(option.equals("gcc")) {
-        			
-        			compiler = new Gcc();
-        			
-        		} else if(option.equals("icc")) {
-        			
-        			compiler = new Icc();
-        			
-        		} else if(option.equals("tcc")) {
-        			
-        			compiler = new Tcc();
-        			
-				} else if(option.equals("clang")) {
-        			
-        			compiler = new Clang();
-        			
+        		} else if(option.startsWith("gcc")) {
+        			if(option.startsWith("gcc=")) {
+        				compiler = new Gcc(option.substring(4));
+        			} else {
+        				compiler = new Gcc();
+        			}
+        		} else if(option.startsWith("icc")) {
+        			if(option.startsWith("icc=")) {
+        				compiler = new Icc(option.substring(4));
+        			} else {
+        				compiler = new Icc();
+        			}
+        		} else if(option.startsWith("tcc")) {
+        			if(option.startsWith("tcc=")) {
+        				compiler = new Tcc(option.substring(4));
+        			} else {
+        				compiler = new Tcc();
+        			}
+				} else if(option.startsWith("clang")) {
+					if(option.startsWith("clang=")) {
+        				compiler = new Clang(option.substring(6));
+        			} else {
+        				compiler = new Clang();
+        			}
         		} else if(option.equals("help-backends") || option.equals("-help-backends")) {
         			
         			Help.printHelpBackends();

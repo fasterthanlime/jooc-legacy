@@ -11,6 +11,10 @@ public class Tcc extends Gcc {
 		super("tcc");
 	}
 	
+	public Tcc(String executableName) {
+		super(executableName);
+	}
+
 	@Override
 	public void reset() {
 		command.clear();

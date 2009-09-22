@@ -11,7 +11,7 @@ public class Gcc extends BaseCompiler {
 		super("gcc");
 	}
 	
-	protected Gcc(String executableName) {
+	public Gcc(String executableName) {
 		super(executableName);
 	}
 
