@@ -329,10 +329,8 @@ public class FunctionCall extends Access implements MustBeResolved {
 				i++;
 				String key = keys.next();
 				if(key.equals(typeParam)) {
-					Access match = argType.getTypeParams().get(i);
 					Type realType = getRealType(argType.getName(), stack, res, fatal);
-					Access realMatch = realType.getTypeParams().get(i);
-					return realMatch;
+					return realType.getTypeParams().get(i);
 				}
 			}
 		}

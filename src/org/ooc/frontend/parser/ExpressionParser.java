@@ -238,9 +238,17 @@ public class ExpressionParser {
 						ensureAccess(expr);
 						expr = new Assignment(Mode.DIV, expr, rvalue, token); break;
 					case TokenType.PIPE:
+						if(isAssign) {
+							ensureAccess(expr);
+							expr = new Assignment(Mode.B_OR, expr, rvalue, token); break;
+						}
 						expr = new BinaryCombination(BinaryComp.BITWISE_OR, expr, rvalue, token); break;
 					case TokenType.AMPERSAND:
-						case TokenType.BINARY_AND:
+					case TokenType.BINARY_AND:
+						if(isAssign) {
+							ensureAccess(expr);
+							expr = new Assignment(Mode.B_AND, expr, rvalue, token); break;
+						}
 						expr = new BinaryCombination(BinaryComp.BITWISE_AND, expr, rvalue, token); break;
 					case TokenType.DOUBLE_PIPE: 
 						expr = new BinaryCombination(BinaryComp.LOGICAL_OR,  expr, rvalue, token); break;

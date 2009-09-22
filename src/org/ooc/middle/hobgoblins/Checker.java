@@ -151,7 +151,7 @@ public class Checker implements Hobgoblin {
 				if(name.equals("class") && stack.find(CoverDecl.class) != -1) return;
 				throw new OocCompilationError(node, stack,
 						"Two functions have the same name '"+name
-							+"', add suffix to one of them! e.g. "+name+": func ~suffix "+node.getArgsRepr()+" -> ReturnType");
+							+"', add suffix to one of them! (even if they have different signatures). e.g. "+name+": func ~suffix "+node.getArgsRepr()+" -> ReturnType");
 
 			}
 			

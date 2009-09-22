@@ -24,7 +24,9 @@ public class OpDecl extends Declaration {
 		B_XOR,
 		B_XOR_ASS,
 		B_OR,
+		B_OR_ASS,
 		B_AND,
+		B_AND_ASS,
 		LSHIFT,
 		B_LSHIFT_ASS,
 		RSHIFT,
@@ -86,9 +88,23 @@ public class OpDecl extends Declaration {
 				return "*=";
 			case SUB_ASS:
 				return "-=";
-			default:
-				return "unknown";
+			case B_LSHIFT_ASS:
+				return "<<=";
+			case B_RSHIFT_ASS:
+				return ">>=";
+			case B_XOR_ASS:
+				return "^=";
+			case LSHIFT:
+				return ">>";
+			case RSHIFT:
+				return "<<";
+			case B_OR_ASS:
+				return "|=";
+			case B_AND_ASS:
+				return "&=";
 			}
+			
+			return "unknown";
 		}
 
 		public boolean isNumeric() {

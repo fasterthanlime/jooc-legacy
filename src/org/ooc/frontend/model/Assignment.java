@@ -19,6 +19,8 @@ public class Assignment extends BinaryOperation {
 		DIV,
 		MUL,
 		B_XOR,
+		B_OR,
+		B_AND,
 		B_LSHIFT,
 		B_RSHIFT,
 	}
@@ -83,9 +85,20 @@ public class Assignment extends BinaryOperation {
 				return "*=";
 			case SUB:
 				return "-=";
-			default:
+			case B_AND:
+				return "&=";
+			case B_LSHIFT:
+				return "<<=";
+			case B_OR:
+				return "|=";
+			case B_RSHIFT:
+				return ">>=";
+			case B_XOR:
+				return "^=";
+			case REGULAR:
 				return "=";
 		}
+		return "unknown";
 	}
 
 	@Override
@@ -101,6 +114,10 @@ public class Assignment extends BinaryOperation {
 			return OpType.SUB_ASS;
 		case B_XOR:
 			return OpType.B_XOR_ASS;
+		case B_OR:
+			return OpType.B_OR_ASS;
+		case B_AND:
+			return OpType.B_AND_ASS;
 		case B_LSHIFT:
 			return OpType.B_LSHIFT_ASS;
 		case B_RSHIFT:
