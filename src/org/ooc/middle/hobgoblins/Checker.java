@@ -113,18 +113,19 @@ public class Checker implements Hobgoblin {
 					}
 				}
 				
-				/*
 				if(!node.getReturnType().isVoid() && !node.getReturnType().isGenericRecursive() && !node.isExtern() && !node.isAbstract()) {
 					
 					if(node.getBody().isEmpty()) {
 						if(node.getName().equals("main")) {
 							node.getBody().add(new Line(new ValuedReturn(
 									new IntLiteral(0, Format.DEC, node.startToken), node.startToken)));
-						} else {
+						} /*else {
+							
 							throw new OocCompilationError(node, stack,
 									"Returning nothing in function "+node.getProtoRepr()
 										+" that should return a "+node.getReturnType());
-						}
+							
+						}*/
 					}
 					
 					Line line = node.getBody().getLast();
@@ -135,14 +136,14 @@ public class Checker implements Hobgoblin {
 						} else if(line.getStatement() instanceof Expression) {
 							line.setStatement(new ValuedReturn((Expression) line.getStatement(),
 									line.getStatement().startToken));
-						} else {
+						} /*else {
+							
 							throw new OocCompilationError(node, stack,
 									"Returning nothing in function "+node.getProtoRepr()
 										+" that should return a "+node.getReturnType());
-						}
+						}*/
 					}
 				}
-				*/
 			}
 			
 			void throwError(FunctionDecl node, NodeList<Node> stack, String name)
