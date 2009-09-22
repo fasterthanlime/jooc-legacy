@@ -258,22 +258,32 @@ public class FunctionCall extends Access implements MustBeResolved {
 	}
 
 	protected Type getRealType(String typeParam, NodeList<Node> stack, Resolver res, boolean fatal) {
-
+		
 		if(impl == null) return null;
 		int i = -1;
 		boolean isFirst = true;
+		Type result = null;
 		for(Argument arg: impl.getArguments()) {
 			if(isFirst && impl.hasThis()) {
 				isFirst = false;
 				continue;
 			}
 			i++;
-			if(arg.getType().getName().equals(typeParam)) {
-				return arguments.get(i).getType();
+			Type argType = arg.getType();
+			if(argType.getName().equals(typeParam)) {
+				result = arguments.get(i).getType();
+				break;
+			}
+			if(argType.isGenericRecursive()) {
+				Expression resultExpr = getRealExpr(typeParam, argType, stack, res, fatal);
+				if(resultExpr != null && resultExpr.getType() != null) {
+					result = resultExpr.getType();
+					break;
+				}
 			}
 		}
 		
-		return null;
+		return result;
 		
 	}
 	
@@ -291,15 +301,45 @@ public class FunctionCall extends Access implements MustBeResolved {
 				continue;
 			}
 			i++;
-			if(arg.getType().getName().equals(typeParam)) {
+			Type argType = arg.getType();
+			if(argType.getName().equals(typeParam)) {
 				result = arguments.get(i);
 				break;
+			}
+			if(argType.isGenericRecursive()) {
+				result = getRealExpr(typeParam, argType, stack, res, fatal);
+				if(result != null) {
+					break;
+				}
 			}
 		}
 		return result;
 		
 	}
 	
+	private Expression getRealExpr(String typeParam, Type argType,
+			NodeList<Node> stack, Resolver res, boolean fatal) {
+		
+		Declaration ref = argType.getRef();
+		if(ref instanceof TypeDecl) {
+			TypeDecl typeDecl = (TypeDecl) ref;
+			Iterator<String> keys = typeDecl.getTypeParams().keySet().iterator();
+			int i = -1;
+			while(keys.hasNext()) {
+				i++;
+				String key = keys.next();
+				if(key.equals(typeParam)) {
+					Access match = argType.getTypeParams().get(i);
+					Type realType = getRealType(argType.getName(), stack, res, fatal);
+					Access realMatch = realType.getTypeParams().get(i);
+					return realMatch;
+				}
+			}
+		}
+		
+		return null;
+	}
+
 	protected Access getExprParam(String typeParam, NodeList<Node> stack, Resolver res, boolean fatal) {
 	
 		if(impl == null) return null;
@@ -633,6 +673,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 
 	public void throwUnresolvedType(NodeList<Node> stack, String typeName) {
 		
+		Thread.dumpStack();
 		if(impl != null) {
 			throw new OocCompilationError(this, stack, "Couldn't figure out generic type <"+typeName+"> for "+impl);
 		}
