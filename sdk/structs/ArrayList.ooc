@@ -134,8 +134,8 @@ ArrayList: class <T> extends List {
 		if (tmpData) {
 			data = tmpData
 		} else {
-			printf("Failed to allocate %d bytes of memory for array to grow! Exiting..\n",
-				capacity * T size)
+			printf("Failed to allocate %lu bytes of memory for array to grow! Exiting..\n",
+				(capacity * T size) as ULong)
 			x := 0
 			x = 1 / x
 		}
