@@ -60,13 +60,14 @@ public class ShellUtils {
 		while(st.hasMoreTokens()) {
 			String path = st.nextToken();
 			File file = new File(path, executableName);
+			System.out.println("Testing for existence of "+file);
 			if(file.exists() && file.isFile()) {
 				return file;
 			}
 		}
 		
 		if(crucial) {
-			throw new CompilationFailedError(null, "Couldn't find '"+executableName+"' on your system. PATH = ");
+			throw new CompilationFailedError(null, "Couldn't find '"+executableName+"' on your system. PATH = "+pathVar);
 		}
 		return null;
 		

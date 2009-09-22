@@ -5,6 +5,10 @@ atoi: extern func (String) -> Int
 atol: extern func (String) -> Long
 
 String: cover from Char* {
+
+	new: static func (length: SizeT) -> This {
+		return gc_malloc(length)
+	}
 	
 	length: extern(strlen) func -> SizeT
 	
@@ -92,7 +96,7 @@ String: cover from Char* {
 		}
 		
 		diff = (len - start) : Int
-		sub := gc_malloc(diff + 1) as This
+		sub := gc_malloc(diff + 1) as This	
 		sub[diff + 1] = 0
 		memcpy(sub, this + start, diff)
 		return sub
