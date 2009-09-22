@@ -633,7 +633,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 	}
 	
 	public String getProtoRepr() {
-		if(suffix.length() == 0) {
+		if(suffix == null || suffix.length() == 0) {
 			return name+getArgsRepr();
 		}
 		return name+"~"+suffix+getArgsRepr();

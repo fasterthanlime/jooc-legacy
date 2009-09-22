@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.StringTokenizer;
 
 import org.ooc.utils.FileUtils;
+import org.ooc.utils.ReadEnv;
 
 public class DistLocator {
 
@@ -15,7 +16,7 @@ public class DistLocator {
 		
 			File location;
 			
-			Map<String, String> env = System.getenv();
+			Map<String, String> env = ReadEnv.getEnv();
 			Object envDist = env.get("OOC_DIST");
 			if(envDist != null) {
 				return new File(envDist.toString());

@@ -99,6 +99,10 @@ public class CommandLine {
         			
         			params.dynGC = true;
         			
+        		} else if(option.equals("nogc")) {
+        			
+        			params.enableGC = false;
+        			
         		} else if(option.equals("noclean")) {
         			
         			params.clean = false;
@@ -233,7 +237,7 @@ public class CommandLine {
 		}
 		
 		if(params.sourcePath.isEmpty()) params.sourcePath.add(".");
-		params.sourcePath.add(params.distLocation + File.separator + "sdk");
+		params.sourcePath.add(params.sdkLocation.getPath());
 	
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		do {
@@ -431,14 +435,7 @@ public class CommandLine {
 		
 		compiler.reset();
 		
-		for(Include inc: module.getIncludes()) {
-			if(inc.getMode() == Mode.LOCAL) {
-				try {
-					FileUtils.copy(new File(inc.getPath() + ".h"),
-						new File(params.outPath, inc.getPath() + ".h"));
-				} catch(Exception e) { e.printStackTrace(); }
-			}
-		}
+		copyLocalHeaders(module, new HashSet<Module>());
 		
 		if(params.debug) compiler.setDebugEnabled();		
 		compiler.addIncludePath(new File(params.distLocation, "libs/headers/").getPath());
@@ -459,12 +456,14 @@ public class CommandLine {
 			Collection<String> libs = getFlagsFromUse(module);
 			for(String lib: libs) compiler.addObjectFile(lib);
 			
-			compiler.addDynamicLibrary("pthread");
-			if(params.dynGC) {
-				compiler.addDynamicLibrary("gc");
-			} else {
-				compiler.addObjectFile(new File(params.distLocation, "libs/"
-						+ Target.guessHost().toString(params.arch.equals("") ? Target.getArch() : params.arch) + "/libgc.a").getPath());
+			if(params.enableGC) {
+				compiler.addDynamicLibrary("pthread");
+				if(params.dynGC) {
+					compiler.addDynamicLibrary("gc");
+				} else {
+					compiler.addObjectFile(new File(params.distLocation, "libs/"
+							+ Target.guessHost().toString(params.arch.equals("") ? Target.getArch() : params.arch) + "/libgc.a").getPath());
+				}
 			}
 		} else {
 			compiler.setCompileOnly();
@@ -477,6 +476,26 @@ public class CommandLine {
 			System.err.println("C compiler failed, aborting compilation process");
 		}
 		return code;
+		
+	}
+
+	private void copyLocalHeaders(Module module, HashSet<Module> done) {
+		
+		if(done.contains(module)) return;
+		done.add(module);
+		for(Include inc: module.getIncludes()) {
+			if(inc.getMode() == Mode.LOCAL) {
+				try {
+					File file = params.sourcePath.getFile(module.getPath()).getParentFile();
+					FileUtils.copy(new File(file, inc.getPath() + ".h"),
+						new File(params.outPath, inc.getPath() + ".h"));
+				} catch(Exception e) { e.printStackTrace(); }
+			}
+		}
+		
+		for(Import imp: module.getImports()) {
+			copyLocalHeaders(imp.getModule(), done);
+		}
 		
 	}
 

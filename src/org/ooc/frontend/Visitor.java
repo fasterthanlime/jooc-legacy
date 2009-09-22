@@ -48,6 +48,7 @@ import org.ooc.frontend.model.RegularArgument;
 import org.ooc.frontend.model.Return;
 import org.ooc.frontend.model.StringLiteral;
 import org.ooc.frontend.model.Sub;
+import org.ooc.frontend.model.Ternary;
 import org.ooc.frontend.model.Type;
 import org.ooc.frontend.model.Use;
 import org.ooc.frontend.model.ValuedReturn;
@@ -135,5 +136,6 @@ public interface Visitor {
 	public void visit(OpDecl opDecl) throws IOException;
 
 	public void visit(BinaryCombination binaryCombination) throws IOException;
+	public void visit(Ternary ternary) throws IOException;
 	
 }

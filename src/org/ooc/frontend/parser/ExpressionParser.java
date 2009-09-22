@@ -26,6 +26,7 @@ import org.ooc.frontend.model.Not;
 import org.ooc.frontend.model.Parenthesis;
 import org.ooc.frontend.model.RangeLiteral;
 import org.ooc.frontend.model.Sub;
+import org.ooc.frontend.model.Ternary;
 import org.ooc.frontend.model.Type;
 import org.ooc.frontend.model.VariableAccess;
 import org.ooc.frontend.model.Assignment.Mode;
@@ -155,6 +156,17 @@ public class ExpressionParser {
 				reader.skip();
 				expr = new AddressOf(expr, token);
 				continue;
+			}
+			
+			if(token.type == TokenType.QUEST) {
+				reader.skip();
+				Expression ifTrue = parse(module, sReader, reader, true);
+				if(reader.read().type != TokenType.ELSE_KW) {
+					throw new CompilationFailedError(sReader.getLocation(reader.prev()),
+							"Expected 'else' staement after '?'");
+				}
+				Expression ifFalse = parse(module, sReader, reader, true);
+				expr = new Ternary(expr.startToken, expr, ifTrue, ifFalse);
 			}
 			
 			if(token.type == TokenType.AT) {

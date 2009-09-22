@@ -12,7 +12,8 @@ import org.ooc.frontend.model.VariableDecl;
 
 public class ClassDeclWriter {
 	
-	public static final String CLASS_NAME = "lang__Class";
+	public static final String LANG_PREFIX = "lang__";
+	public static final String CLASS_NAME = LANG_PREFIX+"Class";
 	
 	public static void write(ClassDecl classDecl, CGenerator cgen) throws IOException {
 		
@@ -107,7 +108,7 @@ public class ClassDeclWriter {
 		cgen.current.app(CLASS_NAME).app(" *").app(classDecl.getName()).app("_class()")
 				.openSpacedBlock();
 		if (classDecl.getSuperName().length() > 0)
-			cgen.current.app("static bool __done__ = false;").nl();
+			cgen.current.app("static ").app(LANG_PREFIX).app("Bool __done__ = false;").nl();
 		cgen.current.app("static ").app(classDecl.getUnderName()).app(
 				"Class class = ");
 		writeClassStructInitializers(classDecl, classDecl, new HashSet<FunctionDecl>(), cgen);

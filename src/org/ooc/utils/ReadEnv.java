@@ -22,7 +22,11 @@ public class ReadEnv {
 	 * @throws IOException 
 	 * @throws Throwable
 	 */
-	public static Map<String, String> getEnvVars() {
+	public static Map<String, String> getEnv() {
+		
+		Map<String, String> getenv = System.getenv();
+		if(!getenv.isEmpty()) return getenv;
+		
 		Process p = null;
 		Map<String, String> envVars = new HashMap<String, String>();
 		Runtime r = Runtime.getRuntime();

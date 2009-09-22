@@ -146,7 +146,7 @@ public class ModuleWriter {
 		Type.getVoid().accept(cgen);
 		cgen.current.app(' ').app(cgen.module.getLoadFunc().getName()).app("()").openBlock();
 
-		cgen.current.nl().app("static bool __done__ = false;").nl().app("if (!__done__)").openBlock();
+		cgen.current.nl().app("static ").app(ClassDeclWriter.LANG_PREFIX).app("Bool __done__ = false;").nl().app("if (!__done__)").openBlock();
 		cgen.current.nl().app("__done__ = true;");
 
 		for (String key : cgen.module.getTypes().keySet()) {

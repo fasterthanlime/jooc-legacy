@@ -148,9 +148,9 @@ public class Tokenizer {
 			int index = reader.mark();
 			
 			char c = reader.peek();
-			if(c == ';' || c == '\n') {
+			if(c == ';' || c == '\n' || c == '\r') {
 				reader.read();
-				while(reader.peek() == '\n' && reader.hasNext()) {
+				while((reader.peek() == '\n' || reader.peek() == '\r') && reader.hasNext()) {
 					reader.read();
 				}
 				tokens.add(new Token(index, 1, TokenType.LINESEP));
@@ -339,7 +339,8 @@ public class Tokenizer {
 				tokens.add(new Token(index, name.length(), TokenType.NAME));
 				continue reading;
 			}
-			throw new CompilationFailedError(reader.getLocation(index, 0), "Unexpected input.");
+			throw new CompilationFailedError(reader.getLocation(index, 1),
+					"Unexpected input '"+SourceReader.spelled(reader.peek())+"'");
 			
 		}
 		

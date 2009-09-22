@@ -11,7 +11,6 @@ import org.ooc.frontend.model.Assignment;
 import org.ooc.frontend.model.BinaryCombination;
 import org.ooc.frontend.model.Block;
 import org.ooc.frontend.model.BoolLiteral;
-import org.ooc.frontend.model.FlowControl;
 import org.ooc.frontend.model.BuiltinType;
 import org.ooc.frontend.model.Cast;
 import org.ooc.frontend.model.CharLiteral;
@@ -22,6 +21,7 @@ import org.ooc.frontend.model.Dereference;
 import org.ooc.frontend.model.Div;
 import org.ooc.frontend.model.Else;
 import org.ooc.frontend.model.FloatLiteral;
+import org.ooc.frontend.model.FlowControl;
 import org.ooc.frontend.model.Foreach;
 import org.ooc.frontend.model.FunctionCall;
 import org.ooc.frontend.model.FunctionDecl;
@@ -49,6 +49,7 @@ import org.ooc.frontend.model.RegularArgument;
 import org.ooc.frontend.model.Return;
 import org.ooc.frontend.model.StringLiteral;
 import org.ooc.frontend.model.Sub;
+import org.ooc.frontend.model.Ternary;
 import org.ooc.frontend.model.Type;
 import org.ooc.frontend.model.Use;
 import org.ooc.frontend.model.ValuedReturn;
@@ -372,6 +373,11 @@ public class SketchyNosy implements Visitor {
 	public void visit(InterfaceDecl node) throws IOException {
 		if(node.hasChildren()) visitAll(node);
 		else if(!oppo.take(node, stack)) running = false;
+	}
+
+	public void visit(Ternary node) throws IOException {
+		visitAll(node);
+		if(!oppo.take(node, stack)) running = false;
 	}
 	
 }

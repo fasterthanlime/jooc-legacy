@@ -56,6 +56,7 @@ import org.ooc.frontend.model.RegularArgument;
 import org.ooc.frontend.model.Return;
 import org.ooc.frontend.model.StringLiteral;
 import org.ooc.frontend.model.Sub;
+import org.ooc.frontend.model.Ternary;
 import org.ooc.frontend.model.Type;
 import org.ooc.frontend.model.TypeParam;
 import org.ooc.frontend.model.Use;
@@ -378,6 +379,14 @@ public class CGenerator extends Generator implements Visitor {
 
 	public void visit(InterfaceDecl interfaceDecl) throws IOException {
 		// huh.. slack off?
+	}
+
+	public void visit(Ternary ternary) throws IOException {
+		ternary.getCondition().accept(this);
+		current.app(" ? ");
+		ternary.getValueIfTrue().accept(this);
+		current.app(" : ");
+		ternary.getValueIfFalse().accept(this);
 	}
 
 }

@@ -41,7 +41,7 @@ public class ShellUtils {
 		}
 		
 		if(pathVar == null) {
-			env = ReadEnv.getEnvVars();
+			env = ReadEnv.getEnv();
 			pathVar = env.get("PATH");
 			if(pathVar == null) {
 				pathVar = env.get("Path");
