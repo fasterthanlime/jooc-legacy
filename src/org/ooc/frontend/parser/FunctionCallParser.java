@@ -23,7 +23,7 @@ public class FunctionCallParser {
 		}
 		String name = tName.get(sReader);
 		
-		String suffix = "";
+		String suffix = null;
 		if(reader.peek().type == TokenType.TILDE) {
 			reader.skip();
 			Token tSuff = reader.read();

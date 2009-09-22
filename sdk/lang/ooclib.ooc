@@ -47,6 +47,7 @@ memcpy: extern func (Pointer, Pointer, SizeT)
 scanf: extern func (String, ...)
 printf: extern func (String, ...)
 sprintf: extern func (String, String, ...)
+snprintf: extern func (String, Int, String, ...)
 
 exit: extern func (Int)
 

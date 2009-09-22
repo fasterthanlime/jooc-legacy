@@ -180,9 +180,9 @@ public class MemberAccess extends VariableAccess {
 		}
 		
 		if(ref == null && getName().equals("size") && exprType.isArray()) {
-			FunctionCall sizeofArray = new FunctionCall("sizeof", "", startToken);
+			FunctionCall sizeofArray = new FunctionCall("sizeof", startToken);
 			sizeofArray.getArguments().add(expression);
-			FunctionCall sizeofType = new FunctionCall("sizeof", "", startToken);
+			FunctionCall sizeofType = new FunctionCall("sizeof", startToken);
 			 // FIXME it should probably be type.dereference()
 			sizeofType.getArguments().add(new VariableAccess(expression.getType().getName(), startToken)); 
 			Div div = new Div(sizeofArray, sizeofType, startToken);

@@ -83,7 +83,7 @@ public class Compare extends BinaryOperation {
 		}
 		
 		if(isGeneric) {
-			FunctionCall call = new FunctionCall("memcmp", "", startToken);
+			FunctionCall call = new FunctionCall("memcmp", startToken);
 			NodeList<Expression> args = call.getArguments();
 			args.add(realLeft);
 			args.add(realRight);

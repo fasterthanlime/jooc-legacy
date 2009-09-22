@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.ooc.frontend.model.Access;
 import org.ooc.frontend.model.Declaration;
+import org.ooc.frontend.model.Expression;
 import org.ooc.frontend.model.FuncType;
 import org.ooc.frontend.model.Module;
 import org.ooc.frontend.model.NodeList;
@@ -24,6 +25,7 @@ public class TypeParser {
 		int referenceLevel = 0;
 		boolean isArray = false;
 		NodeList<Access> typeParams = null;
+		Expression arraySize = null;
 		
 		Token startToken = reader.peek();
 		boolean isConst = false;
@@ -89,11 +91,15 @@ public class TypeParser {
 
 		while(reader.peek().type == TokenType.OPEN_SQUAR) {
 			reader.skip();
+			Expression expr = ExpressionParser.parse(module, sReader, reader);
 			if(reader.read().type != TokenType.CLOS_SQUAR) {
 				return null;
 			}
 			pointerLevel++;
 			isArray = true;
+			if(expr != null) {
+				arraySize = expr;
+			}
 		}
 		
 		while(reader.peek().type == TokenType.STAR) {
@@ -119,6 +125,9 @@ public class TypeParser {
 			type.setConst(isConst);
 			if(typeParams != null) {
 				type.getTypeParams().addAll(typeParams);
+			}
+			if(arraySize != null) {
+				type.setArraySize(arraySize);
 			}
 			return type;
 		}

@@ -208,7 +208,7 @@ public class Assignment extends BinaryOperation {
 					+", realRight = "+realRight+", size = "+size);
 		}
 		
-		FunctionCall call = new FunctionCall("memcpy", "", startToken);
+		FunctionCall call = new FunctionCall("memcpy", startToken);
 		NodeList<Expression> args = call.getArguments();
 		args.add(realLeft);
 		args.add(realRight);
@@ -226,7 +226,7 @@ public class Assignment extends BinaryOperation {
 			Block block = new Block(startToken);
 			
 			If if1 = new If(new Not(realLeft, realLeft.startToken), startToken);
-			FunctionCall alloc = new FunctionCall("gc_malloc", "", startToken);
+			FunctionCall alloc = new FunctionCall("gc_malloc", startToken);
 			alloc.getArguments().add(size);
 			Assignment allocAss = new Assignment(realLeft,
 					alloc, startToken);

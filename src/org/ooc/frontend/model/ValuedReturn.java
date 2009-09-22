@@ -94,7 +94,7 @@ public class ValuedReturn extends Return implements MustBeResolved {
 			return;
 		}
 		
-		FunctionCall call = new FunctionCall("memcpy", "", startToken);
+		FunctionCall call = new FunctionCall("memcpy", startToken);
 		VariableAccess returnArgAcc = new VariableAccess(decl.getReturnArg(), startToken);
 		NodeList<Expression> args = call.getArguments();
 		args.add(returnArgAcc);

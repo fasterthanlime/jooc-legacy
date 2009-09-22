@@ -338,7 +338,7 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 	}
 
 	public boolean isNamed(String name, String suffix) {
-		return this.name.equals(name) && (suffix.length() == 0 || this.suffix.equals(suffix));
+		return this.name.equals(name) && (suffix == null || this.suffix.equals(suffix));
 	}
 
 	public boolean isSpecialFunc() {

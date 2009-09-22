@@ -22,6 +22,10 @@ public class FunctionCall extends Access implements MustBeResolved {
 	protected AddressOf returnArg;
 	protected Type realType;
 	
+	public FunctionCall(String name, Token startToken) {
+		this(name, null, startToken);
+	}
+	
 	public FunctionCall(String name, String suffix, Token startToken) {
 		super(startToken);
 		this.name = name;
@@ -502,7 +506,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 		}
 		
 		for(FunctionDecl decl: typeDecl.getFunctions()) {
-			if(decl.getName().equals("init") && (suffix.length() == 0 || decl.getSuffix().equals(suffix))) {
+			if(decl.getName().equals("init") && (suffix == null || decl.getSuffix().equals(suffix))) {
 				if(matchesArgs(decl)) {
 					impl = decl;
 					return;
