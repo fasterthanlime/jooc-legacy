@@ -1,4 +1,10 @@
+isalnum: extern func(letter: Char)
+
 Char: cover from char {
+
+	isAlphaNumeric: func -> Bool {
+		return isalnum(this)
+	}
 
 	toInt: func -> Int {
 		if ((this >= 48) && (this <= 57)) {
