@@ -1,6 +1,7 @@
 include ctype
 
 isalnum: extern func(letter: Char) -> Int
+isalpha: extern func(letter: Char) -> Int
 isspace: extern func(letter: Char) -> Int
 tolower: extern func(letter: Char) -> Char
 
@@ -8,6 +9,10 @@ Char: cover from char {
 
 	isAlphaNumeric: func -> Bool {
 		return isalnum(this)
+	}
+	
+	isAlpha: func -> Bool { 
+		return isalpha(this)
 	}
 	
 	isWhitespace: func() -> Bool {
