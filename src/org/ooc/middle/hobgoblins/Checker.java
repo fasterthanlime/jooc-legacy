@@ -113,6 +113,7 @@ public class Checker implements Hobgoblin {
 					}
 				}
 				
+				/*
 				if(!node.getReturnType().isVoid() && !node.getReturnType().isGenericRecursive() && !node.isExtern() && !node.isAbstract()) {
 					
 					if(node.getBody().isEmpty()) {
@@ -141,6 +142,7 @@ public class Checker implements Hobgoblin {
 						}
 					}
 				}
+				*/
 			}
 			
 			void throwError(FunctionDecl node, NodeList<Node> stack, String name)
