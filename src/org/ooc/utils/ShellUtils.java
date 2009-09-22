@@ -24,8 +24,6 @@ public class ShellUtils {
 	 */
 	public static File findExecutable(String executableName, boolean crucial) {
 		
-		System.out.println("====================\n Now trying to find "+executableName);
-		
 		Map<String, String> env;
 		try {
 			env = System.getenv();
@@ -62,7 +60,6 @@ public class ShellUtils {
 		while(st.hasMoreTokens()) {
 			String path = st.nextToken();
 			File file = new File(path, executableName);
-			System.out.println("Testing for existence of "+file);
 			if(file.exists() && file.isFile()) {
 				return file;
 			}
