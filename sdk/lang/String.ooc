@@ -167,9 +167,9 @@ String: cover from Char* {
 	
 }
 
-//operator [] (string: String, index: Int) {
-//	string charAt(index)
-//}
+operator [] (string: String, index: Int) -> Char {
+	string charAt(index)
+}
 
 operator * (str: String, count: Int) -> String {
 	return str times(count)
