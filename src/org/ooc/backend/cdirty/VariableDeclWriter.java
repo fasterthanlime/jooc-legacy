@@ -50,9 +50,12 @@ public class VariableDeclWriter {
 			Iterator<VariableDeclAtom> iter = variableDecl.getAtoms().iterator();
 			while(iter.hasNext()) {
 				VariableDeclAtom atom = iter.next();
+				if(type.isArray()) {
+					TypeWriter.writePreFinale(type, cgen);
+				}
 				cgen.current.app(atom.getName());
 				if(type.isArray()) {
-					TypeWriter.writeFinale(type, cgen);
+					TypeWriter.writePostFinale(type, cgen);
 				}
 				writeInitAndComma(cgen, type, iter.hasNext(), atom);
 			}

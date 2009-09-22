@@ -45,10 +45,19 @@ public class TypeWriter {
 	}
 	
 	public static  void writeFinale(Type type, CGenerator cgen) throws IOException {
+		writePreFinale(type, cgen);
+		writePostFinale(type, cgen);
+	}
+
+	public static void writePreFinale(Type type, CGenerator cgen)
+			throws IOException {
 		if(type.getRef() instanceof ClassDecl) {
 			cgen.current.app('*');
 		}
-		
+	}
+	
+	public static void writePostFinale(Type type, CGenerator cgen)
+			throws IOException {
 		int level = type.getPointerLevel() + type.getReferenceLevel();
 		for(int i = 0; i < level; i++) {
 			if(type.isArray()) {
