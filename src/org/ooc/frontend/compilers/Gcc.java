@@ -52,7 +52,13 @@ public class Gcc extends BaseCompiler {
 	public void reset() {
 		super.reset();
 		command.add("-pipe");
-		command.add("-combine");
+		String os = System.getProperty("os.name").toLowerCase();
+		if(os.indexOf("windows 9") == -1
+				&& os.indexOf("nt") == -1
+				&& os.indexOf("windows 20") == -1
+				&& os.indexOf("windows xp") == -1) {
+			command.add("-combine");
+		}
 		command.add("-std=c99");
 		command.add("-Wall");
 	}
