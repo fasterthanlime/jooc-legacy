@@ -5,7 +5,13 @@ Exception: class {
 
 	init: func (=origin, =msg) {}
 	init: func ~noOrigin (=msg) {}
-
+	
+	crash: func {
+		fflush(stdout)
+		x := 0
+		x = 1 / x
+	}
+	
 	throw: func {
 		if(origin) {
 			printf("[%s in %s]: %s\n", class name, origin name, msg)
@@ -13,12 +19,6 @@ Exception: class {
 			printf("[%s]: %s\n", class name, msg)
 		
 		crash()
-	}
-	
-	crash: func {
-		fflush(stdout)
-		x := 0
-		x = 1 / x
 	}
 
 }
