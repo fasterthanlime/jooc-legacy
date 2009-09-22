@@ -297,6 +297,9 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 			Type newType = new Type("uint8_t", type.startToken);
 			newType.setPointerLevel(1);
 			newType.setArray(true);
+			if(getName().equals("val")) {
+				System.out.println("Unwrapping, type ref = "+type.getRef()+" from "+this+", stack = "+stack.toString(true));
+			}
 			VariableAccess tAccess = new VariableAccess(type.getRef().getName(), startToken);
 			MemberAccess sizeAccess = new MemberAccess(tAccess, "size", startToken);
 			newType.setArraySize(sizeAccess);

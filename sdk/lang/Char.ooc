@@ -1,4 +1,4 @@
-isalnum: extern func(letter: Char)
+isalnum: extern func(letter: Char) -> Bool
 
 Char: cover from char {
 
