@@ -278,11 +278,14 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 		if(arguments.size() > 0) for(Argument argument: arguments) {
 			if(argument.hasAtom(name)) return argument;
 		}
-		if(body.size() > 0) for(Line line: body) {
-			Node node = line.getStatement();
-			if(node instanceof VariableDecl) {
-				VariableDecl varDecl = (VariableDecl) node;
-				if(varDecl.hasAtom(name)) return varDecl;
+		if(body.size() > 0) for(Node bodyNode: body) {
+			if(bodyNode instanceof Line) {
+				Line line = (Line) bodyNode;
+				Node node = line.getStatement();
+				if(node instanceof VariableDecl) {
+					VariableDecl varDecl = (VariableDecl) node;
+					if(varDecl.hasAtom(name)) return varDecl;
+				}
 			}
 		}
 		return null;
