@@ -1,3 +1,5 @@
+include ctype
+
 isalnum: extern func(letter: Char) -> Int
 isspace: extern func(letter: Char) -> Int
 tolower: extern func(letter: Char) -> Char
