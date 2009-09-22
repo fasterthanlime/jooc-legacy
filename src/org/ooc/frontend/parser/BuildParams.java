@@ -22,6 +22,7 @@ public class BuildParams {
 	public boolean clean = true;
 	public boolean debug = false;
 	public boolean verbose = false;
+	public boolean veryVerbose = false;
 	public boolean shout = false;
 	public boolean link = true;
 	public boolean run = false;

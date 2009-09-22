@@ -120,6 +120,10 @@ public class CommandLine {
         			
         			params.verbose = true;
         			
+        		} else if(option.equals("veryVerbose") || option.equals("vv")) {
+        			
+        			params.veryVerbose = true;
+        			
         		} else if(option.equals("run") || option.equals("r")) {
         			
         			params.run = true;

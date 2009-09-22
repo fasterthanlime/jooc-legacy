@@ -41,7 +41,7 @@ public class Tinkerer {
 		while(resolvers.size() > 0) {
 			
 			round += 1;
-			if(params.verbose) System.out.println("\n=======================================\n\nTinkerer, round "+round+", "+resolvers.size()+" left.");
+			if(params.veryVerbose) System.out.println("\n=======================================\n\nTinkerer, round "+round+", "+resolvers.size()+" left.");
 			
 			Iterator<Resolver> iter = resolvers.iterator();
 			while(iter.hasNext()) {
@@ -51,7 +51,7 @@ public class Tinkerer {
 				// returns true = dirty, must do again
 				if(resolver.process(resolver.module, params)) continue;
 			
-				if(params.verbose) System.out.println("Module "+resolver.module.getFullName()+" finished resolving.");
+				if(params.veryVerbose) System.out.println("Module "+resolver.module.getFullName()+" finished resolving.");
 				
 				// done? check it and remove it from the processing queue
 				new Checker().process(resolver.module, params);
