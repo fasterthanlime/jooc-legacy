@@ -7,7 +7,11 @@ Exception: class {
 	init: func ~noOrigin (=msg) {}
 
 	throw: func {
-		printf("[%s in %s]: %s\n", class name, origin name, msg)
+		if(origin) {
+			printf("[%s in %s]: %s\n", class name, origin name, msg)
+		} else {
+			printf("[%s]: %s\n", class name, msg)
+		}
 		fflush(stdout)
 		x := 0
 		x = 1 / x
