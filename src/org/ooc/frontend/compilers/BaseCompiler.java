@@ -17,7 +17,7 @@ public abstract class BaseCompiler implements AbstractCompiler {
 	public BaseCompiler(String executableName) {
 		File execFile = ShellUtils.findExecutable(executableName);
 		if(execFile == null) {
-			ShellUtils.findExecutable(executableName + ".exe");
+			execFile = ShellUtils.findExecutable(executableName + ".exe");
 			if(execFile == null) {
 				ShellUtils.findExecutable(executableName, true);
 			}
