@@ -355,6 +355,12 @@ public class FunctionCall extends Access implements MustBeResolved {
 				result = new VariableAccess(typeParam, callArg.startToken);
 			} else {
 				result = (Access) callArg;
+				if(callArg instanceof VariableAccess) {
+					VariableAccess varAcc = (VariableAccess) callArg;
+					if(varAcc.getRef() instanceof VariableDecl) {
+						result = new MemberAccess(result, "class", result.startToken);
+					}
+				}
 			}
 		}
 			
@@ -675,7 +681,6 @@ public class FunctionCall extends Access implements MustBeResolved {
 
 	public void throwUnresolvedType(NodeList<Node> stack, String typeName) {
 		
-		Thread.dumpStack();
 		if(impl != null) {
 			throw new OocCompilationError(this, stack, "Couldn't figure out generic type <"+typeName+"> for "+impl);
 		}

@@ -21,5 +21,10 @@ public class Sub extends BinaryOperation {
 	public OpType getOpType() {
 		return OpType.SUB;
 	}
+	
+	@Override
+	public String toString() {
+		return "Sub:(" + left + "-" + right + ")";
+	}
 
 }

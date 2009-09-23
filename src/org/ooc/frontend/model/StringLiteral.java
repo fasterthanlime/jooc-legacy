@@ -39,5 +39,10 @@ public class StringLiteral extends Literal {
 	public boolean replace(Node oldie, Node kiddo) {
 		return false;
 	}
+	
+	@Override
+	public String toString() {
+		return "StringLiteral:\""+value+"\"";
+	}
 
 }

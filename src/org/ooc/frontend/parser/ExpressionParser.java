@@ -52,7 +52,7 @@ public class ExpressionParser {
 		Token firstToken = reader.peek();
 		if(firstToken.type == TokenType.BANG) {
 			reader.skip();
-			Expression inner = ExpressionParser.parse(module, sReader, reader);
+			Expression inner = ExpressionParser.parse(module, sReader, reader, noDecl);
 			if(inner == null) {
 				reader.reset(mark);
 				return null;
@@ -62,7 +62,7 @@ public class ExpressionParser {
 		
 		if(firstToken.type == TokenType.MINUS) {
 			reader.skip();
-			Expression inner = ExpressionParser.parse(module, sReader, reader);
+			Expression inner = ExpressionParser.parse(module, sReader, reader, noDecl);
 			if(inner == null) {
 				reader.reset(mark);
 				return null;
@@ -73,7 +73,7 @@ public class ExpressionParser {
 		Expression expr = null;
 		if(reader.peek().type == TokenType.OPEN_PAREN) {
 			reader.skip();
-			expr = parse(module, sReader, reader);
+			expr = parse(module, sReader, reader, noDecl);
 			expr = new Parenthesis(expr, expr.startToken);
 			if(reader.read().type != TokenType.CLOS_PAREN) {
 				throw new CompilationFailedError(sReader.getLocation(reader.prev())
@@ -106,7 +106,7 @@ public class ExpressionParser {
 			if(token.type == TokenType.DOUBLE_DOT) {
 				
 				reader.skip();
-				Expression upper = ExpressionParser.parse(module, sReader, reader);
+				Expression upper = ExpressionParser.parse(module, sReader, reader, noDecl);
 				if(upper == null) {
 					throw new CompilationFailedError(sReader.getLocation(reader.peek()),
 							"Expected expression for the upper part of a range literal");
@@ -119,7 +119,7 @@ public class ExpressionParser {
 			if(token.type == TokenType.OPEN_SQUAR) {
 
 				reader.skip();
-				Expression index = ExpressionParser.parse(module, sReader, reader);
+				Expression index = ExpressionParser.parse(module, sReader, reader, noDecl);
 				if(index == null) {
 					throw new CompilationFailedError(sReader.getLocation(reader.peek()),
 						"Expected expression for the index of an array access");
@@ -136,7 +136,7 @@ public class ExpressionParser {
 			if(token.type == TokenType.ASSIGN) {
 				
 				reader.skip();
-				Expression rvalue = ExpressionParser.parse(module, sReader, reader);
+				Expression rvalue = ExpressionParser.parse(module, sReader, reader, noDecl);
 				if(rvalue == null) {
 					throw new CompilationFailedError(sReader.getLocation(reader.peek()),
 						"Expected expression after '='.");
@@ -161,9 +161,9 @@ public class ExpressionParser {
 			if(token.type == TokenType.QUEST) {
 				reader.skip();
 				Expression ifTrue = parse(module, sReader, reader, true);
-				if(reader.read().type != TokenType.ELSE_KW) {
+				if(reader.read().type != TokenType.COLON) {
 					throw new CompilationFailedError(sReader.getLocation(reader.prev()),
-							"Expected 'else' staement after '?'");
+							"Expected ':' after '?', but got "+reader.prev());
 				}
 				Expression ifFalse = parse(module, sReader, reader, true);
 				expr = new Ternary(expr.startToken, expr, ifTrue, ifFalse);
@@ -203,7 +203,7 @@ public class ExpressionParser {
 					reader.skip();
 				}
 				
-				Expression rvalue = ExpressionParser.parse(module, sReader, reader);
+				Expression rvalue = ExpressionParser.parse(module, sReader, reader, noDecl);
 				if(rvalue == null) {
 					throw new CompilationFailedError(sReader.getLocation(reader.peek()),
 						"Expected rvalue after binary operator");

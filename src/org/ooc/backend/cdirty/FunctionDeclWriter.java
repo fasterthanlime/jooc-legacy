@@ -32,7 +32,9 @@ public class FunctionDeclWriter {
 			
 			if(functionDecl.isEntryPoint()) {
 				// FIXME what if we want no gc?
-				cgen.current.nl().app("GC_INIT();");
+				if(cgen.params.enableGC) {
+					cgen.current.nl().app("GC_INIT();");
+				}
 				cgen.current.nl().app(cgen.module.getLoadFunc().getName()).app("();");
 			}
 			

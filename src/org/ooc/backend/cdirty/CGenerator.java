@@ -77,6 +77,7 @@ public class CGenerator extends Generator implements Visitor {
 	public final AwesomeWriter hw;
 	public final AwesomeWriter cw;
 	public AwesomeWriter current;
+	public BuildParams params;
 
 	public CGenerator(File outPath, Module module) throws IOException {
 		super(outPath, module);
@@ -91,6 +92,7 @@ public class CGenerator extends Generator implements Visitor {
 
 	@Override
 	public void generate(BuildParams params) throws IOException {
+		this.params = params;
 		module.accept(this);
 		hw.close();
 		cw.close();
