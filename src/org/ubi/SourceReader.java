@@ -986,6 +986,10 @@ public class SourceReader {
                 return "\\n";
             case '\0':
                 return "\\0";
+            case '\'':
+            	return "\\'";
+            case '\\':
+            	return "\\\\";
             default:
                 return Character.toString(character);
         }
@@ -1003,6 +1007,10 @@ public class SourceReader {
             	output.append("\\n"); return;
             case '\0':
             	output.append("\\0"); return;
+            case '\'':
+            	output.append("\\'"); return;
+            case '\\':
+            	output.append("\\"); return;
             default:
             	output.append(character); return;
         }

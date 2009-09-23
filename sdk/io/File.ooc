@@ -33,6 +33,10 @@ File: class {
 		
 		return '/'
 	}
+	
+	getPath: func -> String {
+		return path
+	}
 
 	init: func(=path) {}
 	
@@ -54,7 +58,7 @@ File: class {
 		return S_ISLNK(stat st_mode);
 	}
 	
-	stSize: func -> Int {
+	size: func -> Int {
 		stat: FileStat
 		lstat(path, stat&);
 		return stat st_size;
@@ -97,8 +101,8 @@ main: func {
 	file := File new("/bin/ls") as File
 	dir := File new("/bin/") as File
 	
-	printf("%s\t(name = %s)\tisFile? %s\tisDir? %s\tsize: %d\n", file path, file name(), file isFile() repr(), file isDir() repr(), file stSize())
-	printf("%s\t(name = %s)\tisFile? %s\tisDir? %s\tsize: %d\n", dir path, dir name(), dir isFile() repr(), dir isDir() repr(), dir stSize())
+	printf("%s\t(name = %s)\tisFile? %s\tisDir? %s\tsize: %d\n", file path, file name(), file isFile() repr(), file isDir() repr(), file size())
+	printf("%s\t(name = %s)\tisFile? %s\tisDir? %s\tsize: %d\n", dir path, dir name(), dir isFile() repr(), dir isDir() repr(), dir size())
 	
 	asdf := File new("asdf") as File
 	printf("%s exists? %s\n", asdf name(), asdf exists() repr())

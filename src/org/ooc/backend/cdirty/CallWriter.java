@@ -10,6 +10,7 @@ import org.ooc.frontend.model.Dereference;
 import org.ooc.frontend.model.Expression;
 import org.ooc.frontend.model.FunctionCall;
 import org.ooc.frontend.model.FunctionDecl;
+import org.ooc.frontend.model.MemberAccess;
 import org.ooc.frontend.model.MemberCall;
 import org.ooc.frontend.model.NodeList;
 import org.ooc.frontend.model.TypeDecl;
@@ -33,9 +34,14 @@ public class CallWriter {
 				throw new OocCompilationError(arg, cgen.module,
 						"You can only call sizeof() on a type! What the.. are you doing?");
 			}
-			VariableAccess varAcc = (VariableAccess) arg;
 			cgen.current.app("sizeof(");
-			cgen.current.app(varAcc.getUnderName()).app(")");
+			if(arg instanceof MemberAccess) {
+				arg.accept(cgen);
+			} else {
+				VariableAccess varAcc = (VariableAccess) arg;
+				cgen.current.app(varAcc.getUnderName());
+			}
+			cgen.current.app(")");
 			return;
 		}
 		

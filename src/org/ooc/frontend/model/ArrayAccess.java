@@ -44,7 +44,11 @@ public class ArrayAccess extends Access implements MustBeResolved {
 				Declaration ref = exprType.getRef();
 				if(ref instanceof CoverDecl) {
 					Type fromType = ((CoverDecl) ref).getFromType();
-					if(fromType != null && fromType.getRef() instanceof CoverDecl) exprType = fromType;
+					if(fromType != null && fromType.getRef() instanceof CoverDecl) {
+						Type clone = fromType.clone();
+						clone.setPointerLevel(exprType.getPointerLevel() + fromType.getPointerLevel());
+						exprType = clone;
+					}
 				}
 				type = new Type(exprType.getName(), exprType.getPointerLevel() - 1, exprType.startToken);
 				type.setRef(exprType.getRef());

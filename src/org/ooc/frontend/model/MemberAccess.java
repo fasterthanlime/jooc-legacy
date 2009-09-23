@@ -179,7 +179,7 @@ public class MemberAccess extends VariableAccess {
 			ref = typeDecl.getVariable(getName());
 		}
 		
-		if(ref == null && getName().equals("size") && exprType.isArray()) {
+		if(ref == null && getName().equals("size") && exprType.getPointerLevel() > 0) {
 			FunctionCall sizeofArray = new FunctionCall("sizeof", startToken);
 			sizeofArray.getArguments().add(expression);
 			FunctionCall sizeofType = new FunctionCall("sizeof", startToken);
@@ -187,7 +187,7 @@ public class MemberAccess extends VariableAccess {
 			sizeofType.getArguments().add(new VariableAccess(expression.getType().getName(), startToken)); 
 			Div div = new Div(sizeofArray, sizeofType, startToken);
 			stack.peek().replace(this, new Parenthesis(div, startToken));
-			return true;
+			return false;
 		}
 
 		if(ref == null && exprType.getRef() instanceof CoverDecl && getName().equals("class")) {

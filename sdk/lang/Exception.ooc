@@ -12,12 +12,20 @@ Exception: class {
 		x = 1 / x
 	}
 	
+	getMessage: func -> String {
+		max := const 1024
+		buffer := gc_malloc(max) as String
+		if(origin) snprintf(buffer, max, "[%s in %s]: %s\n", class name, origin name, msg)
+		else snprintf(buffer, max, "[%s]: %s\n", class name, msg)
+		return buffer
+	}
+	
+	print: func {
+		fprintf(stderr, "%s", getMessage())
+	}
+	
 	throw: func {
-		if(origin) {
-			printf("[%s in %s]: %s\n", class name, origin name, msg)
-		} else {
-			printf("[%s]: %s\n", class name, msg)
-		
+		print()
 		crash()
 	}
 

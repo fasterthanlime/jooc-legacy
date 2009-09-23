@@ -351,6 +351,7 @@ public class Type extends Node implements MustBeResolved {
 	}
 
 	public boolean softEquals(Type type, Resolver res) {
+		if(type == null) return false;
 		resolve(res);
 		if(equals(type)) {
 			return true;

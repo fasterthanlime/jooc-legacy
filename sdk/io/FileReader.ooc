@@ -1,19 +1,23 @@
-import io/Reader
+import io/Reader, io/File
 
 fopen: extern func(filename: Char*, mode: Char*) -> FILE*
 fread: extern func(ptr: Pointer, size: SizeT, count: SizeT, stream: FILE*) -> SizeT
 feof: extern func(stream: FILE*) -> Int
 fseek: extern func(stream: FILE*, offset: Long, origin: Int)
-SEEK_CUR: extern func()
-SEEK_SET: extern func()
-SEEK_END: extern func()
+SEEK_CUR: extern func
+SEEK_SET: extern func
+SEEK_END: extern func
 ftell: extern func(stream: FILE*) -> Long
  
 FileReader: class extends Reader {
 
 	file: FILE*
 	
-	init: func(fileName: String) {
+	init: func ~withFile (fileObject: File) {
+		this(fileObject getPath())
+	}
+	
+	init: func ~withName (fileName: String) {
 		file = fopen(fileName, "r");
 		if (!file) 
 			Exception new(This, "File not found: " + fileName) throw()
@@ -23,13 +27,13 @@ FileReader: class extends Reader {
 		fread(chars + offset, 1, count, file);
 	}
 	
-	readChar: func() -> Char {
+	read: func ~char -> Char {
 		value: Char
 		fread(value&, 1, 1, file)
 		return value
 	}
 	
-	hasNext: func() -> Bool {
+	hasNext: func -> Bool {
 		return !feof(file)
 	}
 	
@@ -37,7 +41,7 @@ FileReader: class extends Reader {
 		fseek(file, -offset, SEEK_CUR);
 	}
 	
-	mark: func() -> Long { 
+	mark: func -> Long { 
 		marker = ftell(file);
 		return marker;
 	}
@@ -47,10 +51,10 @@ FileReader: class extends Reader {
 	}
 }
 
-main: func() {
+main: func {
 	fr := FileReader new("/etc/hosts") 
 	
 	while (fr hasNext())
-		fr readChar() print()
+		fr read() print()
 	
 }

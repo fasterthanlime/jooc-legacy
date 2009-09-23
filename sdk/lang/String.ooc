@@ -65,6 +65,8 @@ String: cover from Char* {
 		return -1
 	}
 	
+	trim: func ~space -> This { return trim(' ') }
+	
 	trim: func(c: Char) -> This {
 		start := 0
 		while(this[start] == c) start += 1;
@@ -166,7 +168,7 @@ String: cover from Char* {
 	}
 	
 	charAt: func(index: Int) -> Char {
-		this[index]
+		this as Char* [index]
 	}
 	
 }

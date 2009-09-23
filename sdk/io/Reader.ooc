@@ -6,18 +6,17 @@ Reader: abstract class {
 	marker: Long
 	
 	read: abstract func(chars: String, offset: Int, count: Int)
-	readChar: abstract func() -> Char
-	hasNext: abstract func() -> Bool
+	read: abstract func ~char -> Char
+	hasNext: abstract func -> Bool
 	rewind: abstract func(offset: Int)
-	mark: abstract func() -> Long
+	mark: abstract func -> Long
 	reset: abstract func(marker: Long)
 	skip: func(offset: Int) {
 		if (offset < 0) {
 			rewind(-offset)
 		}
 		else {
-			for (i: Int in 0..offset)
-				readChar()
+			for (i: Int in 0..offset) read()
 		}
 	}
 }
