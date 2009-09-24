@@ -69,5 +69,10 @@ public class Ternary extends Expression {
 	public Expression getValueIfFalse() {
 		return valueIfFalse;
 	}
+	
+	@Override
+	public String toString() {
+		return condition+" ? "+valueIfTrue+" : "+valueIfFalse;
+	}
 
 }

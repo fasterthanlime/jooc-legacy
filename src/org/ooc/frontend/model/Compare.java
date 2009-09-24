@@ -67,13 +67,13 @@ public class Compare extends BinaryOperation {
 		Expression realLeft = left;
 		Expression realRight = right;
 		Expression size = null;
-		if(left.getType().isGenericRecursive()) {
+		if(left.getType().isGenericRecursive() && !(left.getType().getRef() instanceof TypeDecl)) {
 			isGeneric = true;
 			realLeft = new AddressOf(left, left.startToken);
 			VariableAccess tAccess = new VariableAccess(left.getType().getRef().getName(), startToken);
 			size = new MemberAccess(tAccess, "size", startToken);
 		}
-		if(right.getType().isGenericRecursive()) {
+		if(right.getType().isGeneric() && !(right.getType().getRef() instanceof TypeDecl)) {
 			isGeneric = true;
 			realRight = new AddressOf(right, right.startToken);
 			if(size == null) {
