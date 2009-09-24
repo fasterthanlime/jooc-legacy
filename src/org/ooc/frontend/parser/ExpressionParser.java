@@ -202,6 +202,7 @@ public class ExpressionParser {
 					reader.skip();
 				}
 				
+				reader.skipWhitespace();
 				Expression rvalue = ExpressionParser.parse(module, sReader, reader, noDecl);
 				if(rvalue == null) {
 					throw new CompilationFailedError(sReader.getLocation(reader.peek()),

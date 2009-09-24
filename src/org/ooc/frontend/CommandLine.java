@@ -327,6 +327,10 @@ public class CommandLine {
 	private void compileNasms(List<String> nasms, Collection<String> list) throws IOException, InterruptedException {
 		
 		boolean has = false;
+		if(list.isEmpty()) return;
+		if(params.verbose) {
+			System.out.println("Should compile nasms "+nasms);
+		}
 		
 		List<String> command = new ArrayList<String>();
 		command.add(findExec("nasm").getPath());

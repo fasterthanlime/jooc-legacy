@@ -186,9 +186,9 @@ operator + (left, right: String) -> String {
 }
 
 operator + (left: Int, right: String) -> String {
-	left repr() + right
+	left toString() + right
 }
 
 operator + (left: String, right: Int) -> String {
-	left + right repr()
+	left + right toString()
 }
