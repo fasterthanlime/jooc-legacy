@@ -156,6 +156,7 @@ public class MemberAccess extends VariableAccess {
 			}
 		}
 		
+		if(bestDistance > 3) return null;
 		return bestMatch;
 		
 	}

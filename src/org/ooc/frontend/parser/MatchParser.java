@@ -20,6 +20,7 @@ public class MatchParser {
 
 		Expression expr = ExpressionParser.parse(module, sReader, reader, true);
 		
+		reader.skipWhitespace();
 		if(reader.peek().type != TokenType.OPEN_BRACK) {
 			throw new CompilationFailedError(sReader.getLocation(reader.peek()), "Expected a '{' after match.");
 		}

@@ -61,12 +61,14 @@ public class AccessWriter {
 		} else {
 		
 			boolean isArrow = (refTypeDecl instanceof ClassDecl);
+			boolean didDeref = false;
 			
 			Expression expression = memberAccess.getExpression();
 			if(!isArrow && expression instanceof Dereference) {
 				Dereference deref = (Dereference) expression;
 				expression = deref.getExpression();
 				isArrow = true;
+				didDeref = true;
 			}
 			
 			if(refTypeDecl.getType().equals(expression.getType())) {		
@@ -74,7 +76,9 @@ public class AccessWriter {
 			} else {
 				cgen.current.app("((");
 				cgen.current.app(((TypeDecl) refTypeDecl.getInstanceType().getRef()).getUnderName());
-				TypeWriter.writeFinale(membExprType(memberAccess), cgen);
+				Type membExprType = memberAccess.getExpression().getType();
+				TypeWriter.writeFinale(membExprType, cgen);
+				if(didDeref) cgen.current.app("*");
 				cgen.current.app(") ");
 				expression.accept(cgen);
 				cgen.current.app(')');
@@ -91,10 +95,6 @@ public class AccessWriter {
 		
 	}
 
-	private static Type membExprType(MemberAccess memberAccess) {
-		return memberAccess.getExpression().getType();
-	}
-	
 	public static void writeVariable(VariableAccess variableAccess, boolean doTypeParams, CGenerator cgen) throws IOException {
 		
 		if(variableAccess.getRef() instanceof TypeDecl && !(variableAccess.getRef() instanceof TypeParam)) {

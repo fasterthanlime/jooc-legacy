@@ -184,6 +184,7 @@ public class VariableAccess extends Access implements MustBeResolved {
 			}
 		}
 		
+		if(bestDistance > 3) return null;
 		return bestMatch;
 		
 	}
