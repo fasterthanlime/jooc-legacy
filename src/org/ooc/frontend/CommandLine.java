@@ -340,15 +340,13 @@ public class CommandLine {
 			}
 		}
 		
-		if(reallyNasms.isEmpty()) return;
-		
-		List<String> command = new ArrayList<String>();
-		command.add(findExec("nasm").getPath());
-		command.add("-f");
-		command.add("elf");
-		command.addAll(reallyNasms);
-		
 		if(has) {
+			List<String> command = new ArrayList<String>();
+			command.add(findExec("nasm").getPath());
+			command.add("-f");
+			command.add("elf");
+			command.addAll(reallyNasms);
+			
 			ProcessBuilder builder = new ProcessBuilder(command);
 			Process process = builder.start();
 			ProcessUtils.redirectIO(process);
