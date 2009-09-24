@@ -313,6 +313,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 			if(argType.isGenericRecursive()) {
 				result = getRealExpr(typeParam, argType, stack, res, fatal);
 				if(result != null) {
+					System.out.println("Got result "+result+" for typeParam "+typeParam);
 					break;
 				}
 			}
@@ -334,6 +335,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 				String key = keys.next();
 				if(key.equals(typeParam)) {
 					Type realType = getRealType(argType.getName(), stack, res, fatal);
+					System.out.println("Got realType "+realType+" for typeParam "+typeParam);
 					return realType.getTypeParams().get(i);
 				}
 			}
@@ -352,13 +354,20 @@ public class FunctionCall extends Access implements MustBeResolved {
 			if(callArg.getType().getName().equals("Class")) {
 				result = (Access) callArg;
 			} else if(callArg.getType().isGeneric()) {
+				System.out.println("Got callArg "+callArg);
 				result = new VariableAccess(typeParam, callArg.startToken);
 			} else {
 				result = (Access) callArg;
 				if(callArg instanceof VariableAccess) {
 					VariableAccess varAcc = (VariableAccess) callArg;
 					if(varAcc.getRef() instanceof VariableDecl) {
-						result = new MemberAccess(result, "class", result.startToken);
+						System.out.println("varAcc.getType() == "+varAcc.getType());
+						if(varAcc.getType().isFlat()) {
+							result = new MemberAccess(result, "class", result.startToken);
+						} else {
+							result = new MemberAccess(new VariableAccess("Pointer", result.startToken),
+									"class",result.startToken);
+						}
 					}
 				}
 			}
