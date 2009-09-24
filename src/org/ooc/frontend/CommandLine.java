@@ -327,21 +327,26 @@ public class CommandLine {
 	private void compileNasms(List<String> nasms, Collection<String> list) throws IOException, InterruptedException {
 		
 		boolean has = false;
-		if(list.isEmpty()) return;
+		if(nasms.isEmpty()) return;
 		if(params.verbose) {
 			System.out.println("Should compile nasms "+nasms);
 		}
+		
+		List<String> reallyNasms = new ArrayList<String>();
+		for(String nasm: nasms) {
+			if(nasm.endsWith(".s")) {
+				reallyNasms.add(nasm);
+				has = true;
+			}
+		}
+		
+		if(reallyNasms.isEmpty()) return;
 		
 		List<String> command = new ArrayList<String>();
 		command.add(findExec("nasm").getPath());
 		command.add("-f");
 		command.add("elf");
-		for(String nasm: nasms) {
-			if(nasm.endsWith(".s")) {
-				command.add(nasm);
-				has = true;
-			}
-		}
+		command.addAll(reallyNasms);
 		
 		if(has) {
 			ProcessBuilder builder = new ProcessBuilder(command);
