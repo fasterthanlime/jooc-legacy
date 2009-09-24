@@ -998,7 +998,7 @@ public class SourceReader {
     public static void spelled(char character, Appendable output) throws IOException {
         switch(character) {
         	case '\"':
-        		output.append("\\\""); return;
+        		output.append("\""); return;
             case '\t':
             	output.append("\\t"); return;
             case '\r':

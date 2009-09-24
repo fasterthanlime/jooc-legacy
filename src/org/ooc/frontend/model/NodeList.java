@@ -314,4 +314,5 @@ public class NodeList<T extends Node> extends Node implements Iterable<T> {
 		}
 		add(index + 1, kiddo);
 	}
+	
 }

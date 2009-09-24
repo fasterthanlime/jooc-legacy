@@ -217,7 +217,7 @@ public class CGenerator extends Generator implements Visitor {
 
 	public void visit(Line line) throws IOException {
 		current.nl();
-		if(line.getStatement() instanceof FunctionCall) CallWriter.noCast = (FunctionCall) line.getStatement();
+		if(line.getStatement() instanceof FunctionCall) CallWriter.bypassPrelude = (FunctionCall) line.getStatement();
 		line.getStatement().accept(this);
 		if(!(line.getStatement() instanceof ControlStatement)) {
 			current.app(';');
@@ -418,6 +418,9 @@ public class CGenerator extends Generator implements Visitor {
 				if(index == bodySize && match.getVarAcc() != null) {
 					match.getVarAcc().accept(this);
 					current.append(" = ");
+				}
+				if(line.getStatement() instanceof FunctionCall) {
+					CallWriter.bypassPrelude = (FunctionCall) line.getStatement();
 				}
 				line.getStatement().accept(this);
 				current.append(";");

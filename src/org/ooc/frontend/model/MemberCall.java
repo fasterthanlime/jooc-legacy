@@ -64,7 +64,7 @@ public class MemberCall extends FunctionCall {
 	
 	@Override
 	public Response resolve(NodeList<Node> stack, Resolver res, final boolean fatal) {
-
+		
 		Type exprType = expression.getType();
 		if(exprType == null) {
 			if(expression instanceof MustBeResolved) {
@@ -128,7 +128,7 @@ public class MemberCall extends FunctionCall {
 			if(guess != null) {
 				message += " Did you mean "+guess+" ?";
 			}
-			throw new OocCompilationError(this, stack, message);
+			throw new OocCompilationError(this, stack, message + ", this = "+this+", stack = "+stack.toString(true));
 		}
 		
 		return (impl == null) ? Response.LOOP : Response.OK;

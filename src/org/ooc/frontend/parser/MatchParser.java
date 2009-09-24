@@ -42,7 +42,6 @@ public class MatchParser {
 				reader.skip();
 				reader.skipWhitespace();
 				token = reader.peek();
-				System.out.println("Just read fallthrough, next token is "+token);
 			}
 			if(token.type == TokenType.CASE_KW) {
 				reader.skip();
@@ -54,7 +53,9 @@ public class MatchParser {
 				}
 				reader.skip();
 				Case case1 = new Case(caseExpr, match, isFallthrough, token);
-				LineParser.fill(module, sReader, reader, case1.getBody());
+				while(LineParser.fill(module, sReader, reader, case1.getBody())) {
+					// well, continue as long as we can find lines
+				}
 				match.getCases().add(case1);
 				continue;
 			}

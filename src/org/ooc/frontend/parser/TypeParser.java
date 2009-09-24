@@ -7,7 +7,7 @@ import org.ooc.frontend.model.FuncType;
 import org.ooc.frontend.model.Module;
 import org.ooc.frontend.model.NodeList;
 import org.ooc.frontend.model.Type;
-import org.ooc.frontend.model.VariableAccess;
+import org.ooc.frontend.model.TypeAccess;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.frontend.model.tokens.TokenReader;
 import org.ooc.frontend.model.tokens.Token.TokenType;
@@ -73,7 +73,14 @@ public class TypeParser {
 		if(reader.peek().type == TokenType.LESSTHAN) {
 			reader.skip();
 			while(reader.peek().type != TokenType.GREATERTHAN) {
-				VariableAccess innerType = AccessParser.parse(module, sReader, reader);
+				Access innerType = null;
+				
+				Type type = TypeParser.parse(module, sReader, reader);
+				if(type != null) innerType = new TypeAccess(type);
+				
+				if(innerType == null) {
+					innerType = AccessParser.parse(module, sReader, reader);
+				}
 				if(innerType == null) {
 					typeParams = null;
 					break;

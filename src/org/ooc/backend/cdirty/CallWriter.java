@@ -22,7 +22,7 @@ import org.ooc.middle.OocCompilationError;
 
 public class CallWriter {
 
-	public static FunctionCall noCast = null;
+	public static FunctionCall bypassPrelude = null;
 	
 	public static void write(FunctionCall functionCall, CGenerator cgen) throws IOException {
 
@@ -70,12 +70,12 @@ public class CallWriter {
 
 	private static void writePrelude(CGenerator cgen, FunctionDecl impl, FunctionCall call)
 			throws IOException {
-		if(noCast != null && call == noCast) {
-			noCast = null;
+		if(bypassPrelude != null && call == bypassPrelude) {
+			bypassPrelude = null;
 			return;
 		}
 		if(impl.getReturnType().isVoid()) {
-			throw new OocCompilationError(call, cgen.module, "Trying to use void function as an expression!");
+			throw new OocCompilationError(call, cgen.module, "Trying to use void function "+call+" as an expression!");
 		}
 		if(impl.isExternWithName() && !impl.getReturnType().isVoid()) {
 			cgen.current.app('(');

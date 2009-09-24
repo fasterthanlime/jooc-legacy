@@ -27,6 +27,15 @@ public class Match extends Expression implements MustBeResolved {
 	
 	@Override
 	public boolean replace(Node oldie, Node kiddo) {
+		if(oldie == varAcc) {
+			varAcc = (VariableAccess) kiddo;
+			return true;
+		}
+		
+		if(oldie == expr) {
+			expr = (Expression) kiddo;
+			return true;
+		}
 		return false;
 	}
 

@@ -6,7 +6,7 @@ import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.Compare.CompareType;
 import org.ooc.frontend.model.tokens.Token;
 
-public class Case extends Node {
+public class Case extends Node implements Scope {
 
 	private NodeList<Line> body;
 	private Expression expr;
@@ -30,6 +30,11 @@ public class Case extends Node {
 	
 	@Override
 	public boolean replace(Node oldie, Node kiddo) {
+		if(expr == oldie) {
+			expr = (Expression) kiddo;
+			return true;
+		}
+		
 		return false;
 	}
 
@@ -60,6 +65,21 @@ public class Case extends Node {
 	
 	public boolean isFallthrough() {
 		return isFallthrough;
+	}
+	
+	public FunctionDecl getFunction(String name, String suffix,
+			FunctionCall call) {
+		return null;
+	}
+
+	public void getFunctions(NodeList<FunctionDecl> functions) {}
+
+	public VariableDecl getVariable(String name) {
+		return getVariable(body, name);
+	}
+
+	public void getVariables(NodeList<VariableDecl> variables) {
+		getVariables(body, variables);
 	}
 
 }

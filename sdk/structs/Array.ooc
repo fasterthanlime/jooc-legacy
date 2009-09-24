@@ -8,7 +8,7 @@ Array: class <T> extends Iterable {
 		data = gc_calloc(size, Pointer size)
 	}
 	
-	init: func ~withData (=size, .data) {
+	init: func ~withData (.data, =size) {
 		// this "&" shouldn't be needed.. hmm.
 		//this data = data&
 		this data = gc_calloc(size, T size)
