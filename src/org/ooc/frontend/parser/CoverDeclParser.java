@@ -1,7 +1,5 @@
 package org.ooc.frontend.parser;
 
-import java.io.IOException;
-
 import org.ooc.frontend.model.CoverDecl;
 import org.ooc.frontend.model.FunctionDecl;
 import org.ooc.frontend.model.Import;
@@ -18,7 +16,7 @@ import org.ubi.SourceReader;
 
 public class CoverDeclParser {
 
-	public static CoverDecl parse(Module module, SourceReader sReader, TokenReader reader) throws IOException {
+	public static CoverDecl parse(Module module, SourceReader sReader, TokenReader reader) {
 		int mark = reader.mark();
 		
 		OocDocComment comment = null;

@@ -143,7 +143,7 @@ ArrayList: class <T> extends List {
 	
 	/** private */
 	checkIndex: func (index: Int) {
-		if (index < 0) Exception new(This, "Index too small! " + index + " <= 0") throw()
+		if (index < 0) Exception new(This, "Index too small! " + index + " < 0") throw()
 		if (index >= size) Exception new(This, "Index too big! " + index + " >= " + size()) throw()
 	}
 	

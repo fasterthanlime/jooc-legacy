@@ -1,7 +1,5 @@
 package org.ooc.frontend.parser;
 
-import java.io.IOException;
-
 import org.ooc.frontend.model.BinaryOperation;
 import org.ooc.frontend.model.ControlStatement;
 import org.ooc.frontend.model.Expression;
@@ -22,7 +20,7 @@ import org.ubi.SourceReader;
 
 public class LineParser {
 
-	public static boolean fill(Module module, SourceReader sReader, TokenReader reader, NodeList<Line> body) throws IOException {
+	public static boolean fill(Module module, SourceReader sReader, TokenReader reader, NodeList<Line> body) {
 		
 		int mark = reader.mark();
 		

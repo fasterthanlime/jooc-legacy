@@ -14,7 +14,7 @@ FileReader: class extends Reader {
 	file: FILE*
 	
 	init: func ~withFile (fileObject: File) {
-		this(fileObject getPath())
+		init (fileObject getPath())
 	}
 	
 	init: func ~withName (fileName: String) {
@@ -24,7 +24,7 @@ FileReader: class extends Reader {
 	}
 
 	read: func(chars: String, offset: Int, count: Int) {
-		fread(chars + offset, 1, count, file);
+		fread(chars as Char* + offset, 1, count, file);
 	}
 	
 	read: func ~char -> Char {
@@ -49,12 +49,4 @@ FileReader: class extends Reader {
 	reset: func(marker: Long) {
 		fseek(file, marker, SEEK_SET);
 	}
-}
-
-main: func {
-	fr := FileReader new("/etc/hosts") 
-	
-	while (fr hasNext())
-		fr read() print()
-	
 }

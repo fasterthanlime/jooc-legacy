@@ -12,6 +12,7 @@ import org.ooc.frontend.model.BinaryCombination;
 import org.ooc.frontend.model.Block;
 import org.ooc.frontend.model.BoolLiteral;
 import org.ooc.frontend.model.BuiltinType;
+import org.ooc.frontend.model.Case;
 import org.ooc.frontend.model.Cast;
 import org.ooc.frontend.model.CharLiteral;
 import org.ooc.frontend.model.ClassDecl;
@@ -31,6 +32,7 @@ import org.ooc.frontend.model.Include;
 import org.ooc.frontend.model.IntLiteral;
 import org.ooc.frontend.model.InterfaceDecl;
 import org.ooc.frontend.model.Line;
+import org.ooc.frontend.model.Match;
 import org.ooc.frontend.model.MemberAccess;
 import org.ooc.frontend.model.MemberArgument;
 import org.ooc.frontend.model.MemberAssignArgument;
@@ -376,8 +378,18 @@ public class SketchyNosy implements Visitor {
 	}
 
 	public void visit(Ternary node) throws IOException {
-		visitAll(node);
-		if(!oppo.take(node, stack)) running = false;
+		if(node.hasChildren()) visitAll(node);
+		else if(!oppo.take(node, stack)) running = false;
 	}
+
+	public void visit(Match node) throws IOException {
+		if(node.hasChildren()) visitAll(node);
+		else if(!oppo.take(node, stack)) running = false;		
+	}
+
+	public void visit(Case node) throws IOException {
+		if(node.hasChildren()) visitAll(node);
+		else if(!oppo.take(node, stack)) running = false;
+	}	
 	
 }

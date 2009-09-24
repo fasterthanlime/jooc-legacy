@@ -75,6 +75,9 @@ public class ArrayLiteral extends Literal implements MustBeUnwrapped, MustBeReso
 			type.resolve(stack, res, fatal);
 		}
 		
+		if(type == defaultType && fatal) {
+			throw new OocCompilationError(this, stack, "Couldn't figure out type of ArrayLiteral with elements "+elements);
+		}
 		return (type == defaultType) ? Response.LOOP : Response.OK; 
 		
 	}

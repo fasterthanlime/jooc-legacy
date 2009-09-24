@@ -37,7 +37,8 @@ public class Tokenizer {
 		new Name("false", TokenType.FALSE),
 		new Name("null", TokenType.NULL),
 		new Name("do", TokenType.DO_KW),
-		new Name("switch", TokenType.SWITCH_KW),
+		new Name("match", TokenType.MATCH_KW),
+		new Name("case", TokenType.CASE_KW),
 		new Name("return", TokenType.RETURN_KW),
 		new Name("as", TokenType.AS_KW),
 		new Name("const", TokenType.CONST_KW),
@@ -115,7 +116,7 @@ public class Tokenizer {
 		new CharTuple('}', TokenType.CLOS_BRACK),
 		new CharTuple('[', TokenType.OPEN_SQUAR),
 		new CharTuple(']', TokenType.CLOS_SQUAR),
-		new CharTuple('=', TokenType.ASSIGN, '=', TokenType.EQUALS),
+		//new CharTuple('=', TokenType.ASSIGN, '=', TokenType.EQUALS),
 		new CharTuple('.', TokenType.DOT, '.', TokenType.DOUBLE_DOT, '.', TokenType.TRIPLE_DOT),
 		new CharTuple(',', TokenType.COMMA),
 		new CharTuple('%', TokenType.PERCENT),
@@ -255,6 +256,21 @@ public class Tokenizer {
 					tokens.add(new Token(index, 2, TokenType.LESSTHAN_EQUALS));
 				} else {
 					tokens.add(new Token(index, 1, TokenType.LESSTHAN));
+				}
+				continue;
+			}
+			
+			if(c == '=') {
+				reader.read();
+				char c2 = reader.peek();
+				if(c2 == '>') {
+					reader.read();
+					tokens.add(new Token(index, 2, TokenType.DOUBLE_ARROW));
+				} else if(c2 == '=') {
+					reader.read();
+					tokens.add(new Token(index, 2, TokenType.EQUALS));
+				} else {
+					tokens.add(new Token(index, 1, TokenType.ASSIGN));
 				}
 				continue;
 			}

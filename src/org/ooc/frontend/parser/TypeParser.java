@@ -1,7 +1,5 @@
 package org.ooc.frontend.parser;
 
-import java.io.IOException;
-
 import org.ooc.frontend.model.Access;
 import org.ooc.frontend.model.Declaration;
 import org.ooc.frontend.model.Expression;
@@ -18,7 +16,7 @@ import org.ubi.SourceReader;
 
 public class TypeParser {
 
-	public static Type parse(Module module, SourceReader sReader, TokenReader reader) throws IOException {	
+	public static Type parse(Module module, SourceReader sReader, TokenReader reader) {	
 		
 		String name = "";
 		int pointerLevel = 0;

@@ -1,7 +1,5 @@
 package org.ooc.frontend.parser;
 
-import java.io.IOException;
-
 import org.ooc.frontend.model.ControlStatement;
 import org.ooc.frontend.model.Module;
 import org.ooc.frontend.model.tokens.TokenReader;
@@ -12,8 +10,7 @@ import org.ubi.SourceReader;
 public class ControlStatementFiller {
 
 	public static void fill(Module module, SourceReader sReader,
-			TokenReader reader, ControlStatement controlStatement)
-			throws IOException {
+			TokenReader reader, ControlStatement controlStatement) {
 		
 		boolean hasBrack = false;
 		if(reader.peek().type == TokenType.OPEN_BRACK) {

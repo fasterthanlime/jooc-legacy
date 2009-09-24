@@ -38,7 +38,7 @@ public final class Token implements Locatable {
 		public static final byte FOR_KW = 25;
 		public static final byte WHILE_KW = 26;
 		public static final byte DO_KW = 27;
-		public static final byte SWITCH_KW = 28;
+		public static final byte MATCH_KW = 28;
 		public static final byte CASE_KW = 29;
 		
 		public static final byte AS_KW = 30;
@@ -123,6 +123,9 @@ public final class Token implements Locatable {
 		
 		public static final byte BINARY_AND = 92; //  &
 		public static final byte CARET = 93; // ^
+		
+		public static final byte DOUBLE_ARROW = 94; // =>
+		
 	}
 	
 	public static final class TokenString {
@@ -242,7 +245,7 @@ public final class Token implements Locatable {
 			
 			" &",
 			"^",
-			"^="
+			"=>"
 		};
 		
 	}
@@ -285,7 +288,7 @@ public final class Token implements Locatable {
 	}
 
 	public boolean isNameToken() {
-		return type == TokenType.NAME || type == TokenType.CLASS_KW;
+		return type == TokenType.NAME || type == TokenType.CLASS_KW || type == TokenType.IN_KW;
 	}
 	
 }

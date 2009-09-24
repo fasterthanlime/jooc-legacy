@@ -103,7 +103,6 @@ public class VariableDeclFromExpr extends VariableDecl {
 		return super.resolve(stack, res, fatal);
 	}
 
-	@SuppressWarnings("unchecked")
 	private void unwrapToDeclAssign(NodeList<Node> stack, VariableDeclAtom atom, Expression expr) {
 		
 		VariableDecl decl = new VariableDecl(expr.getType(), false, startToken);
@@ -112,11 +111,8 @@ public class VariableDeclFromExpr extends VariableDecl {
 		VariableAccess acc = new VariableAccess(decl, startToken);
 		Assignment ass = new Assignment(acc, expr, startToken);
 		
-		int lineIndex = stack.find(Line.class);
-		Line line = (Line) stack.get(lineIndex);
-		line.replace(this, decl);
-		NodeList<Line> list = (NodeList<Line>) stack.get(lineIndex - 1);
-		list.addAfter(line, new Line(ass));
+		stack.peek().replace(this, decl);
+		addAfterLine(stack, ass);
 		
 	}
 	

@@ -16,6 +16,7 @@ import org.ooc.frontend.model.BinaryCombination;
 import org.ooc.frontend.model.Block;
 import org.ooc.frontend.model.BoolLiteral;
 import org.ooc.frontend.model.BuiltinType;
+import org.ooc.frontend.model.Case;
 import org.ooc.frontend.model.Cast;
 import org.ooc.frontend.model.CharLiteral;
 import org.ooc.frontend.model.ClassDecl;
@@ -38,6 +39,7 @@ import org.ooc.frontend.model.Include;
 import org.ooc.frontend.model.IntLiteral;
 import org.ooc.frontend.model.InterfaceDecl;
 import org.ooc.frontend.model.Line;
+import org.ooc.frontend.model.Match;
 import org.ooc.frontend.model.MemberAccess;
 import org.ooc.frontend.model.MemberArgument;
 import org.ooc.frontend.model.MemberAssignArgument;
@@ -389,6 +391,45 @@ public class CGenerator extends Generator implements Visitor {
 		ternary.getValueIfTrue().accept(this);
 		current.app(" : ");
 		ternary.getValueIfFalse().accept(this);
+	}
+
+	public void visit(Match match) throws IOException {
+		boolean isFirst = true;
+		for(Case case1: match.getCases()) {
+			if(!isFirst) {
+				current.app(" else ");
+			}
+
+			if(case1.getExpr() == null) {
+				if(isFirst) current.app(" else ");
+			} else {
+				if(case1.isFallthrough()) current.app(' ');
+				current.app("if (");
+				case1.getExpr().accept(this);
+				current.app(")");
+			}
+			
+			current.app("{").tab();
+			
+			int bodySize = case1.getBody().size();
+			int index = bodySize;
+			for(Line line: case1.getBody()) {
+				current.newLine();
+				if(index == bodySize && match.getVarAcc() != null) {
+					match.getVarAcc().accept(this);
+					current.append(" = ");
+				}
+				line.getStatement().accept(this);
+				current.append(";");
+			}
+			
+			current.untab().nl().app("}");
+			if(isFirst) isFirst = false;
+		}
+	}
+
+	public void visit(Case case1) throws IOException {
+		// hmmm... no
 	}
 
 }

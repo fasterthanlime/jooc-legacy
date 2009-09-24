@@ -379,6 +379,12 @@ public class Type extends Node implements MustBeResolved {
 		return getName();
 		
 	}
+
+	public Type dereference() {
+		Type clone = clone();
+		clone.setPointerLevel(getPointerLevel() - 1);
+		return clone;
+	}
 	
 }
 

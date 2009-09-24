@@ -100,7 +100,7 @@ String: cover from Char* {
 		diff = (len - start) : Int
 		sub := gc_malloc(diff + 1) as This	
 		sub[diff + 1] = 0
-		memcpy(sub, this + start, diff)
+		memcpy(sub, this as Char* + start, diff)
 		return sub
 	}
 	
@@ -116,7 +116,7 @@ String: cover from Char* {
 		diff = (end - start) : Int
 		sub := gc_malloc(diff + 1) as This
 		sub[diff + 1] = 0
-		memcpy(sub, this + start, diff)
+		memcpy(sub, this as Char* + start, diff)
 		return sub
 	}
 	

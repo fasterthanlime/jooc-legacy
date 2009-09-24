@@ -1,7 +1,5 @@
 package org.ooc.frontend.parser;
 
-import java.io.IOException;
-
 import org.ooc.frontend.model.FunctionDecl;
 import org.ooc.frontend.model.Module;
 import org.ooc.frontend.model.OpDecl;
@@ -14,7 +12,7 @@ import org.ubi.SourceReader;
 
 public class OpDeclParser {
 
-	public static OpDecl parse(Module module, SourceReader sReader, TokenReader reader) throws IOException {
+	public static OpDecl parse(Module module, SourceReader sReader, TokenReader reader) {
 		
 		Token startToken = reader.peek();
 		if(startToken.type != TokenType.OPERATOR_KW) return null;

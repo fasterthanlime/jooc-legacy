@@ -1,7 +1,5 @@
 package org.ooc.frontend.parser;
 
-import java.io.IOException;
-
 import org.ooc.frontend.model.Access;
 import org.ooc.frontend.model.Add;
 import org.ooc.frontend.model.AddressOf;
@@ -17,6 +15,7 @@ import org.ooc.frontend.model.Expression;
 import org.ooc.frontend.model.FunctionCall;
 import org.ooc.frontend.model.IntLiteral;
 import org.ooc.frontend.model.Literal;
+import org.ooc.frontend.model.Match;
 import org.ooc.frontend.model.MemberAccess;
 import org.ooc.frontend.model.MemberCall;
 import org.ooc.frontend.model.Mod;
@@ -41,11 +40,11 @@ import org.ubi.SourceReader;
 
 public class ExpressionParser {
 
-	public static Expression parse(Module module, SourceReader sReader, TokenReader reader) throws IOException {
+	public static Expression parse(Module module, SourceReader sReader, TokenReader reader) {
 		return parse(module, sReader, reader, false);
 	}
 	
-	public static Expression parse(Module module, SourceReader sReader, TokenReader reader, boolean noDecl) throws IOException {
+	public static Expression parse(Module module, SourceReader sReader, TokenReader reader, boolean noDecl) {
 		
 		int mark = reader.mark();
 		
@@ -308,7 +307,7 @@ public class ExpressionParser {
 		
 	}
 	
-	protected static Expression parseFlatNoparen(Module module, SourceReader sReader, TokenReader reader, boolean noDecl) throws IOException {
+	protected static Expression parseFlatNoparen(Module module, SourceReader sReader, TokenReader reader, boolean noDecl) {
 		
 		int mark = reader.mark();
 		
@@ -325,6 +324,9 @@ public class ExpressionParser {
 				
 		Access access = AccessParser.parse(module, sReader, reader);
 		if(access != null) return access;
+		
+		Match match = MatchParser.parse(module, sReader, reader);
+		if(match != null) return match;
 		
 		reader.reset(mark);
 		return null;

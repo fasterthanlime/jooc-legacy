@@ -1,7 +1,5 @@
 package org.ooc.frontend.parser;
 
-import java.io.IOException;
-
 import org.ooc.frontend.model.Expression;
 import org.ooc.frontend.model.Module;
 import org.ooc.frontend.model.NodeList;
@@ -13,12 +11,12 @@ import org.ubi.SourceReader;
 public class ExpressionListFiller {
 	
 	public static boolean fill(Module module, SourceReader sReader, TokenReader reader,
-			NodeList<Expression> list) throws IOException {
+			NodeList<Expression> list) {
 		return fill(module, sReader, reader, list, TokenType.OPEN_PAREN, TokenType.CLOS_PAREN);
 	}
 
 	public static boolean fill(Module module, SourceReader sReader, TokenReader reader,
-			NodeList<Expression> list, byte opening, byte closing) throws IOException {
+			NodeList<Expression> list, byte opening, byte closing) {
 
 		int mark = reader.mark();
 		

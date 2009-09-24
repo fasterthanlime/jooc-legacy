@@ -1,4 +1,7 @@
+import lang/Range
+
 Int: cover from int {
+	
 	repr: func -> String {
 		str = gc_malloc(64) : String
 		sprintf(str, "%d", this)
@@ -7,4 +10,9 @@ Int: cover from int {
 	
 	isOdd:  func -> Bool { this % 2 == 1 }
 	isEven: func -> Bool { this % 2 == 0 }
+	
+	in: func(range: Range) -> Bool {
+		return this >= range min && this < range max
+	}
+	
 }

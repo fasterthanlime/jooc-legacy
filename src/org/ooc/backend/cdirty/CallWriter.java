@@ -13,6 +13,7 @@ import org.ooc.frontend.model.FunctionDecl;
 import org.ooc.frontend.model.MemberAccess;
 import org.ooc.frontend.model.MemberCall;
 import org.ooc.frontend.model.NodeList;
+import org.ooc.frontend.model.TypeAccess;
 import org.ooc.frontend.model.TypeDecl;
 import org.ooc.frontend.model.TypeParam;
 import org.ooc.frontend.model.VarArg;
@@ -37,6 +38,8 @@ public class CallWriter {
 			cgen.current.app("sizeof(");
 			if(arg instanceof MemberAccess) {
 				arg.accept(cgen);
+			} else if(arg instanceof TypeAccess) {
+				((TypeAccess) arg).getType().accept(cgen);
 			} else {
 				VariableAccess varAcc = (VariableAccess) arg;
 				cgen.current.app(varAcc.getUnderName());

@@ -67,4 +67,24 @@ public abstract class Node implements Visitable {
 		return null;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public void addAfterLine(NodeList<Node> stack, Statement statement) {
+		
+		int lineIndex = stack.find(Line.class);
+		Line line = (Line) stack.get(lineIndex);
+		NodeList<Line> list = (NodeList<Line>) stack.get(lineIndex - 1);
+		list.addAfter(line, new Line(statement));
+		
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void addBeforeLine(NodeList<Node> stack, Statement statement) {
+		
+		int lineIndex = stack.find(Line.class);
+		Line line = (Line) stack.get(lineIndex);
+		NodeList<Line> list = (NodeList<Line>) stack.get(lineIndex - 1);
+		list.addBefore(line, new Line(statement));
+		
+	}
+	
 }

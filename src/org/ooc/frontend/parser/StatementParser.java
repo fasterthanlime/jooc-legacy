@@ -1,7 +1,5 @@
 package org.ooc.frontend.parser;
 
-import java.io.IOException;
-
 import org.ooc.frontend.model.Block;
 import org.ooc.frontend.model.Conditional;
 import org.ooc.frontend.model.Else;
@@ -19,7 +17,7 @@ import org.ubi.SourceReader;
 
 public class StatementParser {
 
-	public static Statement parse(Module module, SourceReader sReader, TokenReader reader) throws IOException {
+	public static Statement parse(Module module, SourceReader sReader, TokenReader reader) {
 
 		int mark = reader.mark();
 		

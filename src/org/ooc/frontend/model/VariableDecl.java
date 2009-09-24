@@ -209,13 +209,13 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 		
 		int lineIndex = stack.find(Line.class);
 		if(lineIndex == -1) {
-			throw new Error("Not in a line! How are we supposed to add one? Stack = "+stack);
-		}
+			throw new OocCompilationError(this, stack, "Not in a line! How are we supposed to add one? Stack = "+stack.toString(true));
+		}	
 		Line line = (Line) stack.get(lineIndex);
 		
 		int bodyIndex = lineIndex - 1;
 		if(bodyIndex == -1) {
-			throw new Error("Didn't find a nodelist containing the line! How are we suppoed to add one? Stack = "+stack);
+			throw new OocCompilationError(this, stack, "Didn't find a nodelist containing the line! How are we suppoed to add one? Stack = "+stack.toString(true));
 		}
 		NodeList<Line> body = (NodeList<Line>) stack.get(bodyIndex);
 		
@@ -292,7 +292,7 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
 		
 		Type type = getType();
-		if(type != null && !type.isArray() && type.isGenericRecursive()
+		if(type != null && type.getRef() != null && !type.isArray() && type.isGenericRecursive()
 				&& type.isFlat() && !isMember() && !(this instanceof Argument)) {
 			Type newType = new Type("uint8_t", type.startToken);
 			newType.setPointerLevel(1);

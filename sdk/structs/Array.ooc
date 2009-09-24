@@ -10,7 +10,9 @@ Array: class <T> extends Iterable {
 	
 	init: func ~withData (=size, .data) {
 		// this "&" shouldn't be needed.. hmm.
-		this data = data&
+		//this data = data&
+		this data = gc_calloc(size, T size)
+		memcpy(this data, data&, size * T size)
 	}
 	
 	get: func (i: Int) -> T {
@@ -18,6 +20,10 @@ Array: class <T> extends Iterable {
 			Exception new(This, "Attempting to access an array of size " + size as Int + " at index " + i + "\n") throw()
 		}
 		return data[i]
+	}
+	
+	size: func -> Int {
+		return size
 	}
 
 	/*

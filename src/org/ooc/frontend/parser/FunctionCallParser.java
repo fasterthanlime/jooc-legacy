@@ -1,7 +1,5 @@
 package org.ooc.frontend.parser;
 
-import java.io.IOException;
-
 import org.ooc.frontend.model.FunctionCall;
 import org.ooc.frontend.model.Module;
 import org.ooc.frontend.model.tokens.Token;
@@ -12,7 +10,7 @@ import org.ubi.SourceReader;
 
 public class FunctionCallParser {
 
-	public static FunctionCall parse(Module module, SourceReader sReader, TokenReader reader) throws IOException {
+	public static FunctionCall parse(Module module, SourceReader sReader, TokenReader reader) {
 		
 		int mark = reader.mark();
 		

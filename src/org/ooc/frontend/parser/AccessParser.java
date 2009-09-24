@@ -1,7 +1,5 @@
 package org.ooc.frontend.parser;
 
-import java.io.IOException;
-
 import org.ooc.frontend.model.Module;
 import org.ooc.frontend.model.Type;
 import org.ooc.frontend.model.TypeAccess;
@@ -12,7 +10,7 @@ import org.ubi.SourceReader;
 
 public class AccessParser {
 
-	public static VariableAccess parse(Module module, SourceReader sReader, TokenReader reader) throws IOException {
+	public static VariableAccess parse(Module module, SourceReader sReader, TokenReader reader) {
 		int mark = reader.mark();
 		
 		Token token = reader.peek();

@@ -1,7 +1,5 @@
 package org.ooc.frontend.parser;
 
-import java.io.IOException;
-
 import org.ooc.frontend.model.ArrayLiteral;
 import org.ooc.frontend.model.BoolLiteral;
 import org.ooc.frontend.model.CharLiteral;
@@ -21,7 +19,7 @@ import org.ubi.SyntaxError;
 
 public class LiteralParser {
 
-	public static Literal parse(Module module, SourceReader sReader, TokenReader reader) throws IOException {
+	public static Literal parse(Module module, SourceReader sReader, TokenReader reader) {
 
 		int mark = reader.mark();
 		

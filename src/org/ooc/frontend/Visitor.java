@@ -11,6 +11,7 @@ import org.ooc.frontend.model.BinaryCombination;
 import org.ooc.frontend.model.Block;
 import org.ooc.frontend.model.BoolLiteral;
 import org.ooc.frontend.model.BuiltinType;
+import org.ooc.frontend.model.Case;
 import org.ooc.frontend.model.Cast;
 import org.ooc.frontend.model.CharLiteral;
 import org.ooc.frontend.model.ClassDecl;
@@ -30,6 +31,7 @@ import org.ooc.frontend.model.Include;
 import org.ooc.frontend.model.IntLiteral;
 import org.ooc.frontend.model.InterfaceDecl;
 import org.ooc.frontend.model.Line;
+import org.ooc.frontend.model.Match;
 import org.ooc.frontend.model.MemberAccess;
 import org.ooc.frontend.model.MemberArgument;
 import org.ooc.frontend.model.MemberAssignArgument;
@@ -137,5 +139,8 @@ public interface Visitor {
 
 	public void visit(BinaryCombination binaryCombination) throws IOException;
 	public void visit(Ternary ternary) throws IOException;
+
+	public void visit(Match match) throws IOException;
+	public void visit(Case case1) throws IOException;
 	
 }

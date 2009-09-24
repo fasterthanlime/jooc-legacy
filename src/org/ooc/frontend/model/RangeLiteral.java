@@ -3,9 +3,12 @@ package org.ooc.frontend.model;
 import java.io.IOException;
 
 import org.ooc.frontend.Visitor;
+import org.ooc.frontend.model.IntLiteral.Format;
+import org.ooc.frontend.model.interfaces.MustBeResolved;
 import org.ooc.frontend.model.tokens.Token;
+import org.ooc.middle.hobgoblins.Resolver;
 
-public class RangeLiteral extends Literal {
+public class RangeLiteral extends Literal implements MustBeResolved {
 
 	protected Expression lower;
 	protected Expression upper;
@@ -65,6 +68,30 @@ public class RangeLiteral extends Literal {
 		
 		return false;
 		
+	}
+
+	public boolean isResolved() {
+		return false;
+	}
+
+	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
+		
+		Node parent = stack.peek();
+		if(!(parent instanceof Foreach)) {
+			MemberCall newCall = new MemberCall(new VariableAccess("Range", startToken), "new", null, startToken);
+			newCall.getArguments().add(lower);
+			newCall.getArguments().add(upper);
+			parent.replace(this, newCall);
+			return Response.RESTART;
+		}
+			
+		return Response.OK;
+		
+	}
+	
+	@Override
+	public String toString() {
+		return getClass().getSimpleName()+":"+lower+".."+upper;
 	}
 
 }

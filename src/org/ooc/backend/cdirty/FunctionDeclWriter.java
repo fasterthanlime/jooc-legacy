@@ -10,6 +10,7 @@ import org.ooc.frontend.model.TypeParam;
 import org.ooc.frontend.model.Line;
 import org.ooc.frontend.model.Type;
 import org.ooc.frontend.model.TypeDecl;
+import org.ooc.frontend.model.VarArg;
 
 public class FunctionDeclWriter {
 
@@ -140,7 +141,11 @@ public class FunctionDeclWriter {
 			if(mode == ArgsWriteMode.NAMES_ONLY) {
 				cgen.current.app(arg.getName());
 			} else if(mode == ArgsWriteMode.TYPES_ONLY) {
-				arg.getType().accept(cgen);
+				if(arg instanceof VarArg) {
+					cgen.current.app("...");
+				} else {
+					arg.getType().accept(cgen);
+				}
 			} else {
 				arg.accept(cgen);
 			}

@@ -1,7 +1,5 @@
 package org.ooc.frontend.parser;
 
-import java.io.IOException;
-
 import org.ooc.frontend.model.ClassDecl;
 import org.ooc.frontend.model.CoverDecl;
 import org.ooc.frontend.model.Declaration;
@@ -14,7 +12,7 @@ import org.ubi.SourceReader;
 
 public class DeclarationParser {
 
-	public static Declaration parse(Module module, SourceReader sReader, TokenReader reader) throws IOException {
+	public static Declaration parse(Module module, SourceReader sReader, TokenReader reader) {
 		int mark = reader.mark();
 		
 		VariableDecl varDecl = VariableDeclParser.parse(module, sReader, reader);

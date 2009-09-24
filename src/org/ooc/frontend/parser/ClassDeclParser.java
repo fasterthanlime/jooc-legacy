@@ -1,15 +1,14 @@
 package org.ooc.frontend.parser;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.ooc.frontend.model.ClassDecl;
 import org.ooc.frontend.model.FunctionDecl;
-import org.ooc.frontend.model.TypeParam;
 import org.ooc.frontend.model.Module;
 import org.ooc.frontend.model.OocDocComment;
 import org.ooc.frontend.model.Type;
+import org.ooc.frontend.model.TypeParam;
 import org.ooc.frontend.model.VariableDecl;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.frontend.model.tokens.TokenReader;
@@ -19,7 +18,7 @@ import org.ubi.SourceReader;
 
 public class ClassDeclParser {
 
-	public static ClassDecl parse(Module module, SourceReader sReader, TokenReader reader) throws IOException {
+	public static ClassDecl parse(Module module, SourceReader sReader, TokenReader reader) {
 		int mark = reader.mark();
 		
 		OocDocComment comment = null;

@@ -1,7 +1,5 @@
 package org.ooc.frontend.parser;
 
-import java.io.EOFException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +19,7 @@ import org.ubi.SourceReader;
 
 public class ArgumentParser {
 
-	public static boolean fill(Module module, SourceReader sReader, TokenReader reader, boolean acceptTypeArgs, NodeList<Argument> args) throws EOFException, IOException, CompilationFailedError {
+	public static boolean fill(Module module, SourceReader sReader, TokenReader reader, boolean acceptTypeArgs, NodeList<Argument> args) {
 		
 		if(reader.peek().type == TokenType.OPEN_PAREN) {
 			reader.skip();
@@ -54,7 +52,7 @@ public class ArgumentParser {
 	}
 	
 	public static boolean parseInto(Module module, SourceReader sReader, TokenReader reader,
-			boolean acceptTypeArgs, NodeList<Argument> args) throws IOException {
+			boolean acceptTypeArgs, NodeList<Argument> args) {
 		
 		int mark = reader.mark();
 		
@@ -120,8 +118,7 @@ public class ArgumentParser {
 	}
 
 	protected static boolean tryRegular(Module module, SourceReader sReader, TokenReader reader,
-			NodeList<Argument> args, int mark, Token token)
-			throws CompilationFailedError, IOException {
+			NodeList<Argument> args, int mark, Token token) {
 		
 		if(!token.isNameToken()) return false;
 		

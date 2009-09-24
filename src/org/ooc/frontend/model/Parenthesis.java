@@ -9,6 +9,11 @@ public class Parenthesis extends Expression {
 
 	protected Expression expression;
 
+	public Parenthesis(Expression expression) {
+		super(expression.startToken);
+		this.expression = expression;
+	}
+	
 	public Parenthesis(Expression expression, Token startToken) {
 		super(startToken);
 		this.expression = expression;
