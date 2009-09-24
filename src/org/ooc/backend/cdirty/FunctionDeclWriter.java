@@ -123,6 +123,7 @@ public class FunctionDeclWriter {
 			}
 		}
 		for(TypeParam param: functionDecl.getTypeParams().values()) {
+			if(param.isGhost()) continue;
 			if(!isFirst) cgen.current.app(", ");
 			isFirst = false;
 			if(mode == ArgsWriteMode.NAMES_ONLY) {

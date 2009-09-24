@@ -274,7 +274,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 			}
 			i++;
 			Type argType = arg.getType();
-			if(argType.getName().equals(typeParam)) {
+			if(arg.getName().equals(typeParam)) {
 				result = arguments.get(i).getType();
 				break;
 			}
@@ -306,7 +306,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 			}
 			i++;
 			Type argType = arg.getType();
-			if(argType.getName().equals(typeParam)) {
+			if(arg.getName().equals(typeParam)) {
 				result = arguments.get(i);
 				break;
 			}
@@ -687,9 +687,9 @@ public class FunctionCall extends Access implements MustBeResolved {
 	public void throwUnresolvedType(NodeList<Node> stack, String typeName) {
 		
 		if(impl != null) {
-			throw new OocCompilationError(this, stack, "Couldn't figure out generic type <"+typeName+"> for "+impl);
+			throw new OocCompilationError(this, stack, "Couldn't figure out generic type <"+typeName+"> for call to "+impl);
 		}
-		throw new OocCompilationError(this, stack, "Couldn't figure out generic type <"+typeName+"> for "+getProtoRepr());
+		throw new OocCompilationError(this, stack, "Couldn't figure out generic type <"+typeName+"> for call to "+getProtoRepr());
 		
 	}
 	

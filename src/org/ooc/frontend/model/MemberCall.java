@@ -218,9 +218,13 @@ public class MemberCall extends FunctionCall {
 	@Override
 	public void throwUnresolvedType(NodeList<Node> stack, String typeName) {
 		
-		throw new OocCompilationError(this, stack,
+		if(!expression.getType().getRef().getType().getTypeParams().isEmpty()) {
+			throw new OocCompilationError(this, stack,
 				"You should specify type parameters of "+expression.getType().getName()
 				+" for calling "+getProtoRepr()+". E.g. you could write "+expression.getType().getName()+"<Int>");
+		}
+		
+		super.throwUnresolvedType(stack, typeName);
 		
 	}
 	

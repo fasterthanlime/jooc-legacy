@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.ooc.frontend.Visitor;
+import org.ooc.frontend.model.NodeList.AddListener;
 import org.ooc.frontend.model.interfaces.MustBeUnwrapped;
 import org.ooc.frontend.model.tokens.Token;
 
@@ -49,6 +50,14 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 		this.body = new NodeList<Line>(startToken);
 		this.returnType = name.equals("main") ? IntLiteral.type : Type.getVoid();
 		this.arguments = new NodeList<Argument>(startToken);
+		this.arguments.addAddListener(new AddListener<Argument>() {
+			public void onAdd(NodeList<Argument> list, Argument arg) {
+				TypeParam typeParam = typeParams.get(arg.getName());
+				if(typeParam != null) {
+					typeParam.setGhost(true);
+				}
+			}
+		});
 		this.typeParams = new LinkedHashMap<String, TypeParam>();
 		this.returnArg = new RegularArgument(NullLiteral.type, generateTempName("returnArg"), startToken);
 	}
@@ -156,7 +165,7 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 	public NodeList<Argument> getArguments() {
 		return arguments;
 	}
-	
+
 	public Type getType() {
 		return type;
 	}

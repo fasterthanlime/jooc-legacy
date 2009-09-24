@@ -9,6 +9,7 @@ public class TypeParam extends TypeDecl {
 
 	private Type type;
 	private Argument argument;
+	private boolean isGhost = false;
 	
 	public TypeParam(String name, Token startToken) {
 		super(name, null, null, startToken);
@@ -40,6 +41,14 @@ public class TypeParam extends TypeDecl {
 	@Override
 	public boolean hasChildren() {
 		return true;
+	}
+	
+	public boolean isGhost() {
+		return isGhost;
+	}
+	
+	public void setGhost(boolean isGhost) {
+		this.isGhost = isGhost;
 	}
 	
 }

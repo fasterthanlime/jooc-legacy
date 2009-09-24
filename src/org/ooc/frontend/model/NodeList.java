@@ -9,8 +9,15 @@ import org.ooc.frontend.model.tokens.Token;
 
 public class NodeList<T extends Node> extends Node implements Iterable<T> {
 	
+	public static interface AddListener<T extends Node> {
+		
+		public void onAdd(NodeList<T> list, T element);
+		
+	}
+	
 	private T[] nodes;
 	private int size;
+	private AddListener<T> addListener = null;
 	
 	public NodeList() {
 		this(Token.defaultToken);
@@ -18,6 +25,10 @@ public class NodeList<T extends Node> extends Node implements Iterable<T> {
 	
 	public NodeList(Token startToken) {
 		this(5, startToken);
+	}
+	
+	public void addAddListener(AddListener<T> addListener) {
+		this.addListener = addListener;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -46,6 +57,7 @@ public class NodeList<T extends Node> extends Node implements Iterable<T> {
 	public void add(T element) {
 		if(size >= nodes.length) realloc();
 		nodes[size++] = element;
+		if(addListener != null) addListener.onAdd(this, element);
 	}
 
 	public void add(int index, T element) {
@@ -53,6 +65,7 @@ public class NodeList<T extends Node> extends Node implements Iterable<T> {
 		System.arraycopy(nodes, index, nodes, index + 1, size - index);
 		nodes[index] = element;
 		size++;
+		if(addListener != null) addListener.onAdd(this, element);
 	}
 	
 	public boolean remove(T element) {

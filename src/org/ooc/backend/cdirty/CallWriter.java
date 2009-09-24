@@ -150,7 +150,10 @@ public class CallWriter {
 		boolean isFirst = isFirstArg;
 		NodeList<Argument> implArgs = impl.getArguments();
 		
+		Iterator<TypeParam> implTypeParams = impl.getTypeParams().values().iterator();
 		for(Expression expr: call.getTypeParams()) {
+			TypeParam implTypeParam = implTypeParams.next();
+			if(implTypeParam.isGhost()) continue;
 			if(!isFirst) cgen.current.app(", ");
 			isFirst = false;
 			expr.accept(cgen);
