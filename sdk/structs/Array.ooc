@@ -8,16 +8,16 @@ Array: class <T> extends Iterable {
 		data = gc_calloc(size, Pointer size)
 	}
 	
-	init: func ~withData (.data, =size) {
-		// this "&" shouldn't be needed.. hmm.
-		//this data = data&
+	// .data should work!
+	init: func ~withData (data: Pointer, =size) {
 		this data = gc_calloc(size, T size)
-		memcpy(this data, data&, size * T size)
+		memcpy(this data, data, size * T size)
 	}
 	
 	get: func (i: Int) -> T {
 		if(i < 0 || i >= size) {
-			Exception new(This, "Attempting to access an array of size " + size as Int + " at index " + i + "\n") throw()
+			Exception new(This, "Attempting to access an array of size " +
+				size as Int + " at index " + i + "\n") throw()
 		}
 		return data[i]
 	}

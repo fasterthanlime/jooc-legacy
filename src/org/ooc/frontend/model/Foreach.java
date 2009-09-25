@@ -97,15 +97,13 @@ public class Foreach extends ControlStatement implements MustBeResolved {
 	@SuppressWarnings("unchecked")
 	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
 		
-		/*
-		if(collection.getType().getRef() == null) {
+		if(collection.getType() == null || (!collection.getType().getName().equals("Range") && collection.getType().getRef() == null)) {
 			if(fatal) {
-				throw new OocCompilationError(collection, stack, "Couldn't resolve type of foreach's collection.");
+				throw new OocCompilationError(collection, stack, "Couldn't resolve type "+collection.getType()+" of foreach's collection.");
 			}
 			return Response.LOOP;
 		}
-		*/
-		
+
 		if(collection.getType().getRef() instanceof ClassDecl) {
 			ClassDecl classDecl = (ClassDecl) collection.getType().getRef();
 			if(classDecl.isChildOf("Iterable")) {

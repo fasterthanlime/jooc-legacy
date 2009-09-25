@@ -319,6 +319,28 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 			
 			return true;
 		}
+		
+		if(isEntryPoint()) {
+			if(arguments.size() == 1 && arguments.getFirst().getType().getName().equals("Array")) {
+				Argument arg = arguments.getFirst();
+				arguments.clear();
+				Argument argc = new RegularArgument(IntLiteral.type, "argc", arg.startToken);
+				Argument argv = new RegularArgument(new Type("String", 1, arg.startToken), "argv", arg.startToken);
+				arguments.add(argc);
+				arguments.add(argv);
+				
+				MemberCall constructCall = new MemberCall(new TypeAccess(arg.getType()), "new", "withData", arg.startToken);
+				constructCall.getTypeParams().add(new TypeAccess(NullLiteral.type));
+				constructCall.getArguments().add(new VariableAccess(argv, startToken));
+				constructCall.getArguments().add(new VariableAccess(argc, startToken));
+				
+				VariableDeclFromExpr vdfe = new VariableDeclFromExpr(arg.getName(), 
+						constructCall, arg.startToken);
+				
+				body.add(0, new Line(vdfe));
+			}
+		}
+		
 		return false;
 	}
 

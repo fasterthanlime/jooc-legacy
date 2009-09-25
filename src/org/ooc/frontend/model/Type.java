@@ -212,7 +212,7 @@ public class Type extends Node implements MustBeResolved {
 		
 		if(ref == null && fatal) {
 			throw new OocCompilationError(this, stack, "Couldn't resolve type "
-					+getName()+", stack = "+stack.toString(true));
+					+getName());
 		}
 		
 		return (ref == null) ? Response.LOOP : Response.OK;

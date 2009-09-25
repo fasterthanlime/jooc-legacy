@@ -1,5 +1,5 @@
 include stdlib, string
-import lang/Int
+import lang/[Int, Range]
 
 atoi: extern func (String) -> Int
 atol: extern func (String) -> Long
