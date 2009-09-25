@@ -69,7 +69,7 @@ public class Foreach extends ControlStatement implements MustBeResolved {
 	public VariableDecl getVariable(String name) {
 		if(variable instanceof VariableDecl) {
 			VariableDecl varDecl = (VariableDecl) variable;
-			if(varDecl.getName().equals(name)) return varDecl;
+			if(varDecl.hasAtom(name)) return varDecl;
 		} else if(variable instanceof VariableAccess) {
 			VariableAccess varAcc = (VariableAccess) variable;
 			if(varAcc.getName().equals(name)) return (VariableDecl) varAcc.getRef();
@@ -84,7 +84,8 @@ public class Foreach extends ControlStatement implements MustBeResolved {
 			variables.add(varDecl);
 		} else if(variable instanceof VariableAccess) {
 			VariableAccess varAcc = (VariableAccess) variable;
-			variables.add((VariableDecl) varAcc.getRef());
+			if(varAcc.getRef() != null)
+				variables.add((VariableDecl) varAcc.getRef());
 		}
 		super.getVariables(variables);
 	}
@@ -111,15 +112,11 @@ public class Foreach extends ControlStatement implements MustBeResolved {
 				FunctionDecl iterFunc = classDecl.getFunction("iterator", "", null);
 				
 				Type iterType = iterFunc.getReturnType();
-				iterType.resolve(res);
+				iterType.resolve(stack, res, false);
 				if(iterType.getRef() == null) {
 					if(fatal) throw new OocCompilationError(this, stack, "couldn't resolve iterType "+iterType);
 					return Response.LOOP;
 				}
-				
-				ClassDecl iterClass = (ClassDecl) iterType.getRef();
-				FunctionDecl nextFunc = iterClass.getFunction("next", "", null);
-				FunctionDecl hasNextFunc = iterClass.getFunction("hasNext", "", null);
 				
 				int lineIndex = stack.find(Line.class);
 				Line line = (Line) stack.get(lineIndex);
@@ -128,7 +125,8 @@ public class Foreach extends ControlStatement implements MustBeResolved {
 				Block block = new Block(startToken);
 				
 				MemberCall iterCall = new MemberCall(collection, "iterator", "", startToken);
-				iterCall.setImpl(iterFunc);
+				iterCall.resolve(stack, res, true);
+				
 				VariableDecl vdfe = new VariableDecl(iterCall.getType(), false, startToken);
 				vdfe.setType(iterType);
 				vdfe.getAtoms().add(new VariableDeclAtom(generateTempName("iter"), iterCall, startToken));
@@ -137,22 +135,28 @@ public class Foreach extends ControlStatement implements MustBeResolved {
 				iterAcc.setRef(vdfe);
 				
 				MemberCall hasNextCall = new MemberCall(iterAcc, "hasNext", "", startToken);
-				hasNextCall.setImpl(hasNextFunc);
+				hasNextCall.resolve(stack, res, true);
 				While while1 = new While(hasNextCall, startToken);
 				
 				MemberCall nextCall = new MemberCall(iterAcc, "next", "", startToken);
-				nextCall.setImpl(nextFunc);
+				nextCall.resolve(stack, res, true);
+				
+				if(variable instanceof VariableAccess) {
+					VariableAccess varAcc = (VariableAccess) variable;
+					if(varAcc.getRef() == null) {
+						VariableDecl varDecl = new VariableDecl(iterCall.getType().getTypeParams().getFirst().getType(), false, varAcc.startToken);
+						varDecl.getAtoms().add(new VariableDeclAtom(varAcc.getName(), null, varAcc.startToken));
+						block.getBody().add(0, new Line(varDecl));
+					}
+				}
 				
 				// FIXME what if variable isn't an Access?
 				while1.getBody().add(new Line(new Assignment(variable, nextCall, startToken)));
 				while1.getBody().addAll(getBody());
 				
-				list.replace(line, block);
+				list.replace(line, new Line(block));
 				block.getBody().add(new Line(vdfe));
 				block.getBody().add(new Line(while1));
-				
-				//Type realType = iterCall.getRealType(iterType);
-				//System.out.println("Real type = "+realType+" for "+iterCall+" with impl "+iterCall.getImpl());
 				
 				return Response.RESTART;
 			}

@@ -234,7 +234,7 @@ public class Assignment extends BinaryOperation {
 			if1.getBody().add(new Line(allocAss));
 			block.getBody().add(new Line(if1));
 			block.getBody().add(new Line(call));
-			stack.peek().replace(this, block);
+			stack.peek().replace(this, new Line(block));
 		
 		} else {
 			

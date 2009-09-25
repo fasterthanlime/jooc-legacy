@@ -127,7 +127,7 @@ public class Checker implements Hobgoblin {
 							
 						}*/
 					}
-					
+
 					Line line = node.getBody().getLast();
 					if(!(line.getStatement() instanceof Return)) {
 						if(node.isEntryPoint()) {

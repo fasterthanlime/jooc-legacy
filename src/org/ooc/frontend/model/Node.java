@@ -88,14 +88,11 @@ public abstract class Node implements Visitable {
 	}
 	
 	public VariableDecl getVariable(NodeList<Line> body, String name) {
-		if(body.size() > 0) for(Node bodyNode: body) {
-			if(bodyNode instanceof Line) {
-				Line line = (Line) bodyNode;
-				Node node = line.getStatement();
-				if(node instanceof VariableDecl) {
-					VariableDecl varDecl = (VariableDecl) node;
-					if(varDecl.hasAtom(name)) return varDecl;
-				}
+		if(body.size() > 0) for(Line line: body) {
+			Node node = line.getStatement();
+			if(node instanceof VariableDecl) {
+				VariableDecl varDecl = (VariableDecl) node;
+				if(varDecl.hasAtom(name)) return varDecl;
 			}
 		}			
 		return null;

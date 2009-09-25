@@ -167,14 +167,11 @@ public class VariableAccess extends Access implements MustBeResolved {
 		
 		NodeList<VariableDecl> variables = new NodeList<VariableDecl>();
 		
-		for(int i = mainStack.size() - 1; i >= 0; i--) {
-			Node node = mainStack.get(i);
-			if(!(node instanceof Scope)) continue;
-			Scope scope = (Scope) node;
-			scope.getVariables(variables);
-		}
+		Scope scope = (Scope) mainStack.get(mainStack.find(Scope.class));
+		scope.getVariables(variables);
 		
 		for(VariableDecl decl: variables) {
+			System.out.println("Got decl "+decl+" in "+scope);
 			for(VariableDeclAtom atom: decl.getAtoms()) {
 				int distance = Levenshtein.distance(name, atom.getName());
 				if(distance < bestDistance) {
