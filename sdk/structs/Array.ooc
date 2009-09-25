@@ -8,7 +8,7 @@ Array: class <T> extends Iterable {
 		data = gc_calloc(size, Pointer size)
 	}
 	
-	// .data should work!
+	// FIXME .data should work!
 	init: func ~withData (data: Pointer, =size) {
 		this data = gc_calloc(size, T size)
 		memcpy(this data, data, size * T size)
@@ -40,6 +40,14 @@ Array: class <T> extends Iterable {
 
 	lastIndex: func -> SizeT {
 		return size - 1
+	}
+	
+	each: func (f: Func (T)) {
+		for(i in 0..size) {
+			// FIXME f(get(i)) // is buggy. =D
+			val := get(i)
+			f(val)
+		}
 	}
 
 }

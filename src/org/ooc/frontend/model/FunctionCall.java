@@ -83,7 +83,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 	}
 	
 	private Type realTypize(Type typeArg, Resolver res, NodeList<Node> stack) {
-		
+
 		Type realType = getRealType(typeArg.getName(), stack, res, true);
 		
 		Type type = null;
@@ -409,7 +409,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 		VariableDecl decl = (VariableDecl) stack.get(varDeclIndex);
 		
 		Type declType = decl.getType();
-		declType = realTypize(declType, res, stack);
+		if(declType != null) declType = realTypize(declType, res, stack);
 		if(declType == null) {
 			if(fatal) {
 				throw new OocCompilationError(this, stack, "Couldn't resolve type of "+decl);

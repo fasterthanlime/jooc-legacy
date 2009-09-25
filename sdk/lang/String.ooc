@@ -1,5 +1,5 @@
 include stdlib, string
-import lang/[Int, Range]
+import lang/[Int, Double, Range, stdio]
 
 atoi: extern func (String) -> Int
 atol: extern func (String) -> Long
@@ -19,7 +19,7 @@ String: cover from Char* {
 		if (this length() != other length()) {
 			return false
 		}
-		for (i : Int in 0..other length()) {
+		for (i : SizeT in 0..other length()) {
 			if (this[i] != other[i]) {
 				return false
 			}
@@ -31,23 +31,24 @@ String: cover from Char* {
 	toLong: extern(atol) func -> Long
 	toLLong: extern(atoll) func -> LLong
 	toDouble: extern(atof) func -> Double
+	toFloat: extern(atof) func -> Float
 	
 	isEmpty: func -> Bool { (this == null) || (this[0] == 0) }
 	
 	startsWith: func(s: String) -> Bool {
 		if (this length() < s length()) return false
-		for (i: Int in 0..s length()) {
+		for (i: SizeT in 0..s length()) {
 			if(this[i] != s[i]) return false
 		}
 		return true
 	}
 	
 	endsWith: func(s: String) -> Bool {
-		l1 = this length() : Int
-		l2 = s length() : Int
+		l1 = this length() : SizeT
+		l2 = s length() : SizeT
 		if(l1 < l2) return false
-		offset = (l1 - l2) : Int
-		for (i: Int in 0..l2) {
+		offset = (l1 - l2) : SizeT
+		for (i: SizeT in 0..l2) {
 			if(this[i + offset] != s[i]) {
 				return false
 			}
@@ -55,9 +56,9 @@ String: cover from Char* {
 		return true
 	}
 	
-	indexOf: func(c: Char) -> Int {
+	indexOf: func(c: Char) -> SizeT {
 		length := length()
-		for(i: Int in 0..length) {
+		for(i: SizeT in 0..length) {
 			if(this[i] == c) {
 				return i
 			}
@@ -76,7 +77,19 @@ String: cover from Char* {
 		return this
 	}
 	
-	lastIndexOf: func(c: Char) -> Int {
+	first: func -> SizeT {
+		return this[0]
+	}
+	
+	lastIndex: func -> SizeT {
+		return length() - 1
+	}
+	
+	last: func -> SizeT {
+		return this[lastIndex()]
+	}
+	
+	lastIndexOf: func(c: Char) -> SizeT {
 		// could probably use reverse foreach here
 		i := length()
 		while(i) {
@@ -88,8 +101,8 @@ String: cover from Char* {
 		return -1
 	}
 	
-	substring: func ~tillEnd (start: Int) -> This {
-		len = this length() : Int
+	substring: func ~tillEnd (start: SizeT) -> This {
+		len = this length() : SizeT
 		
 		if(start > len) {
 			printf("String.substring~tillEnd: out of bounds: length = %d, start = %d\n",
@@ -97,15 +110,15 @@ String: cover from Char* {
 			return null
 		}
 		
-		diff = (len - start) : Int
+		diff = (len - start) : SizeT
 		sub := gc_malloc(diff + 1) as This	
 		sub[diff + 1] = 0
 		memcpy(sub, this as Char* + start, diff)
 		return sub
 	}
 	
-	substring: func (start: Int, end: Int) -> This {
-		len = this length() : Int
+	substring: func (start: SizeT, end: SizeT) -> This {
+		len = this length() : SizeT
 		
 		if(start > len || start > end || end > len) {
 			printf("String.substring: out of bounds: length = %d, start = %d, end = %d\n",
@@ -113,7 +126,7 @@ String: cover from Char* {
 			return null
 		}
 		
-		diff = (end - start) : Int
+		diff = (end - start) : SizeT
 		sub := gc_malloc(diff + 1) as This
 		sub[diff + 1] = 0
 		memcpy(sub, this as Char* + start, diff)
@@ -129,7 +142,7 @@ String: cover from Char* {
 		}
 		
 		result := gc_malloc(len + 1) as This
-		for (i: Int in 0..len) {
+		for (i: SizeT in 0..len) {
 			result[i] = this[(len-1)-i]
 		}
 		result[len] = 0
@@ -167,13 +180,13 @@ String: cover from Char* {
 		return copy
 	}
 	
-	charAt: func(index: Int) -> Char {
+	charAt: func(index: SizeT) -> Char {
 		this as Char* [index]
 	}
 	
 }
 
-operator [] (string: String, index: Int) -> Char {
+operator [] (string: String, index: SizeT) -> Char {
 	string charAt(index)
 }
 
@@ -190,5 +203,13 @@ operator + (left: Int, right: String) -> String {
 }
 
 operator + (left: String, right: Int) -> String {
+	left + right toString()
+}
+
+operator + (left: Double, right: String) -> String {
+	left toString() + right
+}
+
+operator + (left: String, right: Double) -> String {
 	left + right toString()
 }

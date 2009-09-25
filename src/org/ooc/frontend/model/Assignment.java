@@ -213,6 +213,8 @@ public class Assignment extends BinaryOperation {
 		args.add(realLeft);
 		args.add(realRight);
 		args.add(size);
+		
+		Node parent = stack.peek();
 
 		// why test if left is an array?
 		// because when declaring a variable of type which resolves to a TypeParam, e.g.
@@ -234,11 +236,17 @@ public class Assignment extends BinaryOperation {
 			if1.getBody().add(new Line(allocAss));
 			block.getBody().add(new Line(if1));
 			block.getBody().add(new Line(call));
-			stack.peek().replace(this, new Line(block));
+			
+			// FIXME I'm not entirely sure this is right.
+			if(parent instanceof NodeList) {
+				parent.replace(this, new Line(block));
+			} else {
+				parent.replace(this, block);
+			}
 		
 		} else {
 			
-			stack.peek().replace(this, call);
+			parent.replace(this, call);
 			
 		}
 		

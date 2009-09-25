@@ -1,3 +1,5 @@
+import lang/stdio
+
 Exception: class {
 
 	origin: Class

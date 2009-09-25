@@ -1,4 +1,5 @@
 include ctype
+import lang/stdio
 
 isalnum: extern func(letter: Char) -> Int
 isalpha: extern func(letter: Char) -> Int

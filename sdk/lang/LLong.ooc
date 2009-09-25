@@ -1,6 +1,6 @@
 import lang/[stdio, Range]
 
-Int: cover from int {
+LLong: cover from long long {
 	
 	toString: func -> String {
 		str = gc_malloc(64) : String

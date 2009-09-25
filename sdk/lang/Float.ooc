@@ -1,7 +1,5 @@
-Float: cover from float {
+Float: cover from float extends Double {
 	
-	abs: func -> This {
-		return this < 0 ? -this : this
-	}
+	
 	
 }
