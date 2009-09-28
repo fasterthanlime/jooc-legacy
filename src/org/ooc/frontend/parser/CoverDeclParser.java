@@ -87,7 +87,7 @@ public class CoverDeclParser {
 						if(imp.getName().equals(module.getFullName())) {
 							TypeDecl addon = other.getType(name);
 							if(addon != null) {
-								((CoverDecl) addon).absorb(coverDecl);
+								coverDecl.absorb((CoverDecl) addon);
 								break outer;
 							}
 						}

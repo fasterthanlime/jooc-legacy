@@ -229,5 +229,9 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic {
 			return module.getPackageName() + "__" + getName();
 		return getName();
 	}
+	
+	public Module getModule() {
+		return module;
+	}
 
 }

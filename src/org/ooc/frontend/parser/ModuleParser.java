@@ -90,10 +90,10 @@ public class ModuleParser {
 			
 			for(Import imp: module.getImports()) {
 				Module cached = cache.get(imp.getName());
-				String path = imp.getPath();
+				String path = imp.getPath() + ".ooc";
 				File impFile = parser.params.sourcePath.getFile(path);
 				if(impFile == null) {
-					path = module.getParentPath() + "/" + imp.getPath();
+					path = module.getParentPath() + "/" + path;
 					impFile = parser.params.sourcePath.getFile(path);
 					if(impFile == null) {
 						throw new OocCompilationError(imp, module, "Module not found in sourcepath: "+imp.getPath());
@@ -104,7 +104,7 @@ public class ModuleParser {
 						System.out.println(path+" has been changed, recompiling...");
 					}
 					cached = parser.parse(path, impFile, imp);
-					cache.put(imp.getName(), cached);
+					cache.put(imp.getPath(), cached);
 				}
 				imp.setModule(cached);
 			}
@@ -119,21 +119,21 @@ public class ModuleParser {
 		
 		if(module.getFullName().startsWith("lang.")) {
 			if(!module.getFullName().equals("lang.Object")) {
-				module.getImports().add(new Import("lang.Object", Token.defaultToken));
+				module.getImports().add(new Import("lang/Object", Token.defaultToken));
 			}
 			if(!module.getFullName().equals("lang.ooclib")) {
-				module.getImports().add(new Import("lang.ooclib", Token.defaultToken));
+				module.getImports().add(new Import("lang/ooclib", Token.defaultToken));
 			}
 			return;
 		}
 		
 		Collection<String> paths = parser.params.sourcePath.getRelativePaths("lang");
 		for(String path: paths) {
-			String impName = path.replace('/', '.');
-			if(!impName.toLowerCase().endsWith(".ooc")) continue;
-			impName = impName.substring(0, impName.length() - 4); // ditch the '.ooc'
-			if(!impName.equals(module.getFullName())) {
-				module.getImports().add(new Import(impName, Token.defaultToken));
+			if(path.toLowerCase().endsWith(".ooc")) {
+				path = path.substring(0, path.length() - 4);
+				if(!path.equals(module.getPath())) {
+					module.getImports().add(new Import(path, Token.defaultToken));
+				}
 			}
 		}
 		

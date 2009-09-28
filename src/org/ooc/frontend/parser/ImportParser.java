@@ -38,8 +38,10 @@ public class ImportParser {
 				throw new CompilationFailedError(sReader.getLocation(token),
 						"import my.package.MyClass style deprecated, use import my/package/MyClass instead.");
 			} else if(token.type == TokenType.SLASH) {
-				sb.append('.');
+				sb.append('/');
 				if(readMulti(sReader, reader, imports, sb, token)) break;
+			} else if(token.type == TokenType.DOUBLE_DOT) {
+				sb.append("..");
 			} else {
 				sb.append(token.get(sReader));
 			}

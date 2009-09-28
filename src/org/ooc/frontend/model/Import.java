@@ -9,24 +9,28 @@ import org.ooc.frontend.parser.ModuleParser;
 
 public class Import extends Node {
 
-	protected String name;
+	protected String path;
 	protected Module module;
 
-	public Import(String name, Token defaultToken) {
+	public Import(String path, Token defaultToken) {
 		super(defaultToken);
-		this.name = name;
+		this.path = path;
 	}
 	
 	public String getName() {
-		return name;
+		return path.replace(File.separator, ".");
 	}
 	
-	public void setName(String name) {
-		this.name = name;
+	public String getPath() {
+		return path;
+	}
+	
+	public void setPath(String path) {
+		this.path = path;
 	}
 	
 	public Module getModule() {
-		if(module == null) return ModuleParser.cache.get(name);
+		if(module == null) return ModuleParser.cache.get(path);
 		return module;
 	}
 	
@@ -49,13 +53,9 @@ public class Import extends Node {
 		return false;
 	}
 
-	public String getPath() {
-		return name.replace('.', File.separatorChar) + ".ooc";
-	}
-	
 	@Override
 	public String toString() {
-		return super.toString()+" : "+name;
+		return super.toString()+" : "+path;
 	}
 	
 }
