@@ -18,6 +18,7 @@ import org.ooc.frontend.model.tokens.Token;
 import org.ooc.frontend.model.tokens.TokenReader;
 import org.ooc.frontend.model.tokens.Token.TokenType;
 import org.ooc.middle.OocCompilationError;
+import org.ooc.utils.FileUtils;
 import org.ubi.CompilationFailedError;
 import org.ubi.SourceReader;
 
@@ -91,6 +92,10 @@ public class ModuleParser {
 			for(Import imp: module.getImports()) {
 				Module cached = cache.get(imp.getName());
 				String path = imp.getPath() + ".ooc";
+				if(path.startsWith("..")) {
+					path = FileUtils.resolveRedundancies(new File(module.getParentPath(), path)).getPath();
+				}
+				
 				File impFile = parser.params.sourcePath.getFile(path);
 				if(impFile == null) {
 					path = module.getParentPath() + "/" + path;

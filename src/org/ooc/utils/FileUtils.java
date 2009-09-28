@@ -118,12 +118,12 @@ public class FileUtils {
 
 	/**
 	 * Resolve redundancies, ie. ".." and "."
-	 * @param dst
+	 * @param file
 	 * @return
 	 */
-	public static File resolveRedundancies(File dst) {
+	public static File resolveRedundancies(File file) {
 
-		String path = dst.getPath();
+		String path = file.getPath();
 		List<String> elems = new ArrayList<String>();
 		StringTokenizer st = new StringTokenizer(path, File.separator);
 		boolean startsWithSeparator = path.startsWith(File.separator);
