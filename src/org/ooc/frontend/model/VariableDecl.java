@@ -294,18 +294,25 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 		Type type = getType();
 		if(type != null && type.getRef() != null && !type.isArray() && type.isGenericRecursive()
 				&& type.isFlat() && !isMember() && !(this instanceof Argument)) {
+			
 			Type newType = new Type("uint8_t", type.startToken);
 			newType.setPointerLevel(1);
-			newType.setArray(true);
-			if(getName().equals("val")) {
-				System.out.println("Unwrapping, type ref = "+type.getRef()+" from "+this+", stack = "+stack.toString(true));
-			}
 			VariableAccess tAccess = new VariableAccess(type.getRef().getName(), startToken);
 			MemberAccess sizeAccess = new MemberAccess(tAccess, "size", startToken);
-			newType.setArraySize(sizeAccess);
 			newType.setRef(type.getRef());
+			
+			//if(res.params.compiler.supportsVLAs()) {
+				newType.setArray(true);
+				newType.setArraySize(sizeAccess);
+			//} else {
+				//FunctionCall call = new FunctionCall("gc_malloc", startToken);
+				//call.getArguments().add(sizeAccess);
+				//getAtoms().get(0).expression = call;
+			//}
 			setType(newType);
+			
 			return Response.RESTART;
+			
 		}
 		
 		return Response.OK;

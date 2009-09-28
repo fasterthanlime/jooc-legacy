@@ -4,7 +4,13 @@ LLong: cover from long long {
 	
 	toString: func -> String {
 		str = gc_malloc(64) : String
-		sprintf(str, "%d", this)
+		sprintf(str, "%lld", this)
+		str
+	}
+	
+	toHexString: func -> String {
+		str = gc_malloc(64) : String
+		sprintf(str, "%llx", this)
 		str
 	}
 	

@@ -238,7 +238,7 @@ public class Assignment extends BinaryOperation {
 			block.getBody().add(new Line(call));
 			
 			// FIXME I'm not entirely sure this is right.
-			if(parent instanceof NodeList) {
+			if(parent instanceof NodeList<?>) {
 				parent.replace(this, new Line(block));
 			} else {
 				parent.replace(this, block);

@@ -21,4 +21,14 @@ public class Tcc extends Gcc {
 		command.add(executablePath);
 	}
 	
+	@Override
+	public boolean supportsDeclInFor() {
+		return false;
+	}
+	
+	@Override
+	public boolean supportsVLAs() {
+		return false;
+	}
+	
 }

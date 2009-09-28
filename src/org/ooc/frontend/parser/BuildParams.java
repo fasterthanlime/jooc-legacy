@@ -5,11 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.ooc.frontend.PathList;
+import org.ooc.frontend.compilers.AbstractCompiler;
 import org.ooc.libs.DistLocator;
 import org.ooc.libs.SdkLocator;
 
 public class BuildParams {
 
+	public AbstractCompiler compiler = null;
+	
 	public File distLocation = DistLocator.locate();
 	public File sdkLocation = SdkLocator.locate();
 	

@@ -63,4 +63,12 @@ public class Gcc extends BaseCompiler {
 		command.add("-Wall");
 	}
 
+	public boolean supportsDeclInFor() {
+		return true;
+	}
+
+	public boolean supportsVLAs() {
+		return true;
+	}
+
 }

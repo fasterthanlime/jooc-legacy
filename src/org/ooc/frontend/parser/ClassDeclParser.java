@@ -65,6 +65,10 @@ public class ClassDeclParser {
 						"Expected opening bracket to begin class declaration.");
 			}
 			
+			if(superType != null && name.equals(superType.getName())) {
+				throw new CompilationFailedError(sReader.getLocation(tName), "A class cannot extends itself!");
+			}
+			
 			ClassDecl classDecl = new ClassDecl(name, superType, isAbstract, module, tName);
 			if(genTypes != null) for(TypeParam genType: genTypes) {
 				classDecl.addTypeParam(genType);

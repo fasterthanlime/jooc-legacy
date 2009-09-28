@@ -60,13 +60,28 @@ public class ArrayLiteral extends Literal implements MustBeUnwrapped, MustBeReso
 		
 		if(!elements.isEmpty()) {
 			Iterator<Expression> iter = elements.iterator();
-			Type innerType = iter.next().getType();
+			Expression first = iter.next();
+			Type innerType = first.getType();
+			if(innerType == null) {
+				if(fatal) {
+					throw new OocCompilationError(first, stack, "Couldn't resolve type of "
+							+first+" in an "+innerType+" array literal");
+				}
+				return Response.LOOP;
+			}
 			
 			while(iter.hasNext()) {
 				Expression element = iter.next();
+				if(element.getType() == null) {
+					if(fatal) {
+						throw new OocCompilationError(element, stack, "Couldn't resolve type of "
+								+element+" in an "+innerType+" array literal");
+					}
+					return Response.LOOP;
+				}
 				if(!element.getType().fitsIn(innerType)) {
 					throw new OocCompilationError(element, stack, "Encountered a "
-							+element.getType()+" in a "+innerType+"* array literal.");
+							+element.getType()+" in a "+innerType+"[] array literal.");
 				}
 			}
 			

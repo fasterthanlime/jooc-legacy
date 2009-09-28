@@ -1,3 +1,4 @@
+import lang/String
 
 Array: class <T> extends Iterable {
 
@@ -16,10 +17,18 @@ Array: class <T> extends Iterable {
 	
 	get: func (i: Int) -> T {
 		if(i < 0 || i >= size) {
-			Exception new(This, "Attempting to access an array of size " +
-				size as Int + " at index " + i + "\n") throw()
+			Exception new(This, "Attempting to access an array of size " append(
+				size as Int toString()) append(" at index ") append(i toString()) append("\n")) throw()
 		}
 		return data[i]
+	}
+	
+	set: func (i : Int, value: T) {
+		if(i < 0 || i >= size) {
+			Exception new(This, "Attempting to set the value of an array of size " append(
+				size as Int toString()) append(" at index ") append(i toString()) append("\n")) throw()
+		}
+		data[i] = value
 	}
 	
 	size: func -> Int {
@@ -40,6 +49,10 @@ Array: class <T> extends Iterable {
 
 	lastIndex: func -> SizeT {
 		return size - 1
+	}
+	
+	isEmpty: func -> Bool {
+		return size == 0
 	}
 	
 	each: func (f: Func (T)) {
@@ -70,3 +83,12 @@ ArrayIterator: class <T> extends Iterator {
 	}
 	
 }
+
+operator [] <T> (arr: Array<T>, index: Int) -> T {
+	return arr get(index)
+}
+
+operator []= <T> (arr: Array<T>, index: Int, value: T) {
+	arr set(index, value)
+}
+

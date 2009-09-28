@@ -36,6 +36,9 @@ public interface AbstractCompiler {
 	/** @return the exit code of the compiler */
 	public int launch() throws IOException, InterruptedException;
 
+	public boolean supportsDeclInFor();
+	public boolean supportsVLAs();
+	
 	public void printCommandLine();
 
 	public void reset();

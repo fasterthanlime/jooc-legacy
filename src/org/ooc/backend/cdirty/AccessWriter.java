@@ -11,7 +11,6 @@ import org.ooc.frontend.model.FunctionDecl;
 import org.ooc.frontend.model.MemberAccess;
 import org.ooc.frontend.model.PotentiallyStatic;
 import org.ooc.frontend.model.Type;
-import org.ooc.frontend.model.TypeAccess;
 import org.ooc.frontend.model.TypeDecl;
 import org.ooc.frontend.model.TypeParam;
 import org.ooc.frontend.model.VariableAccess;
@@ -131,7 +130,6 @@ public class AccessWriter {
 	}
 	
 	public static void write(Access access, boolean doTypeParams, CGenerator cgen) throws IOException {
-		if(access instanceof TypeAccess) System.out.println("Should write typeAccess to "+access);
 		if(access instanceof ArrayAccess) writeArray((ArrayAccess) access, cgen);
 		else if(access instanceof MemberAccess) writeMember((MemberAccess) access, cgen);
 		else writeVariable((VariableAccess) access, doTypeParams, cgen);

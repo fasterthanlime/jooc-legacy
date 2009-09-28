@@ -45,7 +45,6 @@ public class CommandLine {
 	protected BuildParams params = new BuildParams();
 	List<String> additionals = new ArrayList<String>();
 	List<String> compilerArgs = new ArrayList<String>();
-	private AbstractCompiler compiler = null;
 	
 	public CommandLine(String[] args) throws InterruptedException, IOException {
 		
@@ -148,27 +147,27 @@ public class CommandLine {
         			
         		} else if(option.startsWith("gcc")) {
         			if(option.startsWith("gcc=")) {
-        				compiler = new Gcc(option.substring(4));
+        				params.compiler = new Gcc(option.substring(4));
         			} else {
-        				compiler = new Gcc();
+        				params.compiler = new Gcc();
         			}
         		} else if(option.startsWith("icc")) {
         			if(option.startsWith("icc=")) {
-        				compiler = new Icc(option.substring(4));
+        				params.compiler = new Icc(option.substring(4));
         			} else {
-        				compiler = new Icc();
+        				params.compiler = new Icc();
         			}
         		} else if(option.startsWith("tcc")) {
         			if(option.startsWith("tcc=")) {
-        				compiler = new Tcc(option.substring(4));
+        				params.compiler = new Tcc(option.substring(4));
         			} else {
-        				compiler = new Tcc();
+        				params.compiler = new Tcc();
         			}
 				} else if(option.startsWith("clang")) {
 					if(option.startsWith("clang=")) {
-        				compiler = new Clang(option.substring(6));
+        				params.compiler = new Clang(option.substring(6));
         			} else {
-        				compiler = new Clang();
+        				params.compiler = new Clang();
         			}
         		} else if(option.equals("help-backends") || option.equals("-help-backends")) {
         			
@@ -230,7 +229,7 @@ public class CommandLine {
 			return;
 		}
 		
-		if(compiler == null) compiler = new Gcc();
+		if(params.compiler == null) params.compiler = new Gcc();
 		
 		if(!nasms.isEmpty()) {
 			compileNasms(nasms, additionals);
@@ -440,45 +439,45 @@ public class CommandLine {
 	protected int compile(Module module) throws Error,
 			IOException, InterruptedException {
 		
-		compiler.reset();
+		params.compiler.reset();
 		
 		copyLocalHeaders(module, new HashSet<Module>());
 		
-		if(params.debug) compiler.setDebugEnabled();		
-		compiler.addIncludePath(new File(params.distLocation, "libs/headers/").getPath());
-		compiler.addIncludePath(params.outPath.getPath());
-		addDeps(compiler, module, new HashSet<Module>());
+		if(params.debug) params.compiler.setDebugEnabled();		
+		params.compiler.addIncludePath(new File(params.distLocation, "libs/headers/").getPath());
+		params.compiler.addIncludePath(params.outPath.getPath());
+		addDeps(params.compiler, module, new HashSet<Module>());
 		for(String dynamicLib: params.dynamicLibs) {
-			compiler.addDynamicLibrary(dynamicLib);
+			params.compiler.addDynamicLibrary(dynamicLib);
 		}
 		for(String additional: additionals) {
-			compiler.addObjectFile(additional);
+			params.compiler.addObjectFile(additional);
 		}
 		for(String compilerArg: compilerArgs) {
-			compiler.addObjectFile(compilerArg);
+			params.compiler.addObjectFile(compilerArg);
 		}
 		
 		if(params.link) {
-			compiler.setOutputPath(module.getSimpleName());
+			params.compiler.setOutputPath(module.getSimpleName());
 			Collection<String> libs = getFlagsFromUse(module);
-			for(String lib: libs) compiler.addObjectFile(lib);
+			for(String lib: libs) params.compiler.addObjectFile(lib);
 			
 			if(params.enableGC) {
-				compiler.addDynamicLibrary("pthread");
+				params.compiler.addDynamicLibrary("pthread");
 				if(params.dynGC) {
-					compiler.addDynamicLibrary("gc");
+					params.compiler.addDynamicLibrary("gc");
 				} else {
-					compiler.addObjectFile(new File(params.distLocation, "libs/"
+					params.compiler.addObjectFile(new File(params.distLocation, "libs/"
 							+ Target.guessHost().toString(params.arch.equals("") ? Target.getArch() : params.arch) + "/libgc.a").getPath());
 				}
 			}
 		} else {
-			compiler.setCompileOnly();
+			params.compiler.setCompileOnly();
 		}
 		
-		if(params.verbose) compiler.printCommandLine();
+		if(params.verbose) params.compiler.printCommandLine();
 		
-		int code = compiler.launch();
+		int code = params.compiler.launch();
 		if(code != 0) {
 			System.err.println("C compiler failed, aborting compilation process");
 		}

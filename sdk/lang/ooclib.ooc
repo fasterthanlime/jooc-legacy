@@ -9,13 +9,13 @@ Pointer: cover from void*
 
 // variable-size integer types
 Int: cover from int
-UInt: cover from unsigned int extends Int
-Short: cover from short extends Int
-UShort: cover from unsigned short extends Int
-Long: cover from long extends Int
-ULong: cover from unsigned long extends Int
-LLong: cover from long long extends Int
-ULLong: cover from unsigned long long extends Int
+UInt: cover from unsigned int extends LLong
+Short: cover from short extends LLong
+UShort: cover from unsigned short extends LLong
+Long: cover from long extends LLong
+ULong: cover from unsigned long extends LLong
+LLong: cover from long long
+ULLong: cover from unsigned long long extends LLong
 
 // floating-point types
 LDouble: cover from long double
@@ -38,7 +38,7 @@ Octet: cover from UInt8
 // other types
 Void: cover from void
 Bool: cover from bool
-SizeT: cover from size_t extends Int
+SizeT: cover from size_t extends LLong
 
 // variable arguments
 VaList: cover from va_list

@@ -128,7 +128,7 @@ public class MemberCall extends FunctionCall {
 			if(guess != null) {
 				message += " Did you mean "+guess+" ?";
 			}
-			throw new OocCompilationError(this, stack, message + ", this = "+this+", stack = "+stack.toString(true));
+			throw new OocCompilationError(this, stack, message);
 		}
 		
 		return (impl == null) ? Response.LOOP : Response.OK;
@@ -202,7 +202,7 @@ public class MemberCall extends FunctionCall {
 						i++;
 						if(candidate.getName().equals(typeParam)) {
 							Access result = type.getTypeParams().get(i);
-							if(result.getType().isFlat()) {
+							if(result != null && result.getType() != null && result.getType().isFlat()) {
 								return result;
 							}
 							return new TypeAccess(NullLiteral.type); 
