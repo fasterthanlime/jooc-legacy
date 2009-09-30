@@ -1,3 +1,5 @@
+import lang/Int
+
 Range: cover {
 
 	min, max: Int
