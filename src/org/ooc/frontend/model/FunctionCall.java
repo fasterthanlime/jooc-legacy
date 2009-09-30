@@ -21,6 +21,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 	protected FunctionDecl impl;
 	protected AddressOf returnArg;
 	protected Type realType;
+	protected boolean dead = false;
 	
 	public FunctionCall(String name, Token startToken) {
 		this(name, null, startToken);
@@ -139,6 +140,8 @@ public class FunctionCall extends Access implements MustBeResolved {
 
 	public Response resolve(final NodeList<Node> stack, final Resolver res, final boolean fatal) {
 		
+		if(dead) return Response.OK;
+		
 		if(impl == null) {
 			if (name.equals("this")) {
 				resolveConstructorCall(stack, false);
@@ -173,6 +176,8 @@ public class FunctionCall extends Access implements MustBeResolved {
 
 	protected Response handleGenerics(final NodeList<Node> stack, final Resolver res, boolean fatal) {
 
+		if(dead) return Response.OK;
+		
 		if(impl == null) {
 			if(fatal) throw new OocCompilationError(this, stack, "Didn't find implementation for "
 					+this+", can't handle generics.");
@@ -251,7 +256,11 @@ public class FunctionCall extends Access implements MustBeResolved {
 					if(impl.getTypeDecl() != null) stack.pop(impl.getTypeDecl());
 				}
 				
-				parent.replace(this, vdfe);
+				if(!parent.replace(this, vdfe)) {
+					Thread.dumpStack();
+					throw new OocCompilationError(this, stack, "[FC] Couldn't replace \n"+this+" with \n"+vdfe
+							+"in \n"+parent.getClass().getSimpleName()+"|"+parent);
+				}
 				vdfe.unwrapToVarAcc(stack);
 				return Response.RESTART;
 			}
@@ -582,6 +591,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 		}
 		memberCall.setImpl(impl);
 		stack.peek().replace(this, memberCall);
+		dead = true;
 	}
 	
 	protected void searchIn(Module module) {

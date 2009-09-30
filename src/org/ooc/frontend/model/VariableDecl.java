@@ -192,7 +192,9 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 		VariableAccess varAcc = new VariableAccess(atom.name, atom.startToken);
 		varAcc.setRef(this);
 		if(!parent.replace(this, varAcc)) {
-			throw new Error("Couldn't replace "+this+" with "+varAcc+" in "+parent);
+			Thread.dumpStack();
+			throw new OocCompilationError(this, stack, "Couldn't replace \n"+this+" with \n"+varAcc
+					+"in \n"+parent);
 		}
 		
 		if(parent instanceof NodeList<?>) {
