@@ -136,8 +136,9 @@ public class ClassDeclWriter {
 			writeClassStructInitializers(parentClass.getSuperRef(), realClass, done, cgen);
 		} else {
 			cgen.current.openBlock();
-			cgen.current.nl().app(".size = ").app("sizeof(").app(
+			cgen.current.nl().app(".instanceSize = ").app("sizeof(").app(
 					realClass.getUnderName()).app("),");
+			cgen.current.nl().app(".size = ").app("sizeof(void*),");
 			cgen.current.nl().app(".name = ").app('"').app(realClass.getName())
 					.app("\",");
 			cgen.current.closeBlock().app(',');

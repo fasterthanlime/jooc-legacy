@@ -298,9 +298,9 @@ public class CommandLine {
 		
 		if(err.getLocation() == null) return;
 		
-		Thread thread = new Thread() {
-			@Override
-			public void run() {
+		//Thread thread = new Thread() {
+			//@Override
+			//public void run() {
 				try {
 					ProcessBuilder builder = new ProcessBuilder();
 					FileLocation location = err.getLocation();
@@ -316,10 +316,10 @@ public class CommandLine {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			}
-		};
-		thread.setDaemon(true);
-		thread.start();
+			//}
+		//};
+		//thread.setDaemon(true);
+		//thread.start();
 		
 	}
 

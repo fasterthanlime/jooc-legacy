@@ -126,22 +126,24 @@ public class Checker implements Hobgoblin {
 										+" that should return a "+node.getReturnType());
 							
 						}*/
-					}
-
-					Line line = node.getBody().getLast();
-					if(!(line.getStatement() instanceof Return)) {
-						if(node.isEntryPoint()) {
-							node.getBody().add(new Line(new ValuedReturn(
-									new IntLiteral(0, Format.DEC, node.startToken), node.startToken)));
-						} else if(line.getStatement() instanceof Expression) {
-							line.setStatement(new ValuedReturn((Expression) line.getStatement(),
-									line.getStatement().startToken));
-						} /*else {
-							
-							throw new OocCompilationError(node, stack,
-									"Returning nothing in function "+node.getProtoRepr()
-										+" that should return a "+node.getReturnType());
-						}*/
+					} else {
+						
+						Line line = node.getBody().getLast();
+						if(!(line.getStatement() instanceof Return)) {
+							if(node.isEntryPoint()) {
+								node.getBody().add(new Line(new ValuedReturn(
+										new IntLiteral(0, Format.DEC, node.startToken), node.startToken)));
+							} else if(line.getStatement() instanceof Expression) {
+								line.setStatement(new ValuedReturn((Expression) line.getStatement(),
+										line.getStatement().startToken));
+							} /*else {
+								
+								throw new OocCompilationError(node, stack,
+										"Returning nothing in function "+node.getProtoRepr()
+											+" that should return a "+node.getReturnType());
+							}*/
+						}
+					
 					}
 				}
 			}

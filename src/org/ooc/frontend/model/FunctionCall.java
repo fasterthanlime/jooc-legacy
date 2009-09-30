@@ -357,17 +357,6 @@ public class FunctionCall extends Access implements MustBeResolved {
 				result = new VariableAccess(typeParam, callArg.startToken);
 			} else {
 				result = (Access) callArg;
-				if(callArg instanceof VariableAccess) {
-					VariableAccess varAcc = (VariableAccess) callArg;
-					if(varAcc.getRef() instanceof VariableDecl) {
-						if(varAcc.getType().isFlat()) {
-							result = new MemberAccess(result, "class", result.startToken);
-						} else {
-							result = new MemberAccess(new VariableAccess("Pointer", result.startToken),
-									"class",result.startToken);
-						}
-					}
-				}
 			}
 		}
 			

@@ -150,6 +150,11 @@ String: cover from Char* {
 		return result
 	}
 	
+	print: func {
+		printf("%s", this)
+		fflush(stdout)
+	}
+
 	println: func {
 		printf("%s\n", this)
 	}

@@ -71,6 +71,8 @@ public class CoverDecl extends TypeDecl implements MustBeResolved {
 		ifNull.body.add(new Line(new Assignment(classAccess, malloc, startToken)));
 		ifNull.body.add(new Line(new Assignment(new MemberAccess(classAccess, "size", startToken),
 				coverSizeOf, startToken)));
+		ifNull.body.add(new Line(new Assignment(new MemberAccess(classAccess, "instanceSize", startToken),
+				coverSizeOf, startToken)));
 		ifNull.body.add(new Line(new Assignment(new MemberAccess(classAccess, "name", startToken),
 				new StringLiteral(name, startToken), startToken)));
 		

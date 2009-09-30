@@ -171,7 +171,6 @@ public class VariableAccess extends Access implements MustBeResolved {
 		scope.getVariables(variables);
 		
 		for(VariableDecl decl: variables) {
-			System.out.println("Got decl "+decl+" in "+scope);
 			for(VariableDeclAtom atom: decl.getAtoms()) {
 				int distance = Levenshtein.distance(name, atom.getName());
 				if(distance < bestDistance) {
@@ -188,7 +187,7 @@ public class VariableAccess extends Access implements MustBeResolved {
 
 	@Override
 	public String toString() {
-		return "VariableAccess|"+name+":"+getType();
+		return getClass().getSimpleName() + "|" +name+":"+getType();
 	}
 
 	public String getUnderName() {
