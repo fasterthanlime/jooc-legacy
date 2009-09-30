@@ -56,7 +56,7 @@ public class CoverDecl extends TypeDecl implements MustBeResolved {
 		malloc.arguments.add(classSizeOf);
 		
 		FunctionCall coverSizeOf = new FunctionCall("sizeof", startToken);
-		if(fromType.isFlat()) {
+		if(fromType == null || fromType.isFlat()) {
 			coverSizeOf.arguments.add(new VariableAccess(getName(), startToken));
 		} else {
 			coverSizeOf.arguments.add(new VariableAccess("Pointer", startToken));
