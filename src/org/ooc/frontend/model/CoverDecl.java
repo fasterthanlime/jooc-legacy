@@ -40,7 +40,7 @@ public class CoverDecl extends TypeDecl implements MustBeResolved {
 		if(fromType != null) {
 			instanceType.referenceLevel = fromType.referenceLevel;
 		}
-		if(fromType == null || !fromType.isVoid()) {
+		if(fromType == null || (!fromType.isVoid())) {
 			addClassDecl();
 		}
 	}
@@ -56,7 +56,11 @@ public class CoverDecl extends TypeDecl implements MustBeResolved {
 		malloc.arguments.add(classSizeOf);
 		
 		FunctionCall coverSizeOf = new FunctionCall("sizeof", startToken);
-		coverSizeOf.arguments.add(new VariableAccess(getName(), startToken));
+		if(fromType.isFlat()) {
+			coverSizeOf.arguments.add(new VariableAccess(getName(), startToken));
+		} else {
+			coverSizeOf.arguments.add(new VariableAccess("Pointer", startToken));
+		}
 		
 		VariableDecl varDecl = new VariableDecl(new Type("Class", startToken), true, startToken);
 		NullLiteral nullLiteral = new NullLiteral(startToken);
