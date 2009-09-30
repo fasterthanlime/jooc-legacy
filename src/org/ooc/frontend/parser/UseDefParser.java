@@ -72,9 +72,8 @@ public class UseDefParser {
 				StringTokenizer st = new StringTokenizer(value, ",");
 				while(st.hasMoreTokens()) {
 					String includePath = st.nextToken().trim();
-					File includeFile = new File(file.getParent(), includePath);
-					if(!includeFile.isAbsolute()) {
-						includePath = includeFile.getCanonicalPath();
+					if(!(new File(includePath).isAbsolute())) {
+						includePath = new File(file.getParent(), includePath).getCanonicalPath();
 					}
 					def.getIncludePaths().add(includePath);
 				} 
