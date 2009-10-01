@@ -20,6 +20,10 @@ vsprintf: extern func (String, String, VaList)
 vsnprintf: extern func (String, Int, String, VaList)
 
 fread: extern func (ptr: Pointer, size: SizeT, nmemb: SizeT, stream: FStream) -> SizeT
+fwrite: extern func (ptr: Pointer, size: SizeT, nmemb: SizeT, stream: FStream) -> SizeT
+
+fputc: extern func (Char, FStream)
+fputs: extern func (String, FStream)
 
 scanf: extern func (format: String, ...)
 fscanf: extern func (stream: FStream, format: String, ...)
@@ -34,6 +38,7 @@ fgets: extern func (str: String, length: SizeT, stream: FStream)
 FILE: extern cover
 FStream: cover from FILE* {
 	
+	// TODO encodings
 	readChar: func -> Char {
 		c : Char
 		fread(c&, 1, 1, this)
@@ -61,10 +66,24 @@ FStream: cover from FILE* {
 			str = tmp
 
 			// we cast as Char* to avoid operator overloading
+			// TODO encodings
 			fgets(str as Char* + pos, chunk, this)
 		}
 		
 		return str
+	}
+	
+	write: func ~chr (chr: Char) {
+		fputc(chr, this)
+	}
+	
+	write: func (str: String) {
+		fputs(str, this)
+	}
+	
+	write: func ~precise (str: Char*, offset: SizeT, length: SizeT) {
+		// TODO encodings
+		fwrite(str + offset, 1, length, this)
 	}
 	
 }
