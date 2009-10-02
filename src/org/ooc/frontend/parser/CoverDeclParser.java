@@ -73,8 +73,9 @@ public class CoverDeclParser {
 			for(Import imp: module.getImports()) {
 				Module depMod = imp.getModule();
 				if(depMod != null) {
-					TypeDecl base = depMod.getType(name);
+					TypeDecl base = depMod.getTypes().get(name);
 					if(base != null) {
+						System.out.println(" >> While parsing "+coverDecl.getName()+" in "+module.getFullName()+", found base in "+depMod.getFullName());
 						coverDecl.absorb((CoverDecl) base);
 						absorbed = true;
 						break;
@@ -85,8 +86,10 @@ public class CoverDeclParser {
 				outer: for(Module other: ModuleParser.cache.values()) {
 					for(Import imp: other.getImports()) {
 						if(imp.getName().equals(module.getFullName())) {
-							TypeDecl addon = other.getType(name);
+							TypeDecl addon = other.getTypes().get(name);
 							if(addon != null) {
+								System.out.println(" >> [From cache] While parsing "+coverDecl.getName()+" in "+module.getFullName()
+										+", found addon in "+other.getFullName());
 								coverDecl.absorb((CoverDecl) addon);
 								break outer;
 							}
