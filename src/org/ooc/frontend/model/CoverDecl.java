@@ -194,13 +194,15 @@ public class CoverDecl extends TypeDecl implements MustBeResolved {
 
 	public void absorb(CoverDecl node) {
 		assert(variables.isEmpty());
+		System.out.println(this+":"+module.getPackageName()+" absorbed "+node+":"+node.module.getPackageName());
 		base = node;
 		base.addAddon(this);
 		if(classGettingFunc != null) functions.remove(classGettingFunc);
 	}
 
-	private void addAddon(CoverDecl addon) {
-		addons.add(addon);
+	private void addAddon(CoverDecl node) {
+		System.out.println(this+":"+module.getPackageName()+" got addon "+node+":"+node.module.getPackageName());
+		addons.add(node);
 	}
 
 	public boolean isResolved() {
