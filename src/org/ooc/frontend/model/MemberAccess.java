@@ -86,9 +86,7 @@ public class MemberAccess extends VariableAccess {
 			}
 			
 			if(fatal) {
-				throw new OocCompilationError(this, stack, "Accessing member "
-						+getName()+" in an expression "+expression
-						+" which type hasn't been resolved yet!");
+				throw new OocCompilationError(this, stack, "Couldn't resolve type of "+expression);
 			}
 			return Response.LOOP;
 		}

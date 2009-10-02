@@ -187,7 +187,7 @@ public class VariableAccess extends Access implements MustBeResolved {
 
 	@Override
 	public String toString() {
-		return getClass().getSimpleName() + "|" +name+":"+getType();
+		return getClass().getSimpleName() + "|" +name+":"+ (getType() == null ? "<unresolved type>" : getType().toString());
 	}
 
 	public String getUnderName() {

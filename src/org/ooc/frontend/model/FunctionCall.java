@@ -271,32 +271,10 @@ public class FunctionCall extends Access implements MustBeResolved {
 	}
 
 	protected Type getRealType(String typeParam, NodeList<Node> stack, Resolver res, boolean fatal) {
-		
-		if(impl == null) return null;
-		int i = -1;
-		boolean isFirst = true;
-		Type result = null;
-		for(Argument arg: impl.getArguments()) {
-			if(isFirst && impl.hasThis()) {
-				isFirst = false;
-				continue;
-			}
-			i++;
-			Type argType = arg.getType();
-			if(arg.getName().equals(typeParam)) {
-				result = arguments.get(i).getType();
-				break;
-			}
-			if(argType.isGenericRecursive()) {
-				Expression resultExpr = getRealExpr(typeParam, argType, stack, res, fatal);
-				if(resultExpr != null && resultExpr.getType() != null) {
-					result = resultExpr.getType();
-					break;
-				}
-			}
-		}
-		
-		return result;
+
+		Expression realExpr = getRealExpr(typeParam, stack, res, fatal);
+		if(realExpr == null) return null;
+		return realExpr.getType();
 		
 	}
 	
@@ -314,26 +292,47 @@ public class FunctionCall extends Access implements MustBeResolved {
 				continue;
 			}
 			i++;
-			Type argType = arg.getType();
+			
+			Expression callArg = arguments.get(i);
+			
+			// e.g. func <T> myFunc(T: Class), and arg = T
 			if(arg.getName().equals(typeParam)) {
-				result = arguments.get(i);
+				result = callArg;
+				if(res.params.veryVerbose)
+					System.out.println("Matched <"+typeParam+"> with "+result+", argName-wise");
 				break;
 			}
-			if(argType.isGenericRecursive()) {
-				result = getRealExpr(typeParam, argType, stack, res, fatal);
+			// e.g. func <T> myFunc(value: T), and arg = value.
+			if(arg.getType().getName().equals(typeParam)) {
+				VariableAccess varAcc = new VariableAccess(callArg.getType().getName(), startToken);
+				varAcc.setRef(callArg.getType().getRef());
+				result = varAcc;
+				if(res.params.veryVerbose)
+					System.out.println("Matched <"+typeParam+"> with "+result+", varAccType-wise");
+				break;
+			}
+			// e.g. func <T> myFunc(list:)
+			if(arg.getType().isGenericRecursive()) {
+				result = searchTypeParam(typeParam, arg.getType(), stack, res, fatal);
 				if(result != null) {
+					if(res.params.veryVerbose)
+						System.out.println("Matched <"+typeParam+"> with "+result+", genericRecursive-wise");
 					break;
 				}
 			}
 		}
+		
 		return result;
 		
 	}
 	
-	private Expression getRealExpr(String typeParam, Type argType,
+	/**
+	 * Search for the type param @needle in the type @haystack
+	 */
+	private Expression searchTypeParam(String needle, Type haystack,
 			NodeList<Node> stack, Resolver res, boolean fatal) {
 		
-		Declaration ref = argType.getRef();
+		Declaration ref = haystack.getRef();
 		if(ref instanceof TypeDecl) {
 			TypeDecl typeDecl = (TypeDecl) ref;
 			Iterator<String> keys = typeDecl.getTypeParams().keySet().iterator();
@@ -341,8 +340,8 @@ public class FunctionCall extends Access implements MustBeResolved {
 			while(keys.hasNext()) {
 				i++;
 				String key = keys.next();
-				if(key.equals(typeParam)) {
-					Type realType = getRealType(argType.getName(), stack, res, fatal);
+				if(key.equals(needle)) {
+					Type realType = getRealType(haystack.getName(), stack, res, fatal);
 					if(realType != null) {
 						return realType.getTypeParams().get(i);
 					}
@@ -359,6 +358,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 		
 		Access result = null;
 		Expression callArg = getRealExpr(typeParam, stack, res, fatal);
+		
 		if(callArg != null && callArg.getType() != null) {
 			if(callArg.getType().getName().equals("Class")) {
 				result = (Access) callArg;
@@ -687,6 +687,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 
 	public void throwUnresolvedType(NodeList<Node> stack, String typeName) {
 		
+		Thread.dumpStack();
 		if(impl != null) {
 			throw new OocCompilationError(this, stack, "Couldn't figure out generic type <"+typeName+"> for call to "+impl);
 		}
