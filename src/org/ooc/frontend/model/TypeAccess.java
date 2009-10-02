@@ -46,6 +46,13 @@ public class TypeAccess extends VariableAccess {
 		
 		if(type.isResolved()) return Response.OK;
 		
+		if(type.isFlat() && type.getTypeParams().isEmpty()) {
+			VariableDecl var = getVariable(type.getName(), stack);
+			if(var != null && var.getType() != null && var.getType().getName().equals("Class")) {
+				type.setRef(var);
+			}
+		}
+		
 		if(fatal) throw new OocCompilationError(this, stack, "Can't resolve type access to "+type);
 		return Response.LOOP; 
 		

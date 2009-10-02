@@ -34,7 +34,7 @@ Collection: class <T> {
 
 }
 
-makeCollection: func (T: Class) -> Collection<T> {
+makeCollection: func <T> (T: Class) -> Collection<T> {
 	
 	return Collection<T> new()
 	

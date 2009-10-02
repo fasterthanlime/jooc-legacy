@@ -305,7 +305,8 @@ public class FunctionCall extends Access implements MustBeResolved {
 			// e.g. func <T> myFunc(value: T), and arg = value.
 			if(arg.getType().getName().equals(typeParam)) {
 				VariableAccess varAcc = new VariableAccess(callArg.getType().getName(), startToken);
-				varAcc.setRef(callArg.getType().getRef());
+				//varAcc.setRef(callArg.getType().getRef());
+				varAcc.resolve(stack, res, fatal);
 				result = varAcc;
 				if(res.params.veryVerbose)
 					System.out.println("Matched <"+typeParam+"> with "+result+", varAccType-wise");

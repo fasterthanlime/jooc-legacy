@@ -1,7 +1,7 @@
 Container: class <T> {
   content: T
   init: func(=content) {}
-  get: func -> T { content }
+  get: func -> T { return content }
   set: func(=content) {}
 }
  

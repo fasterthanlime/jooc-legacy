@@ -1,4 +1,4 @@
-Array: class <T> {
+MyArray: class <T> {
 
 	data : T*
 	data2: T*

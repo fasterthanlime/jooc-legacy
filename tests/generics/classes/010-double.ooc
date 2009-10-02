@@ -13,5 +13,6 @@ main: func {
 	cont2 := Container<Container<Int> > new()
 	cont3 := Container < Container < Int > > new ( )
 
+	printf("We have a %s, a %s, and a %s\n", cont class name, cont2 class name, cont3 class name)
 
 }

@@ -13,7 +13,6 @@ Getter: class <T> {
 	data : T*
 	
 	init: func {
-		field = gc_malloc(T size)
 		data = gc_malloc(T size)
 	}
 	

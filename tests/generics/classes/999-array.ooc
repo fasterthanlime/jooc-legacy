@@ -1,4 +1,4 @@
-Array: class <T> {
+MyArray: class <T> {
 
 	data: T*
 	size: SizeT
@@ -21,7 +21,7 @@ main: func {
 
 	max := 10
 	println("Creating an array of ints")
-	arr := Array<Int> new(max)
+	arr := MyArray<Int> new(max)
 	
 	for (i in 0..max) {
 		arr set(i, max - i);
@@ -37,7 +37,7 @@ main: func {
 	println()
 	
 	println("Creating an array of chars")
-	chars := Array<Char> new(max)
+	chars := MyArray<Char> new(max)
 	
 	max = 26
 	for (i in 0..max) {
