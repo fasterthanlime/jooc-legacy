@@ -105,7 +105,7 @@ String: cover from Char* {
 		len = this length() : SizeT
 		
 		if(start > len) {
-			printf("String.substring~tillEnd: out of bounds: length = %d, start = %d\n",
+			printf("String.substring~tillEnd: out of bounds: length = %zd, start = %zd\n",
 				len, start);
 			return null
 		}
@@ -121,7 +121,7 @@ String: cover from Char* {
 		len = this length() : SizeT
 		
 		if(start > len || start > end || end > len) {
-			printf("String.substring: out of bounds: length = %d, start = %d, end = %d\n",
+			printf("String.substring: out of bounds: length = %zd, start = %zd, end = %zd\n",
 				len, start, end);
 			return null
 		}
