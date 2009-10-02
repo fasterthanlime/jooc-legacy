@@ -304,16 +304,18 @@ public class FunctionCall extends Access implements MustBeResolved {
 			}
 			// e.g. func <T> myFunc(value: T), and arg = value.
 			if(arg.getType().getName().equals(typeParam)) {
-				VariableAccess varAcc = new VariableAccess(callArg.getType().getName(), startToken);
+				TypeAccess typeAcc = new TypeAccess(callArg.getType());
 				//varAcc.setRef(callArg.getType().getRef());
-				varAcc.resolve(stack, res, fatal);
-				result = varAcc;
+				typeAcc.resolve(stack, res, fatal);
+				result = typeAcc;
 				if(res.params.veryVerbose)
 					System.out.println("Matched <"+typeParam+"> with "+result+", varAccType-wise");
 				break;
 			}
 			// e.g. func <T> myFunc(list:)
 			if(arg.getType().isGenericRecursive()) {
+				if(res.params.veryVerbose)
+					System.out.println(arg.getType()+" is generic-recursive, trying to get <"+typeParam+"> in it.");
 				result = searchTypeParam(typeParam, arg.getType(), stack, res, fatal);
 				if(result != null) {
 					if(res.params.veryVerbose)

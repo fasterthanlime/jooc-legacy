@@ -1,10 +1,6 @@
 Yay: class <T> {
     message: T
 
-    init: func {
-		message = gc_malloc(T size)
-	}
-
     printy: func {
         message as String println()
     }
