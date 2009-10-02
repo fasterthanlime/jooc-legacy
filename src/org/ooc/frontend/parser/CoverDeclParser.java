@@ -90,7 +90,7 @@ public class CoverDeclParser {
 							if(addon != null) {
 								System.out.println(" >> [From cache] While parsing "+coverDecl.getName()+" in "+module.getFullName()
 										+", found addon in "+other.getFullName());
-								coverDecl.absorb((CoverDecl) addon);
+								((CoverDecl) addon).absorb(coverDecl);
 								break outer;
 							}
 						}
