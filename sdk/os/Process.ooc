@@ -4,39 +4,29 @@ SubProcess: class {
 
     args: String* 
     executable: String
-    stdoutPipe: Pipe
-    init: func(=args) {executable=args[0]}
-        
+    stdOut = null: Pipe
+    stdIn  = null: Pipe
+    stdErr = null: Pipe
+    stdoutPipe: Pipe 
+    init: func(=args) {executable = args[0]}
+    
+    setStdout: func(=stdOut){}
+    setStdin: func(=stdIn) {}    
+    setStderr: func(=stdErr) {}
+    
     execute: func -> Int {
-        fd := [-1, -1]
-        stdoutPipe = Pipe new()
         status: Int
         result := -555
         pid := fork()
         if (pid == 0) {
-       
-        stdoutPipe close('r')
-        //close(fd[0])
-        dup2(stdoutPipe writeFD, 1)
-        //dup2(fd[1], 1)
-        stdoutPipe close('w')
-        //close(fd[1])
-        "blub" println()
-        execvp(executable, args)
+            if (stdOut != null) {
+                stdOut close('r')
+                dup2(stdOut writeFD, 1)
+            }
+            execvp(executable, args)
        
         } else {
-       
-            stdoutPipe close('w')
-            //close(fd[1])
-            buf :Pointer
-            buf = gc_malloc(100)
-            read(stdoutPipe readFD, buf, 20)
-            //read(fd[0], buf, 20)
-            stdoutPipe close('r') 
-            //close(fd[0])
-            buf as String println()
-            waitpid(0, status&, null)
-
+            waitpid(-1, status&, null)
             if (WIFEXITED(status)) {
                 result = WEXITSTATUS(status)
             }
@@ -44,20 +34,16 @@ SubProcess: class {
         return result
     }
 
-    readStdout: func(len: Int) -> Pointer {
-        return gc_malloc(29)
-    }
 }
 main: func() {
    
-    //test3()
-    b := SubProcess new(["/bin/ls",".", null])
-    b execute()
-    b readStdout(20)
-    //printf("%d\n",b execute())
-    //printf("%d\n", b execute())
-    //test()
-    //test2()
+    
+    process := SubProcess new(["/bin/ls",".", null])
+    myPipe := Pipe new()
+    process setStdout(myPipe)
+    process execute()
+    myPipe read(20) as String println()
+    
     
 }
 
