@@ -184,11 +184,30 @@ String: cover from Char* {
 		memcpy(copy as Char* + length, other, rlength + 1) // copy the final '\0'
 		return copy
 	}
+
+	append: func ~char (other: Char) -> This {
+		length := length()
+		copy := gc_malloc(length + 2) as Char*
+		memcpy(copy, this, length)
+		copy as Char * [length - 1] = other
+		return copy
+	}
 	
+	prepend: func (other: String) -> This {
+		other append(this)
+	}
+
+	prepend: func ~char (other: Char) -> This {
+		length := length()
+		copy := gc_malloc(length + 2) as Char*
+		copy as Char * [0] = other
+		memcpy(copy + 1, this, length)
+		return copy
+	}
+
 	charAt: func(index: SizeT) -> Char {
 		this as Char* [index]
 	}
-	
 }
 
 operator [] (string: String, index: SizeT) -> Char {
@@ -225,4 +244,12 @@ operator + (left: Double, right: String) -> String {
 
 operator + (left: String, right: Double) -> String {
 	left + right toString()
+}
+
+operator + (left: String, right: Char) -> String {
+	return left append(right)
+}
+
+operator + (left: Char, right: String) -> String {
+	return right prepend(left)
 }
