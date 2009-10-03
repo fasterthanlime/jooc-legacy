@@ -36,18 +36,32 @@ INI: class {
 
     setCurrentSection: func(=section) {}
 
-    getString: func(key: String, def: String) -> String {
-        result: String
+    getEntry: func<T> (key: String, def: T) -> T {
+        result :T
+        searchString: String
         if (section != null) {
-            searchString := (section append(":")) append(key)
-            searchString println()
-            result = iniparser_getstring(dict, searchString, def)
+            searchString = (section append(":")) append(key)
+
         } else {
-            "ERROR: No section chosen" println()
-            result = def
+            "ERROR: No section chosen" println() // TODO: add `verbose` mode
+            searchString = key
+        }
+        
+        if (T == String class) {
+            result = iniparser_getstring(dict, searchString, def)
+        } else if(T == Bool class) {
+            tmp := iniparser_getboolean(dict, searchString, def)
+            if (tmp) { // TRUE
+                result = true
+            } else {
+                result = false
+            }
         }
         return result
+
     }
+        
+            
 }
 
 
