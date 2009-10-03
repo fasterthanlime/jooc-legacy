@@ -9,9 +9,10 @@ STDERR_FILENO: extern Int
 
 /* Functions */
 dup2: extern func(Int, Int) -> Int
-fork: extern func -> Int
 execv: extern func(String, String*) -> Int
 execvp: extern func(String, String*) -> Int
 execve: extern func(String, String*, String*) -> Int
+fileno: extern func(FILE*) -> Int
+fork: extern func -> Int
 pipe: extern func(arg: Int*) -> Int
   
