@@ -1,10 +1,12 @@
-import iniparser/iniparser
+import iniparser/INI
 
 main: func {
 
     file := "twisted.ini"
-    d: DictPtr
-    d = iniparser_load(file)
-    iniparser_getstring(d, "quotes:h1", "blub") println()
+    a := INI new(file)
+    a getString("h1", "blub")
+    a setCurrentSection("quotes")
+    b := a getString("h1", "blub")
+    b println()
 
 }
