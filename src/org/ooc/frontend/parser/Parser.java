@@ -22,7 +22,7 @@ public class Parser {
 	}
 	
 	public Module parse(final String path) throws IOException {
-		final File file = params.sourcePath.getFile(path);
+		final File file = params.sourcePath.getElement(path);
 		if(file == null) {
 			throw new CompilationFailedError(null, "File "+path+" not found in sourcePath."
 				+" sourcePath = "+params.sourcePath);
@@ -30,9 +30,11 @@ public class Parser {
 		return parse(path, file, null);
 	}
 
-	public Module parse(final String path, final File file, Import imp) throws IOException {
+	public Module parse(final String path, final File element, Import imp) throws IOException {
 		if(params.verbose)
 			System.out.println("Parsing "+path);
+		
+		File file = new File(element, path);
 		
 		final SourceReader sReader = SourceReader.getReaderFromFile(file);
 		final List<Token> tokens = new Tokenizer().parse(sReader);
@@ -40,7 +42,7 @@ public class Parser {
 		final String fullName = path.substring(0, path.lastIndexOf('.'))
 			.replace(File.separatorChar, '.').replace('/', '.');
 		
-		final Module module = new Module(fullName, sReader);
+		final Module module = new Module(fullName, element, sReader);
 		if(imp != null) imp.setModule(module);
 		ModuleParser.parse(module, fullName, file,
 				sReader, new TokenReader(tokens), Parser.this);

@@ -122,28 +122,26 @@ public class PathList {
 	 */
 	public File getFile(String path) {
 		
+		File element = getElement(path);
+		return element == null ? null : new File(element, path);
+
+	}
+	
+	/**
+	 * Find the file in the source path and return the element of the path list
+	 * it has been found in.
+	 */
+	public File getElement(String path) {
+		
 		for(File element: paths.values()) {
 			File candidate = new File(element, path);
 			if(candidate.exists()) {
-				return candidate;
+				return element;
 			}
 		}
 		
 		return null;
 
-	}
-	
-	public boolean isPathPart(String part) {
-		
-		for(File element: paths.values()) {
-			File candidate = new File(element, part);
-			if(candidate.exists()) {
-				return true;
-			}
-		}
-		
-		return false;
-		
 	}
 
 	/**

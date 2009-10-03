@@ -1,6 +1,5 @@
 package org.ooc.backend.cdirty;
 
-import java.io.File;
 import java.io.IOException;
 
 import org.ooc.frontend.model.ClassDecl;
@@ -62,7 +61,7 @@ public class ModuleWriter {
 		
 		cgen.current.nl();
 		for(Import imp: module.getImports()) {
-			String include = imp.getModule().getFullName().replace('.', File.separatorChar);
+			String include = imp.getModule().getOutPath('/');
 			cgen.current.app("#include <").app(include).app(".h>").nl();
 		}
 		for(Node node: module.getBody()) {

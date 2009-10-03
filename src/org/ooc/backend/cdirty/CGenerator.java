@@ -83,7 +83,7 @@ public class CGenerator extends Generator implements Visitor {
 
 	public CGenerator(File outPath, Module module) throws IOException {
 		super(outPath, module);
-		String basePath = module.getFullName().replace('.', File.separatorChar);
+		String basePath = module.getOutPath();
 		File hFile = new File(outPath, basePath + ".h");
 		hFile.getParentFile().mkdirs();
 		this.hw = new AwesomeWriter(new FileWriter(hFile));

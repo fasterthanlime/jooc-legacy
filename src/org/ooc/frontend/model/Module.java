@@ -29,11 +29,17 @@ public class Module extends Node implements Scope {
 	
 	public long lastModified;
 	private String packageName;
+	private String pathElement;
 	
-	public Module(String fullName, SourceReader reader) {
+	public Module(String fullName, File element, SourceReader reader) {
 		
 		super(Token.defaultToken);
 		this.reader = reader;
+		try {
+			this.pathElement = element.getCanonicalFile().getName().replace(".", "_");
+		} catch (IOException e) {
+			this.pathElement = element.getName().replaceAll(".", "_");
+		}
 		
 		this.fullName = fullName; // just to make sure
 		this.fileName = fullName.replace('.', File.separatorChar);
@@ -82,7 +88,7 @@ public class Module extends Node implements Scope {
 	}
 
 	public String getPath(String extension) {
-		return getFileName() + extension;
+		return getOutPath() + extension;
 	}
 
 	public NodeList<Include> getIncludes() {
@@ -235,6 +241,15 @@ public class Module extends Node implements Scope {
 
 	public String getPackageName() {
 		return packageName;
+	}
+
+	public String getOutPath() {
+		return getOutPath(File.separatorChar);
+	}
+	
+	public String getOutPath(char separatorChar) {
+		String outPath = pathElement+"/"+fullName.replace('.', separatorChar);
+		return outPath;
 	}
 	
 }

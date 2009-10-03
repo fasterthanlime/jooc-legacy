@@ -96,15 +96,15 @@ public class ModuleParser {
 					path = FileUtils.resolveRedundancies(new File(module.getParentPath(), path)).getPath();
 				}
 				
-				File impFile = parser.params.sourcePath.getFile(path);
+				File impFile = parser.params.sourcePath.getElement(path);
 				if(impFile == null) {
 					path = module.getParentPath() + "/" + path;
-					impFile = parser.params.sourcePath.getFile(path);
+					impFile = parser.params.sourcePath.getElement(path);
 					if(impFile == null) {
 						throw new OocCompilationError(imp, module, "Module not found in sourcepath: "+imp.getPath());
 					}
 				}
-				if(cached == null || impFile.lastModified() > cached.lastModified) {
+				if(cached == null || new File(impFile, path).lastModified() > cached.lastModified) {
 					if(cached != null) {
 						System.out.println(path+" has been changed, recompiling...");
 					}
