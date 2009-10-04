@@ -7,10 +7,13 @@ import java.util.Map;
 
 import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.NodeList.AddListener;
+import org.ooc.frontend.model.interfaces.MustBeResolved;
 import org.ooc.frontend.model.interfaces.MustBeUnwrapped;
 import org.ooc.frontend.model.tokens.Token;
+import org.ooc.middle.OocCompilationError;
+import org.ooc.middle.hobgoblins.Resolver;
 
-public class FunctionDecl extends Declaration implements Scope, Generic, MustBeUnwrapped, PotentiallyStatic {
+public class FunctionDecl extends Declaration implements Scope, Generic, MustBeUnwrapped, MustBeResolved, PotentiallyStatic {
 
 	public static Type type = new FuncType(Token.defaultToken);
 	
@@ -227,7 +230,7 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 	public String toString() {
 		
 		String name = isMember() ? typeDecl.getType() + "." + getSuffixedName() : getSuffixedName();
-		String repr = getClass().getSimpleName()+" : "+name+getArgsRepr();
+		String repr = /*getClass().getSimpleName()+" : "+*/name+getArgsRepr();
 		return repr;
 		
 	}
@@ -386,6 +389,23 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 		if(typeParams.size() > 0) return true;
 		if(typeDecl != null && typeDecl.getTypeParams().size() > 0) return true;
 		return false;
+	}
+
+	public boolean isResolved() {
+		return false;
+	}
+
+	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
+		if(isMember() && typeDecl.getSuperRef() != null) {
+			FunctionDecl sup = typeDecl.getSuperRef().getFunction(name, suffix, null);
+			if(sup.getArguments().size() != getArguments().size()) {
+				throw new OocCompilationError(this, stack, "Definition of "
+						+this+" conflicts with definition in super-type "
+						+typeDecl.getSuperRef().getName()+", you should add a suffix to this one or make it have the same arguments.");
+			}
+		}
+		
+		return Response.OK;
 	}
 	
 }
