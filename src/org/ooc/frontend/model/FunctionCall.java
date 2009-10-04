@@ -148,7 +148,8 @@ public class FunctionCall extends Access implements MustBeResolved {
 			} else if (name.equals("super")) {
 				resolveConstructorCall(stack, true);
 			}  else {
-				resolveRegular(stack, res, fatal);
+				Response response = resolveRegular(stack, res, fatal);
+				if(response != Response.OK) return response;
 			}
 		}
 	
@@ -530,7 +531,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 		
 	}
 	
-	protected boolean resolveRegular(NodeList<Node> stack, Resolver res, boolean fatal) {
+	protected Response resolveRegular(NodeList<Node> stack, Resolver res, boolean fatal) {
 		
 		impl = getFunction(name, suffix, this, stack);
 
@@ -566,7 +567,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 						FuncType funcType = (FuncType) varDecl.getType();
 						impl = funcType.getDecl();
 					} else {
-						if(varDecl.getType() == null) return false;
+						if(varDecl.getType() == null) return Response.OK;
 						throw new OocCompilationError(this, stack, "Trying to call "
 								+name+", which isn't a function pointer (Func), but a "+varDecl.getType());
 					}
@@ -576,10 +577,10 @@ public class FunctionCall extends Access implements MustBeResolved {
 
 		if(impl != null) {
 			if(impl.isMember()) transformToMemberCall(stack, res);
-			return true;
+			return Response.RESTART;
 		}
 		
-		return false;
+		return Response.OK;
 		
 	}
 
