@@ -227,11 +227,12 @@ public class MemberAccess extends VariableAccess {
 	public String toString() {
 		if(expression instanceof VariableAccess) {
 			VariableAccess varAcc = (VariableAccess) expression;
-			return getClass().getSimpleName()+" "+varAcc.getName()+":"+varAcc.getType()
-			+"->"+getName()+":"+getType();
+			//return getClass().getSimpleName()+" "+varAcc.getName()+":"+varAcc.getType()+"->"+getName()+":"+getType();
+			return varAcc.getName()+"->"+getName();
 		}
 		
-		return "MemberAccess|"+expression+"."+getName()+":"+getType();
+		//return "MemberAccess|"+expression+"->"+getName()+":"+getType();
+		return expression+"->"+getName();
 	}
 
 }

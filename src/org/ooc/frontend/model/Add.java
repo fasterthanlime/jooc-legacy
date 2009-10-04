@@ -20,5 +20,10 @@ public class Add extends BinaryOperation {
 	public OpType getOpType() {
 		return OpType.ADD;
 	}
+
+	@Override
+	public int getPriority() {
+		return 20;
+	}
 	
 }

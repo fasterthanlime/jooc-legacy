@@ -23,8 +23,8 @@ public class Sub extends BinaryOperation {
 	}
 	
 	@Override
-	public String toString() {
-		return "Sub:(" + left + "-" + right + ")";
+	public int getPriority() {
+		return 20;
 	}
 
 }

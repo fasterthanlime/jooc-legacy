@@ -16,10 +16,14 @@ public class Mul extends BinaryOperation {
 		visitor.visit(this);
 	}
 	
-
 	@Override
 	public OpType getOpType() {
 		return OpType.MUL;
+	}
+
+	@Override
+	public int getPriority() {
+		return 10;
 	}
 
 }

@@ -22,4 +22,9 @@ public class Div extends BinaryOperation {
 		return OpType.DIV;
 	}
 
+	@Override
+	public int getPriority() {
+		return 10;
+	}
+
 }

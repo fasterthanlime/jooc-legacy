@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.OpDecl.OpType;
 import org.ooc.frontend.model.interfaces.MustBeResolved;
+import org.ooc.frontend.model.interfaces.MustBeUnwrapped;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.middle.OocCompilationError;
 import org.ooc.middle.hobgoblins.Resolver;
@@ -13,8 +14,23 @@ import org.ooc.middle.hobgoblins.Resolver;
 /**
  * Binary in the sense that it has a left and a right operand (e.g. binary op,
  * as opposed to unary op or ternary op)
+ * 
+ * Operator precedence chart:
+ * 
+ *   10   * / %
+ *   20   + -
+ *   30   << >>
+ *   40   < > <= >=
+ *   50   == !=
+ *   60   &
+ *   70   ^
+ *   80   |
+ *   90   &&
+ *   100  ||
+ *   110  ?:
+ *   120  = += -= /= *= >>= <<= ^= &= |=
  */
-public abstract class BinaryOperation extends Expression implements MustBeResolved {
+public abstract class BinaryOperation extends Expression implements MustBeUnwrapped, MustBeResolved {
 
 	protected Expression left;
 	protected Expression right;
@@ -119,7 +135,8 @@ public abstract class BinaryOperation extends Expression implements MustBeResolv
 					FunctionCall call = new FunctionCall(op.getFunc(), startToken);
 					call.getArguments().add(left);
 					call.getArguments().add(right);
-					stack.peek().replace(this, call);
+					Node parent = stack.peek();
+					parent.replace(this, call);
 					call.resolve(stack, res, true);
 					end = true;
 				}
@@ -147,6 +164,34 @@ public abstract class BinaryOperation extends Expression implements MustBeResolv
 		return false;
 	}
 	
+	public boolean unwrap(NodeList<Node> stack) throws IOException {
+		
+		// Example:
+		// Mul(1, Add(2, 3))
+		// Should infact be Add(Mul(1, 2), 3)
+		
+		if(right instanceof BinaryOperation) {
+			BinaryOperation opRight = (BinaryOperation) right;
+			if(getPriority() < opRight.getPriority()) {
+				Expression tmp = opRight.getLeft();
+				opRight.setLeft(this);
+				this.setRight(tmp);
+				stack.peek().replace(this, opRight);
+				return true;
+			}
+		}
+		
+		return false;
+		
+	}
+	
 	public abstract OpType getOpType();
+	
+	public abstract int getPriority();
+	
+	@Override
+	public String toString() {
+		return "(" + left + " " + getOpType().toPrettyString() + " " + right + ")";
+	}
 	
 }

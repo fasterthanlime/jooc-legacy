@@ -20,5 +20,10 @@ public class Mod extends BinaryOperation {
 	public OpType getOpType() {
 		return OpType.MOD;
 	}
+
+	@Override
+	public int getPriority() {
+		return 10;
+	}
 	
 }

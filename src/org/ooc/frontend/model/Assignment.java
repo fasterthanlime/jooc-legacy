@@ -256,5 +256,10 @@ public class Assignment extends BinaryOperation {
 		}
 		
 	}
+
+	@Override
+	public int getPriority() {
+		return 120;
+	}
 	
 }

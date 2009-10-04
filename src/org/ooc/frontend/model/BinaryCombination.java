@@ -70,7 +70,20 @@ public class BinaryCombination extends BinaryOperation {
 		case LSHIFT: return OpType.LSHIFT;
 		case RSHIFT: return OpType.RSHIFT;
 		}
-		return null;
+		return null; // never happens
+	}
+
+	@Override
+	public int getPriority() {
+		switch(comp) {
+			case LSHIFT: case RSHIFT: return 30;
+			case BITWISE_AND: return 60;
+			case BITWISE_XOR: return 70;
+			case BITWISE_OR:  return 80;
+			case LOGICAL_AND: return 90;
+			case LOGICAL_OR: return 100;
+		}
+		return 0; // never happens
 	}
 
 }

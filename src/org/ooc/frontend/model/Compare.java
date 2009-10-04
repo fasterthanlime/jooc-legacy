@@ -98,4 +98,13 @@ public class Compare extends BinaryOperation {
 		
 	}
 
+	@Override
+	public int getPriority() {
+		switch(compareType) {
+			case GREATER: case GREATER_OR_EQUAL: case LESSER: case LESSER_OR_EQUAL: return 40;
+			case EQUAL: case NOT_EQUAL: return 50; 
+		}
+		return 0; // never happens
+	}
+	
 }
