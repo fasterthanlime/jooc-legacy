@@ -81,6 +81,7 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic {
 	
 	public FunctionDecl getFunction(String name, String suffix, FunctionCall call,
 			boolean recursive, int bestScoreParam, FunctionDecl bestMatchParam) {
+		
 		int bestScore = bestScoreParam;
 		FunctionDecl bestMatch = bestMatchParam;
 		for(FunctionDecl func : functions) {
@@ -94,6 +95,7 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic {
 				}
 			}
 		}
+		
 		if(recursive && getSuperRef() != null) return getSuperRef().getFunction(name, suffix, call, true, bestScore, bestMatch);
 		return bestMatch;
 	}

@@ -24,6 +24,7 @@ public class ArrayLiteral extends Literal implements MustBeUnwrapped, MustBeReso
 	@Override
 	public boolean replace(Node oldie, Node kiddo) {
 		if(oldie == type) {
+			System.out.println("Replacing type "+type+" with "+kiddo);
 			type = (Type) kiddo;
 			return true;
 		}
@@ -58,6 +59,8 @@ public class ArrayLiteral extends Literal implements MustBeUnwrapped, MustBeReso
 	
 	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
 		
+		if(type != defaultType) return Response.OK;
+		
 		if(!elements.isEmpty()) {
 			Iterator<Expression> iter = elements.iterator();
 			Expression first = iter.next();
@@ -87,7 +90,10 @@ public class ArrayLiteral extends Literal implements MustBeUnwrapped, MustBeReso
 			
 			this.type = new Type(innerType.name, innerType.pointerLevel + 1, startToken);
 			type.setArray(true);
+			stack.push(this);
 			type.resolve(stack, res, fatal);
+			stack.pop(this);
+			System.out.println("type now is "+type);
 		}
 		
 		if(type == defaultType && fatal) {

@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.tokens.Token;
+import org.ooc.middle.hobgoblins.Resolver;
 
 public class FuncType extends Type {
 
@@ -21,6 +22,14 @@ public class FuncType extends Type {
 	}
 	
 	@Override
+	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
+		
+		// hah nothing to worry about =)
+		return Response.OK;
+		
+	}
+	
+	@Override
 	public void acceptChildren(Visitor visitor) throws IOException {
 		super.acceptChildren(visitor);
 		decl.accept(visitor);
@@ -31,4 +40,16 @@ public class FuncType extends Type {
 		return true;
 	}
 	
+	@Override
+	public Type clone() {
+		System.out.println(" // cloned a FuncType!");
+		FuncType copy =  new FuncType(startToken);
+		copy.decl = decl;
+		return copy;
+	}
+	
+	@Override
+	public String toString() {
+		return "FuncPointer";
+	}
 }

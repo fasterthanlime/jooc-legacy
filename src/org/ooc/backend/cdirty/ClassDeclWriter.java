@@ -111,7 +111,9 @@ public class ClassDeclWriter {
 			cgen.current.app("static ").app(LANG_PREFIX).app("Bool __done__ = false;").nl();
 		cgen.current.app("static ").app(classDecl.getUnderName()).app(
 				"Class class = ");
+		
 		writeClassStructInitializers(classDecl, classDecl, new HashSet<FunctionDecl>(), cgen);
+		
 		cgen.current.app(';');
 		cgen.current.nl().app(CLASS_NAME).app(" *classPtr = (").app(CLASS_NAME).app(" *) &class;");
 		if (classDecl.getSuperName().length() > 0) {
@@ -153,8 +155,8 @@ public class ClassDeclWriter {
 			
 			FunctionDecl realDecl = null;
 			if(realClass != parentClass && !parentDecl.getName().equals("init")) {
-				realDecl = realClass.getFunction(parentDecl.getName(), parentDecl.getSuffix(), null, false, 0, null);
-				if(realDecl != null) {
+				realDecl = realClass.getFunction(parentDecl.getName(), parentDecl.getSuffix(), null, true, 0, null);
+				if(realDecl != parentDecl) {
 					if(done.contains(realDecl)) {
 						continue;
 					}

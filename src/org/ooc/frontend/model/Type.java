@@ -187,6 +187,15 @@ public class Type extends Node implements MustBeResolved {
 	
 	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
 		
+		if(name.equals("Func")) {
+			System.out.println("["+getClass().getSimpleName()+"] Replaced Func with Func :D ! in "+stack.peek());
+			if(!stack.peek().replace(this, new FuncType(startToken))) {
+				Thread.dumpStack();
+				throw new OocCompilationError(this, stack, "Couldn't replace "+this+" with a FuncType in "+stack.peek());
+			}
+			return Response.OK;
+		}
+		
 		if(ref != null) return Response.OK;
 		
 		ref = stack.getModule().getType(name);

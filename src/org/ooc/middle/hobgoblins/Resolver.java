@@ -36,8 +36,14 @@ public class Resolver implements Hobgoblin {
 					if(!must.isResolved()) {
 						Response res = must.resolve(stack, Resolver.this, fatal);
 						if(res == Response.LOOP) {
+							if(fatal) {
+								System.out.println(must+" has LOOPed in fatal round.");
+							}
 							running = true;
 						} else if(res == Response.RESTART) {
+							if(fatal) {
+								System.out.println(must+" has RESTARTed in fatal round.");
+							}
 							restarted = true;
 							running = true;
 							return false;

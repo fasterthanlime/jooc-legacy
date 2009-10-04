@@ -189,7 +189,7 @@ public class Assignment extends BinaryOperation {
 					MemberAccess sizeAccess = new MemberAccess(tAccess, "size", startToken);
 					realRight = new Add(arrAcc.variable, new Mul(arrAcc.index, sizeAccess, startToken), startToken);
 				}
-			} else if(!(right instanceof VariableAccess)) {
+			} else if(right instanceof Literal || right instanceof FunctionCall) {
 				VariableDeclFromExpr vdfe = new VariableDeclFromExpr(generateTempName("genref"), right, right.startToken);
 				addBeforeLine(stack, vdfe);
 				right = new VariableAccess(vdfe, vdfe.startToken);

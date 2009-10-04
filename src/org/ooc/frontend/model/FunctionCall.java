@@ -568,8 +568,11 @@ public class FunctionCall extends Access implements MustBeResolved {
 						impl = funcType.getDecl();
 					} else {
 						if(varDecl.getType() == null) return Response.OK;
-						throw new OocCompilationError(this, stack, "Trying to call "
+						if(fatal) {
+							throw new OocCompilationError(this, stack, "Trying to call "
 								+name+", which isn't a function pointer (Func), but a "+varDecl.getType());
+						}
+						return Response.LOOP;
 					}
 				}
 			}
