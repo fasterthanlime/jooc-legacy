@@ -1,5 +1,5 @@
 Bool: cover from bool {
 	
-	repr: func -> String { if(this) return "true"; return "false" }
+	toString: func -> String { return this ? "true" : "false" }
 	
 }
