@@ -24,7 +24,6 @@ public class ArrayLiteral extends Literal implements MustBeUnwrapped, MustBeReso
 	@Override
 	public boolean replace(Node oldie, Node kiddo) {
 		if(oldie == type) {
-			System.out.println("Replacing type "+type+" with "+kiddo);
 			type = (Type) kiddo;
 			return true;
 		}
@@ -93,7 +92,6 @@ public class ArrayLiteral extends Literal implements MustBeUnwrapped, MustBeReso
 			stack.push(this);
 			type.resolve(stack, res, fatal);
 			stack.pop(this);
-			System.out.println("type now is "+type);
 		}
 		
 		if(type == defaultType && fatal) {

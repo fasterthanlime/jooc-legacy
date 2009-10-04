@@ -50,6 +50,6 @@ public class FuncType extends Type {
 	
 	@Override
 	public String toString() {
-		return "FuncPointer";
+		return "FuncType|"+super.toString();
 	}
 }

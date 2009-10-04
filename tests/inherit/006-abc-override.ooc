@@ -1,5 +1,5 @@
 A: class {
-    foo: func {}
+    foo: func { "yohow" println() }
 }
 
 B: class extends A {
@@ -9,11 +9,13 @@ B: class extends A {
 C: class extends B {}
 
 main: func {
-	objs := [A new as Func, B new, C new]
+	objs : Pointer[] = [A_new, B_new, C_new]
 	for (i in 0..3) {
-		f := objs[i]
+		f := objs[i] as Func -> A
 		f() as A foo()
 	}
 }
 
-Func: extern cover
+A_new: extern func -> A
+B_new: extern func -> A
+C_new: extern func -> A
