@@ -37,21 +37,14 @@ Pipe: class  {
     
     write: func(data: Pointer, len: Int) -> Int{
         return writeFD write(data, len)
-        //return write(writeFD, data, len)
     }
 
     close: func(arg: Char) -> Int{
         result :Int
-        // TODO: replace with pattern matching
-        if (arg == 'r') {
-            result = readFD close()
-            //result = close(readFD)
-        } else if (arg == 'w') {
-            result = writeFD close()
-            //result = close(writeFD)
-        } else {
-            "unkown argument" println()
-            result = -666
+        match arg {
+            case 'r' => result = readFD close()
+            case 'w' => result = writeFD close()
+            case     => result = -666
         }
         return result
     }
