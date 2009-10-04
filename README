@@ -1,13 +1,19 @@
-This is the experimental new ooc frontend. It's a work in progress under heavy development.
+=============================================
+Home    | http://ooc-lang.org/
+Twitter	| http://twitter.com/ooc_lang 
+GitHub	| http://github.com/amoswenger/ooc
+IRC     | #ooc-lang @ irc.freenode.net
+=============================================
 
-The goals are correctness and speed. For that matter, it's implemented in a more lightweight way than the old
-parser, and way more cleanly, with a testing-first development process.
+This is the new, 0.3 ooc compiler. It now has most features from 0.2, is faster, more lightweight and
+more robust. Also the syntax has been revised, see http://ooc-lang.org/syntax
 
-Why write a new parser/frontend ?
-  * The current one is too hackish for the future
-  * It's better to have a solid foundation on which to add features
-  * It will be shorter than fixing bugs in the current one (e.g. it has fundamental design issues)
-  * The new frontend is designed to be more flexible than the old one, thus it'll be easier
-  to plug in new backends.
+ooc is a modern, object-oriented, functional-ish, high-level, low-level, sexy programming language. it's translated to pure C with a source-to-source compiler. it thrives to be powerful, modular, extensible, portable, yet simple and fast.
 
-For test classes, see org.ooc.frontend.test.CommandLine  and  org.ooc.frontend.model.TokenParser
+Here is the obligatory hello world in ooc:
+
+---------------------------------------------
+"Hi, world =)" println()
+---------------------------------------------
+
+For more ooc goodness, read http://ooc-lang.org/
