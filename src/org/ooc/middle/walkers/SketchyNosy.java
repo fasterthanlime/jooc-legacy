@@ -58,6 +58,7 @@ import org.ooc.frontend.model.ValuedReturn;
 import org.ooc.frontend.model.VarArg;
 import org.ooc.frontend.model.VariableAccess;
 import org.ooc.frontend.model.VariableDecl;
+import org.ooc.frontend.model.VersionBlock;
 import org.ooc.frontend.model.While;
 import org.ooc.frontend.model.VariableDecl.VariableDeclAtom;
 import org.ooc.frontend.model.tokens.Token;
@@ -390,6 +391,11 @@ public class SketchyNosy implements Visitor {
 	public void visit(Case node) throws IOException {
 		if(node.hasChildren()) visitAll(node);
 		else if(!oppo.take(node, stack)) running = false;
-	}	
+	}
+
+	public void visit(VersionBlock node) throws IOException {
+		if(node.hasChildren()) visitAll(node);
+		else if(!oppo.take(node, stack)) running = false;
+	}
 	
 }

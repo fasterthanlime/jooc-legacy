@@ -1,18 +1,16 @@
-include stdio
-
-func main {
+main: func {
 
 	version(linux) {
-		printf("Hello, Linux =)");
+		"Hello, Linux =)" println()
 	}
 	version(apple) {
-		printf("Hello, Mac =)");
+		"Hello, Mac =)" println()
 	}
 	version(windows) {
-		printf("Hello, Windows =)");
+		"Hello, Windows =)" println()
 	}
 	version(!linux, !apple, !windows) {
-		printf("Hi, stranger ;)");
+		"Hi, stranger ;)" println()
 	}
 
 }
