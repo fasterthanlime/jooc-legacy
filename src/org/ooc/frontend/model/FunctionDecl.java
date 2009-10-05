@@ -399,6 +399,11 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 		if(isMember() && typeDecl.getSuperRef() != null) {
 			FunctionDecl sup = typeDecl.getSuperRef().getFunction(name, suffix, null);
 			if(sup != null && (sup.getArguments().size() != getArguments().size())) {
+				if(name.equals("new") || name.equals("init")) {
+					throw new OocCompilationError(this, stack, "There's not a no-argument constructor in super-type "
+							+typeDecl.getSuperRef().getName()+", you should add a constructor to "
+							+typeDecl.getName()+" with a suffix, e.g. init: func ~mySuffix () {}");
+				}
 				throw new OocCompilationError(this, stack, "Definition of "
 						+this+" conflicts with definition in super-type "
 						+typeDecl.getSuperRef().getName()+", you should add a suffix to this one or make it have the same arguments.");
