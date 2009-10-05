@@ -32,7 +32,7 @@ public class ConditionalParser {
 		Expression condition = ExpressionParser.parse(module, sReader, reader);
 		if(condition == null) {
 			throw new CompilationFailedError(sReader.getLocation(reader.peek()),
-					"Expected expression as while condition");
+					"Expected expression as "+(startToken.type == TokenType.WHILE_KW ? "while" : "if")+" condition");
 		}
 		
 		if(reader.read().type != TokenType.CLOS_PAREN) {

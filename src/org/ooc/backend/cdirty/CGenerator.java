@@ -416,14 +416,8 @@ public class CGenerator extends Generator implements Visitor {
 			
 			current.app("{").tab();
 			
-			int bodySize = case1.getBody().size();
-			int index = bodySize;
 			for(Line line: case1.getBody()) {
 				current.newLine();
-				if(index == bodySize && match.getVarAcc() != null) {
-					match.getVarAcc().accept(this);
-					current.append(" = ");
-				}
 				if(line.getStatement() instanceof FunctionCall) {
 					CallWriter.bypassPrelude = (FunctionCall) line.getStatement();
 				}

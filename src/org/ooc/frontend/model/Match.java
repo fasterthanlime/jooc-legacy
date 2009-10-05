@@ -6,13 +6,13 @@ import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.VariableDecl.VariableDeclAtom;
 import org.ooc.frontend.model.interfaces.MustBeResolved;
 import org.ooc.frontend.model.tokens.Token;
+import org.ooc.middle.OocCompilationError;
 import org.ooc.middle.hobgoblins.Resolver;
 
 public class Match extends Expression implements MustBeResolved {
 
 	protected NodeList<Case> cases;
 	protected Expression expr;
-	protected VariableAccess varAcc;
 
 	public Match(Expression expr, Token startToken) {
 		super(startToken);
@@ -22,16 +22,10 @@ public class Match extends Expression implements MustBeResolved {
 			this.expr = expr;
 		}
 		this.cases = new NodeList<Case>();
-		this.varAcc = null;
 	}
 	
 	@Override
 	public boolean replace(Node oldie, Node kiddo) {
-		if(oldie == varAcc) {
-			varAcc = (VariableAccess) kiddo;
-			return true;
-		}
-		
 		if(oldie == expr) {
 			expr = (Expression) kiddo;
 			return true;
@@ -44,9 +38,6 @@ public class Match extends Expression implements MustBeResolved {
 	}
 
 	public void acceptChildren(Visitor visitor) throws IOException {
-		if(varAcc != null) {
-			
-		}
 		expr.accept(visitor);
 		cases.accept(visitor);
 	}
@@ -57,10 +48,6 @@ public class Match extends Expression implements MustBeResolved {
 	
 	public NodeList<Case> getCases() {
 		return cases;
-	}
-	
-	public VariableAccess getVarAcc() {
-		return varAcc;
 	}
 	
 	public Expression getExpr() {
@@ -93,19 +80,34 @@ public class Match extends Expression implements MustBeResolved {
 			vDecl.setType(vDecl.getType()); // fixate the type
 			stack.peek().replace(this, null);
 			addAfterLine(stack, this);
-			this.varAcc = new VariableAccess(vDecl, parent.startToken);
+			VariableAccess varAcc = new VariableAccess(vDecl, parent.startToken);
+			toAssign(stack, varAcc);
 		} else {
 			// we're being USED! as an expression somewhere, let's unwrap to a varDecl.
 			VariableDecl varDecl = new VariableDecl(getType(), false, startToken);
 			varDecl.getAtoms().add(new VariableDeclAtom(generateTempName("match"), null, startToken));
 			addBeforeLine(stack, varDecl);
 			addBeforeLine(stack, this);
-			this.varAcc = new VariableAccess(varDecl, startToken);
-			stack.peek().replace(this, varAcc);
+			VariableAccess varAcc = new VariableAccess(varDecl, startToken);
+			toAssign(stack, varAcc);
 		}
 		
 		return Response.OK;
 		
+	}
+
+	private void toAssign(NodeList<Node> stack, VariableAccess varAcc)
+			throws OocCompilationError {
+		for(Case case1: cases) {
+			if(case1.getBody().isEmpty()) {
+				throw new OocCompilationError(case1, stack, "Empty case in a match used as an expression!");
+			}
+			Line last = case1.getBody().getLast();
+			if(!(last.getStatement() instanceof Expression)) {
+				throw new OocCompilationError(case1, stack, "In a match used as an expression, last statement of a case isn't an expression!");	
+			}
+			case1.getBody().replace(last, new Line(new Assignment(varAcc, (Expression) last.getStatement(), last.startToken)));
+		}
 	}
 
 }
