@@ -78,10 +78,12 @@ public class Match extends Expression implements MustBeResolved {
 		} else if(parent instanceof VariableDeclAtom) {
 			VariableDecl vDecl = (VariableDecl) stack.get(stack.find(VariableDecl.class));
 			vDecl.setType(vDecl.getType()); // fixate the type
-			stack.peek().replace(this, null);
 			addAfterLine(stack, this);
 			VariableAccess varAcc = new VariableAccess(vDecl, parent.startToken);
 			toAssign(stack, varAcc);
+			stack.peek().replace(this, null);
+		} else if(parent instanceof Assignment) {
+			// it's alright =)
 		} else {
 			// we're being USED! as an expression somewhere, let's unwrap to a varDecl.
 			VariableDecl varDecl = new VariableDecl(getType(), false, startToken);
@@ -90,6 +92,7 @@ public class Match extends Expression implements MustBeResolved {
 			addBeforeLine(stack, this);
 			VariableAccess varAcc = new VariableAccess(varDecl, startToken);
 			toAssign(stack, varAcc);
+			stack.peek().replace(this, varAcc);
 		}
 		
 		return Response.OK;

@@ -136,6 +136,8 @@ public class Assignment extends BinaryOperation {
 	@Override
 	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
 
+		//System.out.println("Should resolve "+this);
+		
 		if(dead) return Response.OK;
 		
 		if(right.getType() != null && left.getType() != null) {
@@ -203,6 +205,7 @@ public class Assignment extends BinaryOperation {
 				VariableDeclFromExpr vdfe = new VariableDeclFromExpr(generateTempName("genref"), right, right.startToken);
 				vdfe.setType(right.getType()); // fixate the type
 				addBeforeLine(stack, vdfe);
+				vdfe.unwrapToVarAcc(stack);
 				right = new VariableAccess(vdfe, vdfe.startToken);
 				realRight = new AddressOf(right, right.startToken);
 				if(cast1 != null) {
