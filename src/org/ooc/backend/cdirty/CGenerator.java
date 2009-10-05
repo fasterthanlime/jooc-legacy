@@ -69,7 +69,11 @@ import org.ooc.frontend.model.VariableDecl;
 import org.ooc.frontend.model.VersionBlock;
 import org.ooc.frontend.model.While;
 import org.ooc.frontend.model.VariableDecl.VariableDeclAtom;
-import org.ooc.frontend.model.VersionBlock.Version;
+import org.ooc.frontend.model.VersionNodes.VersionAnd;
+import org.ooc.frontend.model.VersionNodes.VersionName;
+import org.ooc.frontend.model.VersionNodes.VersionNegation;
+import org.ooc.frontend.model.VersionNodes.VersionNodeVisitor;
+import org.ooc.frontend.model.VersionNodes.VersionOr;
 import org.ooc.frontend.parser.BuildParams;
 import org.ooc.frontend.parser.TypeArgument;
 import org.ooc.middle.OocCompilationError;
@@ -221,7 +225,7 @@ public class CGenerator extends Generator implements Visitor {
 		current.nl();
 		if(line.getStatement() instanceof FunctionCall) CallWriter.bypassPrelude = (FunctionCall) line.getStatement();
 		line.getStatement().accept(this);
-		if(!(line.getStatement() instanceof ControlStatement)) {
+		if(!(line.getStatement() instanceof ControlStatement || line.getStatement() instanceof VersionBlock)) {
 			current.app(';');
 		}
 	}
@@ -439,19 +443,31 @@ public class CGenerator extends Generator implements Visitor {
 	public void visit(VersionBlock versionBlock) throws IOException {
 		current.app("\n#if ");
 		boolean first = true;
-		for(Version version: versionBlock.getVersions()) {
-			if(!first) {
-				current.app("|| ");
+		
+		versionBlock.getVersion().acceptChildren(new VersionNodeVisitor() {
+			
+			public void visit(VersionOr versionOr) {
+				// TODO Auto-generated method stub
+				
 			}
-			if(version.isInverse()) {
-				current.app("!");
+			
+			public void visit(VersionAnd versionAnd) {
+				// TODO Auto-generated method stub
+				
 			}
-			current.app("defined(");
-			current.app(version.getName());
-			current.app(")");
-			first = false;
-		}
-		//super.writeToCSource(a);
+			
+			public void visit(VersionNegation versionNegation) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			public void visit(VersionName versionName) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		visit((Block) versionBlock);
 		current.app("\n#endif");
 	}
 

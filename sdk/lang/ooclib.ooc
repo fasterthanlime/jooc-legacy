@@ -1,4 +1,4 @@
-include stdlib, stdint, stdbool, stdarg, memory, gc/gc, string
+include stdlib, stdint, stdbool, math, stdarg, memory, gc/gc, string
 
 // character and pointer types
 Char: cover from char
@@ -47,6 +47,9 @@ va_arg: extern func (VaList, ...) // ap, type
 va_end: extern func (VaList) // ap
 
 exit: extern func (Int)
+
+// math
+pow: extern func (Double, Double) -> Double
 
 // memory management
 sizeof: extern func (...) -> SizeT

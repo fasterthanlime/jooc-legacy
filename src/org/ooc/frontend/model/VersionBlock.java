@@ -6,6 +6,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.ooc.frontend.Visitor;
+import org.ooc.frontend.model.VersionNodes.VersionAnd;
+import org.ooc.frontend.model.VersionNodes.VersionName;
+import org.ooc.frontend.model.VersionNodes.VersionNegation;
+import org.ooc.frontend.model.VersionNodes.VersionNode;
+import org.ooc.frontend.model.VersionNodes.VersionNodeVisitor;
+import org.ooc.frontend.model.VersionNodes.VersionOr;
 import org.ooc.frontend.model.interfaces.MustBeResolved;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.middle.OocCompilationError;
@@ -14,45 +20,7 @@ import org.ooc.middle.hobgoblins.Resolver;
 public class VersionBlock extends Block implements MustBeResolved {
 
 	protected static Map<String, String> map = new HashMap<String, String>();
-	
-	/**
-	 * A version string, corresponding to a #define 
-	 * @author Amos Wenger
-	 */
-	public static class Version {
-		
-		boolean inverse;
-		String name;
-		
-		/** Default constructor */
-		public Version(String name) {
-			this(name, false);
-		}
-		
-		/** Default constructor */
-		public Version(String name, boolean inverse) {
-			this.name = name;
-			this.inverse = inverse;
-		}
-		
-		public boolean isInverse() {
-			return inverse;
-		}
-		
-		public void setInverse(boolean inverse) {
-			this.inverse = inverse;
-		}
-		
-		public String getName() {
-			return name;
-		}
-		
-		public void setName(String name) {
-			this.name = name;
-		}
-		
-	}
-	
+
 	static {
 		
 		// Java's excuse for a Map literal
@@ -70,43 +38,58 @@ public class VersionBlock extends Block implements MustBeResolved {
 		
 	}
 	
-	private List<Version> versions;
+	private VersionNode version;
 
 	/**
 	 * Default constructor
 	 * @param location
 	 * @param id The id of this version. One of "linux", "windows", etc.
 	 */
-	public VersionBlock(List<Version> versions, Token startToken) {
+	public VersionBlock(VersionNode version, Token startToken) {
 		super(startToken);
-		this.versions = versions;
+		this.version = version;
 	}
 	
-	public List<Version> getVersions() {
-		return versions;
+	public VersionNode getVersion() {
+		return version;
 	}
 
 	public boolean isResolved() {
 		return false;
 	}
 
-	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
-		for(Version version: versions) {
-			String match = map.get(version.name.toLowerCase());
-			if(match != null) {
-				version.name = match;
-			} else {
-				System.out.println(new OocCompilationError(this, stack,
-						"Unknown version id: '" + version.name
-						+ "', compiling anyway (who knows?)").toString());
+	public Response resolve(final NodeList<Node> stack, Resolver res, boolean fatal) {
+		
+		version.acceptChildren(new VersionNodeVisitor() {
+			
+			public void visit(VersionOr versionOr) {
+				versionOr.acceptChildren(this);
 			}
-		}
+			
+			public void visit(VersionAnd versionAnd) {
+				versionAnd.acceptChildren(this);
+			}
+			
+			public void visit(VersionNegation versionNegation) {
+				versionNegation.acceptChildren(this);				
+			}
+			
+			public void visit(VersionName versionName) {
+				if(versionName.solved) return;
+				String match = map.get(versionName.name.toLowerCase());
+				if(match != null) {
+					versionName.name = match;
+					versionName.solved = true;
+				} else {
+					System.out.println(new OocCompilationError(VersionBlock.this, stack,
+							"Unknown version id: '" + versionName.name
+							+ "', compiling anyway (who knows?)").toString());
+				}
+			}
+		});
+		
 		return Response.OK;
-	}
-	
-	@Override
-	public void accept(Visitor visitor) throws IOException {
-		visitor.visit(this);
+		
 	}
 
 }

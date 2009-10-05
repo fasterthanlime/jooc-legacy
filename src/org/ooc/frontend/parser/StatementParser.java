@@ -9,6 +9,7 @@ import org.ooc.frontend.model.Foreach;
 import org.ooc.frontend.model.Module;
 import org.ooc.frontend.model.Return;
 import org.ooc.frontend.model.Statement;
+import org.ooc.frontend.model.VersionBlock;
 import org.ooc.frontend.model.FlowControl.Mode;
 import org.ooc.frontend.model.tokens.TokenReader;
 import org.ooc.frontend.model.tokens.Token.TokenType;
@@ -29,12 +30,15 @@ public class StatementParser {
 		
 		if(reader.peek().type == TokenType.ELSE_KW) {
 			Else else1 = new Else(reader.read());
-			ControlStatementFiller.fill(module, sReader, reader, else1);
+			ControlStatementFiller.fill(module, sReader, reader, else1.getBody());
 			return else1;
 		}
 		
 		if(reader.peek().type == TokenType.BREAK_KW) return new FlowControl(Mode.BREAK, reader.read());
 		if(reader.peek().type == TokenType.CONTINUE_KW) return new FlowControl(Mode.CONTINUE, reader.read());
+		
+		VersionBlock verBlock = VersionBlockParser.parse(module, sReader, reader);
+		if(verBlock != null) return verBlock;
 		
 		Return ret = ReturnParser.parse(module, sReader, reader);
 		if(ret != null) return ret;

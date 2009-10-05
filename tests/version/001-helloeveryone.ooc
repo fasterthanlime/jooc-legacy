@@ -9,7 +9,7 @@ main: func {
 	version(windows) {
 		"Hello, Windows =)" println()
 	}
-	version(!linux, !apple, !windows) {
+	version(!linux && !apple && !windows) {
 		"Hi, stranger ;)" println()
 	}
 

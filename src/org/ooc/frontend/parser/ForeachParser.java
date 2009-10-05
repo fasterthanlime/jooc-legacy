@@ -60,7 +60,7 @@ public class ForeachParser {
 			}
 			
 			Foreach foreach = new Foreach(variable, collection, startToken);
-			ControlStatementFiller.fill(module, sReader, reader, foreach);
+			ControlStatementFiller.fill(module, sReader, reader, foreach.getBody());
 			return foreach;
 			
 		}
