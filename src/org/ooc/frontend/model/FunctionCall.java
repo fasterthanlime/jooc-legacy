@@ -123,6 +123,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 	public void acceptChildren(Visitor visitor) throws IOException {
 		typeParams.accept(visitor);
 		arguments.accept(visitor);
+		if(realType != null) realType.accept(visitor);
 	}
 	
 	@Override

@@ -99,7 +99,8 @@ public class Foreach extends ControlStatement implements MustBeResolved {
 		
 		if(collection.getType() == null || (!collection.getType().getName().equals("Range") && collection.getType().getRef() == null)) {
 			if(fatal) {
-				throw new OocCompilationError(collection, stack, "Couldn't resolve type "+collection.getType()+" of foreach's collection.");
+				throw new OocCompilationError(collection, stack, "Couldn't resolve type "
+						+collection.getType()+" of foreach's collection (ref = "+collection.getType().getRef());
 			}
 			return Response.LOOP;
 		}
