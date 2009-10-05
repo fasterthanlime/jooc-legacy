@@ -5,7 +5,6 @@ import java.util.LinkedHashMap;
 
 import org.ooc.frontend.Levenshtein;
 import org.ooc.frontend.Visitor;
-import org.ooc.frontend.model.interfaces.MustBeResolved;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.middle.OocCompilationError;
 import org.ooc.middle.hobgoblins.Resolver;
@@ -67,16 +66,6 @@ public class MemberCall extends FunctionCall {
 		
 		Type exprType = expression.getType();
 		if(exprType == null) {
-			if(expression instanceof MustBeResolved) {
-				MustBeResolved must = (MustBeResolved) expression;
-				stack.push(this);
-				must.resolve(stack, res, true);
-				stack.pop(this);
-				exprType = expression.getType();
-			}
-		}
-		
-		if(exprType == null) { // still null?
 			if(fatal) {
 				throw new OocCompilationError(this, stack, "Calling member function "
 						+name+getArgsRepr()+" in an expression "+expression

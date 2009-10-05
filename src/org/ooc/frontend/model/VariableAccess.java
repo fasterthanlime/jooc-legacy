@@ -143,15 +143,14 @@ public class VariableAccess extends Access implements MustBeResolved {
 		if(ref != null) return Response.OK;
 		
 		if(fatal && ref == null) {
-			//if(stack.peek(2) instanceof FunctionCall) {
-				//FunctionCall call = (FunctionCall) stack.peek(2);
-				//call.throwUnresolvedType(stack, name);
-			//}
-			
 			String message = "Couldn't resolve access to "+name+".";
 			String guess = guessCorrectName(stack, res);
 			if(guess != null) {
 				message += " Did you mean "+guess+" ?";
+			}
+			if(res.params.veryVerbose) {
+				Thread.dumpStack();
+				throw new OocCompilationError(this, stack, message+", btw, stack = "+stack.toString(true));
 			}
 			throw new OocCompilationError(this, stack, message);
 		}
