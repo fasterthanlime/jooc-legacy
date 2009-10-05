@@ -2,10 +2,6 @@ import io/Writer, io/File
 
 fopen: extern func(filename: Char*, mode: Char*) -> FILE*
 fwrite: extern func(ptr: Pointer, size: SizeT, count: SizeT, file: FILE*) -> SizeT
-SEEK_CUR: extern func
-SEEK_SET: extern func
-SEEK_END: extern func
-ftell: extern func(stream: FILE*) -> Long
  
 FileWriter: class extends Writer {
 
