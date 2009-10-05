@@ -492,7 +492,9 @@ public class CommandLine {
 		for(Include inc: module.getIncludes()) {
 			if(inc.getMode() == Mode.LOCAL) {
 				try {
-					File file = params.sourcePath.getFile(module.getPath()).getParentFile();
+					System.out.println("module = "+module+", path = "+module.getPrefixLessPath());
+					File file = params.sourcePath.getFile(module.getPrefixLessPath()).getParentFile();
+					
 					FileUtils.copy(new File(file, inc.getPath() + ".h"),
 						new File(params.outPath, inc.getPath() + ".h"));
 				} catch(Exception e) { e.printStackTrace(); }

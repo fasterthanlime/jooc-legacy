@@ -251,5 +251,9 @@ public class Module extends Node implements Scope {
 		String outPath = pathElement+"/"+fullName.replace('.', separatorChar);
 		return outPath;
 	}
+
+	public String getPrefixLessPath() {
+		return fullName.replace(".", File.separator) + ".ooc";
+	}
 	
 }

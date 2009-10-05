@@ -29,8 +29,22 @@ public class Dereference extends Access {
 		if(type == null) {
 			Type exprType = expression.getType();
 			if(exprType != null) {
-				type = new Type(exprType.getName(), exprType.getPointerLevel() - 1, exprType.startToken);
-				type.setRef(exprType.getRef());
+				type = exprType.clone();
+				type.setPointerLevel(type.getPointerLevel() - 1);
+				//type = new Type(exprType.getName(), exprType.getPointerLevel() - 1, exprType.startToken);
+				//type.setRef(exprType.getRef());
+				if(type.getPointerLevel() < 0) {
+					if(type.getRef() instanceof CoverDecl) {
+						CoverDecl cover = (CoverDecl) type.getRef();
+						System.out.println("Type of deref = "+type+", pointer level = "+type.getPointerLevel());
+						System.out.println("cover from type = "+cover.getFromType()+", ref = "+cover.getFromType().getRef());
+						if(cover.getFromType() != null && !cover.getFromType().isFlat()) {
+							type = cover.getFromType().clone();
+							type.setPointerLevel(type.getPointerLevel() - 1);
+							System.out.println("Now type = "+type);
+						}
+					}
+				}
 			}
 		}
 		return type;

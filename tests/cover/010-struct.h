@@ -1,0 +1,3 @@
+struct blah {
+	int i;
+};
