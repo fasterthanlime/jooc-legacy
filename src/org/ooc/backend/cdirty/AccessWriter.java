@@ -93,6 +93,10 @@ public class AccessWriter {
 	}
 
 	public static void writeVariable(VariableAccess variableAccess, boolean doTypeParams, CGenerator cgen) throws IOException {
+		writeVariable(variableAccess, doTypeParams, cgen, 0);
+	}
+	
+	public static void writeVariable(VariableAccess variableAccess, boolean doTypeParams, CGenerator cgen, int refOffset) throws IOException {
 		
 		if(variableAccess.getRef() instanceof TypeDecl && !(variableAccess.getRef() instanceof TypeParam)) {
 			cgen.current.app(variableAccess.getName()).app("_class()");
@@ -106,6 +110,8 @@ public class AccessWriter {
 				refLevel++;
 			}
 		}
+		
+		refLevel += refOffset;
 		
 		if(refLevel > 0) {
 			cgen.current.app('(');
@@ -128,9 +134,13 @@ public class AccessWriter {
 	}
 	
 	public static void write(Access access, boolean doTypeParams, CGenerator cgen) throws IOException {
+		write(access, doTypeParams, cgen, 0);
+	}
+	
+	public static void write(Access access, boolean doTypeParams, CGenerator cgen, int refOffset) throws IOException {
 		if(access instanceof ArrayAccess) writeArray((ArrayAccess) access, cgen);
 		else if(access instanceof MemberAccess) writeMember((MemberAccess) access, cgen);
-		else writeVariable((VariableAccess) access, doTypeParams, cgen);
+		else writeVariable((VariableAccess) access, doTypeParams, cgen, refOffset);
 	}
 	
 }

@@ -324,8 +324,13 @@ public class CGenerator extends Generator implements Visitor {
 	public void visit(AddressOf addressOf) throws IOException {
 		if(addressOf.getExpression() instanceof VariableAccess) {
 			VariableAccess varAcc = (VariableAccess) addressOf.getExpression();
-			if(varAcc.getRef().getType().getRef() instanceof TypeParam) {
+			Type varAccType = varAcc.getRef().getType();
+			if(varAccType.getRef() instanceof TypeParam) {
 				AccessWriter.write(varAcc, false, this);
+				return;
+			}
+			if(varAccType.getReferenceLevel() == 1) {
+				AccessWriter.write(varAcc, false, this, -1);
 				return;
 			}
 		}
