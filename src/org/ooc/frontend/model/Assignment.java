@@ -189,12 +189,28 @@ public class Assignment extends BinaryOperation {
 					MemberAccess sizeAccess = new MemberAccess(tAccess, "size", startToken);
 					realRight = new Add(arrAcc.variable, new Mul(arrAcc.index, sizeAccess, startToken), startToken);
 				}
-			} else if(right instanceof Literal || right instanceof FunctionCall) {
+			} 
+			
+			if(!right.canBeReferenced()) {
+				// shortcut casts, otherwise we never know the real type.
+				Cast cast1 = null;
+				while(right instanceof Cast) {
+					if(cast1 == null) {
+						cast1 = ((Cast) right);
+					}
+					right = ((Cast) right).getExpression();
+				}
 				VariableDeclFromExpr vdfe = new VariableDeclFromExpr(generateTempName("genref"), right, right.startToken);
+				vdfe.setType(right.getType()); // fixate the type
 				addBeforeLine(stack, vdfe);
 				right = new VariableAccess(vdfe, vdfe.startToken);
 				realRight = new AddressOf(right, right.startToken);
+				if(cast1 != null) {
+					cast1.setExpression(realRight);
+					realRight = cast1;
+				}
 			}
+			
 			if(realLeft != null && realRight != null && size != null
 					&& (left.getType().isFlat() || left.getType().isArray())) {
 				unwrapToMemcpy(stack, realLeft, realRight, size);

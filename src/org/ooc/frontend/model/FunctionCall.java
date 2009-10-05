@@ -206,7 +206,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 				TypeParam typeParam = iter.next();
 				Expression result = getExprParam(typeParam.getName(), stack, res, fatal);
 				if(result == null) {
-					if(fatal) throwUnresolvedType(stack, typeParam.getName());
+					if(fatal) throwUnresolvedType(stack, typeParam.getName(), res);
 					return Response.LOOP;
 				}
 				typeParams.add(result);
@@ -693,14 +693,22 @@ public class FunctionCall extends Access implements MustBeResolved {
 		return score;
 	}
 
-	public void throwUnresolvedType(NodeList<Node> stack, String typeName) {
+	public void throwUnresolvedType(NodeList<Node> stack, String typeName, Resolver res) {
+	
+		if(res.params.veryVerbose) {
+			Thread.dumpStack();
+		}
 		
-		Thread.dumpStack();
 		if(impl != null) {
 			throw new OocCompilationError(this, stack, "Couldn't figure out generic type <"+typeName+"> for call to "+impl);
 		}
 		throw new OocCompilationError(this, stack, "Couldn't figure out generic type <"+typeName+"> for call to "+getProtoRepr());
 		
+	}
+	
+	@Override
+	public boolean canBeReferenced() {
+		return false;
 	}
 	
 }

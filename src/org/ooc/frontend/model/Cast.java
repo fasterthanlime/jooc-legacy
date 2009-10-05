@@ -79,5 +79,10 @@ public class Cast extends Expression {
 	public String toString() {
 		return "["+expression+" as "+type+"]";
 	}
+	
+	@Override
+	public boolean canBeReferenced() {
+		return expression.canBeReferenced();
+	}
 
 }

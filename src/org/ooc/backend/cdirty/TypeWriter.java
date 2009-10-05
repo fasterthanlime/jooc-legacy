@@ -96,7 +96,12 @@ public class TypeWriter {
 
 	public static AwesomeWriter writeFuncPointerStart(FunctionDecl decl, CGenerator cgen)
 			throws IOException {
-		decl.getReturnType().accept(cgen);
+		if(decl.getReturnType().isVoid()) {
+			// special case when covering functions, then lang__Void isn't typedef'd yet and it's all problematic >:|
+			cgen.current.app("void");
+		} else {
+			decl.getReturnType().accept(cgen);
+		}
 		return cgen.current.app(" (*");
 	}
 	

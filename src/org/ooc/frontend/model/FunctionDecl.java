@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.ooc.frontend.Visitor;
+import org.ooc.frontend.model.IntLiteral.Format;
 import org.ooc.frontend.model.NodeList.AddListener;
 import org.ooc.frontend.model.interfaces.MustBeResolved;
 import org.ooc.frontend.model.interfaces.MustBeUnwrapped;
@@ -396,6 +397,7 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 	}
 
 	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
+		
 		if(isMember() && typeDecl.getSuperRef() != null) {
 			FunctionDecl sup = typeDecl.getSuperRef().getFunction(name, suffix, null);
 			if(sup != null && (sup.getArguments().size() != getArguments().size())) {
@@ -407,6 +409,43 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 				throw new OocCompilationError(this, stack, "Definition of "
 						+this+" conflicts with definition in super-type "
 						+typeDecl.getSuperRef().getName()+", you should add a suffix to this one or make it have the same arguments.");
+			}
+		}
+		
+		if(!getReturnType().isVoid() && !isExtern() && !isAbstract()) {
+			
+			if(getBody().isEmpty()) {
+				if(getName().equals("main")) {
+					getBody().add(new Line(new ValuedReturn(
+							new IntLiteral(0, Format.DEC, startToken), startToken)));
+					return Response.RESTART;
+				} /*else {
+					
+					throw new OocCompilationError(node, stack,
+							"Returning nothing in function "+getProtoRepr()
+								+" that should return a "+getReturnType());
+					
+				}*/
+			} else {
+				
+				Line line = getBody().getLast();
+				if(!(line.getStatement() instanceof Return)) {
+					if(isEntryPoint()) {
+						getBody().add(new Line(new ValuedReturn(
+								new IntLiteral(0, Format.DEC, startToken), startToken)));
+						return Response.RESTART;
+					} else if(line.getStatement() instanceof Expression) {
+						line.setStatement(new ValuedReturn((Expression) line.getStatement(),
+								line.getStatement().startToken));
+						return Response.RESTART;
+					} /*else {
+						
+						throw new OocCompilationError(node, stack,
+								"Returning nothing in function "+getProtoRepr()
+									+" that should return a "+getReturnType());
+					}*/
+				}
+			
 			}
 		}
 		

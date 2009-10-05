@@ -84,7 +84,7 @@ public class ValuedReturn extends Return implements MustBeResolved {
 	private void unwrapToMemcpy(NodeList<Node> stack, FunctionDecl decl,
 			Declaration genericType) {
 		
-		if(!(expression instanceof Access)) {
+		if(!(expression.canBeReferenced())) {
 			VariableDeclFromExpr vdfe = new VariableDeclFromExpr(generateTempName("retval"), expression, startToken);
 			vdfe.setType(expression.getType());
 			expression = vdfe;
