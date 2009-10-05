@@ -6,22 +6,17 @@ import java.util.HashSet;
 
 import org.ooc.frontend.model.ClassDecl;
 import org.ooc.frontend.model.CoverDecl;
-import org.ooc.frontend.model.Expression;
 import org.ooc.frontend.model.FunctionCall;
 import org.ooc.frontend.model.FunctionDecl;
-import org.ooc.frontend.model.IntLiteral;
-import org.ooc.frontend.model.Line;
 import org.ooc.frontend.model.Module;
 import org.ooc.frontend.model.Node;
 import org.ooc.frontend.model.NodeList;
-import org.ooc.frontend.model.Return;
 import org.ooc.frontend.model.Type;
 import org.ooc.frontend.model.TypeDecl;
 import org.ooc.frontend.model.TypeParam;
 import org.ooc.frontend.model.ValuedReturn;
 import org.ooc.frontend.model.VariableAccess;
 import org.ooc.frontend.model.VariableDecl;
-import org.ooc.frontend.model.IntLiteral.Format;
 import org.ooc.frontend.model.VariableDecl.VariableDeclAtom;
 import org.ooc.frontend.parser.BuildParams;
 import org.ooc.middle.Hobgoblin;
@@ -110,40 +105,6 @@ public class Checker implements Hobgoblin {
 						if(!funcNames.add(node.getName()+"_"+node.getSuffix())) {
 							throwError(node, stack, name);
 						}
-					}
-				}
-				
-				if(!node.getReturnType().isVoid() && !node.getReturnType().isGenericRecursive() && !node.isExtern() && !node.isAbstract()) {
-					
-					if(node.getBody().isEmpty()) {
-						if(node.getName().equals("main")) {
-							node.getBody().add(new Line(new ValuedReturn(
-									new IntLiteral(0, Format.DEC, node.startToken), node.startToken)));
-						} /*else {
-							
-							throw new OocCompilationError(node, stack,
-									"Returning nothing in function "+node.getProtoRepr()
-										+" that should return a "+node.getReturnType());
-							
-						}*/
-					} else {
-						
-						Line line = node.getBody().getLast();
-						if(!(line.getStatement() instanceof Return)) {
-							if(node.isEntryPoint()) {
-								node.getBody().add(new Line(new ValuedReturn(
-										new IntLiteral(0, Format.DEC, node.startToken), node.startToken)));
-							} else if(line.getStatement() instanceof Expression) {
-								line.setStatement(new ValuedReturn((Expression) line.getStatement(),
-										line.getStatement().startToken));
-							} /*else {
-								
-								throw new OocCompilationError(node, stack,
-										"Returning nothing in function "+node.getProtoRepr()
-											+" that should return a "+node.getReturnType());
-							}*/
-						}
-					
 					}
 				}
 			}

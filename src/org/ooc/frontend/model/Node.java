@@ -107,4 +107,8 @@ public abstract class Node implements Visitable {
 		}
 	}
 	
+	public boolean canBeReferenced() {
+		return true;
+	}
+	
 }
