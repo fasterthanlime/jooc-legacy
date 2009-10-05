@@ -32,7 +32,8 @@ public class ClassDecl extends TypeDecl implements MustBeResolved {
 
 	public void addInit() {
 		if(!isAbstract && defaultInit == null) {
-			FunctionDecl init = new FunctionDecl("init",     "", false, false, false, false, startToken);
+			System.out.println("Adding init to "+this);
+			FunctionDecl init = new FunctionDecl("init", "", false, false, false, false, startToken);
 			addFunction(init);
 			defaultInit = init;
 		}
@@ -75,55 +76,59 @@ public class ClassDecl extends TypeDecl implements MustBeResolved {
 	public void addFunction(FunctionDecl decl) {
 		
 		if(decl.getName().equals("init")) {
-			if(defaultInit != null) {
-				FunctionDecl newFunc = getFunction("new", "", null);
-				functions.remove(defaultInit);
-				functions.remove(newFunc);
-				defaultInit = null;
-			}
-			
-			FunctionDecl constructor = new FunctionDecl("new", decl.getSuffix(), false, true, false, false, decl.startToken);
-			Type retType = getType().clone();
-			retType.getTypeParams().clear();
-			
-			constructor.getArguments().addAll(decl.getArguments());
-			constructor.getTypeParams().putAll(getTypeParams());
-			
-			VariableAccess thisTypeAccess = new VariableAccess(name, decl.startToken);
-			thisTypeAccess.setRef(this);
-			VariableAccess classAccess = new MemberAccess(thisTypeAccess, "class", decl.startToken);
-			MemberCall allocCall = new MemberCall(classAccess, "alloc", "", decl.startToken);
-			Cast cast = new Cast(allocCall, getType(), decl.startToken);
-			VariableDeclFromExpr vdfe = new VariableDeclFromExpr("this", cast, decl.startToken);
-			constructor.getBody().add(new Line(vdfe));
-			
-			for(TypeParam genType: typeParams.values()) {
-				VariableAccess e = new VariableAccess(genType.getName(), constructor.startToken);
-				retType.getTypeParams().add(e);
-				
-				constructor.getBody().add(new Line(new Assignment(
-						new MemberAccess(genType.getName(), startToken), e, constructor.startToken))
-				);
-			}
-			constructor.setReturnType(retType);
-
-			VariableAccess thisAccess = new VariableAccess(vdfe, decl.startToken);
-			thisAccess.setRef(vdfe);
-			
-			FunctionCall initCall = new FunctionCall(decl, decl.startToken);
-			for(Argument arg: constructor.getArguments()) {
-				initCall.getArguments().add(new VariableAccess(arg, decl.startToken));
-			}
-			constructor.getBody().add(new Line(new MemberCall(thisAccess, initCall, decl.startToken)));
-			constructor.getBody().add(new Line(new ValuedReturn(thisAccess, decl.startToken)));
-			
-			addFunction(constructor);
+			addInit(decl);
 		} else if(decl.getName().equals("new")) {
 			FunctionDecl already = getFunction(decl.getName(), decl.getSuffix(), null);
 			if(already != null) { functions.remove(already); }
 		}
 		
 		super.addFunction(decl);
+	}
+
+	private void addInit(FunctionDecl decl) {
+		if(defaultInit != null) {
+			FunctionDecl newFunc = getFunction("new", "", null);
+			functions.remove(defaultInit);
+			functions.remove(newFunc);
+			defaultInit = null;
+		}
+		
+		FunctionDecl constructor = new FunctionDecl("new", decl.getSuffix(), false, true, false, false, decl.startToken);
+		Type retType = getType().clone();
+		retType.getTypeParams().clear();
+		
+		constructor.getArguments().addAll(decl.getArguments());
+		constructor.getTypeParams().putAll(getTypeParams());
+		
+		VariableAccess thisTypeAccess = new VariableAccess(name, decl.startToken);
+		thisTypeAccess.setRef(this);
+		VariableAccess classAccess = new MemberAccess(thisTypeAccess, "class", decl.startToken);
+		MemberCall allocCall = new MemberCall(classAccess, "alloc", "", decl.startToken);
+		Cast cast = new Cast(allocCall, getType(), decl.startToken);
+		VariableDeclFromExpr vdfe = new VariableDeclFromExpr("this", cast, decl.startToken);
+		constructor.getBody().add(new Line(vdfe));
+		
+		for(TypeParam genType: typeParams.values()) {
+			VariableAccess e = new VariableAccess(genType.getName(), constructor.startToken);
+			retType.getTypeParams().add(e);
+			
+			constructor.getBody().add(new Line(new Assignment(
+					new MemberAccess(genType.getName(), startToken), e, constructor.startToken))
+			);
+		}
+		constructor.setReturnType(retType);
+
+		VariableAccess thisAccess = new VariableAccess(vdfe, decl.startToken);
+		thisAccess.setRef(vdfe);
+		
+		FunctionCall initCall = new FunctionCall(decl, decl.startToken);
+		for(Argument arg: constructor.getArguments()) {
+			initCall.getArguments().add(new VariableAccess(arg, decl.startToken));
+		}
+		constructor.getBody().add(new Line(new MemberCall(thisAccess, initCall, decl.startToken)));
+		constructor.getBody().add(new Line(new ValuedReturn(thisAccess, decl.startToken)));
+		
+		addFunction(constructor);
 	}
 	
 	public void accept(Visitor visitor) throws IOException {
@@ -145,12 +150,14 @@ public class ClassDecl extends TypeDecl implements MustBeResolved {
 	}
 
 	public boolean isResolved() {
-		return getSuperRef() != null;
+		//return getSuperRef() != null;
+		return false;
 	}
 
 	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
 		
 		if(isResolved()) return Response.OK;
+		
 		if(getSuperType() != null && !(super.getSuperRef() instanceof ClassDecl)) {
 			throw new OocCompilationError(this, stack, "Trying to extends a "
 					+getSuperRef().getClass().getSimpleName()+". You can only extend classes.");
@@ -160,6 +167,13 @@ public class ClassDecl extends TypeDecl implements MustBeResolved {
 				if(fatal) throw new OocCompilationError(this, stack, "Super-type "
 						+getSuperType()+" of class "+getType()+" couldn't be resolved");
 				return Response.LOOP;
+			}
+			if(defaultInit == null) {
+				FunctionDecl superInit = getSuperRef().getFunction("init", "", null);
+				if(superInit != null && superInit == getSuperRef().defaultInit) {
+					addInit();
+					return Response.RESTART;
+				}
 			}
 		}
 		
@@ -172,10 +186,10 @@ public class ClassDecl extends TypeDecl implements MustBeResolved {
 			ClassDecl base = getSuperRef().getBaseClass(decl);
 			if(base != null) return base;
 		}
-		if(getFunction(decl.getName(), decl.getSuffix(), null) != null) return this;
+		if(getFunction(decl.getName(), decl.getSuffix(), null, false) != null) return this;
 		return null;
 	}
-
+	
 	public boolean isChildOf(String candidate) {
 		if(getSuperName().equals(candidate)) return true;
 		if(getSuperRef() != null) return getSuperRef().isChildOf(candidate);

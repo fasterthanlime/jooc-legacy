@@ -204,7 +204,7 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 	}
 
 	public String getArgsRepr() {
-		return getArgsRepr(false);
+		return getArgsRepr(true);
 	}	
 	
 	public String getArgsRepr(boolean skipThis) {

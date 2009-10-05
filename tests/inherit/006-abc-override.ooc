@@ -9,13 +9,9 @@ B: class extends A {
 C: class extends B {}
 
 main: func {
-	objs : Pointer[] = [A_new, B_new, C_new]
+	objs : Pointer[] = [A new, B new, C new]
 	for (i in 0..3) {
 		f := objs[i] as Func -> A
 		f() as A foo()
 	}
 }
-
-A_new: extern func -> A
-B_new: extern func -> A
-C_new: extern func -> A

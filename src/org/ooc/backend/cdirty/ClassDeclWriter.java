@@ -147,8 +147,6 @@ public class ClassDeclWriter {
 		}
 
 		for (FunctionDecl parentDecl : parentClass.getFunctions()) {
-			//if (parentDecl.isStatic()) continue;
-			
 			if(done.contains(parentDecl) && !parentDecl.getName().equals("init")) {
 				continue;
 			}

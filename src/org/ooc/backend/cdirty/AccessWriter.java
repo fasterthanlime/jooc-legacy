@@ -34,13 +34,9 @@ public class AccessWriter {
 		
 		if(memberAccess.getRef() instanceof FunctionDecl) {
 			FunctionDecl funcDecl = (FunctionDecl) memberAccess.getRef();
+			
 			TypeDecl typeDecl = funcDecl.getTypeDecl();
 			String typeName = typeDecl.getUnderName();
-			if(typeDecl instanceof ClassDecl) {
-				ClassDecl classDecl = (ClassDecl) typeDecl;
-				ClassDecl baseClass = classDecl.getBaseClass(funcDecl);
-				typeName = baseClass.getUnderName();
-			}
 			
 			cgen.current.app("((").app(typeName).app("Class *) ");
 			memberAccess.getExpression().accept(cgen);
