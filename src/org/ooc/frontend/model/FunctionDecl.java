@@ -398,7 +398,7 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
 		if(isMember() && typeDecl.getSuperRef() != null) {
 			FunctionDecl sup = typeDecl.getSuperRef().getFunction(name, suffix, null);
-			if(sup.getArguments().size() != getArguments().size()) {
+			if(sup != null && (sup.getArguments().size() != getArguments().size())) {
 				throw new OocCompilationError(this, stack, "Definition of "
 						+this+" conflicts with definition in super-type "
 						+typeDecl.getSuperRef().getName()+", you should add a suffix to this one or make it have the same arguments.");

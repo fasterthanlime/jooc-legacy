@@ -73,7 +73,7 @@ public class ClassDeclParser {
 			if(genTypes != null) for(TypeParam genType: genTypes) {
 				classDecl.addTypeParam(genType);
 			}
-			classDecl.addInit();
+			if(superType == null) classDecl.addInit();
 			module.parseStack.push(classDecl);
 			if(comment != null) classDecl.setComment(comment);
 			
