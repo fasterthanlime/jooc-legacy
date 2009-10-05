@@ -96,14 +96,17 @@ public class VariableDeclFromExpr extends VariableDecl {
 			return Response.LOOP;
 		}
 		if(expr != null && expr.getType().isGenericRecursive() && expr.getType().isFlat()) {
-			unwrapToDeclAssign(stack, atom, expr); 
+			addAfterLine(stack, toDeclAssign(stack, atom, expr)); 
 			return Response.RESTART;
+		}
+		if(expr != null && stack.peek(3) instanceof Module) {
+			((Module) stack.peek(3)).getLoadFunc().getBody().add(0, new Line(toDeclAssign(stack, atom, expr)));
 		}
 		
 		return super.resolve(stack, res, fatal);
 	}
 
-	private void unwrapToDeclAssign(NodeList<Node> stack, VariableDeclAtom atom, Expression expr) {
+	private Assignment toDeclAssign(NodeList<Node> stack, VariableDeclAtom atom, Expression expr) {
 		
 		VariableDecl decl = new VariableDecl(expr.getType(), false, startToken);
 		decl.getAtoms().add(new VariableDeclAtom(atom.getName(), null, startToken));
@@ -112,7 +115,7 @@ public class VariableDeclFromExpr extends VariableDecl {
 		Assignment ass = new Assignment(acc, expr, startToken);
 		
 		stack.peek().replace(this, decl);
-		addAfterLine(stack, ass);
+		return ass;
 		
 	}
 	
