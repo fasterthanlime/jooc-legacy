@@ -2,6 +2,7 @@ package org.ooc.backend.cdirty;
 
 import java.io.IOException;
 
+import org.ooc.backend.cdirty.FunctionDeclWriter.ArgsWriteMode;
 import org.ooc.frontend.model.ClassDecl;
 import org.ooc.frontend.model.FunctionDecl;
 import org.ooc.frontend.model.Type;
@@ -91,7 +92,9 @@ public class TypeWriter {
 
 	public static AwesomeWriter writeFuncPointerEnd(FunctionDecl decl, CGenerator cgen)
 			throws IOException {
-		return cgen.current.app(")()");
+		cgen.current.app(")");
+		FunctionDeclWriter.writeFuncArgs(decl, ArgsWriteMode.TYPES_ONLY, null, cgen);
+		return cgen.current;
 	}
 
 	public static AwesomeWriter writeFuncPointerStart(FunctionDecl decl, CGenerator cgen)

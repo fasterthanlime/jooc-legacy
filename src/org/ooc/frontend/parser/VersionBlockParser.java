@@ -2,9 +2,12 @@ package org.ooc.frontend.parser;
 
 import org.ooc.frontend.model.Module;
 import org.ooc.frontend.model.VersionBlock;
+import org.ooc.frontend.model.VersionNodes.VersionAnd;
 import org.ooc.frontend.model.VersionNodes.VersionName;
 import org.ooc.frontend.model.VersionNodes.VersionNegation;
 import org.ooc.frontend.model.VersionNodes.VersionNode;
+import org.ooc.frontend.model.VersionNodes.VersionOr;
+import org.ooc.frontend.model.VersionNodes.VersionParen;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.frontend.model.tokens.TokenReader;
 import org.ooc.frontend.model.tokens.Token.TokenType;
@@ -23,16 +26,19 @@ public class VersionBlockParser {
 			return null;
 		}
 		
-		VersionNode node = parseVersionNode(module, sReader, reader);
-		VersionBlock block = new VersionBlock(null, startToken);
-		
 		if(reader.read().type != TokenType.OPEN_PAREN) {
 			throw new CompilationFailedError(sReader.getLocation(reader.prev()),
-				"Expected opening parenthesis after version keyword");
+				"Expected '(' after version keyword");
 		}
 		
+		VersionNode node = parseVersionNode(module, sReader, reader);
 		
-		reader.skip();
+		if(reader.read().type != TokenType.CLOS_PAREN) {
+			throw new CompilationFailedError(sReader.getLocation(reader.prev()),
+				"Malformed version expression!");
+		}
+		
+		VersionBlock block = new VersionBlock(node, startToken);
 		
 		ControlStatementFiller.fill(module, sReader, reader, block.getBody());
 		
@@ -48,19 +54,86 @@ public class VersionBlockParser {
 			VersionNode inner = parseVersionNode(module, sReader, reader);
 			if(inner == null) {
 				throw new CompilationFailedError(sReader.getLocation(reader.peek()),
-						"Expecting version name after '!' in version block.");
+						"Expecting version expression after '!' in version block.");
 			}
 			return new VersionNegation(inner);
 		}
 		
-		Token nameTok = reader.read();
+		if(reader.peek().type == TokenType.OPEN_PAREN) {
+			reader.skip();
+			VersionNode inner = parseVersionNode(module, sReader, reader);
+			if(inner == null) {
+				throw new CompilationFailedError(sReader.getLocation(reader.peek()),
+						"Expecting version expression between '()' in version block.");
+			}
+			if(reader.read().type != TokenType.CLOS_PAREN) {
+				throw new CompilationFailedError(sReader.getLocation(reader.peek()),
+						"Expecting ')', got '"+reader.prev().get(sReader)+"'");
+			}
+			
+			VersionNode node = new VersionParen(inner);
+			VersionNode tmp;
+			while(true) {
+				tmp = getRemain(module, sReader, reader, node);
+				if(tmp == null) break;
+				node = tmp;
+			}
+			return node;
+		}
+		
+		Token nameTok = reader.peek();
 		if(nameTok.isNameToken()) {
-			VersionNode ver = new VersionName(nameTok.get(sReader));
-			return ver;
+			reader.skip();
+			VersionNode node = new VersionName(nameTok.get(sReader));
+			VersionNode tmp;
+			while(true) {
+				tmp = getRemain(module, sReader, reader, node);
+				if(tmp == null) break;
+				node = tmp;
+			}
+			return node;
 		}
 		
 		return null;
 		
+	}
+
+
+	private static VersionNode getRemain(Module module, SourceReader sReader,
+			TokenReader reader, VersionNode left) throws CompilationFailedError {
+		
+		VersionNode ver = null;
+		
+		while(true) {
+			
+			Token tok = reader.peek();
+			
+			if(tok.type == TokenType.DOUBLE_AMPERSAND) {
+				reader.skip();
+				VersionNode right = parseVersionNode(module, sReader, reader);
+				if(right == null) {
+					throw new CompilationFailedError(sReader.getLocation(reader.peek()),
+							"Expecting version expression after '&&' in version block.");
+				}
+				ver = new VersionAnd(left, right);
+				continue;
+			}
+			if(tok.type == TokenType.DOUBLE_PIPE) {
+				reader.skip();
+				VersionNode right = parseVersionNode(module, sReader, reader);
+				if(right == null) {
+					throw new CompilationFailedError(sReader.getLocation(reader.peek()),
+							"Expecting version expression after '||' in version block.");
+				}
+				ver = new VersionOr(left, right);
+				continue;
+			}
+			
+			break;
+			
+		}
+		
+		return ver;
 	}
 	
 }

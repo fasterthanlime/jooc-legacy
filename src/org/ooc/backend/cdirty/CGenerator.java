@@ -74,6 +74,7 @@ import org.ooc.frontend.model.VersionNodes.VersionName;
 import org.ooc.frontend.model.VersionNodes.VersionNegation;
 import org.ooc.frontend.model.VersionNodes.VersionNodeVisitor;
 import org.ooc.frontend.model.VersionNodes.VersionOr;
+import org.ooc.frontend.model.VersionNodes.VersionParen;
 import org.ooc.frontend.parser.BuildParams;
 import org.ooc.frontend.parser.TypeArgument;
 import org.ooc.middle.OocCompilationError;
@@ -442,28 +443,34 @@ public class CGenerator extends Generator implements Visitor {
 
 	public void visit(VersionBlock versionBlock) throws IOException {
 		current.app("\n#if ");
-		boolean first = true;
 		
-		versionBlock.getVersion().acceptChildren(new VersionNodeVisitor() {
+		versionBlock.getVersion().accept(new VersionNodeVisitor() {
 			
-			public void visit(VersionOr versionOr) {
-				// TODO Auto-generated method stub
-				
+			public void visit(VersionOr versionOr) throws IOException {
+				versionOr.getLeft().accept(this);
+				current.app(" || ");
+				versionOr.getRight().accept(this);
 			}
 			
-			public void visit(VersionAnd versionAnd) {
-				// TODO Auto-generated method stub
-				
+			public void visit(VersionAnd versionAnd) throws IOException {
+				versionAnd.getLeft().accept(this);
+				current.app(" && ");
+				versionAnd.getRight().accept(this);
 			}
 			
-			public void visit(VersionNegation versionNegation) {
-				// TODO Auto-generated method stub
-				
+			public void visit(VersionNegation versionNegation) throws IOException {
+				current.app('!');
+				versionNegation.getInner().accept(this);
 			}
 			
-			public void visit(VersionName versionName) {
-				// TODO Auto-generated method stub
-				
+			public void visit(VersionName versionName) throws IOException {
+				current.app("defined(").app(versionName.getName()).app(")");
+			}
+
+			public void visit(VersionParen versionParen) throws IOException {
+				current.app('(');
+				versionParen.getInner().accept(this);
+				current.app(')');
 			}
 		});
 		

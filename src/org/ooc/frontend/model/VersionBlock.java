@@ -2,7 +2,6 @@ package org.ooc.frontend.model;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.ooc.frontend.Visitor;
@@ -12,10 +11,12 @@ import org.ooc.frontend.model.VersionNodes.VersionNegation;
 import org.ooc.frontend.model.VersionNodes.VersionNode;
 import org.ooc.frontend.model.VersionNodes.VersionNodeVisitor;
 import org.ooc.frontend.model.VersionNodes.VersionOr;
+import org.ooc.frontend.model.VersionNodes.VersionParen;
 import org.ooc.frontend.model.interfaces.MustBeResolved;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.middle.OocCompilationError;
 import org.ooc.middle.hobgoblins.Resolver;
+import org.ubi.CompilationFailedError;
 
 public class VersionBlock extends Block implements MustBeResolved {
 
@@ -60,36 +61,49 @@ public class VersionBlock extends Block implements MustBeResolved {
 
 	public Response resolve(final NodeList<Node> stack, Resolver res, boolean fatal) {
 		
-		version.acceptChildren(new VersionNodeVisitor() {
-			
-			public void visit(VersionOr versionOr) {
-				versionOr.acceptChildren(this);
-			}
-			
-			public void visit(VersionAnd versionAnd) {
-				versionAnd.acceptChildren(this);
-			}
-			
-			public void visit(VersionNegation versionNegation) {
-				versionNegation.acceptChildren(this);				
-			}
-			
-			public void visit(VersionName versionName) {
-				if(versionName.solved) return;
-				String match = map.get(versionName.name.toLowerCase());
-				if(match != null) {
-					versionName.name = match;
-					versionName.solved = true;
-				} else {
-					System.out.println(new OocCompilationError(VersionBlock.this, stack,
-							"Unknown version id: '" + versionName.name
-							+ "', compiling anyway (who knows?)").toString());
+		try {
+			version.accept(new VersionNodeVisitor() {
+				
+				public void visit(VersionOr versionOr) throws IOException {
+					versionOr.acceptChildren(this);
 				}
-			}
-		});
+				
+				public void visit(VersionAnd versionAnd) throws IOException {
+					versionAnd.acceptChildren(this);
+				}
+				
+				public void visit(VersionNegation versionNegation) throws IOException {
+					versionNegation.acceptChildren(this);				
+				}
+				
+				public void visit(VersionName versionName) {
+					if(versionName.solved) return;
+					String match = map.get(versionName.name.toLowerCase());
+					if(match != null) {
+						versionName.name = match;
+						versionName.solved = true;
+					} else {
+						System.out.println(new OocCompilationError(VersionBlock.this, stack,
+								"Unknown version id: '" + versionName.name
+								+ "', compiling anyway (who knows?)").toString());
+					}
+				}
+
+				public void visit(VersionParen versionParen) throws IOException {
+					versionParen.acceptChildren(this);
+				}
+			});
+		} catch (IOException e) {
+			throw new CompilationFailedError(e);
+		}
 		
 		return Response.OK;
 		
+	}
+	
+	@Override
+	public void accept(Visitor visitor) throws IOException {
+		visitor.visit(this);
 	}
 
 }

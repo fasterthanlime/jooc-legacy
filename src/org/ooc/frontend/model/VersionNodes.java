@@ -1,14 +1,17 @@
 package org.ooc.frontend.model;
 
+import java.io.IOException;
+
 
 public class VersionNodes {
 
 	public static interface VersionNodeVisitor {
 
-		void visit(VersionName versionName);
-		void visit(VersionNegation versionNegation);
-		void visit(VersionAnd versionAnd);
-		void visit(VersionOr versionOr);
+		void visit(VersionName versionName) throws IOException;
+		void visit(VersionNegation versionNegation) throws IOException;
+		void visit(VersionAnd versionAnd) throws IOException;
+		void visit(VersionOr versionOr) throws IOException;
+		void visit(VersionParen versionParen) throws IOException;
 		
 	}
 	
@@ -18,8 +21,8 @@ public class VersionNodes {
 	 */
 	public static abstract class VersionNode {
 		
-		public abstract void accept(VersionNodeVisitor visitor);
-		public abstract void acceptChildren(VersionNodeVisitor visitor);
+		public abstract void accept(VersionNodeVisitor visitor) throws IOException;
+		public abstract void acceptChildren(VersionNodeVisitor visitor) throws IOException;
 	}
 	
 	public static class VersionName extends VersionNode {
@@ -36,12 +39,17 @@ public class VersionNodes {
 		}
 
 		@Override
-		public void accept(VersionNodeVisitor visitor) {
+		public void accept(VersionNodeVisitor visitor) throws IOException {
 			visitor.visit(this);
 		}
 
 		@Override
 		public void acceptChildren(VersionNodeVisitor visitor) {}
+		
+		@Override
+		public String toString() {
+			return name;
+		}
 		
 	}
 	
@@ -58,13 +66,47 @@ public class VersionNodes {
 		}
 		
 		@Override
-		public void accept(VersionNodeVisitor visitor) {
+		public void accept(VersionNodeVisitor visitor) throws IOException {
 			visitor.visit(this);
 		}
 
 		@Override
-		public void acceptChildren(VersionNodeVisitor visitor) {
+		public void acceptChildren(VersionNodeVisitor visitor) throws IOException {
 			inner.accept(visitor);
+		}
+		
+		@Override
+		public String toString() {
+			return "!" + inner;
+		}
+		
+	}
+	
+	public static class VersionParen extends VersionNode {
+		
+		VersionNode inner;
+
+		public VersionParen(VersionNode inner) {
+			this.inner = inner;
+		}
+		
+		public VersionNode getInner() {
+			return inner;
+		}
+		
+		@Override
+		public void accept(VersionNodeVisitor visitor) throws IOException {
+			visitor.visit(this);
+		}
+
+		@Override
+		public void acceptChildren(VersionNodeVisitor visitor) throws IOException {
+			inner.accept(visitor);
+		}
+		
+		@Override
+		public String toString() {
+			return "(" + inner + ")";
 		}
 		
 	}
@@ -96,7 +138,7 @@ public class VersionNodes {
 		}
 		
 		@Override
-		public void acceptChildren(VersionNodeVisitor visitor) {
+		public void acceptChildren(VersionNodeVisitor visitor) throws IOException {
 			left.accept(visitor);
 			right.accept(visitor);
 		}
@@ -110,10 +152,15 @@ public class VersionNodes {
 		}
 
 		@Override
-		public void accept(VersionNodeVisitor visitor) {
+		public void accept(VersionNodeVisitor visitor) throws IOException {
 			visitor.visit(this);
 		}
-		
+
+		@Override
+		public String toString() {
+			return left + " && " + right;
+		}
+
 	}
 	
 	public static class VersionOr extends VersionCouple {
@@ -123,8 +170,13 @@ public class VersionNodes {
 		}
 
 		@Override
-		public void accept(VersionNodeVisitor visitor) {
+		public void accept(VersionNodeVisitor visitor) throws IOException {
 			visitor.visit(this);
+		}
+		
+		@Override
+		public String toString() {
+			return left + " || " + right;
 		}
 		
 	}

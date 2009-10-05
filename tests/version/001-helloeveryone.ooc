@@ -12,5 +12,8 @@ main: func {
 	version(!linux && !apple && !windows) {
 		"Hi, stranger ;)" println()
 	}
+	version((linux || apple) && unix) {
+		"Oh, wow, good vibes!" println()
+	}
 
 }

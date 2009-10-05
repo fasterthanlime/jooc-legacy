@@ -1,5 +1,5 @@
 include stdlib, string
-import lang/[Int, LLong, Double, Range, stdio]
+import lang/[Int, Bool, LLong, Double, Range, stdio]
 
 atoi: extern func (String) -> Int
 atol: extern func (String) -> Long
@@ -235,6 +235,14 @@ operator + (left: Int, right: String) -> String {
 }
 
 operator + (left: String, right: Int) -> String {
+	left + right toString()
+}
+
+operator + (left: Bool, right: String) -> String {
+	left toString() + right
+}
+
+operator + (left: String, right: Bool) -> String {
 	left + right toString()
 }
 
