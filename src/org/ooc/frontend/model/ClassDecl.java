@@ -32,7 +32,6 @@ public class ClassDecl extends TypeDecl implements MustBeResolved {
 
 	public void addInit() {
 		if(!isAbstract && defaultInit == null) {
-			System.out.println("Adding init to "+this);
 			FunctionDecl init = new FunctionDecl("init", "", false, false, false, false, startToken);
 			addFunction(init);
 			defaultInit = init;
