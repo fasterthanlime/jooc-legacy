@@ -120,7 +120,6 @@ public class Foreach extends ControlStatement implements MustBeResolved {
 					if(fatal) throw new OocCompilationError(this, stack, "couldn't resolve iterType "+iterType);
 					return Response.LOOP;
 				}
-				System.out.println("iterType = "+iterType);
 				
 				int lineIndex = stack.find(Line.class);
 				Line line = (Line) stack.get(lineIndex);
