@@ -225,6 +225,11 @@ public class Type extends Node implements MustBeResolved {
 		}
 		
 		if(ref == null && fatal) {
+			if(res.params.veryVerbose) {
+				Thread.dumpStack();
+				throw new OocCompilationError(this, stack, "Couldn't resolve type "
+					+getName()+", btw, stack = "+stack.toString(true));
+			}
 			throw new OocCompilationError(this, stack, "Couldn't resolve type "
 					+getName());
 		}

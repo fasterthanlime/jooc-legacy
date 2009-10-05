@@ -108,23 +108,25 @@ public class Foreach extends ControlStatement implements MustBeResolved {
 		if(collection.getType().getRef() instanceof ClassDecl) {
 			ClassDecl classDecl = (ClassDecl) collection.getType().getRef();
 			if(classDecl.isChildOf("Iterable")) {
-				FunctionDecl iterFunc = classDecl.getFunction("iterator", "", null);
+				MemberCall iterCall = new MemberCall(collection, "iterator", "", startToken);
+				Response resp = Response.LOOP;
+				while(resp == Response.LOOP) {
+					resp = iterCall.resolve(stack, res, true);
+				}
 				
-				Type iterType = iterFunc.getReturnType();
+				Type iterType = iterCall.getType();
 				iterType.resolve(stack, res, false);
 				if(iterType.getRef() == null) {
 					if(fatal) throw new OocCompilationError(this, stack, "couldn't resolve iterType "+iterType);
 					return Response.LOOP;
 				}
+				System.out.println("iterType = "+iterType);
 				
 				int lineIndex = stack.find(Line.class);
 				Line line = (Line) stack.get(lineIndex);
 				NodeList<Line> list = (NodeList<Line>) stack.get(lineIndex - 1);
 				
 				Block block = new Block(startToken);
-				
-				MemberCall iterCall = new MemberCall(collection, "iterator", "", startToken);
-				iterCall.resolve(stack, res, true);
 				
 				VariableDecl vdfe = new VariableDecl(iterCall.getType(), false, startToken);
 				vdfe.setType(iterType);
