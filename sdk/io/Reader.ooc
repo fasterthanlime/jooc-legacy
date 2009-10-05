@@ -5,7 +5,7 @@
 Reader: abstract class {
 	marker: Long
 	
-	read: abstract func(chars: String, offset: Int, count: Int)
+	read: abstract func(chars: String, offset: Int, count: Int) -> SizeT
 	read: abstract func ~char -> Char
 	hasNext: abstract func -> Bool
 	rewind: abstract func(offset: Int)
