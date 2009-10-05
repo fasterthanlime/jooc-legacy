@@ -147,7 +147,7 @@ public class ClassDeclWriter {
 		}
 
 		for (FunctionDecl parentDecl : parentClass.getFunctions()) {
-			if (parentDecl.isStatic()) continue;
+			//if (parentDecl.isStatic()) continue;
 			
 			if(done.contains(parentDecl) && !parentDecl.getName().equals("init")) {
 				continue;
@@ -164,7 +164,7 @@ public class ClassDeclWriter {
 				}
 			}
 			
-			if (parentDecl.isFinal() || (realDecl == null && parentDecl.isAbstract())) {
+			if (parentDecl.isStatic() || parentDecl.isFinal() || (realDecl == null && parentDecl.isAbstract())) {
 				writeDesignatedInit(parentDecl, realDecl, false, cgen);
 			} else {
 				writeDesignatedInit(parentDecl, realDecl, true, cgen);
@@ -225,8 +225,8 @@ public class ClassDeclWriter {
 
 		/* Now write all virtual functions prototypes in the class struct */
 		for (FunctionDecl decl : classDecl.getFunctions()) {
-			if (decl.isStatic())
-				continue;
+			//if (decl.isStatic())
+			//	continue;
 			
 			if(classDecl.getSuperRef() != null) {
 				FunctionDecl superDecl = classDecl.getSuperRef().getFunction(decl.getName(), decl.getSuffix(), null);

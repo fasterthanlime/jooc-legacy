@@ -41,9 +41,11 @@ public class AccessWriter {
 				ClassDecl baseClass = classDecl.getBaseClass(funcDecl);
 				typeName = baseClass.getUnderName();
 			}
+			
 			cgen.current.app("((").app(typeName).app("Class *) ");
 			memberAccess.getExpression().accept(cgen);
 			cgen.current.app(")->").app(memberAccess.getName());
+			
 			return;
 		}
 		

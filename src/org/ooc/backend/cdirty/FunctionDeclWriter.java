@@ -90,9 +90,9 @@ public class FunctionDeclWriter {
 		
 		cgen.current.app('(');
 		boolean isFirst = true;
-		
+
 		Iterator<Argument> iter = functionDecl.getArguments().iterator();
-		if(functionDecl.hasThis()) {
+		if(functionDecl.hasThis() && iter.hasNext()) {
 			if(!isFirst) cgen.current.app(", ");
 			isFirst = false;
 			Argument arg = iter.next();

@@ -42,7 +42,6 @@ public class FuncType extends Type {
 	
 	@Override
 	public Type clone() {
-		System.out.println(" // cloned a FuncType!");
 		FuncType copy =  new FuncType(startToken);
 		copy.decl = decl;
 		return copy;
