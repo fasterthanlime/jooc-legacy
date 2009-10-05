@@ -66,7 +66,7 @@ public class Tinkerer {
 				}
 			}
 			if(round > params.blowup) {
-				throw new CompilationFailedError(null, "Tinkerer goind round in circles. Remaining modules = "+resolvers);
+				throw new CompilationFailedError(null, "Tinkerer going round in circles. Remaining modules = "+resolvers);
 			}
 			
 		}

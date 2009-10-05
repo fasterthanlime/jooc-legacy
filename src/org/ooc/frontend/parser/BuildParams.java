@@ -40,6 +40,6 @@ public class BuildParams {
 	
 	public List<String> dynamicLibs = new ArrayList<String>();
 
-	public int blowup = 128; /** maximum number of rounds the {@link Tinkerer} will do before blowing up. */
+	public int blowup = 256; /** maximum number of rounds the {@link Tinkerer} will do before blowing up. */
 	
 }
