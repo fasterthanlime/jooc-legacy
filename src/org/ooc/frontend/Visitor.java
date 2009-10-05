@@ -57,6 +57,7 @@ import org.ooc.frontend.model.ValuedReturn;
 import org.ooc.frontend.model.VarArg;
 import org.ooc.frontend.model.VariableAccess;
 import org.ooc.frontend.model.VariableDecl;
+import org.ooc.frontend.model.VersionBlock;
 import org.ooc.frontend.model.While;
 import org.ooc.frontend.model.VariableDecl.VariableDeclAtom;
 import org.ooc.frontend.parser.TypeArgument;
@@ -129,6 +130,7 @@ public interface Visitor {
 	public void visit(MultiMap<?, ?> list) throws IOException;
 
 	public void visit(Block block) throws IOException;
+	public void visit(VersionBlock versionBlock) throws IOException;
 
 	public void visit(Cast cast) throws IOException;
 

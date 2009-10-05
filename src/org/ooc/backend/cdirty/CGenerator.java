@@ -66,8 +66,10 @@ import org.ooc.frontend.model.ValuedReturn;
 import org.ooc.frontend.model.VarArg;
 import org.ooc.frontend.model.VariableAccess;
 import org.ooc.frontend.model.VariableDecl;
+import org.ooc.frontend.model.VersionBlock;
 import org.ooc.frontend.model.While;
 import org.ooc.frontend.model.VariableDecl.VariableDeclAtom;
+import org.ooc.frontend.model.VersionBlock.Version;
 import org.ooc.frontend.parser.BuildParams;
 import org.ooc.frontend.parser.TypeArgument;
 import org.ooc.middle.OocCompilationError;
@@ -432,6 +434,25 @@ public class CGenerator extends Generator implements Visitor {
 
 	public void visit(Case case1) throws IOException {
 		// hmmm... no
+	}
+
+	public void visit(VersionBlock versionBlock) throws IOException {
+		current.app("\n#if ");
+		boolean first = true;
+		for(Version version: versionBlock.getVersions()) {
+			if(!first) {
+				current.app("|| ");
+			}
+			if(version.isInverse()) {
+				current.app("!");
+			}
+			current.app("defined(");
+			current.app(version.getName());
+			current.app(")");
+			first = false;
+		}
+		//super.writeToCSource(a);
+		current.app("\n#endif");
 	}
 
 }
