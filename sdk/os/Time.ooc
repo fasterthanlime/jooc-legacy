@@ -22,6 +22,10 @@ gettimeofday: extern func (TimeVal*, TimeZone*) -> Int
 
 Time: class {
 	
+	microtime: static func -> Long {
+		return microsec() + sec() * 1_000_000
+	}
+	
 	microsec: static func -> SUSecondsT {
 		tv : TimeVal
 		gettimeofday(tv&, null)

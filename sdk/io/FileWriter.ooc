@@ -28,4 +28,8 @@ FileWriter: class extends Writer {
     write: func(chars: String, length: SizeT) -> SizeT {
         fwrite(chars, 1, length, file)
     }
+	
+	write: func ~chr (chr: Char) {
+		fputc(chr, file)
+	}
 }

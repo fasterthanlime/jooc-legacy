@@ -108,7 +108,7 @@ public class MemberAccess extends VariableAccess {
 				if(varAcc.getRef() instanceof TypeDecl && !(varAcc.getRef() instanceof TypeParam)) {
 					if(ref instanceof VariableDecl) {
 						VariableDecl varDecl = (VariableDecl) ref;
-						if(!varDecl.isStatic() && !ref.getName().equals("class")) {
+						if(!varDecl.isStatic() && !varDecl.hasAtom("class")) {
 							throw new OocCompilationError(this, stack, 
 									"Trying to access member variable "+exprType
 									+"."+getName()+" as if it were static. But it's not. (btw, expression's ref = "+varAcc.getRef());

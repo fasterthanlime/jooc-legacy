@@ -116,6 +116,8 @@ public class ModuleWriter {
 	
 	private static void writeDefaultMain(CGenerator cgen) throws IOException {
 		
+		if(!cgen.params.link) return;
+		
 		boolean got = false;
 		for(Node node: cgen.module.getBody()) {
 			if(!(node instanceof FunctionDecl)) continue;
