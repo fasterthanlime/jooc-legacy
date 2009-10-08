@@ -180,7 +180,8 @@ public class Type extends Node implements MustBeResolved {
 	public boolean equals(Object obj) {
 		if(obj instanceof Type) {
 			Type type = (Type) obj;
-			return name.equals(type.name) && pointerLevel == type.getPointerLevel();
+			boolean result = name.equals(type.name) && pointerLevel == type.getPointerLevel();
+			return result;
 		}
 		return super.equals(obj);
 	}

@@ -13,6 +13,7 @@ import org.ooc.frontend.model.FunctionDecl;
 import org.ooc.frontend.model.MemberAccess;
 import org.ooc.frontend.model.MemberCall;
 import org.ooc.frontend.model.NodeList;
+import org.ooc.frontend.model.Type;
 import org.ooc.frontend.model.TypeAccess;
 import org.ooc.frontend.model.TypeDecl;
 import org.ooc.frontend.model.TypeParam;
@@ -129,8 +130,11 @@ public class CallWriter {
 		boolean shouldCast = false;
 		if(argIndex != -1 && argIndex < implArgs.size() && (impl.isExtern() || impl.getName().equals("init"))) {
 			Argument arg = implArgs.get(argIndex);
-			if(!(arg instanceof VarArg)) {
-				shouldCast = true;
+			Type implType = arg.getType().getGroundType();
+			Type callType = callArg.getType().getGroundType();
+			shouldCast = !(arg instanceof VarArg) && !(callType.equals(implType));
+			System.out.println("Confronting "+implType+" with "+callType+" in "+impl.getName()+", result = "+shouldCast);
+			if(shouldCast) {
 				cgen.current.app("((");
 				arg.getType().accept(cgen);
 				cgen.current.app(") (");
