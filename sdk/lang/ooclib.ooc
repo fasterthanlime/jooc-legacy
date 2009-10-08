@@ -49,7 +49,21 @@ va_end: extern func (VaList) // ap
 exit: extern func (Int)
 
 // math
+cos: extern func (Double) -> Double
+sin: extern func (Double) -> Double
+tan: extern func (Double) -> Double
+
+acos: extern func (Double) -> Double
+asin: extern func (Double) -> Double
+atan: extern func (Double) -> Double
+
+atan2: extern func (Double, Double) -> Double
+
+sqrt: extern func (Double) -> Double
 pow: extern func (Double, Double) -> Double
+
+srand: extern func(Int)
+rand: extern func -> Int
 
 // memory management
 sizeof: extern func (...) -> SizeT

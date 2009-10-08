@@ -64,6 +64,8 @@ public class OpDeclParser {
 				throw new CompilationFailedError(null, "Unexpected token "+reader.peek()
 						+". You're probably trying to override [] (indexing) or []= (indexed assign)");
 			}
+		} else if(token.type == TokenType.AS_KW) {
+			type = OpType.AS;
 		} else {
 			throw new CompilationFailedError(null, "Trying to overload unknown operator "+token);
 		}

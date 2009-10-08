@@ -38,7 +38,8 @@ public class OpDecl extends Declaration {
 		LT,
 		LTE,
 		EQ,
-		NE;
+		NE,
+		AS;
 		
 		public String toPrettyString() {
 			switch(this) {
@@ -102,6 +103,8 @@ public class OpDecl extends Declaration {
 				return "|=";
 			case B_AND_ASS:
 				return "&=";
+			case AS:
+				return "as";
 			}
 			
 			return "unknown";
@@ -130,6 +133,9 @@ public class OpDecl extends Declaration {
 		Iterator<Argument> iter = func.getArguments().iterator();
 		while(iter.hasNext()) {
 			name += "_" + iter.next().getType().getMangledName();
+		}
+		if(!func.getReturnType().isVoid()) {
+			name += "__" + func.getReturnType().getMangledName();
 		}
 		func.setName(name);
 	}

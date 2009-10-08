@@ -3,9 +3,12 @@ package org.ooc.frontend.model;
 import java.io.IOException;
 
 import org.ooc.frontend.Visitor;
+import org.ooc.frontend.model.OpDecl.OpType;
+import org.ooc.frontend.model.interfaces.MustBeResolved;
 import org.ooc.frontend.model.tokens.Token;
+import org.ooc.middle.hobgoblins.Resolver;
 
-public class Cast extends Expression {
+public class Cast extends Expression implements MustBeResolved {
 
 	protected Expression expression;
 	protected Type type;
@@ -83,6 +86,45 @@ public class Cast extends Expression {
 	@Override
 	public boolean canBeReferenced() {
 		return expression.canBeReferenced();
+	}
+
+	public boolean isResolved() {
+		return false;
+	}
+
+	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
+		
+		for(OpDecl op: res.module.getOps()) {
+			if(tryOp(stack, op, res)) return Response.RESTART;
+		}
+		for(Import imp: res.module.getImports()) {
+			for(OpDecl op: imp.getModule().getOps()) {
+				if(tryOp(stack, op, res)) return Response.RESTART;
+			}
+		}		
+		
+		return Response.OK;
+		
+	}
+
+	private boolean tryOp(NodeList<Node> stack, OpDecl op, Resolver res) {
+		
+		if(op.opType != OpType.AS) return false;
+		
+		FunctionDecl func = op.getFunc();
+		NodeList<Argument> args = func.getArguments();
+		
+		if(expression.getType().softEquals(args.get(0).getType(), res) && type.softEquals(func.getReturnType(), res)) {
+			System.out.println("Found potential match for "+this+" with op "+op);
+			FunctionCall call = new FunctionCall(op.getFunc(), startToken);
+			call.getArguments().add(expression);
+			Node parent = stack.peek();
+			parent.replace(this, call);
+			call.resolve(stack, res, true);
+		}
+		
+		return false;
+		
 	}
 
 }
