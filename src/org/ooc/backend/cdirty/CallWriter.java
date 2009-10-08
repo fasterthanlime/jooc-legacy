@@ -133,7 +133,6 @@ public class CallWriter {
 			Type implType = arg.getType().getGroundType();
 			Type callType = callArg.getType().getGroundType();
 			shouldCast = !(arg instanceof VarArg) && !(callType.equals(implType));
-			System.out.println("Confronting "+implType+" with "+callType+" in "+impl.getName()+", result = "+shouldCast);
 			if(shouldCast) {
 				cgen.current.app("((");
 				arg.getType().accept(cgen);
