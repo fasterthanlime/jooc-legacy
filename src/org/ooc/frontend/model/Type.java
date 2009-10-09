@@ -384,6 +384,9 @@ public class Type extends Node implements MustBeResolved {
 				return softEquals(subType, res);
 			}
 		}
+		
+		if(		getClassification() == Classification.NUMBER
+		&& type.getClassification() == Classification.NUMBER) return true;
 		return false;
 	}
 	
