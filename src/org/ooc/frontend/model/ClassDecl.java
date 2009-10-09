@@ -3,12 +3,11 @@ package org.ooc.frontend.model;
 import java.io.IOException;
 
 import org.ooc.frontend.Visitor;
-import org.ooc.frontend.model.interfaces.MustBeResolved;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.middle.OocCompilationError;
 import org.ooc.middle.hobgoblins.Resolver;
 
-public class ClassDecl extends TypeDecl implements MustBeResolved {
+public class ClassDecl extends TypeDecl {
 
 	public static final String DESTROY_FUNC_NAME = "__destroy__";
 	public static final String DEFAULTS_FUNC_NAME = "__defaults__";
@@ -148,12 +147,16 @@ public class ClassDecl extends TypeDecl implements MustBeResolved {
 		if(getSuperRef() != null) getSuperRef().getVariables(variables);
 	}
 
+	@Override
 	public boolean isResolved() {
-		//return getSuperRef() != null;
 		return false;
 	}
 
+	@Override
 	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
+		
+		Response response = super.resolve(stack, res, fatal);
+		if(response != Response.OK) return response;
 		
 		if(isResolved()) return Response.OK;
 		

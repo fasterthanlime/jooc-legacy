@@ -8,7 +8,6 @@ import java.util.List;
 import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.Compare.CompareType;
 import org.ooc.frontend.model.VariableDecl.VariableDeclAtom;
-import org.ooc.frontend.model.interfaces.MustBeResolved;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.middle.hobgoblins.Resolver;
 
@@ -24,7 +23,7 @@ import org.ooc.middle.hobgoblins.Resolver;
  * 
  * @author Amos Wenger
  */
-public class CoverDecl extends TypeDecl implements MustBeResolved {
+public class CoverDecl extends TypeDecl {
 
 	protected OocDocComment comment;
 	protected Type fromType;
@@ -205,6 +204,7 @@ public class CoverDecl extends TypeDecl implements MustBeResolved {
 		addons.add(node);
 	}
 
+	@Override
 	public boolean isResolved() {
 		return (fromType == null || fromType.getRef() != null);
 	}
@@ -216,7 +216,11 @@ public class CoverDecl extends TypeDecl implements MustBeResolved {
 	 * If it's not, then a {@link BuiltinType} must be created
 	 * so that it's considered 'resolved' (e.g. it's somewhere in C)
 	 */
+	@Override
 	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
+		
+		Response response = super.resolve(stack, res, fatal);
+		if(response != Response.OK) return response;
 		
 		if(fromType == null) return Response.OK;
 		fromType.resolve(res);

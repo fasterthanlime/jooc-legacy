@@ -4,13 +4,12 @@ import java.io.IOException;
 import java.util.Iterator;
 
 import org.ooc.frontend.Visitor;
-import org.ooc.frontend.model.interfaces.MustBeResolved;
 import org.ooc.frontend.model.interfaces.MustBeUnwrapped;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.middle.OocCompilationError;
 import org.ooc.middle.hobgoblins.Resolver;
 
-public class VariableDecl extends Declaration implements MustBeUnwrapped, PotentiallyStatic, MustBeResolved {
+public class VariableDecl extends Declaration implements MustBeUnwrapped, PotentiallyStatic {
 
 	public static class VariableDeclAtom extends Node {
 		String name;
@@ -287,11 +286,26 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 		return (externName == null || externName.length() > 0) && type != null && !(type.getName().equals("Class"));
 	}
 
+	@Override
 	public boolean isResolved() {
 		return false;
 	}
 
+	@Override
 	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
+		
+		Response response = super.resolve(stack, res, fatal);
+		if(response != Response.OK) return response;
+		
+		for(VariableDeclAtom atom: atoms) {
+			String name = atom.name;
+			for(int i = 0; i < RESERVED_NAMES.length; i++) {
+				if(RESERVED_NAMES[i].equals(name)) {
+				 throw new OocCompilationError(atom, stack, "'"+name
+					+"' is a reserved keyword in C99, you can't declare something with that name.");
+				}
+			}
+		}
 		
 		Type type = getType();
 		if(type != null && type.getRef() != null && !type.isArray() && type.isGenericRecursive()

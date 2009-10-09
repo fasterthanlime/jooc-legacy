@@ -8,13 +8,12 @@ import java.util.Map;
 import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.IntLiteral.Format;
 import org.ooc.frontend.model.NodeList.AddListener;
-import org.ooc.frontend.model.interfaces.MustBeResolved;
 import org.ooc.frontend.model.interfaces.MustBeUnwrapped;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.middle.OocCompilationError;
 import org.ooc.middle.hobgoblins.Resolver;
 
-public class FunctionDecl extends Declaration implements Scope, Generic, MustBeUnwrapped, MustBeResolved, PotentiallyStatic {
+public class FunctionDecl extends Declaration implements Scope, Generic, MustBeUnwrapped, PotentiallyStatic {
 
 	public static Type type = new FuncType(Token.defaultToken);
 	
@@ -392,11 +391,16 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 		return false;
 	}
 
+	@Override
 	public boolean isResolved() {
 		return false;
 	}
 
+	@Override
 	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
+		
+		Response response = super.resolve(stack, res, fatal);
+		if(response != Response.OK) return response;
 		
 		if(isMember() && typeDecl.getSuperRef() != null) {
 			FunctionDecl sup = typeDecl.getSuperRef().getFunction(name, suffix, null);

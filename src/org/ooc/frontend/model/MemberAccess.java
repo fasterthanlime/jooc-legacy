@@ -97,8 +97,8 @@ public class MemberAccess extends VariableAccess {
 			tryResolve(stack, exprType.getFlatType(res), res);
 		}
 		
-		if(ref != null && ref.getType() == null && ref instanceof MustBeResolved) {
-			MustBeResolved must = (MustBeResolved) ref;
+		if(ref != null && ref.getType() == null) {
+			MustBeResolved must = ref;
 			must.resolve(stack, res, fatal);
 		}
 		
