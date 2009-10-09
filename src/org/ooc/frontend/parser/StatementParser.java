@@ -54,6 +54,7 @@ public class StatementParser {
 					throw new CompilationFailedError(sReader.getLocation(reader.peek()),
 							"Expected lines or '}' in block, but got "+reader.peek());
 				}
+				reader.skipWhitespace();
 			}
 			reader.skip(); // skip the closing bracket.
 			return block;

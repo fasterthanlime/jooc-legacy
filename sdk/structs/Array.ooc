@@ -6,7 +6,7 @@ Array: class <T> extends Iterable {
 	data: T*
 	
 	init: func (=size) {
-		data = gc_calloc(size, Pointer size)
+		data = gc_calloc(size, T size)
 	}
 	
 	// FIXME .data should work!
