@@ -62,7 +62,8 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 			}
 		});
 		this.typeParams = new LinkedHashMap<String, TypeParam>();
-		this.returnArg = new RegularArgument(NullLiteral.type, generateTempName("returnArg"), startToken);
+		// FIXME this will bite us in the ass later. Ohh yes it will
+		this.returnArg = new RegularArgument(NullLiteral.type, "__returnArg", startToken);
 	}
 
 	public LinkedHashMap<String, TypeParam> getTypeParams() {
@@ -314,7 +315,7 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 	public boolean unwrap(NodeList<Node> stack) throws IOException {
 		if(name.length() == 0) {
 			Module module = stack.getModule();
-			name = stack.get(0).generateTempName(module.getUnderName()+"_closure");
+			name = stack.get(0).generateTempName(module.getUnderName()+"_closure", stack);
 			VariableAccess varAcc = new VariableAccess(name, startToken);
 			varAcc.setRef(this);
 			stack.peek().replace(this, varAcc);

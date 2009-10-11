@@ -21,4 +21,9 @@ public class Icc extends Gcc {
 		command.add(executablePath);
 	}
 	
+	@Override
+	public Icc clone() {
+		return new Icc();
+	}
+	
 }

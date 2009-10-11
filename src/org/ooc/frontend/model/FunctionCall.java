@@ -247,8 +247,8 @@ public class FunctionCall extends Access implements MustBeResolved {
 			} else if(parent instanceof Line) {
 				// alright =)
 			} else {
-				VariableDeclFromExpr vdfe = new VariableDeclFromExpr(generateTempName("gcall"),
-						this, startToken);
+				VariableDeclFromExpr vdfe = new VariableDeclFromExpr(
+						generateTempName("gcall", stack), this, startToken);
 				Type implRetType = impl.getReturnType();
 				if(implRetType.getRef() == null) {
 					if(impl.getTypeDecl() != null) stack.push(impl.getTypeDecl());
@@ -391,7 +391,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 			Expression expr = arguments.get(i);
 			if(!(expr instanceof VariableAccess)) {
 				VariableDeclFromExpr vdfe = new VariableDeclFromExpr(
-						generateTempName(genType.getName()+"param"), expr, startToken);
+						generateTempName(genType.getName()+"param", stack), expr, startToken);
 				arguments.replace(expr, vdfe);
 				stack.push(this);
 				stack.push(arguments);

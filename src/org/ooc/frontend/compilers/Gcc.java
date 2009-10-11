@@ -51,14 +51,6 @@ public class Gcc extends BaseCompiler {
 	@Override
 	public void reset() {
 		super.reset();
-		command.add("-pipe");
-		String os = System.getProperty("os.name").toLowerCase();
-		if(os.indexOf("windows 9") == -1
-				&& os.indexOf("nt") == -1
-				&& os.indexOf("windows 20") == -1
-				&& os.indexOf("windows xp") == -1) {
-			command.add("-combine");
-		}
 		command.add("-std=c99");
 		command.add("-Wall");
 	}
@@ -69,6 +61,11 @@ public class Gcc extends BaseCompiler {
 
 	public boolean supportsVLAs() {
 		return true;
+	}
+	
+	@Override
+	public Gcc clone() {
+		return new Gcc();
 	}
 
 }

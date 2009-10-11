@@ -87,7 +87,7 @@ public class Match extends Expression implements MustBeResolved {
 		} else {
 			// we're being USED! as an expression somewhere, let's unwrap to a varDecl.
 			VariableDecl varDecl = new VariableDecl(getType(), false, startToken);
-			varDecl.getAtoms().add(new VariableDeclAtom(generateTempName("match"), null, startToken));
+			varDecl.getAtoms().add(new VariableDeclAtom(generateTempName("match", stack), null, startToken));
 			addBeforeLine(stack, varDecl);
 			addBeforeLine(stack, this);
 			VariableAccess varAcc = new VariableAccess(varDecl, startToken);

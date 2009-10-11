@@ -341,9 +341,11 @@ public class CGenerator extends Generator implements Visitor {
 				return;
 			}
 		}
-		current.app("&(");
+		current.app('&');
+		boolean paren = !(addressOf.getExpression() instanceof VariableAccess);
+		if(paren) current.app('(');
 		addressOf.getExpression().accept(this);
-		current.app(')');
+		if(paren) current.app(')');
 	}
 
 	public void visit(Dereference dereference) throws IOException {

@@ -129,7 +129,8 @@ public class Foreach extends ControlStatement implements MustBeResolved {
 				
 				VariableDecl vdfe = new VariableDecl(iterCall.getType(), false, startToken);
 				vdfe.setType(iterType);
-				vdfe.getAtoms().add(new VariableDeclAtom(generateTempName("iter"), iterCall, startToken));
+				vdfe.getAtoms().add(new VariableDeclAtom(generateTempName("iter", stack),
+						iterCall, startToken));
 
 				VariableAccess iterAcc = new VariableAccess(vdfe.getName(), startToken);
 				iterAcc.setRef(vdfe);

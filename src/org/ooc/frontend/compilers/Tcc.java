@@ -31,4 +31,9 @@ public class Tcc extends Gcc {
 		return false;
 	}
 	
+	@Override
+	public Tcc clone() {
+		return new Tcc();
+	}
+	
 }

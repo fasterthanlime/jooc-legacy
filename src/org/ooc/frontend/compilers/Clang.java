@@ -19,4 +19,9 @@ public class Clang extends Gcc {
 		command.add(executablePath);
 	}
 	
+	@Override
+	public Clang clone() {
+		return new Clang();
+	}
+	
 }

@@ -39,8 +39,10 @@ public interface AbstractCompiler {
 	public boolean supportsDeclInFor();
 	public boolean supportsVLAs();
 	
-	public void printCommandLine();
-
 	public void reset();
+
+	public String getCommandLine();
+	
+	public AbstractCompiler clone();
 	
 }

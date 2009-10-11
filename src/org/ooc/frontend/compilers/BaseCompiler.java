@@ -37,18 +37,21 @@ public abstract class BaseCompiler implements AbstractCompiler {
 		return process.waitFor();
 	}
 	
-	public void printCommandLine() {
+	public String getCommandLine() {
 		StringBuilder commandLine = new StringBuilder();
 		for(String arg: command) {
 			commandLine.append(arg);
 			commandLine.append(' ');
 		}
-		System.out.println(commandLine.toString());
+		return commandLine.toString();
 	}
 	
 	public void reset() {
 		command.clear();
 		command.add(executablePath);
 	}
+	
+	@Override
+	public abstract BaseCompiler clone();
 
 }

@@ -19,6 +19,8 @@ import org.ubi.CompilationFailedError;
 import org.ubi.SourceReader;
 
 public class LineParser {
+	
+	static int seedNumber = 1;
 
 	public static boolean fill(Module module, SourceReader sReader, TokenReader reader, NodeList<Line> body) {
 		
@@ -46,7 +48,7 @@ public class LineParser {
 				expr = memberCall.getExpression();
 				if(expr instanceof FunctionCall || expr instanceof BinaryOperation) {
 					VariableDeclFromExpr vdfe = new VariableDeclFromExpr(
-							statement.generateTempName("callroot"), expr, statement.startToken);
+							"callroot" + (seedNumber++), expr, statement.startToken);
 					body.addBefore(line, new Line(vdfe));
 					expr = new VariableAccess(vdfe, expr.startToken);
 					memberCall.setExpression(expr);
