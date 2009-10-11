@@ -171,7 +171,7 @@ public class FunctionCall extends Access implements MustBeResolved {
  			}
  			return Response.LOOP;
  		}
-		
+ 		
  		return Response.OK;
 		
 	}
@@ -184,6 +184,13 @@ public class FunctionCall extends Access implements MustBeResolved {
 			if(fatal) throw new OocCompilationError(this, stack, "Didn't find implementation for "
 					+this+", can't handle generics.");
 			return Response.LOOP;
+		}
+		
+		for(int i = 0; i < arguments.size(); i++) {
+			Expression arg = arguments.get(i);
+			if(arg.getType().isGeneric()) {
+				arguments.set(i, new Cast(arg, impl.getArguments().get(i).getType(), arg.startToken));
+			}
 		}
 		
 		// If one of the arguments which type is generic is not a VariableAccess

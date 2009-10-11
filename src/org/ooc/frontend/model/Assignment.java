@@ -167,12 +167,11 @@ public class Assignment extends BinaryOperation {
 			realLeft = new AddressOf(left, left.startToken);
 			realRight = new AddressOf(right, right.startToken);
 		}
-		/*
-		if(right.getType().isGeneric()) {
-			isGeneric = true;
-			realRight = new AddressOf(right, right.startToken);
+		
+		if(right.getType().isGeneric() && !(left instanceof ArrayAccess) && !isGeneric) {
+			right = new Cast(right, left.getType(), right.startToken);
 		}
-		*/
+		
 		if(isGeneric) {
 			if(left instanceof ArrayAccess) {
 				ArrayAccess arrAcc = (ArrayAccess) left;
@@ -248,7 +247,7 @@ public class Assignment extends BinaryOperation {
 		// uint8_t value[T->size]
 		// That's an optimization. Thus, this will never be null, and it'll never
 		// need being malloc'd.
-		if(realLeft instanceof Access && !(left.getType().isArray())) {
+		if(realLeft instanceof Access && !(left.getType().isArray()) && (left.getType().isGeneric())) {
 		
 			Block block = new Block(startToken);
 			

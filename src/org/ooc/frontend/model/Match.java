@@ -11,6 +11,7 @@ import org.ooc.middle.hobgoblins.Resolver;
 
 public class Match extends Expression implements MustBeResolved {
 
+	private Type type;
 	protected NodeList<Case> cases;
 	protected Expression expr;
 
@@ -55,14 +56,7 @@ public class Match extends Expression implements MustBeResolved {
 	}
 
 	public Type getType() {
-		// TODO make it more intelligent e.g. cycle through all cases and
-		// check that all types are compatible and find a common denominator
-		if(cases.isEmpty()) return null;
-		Case first = cases.getFirst();
-		if(first.getBody().isEmpty()) return null;
-		Statement statement = first.getBody().getFirst().getStatement();
-		if(!(statement instanceof Expression)) return null;
-		return ((Expression) statement).getType();
+		return type;
 	}
 
 	public boolean isResolved() {
@@ -72,6 +66,8 @@ public class Match extends Expression implements MustBeResolved {
 	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
 		
 		Node parent = stack.peek();
+		
+		if(type == null) resolveType(stack, res, fatal);
 		
 		if(parent instanceof Line) {
 			// alright =)
@@ -96,6 +92,33 @@ public class Match extends Expression implements MustBeResolved {
 		}
 		
 		return Response.OK;
+		
+	}
+
+	private void resolveType(NodeList<Node> stack, Resolver res, boolean fatal) {
+		
+		int funcIndex = stack.find(FunctionDecl.class);
+		int returnIndex = stack.find(ValuedReturn.class);
+		
+		if(funcIndex != -1 && returnIndex != -1) {
+			FunctionDecl funcDecl = (FunctionDecl) stack.get(funcIndex);
+			if(funcDecl.getReturnType().isGeneric()) {
+				type = funcDecl.getReturnType();
+			}
+		}
+		
+		if(type == null) {
+		
+			// TODO make it more intelligent e.g. cycle through all cases and
+			// check that all types are compatible and find a common denominator
+			if(cases.isEmpty()) return;
+			Case first = cases.getFirst();
+			if(first.getBody().isEmpty()) return;
+			Statement statement = first.getBody().getFirst().getStatement();
+			if(!(statement instanceof Expression)) return;
+			type = ((Expression) statement).getType();
+			
+		}
 		
 	}
 

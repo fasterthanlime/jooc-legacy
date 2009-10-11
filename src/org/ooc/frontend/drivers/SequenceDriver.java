@@ -100,6 +100,8 @@ public class SequenceDriver extends Driver {
 			Thread.sleep(100L);
 		}
 		
+		if(finalCode != 0) return finalCode;
+		
 		if(params.link) {
 			
 			initCompiler(params.compiler);
