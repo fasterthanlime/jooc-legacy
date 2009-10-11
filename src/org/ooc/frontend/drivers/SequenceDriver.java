@@ -28,8 +28,7 @@ public class SequenceDriver extends Driver {
 		final ArrayList<String> oPaths = new ArrayList<String> ();
 		final long tt0 = System.nanoTime(); 
 		final Iterator<Module> iterator = toCompile.iterator();
-		//count = toCompile.size();
-		
+		// since we have several worker threads, we have to us an AtomicInteger
 		final AtomicInteger count = new AtomicInteger(toCompile.size());		
 		
 		finalCode = 0;
@@ -53,29 +52,39 @@ public class SequenceDriver extends Driver {
 					
 					String path = new File(params.outPath, currentModule.getPath("")).getPath();
 					String oPath = path + ".o";
+					String cPath = path + ".c";
 					oPaths.add(oPath);
-					compiler.addObjectFile(path + ".c");
-					compiler.setOutputPath(oPath);
 					
-					if(params.verbose) System.out.print(compiler.getCommandLine());
+					if(new File(cPath).lastModified() > new File(oPath).lastModified()) {
 					
-					long tt1 = System.nanoTime();
-					int code = -1;
-					try {
-						code = compiler.launch();
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-					long tt2 = System.nanoTime();
-					if(params.verbose) System.out.println("  (" + ((tt2 - tt1) / 1000000)+"ms)");
+						compiler.addObjectFile(cPath);
+						compiler.setOutputPath(oPath);
 						
-					if(code != 0) {
-						System.err.println("C compiler failed, aborting compilation process");
-						finalCode = code;
+						if(params.verbose) System.out.print(compiler.getCommandLine());
+						
+						long tt1 = System.nanoTime();
+						int code = -1;
+						try {
+							code = compiler.launch();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						long tt2 = System.nanoTime();
+						if(params.verbose) System.out.println("  (" + ((tt2 - tt1) / 1000000)+"ms)");
+							
+						if(code != 0) {
+							System.err.println("C compiler failed, aborting compilation process");
+							finalCode = code;
+						}
+						
+					} else {
+						
+						if(params.verbose)
+							System.out.println("Skipping "+cPath+", just the same.");
+						
 					}
 					
 					synchronized(iterator) {
-						//count--;
 						count.decrementAndGet();
 					}
 

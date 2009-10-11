@@ -1,10 +1,10 @@
 package org.ooc.backend.cdirty;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Iterator;
 
+import org.ooc.backend.CachedFileWriter;
 import org.ooc.backend.Generator;
 import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.Add;
@@ -88,14 +88,14 @@ public class CGenerator extends Generator implements Visitor {
 	public AwesomeWriter current;
 	public BuildParams params;
 
-	public CGenerator(File outPath, Module module) throws IOException {
+	public CGenerator(File outPath, Module module) {
 		super(outPath, module);
 		String basePath = module.getOutPath();
 		File hFile = new File(outPath, basePath + ".h");
 		hFile.getParentFile().mkdirs();
-		this.hw = new AwesomeWriter(new FileWriter(hFile));
+		this.hw = new AwesomeWriter(new CachedFileWriter(hFile));
 		File cFile = new File(outPath, basePath + ".c");
-		this.cw = new AwesomeWriter(new FileWriter(cFile));
+		this.cw = new AwesomeWriter(new CachedFileWriter(cFile));
 		this.current = hw;
 	}
 
