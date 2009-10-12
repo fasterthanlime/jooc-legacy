@@ -27,6 +27,10 @@ public class CallWriter {
 	
 	public static void write(FunctionCall functionCall, CGenerator cgen) throws IOException {
 
+		if(functionCall.isSuperCall()) {
+			System.out.println(functionCall+" is super-call");
+		}
+		
 		FunctionDecl impl = functionCall.getImpl();
 		writePrelude(cgen, impl, functionCall);
 		
@@ -200,7 +204,14 @@ public class CallWriter {
 			}
 			cgen.current.app(memberCall.getName());
 		} else {
-			impl.writeFullName(cgen.current);
+			if(memberCall.isSuperCall()) {
+				cgen.current.append(impl.getTypeDecl().getSuperName());
+				cgen.current.append("_");
+				cgen.current.app(memberCall.getName());
+				cgen.current.append("_impl");
+			} else {
+				impl.writeFullName(cgen.current);
+			}
 		}
 		
 		cgen.current.app('(');

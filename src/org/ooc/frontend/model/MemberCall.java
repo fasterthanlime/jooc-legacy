@@ -73,7 +73,9 @@ public class MemberCall extends FunctionCall {
 			}
 			return Response.LOOP;
 		}
+		
 		exprType = exprType.getFlatType(res);
+		
 		if(exprType.getRef() == null) exprType.resolve(res);
 		
 		if(exprType.getRef() == null) {

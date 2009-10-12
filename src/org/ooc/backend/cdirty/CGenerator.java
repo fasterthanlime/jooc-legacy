@@ -79,6 +79,7 @@ import org.ooc.frontend.parser.BuildParams;
 import org.ooc.frontend.parser.TypeArgument;
 import org.ooc.middle.OocCompilationError;
 import org.ooc.middle.structs.MultiMap;
+import org.ooc.middle.structs.NodeMap;
 import org.ubi.SourceReader;
 
 public class CGenerator extends Generator implements Visitor {
@@ -479,5 +480,7 @@ public class CGenerator extends Generator implements Visitor {
 		visit((Block) versionBlock);
 		current.app("\n#endif");
 	}
+
+	public void visit(NodeMap<?, ? extends Node> list) throws IOException {}
 
 }

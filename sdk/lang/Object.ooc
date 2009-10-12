@@ -27,7 +27,7 @@ Class: abstract class {
 	
 	instanceof: final func (T: Class) -> Bool {
 		if(this == T) return true
-		if(super != null) return super instanceof(T)
+		if(super != null) return super class instanceof(T)
 		return false
 	}
 	

@@ -14,7 +14,13 @@ public class FunctionCallParser {
 		
 		int mark = reader.mark();
 		
+		boolean superCall = false;
+		
 		Token tName = reader.read();
+		if(tName.get(sReader).equals("super")) {
+			superCall = true;
+			tName = reader.read();
+		}
 		if(!tName.isNameToken()) {
 			reader.reset(mark);
 			return null;
@@ -33,6 +39,7 @@ public class FunctionCallParser {
 		}
 
 		FunctionCall call = new FunctionCall(name, suffix, tName);
+		if(superCall) call.setSuperCall(true);
 		
 		if(!ExpressionListFiller.fill(module, sReader, reader, call.getArguments())) {
 			reader.reset(mark);

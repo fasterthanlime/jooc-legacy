@@ -45,16 +45,14 @@ public class ModuleWriter {
 			}
 		}
 		
-		for(String key: module.getTypes().keySet()) {
-			for(TypeDecl node : module.getTypes().getAll(key)) {
-				if(node instanceof ClassDecl) {
-					ClassDecl classDecl = (ClassDecl) node;
-					String className = classDecl.getUnderName();
-					ClassDeclWriter.writeStructTypedef(className, cgen);
-					ClassDeclWriter.writeStructTypedef(className+"Class", cgen);
-				} else if(node instanceof CoverDecl) {
-					CoverDeclWriter.writeTypedef((CoverDecl) node, cgen);
-				}
+		for(TypeDecl node: module.getTypes().values()) {
+			if(node instanceof ClassDecl) {
+				ClassDecl classDecl = (ClassDecl) node;
+				String className = classDecl.getUnderName();
+				ClassDeclWriter.writeStructTypedef(className, cgen);
+				ClassDeclWriter.writeStructTypedef(className+"Class", cgen);
+			} else if(node instanceof CoverDecl) {
+				CoverDeclWriter.writeTypedef((CoverDecl) node, cgen);
 			}
 		}
 		cgen.current.nl();
@@ -85,12 +83,10 @@ public class ModuleWriter {
 		cgen.current.app(".h\"");
 		cgen.current.nl();
 		
-		for(String key: module.getTypes().keySet()) {
-			for(TypeDecl node : module.getTypes().getAll(key)) {
-				node.accept(cgen);
-			}
+		for(TypeDecl node:  module.getTypes().values()) {
+			node.accept(cgen);
 		}
-		//module.acceptChildren(cgen);
+		
 		for(Node node: module.getBody()) {
 			if(node instanceof Line) {
 				Line line = (Line) node;
@@ -102,7 +98,7 @@ public class ModuleWriter {
 				node.accept(cgen);
 			}
 		}
-		module.getTypes().accept(cgen);
+		//module.getTypes().accept(cgen);
 		module.getOps().accept(cgen);
 		module.getLoadFunc().accept(cgen);
 		
@@ -150,13 +146,11 @@ public class ModuleWriter {
 		cgen.current.nl().app("static ").app(ClassDeclWriter.LANG_PREFIX).app("Bool __done__ = false;").nl().app("if (!__done__)").openBlock();
 		cgen.current.nl().app("__done__ = true;");
 
-		for (String key : cgen.module.getTypes().keySet()) {
-			for (TypeDecl typeDecl: cgen.module.getTypes().getAll(key)) {
-				if (typeDecl instanceof ClassDecl) {
-					ClassDecl classDecl = (ClassDecl) typeDecl;
-					cgen.current.nl().app(classDecl.getName()).app("_").app(
-							classDecl.getFunction(ClassDecl.LOAD_FUNC_NAME, "", null).getName()).app("();");
-				}
+		for(TypeDecl typeDecl: cgen.module.getTypes().values()) {
+			if (typeDecl instanceof ClassDecl) {
+				ClassDecl classDecl = (ClassDecl) typeDecl;
+				cgen.current.nl().app(classDecl.getName()).app("_").app(
+						classDecl.getFunction(ClassDecl.LOAD_FUNC_NAME, "", null).getName()).app("();");
 			}
 		}
 		for (Import imp : cgen.module.getImports()) {

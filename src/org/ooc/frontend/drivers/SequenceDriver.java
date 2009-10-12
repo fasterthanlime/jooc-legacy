@@ -23,12 +23,12 @@ public class SequenceDriver extends Driver {
 		
 		copyLocalHeaders(module, params, new HashSet<Module>());
 		
-		HashSet<Module> toCompile = collectDeps(module, new HashSet<Module>());
+		HashSet<Module> toCompile = collectDeps(module, new HashSet<Module>(), new HashSet<String>());
 		
 		final ArrayList<String> oPaths = new ArrayList<String> ();
 		final long tt0 = System.nanoTime(); 
 		final Iterator<Module> iterator = toCompile.iterator();
-		// since we have several worker threads, we have to us an AtomicInteger
+		// since we have several worker threads, we have to use an AtomicInteger
 		final AtomicInteger count = new AtomicInteger(toCompile.size());		
 		
 		finalCode = 0;
@@ -164,13 +164,14 @@ public class SequenceDriver extends Driver {
 		}
 	}
 
-	private HashSet<Module> collectDeps(Module module, HashSet<Module> toCompile) {
+	private HashSet<Module> collectDeps(Module module, HashSet<Module> toCompile, HashSet<String> done) {
 		
 		toCompile.add(module);
+		done.add(module.getPath());
 		
 		for(Import import1: module.getImports()) {
-			if(toCompile.contains(import1.getModule())) continue;
-			collectDeps(import1.getModule(), toCompile);
+			if(done.contains(import1.getModule().getPath())) continue;
+			collectDeps(import1.getModule(), toCompile, done);
 		}
 		
 		return toCompile;

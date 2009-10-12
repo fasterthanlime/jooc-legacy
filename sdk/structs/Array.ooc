@@ -57,9 +57,7 @@ Array: class <T> extends Iterable {
 	
 	each: func (f: Func (T)) {
 		for(i in 0..size) {
-			// FIXME f(get(i)) // is buggy. =D
-			val := get(i)
-			f(val)
+			f(get(i))
 		}
 	}
 

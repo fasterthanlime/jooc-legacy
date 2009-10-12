@@ -60,14 +60,16 @@ public abstract class  Driver {
 		
 	}
 	
-	protected void addDeps(Module module, Set<Module> done) {
+	protected void addDeps(Module module, Set<Module> toCompile, Set<String> done) {
 		
-		done.add(module);
+		toCompile.add(module);
+		done.add(module.getPath());
+		
 		params.compiler.addObjectFile(new File(params.outPath, module.getPath(".c")).getPath());
 		
 		for(Import imp: module.getImports()) {
-			if(!done.contains(imp.getModule())) {
-				addDeps(imp.getModule(), done);
+			if(!done.contains(imp.getModule().getPath())) {
+				addDeps(imp.getModule(), toCompile, done);
 			}
 		}
 		

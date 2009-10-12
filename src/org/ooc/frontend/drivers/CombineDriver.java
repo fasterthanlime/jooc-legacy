@@ -20,7 +20,7 @@ public class CombineDriver extends Driver {
 		if(params.debug) params.compiler.setDebugEnabled();		
 		params.compiler.addIncludePath(new File(params.distLocation, "libs/headers/").getPath());
 		params.compiler.addIncludePath(params.outPath.getPath());
-		addDeps(module, new HashSet<Module>());
+		addDeps(module, new HashSet<Module>(), new HashSet<String>());
 		for(String dynamicLib: params.dynamicLibs) {
 			params.compiler.addDynamicLibrary(dynamicLib);
 		}

@@ -46,7 +46,7 @@ public class ModuleParser {
 				{
 					ClassDecl classDecl = ClassDeclParser.parse(module, sReader, reader);
 					if(classDecl != null) {
-						module.getTypes().add(classDecl.getName(), classDecl);
+						module.getTypes().put(classDecl.getName(), classDecl);
 						continue;
 					}
 				}
@@ -54,7 +54,7 @@ public class ModuleParser {
 				{
 					CoverDecl coverDecl = CoverDeclParser.parse(module, sReader, reader);
 					if(coverDecl != null) {
-						module.getTypes().add(coverDecl.getName(), coverDecl);
+						module.getTypes().put(coverDecl.getName(), coverDecl);
 						continue;
 					}
 				}

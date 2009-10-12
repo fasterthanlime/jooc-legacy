@@ -62,6 +62,7 @@ import org.ooc.frontend.model.While;
 import org.ooc.frontend.model.VariableDecl.VariableDeclAtom;
 import org.ooc.frontend.parser.TypeArgument;
 import org.ooc.middle.structs.MultiMap;
+import org.ooc.middle.structs.NodeMap;
 
 public interface Visitor {
 
@@ -127,6 +128,7 @@ public interface Visitor {
 	public void visit(VarArg varArg) throws IOException;
 	
 	public void visit(NodeList<? extends Node> list) throws IOException;
+	public void visit(NodeMap<?, ? extends Node> list) throws IOException;
 	public void visit(MultiMap<?, ?> list) throws IOException;
 
 	public void visit(Block block) throws IOException;

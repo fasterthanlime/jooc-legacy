@@ -14,7 +14,6 @@ import org.ooc.frontend.model.interfaces.MustBeUnwrapped;
 import org.ooc.frontend.parser.BuildParams;
 import org.ooc.middle.Hobgoblin;
 import org.ooc.middle.OocCompilationError;
-import org.ooc.middle.structs.MultiMap;
 import org.ooc.middle.walkers.Opportunist;
 import org.ooc.middle.walkers.SketchyNosy;
 
@@ -77,19 +76,16 @@ public class Unwrapper implements Hobgoblin {
 		
 		hashSet.add(module);
 		
-		MultiMap<String, TypeDecl> types = module.getTypes();
-		for (String key : types.keySet()) {
-			for (TypeDecl decl : types.getAll(key)) {
-				Type superType = decl.getSuperType();
-				if(superType == null) continue;
-				TypeDecl superRef = module.getType(superType.getName());
-				if (superRef == null) {
-					throw new OocCompilationError(decl, module,
-							"Couldn't resolve parent type " + superType.getName()
-									+ " of type " + decl.getName());
-				}
-				superType.setRef(superRef);
+		for(TypeDecl decl: module.getTypes().values()) {
+			Type superType = decl.getSuperType();
+			if(superType == null) continue;
+			TypeDecl superRef = module.getType(superType.getName());
+			if (superRef == null) {
+				throw new OocCompilationError(decl, module,
+						"Couldn't resolve parent type " + superType.getName()
+								+ " of type " + decl.getName());
 			}
+			superType.setRef(superRef);
 		}
 		
 		for(Import imp: module.getImports()) {

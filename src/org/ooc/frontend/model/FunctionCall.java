@@ -14,6 +14,7 @@ import org.ooc.middle.hobgoblins.Resolver;
 
 public class FunctionCall extends Access implements MustBeResolved {
 
+	protected boolean superCall;
 	protected String name;
 	protected String suffix;
 	protected final NodeList<Expression> typeParams;
@@ -41,6 +42,14 @@ public class FunctionCall extends Access implements MustBeResolved {
 	public FunctionCall(FunctionDecl func, Token startToken) {
 		this(func.getName(), func.getSuffix(), startToken);
 		setImpl(func);
+	}
+	
+	public boolean isSuperCall() {
+		return superCall;
+	}
+	
+	public void setSuperCall(boolean superCall) {
+		this.superCall = superCall;
 	}
 
 	public void setImpl(FunctionDecl impl) {
@@ -187,9 +196,13 @@ public class FunctionCall extends Access implements MustBeResolved {
 		}
 		
 		for(int i = 0; i < arguments.size(); i++) {
-			Expression arg = arguments.get(i);
-			if(arg.getType().isGeneric()) {
-				arguments.set(i, new Cast(arg, impl.getArguments().get(i).getType(), arg.startToken));
+			Expression callArg = arguments.get(i);
+			if(i < impl.getArguments().size()) {
+				Argument implArg = impl.getArguments().get(i);
+				if(callArg.getType() != null && implArg.getType() != null
+						&& callArg.getType().isGeneric() && callArg.getType().isFlat() && implArg.getType().isFlat()) {
+					arguments.set(i, new Cast(callArg, implArg.getType(), callArg.startToken));
+				}
 			}
 		}
 		
@@ -587,7 +600,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 		}
 
 		if(impl != null) {
-			if(impl.isMember()) transformToMemberCall(stack, res);
+			if(impl.isMember()) turnIntoMemberCall(stack, res);
 			return Response.RESTART;
 		}
 		
@@ -595,7 +608,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 		
 	}
 
-	private void transformToMemberCall(final NodeList<Node> stack, final Resolver res) {
+	private void turnIntoMemberCall(final NodeList<Node> stack, final Resolver res) {
 		MemberCall memberCall = null;
 		if(impl.isStatic()) {
 			memberCall = new MemberCall(new VariableAccess(impl.getTypeDecl().getType().getName(), startToken), this, startToken);
@@ -605,6 +618,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 			memberCall = new MemberCall(thisAccess, this, startToken);
 		}
 		memberCall.setImpl(impl);
+		memberCall.setSuperCall(superCall);
 		stack.peek().replace(this, memberCall);
 		dead = true;
 	}
