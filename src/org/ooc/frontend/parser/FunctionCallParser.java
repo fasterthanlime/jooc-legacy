@@ -18,8 +18,10 @@ public class FunctionCallParser {
 		
 		Token tName = reader.read();
 		if(tName.get(sReader).equals("super")) {
-			superCall = true;
-			tName = reader.read();
+			if(reader.peek().type != TokenType.OPEN_PAREN) {
+				superCall = true;
+				tName = reader.read();
+			}
 		}
 		if(!tName.isNameToken()) {
 			reader.reset(mark);
