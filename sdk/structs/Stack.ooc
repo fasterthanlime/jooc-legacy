@@ -15,14 +15,14 @@ Stack: class<T> {
 		if (isEmpty())
 			Exception new(This, "Trying to pop an empty stack.") throw()
 			
-		return data removeAt(size() - 1)
+		return data removeAt(lastIndex())
 	}
 	
 	peek: func() -> T {
 		if (isEmpty())
 			Exception new(This, "Trying to peek an empty stack.") throw()
 			
-		return data[size() - 1]
+		return data[lastIndex()]
 	}
 	
 	size: func() -> Int {	
@@ -31,5 +31,9 @@ Stack: class<T> {
 	
 	isEmpty: func() -> Bool {
 		return size() <= 0
+	}
+	
+	lastIndex: func() -> Int {
+		return size() - 1
 	}
 }
