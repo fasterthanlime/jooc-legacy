@@ -132,9 +132,9 @@ List: abstract class <T> extends Iterable {
 }
 
 /** Operators */
-operator [] <T> (list: List<T>, i: Int) -> T { return list get(i) }
+operator [] <T> (list: List<T>, i: Int) -> T { list get(i) }
 operator []= <T> (list: List<T>, i: Int, element: T) { list set(i, element) }
 operator += <T> (list: List<T>, element: T) { list add(element) }
-operator -= <T> (list: List<T>, element: T) -> Bool { return list remove(element) }
+operator -= <T> (list: List<T>, element: T) -> Bool { list remove(element) }
 
 

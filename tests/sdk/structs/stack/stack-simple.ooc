@@ -10,5 +10,5 @@ main: func {
 		stack push(i)
 	
 	while (!stack isEmpty())
-		printf("Popped: %d\n", stack pop())	
+		printf("peeked %d, popped %d\n", stack peek(), stack pop())		
 }
