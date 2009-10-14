@@ -9,21 +9,18 @@ Stack: class<T> {
 
 	push: func(element: T) {
 		data add(element)
-		printf("adding: %d\n", element as Int)
 	}
 	
 	pop: func() -> T {				
 		if (isEmpty())
-			Exception new(This, "Empty stack, cannot pop.") throw()
-						
-		ret := data get(size() - 1) as T
-		data removeAt(size() - 1)
-		return ret
+			Exception new(This, "Trying to pop an empty stack.") throw()
+			
+		return data removeAt(size() - 1)
 	}
 	
 	peek: func() -> T {
 		if (isEmpty())
-			Exception new(This, "Empty stack, cannot peek.") throw()
+			Exception new(This, "Trying to peek an empty stack.") throw()
 			
 		return data[size() - 1]
 	}

@@ -9,8 +9,6 @@ main: func {
 	for (i: Int in 0..10)
 		stack push(i)
 	
-	printf("Size: %d\n", stack size())
-	stack pop()
-	printf("Size: %d\n", stack size())
-	
+	while (!stack isEmpty())
+		printf("Popped: %d\n", stack pop())	
 }
