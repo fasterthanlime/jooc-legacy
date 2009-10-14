@@ -9,7 +9,7 @@ Stack: class<T> {
 
 	push: func(element: T) {
 		data add(element)
-		printf("adding: %d\n", element)
+		printf("adding: %d\n", element as Int)
 	}
 	
 	pop: func() -> T {				
@@ -35,19 +35,4 @@ Stack: class<T> {
 	isEmpty: func() -> Bool {
 		return size() <= 0
 	}
- }
-
-main: func() {
-	"Creating stack" println()
-	stack := Stack<Int> new()
-	printf("Size: %d\n", stack size())
-		
-	"Pushing 10 items on the stack" println()
-	for (i: Int in 0..10)
-		stack push(i)
-	
-	printf("Size: %d\n", stack size())
-	stack pop()
-	printf("Size: %d\n", stack size())
-	
 }

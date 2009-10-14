@@ -200,7 +200,8 @@ public class FunctionCall extends Access implements MustBeResolved {
 			if(i < impl.getArguments().size()) {
 				Argument implArg = impl.getArguments().get(i);
 				if(callArg.getType() != null && implArg.getType() != null
-						&& callArg.getType().isGeneric() && callArg.getType().isFlat() && implArg.getType().isFlat()) {
+						&& callArg.getType().isGeneric() && (callArg.getType().getPointerLevel() == 0)
+						&& implArg.getType().isFlat()) {
 					arguments.set(i, new Cast(callArg, implArg.getType(), callArg.startToken));
 				}
 			}
