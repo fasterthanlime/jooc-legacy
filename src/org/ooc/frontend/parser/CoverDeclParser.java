@@ -85,7 +85,7 @@ public class CoverDeclParser {
 			if(!absorbed) {
 				outer: for(Module other: ModuleParser.cache.values()) {
 					for(Import imp: other.getImports()) {
-						if(imp.getName().equals(module.getFullName())) {
+						if(imp.getFullName().equals(module.getFullName())) {
 							TypeDecl addon = other.getTypes().get(name);
 							if(addon != null) {
 								//System.out.println(" >> [From cache] While parsing "+coverDecl.getName()+" in "+module.getFullName()

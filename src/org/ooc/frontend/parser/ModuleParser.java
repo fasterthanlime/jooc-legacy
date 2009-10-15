@@ -90,7 +90,7 @@ public class ModuleParser {
 			}
 			
 			for(Import imp: module.getImports()) {
-				Module cached = cache.get(imp.getName());
+				Module cached = cache.get(imp.getFullName());
 				String path = imp.getPath() + ".ooc";
 				if(path.startsWith("..")) {
 					path = FileUtils.resolveRedundancies(new File(module.getParentPath(), path)).getPath();

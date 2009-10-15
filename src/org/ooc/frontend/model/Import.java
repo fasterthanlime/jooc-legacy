@@ -1,6 +1,5 @@
 package org.ooc.frontend.model;
 
-import java.io.File;
 import java.io.IOException;
 
 import org.ooc.frontend.Visitor;
@@ -17,8 +16,8 @@ public class Import extends Node {
 		this.path = path;
 	}
 	
-	public String getName() {
-		return path.replace(File.separator, ".");
+	public String getFullName() {
+		return path.replace("/", ".");
 	}
 	
 	public String getPath() {
