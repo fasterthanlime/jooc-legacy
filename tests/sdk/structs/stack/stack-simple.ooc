@@ -6,7 +6,7 @@ main: func {
 	printf("Size: %d\n", stack size())
 		
 	"Pushing 10 items on the stack" println()
-	for (i: Int in 0..10)
+	for (i in 0..10)
 		stack push(i)
 	
 	while (!stack isEmpty())

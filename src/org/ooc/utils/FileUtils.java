@@ -110,6 +110,7 @@ public class FileUtils {
 	 */
 	public static void write(File file, String data) throws IOException {
 	
+		file.getParentFile().mkdirs();
 		BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 		writer.write(data);
 		writer.close();

@@ -193,7 +193,7 @@ public class ClassDecl extends TypeDecl {
 	}
 	
 	public boolean isChildOf(String candidate) {
-		if(getSuperName().equals(candidate)) return true;
+		if(getName().equals(candidate)) return true;
 		if(getSuperRef() != null) return getSuperRef().isChildOf(candidate);
 		return false;
 	}

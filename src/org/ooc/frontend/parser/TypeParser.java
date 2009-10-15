@@ -56,6 +56,10 @@ public class TypeParser {
 			name += reader.read().get(sReader);
 		}
 		
+		if(reader.peek().type == TokenType.LESSTHAN) {
+			typeParams = readTypeParams(module, sReader, reader, typeParams);
+		}
+		
 		if(name.equals("Func")) {
 			FuncType funcType = new FuncType(startToken);
 			ArgumentParser.fill(module, sReader, reader, true, funcType.getDecl().getArguments());
@@ -68,30 +72,6 @@ public class TypeParser {
 				}
 			}
 			return funcType;
-		}
-		
-		if(reader.peek().type == TokenType.LESSTHAN) {
-			reader.skip();
-			while(reader.peek().type != TokenType.GREATERTHAN) {
-				Access innerType = null;
-				
-				Type type = TypeParser.parse(module, sReader, reader);
-				if(type != null) innerType = new TypeAccess(type);
-				
-				if(innerType == null) {
-					innerType = AccessParser.parse(module, sReader, reader);
-				}
-				if(innerType == null) {
-					typeParams = null;
-					break;
-				}
-				if(typeParams == null) typeParams = new NodeList<Access>(); 
-				typeParams.add(innerType);
-				if(reader.peek().type != TokenType.COMMA) break;
-			}
-			if(reader.read().type != TokenType.GREATERTHAN) {
-				typeParams = null;
-			}
 		}
 
 		while(reader.peek().type == TokenType.OPEN_SQUAR) {
@@ -137,6 +117,38 @@ public class TypeParser {
 			return type;
 		}
 		return null;
+		
+	}
+
+	private static NodeList<Access> readTypeParams(Module module,
+			SourceReader sReader, TokenReader reader,
+			NodeList<Access> _typeParams) {
+		
+		NodeList<Access> typeParams = _typeParams;
+		
+		reader.skip();
+		while(reader.peek().type != TokenType.GREATERTHAN) {
+			Access innerType = null;
+			
+			Type type = TypeParser.parse(module, sReader, reader);
+			if(type != null) innerType = new TypeAccess(type);
+			
+			if(innerType == null) {
+				innerType = AccessParser.parse(module, sReader, reader);
+			}
+			if(innerType == null) {
+				typeParams = null;
+				break;
+			}
+			if(typeParams == null) typeParams = new NodeList<Access>(); 
+			typeParams.add(innerType);
+			if(reader.peek().type != TokenType.COMMA) break;
+		}
+		if(reader.read().type != TokenType.GREATERTHAN) {
+			typeParams = null;
+		}
+		
+		return typeParams;
 		
 	}
 	

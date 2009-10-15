@@ -5,7 +5,6 @@ import org.ooc.frontend.model.tokens.Token;
 public abstract class Node implements Visitable {
 
 	public final transient Token startToken;
-	//static int seedNumber = 1;
 	
 	public Node(Token startToken) {
 		this.startToken = startToken;
@@ -18,7 +17,8 @@ public abstract class Node implements Visitable {
 
 	public abstract boolean replace(Node oldie, Node kiddo);
 	
-	public String generateTempName(String nameSeed, NodeList<Node> stack) {
+	public String generateTempName(String nameSeedParam, NodeList<Node> stack) {
+		String nameSeed = nameSeedParam.toLowerCase(); // in case we get things like Tparam
 		int seedNumber = 0;
 		String tmpName = nameSeed;
 		while((getVariable(tmpName, stack) != null) || (getFunction(tmpName, "", null, stack) != null)) {
