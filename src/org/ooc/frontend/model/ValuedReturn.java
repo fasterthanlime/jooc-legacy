@@ -109,6 +109,7 @@ public class ValuedReturn extends Return implements MustBeResolved {
 		} else {
 			expression = new AddressOf(expression, startToken);
 		}
+		
 		args.add(expression);
 		args.add(sizeAccess);
 		

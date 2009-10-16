@@ -6,12 +6,18 @@ Box: class <T> {
     }
 }
 
-test: func <T> (T: Class) -> T {
+testLocal: func <T> (T: Class) -> T {
+    box := Box new("Hey there!")
+	value := box value
+	value
+}
+
+testMember: func <T> (T: Class) -> T {
     box := Box new("Hey there!")
     box value as T
 }
 
 main: func {
-    test(String) println()
-	println()
+    testLocal(String) println()
+	testMember(String) println()
 }

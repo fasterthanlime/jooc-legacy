@@ -261,15 +261,15 @@ public class CGenerator extends Generator implements Visitor {
 	}
 
 	public void visit(MemberAccess memberAccess) throws IOException {
-		AccessWriter.writeMember(memberAccess, this);
+		AccessWriter.write(memberAccess, this);
 	}
 	
 	public void visit(VariableAccess variableAccess) throws IOException {
-		AccessWriter.writeVariable(variableAccess, true, this);
+		AccessWriter.write(variableAccess, this);
 	}
 
 	public void visit(ArrayAccess arrayAccess) throws IOException {
-		AccessWriter.writeArray(arrayAccess, this);
+		AccessWriter.write(arrayAccess, this);
 	}
 
 	public void visit(VariableDecl variableDecl) throws IOException {
@@ -340,8 +340,14 @@ public class CGenerator extends Generator implements Visitor {
 	}
 
 	public void visit(AddressOf addressOf) throws IOException {
-		if(addressOf.getExpression() instanceof VariableAccess) {
-			VariableAccess varAcc = (VariableAccess) addressOf.getExpression();
+		Expression expression = addressOf.getExpression();
+		while(expression instanceof Cast) {
+			// bitchjump the unnecessary casts
+			expression = ((Cast) expression).getExpression();
+		}
+		
+		if(expression instanceof VariableAccess) {
+			VariableAccess varAcc = (VariableAccess) expression;
 			Type varAccType = varAcc.getRef().getType();
 			if(varAccType.getRef() instanceof TypeParam) {
 				AccessWriter.write(varAcc, false, this);

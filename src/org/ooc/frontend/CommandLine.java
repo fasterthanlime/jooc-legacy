@@ -246,6 +246,8 @@ public class CommandLine {
 		if(params.sourcePath.isEmpty()) params.sourcePath.add(".");
 		params.sourcePath.add(params.sdkLocation.getPath());
 	
+		int errorCode = 0;
+		
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		do {
 			ModuleParser.clearCache();
@@ -253,8 +255,13 @@ public class CommandLine {
 			for(String modulePath: modulePaths) {
 				try {
 					int code = parse(modulePath);
-					if(code == 0) successCount++;
+					if(code == 0) {
+						successCount++;
+					} else {
+						errorCode = 2; // C compiler failure.
+					}
 				} catch(CompilationFailedError err) {
+					if(errorCode == 0) errorCode = 1; // ooc failure
 					System.err.println(err);
 					fail();
 					if(params.editor.length() > 0) {
@@ -274,7 +281,7 @@ public class CommandLine {
 				reader.readLine();
 			} else {
 				if(successCount < modulePaths.size()) {
-					System.exit(1);
+					System.exit(errorCode);
 				}
 			}
 			
