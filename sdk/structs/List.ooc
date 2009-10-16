@@ -19,7 +19,7 @@ List: abstract class <T> extends Iterable {
 	 * end of this list, in the order that they are returned by the
 	 * specified Collection's Iterator.
 	 */
-	addAll: func (list: List<T>) {
+	addAll: func (list: Iterable<T>) {
 		addAll(0, list)
 	}
 	
@@ -27,7 +27,7 @@ List: abstract class <T> extends Iterable {
 	 * Inserts all of the elements in the specified Collection into
 	 * this list, starting at the specified position.
 	 */
-	addAll: func ~atStart (start: Int, list: List<T>) {
+	addAll: func ~atStart (start: Int, list: Iterable<T>) {
 		
 		if(start == 0) {
 			for(element: T in list) {

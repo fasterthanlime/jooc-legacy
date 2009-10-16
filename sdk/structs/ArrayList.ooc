@@ -40,16 +40,6 @@ ArrayList: class <T> extends List {
 		size += 1
 	}
 
-	addAll: func(list: Iterable<T>) {
-		addAll(0, list)
-	}
-
-	addAll: func~withIndex(index: Int, iterable: Iterable<T>) {
-		for(element: T in iterable) {
-			add(element);
-		}
-	}
-
 	clear: func {
 		size = 0
 	}
