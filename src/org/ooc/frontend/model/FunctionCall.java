@@ -194,14 +194,15 @@ public class FunctionCall extends Access implements MustBeResolved {
 					+this+", can't handle generics.");
 			return Response.LOOP;
 		}
-		
+
+		int argOffset = impl.hasThis() ? 1 : 0;
 		for(int i = 0; i < arguments.size(); i++) {
 			Expression callArg = arguments.get(i);
-			if(i < impl.getArguments().size()) {
-				Argument implArg = impl.getArguments().get(i);
+			if(i + argOffset < impl.getArguments().size()) {
+				Argument implArg = impl.getArguments().get(i + argOffset);
 				if(callArg.getType() != null && implArg.getType() != null
 						&& callArg.getType().isGeneric() && (callArg.getType().getPointerLevel() == 0)
-						&& implArg.getType().isFlat()) {
+						&& implArg.getType().isFlat() && !implArg.getType().equals(callArg.getType())) {
 					arguments.set(i, new Cast(callArg, implArg.getType(), callArg.startToken));
 				}
 			}
@@ -327,6 +328,8 @@ public class FunctionCall extends Access implements MustBeResolved {
 			}
 			// e.g. func <T> myFunc(value: T), and arg = value.
 			if(arg.getType().getName().equals(typeParam)) {
+				// not resolved yet?
+				if(callArg.getType() == null) return null;
 				TypeAccess typeAcc = new TypeAccess(callArg.getType());
 				//varAcc.setRef(callArg.getType().getRef());
 				typeAcc.resolve(stack, res, fatal);
@@ -410,9 +413,10 @@ public class FunctionCall extends Access implements MustBeResolved {
 			}
 			if(!arg.getType().getName().equals(genType.getName())) continue;
 			Expression expr = arguments.get(i);
-			if(!(expr instanceof VariableAccess)) {
+			if(!(expr instanceof VariableAccess || expr instanceof Cast)) {
+				String tmpName = generateTempName(genType.getName()+"param", stack);
 				VariableDeclFromExpr vdfe = new VariableDeclFromExpr(
-						generateTempName(genType.getName()+"param", stack), expr, startToken);
+						tmpName, expr, startToken);
 				arguments.replace(expr, vdfe);
 				stack.push(this);
 				stack.push(arguments);

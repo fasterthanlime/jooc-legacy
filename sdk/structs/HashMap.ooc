@@ -10,9 +10,7 @@ HashEntry: class <T> {
 	key: String
 	value: T
 
-	init: func (=key, .value) {
-		this value = value
-	}
+	init: func (=key, =value) {}
 
 }
 

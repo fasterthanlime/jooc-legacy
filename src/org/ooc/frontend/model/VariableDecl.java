@@ -330,7 +330,7 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 				//getAtoms().get(0).expression = call;
 			//}
 			setType(newType);
-			
+
 			return Response.RESTART;
 			
 		}

@@ -11,6 +11,11 @@ import org.ooc.frontend.model.VariableAccess;
 public class CastWriter {
 
 	public static void write(Cast cast, CGenerator cgen) throws IOException {
+		if(cast.getType().equals(cast.getExpression().getType())) {
+			cast.getExpression().accept(cgen);
+			return;
+		}
+		
 		if(cast.getExpression().getType().getRef() instanceof TypeParam) {
 			Expression expr = cast.getExpression();
 			if(expr instanceof VariableAccess) {

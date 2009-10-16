@@ -63,6 +63,8 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 		});
 		this.typeParams = new LinkedHashMap<String, TypeParam>();
 		// FIXME this will bite us in the ass later. Ohh yes it will
+		// you see, nothing guarantees that "__returnArg" isn't in the scope already
+		// we should create returnArg in resolve instead, using generateTempName()
 		this.returnArg = new RegularArgument(NullLiteral.type, "__returnArg", startToken);
 	}
 

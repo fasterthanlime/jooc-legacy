@@ -1,8 +1,9 @@
 import structs/HashMap
 
-func main(argc: Int, argv: String*) {
+main: func (argc: Int, argv: String*) {
 	
 	ht := HashMap<String> new()
+
 
 	/* Testing contains method */
 	printf("Contains foo? %s\n\n", ht contains("foo") ? "yes" : "no") 
@@ -36,11 +37,10 @@ func main(argc: Int, argv: String*) {
 
 	/* Check out the keys */
 	printf("Keys: ") 
-	Iterator key_iter = ht keys iterator() 
-	while (key_iter hasNext()) {
-		String key = key_iter next() 
-		printf("%s=%s ", key, (String)ht get(key)) 
+	for(key: String in ht keys) {
+		printf("%s=%s ", key, ht get(key))
 	}
 	printf("\n") 
 
 }
+

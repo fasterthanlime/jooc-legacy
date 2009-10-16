@@ -136,8 +136,6 @@ public class Assignment extends BinaryOperation {
 	@Override
 	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
 
-		//System.out.println("Should resolve "+this);
-		
 		if(dead) return Response.OK;
 		
 		if(right.getType() != null && left.getType() != null) {
