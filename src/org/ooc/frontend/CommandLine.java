@@ -15,8 +15,8 @@ import org.ooc.frontend.compilers.Clang;
 import org.ooc.frontend.compilers.Gcc;
 import org.ooc.frontend.compilers.Icc;
 import org.ooc.frontend.compilers.Tcc;
+import org.ooc.frontend.drivers.CombineDriver;
 import org.ooc.frontend.drivers.Driver;
-import org.ooc.frontend.drivers.SequenceDriver;
 import org.ooc.frontend.model.Import;
 import org.ooc.frontend.model.Module;
 import org.ooc.frontend.parser.ModuleParser;
@@ -33,7 +33,8 @@ public class CommandLine {
 		new CommandLine(argv);
 	}
 	
-	private Driver driver = new SequenceDriver();
+	//private Driver driver = new SequenceDriver();
+	private Driver driver = new CombineDriver();
 	
 	public CommandLine(String[] args) throws InterruptedException, IOException {
 		
@@ -152,6 +153,7 @@ public class CommandLine {
         			} else {
         				driver.params.compiler = new Tcc();
         			}
+        			driver.params.dynGC = true;
 				} else if(option.startsWith("clang")) {
 					if(option.startsWith("clang=")) {
         				driver.params.compiler = new Clang(option.substring(6));

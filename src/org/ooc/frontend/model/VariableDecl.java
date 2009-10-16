@@ -321,14 +321,8 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 			MemberAccess sizeAccess = new MemberAccess(tAccess, "size", startToken);
 			newType.setRef(type.getRef());
 			
-			//if(res.params.compiler.supportsVLAs()) {
-				newType.setArray(true);
-				newType.setArraySize(sizeAccess);
-			//} else {
-				//FunctionCall call = new FunctionCall("gc_malloc", startToken);
-				//call.getArguments().add(sizeAccess);
-				//getAtoms().get(0).expression = call;
-			//}
+			newType.setArray(true);
+			newType.setArraySize(sizeAccess);
 			setType(newType);
 
 			return Response.RESTART;

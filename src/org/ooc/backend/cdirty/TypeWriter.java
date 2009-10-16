@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.ooc.backend.cdirty.FunctionDeclWriter.ArgsWriteMode;
 import org.ooc.frontend.model.ClassDecl;
 import org.ooc.frontend.model.FunctionDecl;
+import org.ooc.frontend.model.Literal;
 import org.ooc.frontend.model.Type;
 import org.ooc.frontend.model.TypeDecl;
 import org.ooc.frontend.model.TypeParam;
@@ -55,6 +56,11 @@ public class TypeWriter {
 		if(type.getRef() instanceof ClassDecl) {
 			cgen.current.app('*');
 		}
+		// no-VLA workaround.
+		if(type.isArray() && type.getArraySize() != null
+				&& !(type.getArraySize() instanceof Literal)  && !cgen.params.compiler.supportsVLAs()) {
+			cgen.current.app('*');
+		}
 	}
 	
 	public static void writePostFinale(Type type, CGenerator cgen)
@@ -63,9 +69,16 @@ public class TypeWriter {
 		for(int i = 0; i < level; i++) {
 			if(type.isArray()) {
 				if(i == 0 && type.getArraySize() != null) {
-					cgen.current.app('[');
-					type.getArraySize().accept(cgen);
-					cgen.current.app(']');
+					if(type.getArraySize() instanceof Literal || cgen.params.compiler.supportsVLAs()) {
+						cgen.current.app('[');
+						type.getArraySize().accept(cgen);
+						cgen.current.app(']');
+					} else {
+						// no-VLA workaround
+						cgen.current.app(" = GC_malloc(");
+						type.getArraySize().accept(cgen);
+						cgen.current.app(")");
+					}
 				} else {
 					cgen.current.app("[]");
 				}

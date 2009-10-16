@@ -1,0 +1,6 @@
+These examples are a great way to learn the ooc syntax.
+
+*Most* of them should compile, but not all. Some features
+aren't implemented yet, and some tests shouldn't even exist
+anymore, so please bear with us while we're trying to clean
+it up =)
