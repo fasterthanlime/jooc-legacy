@@ -225,6 +225,14 @@ public class CGenerator extends Generator implements Visitor {
 
 	public void visit(Line line) throws IOException {
 		current.nl();
+
+		current.app("#line ");
+		current.app(String.valueOf(module.getReader().getLocation(line.startToken).getLineNumber()));
+		current.app(" \"");
+		current.app(module.getReader().getFileName());
+		current.app("\"");
+		current.nl();
+
 		if(line.getStatement() instanceof FunctionCall) CallWriter.bypassPrelude = (FunctionCall) line.getStatement();
 		line.getStatement().accept(this);
 		if(!(line.getStatement() instanceof ControlStatement || line.getStatement() instanceof VersionBlock)) {

@@ -221,6 +221,10 @@ public class SourceReader {
         return (index + 1 < content.length);
     }
 
+    public String getFileName() {
+        return fileName;
+    }
+
     /**
      * @return the current file location, containing the file number, line position, and index
      */
