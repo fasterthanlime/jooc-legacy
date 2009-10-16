@@ -303,7 +303,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 	}
 	
 	protected Expression getRealExpr(String typeParam, NodeList<Node> stack, Resolver res, boolean fatal) {
-
+		
 		if(impl == null) return null;
 		
 		Expression result = null;

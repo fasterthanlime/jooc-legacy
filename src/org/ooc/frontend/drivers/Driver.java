@@ -31,9 +31,14 @@ import org.ooc.utils.ShellUtils;
  */
 public abstract class  Driver {
 
-	public BuildParams params = new BuildParams();
+	public BuildParams params;
 	public List<String> additionals = new ArrayList<String>();
 	public List<String> compilerArgs = new ArrayList<String>();
+	
+	public Driver(BuildParams params) {
+		super();
+		this.params = params;
+	}
 
 	public abstract int compile(Module module) throws Error,
 			IOException, InterruptedException;

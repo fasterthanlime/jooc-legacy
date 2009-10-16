@@ -17,8 +17,10 @@ import org.ooc.frontend.compilers.Icc;
 import org.ooc.frontend.compilers.Tcc;
 import org.ooc.frontend.drivers.CombineDriver;
 import org.ooc.frontend.drivers.Driver;
+import org.ooc.frontend.drivers.SequenceDriver;
 import org.ooc.frontend.model.Import;
 import org.ooc.frontend.model.Module;
+import org.ooc.frontend.parser.BuildParams;
 import org.ooc.frontend.parser.ModuleParser;
 import org.ooc.frontend.parser.Parser;
 import org.ooc.middle.Tinkerer;
@@ -33,8 +35,8 @@ public class CommandLine {
 		new CommandLine(argv);
 	}
 	
-	//private Driver driver = new SequenceDriver();
-	private Driver driver = new CombineDriver();
+	private BuildParams params = new BuildParams();
+	private Driver driver = new CombineDriver(params);
 	
 	public CommandLine(String[] args) throws InterruptedException, IOException {
 		
@@ -49,81 +51,96 @@ public class CommandLine {
         			String sourcePathOption = arg.substring(arg.indexOf('=') + 1);
         			StringTokenizer tokenizer = new StringTokenizer(sourcePathOption, File.pathSeparator);
         			while(tokenizer.hasMoreTokens()) {
-        				driver.params.sourcePath.add(tokenizer.nextToken());
+        				params.sourcePath.add(tokenizer.nextToken());
         			}
         			
         		} else if(option.startsWith("outpath")) {
         			
-        			driver.params.outPath = new File(arg.substring(arg.indexOf('=') + 1));
+        			params.outPath = new File(arg.substring(arg.indexOf('=') + 1));
         			
         		} else if(option.startsWith("incpath")) {
         			
-        			driver.params.incPath.add(arg.substring(arg.indexOf('=') + 1));
+        			params.incPath.add(arg.substring(arg.indexOf('=') + 1));
         			
         		} else if(option.startsWith("I")) {
         			
-        			driver.params.incPath.add(arg.substring(2));
+        			params.incPath.add(arg.substring(2));
         			
         		} else if(option.startsWith("libpath")) {
         			
-        			driver.params.libPath.add(arg.substring(arg.indexOf('=') + 1));
+        			params.libPath.add(arg.substring(arg.indexOf('=') + 1));
         			
         		} else if(option.startsWith("editor")) {
         			
-        			driver.params.editor = arg.substring(arg.indexOf('=') + 1);
+        			params.editor = arg.substring(arg.indexOf('=') + 1);
         			
         		} else if(option.equals("c")) {
         			
-        			driver.params.link = false;
+        			params.link = false;
         			
         		} else if(option.startsWith("L")) {
         			
-        			driver.params.libPath.add(arg.substring(2));
+        			params.libPath.add(arg.substring(2));
         			
         		} else if(option.startsWith("l")) {
         			
-        			driver.params.dynamicLibs.add(arg.substring(2));
+        			params.dynamicLibs.add(arg.substring(2));
         			
         		} else if(option.equals("dyngc")) {
         			
-        			driver.params.dynGC = true;
+        			params.dynGC = true;
         			
         		} else if(option.equals("nogc")) {
         			
-        			driver.params.enableGC = false;
+        			params.enableGC = false;
         			
         		} else if(option.equals("noclean")) {
         			
-        			driver.params.clean = false;
+        			params.clean = false;
+        			
+        		} else if(option.equals("nolines")) {
+        			
+        			params.lineDirectives = false;
         			
         		} else if(option.equals("shout")) {
         			
-        			driver.params.shout = true;
+        			params.shout = true;
         			
         		} else if(option.equals("timing") || option.equals("t")) {
         			
-        			driver.params.timing = true;
+        			params.timing = true;
         			
         		} else if(option.equals("debug") || option.equals("g")) {
         			
-        			driver.params.debug = true;
-        			driver.params.clean = false;
+        			params.debug = true;
+        			params.clean = false;
         			
         		} else if(option.equals("verbose") || option.equals("v")) {
         			
-        			driver.params.verbose = true;
+        			params.verbose = true;
         			
         		} else if(option.equals("veryVerbose") || option.equals("vv")) {
         			
-        			driver.params.veryVerbose = true;
+        			params.veryVerbose = true;
         			
         		} else if(option.equals("run") || option.equals("r")) {
         			
-        			driver.params.run = true;
+        			params.run = true;
+        			
+        		} else if(option.startsWith("driver=")) {
+        			
+        			String driverName = option.substring("driver=".length());
+        			if(driverName.equals("combine")) {
+        				driver = new CombineDriver(params);
+        			} else if(driverName.equals("sequence")) {
+        				driver = new SequenceDriver(params);
+        			} else {
+        				System.out.println("Unknown driver '"+driverName+"'");
+        			}
         			
         		} else if(option.startsWith("blowup=")) {
         			
-        			driver.params.blowup = Integer.parseInt(option.substring("blowup=".length()));
+        			params.blowup = Integer.parseInt(option.substring("blowup=".length()));
         			
         		} else if(option.equals("V") || option.equals("-version") || option.equals("version")) {
         			
@@ -137,28 +154,28 @@ public class CommandLine {
         			
         		} else if(option.startsWith("gcc")) {
         			if(option.startsWith("gcc=")) {
-        				driver.params.compiler = new Gcc(option.substring(4));
+        				params.compiler = new Gcc(option.substring(4));
         			} else {
-        				driver.params.compiler = new Gcc();
+        				params.compiler = new Gcc();
         			}
         		} else if(option.startsWith("icc")) {
         			if(option.startsWith("icc=")) {
-        				driver.params.compiler = new Icc(option.substring(4));
+        				params.compiler = new Icc(option.substring(4));
         			} else {
-        				driver.params.compiler = new Icc();
+        				params.compiler = new Icc();
         			}
         		} else if(option.startsWith("tcc")) {
         			if(option.startsWith("tcc=")) {
-        				driver.params.compiler = new Tcc(option.substring(4));
+        				params.compiler = new Tcc(option.substring(4));
         			} else {
-        				driver.params.compiler = new Tcc();
+        				params.compiler = new Tcc();
         			}
-        			driver.params.dynGC = true;
+        			params.dynGC = true;
 				} else if(option.startsWith("clang")) {
 					if(option.startsWith("clang=")) {
-        				driver.params.compiler = new Clang(option.substring(6));
+        				params.compiler = new Clang(option.substring(6));
         			} else {
-        				driver.params.compiler = new Clang();
+        				params.compiler = new Clang();
         			}
         		} else if(option.equals("help-backends") || option.equals("-help-backends")) {
         			
@@ -182,13 +199,13 @@ public class CommandLine {
         			
         		} else if(option.equals("slave")) {
         			
-        			driver.params.slave = true;
+        			params.slave = true;
 
 				} else if(option.startsWith("m")) {
 					
 					String arch = arg.substring(2);
 					if (arch.equals("32") || arch.equals("64"))
-						driver.params.arch = arg.substring(2);
+						params.arch = arg.substring(2);
 					else
 						System.out.println("Unrecognized architecture: " + arch);
 			
@@ -220,14 +237,14 @@ public class CommandLine {
 			return;
 		}
 		
-		if(driver.params.compiler == null) driver.params.compiler = new Gcc();
+		if(params.compiler == null) params.compiler = new Gcc();
 		
 		if(!nasms.isEmpty()) {
 			driver.compileNasms(nasms, driver.additionals);
 		}
 		
-		if(driver.params.sourcePath.isEmpty()) driver.params.sourcePath.add(".");
-		driver.params.sourcePath.add(driver.params.sdkLocation.getPath());
+		if(params.sourcePath.isEmpty()) params.sourcePath.add(".");
+		params.sourcePath.add(params.sdkLocation.getPath());
 	
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		do {
@@ -240,11 +257,11 @@ public class CommandLine {
 				} catch(CompilationFailedError err) {
 					System.err.println(err);
 					fail();
-					if(driver.params.editor.length() > 0) {
-						launchEditor(driver.params.editor, err);
+					if(params.editor.length() > 0) {
+						launchEditor(params.editor, err);
 					}
 				}
-				if(driver.params.clean) FileUtils.deleteRecursive(driver.params.outPath);
+				if(params.clean) FileUtils.deleteRecursive(params.outPath);
 			}
 			
 			if(modulePaths.size() > 1) {
@@ -252,7 +269,7 @@ public class CommandLine {
 						+" success, "+(modulePaths.size() - successCount)+" failed)");
 			}
 			
-			if(driver.params.slave) {
+			if(params.slave) {
 				System.out.println(".-------------( ready )-------------.\n");
 				reader.readLine();
 			} else {
@@ -261,12 +278,12 @@ public class CommandLine {
 				}
 			}
 			
-		} while(driver.params.slave);
+		} while(params.slave);
 		
 	}
 
 	private void ok() {
-		if(driver.params.shout) {
+		if(params.shout) {
 			if(Target.guessHost() == Target.LINUX) {
 				System.out.println("\033[1;32m[ OK ]\033[m");
 			} else {
@@ -276,7 +293,7 @@ public class CommandLine {
 	}
 
 	private void fail() {
-		if(driver.params.shout) {
+		if(params.shout) {
 			if(Target.guessHost() == Target.LINUX) {
 				System.out.println("\033[1;31m[FAIL]\033[m");
 			} else {
@@ -316,9 +333,9 @@ public class CommandLine {
 
 	protected int parse(String modulePath) throws InterruptedException, IOException {
 		
-		driver.params.outPath.mkdirs();
+		params.outPath.mkdirs();
 		long tt1 = System.nanoTime();
-		Module module = new Parser(driver.params).parse(modulePath);
+		Module module = new Parser(params).parse(modulePath);
 		module.setMain(true);
 		long tt2 = System.nanoTime();
 		
@@ -332,7 +349,7 @@ public class CommandLine {
 		int code = driver.compile(module);
 		long tt5 = System.nanoTime();
 
-		if(driver.params.timing) {
+		if(params.timing) {
 			System.out.printf("parse: %.2f ms\ttinker: %.2f ms\toutput: %.2f ms\tcc: %.2f ms\tTOTAL %.2f ms\n",
 					Float.valueOf((tt2 - tt1) / 1000000.0f),
 					Float.valueOf((tt3 - tt2) / 1000000.0f),
@@ -342,8 +359,8 @@ public class CommandLine {
 		}
 		
 		if(code == 0) {
-			if(driver.params.shout) ok();
-			if(driver.params.run) {
+			if(params.shout) ok();
+			if(params.run) {
 				ProcessBuilder builder = new ProcessBuilder();
 				builder.command("./"+module.getSimpleName());
 				Process process = builder.start();
@@ -353,7 +370,7 @@ public class CommandLine {
 					System.out.println("Unerwarteter Programmabbruch. Return code: "+exitCode+". Please don't cry :(");
 				}
 			}
-		} else if(driver.params.shout) fail();
+		} else if(params.shout) fail();
 		return code;
 		
 	}
@@ -365,7 +382,7 @@ public class CommandLine {
 				output(imp.getModule(), done);
 			}
 		}
-		new CGenerator(driver.params.outPath, module).generate(driver.params);
+		new CGenerator(params.outPath, module).generate(params);
 	}
 
 	protected void collectModules(Module module, List<Module> list) throws IOException {
@@ -379,7 +396,7 @@ public class CommandLine {
 	
 	protected void tinker(List<Module> list) throws IOException {
 		Tinkerer tink = new Tinkerer();
-		tink.process(list, driver.params);
+		tink.process(list, params);
 	}
 
 }

@@ -7,8 +7,13 @@ import java.util.HashSet;
 
 import org.ooc.frontend.Target;
 import org.ooc.frontend.model.Module;
+import org.ooc.frontend.parser.BuildParams;
 
 public class CombineDriver extends Driver {
+
+	public CombineDriver(BuildParams params) {
+		super(params);
+	}
 
 	@Override
 	public int compile(Module module) throws Error, IOException, InterruptedException {

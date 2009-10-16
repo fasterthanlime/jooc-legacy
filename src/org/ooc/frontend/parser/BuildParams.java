@@ -22,24 +22,52 @@ public class BuildParams {
 	
 	public File outPath = new File("ooc_tmp");
 	
+	// Path of the text editor to run when an error is encountered in an ooc file 
 	public String editor = "";
 	
+	// Remove the ooc_tmp/ directory after the C compiler has finished
 	public boolean clean = true;
-	public boolean debug = false;
-	public boolean verbose = false;
-	public boolean veryVerbose = false;
-	public boolean shout = false;
-	public boolean link = true;
-	public boolean run = false;
-	public boolean timing = false;
-	public boolean slave = false;
-	public boolean enableGC = true; // Should link with libgc at all.
-	public boolean dynGC = false; // Should link dynamically with libgc (Boehm)
 	
+	// Add debug info to the generated C files (e.g. -g switch for gcc)
+	public boolean debug = false;
+	
+	// Displays which files it parses, and a few debug infos
+	public boolean verbose = false;
+	
+	// More debug messages
+	public boolean veryVerbose = false;
+	
+	// Displays [ OK ] or [FAIL] at the end of the compilation
+	public boolean shout = false;
+	
+	// If false, output .o files. Otherwise output exectuables
+	public boolean link = true;
+	
+	// Run files after compilation
+	public boolean run = false;
+	
+	// Display compilation times for all .ooc files passed to the compiler
+	public boolean timing = false;
+	
+	// Compile once, then wait for the user to press enter, then compile again, etc.
+	public boolean slave = false;
+
+	// Should link with libgc at all.
+	public boolean enableGC = true;
+	
+	// link dynamically with libgc (Boehm)
+	public boolean dynGC = false;
+	
+	// add #line directives in the generated .c for debugging.
+	// depends on "debug" flag
+	public boolean lineDirectives = true;
+	
+	// either "32" or "64"
 	public String arch = "";
 	
+	// maximum number of rounds the {@link Tinkerer} will do before blowing up.
+	public int blowup = 256;
+	
 	public List<String> dynamicLibs = new ArrayList<String>();
-
-	public int blowup = 256; /** maximum number of rounds the {@link Tinkerer} will do before blowing up. */
 	
 }

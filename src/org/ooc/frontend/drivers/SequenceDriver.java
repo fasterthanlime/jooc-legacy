@@ -12,12 +12,17 @@ import org.ooc.frontend.Target;
 import org.ooc.frontend.compilers.AbstractCompiler;
 import org.ooc.frontend.model.Import;
 import org.ooc.frontend.model.Module;
+import org.ooc.frontend.parser.BuildParams;
 
 public class SequenceDriver extends Driver {
 
 	int finalCode;
 	int count;
 	
+	public SequenceDriver(BuildParams params) {
+		super(params);
+	}
+
 	@Override
 	public int compile(Module module) throws Error, IOException, InterruptedException {
 		
