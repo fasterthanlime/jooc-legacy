@@ -1,5 +1,5 @@
 /**
- * The writer interface provides a medium-indendant way to write characters
+ * The writer interface provides a medium-independent way to write characters
  * to anything.
  */
 Writer: abstract class {
