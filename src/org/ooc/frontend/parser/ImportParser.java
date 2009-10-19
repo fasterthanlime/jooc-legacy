@@ -60,6 +60,7 @@ public class ImportParser {
 			StringBuilder innerSb = new StringBuilder();
 			Token startToken = reader.peek();
 			while(true) {
+				reader.skipWhitespace();
 				Token innerToken = reader.read();
 				if(innerToken.type == TokenType.COMMA) {
 					Import imp = new Import(sb.toString() + innerSb.toString(), startToken);
