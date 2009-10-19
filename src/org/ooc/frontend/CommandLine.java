@@ -88,11 +88,29 @@ public class CommandLine {
         			
         		} else if(option.equals("dyngc")) {
         			
+        			System.out.println("Deprecated option -dyngc, you should use -gc=dynamic instead.");
         			params.dynGC = true;
         			
         		} else if(option.equals("nogc")) {
         			
+        			System.out.println("Deprecated option -nogc, you should use -gc=off instead.");
         			params.enableGC = false;
+        			
+        		} else if(option.equals("gc=")) {
+        			
+        			String subOption = option.substring(3);
+        			if(subOption.equals("off")) {
+        				params.enableGC = false;
+        			} else if(subOption.equals("dynamic")) {
+        				params.enableGC = true;
+        				params.dynGC = true;
+        			} else if(subOption.equals("static")) {
+        				params.enableGC = true;
+        				params.dynGC = false;
+        			} else {
+        				System.out.println("Unrecognized option "+option
+        						+", valid values are gc=off, gc=dynamic, gc=static");
+        			}
         			
         		} else if(option.equals("noclean")) {
         			
