@@ -1,5 +1,5 @@
-import lang/[String, Exception]
 include stdio
+import BasicTypes
 
 println: func ~withStr (str: String) {
 	printf("%s\n", str)
@@ -24,6 +24,7 @@ fwrite: extern func (ptr: Pointer, size: SizeT, nmemb: SizeT, stream: FStream) -
 
 fopen: extern func (String, String) -> FStream
 fclose: extern func (FStream) -> Int
+fflush: extern func (stream: FStream)
 
 fputc: extern func (Char, FStream)
 fputs: extern func (String, FStream)
@@ -92,6 +93,3 @@ FStream: cover from FILE* {
 }
 
 stdout, stderr, stdin : extern FStream
-
-
-fflush: extern func (stream: FStream)

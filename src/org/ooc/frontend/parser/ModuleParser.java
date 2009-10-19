@@ -121,16 +121,15 @@ public class ModuleParser {
 	}
 	
 	static void addLangImports(Module module, Parser parser) {
-		
+
+		/*
 		if(module.getFullName().startsWith("lang.")) {
-			if(!module.getFullName().equals("lang.Object")) {
-				module.getImports().add(new Import("lang/Object", Token.defaultToken));
-			}
 			if(!module.getFullName().equals("lang.ooclib")) {
 				module.getImports().add(new Import("lang/ooclib", Token.defaultToken));
 			}
 			return;
 		}
+		*/
 		
 		Collection<String> paths = parser.params.sourcePath.getRelativePaths("lang");
 		for(String path: paths) {

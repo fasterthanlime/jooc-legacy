@@ -1,5 +1,3 @@
-import lang/String
-
 Array: class <T> extends Iterable<T> {
 
 	size: SizeT

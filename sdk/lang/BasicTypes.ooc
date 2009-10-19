@@ -1,5 +1,63 @@
-include stdlib, string
-import lang/[Int, Bool, LLong, Double, Range, stdio]
+include stdlib, stdio, ctype, stdint, stdbool
+
+/**
+ * Pointer type
+ */
+Void: cover from void
+Pointer: cover from void*
+
+/**
+ * character and pointer types
+ */
+Char: cover from char
+UChar: cover from unsigned char
+WChar: cover from wchar_t
+
+isalnum: extern func(letter: Char) -> Int
+isalpha: extern func(letter: Char) -> Int
+isdigit: extern func(letter: Char) -> Int
+isspace: extern func(letter: Char) -> Int
+tolower: extern func(letter: Char) -> Char
+
+Char: cover from char {
+
+	isAlphaNumeric: func -> Bool {
+		return isalnum(this)
+	}
+	
+	isAlpha: func -> Bool { 
+		return isalpha(this)
+	}
+	
+	isDigit: func -> Bool {
+		return isdigit(this)
+	}
+	
+	isWhitespace: func() -> Bool {
+		return isspace(this)
+	}
+
+	toLower: func() -> Char {
+		return tolower(this)
+	}
+
+	toInt: func -> Int {
+		if ((this >= 48) && (this <= 57)) {
+			return (this - 48)
+		}
+		return -1
+	}
+	
+	print: func { 
+		printf("%c", this)
+	}
+	
+	println: func {
+		printf("%c\n", this)
+	}
+}
+
+String: cover from Char*
 
 atoi: extern func (String) -> Int
 atol: extern func (String) -> Long
@@ -85,7 +143,7 @@ String: cover from Char* {
 		return length() - 1
 	}
 	
-	last: func -> SizeT {
+	last: func -> Char {
 		return this[lastIndex()]
 	}
 	
@@ -261,3 +319,229 @@ operator + (left: String, right: Char) -> String {
 operator + (left: Char, right: String) -> String {
 	right prepend(left)
 }
+
+/**
+ * integer types
+ */
+LLong: cover from long long {
+	
+	toString: func -> String {
+		str = gc_malloc(64) : String
+		sprintf(str, "%lld", this)
+		str
+	}
+	
+	toHexString: func -> String {
+		str = gc_malloc(64) : String
+		sprintf(str, "%llx", this)
+		str
+	}
+	
+	isOdd:  func -> Bool { this % 2 == 1 }
+	isEven: func -> Bool { this % 2 == 0 }
+	
+	in: func(range: Range) -> Bool {
+		return this >= range min && this < range max
+	}
+	
+}
+
+Int: cover from int {
+	
+	toString: func -> String {
+		str = gc_malloc(64) : String
+		sprintf(str, "%d", this)
+		str
+	}
+	
+	isOdd:  func -> Bool { this % 2 == 1 }
+	isEven: func -> Bool { this % 2 == 0 }
+	
+	in: func(range: Range) -> Bool {
+		return this >= range min && this < range max
+	}
+
+	
+}
+
+UInt: cover from unsigned int extends LLong
+Short: cover from short extends LLong
+UShort: cover from unsigned short extends LLong
+Long: cover from long extends LLong
+ULong: cover from unsigned long extends LLong
+ULLong: cover from unsigned long long extends LLong
+
+/**
+ * fixed-size integer types
+ */
+Int8: cover from int8_t
+Int16: cover from int16_t
+Int32: cover from int32_t
+Int64: cover from int64_t
+
+UInt8:  cover from uint8_t
+UInt16: cover from uint16_t
+UInt32: cover from uint32_t
+UInt64: cover from uint64_t
+
+Octet: cover from UInt8
+
+SizeT: cover from size_t extends LLong
+
+Bool: cover from bool {
+	
+	toString: func -> String { return this ? "true" : "false" }
+	
+}
+
+/**
+ * real types
+ */
+Float: cover from float extends Double {}
+LDouble: cover from long double
+
+Double: cover from double {
+	
+	toString: func -> String {
+		str = gc_malloc(64) : String
+		sprintf(str, "%.2f", this)
+		str
+	}
+	
+	abs: func -> This {
+		return this < 0 ? -this : this
+	}
+	
+}
+
+/**
+ * custom types
+ */
+Range: cover {
+
+	min, max: Int
+	
+	new: static func (.min, .max) -> This {
+		this : This
+		this min = min
+		this max = max
+		return this
+	}
+
+}
+
+/**
+ * objects
+ */
+Class: abstract class {
+	
+	/// Number of octets to allocate for a new instance of this class 
+	instanceSize: SizeT
+	
+	/// Number of octets to allocate to hold an instance of this class
+	/// it's different because for classes, instanceSize may greatly
+	/// vary, but size will always be equal to the size of a Pointer.
+	/// for basic types (e.g. Int, Char, Pointer), size == instanceSize
+	size: SizeT
+
+	/// Human readable representation of the name of this class
+	name: String
+	
+	/// Pointer to instance of super-class
+	super: const Class
+	
+	/// Create a new instance of the object of type defined by this class
+	alloc: final func -> Object {
+		object := gc_malloc(instanceSize) as Object
+		if(object) {
+			object class = this
+			object __defaults__()
+		}
+		return object
+	}
+	
+	instanceof: final func (T: Class) -> Bool {
+		if(this == T) return true
+		if(super != null) return super class instanceof(T)
+		return false
+	}
+	
+	// workaround needed to avoid C circular dependency with _ObjectClass
+	__defaults__: static Func (Class)
+	__destroy__: static Func (Class)
+	__load__: static Func
+	
+}
+
+Object: abstract class {
+
+	class: Class
+	
+	/// Instance initializer: set default values for a new instance of this class
+	__defaults__: func {}
+	
+	/// Finalizer: cleans up any objects belonging to this instance
+	__destroy__: func {}
+	
+}
+
+/**
+ * iterators
+ */
+Iterator: abstract class <T> {
+
+	hasNext: abstract func -> Bool
+	next: abstract func -> T
+	
+}
+
+Iterable: abstract class <T> {
+
+	iterator: abstract func -> Iterator<T>
+	
+}
+
+Interface: class {
+	realThis: Object
+	funcs: Object
+	
+	init: func (=realThis, =funcs) {}
+}
+
+
+/**
+ * exceptions
+ */
+Exception: class {
+
+	origin: Class
+	msg : String
+
+	init: func (=origin, =msg) {}
+	init: func ~noOrigin (=msg) {}
+	
+	crash: func {
+		fflush(stdout)
+		x := 0
+		x = 1 / x
+	}
+	
+	getMessage: func -> String {
+		max := const 1024
+		buffer := gc_malloc(max) as String
+		if(origin) snprintf(buffer, max, "[%s in %s]: %s\n", class name, origin name, msg)
+		else snprintf(buffer, max, "[%s]: %s\n", class name, msg)
+		return buffer
+	}
+	
+	print: func {
+		fprintf(stderr, "%s", getMessage())
+	}
+	
+	throw: func {
+		print()
+		crash()
+	}
+
+}
+

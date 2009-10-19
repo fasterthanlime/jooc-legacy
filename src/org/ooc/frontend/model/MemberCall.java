@@ -116,7 +116,8 @@ public class MemberCall extends FunctionCall {
 		
 		if(fatal && impl == null) {
 			String message = "Couldn't resolve call to function "
-				+typeDeclaration.getInstanceType()+"."+name+getArgsRepr()+".";
+				+typeDeclaration.getInstanceType()+"."+name+getArgsRepr()+". (Functions are "+
+				typeDeclaration.getFunctionsRepr()+" from "+typeDeclaration.getModule().getFullName()+")";
 			String guess = guessCorrectName(typeDeclaration);
 			if(guess != null) {
 				message += " Did you mean "+guess+" ?";

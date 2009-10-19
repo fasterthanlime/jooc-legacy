@@ -1,6 +1,6 @@
 include stdlib, memory
 
-import lang/String, ArrayList
+import ArrayList
 
 /**
  * Container for key/value entries in the hash table

@@ -207,7 +207,7 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 	}
 
 	public String getArgsRepr() {
-		return getArgsRepr(true);
+		return getArgsRepr(hasThis());
 	}	
 	
 	public String getArgsRepr(boolean skipThis) {
@@ -273,7 +273,7 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 	}
 
 	public String getProtoRepr() {
-		return getProtoRepr(false);
+		return getProtoRepr(hasThis());
 	}
 	
 	public String getProtoRepr(boolean skipThis) {

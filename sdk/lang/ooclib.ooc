@@ -1,44 +1,5 @@
 include stdlib, stdint, stdbool, math, stdarg, memory, gc/gc, string
-
-// character and pointer types
-Char: cover from char
-UChar: cover from unsigned char
-WChar: cover from wchar_t
-String: cover from Char*
-Pointer: cover from void*
-
-// variable-size integer types
-Int: cover from int
-UInt: cover from unsigned int extends LLong
-Short: cover from short extends LLong
-UShort: cover from unsigned short extends LLong
-Long: cover from long extends LLong
-ULong: cover from unsigned long extends LLong
-LLong: cover from long long
-ULLong: cover from unsigned long long extends LLong
-
-// floating-point types
-LDouble: cover from long double
-Double: cover from double
-Float: cover from float extends Double
-
-// fixed-size integer types
-Int8: cover from int8_t
-Int16: cover from int16_t
-Int32: cover from int32_t
-Int64: cover from int64_t
-
-UInt8:  cover from uint8_t
-UInt16: cover from uint16_t
-UInt32: cover from uint32_t
-UInt64: cover from uint64_t
-
-Octet: cover from UInt8
-
-// other types
-Void: cover from void
-Bool: cover from bool
-SizeT: cover from size_t extends LLong
+import BasicTypes
 
 // variable arguments
 VaList: cover from va_list
