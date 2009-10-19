@@ -10,9 +10,6 @@ HEADERS=libs/*
 
 MAIN_CLASS="org.ooc.frontend.CommandLine"
 
-test:
-	echo $(DESTDIR)
-
 jar:
 	ant
 
