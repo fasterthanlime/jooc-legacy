@@ -4,6 +4,8 @@
  */
 Writer: abstract class {
 	
+	close: abstract func()
+	
 	write: abstract func ~chr (chr: Char)
 	
 	write: abstract func(chars: String, length: SizeT) -> SizeT

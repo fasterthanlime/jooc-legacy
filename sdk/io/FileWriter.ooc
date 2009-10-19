@@ -32,4 +32,8 @@ FileWriter: class extends Writer {
 	write: func ~chr (chr: Char) {
 		file write(chr)
 	}
+	
+	close: func() {
+		fclose(file);
+	}
 }
