@@ -118,5 +118,12 @@ public class VariableDeclFromExpr extends VariableDecl {
 		return ass;
 		
 	}
+
+	@Override
+	public boolean shouldBeLowerCase() {
+		if(!super.shouldBeLowerCase()) return false;
+		if(isConst) return false;
+		return true;
+	}
 	
 }

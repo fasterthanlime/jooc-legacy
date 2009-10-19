@@ -130,6 +130,7 @@ public class Checker implements Hobgoblin {
 							"', which begins with a lowercase letter."+
 							" Types should always begin with an uppercase letter, e.g. CamelCase");
 				}
+				/*
 				for(VariableDeclAtom atom: node.getAtoms()) {
 					if(atom.getName().length() == 0) continue;
 					if(Character.isUpperCase(atom.getName().charAt(0)) && !node.getType().isConst()
@@ -139,6 +140,7 @@ public class Checker implements Hobgoblin {
 								+"'. Variables should always begin with a lowercase letter, e.g. camelCase");
 					}
 				}
+				*/
 			}
 			
 			private void checkTypeDecl(TypeDecl node, NodeList<Node> stack)
