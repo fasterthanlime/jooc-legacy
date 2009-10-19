@@ -15,24 +15,20 @@ S_ISLNK: extern func(...) -> Bool
 S_IRWXU: extern func(...)
 S_IRWXG: extern func(...)
 S_IRWXO: extern func(...)
-lstat: extern func(String, FileStat*) -> Int
 
-fopen: extern func(String, String) -> Pointer
+lstat: extern func(String, FileStat*) -> Int
+mkdir: extern func(String, ModeT) -> Int
+
+version(unix) {
+    File separator = '/'
+}
+version(windows) {
+    File separator = '\\'
+}
 
 File: class {
 	path: String
-	separator = getSystemSeparator() : static const Char
-	
-	getSystemSeparator: static func -> Char {
-		/*version(unix) {
-			return '/'
-		}
-		version(windows) {
-			return '\\'
-		}*/
-		
-		return '/'
-	}
+	separator = '/' : static const Char
 	
 	getPath: func -> String {
 		return path
@@ -95,4 +91,31 @@ File: class {
 		if(idx == -1) return trimmed
 		return trimmed substring(idx + 1)
 	}
+    
+    parent: func -> File {
+        idx := path lastIndexOf(separator)
+        if(idx == -1) return null
+        return File new(path substring(0, idx))
+    }
+    
+    mkdir: func -> Int {
+        mkdir(0c755)
+    }
+    
+    mkdir: func ~withMode (mode: Int32) -> Int {
+        return mkdir(path, mode)
+    }
+    
+    mkdirs: func {
+        mkdirs(0c755)
+    }
+        
+    mkdirs: func ~withMode (mode: Int32) -> Int {
+        if(parent := parent()) {
+            parent mkdirs()
+        }
+        mkdir()
+    }
 }
+
+

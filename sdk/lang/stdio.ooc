@@ -22,6 +22,9 @@ vsnprintf: extern func (String, Int, String, VaList)
 fread: extern func (ptr: Pointer, size: SizeT, nmemb: SizeT, stream: FStream) -> SizeT
 fwrite: extern func (ptr: Pointer, size: SizeT, nmemb: SizeT, stream: FStream) -> SizeT
 
+fopen: extern func (String, String) -> FStream
+fclose: extern func (FStream) -> Int
+
 fputc: extern func (Char, FStream)
 fputs: extern func (String, FStream)
 

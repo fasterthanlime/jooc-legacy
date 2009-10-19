@@ -31,7 +31,6 @@ public class ModuleParser {
 			final TokenReader reader, final Parser parser) {
 		
 		module.lastModified = file.lastModified();
-		cache.put(module.getFullName(), module);
 		
 		try {
 			addLangImports(module, parser);
@@ -90,7 +89,6 @@ public class ModuleParser {
 			}
 			
 			for(Import imp: module.getImports()) {
-				Module cached = cache.get(imp.getFullName());
 				String path = imp.getPath() + ".ooc";
 				if(path.startsWith("..")) {
 					path = FileUtils.resolveRedundancies(new File(module.getParentPath(), path)).getPath();
@@ -104,12 +102,14 @@ public class ModuleParser {
 						throw new OocCompilationError(imp, module, "Module not found in sourcepath: "+imp.getPath());
 					}
 				}
+				
+				Module cached = cache.get(path);
+				
 				if(cached == null || new File(impFile, path).lastModified() > cached.lastModified) {
 					if(cached != null) {
 						System.out.println(path+" has been changed, recompiling...");
 					}
 					cached = parser.parse(path, impFile, imp);
-					cache.put(imp.getPath(), cached);
 				}
 				imp.setModule(cached);
 			}

@@ -43,7 +43,9 @@ public class Parser {
 			.replace(File.separatorChar, '.').replace('/', '.');
 		
 		final Module module = new Module(fullName, element, sReader);
+		ModuleParser.cache.put(path, module);
 		if(imp != null) imp.setModule(module);
+		
 		ModuleParser.parse(module, fullName, file,
 				sReader, new TokenReader(tokens), Parser.this);
 		//new XStream().toXML(module, new FileWriter(file.getName()+".xml"));

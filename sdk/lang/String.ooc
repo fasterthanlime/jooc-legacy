@@ -189,7 +189,7 @@ String: cover from Char* {
 		length := length()
 		copy := gc_malloc(length + 2) as Char*
 		memcpy(copy, this, length)
-		copy as Char * [length - 1] = other
+		copy as Char* [length] = other
 		return copy
 	}
 	
@@ -255,9 +255,9 @@ operator + (left: String, right: Double) -> String {
 }
 
 operator + (left: String, right: Char) -> String {
-	return left append(right)
+	left append(right)
 }
 
 operator + (left: Char, right: String) -> String {
-	return right prepend(left)
+	right prepend(left)
 }
