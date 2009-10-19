@@ -69,6 +69,13 @@ public class Match extends Expression implements MustBeResolved {
 		
 		if(type == null) resolveType(stack, res, fatal);
 		
+		if(type == null) {
+			if(fatal) {
+				throw new OocCompilationError(this, stack, "Couldn't figure out ");
+			}
+			return Response.LOOP;
+		}
+		
 		if(parent instanceof Line) {
 			// alright =)
 		} else if(parent instanceof VariableDeclAtom) {
@@ -134,6 +141,11 @@ public class Match extends Expression implements MustBeResolved {
 			}
 			case1.getBody().replace(last, new Line(new Assignment(varAcc, (Expression) last.getStatement(), last.startToken)));
 		}
+	}
+	
+	@Override
+	public String toString() {
+		return "match "+expr+", with "+cases.size()+" cases";
 	}
 
 }

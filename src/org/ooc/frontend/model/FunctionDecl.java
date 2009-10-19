@@ -438,7 +438,7 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 				if(getName().equals("main")) {
 					getBody().add(new Line(new ValuedReturn(
 							new IntLiteral(0, Format.DEC, startToken), startToken)));
-					return Response.RESTART;
+					//return Response.RESTART;
 				} /*else {
 					
 					throw new OocCompilationError(node, stack,
@@ -453,11 +453,11 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 					if(isEntryPoint()) {
 						getBody().add(new Line(new ValuedReturn(
 								new IntLiteral(0, Format.DEC, startToken), startToken)));
-						return Response.RESTART;
+						//return Response.RESTART;
 					} else if(line.getStatement() instanceof Expression) {
 						line.setStatement(new ValuedReturn((Expression) line.getStatement(),
 								line.getStatement().startToken));
-						return Response.RESTART;
+						//return Response.RESTART;
 					} /*else {
 						
 						throw new OocCompilationError(node, stack,

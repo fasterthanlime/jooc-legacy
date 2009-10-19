@@ -299,7 +299,7 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 		
 		for(VariableDeclAtom atom: atoms) {
 			Expression expr = atom.getExpression();
-			if(expr != null && expr.getType().isGeneric()) {
+			if(expr != null && expr.getType() != null && expr.getType().isGeneric()) {
 				atom.setExpression(new Cast(expr, getType(), expr.startToken));
 			}
 			String name = atom.name;

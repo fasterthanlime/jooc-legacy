@@ -64,6 +64,8 @@ public class MemberCall extends FunctionCall {
 	@Override
 	public Response resolve(NodeList<Node> stack, Resolver res, final boolean fatal) {
 		
+		if(dead) return Response.OK;
+		
 		Type exprType = expression.getType();
 		if(exprType == null) {
 			if(fatal) {

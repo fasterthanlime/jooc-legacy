@@ -102,6 +102,13 @@ public class Cast extends Expression implements MustBeResolved {
 
 	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
 		
+		if(expression.getType() == null) {
+			if(fatal) {
+				throw new OocCompilationError(this, stack, "Couldn't resolve type of expression in a cast");
+			}
+			return Response.LOOP;
+		}
+		
 		CastMode castMode = CastMode.REGULAR;
 		
 		Expression realExpr = expression.bitchJumpCasts(); 
@@ -140,7 +147,8 @@ public class Cast extends Expression implements MustBeResolved {
 				Node parent = stack.peek();
 				parent.replace(this, call);
 				call.resolve(stack, res, true);
-				return Response.RESTART;
+				//return Response.RESTART;
+				return Response.LOOP;
 			}
 		} else if(castMode == CastMode.ARRAY) {
 			if(args.get(0).getType().getPointerLevel() > 0) {
@@ -164,7 +172,8 @@ public class Cast extends Expression implements MustBeResolved {
 				while(resp2 == Response.RESTART) {
 					resp2 = call.resolve(stack, res, true);
 				}
-				return Response.RESTART;
+				//return Response.RESTART;
+				return Response.LOOP;
 			}
 		}
 		

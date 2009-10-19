@@ -20,7 +20,7 @@ public class TypeWriter {
 	public static void write(Type type, CGenerator cgen, boolean doPrefix) throws IOException {
 		if(type.getRef() == null) {
 			throw new OocCompilationError(type, cgen.module, "Unresolved type '"+type.getName()+"' isGeneric? "
-					+type.isGeneric()+" !! origin "+type.origin);
+					+type.isGeneric()+" !!");
 		}
 		
 		if(type.getName().equals("Func")) {

@@ -41,7 +41,8 @@ public class Tinkerer {
 		while(resolvers.size() > 0) {
 			
 			round += 1;
-			if(params.veryVerbose) System.out.println("\n=======================================\n\nTinkerer, round "+round+", "+resolvers.size()+" left.");
+			if(params.veryVerbose) System.out.println("\n=======================================\n\nTinkerer, round "
+					+round+", "+resolvers.size()+" left ("+resolvers+")");
 			
 			Iterator<Resolver> iter = resolvers.iterator();
 			while(iter.hasNext()) {

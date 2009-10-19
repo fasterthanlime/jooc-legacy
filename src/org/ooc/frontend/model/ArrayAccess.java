@@ -96,11 +96,17 @@ public class ArrayAccess extends Access implements MustBeResolved {
 		int assignIndex = stack.find(Assignment.class);
 		
 		for(OpDecl op: res.module.getOps()) {
-			if(tryOp(stack, res, assignIndex, op)) return Response.RESTART;
+			if(tryOp(stack, res, assignIndex, op)) {
+					//return Response.RESTART;
+					return Response.LOOP;
+			}
 		}
 		for(Import imp: res.module.getImports()) {
 			for(OpDecl op: imp.getModule().getOps()) {
-				if(tryOp(stack, res, assignIndex, op)) return Response.RESTART;
+				if(tryOp(stack, res, assignIndex, op)) { 
+					//return Response.RESTART;
+					return Response.LOOP;
+				}
 			}
 		}
 		return Response.OK;

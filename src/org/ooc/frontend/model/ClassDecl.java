@@ -174,7 +174,7 @@ public class ClassDecl extends TypeDecl {
 				FunctionDecl superInit = getSuperRef().getFunction("init", "", null);
 				if(superInit != null && superInit == getSuperRef().defaultInit) {
 					addInit();
-					return Response.RESTART;
+					//return Response.RESTART;
 				}
 			}
 		}

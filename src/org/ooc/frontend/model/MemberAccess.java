@@ -12,7 +12,6 @@ import org.ooc.middle.hobgoblins.Resolver;
 
 public class MemberAccess extends VariableAccess {
 
-	protected boolean dead = false;
 	protected Expression expression;
 
 	public MemberAccess(String variable, Token startToken) {

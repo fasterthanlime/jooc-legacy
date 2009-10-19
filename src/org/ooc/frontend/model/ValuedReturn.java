@@ -69,7 +69,8 @@ public class ValuedReturn extends Return implements MustBeResolved {
 		TypeParam param = getTypeParam(stack, returnType.getName());
 		if(param != null) {
 			unwrapToMemcpy(stack, decl, param);
-			return Response.RESTART;
+			//return Response.RESTART;
+			return Response.LOOP;
 		}
 		
 		if(returnType.isSuperOf(expression.getType())) {

@@ -101,11 +101,17 @@ public abstract class BinaryOperation extends Expression implements MustBeUnwrap
 		
 		OpType opType = getOpType();		
 		for(OpDecl op: res.module.getOps()) {
-			if(tryOp(stack, opType, op, res)) return Response.RESTART;
+			if(tryOp(stack, opType, op, res)) {
+				//return Response.RESTART;
+				return Response.LOOP;
+			}
 		}
 		for(Import imp: res.module.getImports()) {
 			for(OpDecl op: imp.getModule().getOps()) {
-				if(tryOp(stack, opType, op, res)) return Response.RESTART;
+				if(tryOp(stack, opType, op, res)) {
+					//return Response.RESTART;
+					return Response.LOOP;
+				}
 			}
 		}
 		

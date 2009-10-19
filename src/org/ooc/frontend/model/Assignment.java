@@ -10,7 +10,7 @@ import org.ooc.middle.hobgoblins.Resolver;
 
 public class Assignment extends BinaryOperation {
 
-	public boolean dead = false;
+	protected boolean dead = false;
 	
 	public static enum Mode {
 		REGULAR,
@@ -145,12 +145,14 @@ public class Assignment extends BinaryOperation {
 		}
 		
 		if(left.getType() == null) {
-			if(fatal) throw new OocCompilationError(left, stack, "Left type of assignment unresolved: "+left);
-			return Response.LOOP;
+			if(fatal) throw new OocCompilationError(left, stack, "Left type of assignment unresolved: "+left+" (btw, stack = "+stack.toString(true));
+			//return Response.LOOP;
+			return Response.RESTART;
 		}
 		if(right.getType() == null) {
 			if(fatal) throw new OocCompilationError(right, stack, "Right type of assignment unresolved: "+right);
 			return Response.LOOP;
+			//return Response.RESTART;
 		}
 		
 		boolean isGeneric = false;
@@ -215,7 +217,8 @@ public class Assignment extends BinaryOperation {
 			if(realLeft != null && realRight != null && size != null
 					&& (left.getType().isFlat() || left.getType().isArray())) {
 				unwrapToMemcpy(stack, realLeft, realRight, size);
-				return Response.RESTART;
+				//return Response.RESTART;
+				return Response.LOOP;
 			}
 		}
 		

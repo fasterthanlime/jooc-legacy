@@ -12,6 +12,8 @@ import org.ooc.middle.hobgoblins.Resolver;
 
 public class VariableAccess extends Access implements MustBeResolved {
 
+	protected boolean dead = false;
+	
 	private String name;
 	protected Declaration ref;
 	
@@ -96,7 +98,8 @@ public class VariableAccess extends Access implements MustBeResolved {
 					if(!stack.peek().replace(VariableAccess.this, membAcc)) {
 						throw new Error("Couldn't replace a VariableAccess with a MemberAccess! stack = "+stack.toString(true));
 					}
-					return Response.RESTART;
+					//return Response.RESTART;
+					return Response.LOOP;
 				}
 				ref = varDecl;
 				return Response.OK;
@@ -118,7 +121,7 @@ public class VariableAccess extends Access implements MustBeResolved {
 			if(name.equals("This")) {
 				name = typeDecl.getName();
 				ref = typeDecl;
-				return Response.RESTART;
+				//return Response.RESTART;
 			}
 			VariableDecl varDecl = typeDecl.getVariable(name);
 			if(varDecl != null) {
@@ -129,7 +132,8 @@ public class VariableAccess extends Access implements MustBeResolved {
 				if(!stack.peek().replace(this, membAccess)) {
 					throw new Error("Couldn't replace a VariableAccess with a MemberAccess! Stack = "+stack.toString(true));
 				}
-				return Response.RESTART;
+				return Response.LOOP;
+				//return Response.RESTART;
 			}
 		}
 		

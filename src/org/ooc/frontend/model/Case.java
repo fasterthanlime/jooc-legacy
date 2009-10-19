@@ -81,5 +81,15 @@ public class Case extends Node implements Scope {
 	public void getVariables(NodeList<VariableDecl> variables) {
 		getVariables(body, variables);
 	}
+	
+	@Override
+	public String toString() {
+		String repr = expr+"{ \n";
+		for(Line line: body) {
+			repr += line + "\n";
+		}
+		repr += " }";
+		return repr;
+	}
 
 }

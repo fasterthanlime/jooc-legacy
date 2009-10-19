@@ -14,6 +14,8 @@ import org.ooc.middle.hobgoblins.Resolver;
 
 public class FunctionCall extends Access implements MustBeResolved {
 
+	protected boolean dead = false;
+	
 	protected boolean superCall;
 	protected String name;
 	protected String suffix;
@@ -22,7 +24,6 @@ public class FunctionCall extends Access implements MustBeResolved {
 	protected FunctionDecl impl;
 	protected AddressOf returnArg;
 	protected Type realType;
-	protected boolean dead = false;
 	
 	public FunctionCall(String name, Token startToken) {
 		this(name, null, startToken);
@@ -233,7 +234,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 				}
 				typeParams.add(result);
 			}
-			return Response.RESTART;
+			//return Response.RESTART;
 		}
 		
 		// Determine the real type of this function call.
@@ -430,7 +431,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 				vdfe.unwrapToVarAcc(stack);
 				stack.pop(arguments);
 				stack.pop(this);
-				return Response.RESTART;
+				//return Response.RESTART;
 			}
 		}
 		return Response.OK;
@@ -612,8 +613,11 @@ public class FunctionCall extends Access implements MustBeResolved {
 		}
 
 		if(impl != null) {
-			if(impl.isMember()) turnIntoMemberCall(stack, res);
-			return Response.RESTART;
+			if(impl.isMember()) {
+				turnIntoMemberCall(stack, res);
+				//return Response.RESTART;
+				return Response.LOOP;
+			}
 		}
 		
 		return Response.OK;
@@ -632,7 +636,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 		memberCall.setImpl(impl);
 		memberCall.setSuperCall(superCall);
 		stack.peek().replace(this, memberCall);
-		dead = true;
+		this.dead = true;
 	}
 	
 	protected void searchIn(Module module) {
