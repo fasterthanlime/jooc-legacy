@@ -17,6 +17,10 @@ FileWriter: class extends Writer {
             Exception new(This, "File not found: " + fileName) throw()
     }
 
+	init: func ~withNameAndFileOverwrite(fileName: String) {
+		init(fileName, false)
+	}
+
     init: func ~withNameOverwrite (fileName: String) {
         init(fileName, false)
     }
