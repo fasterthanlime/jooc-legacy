@@ -1,6 +1,8 @@
 package org.ooc.frontend.model;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Iterator;
 
 import org.ooc.frontend.Visitor;
@@ -11,6 +13,8 @@ import org.ooc.middle.hobgoblins.Resolver;
 
 public class Type extends Node implements MustBeResolved {
 
+	public String origin = null;
+	
 	public static class Classification {
 		public static final int POINTER = 1;
 		public static final int NUMBER = 2;
@@ -47,6 +51,10 @@ public class Type extends Node implements MustBeResolved {
 	
 	public Type(String name, int pointerLevel, int referenceLevel, Token startToken) {
 		super(startToken);
+		//FIXME debug
+		StringWriter sw = new StringWriter();
+		new Exception("Haha I'm created, biatches.").printStackTrace(new PrintWriter(sw));
+		this.origin = sw.toString();
 		this.name = name;
 		this.pointerLevel = pointerLevel;
 		this.referenceLevel = referenceLevel;
@@ -129,7 +137,9 @@ public class Type extends Node implements MustBeResolved {
 			Iterator<Access> iter = typeParams.iterator();
 			while(iter.hasNext()) {
 				Access element = iter.next();
-				if(element instanceof VariableAccess) {
+				if(element instanceof TypeAccess) {
+					sb.append(element.toString());
+				} else if(element instanceof VariableAccess) {
 					sb.append(((VariableAccess) element).getName());
 				} else if(element instanceof FunctionCall) {
 					sb.append(((FunctionCall) element).getName());
@@ -229,7 +239,7 @@ public class Type extends Node implements MustBeResolved {
 			if(res.params.veryVerbose) {
 				Thread.dumpStack();
 				throw new OocCompilationError(this, stack, "Couldn't resolve type "
-					+getName()+", btw, stack = "+stack.toString(true));
+					+getName()+", ref = "+ref+" at origin "+origin+" btw, stack = "+stack.toString(true));
 			}
 			throw new OocCompilationError(this, stack, "Couldn't resolve type "
 					+getName());
@@ -240,7 +250,7 @@ public class Type extends Node implements MustBeResolved {
 	}
 
 	public boolean isResolved() {
-		return ref != null;
+		return ref != null || name.length() == 0; // empty name = any type.
 	}
 	
 	public void setArray(boolean isArray) {

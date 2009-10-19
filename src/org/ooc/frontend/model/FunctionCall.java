@@ -330,8 +330,15 @@ public class FunctionCall extends Access implements MustBeResolved {
 			if(arg.getType().getName().equals(typeParam)) {
 				// not resolved yet?
 				if(callArg.getType() == null) return null;
-				TypeAccess typeAcc = new TypeAccess(callArg.getType());
-				//varAcc.setRef(callArg.getType().getRef());
+				Type ourType = callArg.getType();
+				// make it flat!
+				if(!ourType.isFlat()) {
+					ourType = ourType.clone();
+					ourType.setPointerLevel(0);
+					ourType.setReferenceLevel(0);
+					ourType.setArray(false);
+				}
+				TypeAccess typeAcc = new TypeAccess(ourType);
 				typeAcc.resolve(stack, res, fatal);
 				result = typeAcc;
 				if(res.params.veryVerbose)

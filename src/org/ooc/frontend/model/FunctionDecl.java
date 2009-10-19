@@ -401,6 +401,19 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 
 	@Override
 	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
+
+		for(Argument arg: arguments) {
+			Type argType = arg.getType();
+			if(!argType.isResolved()) {
+				stack.push(arguments);
+				stack.push(arg);
+				while(argType.getRef() == null) {
+					argType.resolve(stack, res, true);
+				}
+				stack.pop(arg);
+				stack.pop(arguments);
+			}
+		}
 		
 		Response response = super.resolve(stack, res, fatal);
 		if(response != Response.OK) return response;

@@ -312,6 +312,7 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 		}
 		
 		Type type = getType();
+		if(type != null) setType(type); // fixate type
 		if(type != null && type.getRef() != null && !type.isArray() && type.isGenericRecursive()
 				&& type.isFlat() && !isMember() && !(this instanceof Argument)) {
 			
@@ -333,3 +334,4 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 	}
 	
 }
+

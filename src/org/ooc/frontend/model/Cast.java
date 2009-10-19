@@ -3,13 +3,21 @@ package org.ooc.frontend.model;
 import java.io.IOException;
 
 import org.ooc.frontend.Visitor;
+import org.ooc.frontend.model.IntLiteral.Format;
 import org.ooc.frontend.model.OpDecl.OpType;
 import org.ooc.frontend.model.interfaces.MustBeResolved;
 import org.ooc.frontend.model.tokens.Token;
+import org.ooc.middle.OocCompilationError;
 import org.ooc.middle.hobgoblins.Resolver;
 
 public class Cast extends Expression implements MustBeResolved {
 
+	static enum CastMode {
+		REGULAR,
+		ARRAY, // for array literals
+		MAP, // for map literal
+	}
+	
 	protected Expression expression;
 	protected Type type;
 	
@@ -94,12 +102,23 @@ public class Cast extends Expression implements MustBeResolved {
 
 	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
 		
+		CastMode castMode = CastMode.REGULAR;
+		
+		Expression realExpr = expression.bitchJumpCasts(); 
+		if(realExpr instanceof ArrayLiteral) {
+			castMode = CastMode.ARRAY;
+		}
+		
+		Response response;
+		
 		for(OpDecl op: res.module.getOps()) {
-			if(tryOp(stack, op, res)) return Response.RESTART;
+			response = tryOp(stack, op, res, fatal, castMode);
+			if(response != Response.OK) return response;
 		}
 		for(Import imp: res.module.getImports()) {
 			for(OpDecl op: imp.getModule().getOps()) {
-				if(tryOp(stack, op, res)) return Response.RESTART;
+				response = tryOp(stack, op, res, fatal, castMode);
+				if(response != Response.OK) return response;
 			}
 		}		
 		
@@ -107,24 +126,56 @@ public class Cast extends Expression implements MustBeResolved {
 		
 	}
 
-	private boolean tryOp(NodeList<Node> stack, OpDecl op, Resolver res) {
+	private Response tryOp(NodeList<Node> stack, OpDecl op, Resolver res, boolean fatal, CastMode castMode) {
 		
-		if(op.opType != OpType.AS) return false;
+		if(op.opType != OpType.AS) return Response.OK;
 		
 		FunctionDecl func = op.getFunc();
 		NodeList<Argument> args = func.getArguments();
-		
-		if(expression.getType().softEquals(args.get(0).getType(), res) && type.softEquals(func.getReturnType(), res)) {
-			System.out.println("Found potential match for "+this+" with op "+op);
-			FunctionCall call = new FunctionCall(op.getFunc(), startToken);
-			call.getArguments().add(expression);
-			Node parent = stack.peek();
-			parent.replace(this, call);
-			call.resolve(stack, res, true);
+
+		if(castMode == CastMode.REGULAR) {
+			if(expression.getType().softEquals(args.get(0).getType(), res) && type.softEquals(func.getReturnType(), res)) {
+				FunctionCall call = new FunctionCall(op.getFunc(), startToken);
+				call.getArguments().add(expression);
+				Node parent = stack.peek();
+				parent.replace(this, call);
+				call.resolve(stack, res, true);
+				return Response.RESTART;
+			}
+		} else if(castMode == CastMode.ARRAY) {
+			if(args.get(0).getType().getPointerLevel() > 0) {
+				ArrayLiteral lit = (ArrayLiteral) expression;
+				if(lit.getInnerType() == null) {
+					if(fatal) {
+						throw new OocCompilationError(lit, stack,
+								"Couldn't resolve inner type of ArrayLiteral, can't correctly call the overloaded cast!");
+					}
+					return Response.LOOP;
+				}
+				FunctionCall call = new FunctionCall(op.getFunc(), startToken);
+				call.getArguments().add(expression);
+				call.getArguments().add(new IntLiteral(lit.elements.size(), Format.DEC, lit.startToken));
+				TypeAccess typeAccess = new TypeAccess(lit.getInnerType());
+				call.getTypeParams().add(typeAccess);
+				typeAccess.resolve(stack, res, true);
+				Node parent = stack.peek();
+				parent.replace(this, call);
+				Response resp2 = Response.RESTART;
+				while(resp2 == Response.RESTART) {
+					resp2 = call.resolve(stack, res, true);
+				}
+				return Response.RESTART;
+			}
 		}
 		
-		return false;
+		return Response.OK;
 		
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T extends Node> T bitchJumpCasts() {
+		return (T) expression;
 	}
 
 }

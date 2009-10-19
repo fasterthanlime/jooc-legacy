@@ -177,7 +177,7 @@ public class Assignment extends BinaryOperation {
 				if(var.getType().isGeneric()) {
 					VariableAccess tAccess = new VariableAccess(var.getType().getRef().getName(), startToken);
 					MemberAccess sizeAccess = new MemberAccess(tAccess, "size", startToken);
-					realLeft = new Add(arrAcc.variable, new Mul(arrAcc.index, sizeAccess, startToken), startToken);
+					realLeft = new Add(new AddressOf(var, var.startToken), mul(arrAcc, sizeAccess), startToken);
 				}
 			}
 			if(right instanceof ArrayAccess) {
@@ -186,7 +186,7 @@ public class Assignment extends BinaryOperation {
 				if(var.getType().isGeneric()) {
 					VariableAccess tAccess = new VariableAccess(var.getType().getRef().getName(), startToken);
 					MemberAccess sizeAccess = new MemberAccess(tAccess, "size", startToken);
-					realRight = new Add(arrAcc.variable, new Mul(arrAcc.index, sizeAccess, startToken), startToken);
+					realRight = new Add(new AddressOf(var, var.startToken), mul(arrAcc, sizeAccess), startToken);
 				}
 			} 
 			
@@ -221,6 +221,10 @@ public class Assignment extends BinaryOperation {
 		
 		return super.resolve(stack, res, fatal);
 		
+	}
+
+	private Mul mul(ArrayAccess arrAcc, MemberAccess sizeAccess) {
+		return new Mul(arrAcc.index, sizeAccess, startToken);
 	}
 
 	private void unwrapToMemcpy(NodeList<Node> stack, Expression realLeft, Expression realRight, Expression size) {

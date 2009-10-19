@@ -13,7 +13,9 @@ import org.ooc.middle.hobgoblins.Resolver;
 public class ArrayLiteral extends Literal implements MustBeUnwrapped, MustBeResolved {
 
 	private static Type defaultType = NullLiteral.type;
+	protected Type innerType = null;
 	protected Type type = defaultType;
+	
 	protected NodeList<Expression> elements;
 	
 	public ArrayLiteral(Token startToken) {
@@ -33,6 +35,10 @@ public class ArrayLiteral extends Literal implements MustBeUnwrapped, MustBeReso
 
 	public Type getType() {
 		return type;
+	}
+	
+	public Type getInnerType() {
+		return innerType;
 	}
 	
 	public NodeList<Expression> getElements() {
@@ -86,7 +92,8 @@ public class ArrayLiteral extends Literal implements MustBeUnwrapped, MustBeReso
 							+element.getType()+" in a "+innerType+"[] array literal.");
 				}
 			}
-			
+
+			this.innerType = innerType;
 			this.type = new Type(innerType.name, innerType.pointerLevel + 1, startToken);
 			type.setArray(true);
 			stack.push(this);
@@ -102,6 +109,11 @@ public class ArrayLiteral extends Literal implements MustBeUnwrapped, MustBeReso
 	}
 
 	public boolean unwrap(NodeList<Node> stack) throws IOException {
+		
+		if(stack.peek() instanceof Cast) {
+			//System.out.println("ArrayLiteral "+this+" in a Cast. Not unwrapping =)");
+			return false;
+		}
 		
 		int varDeclIndex = stack.find(VariableDecl.class);
 		

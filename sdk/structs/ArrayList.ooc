@@ -8,7 +8,7 @@ import structs/List
  * to store the list. (This class is roughly equivalent to Vector,
  * except that it is unsynchronized.)
  */
-ArrayList: class <T> extends List {
+ArrayList: class <T> extends List<T> {
 	
 	data : T*
 	capacity : Int
@@ -19,8 +19,14 @@ ArrayList: class <T> extends List {
 	}
 	
 	init: func ~withCapacity (=capacity) { 
-		data = gc_malloc(capacity * T size)
+		data& = gc_malloc(capacity * T size)
 	}
+    
+    init: func ~withData (.data, =size) {
+        this data& = gc_malloc(size * T size)
+        memcpy(this data&, data&, size * T size)
+        capacity = size
+    }
 	
 	add: func (element: T) {
 		ensureCapacity(size + 1)
@@ -32,8 +38,8 @@ ArrayList: class <T> extends List {
 		checkIndex(index)
 		ensureCapacity(size + 1)
 		dst, src: Octet*
-		dst = data + (T size * (index + 1))
-		src = data + (T size * index)
+		dst = data& + (T size * (index + 1))
+		src = data& + (T size * index)
 		bsize := (size - index) * T size
 		memmove(dst, src, bsize)
 		data[index] = element
@@ -73,7 +79,7 @@ ArrayList: class <T> extends List {
 
 	removeAt: func (index: Int) -> T {
 		element := data[index]
-		memmove(data + (index * T size), data + ((index + 1) * T size), (size - index) * T size)
+		memmove(data& + (index * T size), data& + ((index + 1) * T size), (size - index) * T size)
 		size -= 1
 		return element
 	}
@@ -112,7 +118,7 @@ ArrayList: class <T> extends List {
 	 * specified by the minimum capacity argument.
 	 */
 	ensureCapacity: func (newSize: Int) {
-		while(newSize >= capacity) {
+		while(newSize > capacity) {
 			grow()
 		}
 	}
@@ -120,9 +126,9 @@ ArrayList: class <T> extends List {
 	/** private */
 	grow: func {
 		capacity = capacity * 1.1 + 10
-		tmpData := gc_realloc(data, capacity * T size)
+		tmpData := gc_realloc(data&, capacity * T size)
 		if (tmpData) {
-			data = tmpData
+			data& = tmpData
 		} else {
 			printf("Failed to allocate %zu bytes of memory for array to grow! Exiting..\n",
 				capacity * T size)
@@ -140,7 +146,7 @@ ArrayList: class <T> extends List {
 	iterator: func -> Iterator<T> { return ArrayListIterator<T> new(this) }
 	
 	clone: func -> ArrayList<T> {
-		copy := This<T> new(size())
+		copy := This<T> new(size())        
 		copy addAll(this)
 		return copy
 	}
@@ -171,4 +177,9 @@ operator [] <T> (list: ArrayList<T>, i: Int) -> T { list get(i) }
 operator []= <T> (list: ArrayList<T>, i: Int, element: T) { list set(i, element) }
 operator += <T> (list: ArrayList<T>, element: T) { list add(element) }
 operator -= <T> (list: ArrayList<T>, element: T) -> Bool { list remove(element) }
+operator as <T> (data: T*, size: SizeT) -> ArrayList<T> { ArrayList<T> new(data, size) }
+
+
+
+
 

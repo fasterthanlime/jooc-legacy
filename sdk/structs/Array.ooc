@@ -1,6 +1,6 @@
 import lang/String
 
-Array: class <T> extends Iterable {
+Array: class <T> extends Iterable<T> {
 
 	size: SizeT
 	data: T*
