@@ -96,7 +96,7 @@ public class CommandLine {
         			System.out.println("Deprecated option -nogc, you should use -gc=off instead.");
         			params.enableGC = false;
         			
-        		} else if(option.equals("gc=")) {
+        		} else if(option.startsWith("gc=")) {
         			
         			String subOption = option.substring(3);
         			if(subOption.equals("off")) {
