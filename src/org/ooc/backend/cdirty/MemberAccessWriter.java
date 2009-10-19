@@ -16,6 +16,7 @@ public class MemberAccessWriter {
 
 	public static void write(MemberAccess memberAccess, boolean doTypeParams, CGenerator cgen, int refOffset) throws IOException {
 		
+		// Allows to do things like "if(T == Int)"
 		if(memberAccess.getExpression() instanceof VariableAccess) {
 			VariableAccess varAcc = (VariableAccess) memberAccess.getExpression();
 			if(varAcc.getRef() instanceof TypeDecl) {
@@ -26,34 +27,41 @@ public class MemberAccessWriter {
 			}
 		}
 		
+		// duplicated code with LocalAccessWriter: modularize!
+		int refLevel = memberAccess.getRef().getType().getReferenceLevel();
+		if(doTypeParams) {
+			if(memberAccess.getType().isGeneric()) {
+				refLevel++;
+			}
+		}
+		refLevel += refOffset;
+		
 		TypeDecl refTypeDecl = memberAccess.getRef().getTypeDecl();
 		boolean isStatic = ((PotentiallyStatic) memberAccess.getRef()).isStatic();
 		
 		if(memberAccess.getRef() instanceof FunctionDecl) {
-			FunctionDecl funcDecl = (FunctionDecl) memberAccess.getRef();
-			
-			TypeDecl typeDecl = funcDecl.getTypeDecl();
-			String typeName = typeDecl.getUnderName();
-			
-			cgen.current.app("((").app(typeName).app("Class *) ");
-			memberAccess.getExpression().accept(cgen);
-			cgen.current.app(")->").app(memberAccess.getName());
-			
+			writeFuncAccess(memberAccess, cgen);
 			return;
 		}
 		
+		if(refLevel > 0) {
+			cgen.current.app('(');
+			for(int i = 0; i < refLevel; i++) {
+				cgen.current.app('*');
+			}
+		}
+		
 		if(isStatic) {
-
 			if(memberAccess.getRef().isExtern() && memberAccess.getRef().getExternName().length() > 0) {
 				cgen.current.app(memberAccess.getRef().getExternName());
+				if(refLevel > 0) cgen.current.app(')');
 				return;
 			}
+			
 			cgen.current.app("((").app(refTypeDecl.getType().getUnderName())
 				.app("Class*) ").app(refTypeDecl.getType().getName())
 				.app("_class())->").app(memberAccess.getName());
-			
 		} else {
-		
 			boolean isArrow = (refTypeDecl instanceof ClassDecl);
 			boolean didDeref = false;
 			
@@ -78,15 +86,23 @@ public class MemberAccessWriter {
 				cgen.current.app(')');
 			}
 			
-			if(isArrow) {
-				cgen.current.app("->");
-			} else {
-				cgen.current.app('.');
-			}
+			cgen.current.app(isArrow ? "->" : ".");
 			LocalAccessWriter.write(memberAccess, false, cgen);
-		
+			if(refLevel > 0) cgen.current.app(')');
 		}
 		
+	}
+
+	private static void writeFuncAccess(MemberAccess memberAccess,
+			CGenerator cgen) throws IOException {
+		FunctionDecl funcDecl = (FunctionDecl) memberAccess.getRef();
+		
+		TypeDecl typeDecl = funcDecl.getTypeDecl();
+		String typeName = typeDecl.getUnderName();
+		
+		cgen.current.app("((").app(typeName).app("Class *) ");
+		memberAccess.getExpression().accept(cgen);
+		cgen.current.app(")->").app(memberAccess.getName());
 	}
 	
 }

@@ -340,11 +340,8 @@ public class CGenerator extends Generator implements Visitor {
 	}
 
 	public void visit(AddressOf addressOf) throws IOException {
-		Expression expression = addressOf.getExpression();
-		while(expression instanceof Cast) {
-			// bitchjump the unnecessary casts
-			expression = ((Cast) expression).getExpression();
-		}
+		// bitchjump the unnecessary casts
+		Expression expression = addressOf.getExpression().bitchJumpCasts();
 		
 		if(expression instanceof VariableAccess) {
 			VariableAccess varAcc = (VariableAccess) expression;

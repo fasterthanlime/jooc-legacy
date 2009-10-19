@@ -58,6 +58,11 @@ public class TypeAccess extends VariableAccess {
 		
 	}
 	
+	@Override
+	public String toString() {
+		return type.toString();
+	}
+	
 }
 
 

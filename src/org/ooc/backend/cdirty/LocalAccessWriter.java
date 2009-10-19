@@ -18,15 +18,14 @@ public class LocalAccessWriter {
 			cgen.current.app(variableAccess.getName()).app("_class()");
 			return;
 		}
-		
+
+		// duplicated code with MemberAccessWriter: modularize!
 		int refLevel = variableAccess.getRef().getType().getReferenceLevel();
-		
 		if(doTypeParams) {
 			if(variableAccess.getType().isGeneric()) {
 				refLevel++;
 			}
 		}
-		
 		refLevel += refOffset;
 		
 		if(refLevel > 0) {
@@ -36,9 +35,7 @@ public class LocalAccessWriter {
 			}
 		}
 		cgen.current.app(variableAccess.getRef().getExternName(variableAccess));
-		if(refLevel > 0) {
-			cgen.current.app(')');
-		}
+		if(refLevel > 0) cgen.current.app(')');
 		
 	}
 	

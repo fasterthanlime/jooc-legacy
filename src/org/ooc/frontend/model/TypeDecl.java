@@ -201,11 +201,22 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic {
 	}
 	
 	public void addTypeParam(TypeParam genType) {
-		typeParams.put(genType.name, genType);
+		typeParams.put(genType.getName(), genType);
 		genType.getArgument().setTypeDecl(this);
-		variables.add(0, genType.getArgument());
-		
 		instanceType.getTypeParams().add(new VariableAccess(genType.getName(), genType.startToken));
+		
+		boolean has = false;
+		for(Access acc: superType.getTypeParams()) {
+			VariableAccess varAcc = (VariableAccess) acc;
+			if(varAcc.getName().equals(genType.getName())) {
+				has = true;
+				break;
+			}
+		}
+		
+		if(!has) {
+			variables.add(0, genType.getArgument());
+		}
 	}
 	
 	@Override

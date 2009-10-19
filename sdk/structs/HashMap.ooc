@@ -22,8 +22,8 @@ HashMap: class <T> {
 
 	size, capacity: UInt
 
-	buckets: ArrayList*
-	keys: ArrayList
+	buckets: ArrayList<T>*
+	keys: ArrayList<String>
 	
 	/**
 	 * Returns a hash table with 100 buckets
@@ -49,7 +49,7 @@ HashMap: class <T> {
 		for (i: UInt in 0..capacity) {
 			buckets[i] = ArrayList<T> new()
 		}
-		keys = ArrayList<T> new()
+		keys = ArrayList<String> new()
 	}
 
 	/**
@@ -60,14 +60,14 @@ HashMap: class <T> {
 	 * @param Int len The size of the key (in bytes)
 	 * @param UInt seed The seed value
 	 */
-	murmurHash: func(key: T, seed: UInt) -> UInt {
+    murmurHash: func (keyTagazok: T, seed: UInt) -> UInt {
 		
 		len := T size
 		m = 0x5bd1e995 : const UInt
 		r = 24 : const Int
 
 		h : UInt = seed ^ len
-		data := const key as Octet*
+		data := const keyTagazok as Octet*
 
 		while (len >= 4) {
 			k := (data as UInt*) @
@@ -186,9 +186,7 @@ HashMap: class <T> {
 	 * @return Bool
 	 */
 	contains: func (key: String) -> Bool {
-		//return getEntry(key) ? true : false
-		if(getEntry(key)) return true
-		return false
+		getEntry(key) ? true : false
 	}
 
 	/**
@@ -201,7 +199,8 @@ HashMap: class <T> {
 		hash : UInt = ac_X31_hash(key) % capacity
 		if (entry) {
 			for (i: UInt in 0.. keys size()) {
-				if (key equals(keys get(i) as String)) {
+                key := keys get(i)
+				if (key equals(key as String)) {
 					keys removeAt(i)
 				}
 			}

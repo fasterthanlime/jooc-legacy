@@ -145,7 +145,8 @@ public class Foreach extends ControlStatement implements MustBeResolved {
 				if(variable instanceof VariableAccess) {
 					VariableAccess varAcc = (VariableAccess) variable;
 					if(varAcc.getRef() == null) {
-						VariableDecl varDecl = new VariableDecl(iterCall.getType().getTypeParams().getFirst().getType(), false, varAcc.startToken);
+						Type innerType = iterCall.getType().getTypeParams().getFirst().getType();
+						VariableDecl varDecl = new VariableDecl(innerType, false, varAcc.startToken);
 						varDecl.getAtoms().add(new VariableDeclAtom(varAcc.getName(), null, varAcc.startToken));
 						block.getBody().add(0, new Line(varDecl));
 					}

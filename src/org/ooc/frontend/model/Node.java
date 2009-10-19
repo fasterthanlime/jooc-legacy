@@ -29,14 +29,22 @@ public abstract class Node implements Visitable {
 	}
 
 	public VariableDecl getVariable(String name, NodeList<Node> stack) {
-		return getVariable(name, stack, stack.find(Scope.class));
+		return getVariable(name, stack, stack.find(Scope.class), null);
+	}
+	
+	public VariableDecl getVariable(String name, NodeList<Node> stack, Node exclude) {
+		return getVariable(name, stack, stack.find(Scope.class), exclude);
 	}
 
-	public VariableDecl getVariable(String name, NodeList<Node> stack, int index) {
+	public VariableDecl getVariable(String name, NodeList<Node> stack, int index, Node exclude) {
 		if(index == -1) return null;
+		
 		VariableDecl varDecl = ((Scope) stack.get(index)).getVariable(name);
-		if(varDecl != null) return varDecl;
-		return getVariable(name, stack, stack.find(Scope.class, index - 1));
+		
+		if(varDecl != null && (exclude == null || varDecl != exclude))
+			return varDecl;
+		
+		return getVariable(name, stack, stack.find(Scope.class, index - 1), exclude);
 	}
 	
 	public FunctionDecl getFunction(String name, String suffix, FunctionCall call, NodeList<Node> stack) {
@@ -111,6 +119,11 @@ public abstract class Node implements Visitable {
 				variables.add((VariableDecl) node);
 			}
 		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public <T extends Node> T bitchJumpCasts() {
+		return (T) this;
 	}
 	
 	public boolean canBeReferenced() {

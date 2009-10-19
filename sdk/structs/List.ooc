@@ -1,7 +1,7 @@
 /**
  * List interface for a data container
  */
-List: abstract class <T> extends Iterable {
+List: abstract class <T> extends Iterable<T> {
 
 	/**
 	 * Appends the specified element to the end of this list.
@@ -20,7 +20,9 @@ List: abstract class <T> extends Iterable {
 	 * specified Collection's Iterator.
 	 */
 	addAll: func (list: Iterable<T>) {
+        
 		addAll(0, list)
+        
 	}
 	
 	/**
@@ -28,7 +30,7 @@ List: abstract class <T> extends Iterable {
 	 * this list, starting at the specified position.
 	 */
 	addAll: func ~atStart (start: Int, list: Iterable<T>) {
-		
+
 		if(start == 0) {
 			for(element: T in list) {
 				add(element)

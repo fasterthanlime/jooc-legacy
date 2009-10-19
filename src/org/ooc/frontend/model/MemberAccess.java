@@ -187,6 +187,7 @@ public class MemberAccess extends VariableAccess {
 			
 			Div div = new Div(sizeofArray, sizeofType, startToken);
 			stack.peek().replace(this, new Parenthesis(div, startToken));
+			dead = true;
 			return false;
 		}
 
