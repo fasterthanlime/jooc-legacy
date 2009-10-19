@@ -12,11 +12,6 @@ MAIN_CLASS="org.ooc.frontend.CommandLine"
 
 ARCH=$(shell uname -p)
 
-
-test:
-	toto=32
-	toto=$(shell `[[ uname -p | grep "64" ]] && echo "fff" || echo "ddd"`)
-	@echo $(toto)
 jar:
 	ant
 
