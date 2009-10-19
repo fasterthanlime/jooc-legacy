@@ -19,7 +19,10 @@ public class Help {
 "-noclean                        don't delete any temporary file produced by\n" +
 "                                the backend\n" +
 "-backend=[gcc,make,none]        choose the compiler backend (default=gcc)\n" +
-"-gui                            secret graphical compilation debugging tool\n" +
+"-gc=[dynamic,static,off]        link dynamically, link statically, or doesn't\n" +
+"                                link with the Boehm GC at all.\n" +
+"-driver=[combine,sequence]      choose the driver to use. combine does all in one,\n" +
+"                                sequence does all the .c one after the other.\n" +
 "-daemon:port                    start the compiler daemon on the specified port\n" +
 "-sourcepath=output/path/        location of your source files\n" +
 "-outpath                        where to output the .c/.h files\n" +
