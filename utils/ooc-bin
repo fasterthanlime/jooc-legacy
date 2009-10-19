@@ -1,4 +1,4 @@
 #!/bin/bash
 
 export OOC_DIST=sharedir/ooc
-$OOC_DIST/ooc $@
+$OOC_DIST/ooc -gc=dynamic $@
