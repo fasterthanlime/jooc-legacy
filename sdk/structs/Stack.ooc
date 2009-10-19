@@ -22,7 +22,7 @@ Stack: class <T> extends Iterable<T> {
 		if (isEmpty())
 			Exception new(This, "Trying to peek an empty stack.") throw()
 			
-		return data[lastIndex()]
+		return data get(lastIndex())
 	}
 	
 	size: func() -> Int {	

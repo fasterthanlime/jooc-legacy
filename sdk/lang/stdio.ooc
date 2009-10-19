@@ -85,7 +85,7 @@ FStream: cover from FILE* {
 		fputs(str, this)
 	}
 	
-	write: func ~precise (str: Char*, offset: SizeT, length: SizeT) {
+	write: func ~precise (str: Char*, offset: SizeT, length: SizeT) -> SizeT {
 		// TODO encodings
 		fwrite(str + offset, 1, length, this)
 	}

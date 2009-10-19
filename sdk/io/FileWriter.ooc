@@ -1,14 +1,10 @@
 import io/Writer, io/File
-
-fopen: extern func(filename: Char*, mode: Char*) -> FILE*
-fwrite: extern func(ptr: Pointer, size: SizeT, count: SizeT, file: FILE*) -> SizeT
  
-FileWriter: class extends Writer {
+FileWriter: class extends Writer {	
+	file: FStream
 
-    file: FILE*
-    
     init: func ~withFile (fileObject: File, append: Bool) {
-        init (fileObject getPath(), append)
+        init(fileObject getPath(), append)
     }
 
     init: func ~withFileOverwrite (fileObject: File) {
@@ -26,10 +22,10 @@ FileWriter: class extends Writer {
     }
 
     write: func(chars: String, length: SizeT) -> SizeT {
-        fwrite(chars, 1, length, file)
+		file write(chars, 0, length)
     }
 	
 	write: func ~chr (chr: Char) {
-		fputc(chr, file)
+		file write(chr)
 	}
 }
