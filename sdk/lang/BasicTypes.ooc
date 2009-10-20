@@ -462,8 +462,7 @@ Class: abstract class {
 	
 	instanceof: final func (T: Class) -> Bool {
 		if(this == T) return true
-		if(super != null) return super class instanceof(T)
-		return false
+        return (super ? super as This instanceof(T) : false)
 	}
 	
 	// workaround needed to avoid C circular dependency with _ObjectClass
@@ -476,7 +475,7 @@ Class: abstract class {
 Object: abstract class {
 
 	class: Class
-	
+    	
 	/// Instance initializer: set default values for a new instance of this class
 	__defaults__: func {}
 	

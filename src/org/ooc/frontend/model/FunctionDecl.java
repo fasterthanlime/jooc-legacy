@@ -404,7 +404,7 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 
 		for(Argument arg: arguments) {
 			Type argType = arg.getType();
-			if(!argType.isResolved()) {
+			if(argType != null && !argType.isResolved()) {
 				stack.push(arguments);
 				stack.push(arg);
 				while(argType.getRef() == null) {
