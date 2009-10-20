@@ -471,5 +471,28 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 		
 		return Response.OK;
 	}
+
+	public String getStub() {
+		
+		StringBuffer buff = new StringBuffer(name);
+		buff.append(": func ");
+		if(arguments.size() > 0) {
+			buff.append("(");
+			Iterator<Argument> iter = arguments.iterator();
+			if(iter.hasNext() && hasThis()) iter.next(); // skip this
+			while(iter.hasNext()) {
+				Argument arg = iter.next();
+				buff.append(arg.getName());
+				buff.append(": ");
+				buff.append(arg.getType());
+				if(iter.hasNext()) buff.append(", ");
+			}
+			buff.append(")");
+		}
+		buff.append(" {}");
+		 
+		return buff.toString();
+		
+	}
 	
 }

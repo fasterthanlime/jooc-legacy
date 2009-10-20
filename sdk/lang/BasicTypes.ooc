@@ -57,8 +57,6 @@ Char: cover from char {
 	}
 }
 
-String: cover from Char*
-
 atoi: extern func (String) -> Int
 atol: extern func (String) -> Long
 
@@ -250,6 +248,14 @@ String: cover from Char* {
 		copy as Char* [length] = other
 		return copy
 	}
+    
+    replace: func (oldie, kiddo: Char) -> This {
+        length := length()
+        for(i in 0..length) {
+            if(this[i] == oldie) this[i] = kiddo
+        }
+        return this
+    }
 	
 	prepend: func (other: String) -> This {
 		other append(this)

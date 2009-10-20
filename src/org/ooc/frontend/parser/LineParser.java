@@ -64,6 +64,7 @@ public class LineParser {
 						+statement.getClass().getSimpleName()+"s.");
 			}
 			reader.skip();
+			reader.skipWhitespace();
 			Token startToken = reader.peek();
 			FunctionCall otherCall = FunctionCallParser.parse(module, sReader, reader);
 			if(otherCall == null) {
