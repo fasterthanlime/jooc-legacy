@@ -1,11 +1,11 @@
 Name:           ooc
 Version:        0.3
 Release:        1%{?dist}
-Summary:        OOC is a oriented object programming language C99 compliant
+Summary:        Oriented Object C programming language C99 compliant
 
 Group:          Development/Tools
 License:        BSD
-URL:            http://www.ooc-lang.orf
+URL:            http://www.ooc-lang.org
 Source0:        ooc-%{version}.tar.bz2 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
