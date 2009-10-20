@@ -8,9 +8,12 @@ IRC     | #ooc-lang @ irc.freenode.net
 This is the new, 0.3 ooc compiler. It now has most features from 0.2, is faster, lighter and
 more robust. Also the syntax has been revised, see http://ooc-lang.org/syntax
 
-ooc is a modern, object-oriented, functional-ish, high-level, low-level, sexy programming language. it's translated to pure C with a source-to-source compiler. it thrives to be powerful, modular, extensible, portable, yet simple and fast.
+ooc is a modern, object-oriented, functional-ish, high-level, low-level, sexy programming
+language. it's translated to pure C with a source-to-source compiler. it strives to be
+powerful, modular, extensible, portable, yet simple and fast.
 
-ooc and its SDK is distributed under the terms of the BSD license.
+ooc is distributed under the terms of the BSD license. See the LICENSE file for more
+information.
 
 Here is the obligatory hello world in ooc:
 
