@@ -4,6 +4,10 @@
  */
 Writer: abstract class {
 	
+	//writef: abstract func(fmt: String, ...) 
+	
+	//vwritef: abstract func(fmt: String, args: VaList)
+	
 	close: abstract func()
 	
 	write: abstract func ~chr (chr: Char)
