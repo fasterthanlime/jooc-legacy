@@ -1,10 +1,12 @@
 package org.ooc.frontend.parser;
 
 import org.ooc.frontend.model.Expression;
+import org.ooc.frontend.model.For;
 import org.ooc.frontend.model.Foreach;
 import org.ooc.frontend.model.IntLiteral;
 import org.ooc.frontend.model.Module;
 import org.ooc.frontend.model.RangeLiteral;
+import org.ooc.frontend.model.Statement;
 import org.ooc.frontend.model.VariableAccess;
 import org.ooc.frontend.model.VariableDecl;
 import org.ooc.frontend.model.VariableDecl.VariableDeclAtom;
@@ -14,9 +16,9 @@ import org.ooc.frontend.model.tokens.Token.TokenType;
 import org.ubi.CompilationFailedError;
 import org.ubi.SourceReader;
 
-public class ForeachParser {
+public class ForParser {
 
-	public static Foreach parse(Module module, SourceReader sReader, TokenReader reader) {
+	public static Foreach parseForeach(Module module, SourceReader sReader, TokenReader reader) {
 
 		int mark = reader.mark();
 		
@@ -62,6 +64,61 @@ public class ForeachParser {
 			Foreach foreach = new Foreach(variable, collection, startToken);
 			ControlStatementFiller.fill(module, sReader, reader, foreach.getBody());
 			return foreach;
+			
+		}
+		
+		reader.reset(mark);
+		return null;
+		
+	}
+	
+	public static For parseRegularFor(Module module, SourceReader sReader, TokenReader reader) {
+
+		int mark = reader.mark();
+		
+		Token startToken = reader.read();
+		if(startToken.type == TokenType.FOR_KW) {
+			if(reader.read().type != TokenType.OPEN_PAREN) {
+				throw new CompilationFailedError(sReader.getLocation(reader.prev()),
+					"Expected opening parenthesis after for");
+			}
+			
+			Statement init = StatementParser.parse(module, sReader, reader);
+			if(init == null) {
+				throw new CompilationFailedError(sReader.getLocation(reader.prev()),
+					"Expected init statement here, inside a for");
+			}
+			
+			if(reader.read().type != TokenType.LINESEP) {
+				reader.reset(mark);
+				return null;
+			}
+			
+			Expression test = ExpressionParser.parse(module, sReader, reader);
+			if(test == null) {
+				throw new CompilationFailedError(sReader.getLocation(reader.prev()),
+					"Expected test expression here, inside a for");
+			}
+			
+			if(reader.read().type != TokenType.LINESEP) {
+				reader.reset(mark);
+				return null;
+			}
+			
+			Statement iter = StatementParser.parse(module, sReader, reader);
+			if(iter == null) {
+				throw new CompilationFailedError(sReader.getLocation(reader.prev()),
+					"Expected iter statement here, inside a for");
+			}
+			
+			if(reader.read().type != TokenType.CLOS_PAREN) {
+				throw new CompilationFailedError(sReader.getLocation(reader.prev()),
+					"Expected closing parenthesis at the end of a for");
+			}
+			
+			For for1 = new For(init, test, iter, startToken);
+			ControlStatementFiller.fill(module, sReader, reader, for1.getBody());
+			return for1;
 			
 		}
 		

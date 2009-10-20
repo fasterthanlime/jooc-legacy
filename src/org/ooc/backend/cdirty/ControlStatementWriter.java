@@ -58,5 +58,19 @@ public class ControlStatementWriter {
 					"Iterating over.. not a Range but a "+foreach.getCollection().getType());
 		}
 	}
+
+	public static void writeFor(For for1, CGenerator cgen) throws IOException {
+		cgen.current.app("for (");
+		if(!(for1.getInit() instanceof VariableAccess)) {
+			for1.getInit().accept(cgen);
+		}
+		cgen.current.app("; ");
+		for1.getTest().accept(cgen);
+		cgen.current.app("; ");
+		for1.getIter().accept(cgen);
+		cgen.current.app(")").openBlock();
+		for1.getBody().accept(cgen);
+		cgen.current.closeBlock();
+	}
 	
 }

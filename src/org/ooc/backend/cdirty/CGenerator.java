@@ -29,6 +29,7 @@ import org.ooc.frontend.model.Else;
 import org.ooc.frontend.model.Expression;
 import org.ooc.frontend.model.FloatLiteral;
 import org.ooc.frontend.model.FlowControl;
+import org.ooc.frontend.model.For;
 import org.ooc.frontend.model.Foreach;
 import org.ooc.frontend.model.FuncType;
 import org.ooc.frontend.model.FunctionCall;
@@ -499,5 +500,9 @@ public class CGenerator extends Generator implements Visitor {
 	}
 
 	public void visit(NodeMap<?, ? extends Node> list) throws IOException {}
+
+	public void visit(For for1) throws IOException {
+		ControlStatementWriter.writeFor(for1, this);
+	}
 
 }
