@@ -1,8 +1,13 @@
 StringTokenizer: class extends Iterable<String> {
+
 	input, delim: String
     index = 0, length: Int
+
+	init: func~withChr(input: String, delim: Char) {
+		this~withString(input, delim& as String)
+	}
 	
-	init: func(=input, =delim) {
+	init: func~withString(=input, =delim) {
         T = String // small fix for runtime introspection
         length = input length()
     }

@@ -21,15 +21,18 @@ mkdir: extern func(String, ModeT) -> Int
 
 version(unix) {
     File separator = '/'
+	File pathDelimiter = ':'
 }
 version(windows) {
     File separator = '\\'
+	File pathDelimiter = ';'
 }
 
 File: class {
 	path: String
 	separator = '/' : static const Char
-	
+	pathDelimiter = ':' : static const Char
+		
 	getPath: func -> String {
 		return path
 	}
