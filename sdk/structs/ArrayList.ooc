@@ -153,7 +153,7 @@ ArrayList: class <T> extends List<T> {
 	
 }
 
-ArrayListIterator: class <T> extends Iterator {
+ArrayListIterator: class <T> extends Iterator<T> {
 
 	list: ArrayList<T>
 	index := 0
