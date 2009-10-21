@@ -150,6 +150,9 @@ ArrayList: class <T> extends List<T> {
 		copy addAll(this)
 		return copy
 	}
+    
+    /** */
+    toArray: func -> Pointer { data& }
 	
 }
 

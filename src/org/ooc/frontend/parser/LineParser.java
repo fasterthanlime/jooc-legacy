@@ -41,7 +41,7 @@ public class LineParser {
 		Line line = new Line(statement);
 		body.add(line);
 		
-		while(reader.peek().type == TokenType.DOT) {
+		while(reader.hasNext() && reader.peek().type == TokenType.DOT) {
 			Expression expr = null;
 			if(statement instanceof MemberCall) {
 				MemberCall memberCall = (MemberCall) statement;
