@@ -223,9 +223,6 @@ public class ClassDeclWriter {
 
 		/* Now write all virtual functions prototypes in the class struct */
 		for (FunctionDecl decl : classDecl.getFunctions()) {
-			//if (decl.isStatic())
-			//	continue;
-			
 			if(classDecl.getSuperRef() != null) {
 				FunctionDecl superDecl = classDecl.getSuperRef().getFunction(decl.getName(), decl.getSuffix(), null);
 				if(superDecl != null && !decl.getName().equals("init")) continue;
