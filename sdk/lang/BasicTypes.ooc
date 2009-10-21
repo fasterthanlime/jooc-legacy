@@ -121,6 +121,8 @@ String: cover from Char* {
 		}
 		return -1
 	}
+    
+    contains: func (c: Char) -> Bool { indexOf(c) != -1 }
 	
 	trim: func ~space -> This { return trim(' ') }
 	

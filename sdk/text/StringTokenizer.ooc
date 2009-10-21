@@ -1,30 +1,44 @@
 StringTokenizer: class extends Iterable<String> {
 	input: String
 	delim: String
+    
+	index := 0
+    length : Int
 	
-	index: Int
+	init: func(=input, =delim) {
+        T = String // small fix for runtime introspection
+        length = input length()
+    }
 	
-	init: func(=input, =delim) { 
-		index = 0
-	}
-	
-	iterator: func() -> Iterator<T> {
+	iterator: func() -> Iterator<String> {
 		return StringTokenizerIterator new(this)
 	}
-	
-	hasMoreTokens: func() -> Bool {
-		return index < input length()
+    	
+	hasNext: func() -> Bool {
+		return index < length
 	}
 	
+    /**
+     * @return the next token, or null if we're at the end.
+     */
 	nextToken: func() -> String {
+        // at the end?
+        if(!hasNext()) return null;
+        
+        // skip all delimiters
+        while(hasNext() && delim contains(input[index])) index += 1
+        
+        // save the index
 		oldIndex := index
-		index = input indexOf(delim)
-		
+        
+        // skip all non-delimiters
+        while(hasNext() && !delim contains(input[index])) index += 1
+        
 		return input substring(oldIndex, index)
 	}
 }
 
-StringTokenizerIterator: class<T> extends Iterator<T> {
+StringTokenizerIterator: class <T> extends Iterator<T> {
 
 	st: StringTokenizer
 	index := 0
@@ -32,7 +46,7 @@ StringTokenizerIterator: class<T> extends Iterator<T> {
 	init: func(=st) {}
 	
 	hasNext: func -> Bool {
-		return st hasMoreTokens()
+		return st hasNext()
 	}
 	
 	next: func -> T {
