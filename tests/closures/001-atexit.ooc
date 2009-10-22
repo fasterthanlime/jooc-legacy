@@ -1,6 +1,6 @@
-extern func atexit (Func)
+atexit: extern func (Func)
 
-func main {
+main: func {
 
 	atexit(func {
 		printf("Goodbye, world :(\n")

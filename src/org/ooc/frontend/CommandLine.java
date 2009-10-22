@@ -42,6 +42,7 @@ public class CommandLine {
 		
 		List<String> modulePaths = new ArrayList<String>();
 		List<String> nasms = new ArrayList<String>();
+		params.compiler = new Gcc();
 		
 		for(String arg: args) {
 			if(arg.startsWith("-")) {
@@ -195,6 +196,9 @@ public class CommandLine {
         			} else {
         				params.compiler = new Clang();
         			}
+        		} else if(option.equals("onlygen")) {
+					params.compiler = null;
+					params.clean = false;
         		} else if(option.equals("help-backends") || option.equals("-help-backends")) {
         			
         			Help.printHelpBackends();
@@ -254,8 +258,6 @@ public class CommandLine {
 			System.err.println("ooc: no files.");
 			return;
 		}
-		
-		if(params.compiler == null) params.compiler = new Gcc();
 		
 		if(!nasms.isEmpty()) {
 			driver.compileNasms(nasms, driver.additionals);
@@ -371,7 +373,10 @@ public class CommandLine {
 		long tt3 = System.nanoTime();
 		output(module, new HashSet<Module>());
 		long tt4 = System.nanoTime();
-		int code = driver.compile(module);
+		int code = 0;
+		if(params.compiler != null) {
+			code = driver.compile(module);
+		}
 		long tt5 = System.nanoTime();
 
 		if(params.timing) {

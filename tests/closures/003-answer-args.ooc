@@ -1,13 +1,13 @@
-extern func signal (Func)
+signal: extern func (Func)
 
-func main {
+main: func {
 
-	answer(func (Int) {
-		printf("The answer is %d\n", 42)
+	answer(func (arg: Int) {
+		printf("The answer is %d\n", arg)
 	})
 
 }
 
-func answer(Func (Int) callback) {
+answer: func (callback: Func (Int)) {
 	callback(42)
 }
