@@ -476,7 +476,9 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 		
 		StringBuffer buff = new StringBuffer(name);
 		buff.append(": func ");
-		if(arguments.size() > 0) {
+		int numArgs = arguments.size();
+		if(hasThis()) numArgs--;
+		if(numArgs > 0) {
 			buff.append("(");
 			Iterator<Argument> iter = arguments.iterator();
 			if(iter.hasNext() && hasThis()) iter.next(); // skip this

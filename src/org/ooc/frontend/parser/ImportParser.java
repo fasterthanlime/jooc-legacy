@@ -33,6 +33,7 @@ public class ImportParser {
 				Import imp = new Import(sb.toString(), startToken);
 				imports.add(imp);
 				sb.setLength(0);
+				reader.skipWhitespace();
 				startToken = reader.peek();
 			} else if(token.type == TokenType.DOT) {
 				throw new CompilationFailedError(sReader.getLocation(token),
