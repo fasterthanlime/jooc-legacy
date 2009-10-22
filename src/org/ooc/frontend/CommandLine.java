@@ -58,6 +58,7 @@ public class CommandLine {
         		} else if(option.startsWith("outpath")) {
         			
         			params.outPath = new File(arg.substring(arg.indexOf('=') + 1));
+        			params.clean = false;
         			
         		} else if(option.startsWith("incpath")) {
         			
