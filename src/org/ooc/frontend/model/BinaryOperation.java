@@ -99,20 +99,35 @@ public abstract class BinaryOperation extends Expression implements MustBeUnwrap
 			return Response.LOOP;
 		}
 		
-		OpType opType = getOpType();		
+		OpType opType = getOpType();
+		
+		OpDecl bestOp = null;
+		int bestScore = 0;
 		for(OpDecl op: res.module.getOps()) {
-			if(tryOp(stack, opType, op, res)) {
-				//return Response.RESTART;
-				return Response.LOOP;
+			int score = getOpScore(stack, opType, op, res);
+			if(score > bestScore) {
+				bestScore = score;
+				bestOp = op;
 			}
 		}
 		for(Import imp: res.module.getImports()) {
 			for(OpDecl op: imp.getModule().getOps()) {
-				if(tryOp(stack, opType, op, res)) {
-					//return Response.RESTART;
-					return Response.LOOP;
+				int score = getOpScore(stack, opType, op, res);
+				if(score > bestScore) {
+					bestScore = score;
+					bestOp = op;
 				}
 			}
+		}
+		
+		if(bestOp != null) {
+			FunctionCall call = new FunctionCall(bestOp.getFunc(), startToken);
+			call.getArguments().add(left);
+			call.getArguments().add(right);
+			Node parent = stack.peek();
+			parent.replace(this, call);
+			call.resolve(stack, res, true);
+			return Response.LOOP;
 		}
 		
 		if(opType.isNumeric() && left.getType().getRef() instanceof ClassDecl && left.getType().getPointerLevel() == 0) {
@@ -125,12 +140,13 @@ public abstract class BinaryOperation extends Expression implements MustBeUnwrap
 		
 	}
 
-	private boolean tryOp(NodeList<Node> stack, OpType opType, OpDecl op, Resolver res) {
-		boolean end = false;
+	private int getOpScore(NodeList<Node> stack, OpType opType, OpDecl op, Resolver res) {
+		
+		int score = 0;
 		if(op.getOpType() == opType) {
 			if(op.getFunc().getArguments().size() != 2) {
 				throw new OocCompilationError(op, stack,
-						"To overload the add operator, you need exactly two arguments, not "
+						"To overload the "+opType.toPrettyString()+" operator, you need exactly two arguments, not "
 						+op.getFunc().getArgsRepr());
 			}
 			NodeList<Argument> args = op.getFunc().getArguments();
@@ -138,17 +154,18 @@ public abstract class BinaryOperation extends Expression implements MustBeUnwrap
 			Argument second = args.get(1);
 			if(first.getType().softEquals(left.getType(), res)) {
 				if(second.getType().softEquals(right.getType(), res) || isGeneric(second.getType(), op.getFunc().getTypeParams())) {
-					FunctionCall call = new FunctionCall(op.getFunc(), startToken);
-					call.getArguments().add(left);
-					call.getArguments().add(right);
-					Node parent = stack.peek();
-					parent.replace(this, call);
-					call.resolve(stack, res, true);
-					end = true;
+					score += 10;
+					if(first.getType().equals(left.getType())) {
+						score += 20;
+					}
+					if(second.getType().equals(right.getType())) {
+						score += 20;
+					}
 				}
 			}
 		}
-		return end;
+		return score;
+		
 	}
 	
 	private boolean isGeneric(Type type, LinkedHashMap<String, TypeParam> linkedHashMap) {
