@@ -1,0 +1,22 @@
+diff --git a/tests/contracts/001-guess.ooc b/tests/contracts/001-guess.ooc
+index a243cd9..e56cbee 100644
+--- a/tests/contracts/001-guess.ooc
++++ b/tests/contracts/001-guess.ooc
+ -3,7 +3,7 @@ main: func {
+        number : Int
+        while (true) {
+                println("Give me a number between 0 and 100 (42 exits)\n")
+-               scanf("%d", @number)
++               scanf("%d", number@)
+                if(check(number)) break
+        }
+        println("You got 42 =)")
+ -18,7 +18,7 @@ check: func (number: Int) -> Bool {
+ 
+ }
+ 
+-func rand -> Int {
++rand: func -> Int {
+ 
+        srand(ctime(null))
+        return rand % 100;
