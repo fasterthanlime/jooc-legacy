@@ -22,9 +22,9 @@ public class CastWriter {
 				VariableAccess access = (VariableAccess) expr;
 				cgen.current.app("*((");
 				cast.getType().accept(cgen);
-				cgen.current.app("*)");
+				cgen.current.app("*)(");
 				AccessWriter.write(access, false, cgen);
-				cgen.current.app(')');
+				cgen.current.app("))");
 				return;
 			} else if(expr instanceof ArrayAccess) {
 				ArrayAccess access = (ArrayAccess) expr;
@@ -42,9 +42,9 @@ public class CastWriter {
 		
 		cgen.current.app("((");
 		cast.getType().accept(cgen);
-		cgen.current.app(") ");
+		cgen.current.app(") (");
 		cast.getExpression().accept(cgen);
-		cgen.current.app(")");
+		cgen.current.app("))");
 	}
 	
 }
