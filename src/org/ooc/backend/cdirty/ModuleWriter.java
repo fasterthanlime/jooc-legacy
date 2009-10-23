@@ -28,7 +28,7 @@ public class ModuleWriter {
 		List<Import> looseImports = new ArrayList<Import>();
 		looseImports.addAll(module.getImports()); // imports are loose by default
 		
-		System.out.println("============ "+module.getFullName()+" ===========");
+		//System.out.println("============ "+module.getFullName()+" ===========");
 		for(TypeDecl selfDecl: module.getTypes().values()) {
 			for(Import imp: module.getImports()) {
 				if(selfDecl.getSuperRef() != null 
@@ -57,8 +57,8 @@ public class ModuleWriter {
 				}
 			}
 		}
-		System.out.println("loose imports = "+looseImports);
-		System.out.println("tight imports = "+tightImports);
+		//System.out.println("loose imports = "+looseImports);
+		//System.out.println("tight imports = "+tightImports);
 		
 		/** Write the -fwd.h file */
 		cgen.current = cgen.fw;

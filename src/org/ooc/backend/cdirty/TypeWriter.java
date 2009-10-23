@@ -46,7 +46,6 @@ public class TypeWriter {
 			if(type.getRef() instanceof CoverDecl) {
 				if(((CoverDecl) type.getRef()).getFromType() != null) {
 					Type groundType = type.getGroundType();
-					System.out.println("Got groundType "+groundType+" for "+type);
 					type = groundType;
 					cgen.current.app(type.getName());
 				} else {

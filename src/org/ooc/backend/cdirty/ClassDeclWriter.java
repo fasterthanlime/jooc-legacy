@@ -16,16 +16,20 @@ public class ClassDeclWriter {
 	public static final String CLASS_NAME = LANG_PREFIX+"Class";
 	
 	public static void write(ClassDecl classDecl, CGenerator cgen) throws IOException {
-		
-		cgen.current = cgen.hw;
 
 		TypeWriter.doStruct = true;
 		
-		writeObjectStruct(classDecl, cgen);
-		writeClassStruct(classDecl, cgen);
+		/* -fwd.h file */
+		cgen.current = cgen.fw;
 		writeMemberFuncPrototypes(classDecl, cgen);
 		
-		/* Now implementations */
+		/* .h file */
+		cgen.current = cgen.hw;
+		
+		writeObjectStruct(classDecl, cgen);
+		writeClassStruct(classDecl, cgen);
+		
+		/* .c file */
 		cgen.current = cgen.cw;
 		cgen.current.nl();
 		
