@@ -1,13 +1,14 @@
 package org.ooc.frontend.model;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
 import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.tokens.Token;
 
-public class NodeList<T extends Node> extends Node implements Iterable<T> {
+public class NodeList<T extends Node> extends Node implements Iterable<T>, Collection<T> {
 	
 	public static interface AddListener<T extends Node> {
 		
@@ -54,10 +55,11 @@ public class NodeList<T extends Node> extends Node implements Iterable<T> {
 		}
 	}
 	
-	public void add(T element) {
+	public boolean add(T element) {
 		if(size >= nodes.length) realloc();
 		nodes[size++] = element;
 		if(addListener != null) addListener.onAdd(this, element);
+		return true;
 	}
 
 	public void add(int index, T element) {
@@ -326,6 +328,67 @@ public class NodeList<T extends Node> extends Node implements Iterable<T> {
 			throw new Error("Trying to add "+kiddo+" after "+afterWhat+", but it can't be found in the list.");
 		}
 		add(index + 1, kiddo);
+	}
+
+	public boolean addAll(Collection<? extends T> c) {
+		for(T t : c) {
+			add(t);
+		}
+		return true;
+	}
+
+	public boolean contains(Object o) {
+		return contains(o);
+	}
+
+	public boolean containsAll(Collection<?> c) {
+		boolean result = true;
+		for(T t : this) {
+			if(!c.contains(t)) {
+				result = false;
+				break;
+			}
+		}
+		return result;
+	}
+
+	public boolean remove(Object o) {
+		return remove(o);
+	}
+
+	public boolean removeAll(Collection<?> c) {
+		boolean removed = false;
+		for(T t : this) {
+			if(c.contains(t)) {
+				removed = true;
+				remove(t);
+			}
+		}
+		return removed;
+	}
+
+	public boolean retainAll(Collection<?> c) {
+		boolean removed = false;
+		for(T t : this) {
+			if(!c.contains(t)) {
+				removed = true;
+				remove(t);
+			}
+		}
+		return removed;
+	}
+
+	public Object[] toArray() {
+		Object[] array = new Object[size];
+		System.arraycopy(nodes, 0, array, 0, size);
+		return array;
+	}
+
+	@SuppressWarnings("unchecked")
+	public <T> T[] toArray(T[] arg) {
+		T[] array = (T[]) new Object[size];
+		System.arraycopy(nodes, 0, array, 0, size);
+		return array;
 	}
 	
 }

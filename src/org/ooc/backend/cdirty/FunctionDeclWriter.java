@@ -17,19 +17,19 @@ public class FunctionDeclWriter {
 	public static void write(FunctionDecl functionDecl, CGenerator cgen) throws IOException {
 		
 		if(functionDecl.isProto()) {
-			cgen.current = cgen.hw;
+			cgen.current = cgen.fw;
 			cgen.current.nl().app("extern ");
 			writeFuncPrototype(functionDecl, cgen);
 			cgen.current.app(';');
 		} else if(!functionDecl.isExtern() && !functionDecl.isAbstract()) {
-			cgen.current = cgen.hw;
+			cgen.current = cgen.fw;
 			cgen.current.nl();
 			writeFuncPrototype(functionDecl, cgen);
 			cgen.current.app(';');
 		
 			cgen.current = cgen.cw;
 			writeFuncPrototype(functionDecl, cgen);
-			cgen.current.openBlock();
+			cgen.current.app(' ').openBlock();
 			
 			if(functionDecl.isEntryPoint()) {
 				// FIXME what if we want no gc?

@@ -11,9 +11,9 @@ import org.ooc.frontend.model.VariableDecl.VariableDeclAtom;
 
 public class VariableDeclWriter {
 
-	public static void write(VariableDecl variableDecl, CGenerator cgen) throws IOException {
+	public static boolean write(VariableDecl variableDecl, CGenerator cgen) throws IOException {
 
-		if(variableDecl.isExtern()) return;
+		if(variableDecl.isExtern()) return false;
 		
 		// FIXME add const checking from the ooc side of things. Disabled C's
 		// const keyword because it causes problems with class initializations
@@ -61,6 +61,8 @@ public class VariableDeclWriter {
 			}
 			
 		}
+		
+		return true;
 		
 	}
 

@@ -47,7 +47,8 @@ public class CallWriter {
 				((TypeAccess) arg).getType().accept(cgen);
 			} else {
 				VariableAccess varAcc = (VariableAccess) arg;
-				cgen.current.app(varAcc.getUnderName());
+				//cgen.current.app(varAcc.getUnderName());
+				varAcc.getRef().getTypeDecl().getType().getGroundType().accept(cgen);
 			}
 			cgen.current.app(")");
 			return;

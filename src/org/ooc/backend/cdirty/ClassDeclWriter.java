@@ -18,6 +18,8 @@ public class ClassDeclWriter {
 	public static void write(ClassDecl classDecl, CGenerator cgen) throws IOException {
 		
 		cgen.current = cgen.hw;
+
+		TypeWriter.doStruct = true;
 		
 		writeObjectStruct(classDecl, cgen);
 		writeClassStruct(classDecl, cgen);
@@ -31,6 +33,8 @@ public class ClassDeclWriter {
 		writeClassGettingFunction(classDecl, cgen);
 		writeInstanceVirtualFuncs(classDecl, cgen);
 		writeStaticFuncs(classDecl, cgen);
+		
+		TypeWriter.doStruct = false;
 		
 		cgen.current.nl();
 		
@@ -108,7 +112,7 @@ public class ClassDeclWriter {
 		cgen.current.app(CLASS_NAME).app(" *").app(classDecl.getName()).app("_class()")
 				.openSpacedBlock();
 		if (classDecl.getSuperName().length() > 0)
-			cgen.current.app("static ").app(LANG_PREFIX).app("Bool __done__ = false;").nl();
+			cgen.current.app("static ").app("bool __done__ = false;").nl();
 		cgen.current.app("static ").app(classDecl.getUnderName()).app(
 				"Class class = ");
 		
@@ -259,8 +263,9 @@ public class ClassDeclWriter {
 			if (decl.isStatic())
 				continue;
 			cgen.current.nl();
-			decl.accept(cgen);
-			cgen.current.app(';');
+			if(VariableDeclWriter.write(decl, cgen)) {
+				cgen.current.app(';');
+			}
 		}
 
 		cgen.current.closeBlock().app(';').nl().nl();

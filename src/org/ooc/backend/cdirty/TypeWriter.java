@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.ooc.backend.cdirty.FunctionDeclWriter.ArgsWriteMode;
 import org.ooc.frontend.model.ClassDecl;
+import org.ooc.frontend.model.CoverDecl;
 import org.ooc.frontend.model.FunctionDecl;
 import org.ooc.frontend.model.Literal;
 import org.ooc.frontend.model.Type;
@@ -13,11 +14,15 @@ import org.ooc.middle.OocCompilationError;
 
 public class TypeWriter {
 
+	// FIXME state is evil. Make it an argument
+	public static boolean doStruct = false;
+
 	public static void write(Type type, CGenerator cgen) throws IOException {
 		write(type, cgen, true);		
 	}
 	
 	public static void write(Type type, CGenerator cgen, boolean doPrefix) throws IOException {
+		
 		if(type.getRef() == null) {
 			throw new OocCompilationError(type, cgen.module, "Unresolved type '"+type.getName()+"' isGeneric? "
 					+type.isGeneric()+" !!");
@@ -35,7 +40,21 @@ public class TypeWriter {
 		
 		if(type.isConst()) cgen.current.app("const ");
 		if(doPrefix && type.getRef() instanceof TypeDecl) {
-			cgen.current.app(((TypeDecl) type.getRef()).getUnderName());
+			if(doStruct && type.getRef() instanceof ClassDecl) {
+				cgen.current.app("struct _");
+			}
+			if(type.getRef() instanceof CoverDecl) {
+				if(((CoverDecl) type.getRef()).getFromType() != null) {
+					Type groundType = type.getGroundType();
+					System.out.println("Got groundType "+groundType+" for "+type);
+					type = groundType;
+					cgen.current.app(type.getName());
+				} else {
+					cgen.current.app(((TypeDecl) type.getRef()).getUnderName());
+				}
+			} else {
+				cgen.current.app(((TypeDecl) type.getRef()).getUnderName());
+			}
 		} else {
 			cgen.current.app(type.getName());
 		}
@@ -45,6 +64,7 @@ public class TypeWriter {
 		}
 		
 		writeFinale(type, cgen);
+		
 	}
 	
 	public static  void writeFinale(Type type, CGenerator cgen) throws IOException {

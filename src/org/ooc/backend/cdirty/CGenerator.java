@@ -87,15 +87,22 @@ public class CGenerator extends Generator implements Visitor {
 
 	public final AwesomeWriter hw;
 	public final AwesomeWriter cw;
+	public final AwesomeWriter fw;
 	public AwesomeWriter current;
 	public BuildParams params;
 
 	public CGenerator(File outPath, Module module) {
 		super(outPath, module);
 		String basePath = module.getOutPath();
+		
 		File hFile = new File(outPath, basePath + ".h");
 		hFile.getParentFile().mkdirs();
 		this.hw = new AwesomeWriter(new CachedFileWriter(hFile));
+		
+		File hForwardFile = new File(outPath, basePath + "-fwd.h");
+		hForwardFile.getParentFile().mkdirs();
+		this.fw = new AwesomeWriter(new CachedFileWriter(hForwardFile));
+		
 		File cFile = new File(outPath, basePath + ".c");
 		this.cw = new AwesomeWriter(new CachedFileWriter(cFile));
 		this.current = hw;
@@ -105,6 +112,7 @@ public class CGenerator extends Generator implements Visitor {
 	public void generate(BuildParams params) throws IOException {
 		this.params = params;
 		module.accept(this);
+		fw.close();
 		hw.close();
 		cw.close();
 	}
@@ -327,7 +335,7 @@ public class CGenerator extends Generator implements Visitor {
 	}
 	
 	public void visit(Block block) throws IOException {
-		current.openBlock();
+		current.nl().openBlock();
 		block.acceptChildren(this);
 		current.closeBlock();
 	}

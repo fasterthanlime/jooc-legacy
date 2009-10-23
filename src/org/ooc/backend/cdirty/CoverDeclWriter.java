@@ -15,8 +15,9 @@ public class CoverDeclWriter {
 			cgen.current.app("struct _").app(cover.getUnderName()).app(' ').openBlock();
 			for(VariableDecl decl: cover.getVariables()) {
 				cgen.current.nl();
-				decl.accept(cgen);
-				cgen.current.app(';');
+				if(VariableDeclWriter.write(decl, cgen)) {
+					cgen.current.app(';');
+				}
 			}
 			cgen.current.closeBlock().app(';').nl();
 		}
@@ -37,7 +38,6 @@ public class CoverDeclWriter {
 			} else {
 				cgen.current.nl().app("typedef ");
 				if(fromType instanceof FuncType) {
-					System.out.println("fromType "+fromType+" is a FuncType!");
 					TypeWriter.writeFuncPointer(((FuncType) fromType).getDecl(), cover.getName(), cgen);
 				} else {
 					TypeWriter.writeSpaced(fromType.getGroundType(), cgen, false);
