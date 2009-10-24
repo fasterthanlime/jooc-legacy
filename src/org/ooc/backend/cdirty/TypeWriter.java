@@ -114,7 +114,7 @@ public class TypeWriter {
 	
 	public static void writeSpaced(Type type, CGenerator cgen, boolean doPrefix) throws IOException {
 		write(type, cgen, doPrefix);
-		if(type.isFlat()) cgen.current.app(' ');
+		if(type.getGroundType().isFlat()) cgen.current.app(' ');
 	}
 
 	public static void writeFuncPointer(FunctionDecl decl, String name, CGenerator cgen) throws IOException {

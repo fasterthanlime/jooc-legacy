@@ -75,7 +75,7 @@ public class VariableDeclWriter {
 		}
 		if(writeComma) {
 			cgen.current.app(", ");
-			TypeWriter.writeFinale(type, cgen);
+			TypeWriter.writeFinale(type.getGroundType(), cgen);
 		}
 	}
 	
