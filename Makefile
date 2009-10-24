@@ -18,8 +18,8 @@ jar:
 gcj-static: prepare jar
 	cd utils/ && gcj -static-libgcj -g -O3 -Dooc.version="`cat version.txt`, built on `date +%F\ %R:%S`" `find ../build/javac-classes -name "*.class"` --main=${MAIN_CLASS} -o ../bin/ooc
 
-gcj-dynamic: prepare jar
-	cd utils/ && gcj -g -O3 -Dooc.version="`cat version.txt`, built on `date +%F\ %R:%S`" `find ../build/javac-classes -name "*.class"` --main=${MAIN_CLASS} -o ../bin/ooc
+gcj-dynamic: prepare
+	cd utils/ && gcj -g -O3 -Dooc.version="`cat version.txt`, built on `date +%F\ %R:%S`" `find ../src -name "*.java"` --main=${MAIN_CLASS} -o ../bin/ooc
 
 strip:
 	test "${WINDIR}" == "" && strip bin/ooc || strip bin/ooc.exe
