@@ -491,6 +491,9 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 			}
 			buff.append(")");
 		}
+		if(hasReturn()) {
+			buff.append(" -> ").append(getReturnType());
+		}
 		buff.append(" {}");
 		 
 		return buff.toString();

@@ -28,7 +28,6 @@ public class ModuleWriter {
 		List<Import> looseImports = new ArrayList<Import>();
 		looseImports.addAll(module.getImports()); // imports are loose by default
 		
-		//System.out.println("============ "+module.getFullName()+" ===========");
 		for(TypeDecl selfDecl: module.getTypes().values()) {
 			for(Import imp: module.getImports()) {
 				if(selfDecl.getSuperRef() != null 
@@ -49,7 +48,7 @@ public class ModuleWriter {
 						CoverDecl coverDecl = (CoverDecl) ref;
 						if(coverDecl.getFromType() != null) continue;
 						if(coverDecl.getModule() != imp.getModule()) continue;
-						System.out.println("uses compound cover "+coverDecl.getName()+" from "+imp.getModule().getFullName());
+						// uses compound cover, tightening!
 						if(looseImports.remove(imp)) {
 							tightImports.add(imp);
 						}
@@ -57,8 +56,6 @@ public class ModuleWriter {
 				}
 			}
 		}
-		//System.out.println("loose imports = "+looseImports);
-		//System.out.println("tight imports = "+tightImports);
 		
 		/** Write the -fwd.h file */
 		cgen.current = cgen.fw;
