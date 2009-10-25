@@ -46,6 +46,7 @@ public class CoverDeclParser {
 				Token token = reader.peek();
 				if(token.type == TokenType.FROM_KW) {
 					reader.skip();
+					reader.skipWhitespace();
 					overType = TypeParser.parse(module, sReader, reader);
 					if(overType == null) {
 						throw new CompilationFailedError(sReader.getLocation(reader.peek()),
