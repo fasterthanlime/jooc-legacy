@@ -99,6 +99,7 @@ public class CoverDeclParser {
 				}
 			}
 			
+			reader.skipWhitespace();
 			Token t2 = reader.read();
 			if(t2.type != TokenType.OPEN_BRACK) {
 				if(t2.type == TokenType.LINESEP) {
