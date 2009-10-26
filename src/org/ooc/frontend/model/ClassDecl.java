@@ -41,9 +41,10 @@ public class ClassDecl extends TypeDecl {
 	@Override
 	public ClassDecl getSuperRef() {
 		TypeDecl ref = super.getSuperRef();
-		if(!(ref instanceof ClassDecl)) {
+		if(ref != null && !(ref instanceof ClassDecl)) {
 			throw new CompilationFailedError(null, "Huh your class '"+getName()
-					+"' in '"+module.getFullName()+"' extends"+ref.getName()+" which isn't a ClassDecl but a "
+					+"' in '"+(module != null ? module.getFullName() : "<unknown module>")
+					+"' extends"+ref.getName()+" which isn't a ClassDecl but a "
 					+ref.getClass().getSimpleName());
 		}
 		return (ClassDecl) ref;
