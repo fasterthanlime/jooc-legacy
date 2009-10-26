@@ -101,16 +101,18 @@ public class CoverDeclParser {
 			
 			int mark2 = reader.mark();
 			reader.skipWhitespace();
-			Token t2 = reader.read();
-			if(t2.type != TokenType.OPEN_BRACK) {
-				//if(t2.type == TokenType.LINESEP) {
-					module.parseStack.pop(coverDecl);
-					reader.reset(mark2);
-					return coverDecl; // empty cover, acts like a typedef
-				//}
-					/*
-				throw new CompilationFailedError(sReader.getLocation(t2),
-						"Expected opening bracket to begin cover declaration, got "+t2);*/
+			if(reader.hasNext()) {
+				Token t2 = reader.read();
+				if(t2.type != TokenType.OPEN_BRACK) {
+					//if(t2.type == TokenType.LINESEP) {
+						module.parseStack.pop(coverDecl);
+						reader.reset(mark2);
+						return coverDecl; // empty cover, acts like a typedef
+					//}
+						/*
+					throw new CompilationFailedError(sReader.getLocation(t2),
+							"Expected opening bracket to begin cover declaration, got "+t2);*/
+				}
 			}
 			
 			while(reader.hasNext() && reader.peek().type != TokenType.CLOS_BRACK) {
