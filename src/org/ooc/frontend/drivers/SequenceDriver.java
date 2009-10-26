@@ -69,9 +69,6 @@ public class SequenceDriver extends Driver {
 						for(String dynamicLib: params.dynamicLibs) {
 							compiler.addDynamicLibrary(dynamicLib);
 						}
-						for(String additional: additionals) {
-							compiler.addObjectFile(additional);
-						}
 						for(String compilerArg: compilerArgs) {
 							compiler.addObjectFile(compilerArg);
 						}
