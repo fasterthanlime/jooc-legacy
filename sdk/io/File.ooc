@@ -35,6 +35,8 @@ File: class {
 	path: String
 	separator = '/' : static const Char
 	pathDelimiter = ':' : static const Char
+	
+	PATH_MAX = PATH_MAX : static const Int
 		
 	getPath: func -> String {
 		return path

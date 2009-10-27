@@ -3,6 +3,9 @@ import structs/ArrayList
 
 import dirent
 
+include unistd
+getcwd: extern func(buf: String, size: SizeT) -> String
+
 Directory: class {
     dir: DirPtr
     dirPath: String
@@ -81,4 +84,10 @@ Directory: class {
     getFile: func (name: String) -> File {
         File new(this dirPath + File separator + name)
     }
+
+	getCwd: static func() -> String {
+		ret := String new(File PATH_MAX + 1)
+		// TODO: LEAKING!		
+		return getcwd(null, 0)
+	}
 }
