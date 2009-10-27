@@ -81,10 +81,16 @@ public class VersionBlockParser {
 			return node;
 		}
 		
+		String realName = "";
 		Token nameTok = reader.peek();
-		if(nameTok.isNameToken()) {
+		while(nameTok.type == TokenType.NAME || nameTok.type == TokenType.DEC_INT) {
 			reader.skip();
-			VersionNode node = new VersionName(nameTok.get(sReader));
+			realName += nameTok.get(sReader);
+			nameTok = reader.peek();
+		}
+		
+		if(!realName.isEmpty()) {
+			VersionNode node = new VersionName(realName);
 			VersionNode tmp;
 			while(true) {
 				tmp = getRemain(module, sReader, reader, node);

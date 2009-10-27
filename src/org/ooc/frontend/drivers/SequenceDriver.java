@@ -59,7 +59,9 @@ public class SequenceDriver extends Driver {
 					String path = new File(params.outPath, currentModule.getPath("")).getPath();
 					String oPath = path + ".o";
 					String cPath = path + ".c";
-					oPaths.add(oPath);
+					synchronized(oPaths) {
+						oPaths.add(oPath);
+					}
 					
 					if(new File(cPath).lastModified() > new File(oPath).lastModified()) {
 					
