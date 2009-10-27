@@ -2,7 +2,6 @@
 // before includes. In this case, we need __USE_BSD to get lstat()
 include sys/types, sys/stat | (__USE_BSD)
 include stdio
-include limits
 
 ModeT: cover from mode_t
 FileStat: cover from struct stat {
@@ -20,7 +19,7 @@ S_IRWXO: extern func(...)
 lstat: extern func(String, FileStat*) -> Int
 mkdir: extern func(String, ModeT) -> Int
 
-PATH_MAX: extern func() -> Int
+PATH_MAX := const 8192
 realpath: extern func(path: String, resolved: String) -> String
 
 version(unix) {
