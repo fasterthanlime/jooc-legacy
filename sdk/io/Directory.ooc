@@ -86,8 +86,8 @@ Directory: class {
     }
 
 	getCwd: static func() -> String {
-		ret := String new(File PATH_MAX + 1)
-		// TODO: LEAKING!		
-		return getcwd(null, 0)
+		ret := String new(File PATH_MAX + 1)		
+		getcwd(ret, File PATH_MAX)
+        return ret
 	}
 }

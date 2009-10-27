@@ -21,6 +21,7 @@ vsnprintf: extern func (String, Int, String, VaList)
 
 fread: extern func (ptr: Pointer, size: SizeT, nmemb: SizeT, stream: FStream) -> SizeT
 fwrite: extern func (ptr: Pointer, size: SizeT, nmemb: SizeT, stream: FStream) -> SizeT
+feof: extern func (stream: FStream) -> Int
 
 fopen: extern func (String, String) -> FStream
 fclose: extern func (FStream) -> Int
@@ -76,6 +77,10 @@ FStream: cover from FILE* {
 		
 		return str
 	}
+    
+    hasNext: func -> Bool {
+        feof(this) == 0
+    }
 	
 	write: func ~chr (chr: Char) {
 		fputc(chr, this)
