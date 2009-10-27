@@ -27,6 +27,7 @@ public class VersionBlock extends Block implements MustBeResolved {
 		// Java's excuse for a Map literal
 		map.put("windows", 		"__WIN32"); // FIXME: does that imply that we're not 64 ?
 		map.put("linux", 		"__linux__");
+		map.put("solaris", 		"__sun");
 		map.put("unix", 		"__unix__");
 		map.put("beos", 		"__BEOS__");
 		map.put("haiku", 		"__HAIKU__");

@@ -29,7 +29,7 @@ import org.ooc.utils.ShellUtils;
  * 
  * @author Amos Wenger
  */
-public abstract class  Driver {
+public abstract class Driver {
 
 	public BuildParams params;
 	public List<String> additionals = new ArrayList<String>();

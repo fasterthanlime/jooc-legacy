@@ -3,6 +3,8 @@
 include sys/types, sys/stat | (__USE_BSD)
 include stdio
 
+import FileReader, FileWriter
+
 ModeT: cover from mode_t
 FileStat: cover from struct stat {
 	st_mode: extern ModeT
@@ -19,7 +21,6 @@ S_IRWXO: extern func(...)
 lstat: extern func(String, FileStat*) -> Int
 mkdir: extern func(String, ModeT) -> Int
 
-PATH_MAX := const 8192
 realpath: extern func(path: String, resolved: String) -> String
 
 version(unix) {
@@ -32,17 +33,21 @@ version(windows) {
 }
 
 File: class {
+    PATH_MAX := static const 16383 // cause we alloc +1
+    
 	path: String
 	separator = '/' : static const Char
 	pathDelimiter = ':' : static const Char
-	
-	PATH_MAX = PATH_MAX : static const Int
 		
 	getPath: func -> String {
 		return path
 	}
 
 	init: func(=path) {}
+    
+    init: func ~parentFile(parent: File, .path) { this(parent path + File separator + path) }
+    
+    init: func ~parentPath(parent: String, .path) { this(parent + File separator + path) }
 	
 	isDir: func -> Bool {
 		stat: FileStat
@@ -69,10 +74,7 @@ File: class {
 	}
 	
 	exists: func -> Bool {
-		if (fopen(path, "r"))
-			return true
-		
-		return false
+		return fopen(path, "r") ? true : false
 	}
 	
 	ownerPerm: func -> Int {
@@ -130,4 +132,18 @@ File: class {
 		actualPath := String new(PATH_MAX + 1)
 		return realpath(path, actualPath)
 	}
+    
+    copyTo: func(dstFile: File) {
+        dstFile parent() mkdirs()
+        src := FileReader new(this)
+        dst := FileWriter new(dstFile)
+        max := 8192
+        buffer : Char[max]
+        while(src hasNext()) {
+            num := src read(buffer, 0, max)
+            dst write(buffer, num)
+        }
+        dst close()
+        src close()
+    }
 }

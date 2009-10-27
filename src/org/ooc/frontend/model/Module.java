@@ -93,6 +93,19 @@ public class Module extends Node implements Scope {
 	public String getPath(String extension) {
 		return getOutPath() + extension;
 	}
+	
+	public String getOutPath() {
+		return getOutPath(File.separatorChar);
+	}
+	
+	public String getOutPath(char separatorChar) {
+		String outPath = pathElement+"/"+fullName.replace('.', separatorChar);
+		return outPath;
+	}
+
+	public String getPrefixLessPath() {
+		return fullName.replace(".", File.separator) + ".ooc";
+	}
 
 	public NodeList<Include> getIncludes() {
 		return includes;
@@ -245,19 +258,6 @@ public class Module extends Node implements Scope {
 
 	public String getPackageName() {
 		return packageName;
-	}
-
-	public String getOutPath() {
-		return getOutPath(File.separatorChar);
-	}
-	
-	public String getOutPath(char separatorChar) {
-		String outPath = pathElement+"/"+fullName.replace('.', separatorChar);
-		return outPath;
-	}
-
-	public String getPrefixLessPath() {
-		return fullName.replace(".", File.separator) + ".ooc";
 	}
 	
 }
