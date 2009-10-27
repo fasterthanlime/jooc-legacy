@@ -2,6 +2,7 @@
 // before includes. In this case, we need __USE_BSD to get lstat()
 include sys/types, sys/stat | (__USE_BSD)
 include stdio
+include limits
 
 ModeT: cover from mode_t
 FileStat: cover from struct stat {
@@ -18,6 +19,9 @@ S_IRWXO: extern func(...)
 
 lstat: extern func(String, FileStat*) -> Int
 mkdir: extern func(String, ModeT) -> Int
+
+PATH_MAX: extern func() -> Int
+realpath: extern func(path: String, resolved: String) -> String
 
 version(unix) {
     File separator = '/'
@@ -119,6 +123,10 @@ File: class {
         }
         mkdir()
     }
+	
+	getAbsolutePath: func -> String {
+		// TODO, realpath() is a posix thing, needs to be versioned out
+		actualPath := String new(PATH_MAX + 1)
+		return realpath(path, actualPath)
+	}
 }
-
-
