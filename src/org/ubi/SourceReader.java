@@ -218,7 +218,7 @@ public class SourceReader {
      * @return false if positioned at the end of the content.
      */
     public boolean hasNext() {
-        return (index + 1 < content.length);
+        return (index < content.length);
     }
 
     public String getFileName() {

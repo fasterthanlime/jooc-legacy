@@ -30,6 +30,9 @@ public class ExpressionListFiller {
 		boolean comma = false;
 		while(true) {
 			
+			reader.skipWhitespace();
+			if(!reader.hasNext()) break;
+			
 			if(reader.peekWhiteless().type == closing) {
 				reader.skipWhitespace();
 				reader.skip(); // skip the ')'
