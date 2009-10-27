@@ -19,16 +19,16 @@ public class AwesomeWriter extends TabbedWriter {
 	}
 
 	protected AwesomeWriter openBlock() throws IOException {
-		appendable.append('\n');
-		appendable.append(tab, 0, tabLevel);
+		//appendable.append('\n');
+		//appendable.append(tab, 0, tabLevel);
 		appendable.append('{');
 		tabLevel++;
 		return this;
 	}
 	
 	protected AwesomeWriter openSpacedBlock() throws IOException {
-		appendable.append('\n');
-		appendable.append(tab, 0, tabLevel);
+		//appendable.append('\n');
+		//appendable.append(tab, 0, tabLevel);
 		appendable.append("{\n");
 		tabLevel++;
 		appendable.append(tab, 0, tabLevel);

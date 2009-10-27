@@ -487,7 +487,9 @@ public class FunctionCall extends Access implements MustBeResolved {
 			if(implArg.getType() == null || callArg.getType() == null) {
 				continue;
 			}
-			if(implArg.getType().isSuperOf(callArg.getType())) {
+			if(implArg.getType().isSuperOf(callArg.getType())
+					&& implArg.getType().getRef() != null
+					&& callArg.getType().getRef() != null) {
 				arguments.replace(callArg, new Cast(callArg, implArg.getType(), callArg.startToken));
 			}
 		}

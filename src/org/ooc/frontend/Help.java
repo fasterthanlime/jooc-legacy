@@ -16,9 +16,10 @@ public class Help {
 		System.out.println(
 "-v, -verbose                    verbose\n" +
 "-g, -debug                      compile with debug information\n" +
-"-noclean                        don't delete any temporary file produced by\n" +
+"-noclean                        don't delete .c/.h files produced by\n" +
 "                                the backend\n" +
-"-backend=[gcc,make,none]        choose the compiler backend (default=gcc)\n" +
+"-gcc,-tcc,-icc,-clang,-onlygen  choose the compiler backend (default=gcc)" +
+"								 onlygen doesn't launch any C compiler, and implies -noclean\n" +
 "-gc=[dynamic,static,off]        link dynamically, link statically, or doesn't\n" +
 "                                link with the Boehm GC at all.\n" +
 "-driver=[combine,sequence]      choose the driver to use. combine does all in one,\n" +

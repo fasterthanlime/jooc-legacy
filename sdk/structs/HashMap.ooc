@@ -18,7 +18,7 @@ HashEntry: class <T> {
  * Simple hash table implementation
  */
 
-HashMap: class <T> {
+HashMap: class <T> extends Iterable<T> {
 
 	size, capacity: UInt
 
@@ -180,6 +180,11 @@ HashMap: class <T> {
 		return
 	}
 
+    /**
+     * @return true if this map is empty, false if not
+     */
+    isEmpty: func -> Bool { keys isEmpty() }
+
 	/**
 	 * Returns whether or not the key exists in the hash table.
 	 * @param String key The key to check
@@ -249,6 +254,32 @@ HashMap: class <T> {
 	
 		return true
 	}
+    
+    iterator: func -> Iterator<T> {
+        HashMapValueIterator<T> new(this)
+    }
+
+	clear: func {
+		init(capacity)
+	}
 
 }
+
+HashMapValueIterator: class <T> extends Iterator<T> {
+
+    map: HashMap<T>
+    index := 0
+    
+    init: func(=map) {}
+    
+    hasNext: func -> Bool { index < map keys size() }
+    
+    next: func -> T {
+        key := map keys get(index)
+        index += 1
+        return map get(key)
+    }
+    
+}
+
 

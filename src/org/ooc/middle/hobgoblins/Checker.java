@@ -164,7 +164,7 @@ public class Checker implements Hobgoblin {
 					FunctionDecl realDecl = classDecl.getFunction(decl.getName(), decl.getSuffix(), null);
 					if(realDecl.isAbstract()) {
 						throw new OocCompilationError(classDecl, stack, "Class "+classDecl.getName()
-								+" must implement "+decl.getProtoRepr()+", or be declared abstract.");
+								+" must implement "+decl.getProtoRepr()+", or be declared abstract. Little help: "+decl.getStub());
 					}
 					
 					//ClassDecl baseClass = classDecl.getBaseClass(decl);

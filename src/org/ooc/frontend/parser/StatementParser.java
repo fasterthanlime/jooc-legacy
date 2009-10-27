@@ -5,6 +5,7 @@ import org.ooc.frontend.model.Conditional;
 import org.ooc.frontend.model.Else;
 import org.ooc.frontend.model.Expression;
 import org.ooc.frontend.model.FlowControl;
+import org.ooc.frontend.model.For;
 import org.ooc.frontend.model.Foreach;
 import org.ooc.frontend.model.Module;
 import org.ooc.frontend.model.Return;
@@ -22,8 +23,11 @@ public class StatementParser {
 
 		int mark = reader.mark();
 		
-		Foreach foreach = ForeachParser.parse(module, sReader, reader);
+		Foreach foreach = ForParser.parseForeach(module, sReader, reader);
 		if(foreach != null) return foreach;
+		
+		For for1 = ForParser.parseRegularFor(module, sReader, reader);
+		if(for1 != null) return for1;
 		
 		Conditional conditional = ConditionalParser.parse(module, sReader, reader);
 		if(conditional != null) return conditional;

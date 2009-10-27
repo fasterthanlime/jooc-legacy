@@ -19,17 +19,25 @@ S_IRWXO: extern func(...)
 lstat: extern func(String, FileStat*) -> Int
 mkdir: extern func(String, ModeT) -> Int
 
+PATH_MAX := const 8192
+realpath: extern func(path: String, resolved: String) -> String
+
 version(unix) {
     File separator = '/'
+	File pathDelimiter = ':'
 }
 version(windows) {
     File separator = '\\'
+	File pathDelimiter = ';'
 }
 
 File: class {
 	path: String
 	separator = '/' : static const Char
+	pathDelimiter = ':' : static const Char
 	
+	PATH_MAX = PATH_MAX : static const Int
+		
 	getPath: func -> String {
 		return path
 	}
@@ -116,6 +124,10 @@ File: class {
         }
         mkdir()
     }
+	
+	getAbsolutePath: func -> String {
+		// TODO, realpath() is a posix thing, needs to be versioned out
+		actualPath := String new(PATH_MAX + 1)
+		return realpath(path, actualPath)
+	}
 }
-
-

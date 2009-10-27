@@ -23,6 +23,7 @@ import org.ooc.frontend.model.Div;
 import org.ooc.frontend.model.Else;
 import org.ooc.frontend.model.FloatLiteral;
 import org.ooc.frontend.model.FlowControl;
+import org.ooc.frontend.model.For;
 import org.ooc.frontend.model.Foreach;
 import org.ooc.frontend.model.FunctionCall;
 import org.ooc.frontend.model.FunctionDecl;
@@ -214,6 +215,11 @@ public class SketchyNosy implements Visitor {
 		else if(!oppo.take(node, stack)) running = false;
 	}
 
+	public void visit(For node) throws IOException {
+		if(node.hasChildren()) visitAll(node);
+		else if(!oppo.take(node, stack)) running = false;
+	}
+	
 	public void visit(Foreach node) throws IOException {
 		if(node.hasChildren()) visitAll(node);
 		else if(!oppo.take(node, stack)) running = false;

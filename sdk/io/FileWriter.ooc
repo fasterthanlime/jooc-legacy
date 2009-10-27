@@ -36,4 +36,15 @@ FileWriter: class extends Writer {
 	close: func() {
 		fclose(file);
 	}
+	
+	writef: final func(fmt: String, ...) {
+		ap: VaList
+        va_start(ap, fmt)
+        fprintf(file, fmt, ap)
+        va_end(ap)
+	}
+	
+	vwritef: final func(fmt: String, args: VaList) {
+		vfprintf(file, fmt, args)
+	}
 }

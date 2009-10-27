@@ -73,7 +73,9 @@ public class Cast extends Expression implements MustBeResolved {
 			type = type.clone();
 			TypeDecl dstDecl = (TypeDecl) newType.getRef();
 			Type src = expression.getType();
-			if(dstDecl.getTypeParams().size() != src.getTypeParams().size()) {
+			if(dstDecl != null && dstDecl.getTypeParams() != null
+				&& src != null && src.getTypeParams() != null
+				&& dstDecl.getTypeParams().size() != src.getTypeParams().size()) {
 				throw new Error("Invalid cast between types "+dstDecl.getType()+" and "+src);
 			}
 			type.getTypeParams().clear();

@@ -127,9 +127,24 @@ List: abstract class <T> extends Iterable<T> {
 	
 	clone: abstract func -> List<T>
 
+    last: func -> T {
+		return get(lastIndex())
+	}
+
 	lastIndex: func -> SizeT {
 		return size() - 1
 	}
+    
+    /**
+     * Convert this list to a raw C array
+     */
+    toArray: func -> Pointer {
+        arr : T* = gc_malloc(size() * T size)
+        for(i in 0..size()) {
+            arr[i] = this[i]
+        }
+        return arr&
+    }
 	
 }
 
@@ -138,5 +153,3 @@ operator [] <T> (list: List<T>, i: Int) -> T { list get(i) }
 operator []= <T> (list: List<T>, i: Int, element: T) { list set(i, element) }
 operator += <T> (list: List<T>, element: T) { list add(element) }
 operator -= <T> (list: List<T>, element: T) -> Bool { list remove(element) }
-
-

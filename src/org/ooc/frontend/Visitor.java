@@ -22,6 +22,7 @@ import org.ooc.frontend.model.Div;
 import org.ooc.frontend.model.Else;
 import org.ooc.frontend.model.FloatLiteral;
 import org.ooc.frontend.model.FlowControl;
+import org.ooc.frontend.model.For;
 import org.ooc.frontend.model.Foreach;
 import org.ooc.frontend.model.FunctionCall;
 import org.ooc.frontend.model.FunctionDecl;
@@ -102,6 +103,7 @@ public interface Visitor {
 	public void visit(If if1) throws IOException;
 	public void visit(Else else1) throws IOException;
 	public void visit(While while1) throws IOException;
+	public void visit(For for1) throws IOException;
 	public void visit(Foreach foreach) throws IOException;
 	public void visit(FlowControl break1) throws IOException;
 

@@ -39,6 +39,7 @@ public class SequenceDriver extends Driver {
 		finalCode = 0;
 	
 		Runnable runnable = new Runnable() {
+			
 			public void run() {
 				
 				AbstractCompiler compiler = params.compiler.clone();
@@ -64,6 +65,20 @@ public class SequenceDriver extends Driver {
 					
 						compiler.addObjectFile(cPath);
 						compiler.setOutputPath(oPath);
+						
+						for(String dynamicLib: params.dynamicLibs) {
+							compiler.addDynamicLibrary(dynamicLib);
+						}
+						for(String compilerArg: compilerArgs) {
+							compiler.addObjectFile(compilerArg);
+						}
+						
+						try {
+							Collection<String> libs = getFlagsFromUse(currentModule);
+							for(String lib: libs) compiler.addObjectFile(lib);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
 						
 						if(params.verbose) System.out.print(compiler.getCommandLine());
 						

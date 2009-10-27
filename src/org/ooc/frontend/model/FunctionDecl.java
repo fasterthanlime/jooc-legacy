@@ -404,7 +404,7 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 
 		for(Argument arg: arguments) {
 			Type argType = arg.getType();
-			if(!argType.isResolved()) {
+			if(argType != null && !argType.isResolved()) {
 				stack.push(arguments);
 				stack.push(arg);
 				while(argType.getRef() == null) {
@@ -470,6 +470,34 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 		}
 		
 		return Response.OK;
+	}
+
+	public String getStub() {
+		
+		StringBuffer buff = new StringBuffer(name);
+		buff.append(": func ");
+		int numArgs = arguments.size();
+		if(hasThis()) numArgs--;
+		if(numArgs > 0) {
+			buff.append("(");
+			Iterator<Argument> iter = arguments.iterator();
+			if(iter.hasNext() && hasThis()) iter.next(); // skip this
+			while(iter.hasNext()) {
+				Argument arg = iter.next();
+				buff.append(arg.getName());
+				buff.append(": ");
+				buff.append(arg.getType());
+				if(iter.hasNext()) buff.append(", ");
+			}
+			buff.append(")");
+		}
+		if(hasReturn()) {
+			buff.append(" -> ").append(getReturnType());
+		}
+		buff.append(" {}");
+		 
+		return buff.toString();
+		
 	}
 	
 }

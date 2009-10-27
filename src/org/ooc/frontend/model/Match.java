@@ -69,9 +69,9 @@ public class Match extends Expression implements MustBeResolved {
 		
 		if(type == null) resolveType(stack, res, fatal);
 		
-		if(type == null) {
+		if(type == null && !(parent instanceof Line)) {
 			if(fatal) {
-				throw new OocCompilationError(this, stack, "Couldn't figure out ");
+				throw new OocCompilationError(this, stack, "Couldn't figure out type of match");
 			}
 			return Response.LOOP;
 		}

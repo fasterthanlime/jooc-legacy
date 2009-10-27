@@ -41,7 +41,7 @@ public class LineParser {
 		Line line = new Line(statement);
 		body.add(line);
 		
-		while(reader.peek().type == TokenType.DOT) {
+		while(reader.hasNext() && reader.peek().type == TokenType.DOT) {
 			Expression expr = null;
 			if(statement instanceof MemberCall) {
 				MemberCall memberCall = (MemberCall) statement;
@@ -64,6 +64,7 @@ public class LineParser {
 						+statement.getClass().getSimpleName()+"s.");
 			}
 			reader.skip();
+			reader.skipWhitespace();
 			Token startToken = reader.peek();
 			FunctionCall otherCall = FunctionCallParser.parse(module, sReader, reader);
 			if(otherCall == null) {

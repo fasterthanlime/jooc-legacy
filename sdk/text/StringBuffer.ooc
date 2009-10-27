@@ -16,7 +16,7 @@ StringBuffer: class {
 	append: func ~str (str: String) {
 		length := str length()
 		checkLength(size + length)
-		memcpy(data + size, str, length)
+		memcpy(data as Char* + size, str, length)
 		size += length
 	}
 	

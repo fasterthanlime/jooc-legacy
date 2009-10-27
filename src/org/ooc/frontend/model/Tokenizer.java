@@ -151,7 +151,7 @@ public class Tokenizer {
 			char c = reader.peek();
 			if(c == ';' || c == '\n' || c == '\r') {
 				reader.read();
-				while((reader.peek() == '\n' || reader.peek() == '\r') && reader.hasNext()) {
+				while(reader.hasNext() && (reader.peek() == '\n' || reader.peek() == '\r')) {
 					reader.read();
 				}
 				tokens.add(new Token(index, 1, TokenType.LINESEP));

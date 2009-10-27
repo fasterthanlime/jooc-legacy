@@ -46,6 +46,7 @@ public class CoverDeclParser {
 				Token token = reader.peek();
 				if(token.type == TokenType.FROM_KW) {
 					reader.skip();
+					reader.skipWhitespace();
 					overType = TypeParser.parse(module, sReader, reader);
 					if(overType == null) {
 						throw new CompilationFailedError(sReader.getLocation(reader.peek()),
@@ -98,14 +99,20 @@ public class CoverDeclParser {
 				}
 			}
 			
-			Token t2 = reader.read();
-			if(t2.type != TokenType.OPEN_BRACK) {
-				if(t2.type == TokenType.LINESEP) {
-					module.parseStack.pop(coverDecl);
-					return coverDecl; // empty cover, acts like a typedef
+			int mark2 = reader.mark();
+			reader.skipWhitespace();
+			if(reader.hasNext()) {
+				Token t2 = reader.read();
+				if(t2.type != TokenType.OPEN_BRACK) {
+					//if(t2.type == TokenType.LINESEP) {
+						module.parseStack.pop(coverDecl);
+						reader.reset(mark2);
+						return coverDecl; // empty cover, acts like a typedef
+					//}
+						/*
+					throw new CompilationFailedError(sReader.getLocation(t2),
+							"Expected opening bracket to begin cover declaration, got "+t2);*/
 				}
-				throw new CompilationFailedError(sReader.getLocation(t2),
-						"Expected opening bracket to begin cover declaration, got "+t2);
 			}
 			
 			while(reader.hasNext() && reader.peek().type != TokenType.CLOS_BRACK) {

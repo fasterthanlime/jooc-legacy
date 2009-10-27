@@ -16,14 +16,20 @@ public class ClassDeclWriter {
 	public static final String CLASS_NAME = LANG_PREFIX+"Class";
 	
 	public static void write(ClassDecl classDecl, CGenerator cgen) throws IOException {
+
+		TypeWriter.doStruct = true;
 		
+		/* -fwd.h file */
+		cgen.current = cgen.fw;
+		writeMemberFuncPrototypes(classDecl, cgen);
+		
+		/* .h file */
 		cgen.current = cgen.hw;
 		
 		writeObjectStruct(classDecl, cgen);
 		writeClassStruct(classDecl, cgen);
-		writeMemberFuncPrototypes(classDecl, cgen);
 		
-		/* Now implementations */
+		/* .c file */
 		cgen.current = cgen.cw;
 		cgen.current.nl();
 		
@@ -31,6 +37,8 @@ public class ClassDeclWriter {
 		writeClassGettingFunction(classDecl, cgen);
 		writeInstanceVirtualFuncs(classDecl, cgen);
 		writeStaticFuncs(classDecl, cgen);
+		
+		TypeWriter.doStruct = false;
 		
 		cgen.current.nl();
 		
@@ -108,7 +116,7 @@ public class ClassDeclWriter {
 		cgen.current.app(CLASS_NAME).app(" *").app(classDecl.getName()).app("_class()")
 				.openSpacedBlock();
 		if (classDecl.getSuperName().length() > 0)
-			cgen.current.app("static ").app(LANG_PREFIX).app("Bool __done__ = false;").nl();
+			cgen.current.app("static ").app("bool __done__ = false;").nl();
 		cgen.current.app("static ").app(classDecl.getUnderName()).app(
 				"Class class = ");
 		
@@ -223,9 +231,6 @@ public class ClassDeclWriter {
 
 		/* Now write all virtual functions prototypes in the class struct */
 		for (FunctionDecl decl : classDecl.getFunctions()) {
-			//if (decl.isStatic())
-			//	continue;
-			
 			if(classDecl.getSuperRef() != null) {
 				FunctionDecl superDecl = classDecl.getSuperRef().getFunction(decl.getName(), decl.getSuffix(), null);
 				if(superDecl != null && !decl.getName().equals("init")) continue;
@@ -262,8 +267,9 @@ public class ClassDeclWriter {
 			if (decl.isStatic())
 				continue;
 			cgen.current.nl();
-			decl.accept(cgen);
-			cgen.current.app(';');
+			if(VariableDeclWriter.write(decl, cgen)) {
+				cgen.current.app(';');
+			}
 		}
 
 		cgen.current.closeBlock().app(';').nl().nl();

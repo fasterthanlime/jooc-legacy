@@ -1,8 +1,8 @@
-extern func atexit (Func)
+atexit: extern func (Func)
 
-func main {
+main: func {
 
-	String message = "Goodbye, world :(\n"
+	message := "Goodbye, world :(\n"
 
 	atexit(func {
 		printf(message)

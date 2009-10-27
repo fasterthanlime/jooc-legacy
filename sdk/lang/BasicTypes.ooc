@@ -57,8 +57,6 @@ Char: cover from char {
 	}
 }
 
-String: cover from Char*
-
 atoi: extern func (String) -> Int
 atol: extern func (String) -> Long
 
@@ -123,6 +121,8 @@ String: cover from Char* {
 		}
 		return -1
 	}
+    
+    contains: func (c: Char) -> Bool { indexOf(c) != -1 }
 	
 	trim: func ~space -> This { return trim(' ') }
 	
@@ -250,6 +250,14 @@ String: cover from Char* {
 		copy as Char* [length] = other
 		return copy
 	}
+    
+    replace: func (oldie, kiddo: Char) -> This {
+        length := length()
+        for(i in 0..length) {
+            if(this[i] == oldie) this[i] = kiddo
+        }
+        return this
+    }
 	
 	prepend: func (other: String) -> This {
 		other append(this)
@@ -266,6 +274,10 @@ String: cover from Char* {
 	charAt: func(index: SizeT) -> Char {
 		this as Char* [index]
 	}
+}
+
+operator == (str1: String, str2: String) -> Bool {
+	return str1 equals(str2)
 }
 
 operator [] (string: String, index: SizeT) -> Char {
@@ -462,8 +474,7 @@ Class: abstract class {
 	
 	instanceof: final func (T: Class) -> Bool {
 		if(this == T) return true
-		if(super != null) return super class instanceof(T)
-		return false
+        return (super ? super as This instanceof(T) : false)
 	}
 	
 	// workaround needed to avoid C circular dependency with _ObjectClass
@@ -476,7 +487,7 @@ Class: abstract class {
 Object: abstract class {
 
 	class: Class
-	
+    	
 	/// Instance initializer: set default values for a new instance of this class
 	__defaults__: func {}
 	

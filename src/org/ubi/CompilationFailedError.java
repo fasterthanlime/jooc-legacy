@@ -53,6 +53,7 @@ public class CompilationFailedError extends Error {
 				
 				StringBuffer sb = new StringBuffer(line.length());
 				for(int i = 0; i < location.linePos - 1; i++) {
+					if(i >= line.length()) break;
 					char c = line.charAt(i);
 					if(c == '\t') {
 						sb.append('\t');

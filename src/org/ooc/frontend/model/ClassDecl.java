@@ -6,6 +6,7 @@ import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.middle.OocCompilationError;
 import org.ooc.middle.hobgoblins.Resolver;
+import org.ubi.CompilationFailedError;
 
 public class ClassDecl extends TypeDecl {
 
@@ -39,7 +40,14 @@ public class ClassDecl extends TypeDecl {
 	
 	@Override
 	public ClassDecl getSuperRef() {
-		return (ClassDecl) super.getSuperRef();
+		TypeDecl ref = super.getSuperRef();
+		if(ref != null && !(ref instanceof ClassDecl)) {
+			throw new CompilationFailedError(null, "Huh your class '"+getName()
+					+"' in '"+(module != null ? module.getFullName() : "<unknown module>")
+					+"' extends "+ref.getName()+" which isn't a ClassDecl but a "
+					+ref.getClass().getSimpleName());
+		}
+		return (ClassDecl) ref;
 	}
 
 	public boolean isObjectClass() {

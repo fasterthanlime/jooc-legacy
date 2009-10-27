@@ -1,9 +1,12 @@
 package org.ooc.backend.cdirty;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.ooc.frontend.model.ClassDecl;
 import org.ooc.frontend.model.CoverDecl;
+import org.ooc.frontend.model.Declaration;
 import org.ooc.frontend.model.FunctionDecl;
 import org.ooc.frontend.model.Import;
 import org.ooc.frontend.model.Include;
@@ -20,6 +23,91 @@ public class ModuleWriter {
 	
 	public static void write(Module module, CGenerator cgen) throws IOException {
 		
+		/** Classify imports */
+		List<Import> tightImports = new ArrayList<Import>();
+		List<Import> looseImports = new ArrayList<Import>();
+		looseImports.addAll(module.getImports()); // imports are loose by default
+		
+		for(TypeDecl selfDecl: module.getTypes().values()) {
+			for(Import imp: module.getImports()) {
+				if(selfDecl.getSuperRef() != null 
+						&& selfDecl.getSuperRef().getModule().equals(imp.getModule())) {
+					// tighten imports of modules which contain classes we extend
+					if(looseImports.remove(imp)) {
+						tightImports.add(imp);
+					}
+				} else if(imp.getModule().getFullName().startsWith("lang.")) {
+					// tighten imports of core modules
+					if(looseImports.remove(imp)) {
+						tightImports.add(imp);
+					}
+				} else {
+					for(VariableDecl member: selfDecl.getVariables()) {
+						Declaration ref = member.getType().getRef();
+						if(!(ref instanceof CoverDecl)) continue;
+						CoverDecl coverDecl = (CoverDecl) ref;
+						if(coverDecl.getFromType() != null) continue;
+						if(coverDecl.getModule() != imp.getModule()) continue;
+						// uses compound cover, tightening!
+						if(looseImports.remove(imp)) {
+							tightImports.add(imp);
+						}
+					}
+				}
+			}
+		}
+		
+		/** Write the -fwd.h file */
+		cgen.current = cgen.fw;
+		cgen.current.app("/* ");
+		cgen.current.app(module.getFullName());
+		cgen.current.app(" header file, generated with ooc */");
+		cgen.current.nl();
+		
+		String hFwdName = "__" + module.getUnderName() + "__fwd__";
+		cgen.current.app("#ifndef ");
+		cgen.current.app(hFwdName);
+		cgen.current.nl();
+		cgen.current.app("#define ");
+		cgen.current.app(hFwdName);
+		cgen.current.nl();
+		cgen.current.nl();
+		
+		for(Use use: module.getUses()) {
+			UseDef useDef = use.getUseDef();
+			for(String include: useDef.getIncludes()) {
+				cgen.current.nl().app("#include <").app(include).app(">");
+			}
+		}
+		
+		for(Include include: module.getIncludes()) {
+			IncludeWriter.write(include, cgen);
+		}
+		
+		for(TypeDecl node: module.getTypes().values()) {
+			if(node instanceof ClassDecl) {
+				ClassDecl classDecl = (ClassDecl) node;
+				String className = classDecl.getUnderName();
+				ClassDeclWriter.writeStructTypedef(className, cgen);
+				ClassDeclWriter.writeStructTypedef(className+"Class", cgen);
+			} else if(node instanceof CoverDecl) {
+				CoverDeclWriter.writeTypedef((CoverDecl) node, cgen);
+			}
+		}
+		cgen.current.nl();
+		
+		// include .h-level imports (which contains types we extend)
+		for(Import imp: tightImports) {
+			String include = imp.getModule().getOutPath('/');
+			cgen.current.nl().app("#include <").app(include).app(".h>");
+		}
+		// foward-include .c-level imports (which doesn't contain types we extend)
+		for(Import imp: looseImports) {
+			String include = imp.getModule().getOutPath('/');
+			cgen.current.nl().app("#include <").app(include).app("-fwd.h>");
+		}
+		
+		/** Write the .h file */
 		cgen.current = cgen.hw;
 		cgen.current.app("/* ");
 		cgen.current.app(module.getFullName());
@@ -35,33 +123,13 @@ public class ModuleWriter {
 		cgen.current.nl();
 		cgen.current.nl();
 
-		for(Include include: module.getIncludes()) {
-			IncludeWriter.write(include, cgen);
-		}
-		for(Use use: module.getUses()) {
-			UseDef useDef = use.getUseDef();
-			for(String include: useDef.getIncludes()) {
-				cgen.current.nl().app("#include <").app(include).app(">");
-			}
-		}
-		
-		for(TypeDecl node: module.getTypes().values()) {
-			if(node instanceof ClassDecl) {
-				ClassDecl classDecl = (ClassDecl) node;
-				String className = classDecl.getUnderName();
-				ClassDeclWriter.writeStructTypedef(className, cgen);
-				ClassDeclWriter.writeStructTypedef(className+"Class", cgen);
-			} else if(node instanceof CoverDecl) {
-				CoverDeclWriter.writeTypedef((CoverDecl) node, cgen);
-			}
-		}
+		cgen.current.nl();
+		cgen.current.app("#include \"");
+		cgen.current.app(module.getSimpleName());
+		cgen.current.app("-fwd.h\"");
 		cgen.current.nl();
 		
 		cgen.current.nl();
-		for(Import imp: module.getImports()) {
-			String include = imp.getModule().getOutPath('/');
-			cgen.current.app("#include <").app(include).app(".h>").nl();
-		}
 		for(Node node: module.getBody()) {
 			if(node instanceof Line) {
 				Line line = (Line) node;
@@ -72,6 +140,7 @@ public class ModuleWriter {
 			}
 		}
 		
+		/** Write the .c file */
 		cgen.current = cgen.cw;
 		cgen.current.app("/* ");
 		cgen.current.app(module.getFullName());
@@ -82,6 +151,11 @@ public class ModuleWriter {
 		cgen.current.app(module.getSimpleName());
 		cgen.current.app(".h\"");
 		cgen.current.nl();
+		
+		for(Import imp: looseImports) {
+			String include = imp.getModule().getOutPath('/');
+			cgen.current.app("#include <").app(include).app(".h>").nl();
+		}
 		
 		for(TypeDecl node:  module.getTypes().values()) {
 			node.accept(cgen);
@@ -107,6 +181,9 @@ public class ModuleWriter {
 		
 		cgen.current = cgen.hw;
 		cgen.current.nl().nl().app("#endif // ").app(hName).nl().nl();
+		
+		cgen.current = cgen.fw;
+		cgen.current.nl().nl().app("#endif // ").app(hFwdName).nl().nl();
 		
 	}
 	
@@ -143,7 +220,7 @@ public class ModuleWriter {
 		Type.getVoid().accept(cgen);
 		cgen.current.app(' ').app(cgen.module.getLoadFunc().getName()).app("()").openBlock();
 
-		cgen.current.nl().app("static ").app(ClassDeclWriter.LANG_PREFIX).app("Bool __done__ = false;").nl().app("if (!__done__)").openBlock();
+		cgen.current.nl().app("static ").app("bool __done__ = false;").nl().app("if (!__done__)").openBlock();
 		cgen.current.nl().app("__done__ = true;");
 
 		for(TypeDecl typeDecl: cgen.module.getTypes().values()) {
