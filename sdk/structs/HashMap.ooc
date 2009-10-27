@@ -259,6 +259,10 @@ HashMap: class <T> extends Iterable<T> {
         HashMapValueIterator<T> new(this)
     }
 
+	clear: func {
+		init(capacity)
+	}
+
 }
 
 HashMapValueIterator: class <T> extends Iterator<T> {

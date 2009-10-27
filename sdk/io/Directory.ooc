@@ -1,4 +1,7 @@
-import dirent, structs/ArrayList, io/File
+import io/File
+import structs/ArrayList 
+
+import dirent
 
 Directory: class {
     dir: DirPtr
