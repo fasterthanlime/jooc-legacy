@@ -62,7 +62,7 @@ public class UseDefParser {
 			} else if(id.equals("Includes")) {
 				StringTokenizer st = new StringTokenizer(value, ",");
 				while(st.hasMoreTokens()) def.getIncludes().add(st.nextToken().trim()); 
-			} else if(id.equals("Lib-Paths")) {
+			} else if(id.equals("LibPaths")) {
 				StringTokenizer st = new StringTokenizer(value, ",");
 				while(st.hasMoreTokens()) {
 					String libPath = st.nextToken().trim();
@@ -72,7 +72,7 @@ public class UseDefParser {
 					}
 					def.getLibPaths().add(libPath);
 				} 
-			} else if(id.equals("Include-Paths")) {
+			} else if(id.equals("IncludePaths")) {
 				StringTokenizer st = new StringTokenizer(value, ",");
 				while(st.hasMoreTokens()) {
 					String includePath = st.nextToken().trim();
