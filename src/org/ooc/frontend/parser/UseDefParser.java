@@ -87,11 +87,14 @@ public class UseDefParser {
 					def.getRequirements().add(new Requirement(st.nextToken().trim(), new int[] {0}));
 				}
 			} else if(id.equals("SourcePath")) {
-				String path = new File(file.getParent(), value).getPath();
+				File path = new File(value);
+				if(!path.isAbsolute()) {
+					path = new File(file.getParent(), value);
+				}
 				if(params.verbose) {
 					System.out.println("Adding "+path+" to sourcePath from "+def);
 				}
-				params.sourcePath.add(path);
+				params.sourcePath.add(path.getPath());
 				
 				
 			}
