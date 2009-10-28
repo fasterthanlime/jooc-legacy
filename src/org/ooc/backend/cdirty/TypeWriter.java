@@ -79,6 +79,9 @@ public class TypeWriter {
 		if(type.getRef() instanceof ClassDecl) {
 			cgen.current.app('*');
 		}
+		if(type.getRef() instanceof TypeParam) {
+			cgen.current.app('*');
+		}
 		// no-VLA workaround.
 		if(type.isArray() && type.getArraySize() != null
 				&& !(type.getArraySize() instanceof Literal)  && !cgen.params.compiler.supportsVLAs()) {
