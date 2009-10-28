@@ -24,7 +24,6 @@ public class Help {
 "                                link with the Boehm GC at all.\n" +
 "-driver=[combine,sequence]      choose the driver to use. combine does all in one,\n" +
 "                                sequence does all the .c one after the other.\n" +
-"-daemon:port                    start the compiler daemon on the specified port\n" +
 "-sourcepath=output/path/        location of your source files\n" +
 "-outpath                        where to output the .c/.h files\n" +
 "-Ipath, -incpath=path           where to find C headers\n" +

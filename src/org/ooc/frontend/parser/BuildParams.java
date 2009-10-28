@@ -8,6 +8,7 @@ import org.ooc.frontend.PathList;
 import org.ooc.frontend.compilers.AbstractCompiler;
 import org.ooc.libs.DistLocator;
 import org.ooc.libs.SdkLocator;
+import org.ooc.utils.ReadEnv;
 
 public class BuildParams {
 
@@ -20,6 +21,9 @@ public class BuildParams {
 	public final PathList libPath = new PathList();
 	public final PathList incPath = new PathList();
 	
+	// FIXME make it portable, make it use the OOC_LIBS env variable too.
+	public File libsPath = getLibsPath();
+		
 	public File outPath = new File("ooc_tmp");
 	
 	// Path of the text editor to run when an error is encountered in an ooc file 
@@ -69,5 +73,10 @@ public class BuildParams {
 	public int blowup = 256;
 	
 	public List<String> dynamicLibs = new ArrayList<String>();
+
+	private File getLibsPath() {
+		String path = ReadEnv.getEnv().get("OOC_LIBS");
+		return path == null ? new File("/usr/lib/ooc") : new File(path);
+	}
 	
 }

@@ -3,9 +3,12 @@ package org.ooc.frontend.parser;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.StringTokenizer;
 
+import org.ooc.frontend.model.tokens.Token;
 import org.ooc.middle.UseDef;
 import org.ooc.middle.UseDef.Requirement;
 import org.ubi.CompilationFailedError;
@@ -15,14 +18,15 @@ public class UseDefParser {
 
 	protected static Map<String, UseDef> cache = new HashMap<String, UseDef>();
 	
-	public static UseDef parse(String identifier, BuildParams params) throws IOException {
+	public static UseDef parse(String identifier, SourceReader sReader, Token token, BuildParams params) throws IOException {
 		
 		UseDef cached = cache.get(identifier);
 		if(cached != null) return cached;
 		
-		File file = params.sourcePath.getFile(identifier+".use");
+		File file = findUse(identifier+".use", params);
 		if(file == null) {
-			throw new CompilationFailedError(null, "Use not found in the sourcepath: "+identifier);
+			throw new CompilationFailedError(sReader.getLocation(token),
+					"Use not found in the sourcepath: "+identifier);
 		}
 		
 		UseDef def = new UseDef(identifier);
@@ -82,16 +86,48 @@ public class UseDefParser {
 				while(st.hasMoreTokens()) {
 					def.getRequirements().add(new Requirement(st.nextToken().trim(), new int[] {0}));
 				}
+			} else if(id.equals("SourcePath")) {
+				String path = new File(file.getParent(), value).getPath();
+				if(params.verbose) {
+					System.out.println("Adding "+path+" to sourcePath from "+def);
+				}
+				params.sourcePath.add(path);
+				
+				
 			}
 			
 			reader.skipWhitespace();
 		}
 		
 		for(Requirement req: def.getRequirements()) {
-			req.setDef(parse(req.getName(), params));
+			req.setDef(parse(req.getName(), sReader, token, params));
 		}
 		
 		return def;
+		
+	}
+
+	private static File findUse(String fileName, BuildParams params) {
+		
+		Set<File> set = new HashSet<File>();
+		set.add(params.libsPath);
+		
+		int i = 0;
+		while(i++ < 3) {
+			Set<File> nextSet = new HashSet<File>();
+			for(File candidate: set) {
+				if(candidate.getPath().endsWith(fileName)) {
+					return candidate;
+				} else if(candidate.isDirectory()) {
+					for(File child: candidate.listFiles()) {
+						nextSet.add(child);
+					}
+				}
+			}
+			set = nextSet;
+		}
+		
+		return null;
 		
 	}
 

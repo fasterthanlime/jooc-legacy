@@ -79,7 +79,7 @@ public class ModuleParser {
 				if(LineParser.fill(module, sReader, reader, module.getLoadFunc().getBody())) continue;
 				if(IncludeParser.fill(sReader, reader, module.getIncludes())) continue;
 				if(ImportParser.fill(sReader, reader, module.getImports())) continue;
-				if(UseParser.fill(sReader, reader, module.getUses())) continue;
+				if(UseParser.fill(sReader, reader, module.getUses(), parser.params)) continue;
 				if(CommentParser.parse(sReader, reader) != null) continue;
 				
 				Token errToken = reader.peek();
