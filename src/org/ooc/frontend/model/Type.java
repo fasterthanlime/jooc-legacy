@@ -27,6 +27,7 @@ public class Type extends Node implements MustBeResolved {
 	
 	protected NodeList<Access> typeParams;
 	private boolean isConst = false;
+	//private String origin;
 	
 	private static Type voidType = null;
 	
@@ -51,6 +52,9 @@ public class Type extends Node implements MustBeResolved {
 		this.pointerLevel = pointerLevel;
 		this.referenceLevel = referenceLevel;
 		this.typeParams = new NodeList<Access>(startToken);
+		//StringWriter sw = new StringWriter();
+		//new Exception().printStackTrace(new PrintWriter(sw));
+		//this.origin = sw.toString();
 	}
 	
 	public NodeList<Access> getTypeParams() {

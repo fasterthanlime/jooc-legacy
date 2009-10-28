@@ -35,8 +35,8 @@ public class VersionBlock extends Block implements MustBeResolved {
 		map.put("gnuc", 		"__GNUC__");
 		map.put("i386", 		"__i386__");
 		map.put("x86", 			"__X86__");
-		map.put("x86_64", 		"__X86_64_");
-		map.put("64", 			"__X86_64_");
+		map.put("x86_64", 		"__x86_64_");
+		map.put("64", 			"__x86_64_");
 		
 	}
 	

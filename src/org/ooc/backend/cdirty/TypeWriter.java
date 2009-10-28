@@ -24,8 +24,11 @@ public class TypeWriter {
 	public static void write(Type type, CGenerator cgen, boolean doPrefix) throws IOException {
 		
 		if(type.getRef() == null) {
+			if(cgen.params.veryVerbose) {
+				Thread.dumpStack();
+			}
 			throw new OocCompilationError(type, cgen.module, "Unresolved type '"+type.getName()+"' isGeneric? "
-					+type.isGeneric()+" !!");
+					+type.isGeneric());
 		}
 		
 		if(type.getName().equals("Func")) {
