@@ -171,7 +171,7 @@ String: cover from Char* {
 		
 		diff = (len - start) : SizeT
 		sub := gc_malloc(diff + 1) as This	
-		sub[diff + 1] = 0
+		sub[diff] = '\0'
 		memcpy(sub, this as Char* + start, diff)
 		return sub
 	}
@@ -187,7 +187,7 @@ String: cover from Char* {
 		
 		diff = (end - start) : SizeT
 		sub := gc_malloc(diff + 1) as This
-		sub[diff + 1] = 0
+		sub[diff] = 0
 		memcpy(sub, this as Char* + start, diff)
 		return sub
 	}

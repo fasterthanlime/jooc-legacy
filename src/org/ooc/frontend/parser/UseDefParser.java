@@ -26,7 +26,12 @@ public class UseDefParser {
 		File file = findUse(identifier+".use", params);
 		if(file == null) {
 			throw new CompilationFailedError(sReader.getLocation(token),
-					"Use not found in the sourcepath: "+identifier);
+					"Use not found in the ooc library path: "+identifier
+					+"\n\nTo install ooc libraries, copy their directories to /usr/lib/ooc/" +
+					"\nIf you want to install libraries elsewhere, use the OOC_LIBS environment variable," +
+					"\nwhich is the path ooc will scan for .use files (in this case, "+identifier+".use)" +
+					"\nFor more informations, see http://docs.ooc-lang.org/libs.html" +
+					"\n-------------------");
 		}
 		
 		UseDef def = new UseDef(identifier);
