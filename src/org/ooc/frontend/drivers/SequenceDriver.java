@@ -24,7 +24,7 @@ public class SequenceDriver extends Driver {
 	}
 
 	@Override
-	public int compile(Module module) throws Error, IOException, InterruptedException {
+	public int compile(Module module, String outName) throws Error, IOException, InterruptedException {
 		
 		copyLocalHeaders(module, params, new HashSet<Module>());
 		
@@ -145,7 +145,7 @@ public class SequenceDriver extends Driver {
 				params.compiler.addObjectFile(additional);
 			}
 			
-			params.compiler.setOutputPath(module.getSimpleName());
+			params.compiler.setOutputPath(outName);
 			Collection<String> libs = getFlagsFromUse(module);
 			for(String lib: libs) params.compiler.addObjectFile(lib);
 			

@@ -40,7 +40,7 @@ public abstract class Driver {
 		this.params = params;
 	}
 
-	public abstract int compile(Module module) throws Error,
+	public abstract int compile(Module module, String outName) throws Error,
 			IOException, InterruptedException;
 	
 	protected void copyLocalHeaders(Module module, BuildParams params, HashSet<Module> done) {
