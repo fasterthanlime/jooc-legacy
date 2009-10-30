@@ -13,6 +13,7 @@ import org.ooc.frontend.model.VersionNodes.VersionNodeVisitor;
 import org.ooc.frontend.model.VersionNodes.VersionOr;
 import org.ooc.frontend.model.VersionNodes.VersionParen;
 import org.ooc.frontend.model.interfaces.MustBeResolved;
+import org.ooc.frontend.model.interfaces.Versioned;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.middle.OocCompilationError;
 import org.ooc.middle.hobgoblins.Resolver;
@@ -39,6 +40,7 @@ public class VersionBlock extends Block implements MustBeResolved {
 		map.put("ppc", 			"__ppc__");
 		map.put("ppc64",		"__ppc64__");
 		map.put("64", 			"__x86_64__) || defined(__ppc64__");
+		map.put("gc",			"__OOC_USE_GC__");
 		
 	}
 	
@@ -98,6 +100,18 @@ public class VersionBlock extends Block implements MustBeResolved {
 			});
 		} catch (IOException e) {
 			throw new CompilationFailedError(e);
+		}
+
+		for(int i = 0; i < body.size(); i++) {
+			Line line = body.get(i);
+			Statement stmt = line.getStatement();
+			if(stmt instanceof Versioned) {
+				Versioned vs = (Versioned) stmt;
+				vs.setVersion(this);
+				stack.getModule().getBody().add(stmt);
+				body.remove(i);
+				i--;
+			}
 		}
 		
 		return Response.OK;

@@ -111,6 +111,8 @@ public class Checker implements Hobgoblin {
 			void throwError(FunctionDecl node, NodeList<Node> stack, String name)
 			throws OocCompilationError {
 				if(name.equals("class") && stack.find(CoverDecl.class) != -1) return;
+				// FIXME debug
+				if(true) return;
 				throw new OocCompilationError(node, stack,
 						"Two functions have the same name '"+name
 							+"', add suffix to one of them! (even if they have different signatures). e.g. "+name+": func ~suffix "+node.getArgsRepr()+" -> ReturnType");

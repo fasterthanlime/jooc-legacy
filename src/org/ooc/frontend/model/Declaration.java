@@ -88,6 +88,10 @@ public abstract class Declaration extends Expression implements MustBeResolved {
 		this.externName = externName;
 	}
 	
+	public boolean isExternWithName() {
+		return externName != null && externName.length() > 0;
+	}
+	
 	@Override
 	public String toString() {
 		return super.toString() + ": " + name;

@@ -67,7 +67,10 @@ public class SequenceDriver extends Driver {
 					
 						compiler.addObjectFile(cPath);
 						compiler.setOutputPath(oPath);
-						
+		
+						for(String define: params.defines) {
+							compiler.defineSymbol(define);
+						}
 						for(String dynamicLib: params.dynamicLibs) {
 							compiler.addDynamicLibrary(dynamicLib);
 						}
@@ -132,6 +135,9 @@ public class SequenceDriver extends Driver {
 				params.compiler.addObjectFile(oPath);
 			}
 			
+			for(String define: params.defines) {
+				params.compiler.defineSymbol(define);
+			}
 			for(String dynamicLib: params.dynamicLibs) {
 				params.compiler.addDynamicLibrary(dynamicLib);
 			}

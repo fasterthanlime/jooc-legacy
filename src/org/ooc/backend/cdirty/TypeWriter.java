@@ -101,7 +101,7 @@ public class TypeWriter {
 						cgen.current.app(']');
 					} else {
 						// no-VLA workaround
-						cgen.current.app(" = GC_malloc(");
+						cgen.current.app(" = gc_malloc(");
 						type.getArraySize().accept(cgen);
 						cgen.current.app(")");
 					}

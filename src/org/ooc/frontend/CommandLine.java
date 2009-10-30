@@ -84,6 +84,14 @@ public class CommandLine {
         			
         			params.libPath.add(arg.substring(2));
         			
+        		} else if(option.startsWith("D")) {
+        			
+        			params.defines.add(arg.substring(2));
+        			
+        		} else if(option.startsWith("U")) {
+        			
+        			params.defines.remove(arg.substring(2));
+        			
         		} else if(option.startsWith("l")) {
         			
         			params.dynamicLibs.add(arg.substring(2));
@@ -92,22 +100,27 @@ public class CommandLine {
         			
         			System.out.println("Deprecated option -dyngc, you should use -gc=dynamic instead.");
         			params.dynGC = true;
+        			params.defineSymbol(BuildParams.GC_DEFINE);
         			
         		} else if(option.equals("nogc")) {
         			
         			System.out.println("Deprecated option -nogc, you should use -gc=off instead.");
         			params.enableGC = false;
+        			params.undefineSymbol(BuildParams.GC_DEFINE);
         			
         		} else if(option.startsWith("gc=")) {
         			
         			String subOption = option.substring(3);
         			if(subOption.equals("off")) {
         				params.enableGC = false;
+        				params.undefineSymbol(BuildParams.GC_DEFINE);
         			} else if(subOption.equals("dynamic")) {
         				params.enableGC = true;
+        				params.defineSymbol(BuildParams.GC_DEFINE);
         				params.dynGC = true;
         			} else if(subOption.equals("static")) {
         				params.enableGC = true;
+        				params.defineSymbol(BuildParams.GC_DEFINE);
         				params.dynGC = false;
         			} else {
         				System.out.println("Unrecognized option "+option

@@ -7,7 +7,6 @@ import java.util.Map;
 
 import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.tokens.Token;
-import org.ooc.middle.structs.MultiMap;
 import org.ooc.middle.structs.NodeMap;
 import org.ubi.SourceReader;
 
@@ -20,7 +19,7 @@ public class Module extends Node implements Scope {
 	protected NodeList<Import> imports;
 	protected NodeList<Use> uses;
 	protected NodeMap<String, TypeDecl> types;
-	protected MultiMap<String, FunctionDecl> functions;
+	//protected MultiMap<String, FunctionDecl> functions;
 	protected NodeList<OpDecl> ops;
 	protected NodeList<Node> body;
 	protected String fileName;
@@ -63,7 +62,7 @@ public class Module extends Node implements Scope {
 		this.body = new NodeList<Node>(startToken);
 		this.ops = new NodeList<OpDecl>();
 		this.types = new NodeMap<String, TypeDecl>(new LinkedHashMap<String, TypeDecl>());
-		this.functions = new MultiMap<String, FunctionDecl>();
+		//this.functions = new MultiMap<String, FunctionDecl>();
 		
 		// set it as extern, so it won't get written implicitly
 		this.loadFunc = new FunctionDecl(underName + "_load", "", false, false, false, true, Token.defaultToken);
@@ -234,7 +233,6 @@ public class Module extends Node implements Scope {
 		}
 	}
 	
-	//public MultiMap<String, TypeDecl> getTypes() {
 	public Map<String, TypeDecl> getTypes() {
 		return types;
 	}

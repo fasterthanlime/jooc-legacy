@@ -5,9 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.ooc.frontend.Visitor;
+import org.ooc.frontend.model.interfaces.Versioned;
 import org.ooc.frontend.model.tokens.Token;
 
-public class Include extends Node {
+public class Include extends Node implements Versioned {
 
 	public static enum Mode {
 		LOCAL,
@@ -22,6 +23,7 @@ public class Include extends Node {
 	protected String include;
 	protected Mode mode;
 	protected final List<Define> defines;
+	private VersionBlock version;
 
 	public Include(String include, Mode mode, Token startToken) {
 		super(startToken);
@@ -60,6 +62,14 @@ public class Include extends Node {
 	@Override
 	public String toString() {
 		return super.toString()+" : "+include;
+	}
+
+	public void setVersion(VersionBlock version) {
+		this.version = version;
+	}
+
+	public VersionBlock getVersion() {
+		return version;
 	}
 	
 }

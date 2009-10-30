@@ -1,4 +1,4 @@
-include stdlib, stdint, stdbool, math, stdarg, memory, gc/gc, string
+include stdlib, stdint, stdbool, math, stdarg, memory, string
 import BasicTypes
 
 // variable arguments
@@ -32,10 +32,3 @@ memset: extern func (Pointer, Int, SizeT) -> Pointer
 memcmp: extern func (Pointer, Pointer, SizeT) -> Int
 memmove: extern func (Pointer, Pointer, SizeT)
 memcpy: extern func (Pointer, Pointer, SizeT)
-
-gc_malloc: extern(GC_MALLOC) func (size: SizeT) -> Pointer
-gc_malloc_atomic: extern(GC_MALLOC_ATOMIC) func (size: SizeT) -> Pointer
-gc_realloc: extern(GC_REALLOC) func (ptr: Pointer, size: SizeT) -> Pointer
-gc_calloc: func (nmemb: SizeT, size: SizeT) -> Pointer {
-	gc_malloc(nmemb * size)
-}

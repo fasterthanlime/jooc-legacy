@@ -26,6 +26,9 @@ public class BuildParams {
 		
 	public File outPath = new File("ooc_tmp");
 	
+	// list of symbols defined e.g. by -Dblah
+	public List<String> defines = new ArrayList<String>();
+	
 	// Path of the text editor to run when an error is encountered in an ooc file 
 	public String editor = "";
 	
@@ -74,9 +77,27 @@ public class BuildParams {
 	
 	public List<String> dynamicLibs = new ArrayList<String>();
 
+	/* Builtin defines */
+	public static final String GC_DEFINE = "__OOC_USE_GC__";
+
 	private File getLibsPath() {
 		String path = ReadEnv.getEnv().get("OOC_LIBS");
-		return path == null ? new File("/usr/lib/ooc") : new File(path);
+		return path == null ? new File("/usr/lib/ooc/") : new File(path);
+	}
+	
+	public BuildParams() {
+		// use the GC by default =)
+		defines.add(GC_DEFINE);
+	}
+	
+	public void defineSymbol(String symbol) {
+		if(!defines.contains(symbol)) {
+			defines.add(symbol);
+		}
+	}
+	
+	public void undefineSymbol(String symbol) {
+		defines.remove(symbol);
 	}
 	
 }

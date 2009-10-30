@@ -48,8 +48,10 @@ public class ClassDeclWriter {
 
 		for (FunctionDecl decl : classDecl.getFunctions()) {
 
-			if (!decl.isStatic() || (decl.isExtern() && decl.getExternName().length() > 0))
+			if (!decl.isStatic() || (decl.isExtern() && decl.getExternName().length() > 0)) {
+				// FIXME extern functions outta be written (#ifdefs)
 				continue;
+			}
 
 			cgen.current.nl();
 			FunctionDeclWriter.writeFuncPrototype(decl, cgen);
@@ -94,8 +96,10 @@ public class ClassDeclWriter {
 
 		// Non-static (ie. instance) functions
 		for (FunctionDecl decl : classDecl.getFunctions()) {
-			if (decl.isStatic() || decl.isAbstract() || (decl.isExtern() && decl.getExternName().length() > 0))
+			if (decl.isStatic() || decl.isAbstract() || (decl.isExtern() && decl.isExternWithName())) {
+				// FIXME extern functions outta be written alright (#ifdefs)
 				continue;
+			}
 			
 			FunctionDeclWriter.writeFuncPrototype(decl, cgen, decl.isFinal() ? null : "_impl");
 			cgen.current.openBlock();
@@ -189,7 +193,7 @@ public class ClassDeclWriter {
 		cgen.current.nl().app(CLASS_NAME).app(" *").app(classDecl.getName()).app("_class();").nl();
 		for (FunctionDecl decl : classDecl.getFunctions()) {
 			
-			if(decl.isExtern() && decl.getExternName().length() > 0) {
+			if(decl.isExternWithName()) {
 				continue;
 			}
 			

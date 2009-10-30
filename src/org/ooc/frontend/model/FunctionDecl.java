@@ -9,11 +9,12 @@ import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.IntLiteral.Format;
 import org.ooc.frontend.model.NodeList.AddListener;
 import org.ooc.frontend.model.interfaces.MustBeUnwrapped;
+import org.ooc.frontend.model.interfaces.Versioned;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.middle.OocCompilationError;
 import org.ooc.middle.hobgoblins.Resolver;
 
-public class FunctionDecl extends Declaration implements Scope, Generic, MustBeUnwrapped, PotentiallyStatic {
+public class FunctionDecl extends Declaration implements Scope, Generic, MustBeUnwrapped, PotentiallyStatic, Versioned {
 
 	public static Type type = new FuncType(Token.defaultToken);
 	
@@ -37,6 +38,8 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 	
 	protected final LinkedHashMap<String, TypeParam> typeParams;
 	private final NodeList<Argument> arguments;
+
+	private VersionBlock version = null;
 	
 	public FunctionDecl(String name, String suffix, boolean isFinal,
 			boolean isStatic, boolean isAbstract, boolean isExtern, Token startToken) {
@@ -252,20 +255,23 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 
 	public void writeFullName(Appendable dst) throws IOException {
 		
+		/*
 		if(externName != null && externName.length() > 0) {
 			dst.append(externName);
 		} else {
+		*/
 			if(isMember()) {
 				dst.append(typeDecl.getExternName()).append('_');
 			}
 			writeSuffixedName(dst);
-		}
+		//}
 		
 	}
 
 	public void writeSuffixedName(Appendable dst) throws IOException {
 		
-		dst.append(getExternName());
+		//dst.append(getExternName());
+		dst.append(getName());
 		if(suffix.length() > 0) {
 			dst.append('_').append(suffix);
 		}
@@ -348,10 +354,6 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 		}
 		
 		return false;
-	}
-
-	public boolean isExternWithName() {
-		return externName != null && externName.length() > 0;
 	}
 
 	public Argument getReturnArg() {
@@ -498,6 +500,14 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 		 
 		return buff.toString();
 		
+	}
+
+	public void setVersion(VersionBlock version) {
+		this.version = version;
+	}
+	
+	public VersionBlock getVersion() {
+		return version;
 	}
 	
 }

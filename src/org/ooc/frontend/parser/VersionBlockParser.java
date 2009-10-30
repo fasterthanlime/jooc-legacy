@@ -1,6 +1,8 @@
 package org.ooc.frontend.parser;
 
+import org.ooc.frontend.model.Include;
 import org.ooc.frontend.model.Module;
+import org.ooc.frontend.model.NodeList;
 import org.ooc.frontend.model.VersionBlock;
 import org.ooc.frontend.model.VersionNodes.VersionAnd;
 import org.ooc.frontend.model.VersionNodes.VersionName;
@@ -40,9 +42,39 @@ public class VersionBlockParser {
 		
 		VersionBlock block = new VersionBlock(node, startToken);
 		
-		ControlStatementFiller.fill(module, sReader, reader, block.getBody());
+		fill(module, sReader, reader, block);
 		
 		return block;
+		
+	}
+	
+	public static void fill(Module module, SourceReader sReader,
+			TokenReader reader, VersionBlock block) {
+		
+		if(reader.peek().type == TokenType.OPEN_BRACK) {
+			reader.skip();
+		} else {
+			throw new CompilationFailedError(sReader.getLocation(reader.peek()), "Expected opening brack after version(...)");
+		}
+		
+		NodeList<Include> includes = null;
+		while(reader.hasNext() && reader.peek().type != TokenType.CLOS_BRACK) {
+			if(reader.skipWhitespace()) continue;
+			if(!LineParser.fill(module, sReader, reader, block.getBody())) {
+				if(includes == null) includes = new NodeList<Include>();
+				if(IncludeParser.fill(sReader, reader, includes)) {
+					while(!includes.isEmpty()) {
+						Include include = includes.getLast();
+						include.setVersion(block);
+						module.getIncludes().add(include);
+						includes.remove(include);
+					}
+				} else {
+					throw new CompilationFailedError(sReader.getLocation(reader.peek()), "Expected line in code block");
+				}
+			}
+		}
+		reader.skip(); // the closing bracket
 		
 	}
 	
