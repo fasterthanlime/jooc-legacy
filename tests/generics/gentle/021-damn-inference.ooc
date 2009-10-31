@@ -3,9 +3,15 @@ import structs/LinkedList
 
 
 Cacou: class {
-	init: func {}
+    idSeed = 0: static Int
+    id: Int
+    
+	init: func {
+        id = idSeed += 4
+    }
 	
 	draw: func {
+        printf("Drawing kakoo %d\n", id)
 	}
 }
 
@@ -15,8 +21,7 @@ main: func {
 		list add(Cacou new())
 	}
 	
-	for(n in list) {
-        printf("n is a %s\n", n class name)
-		//n draw()
+	for(kakoo in list) {
+		kakoo draw()
 	}
 }

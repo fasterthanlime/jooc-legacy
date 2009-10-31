@@ -195,10 +195,9 @@ public class MemberCall extends FunctionCall {
 						i++;
 						if(candidate.getName().equals(typeParam)) {
 							Access result = type.getTypeParams().get(i);
-							if(result != null && result.getType() != null && result.getType().isFlat()) {
+							if(result != null && result.getType() != null) {
 								return result;
 							}
-							return new TypeAccess(NullLiteral.type); 
 						}
 					}
 				}
