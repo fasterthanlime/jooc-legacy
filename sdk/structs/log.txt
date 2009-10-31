@@ -1,0 +1,7 @@
+Parsing LinkedList.ooc
+Parsing lang/BasicTypes.ooc
+Parsing lang/memory.ooc
+Parsing lang/ooclib.ooc
+Parsing lang/stdio.ooc
+Parsing structs/List.ooc
+gcc.exe -std=c99 -Wall -g -I/c/ooc/libs/headers -Iooc_tmp ooc_tmp/structs/LinkedList.c ooc_tmp/sdk/lang/BasicTypes.c ooc_tmp/sdk/lang/memory.c ooc_tmp/sdk/lang/ooclib.c ooc_tmp/sdk/lang/stdio.c ooc_tmp/sdk/structs/List.c -D__OOC_USE_GC__ -o LinkedList -lpthread C:/ooc/libs/win32/libgc.a 

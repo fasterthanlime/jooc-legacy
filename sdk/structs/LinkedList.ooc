@@ -1,10 +1,11 @@
 import structs/List
+import os/Terminal
 
 /** 
  * LinkedList, not tested, use at your own risk!
  * @author eagle2com
  */
-
+getchar: extern func
 	
 LinkedList: class <T> extends List<T> {
 	
@@ -52,6 +53,15 @@ LinkedList: class <T> extends List<T> {
 	}
 	
 	clear: func {
+		current := first
+		first = null
+		while( current ) {
+			next := current next
+			current next = null
+			current prev = null
+			current = next
+		}
+		last = null
 	}
 	
 	get: func(index: Int) -> T {
@@ -72,9 +82,31 @@ LinkedList: class <T> extends List<T> {
 		return current
 	}
 	
-	indexOf: func (data: T) -> Int {return 0}
+	indexOf: func (data: T) -> Int {
+		current := first
+		i := 0
+		while(current) {
+			if(current data == data){
+				return i
+			}
+			i += 1
+			current = current next
+		}
+		return -1
+	}
 	
-	lastIndexOf: func (data: T) -> Int {return 0}
+	lastIndexOf: func (data: T) -> Int {
+		current := last
+		i := size - 1
+		while(current) {
+			if(current data == data){
+				return i
+			}
+			i -= 1
+			current = current prev
+		}
+		return -1
+	}
 	
 	removeAt: func (index: Int) -> T {
 		if(first && index >= 0 && index < size) {
@@ -105,19 +137,79 @@ LinkedList: class <T> extends List<T> {
 	
 	remove: func (data: T) -> Bool {return false}
 	
+	removeNode: func(toRemove: Node<T>) {
+		if(toRemove next) {
+				toRemove next prev = toRemove prev
+			} else {
+				last = toRemove prev
+				if(toRemove prev) {
+					toRemove prev next = null
+				}
+			}
+			
+			if(toRemove prev) {
+				toRemove prev next = toRemove next
+			} else {
+				first = toRemove next
+				if(toRemove next) {
+					toRemove next prev = null
+				}
+			}
+			size -= 1
+	}
+	
 	set: func (index: Int, data: T) {}
 	
 	size: func -> Int {return size}
 	
-	iterator: func -> Iterator<T> {
+	iterator: func -> LinkedListIterator<T> {
 		LinkedListIterator new(this)
 	}
 	
 	clone: func -> LinkedList<T> {return 0}
+	
+	
+	print: func {
+		println()
+		printf("prev: ")
+		current := first
+		while(current) {
+			if(current prev) {
+				Terminal setFgColor(Color red + current prev as Int % 7)
+				printf("|%p|", current prev)
+				Terminal reset()
+			}
+			else
+				printf("|         |")
+			current = current next
+		}
+		println()
+		
+		printf("this: ")
+		current = first
+		while(current) {	
+			Terminal setFgColor(Color red + current as Int % 7)
+			printf("|%p|", current)
+			Terminal reset()
+			current = current next
+		}
+		println()
+		
+		printf("next: ")
+		current = first
+		while(current) {
+			if(current next) {
+				Terminal setFgColor(Color red + current next as Int % 7)
+				printf("|%p|", current next)
+				Terminal reset()
+			}
+			else
+				printf("|         |")
+			current = current next
+		}
+		println()
+	}
 } 
-
-
-
 
 
 
@@ -137,8 +229,9 @@ Node: class <T>{
 LinkedListIterator: class <T> extends Iterator<T>  {
 	
 	current: Node<T>
+	list: LinkedList<T>
 	
-	init: func(list: LinkedList<T>) {
+	init: func(=list) {
 		current = list first
 	}
 	
@@ -155,26 +248,13 @@ LinkedListIterator: class <T> extends Iterator<T>  {
 		return prev data
 	}
 	
+	nextNode: func -> Node<T> {
+		prev := current
+		current = current next
+		return prev
+	}
+	
 }
 
 
-main: func {
-	list1 := LinkedList<Int> new()
-
-	for(i in 0..9){
-		list1 add(i)
-	}
-	
-	list1 removeAt(0)
-	list1 removeAt(5)
-		
-	iter := list1 iterator()
-	i = 0 : Int
-	
-	while(iter hasNext()) {
-		printf("| %d |", iter next())
-		i += 1
-	}
-	
-	println()
-}
+operator [] <T>(list: LinkedList<T>,index: Int) -> T {return list get(index)}
