@@ -152,7 +152,6 @@ public class Foreach extends ControlStatement implements MustBeResolved {
 					}
 				}
 				
-				// FIXME what if variable isn't an Access?
 				while1.getBody().add(new Line(new Assignment(variable, nextCall, startToken)));
 				while1.getBody().addAll(getBody());
 				

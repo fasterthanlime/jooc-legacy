@@ -71,7 +71,7 @@ public class MemberCall extends FunctionCall {
 			if(fatal) {
 				throw new OocCompilationError(this, stack, "Calling member function "
 						+name+getArgsRepr()+" in an expression "+expression
-						+" which type hasn't been resolved yet! Stack = "+stack.toString(true));
+						+" which type hasn't been resolved yet!");
 			}
 			return Response.LOOP;
 		}

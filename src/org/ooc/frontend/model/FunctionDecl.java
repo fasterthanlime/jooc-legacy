@@ -218,7 +218,7 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 		StringBuilder sB = new StringBuilder();
 		sB.append('(');
 		Iterator<Argument> iter = arguments.iterator();
-		if(skipThis && hasThis()) iter.next();
+		if(skipThis && hasThis() && iter.hasNext()) iter.next();
 		while(iter.hasNext()) {
 			Argument arg = iter.next();
 			if(arg instanceof VarArg) sB.append("...");

@@ -90,6 +90,12 @@ public class Type extends Node implements MustBeResolved {
 	}
 	
 	public void setRef(Declaration ref) {
+		// yeah, this is erratic. yeah, this shouldn't happen.
+		// yeah, this is a little distraction in an otherwise boring hardcore bufixing session. 
+		if(ref == null) {
+			System.out.println("KALAMAZOO Setting ref to null!!!");
+			Thread.dumpStack();
+		}
 		this.ref = ref;
 	}
 	

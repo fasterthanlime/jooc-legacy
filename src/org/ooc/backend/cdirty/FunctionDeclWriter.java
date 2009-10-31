@@ -193,7 +193,7 @@ public class FunctionDeclWriter {
 				param.getArgument().accept(cgen);
 			}
 		}
-		
+
 		while(iter.hasNext()) {
 			Argument arg = iter.next();
 			if(!isFirst) cgen.current.app(", ");

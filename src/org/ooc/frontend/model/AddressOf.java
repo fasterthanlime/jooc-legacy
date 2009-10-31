@@ -3,9 +3,12 @@ package org.ooc.frontend.model;
 import java.io.IOException;
 
 import org.ooc.frontend.Visitor;
+import org.ooc.frontend.model.interfaces.MustBeResolved;
 import org.ooc.frontend.model.tokens.Token;
+import org.ooc.middle.OocCompilationError;
+import org.ooc.middle.hobgoblins.Resolver;
 
-public class AddressOf extends Access {
+public class AddressOf extends Access implements MustBeResolved {
 
 	Type type;
 	Expression expression;
@@ -28,7 +31,7 @@ public class AddressOf extends Access {
 	public Type getType() {
 		if(type == null) {
 			Type exprType = expression.getType();
-			if(exprType != null) {
+			if(exprType != null && exprType.isResolved()) {
 				type = new Type(exprType.getName(), exprType.getPointerLevel() + 1, exprType.startToken);
 				type.setRef(exprType.getRef());
 			}
@@ -59,6 +62,22 @@ public class AddressOf extends Access {
 	@Override
 	public String toString() {
 		return "&("+expression+")";
+	}
+
+	public boolean isResolved() {
+		return type != null;
+	}
+
+	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
+		
+		if(getType() == null) {
+			if(fatal) {
+				throw new OocCompilationError(this, stack, "Couldn't resolve type of AddressOf "+this);
+			}
+			return Response.LOOP;
+		}
+		return Response.OK;
+			
 	}
 
 }
