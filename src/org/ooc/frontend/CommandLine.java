@@ -392,7 +392,7 @@ public class CommandLine {
 		thread.start();
 		try {
 			// allow time for the program startup
-			Thread.sleep(2);
+			Thread.sleep(3);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
