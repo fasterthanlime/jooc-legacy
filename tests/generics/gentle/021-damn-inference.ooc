@@ -16,6 +16,7 @@ main: func {
 	}
 	
 	for(n in list) {
-		n draw()
+        printf("n is a %s\n", n class name)
+		//n draw()
 	}
 }

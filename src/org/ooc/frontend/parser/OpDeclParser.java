@@ -66,6 +66,8 @@ public class OpDeclParser {
 			}
 		} else if(token.type == TokenType.AS_KW) {
 			type = OpType.AS;
+		} else if(token.type == TokenType.CARET) {
+			type = OpType.B_XOR;
 		} else {
 			throw new CompilationFailedError(null, "Trying to overload unknown operator "+token);
 		}
