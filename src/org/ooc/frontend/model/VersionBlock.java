@@ -122,5 +122,12 @@ public class VersionBlock extends Block implements MustBeResolved {
 	public void accept(Visitor visitor) throws IOException {
 		visitor.visit(this);
 	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if(!(o instanceof VersionBlock)) return super.equals(o);
+		VersionBlock vb = (VersionBlock) o;
+		return this.version.toString().equals(vb.version.toString());
+	}
 
 }
