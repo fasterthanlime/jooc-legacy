@@ -18,6 +18,16 @@ Directory: class {
     destroy: func {
         closedir(dir)
     }
+    
+    getFileEntries: func -> ArrayList<File> {
+        result := ArrayList<File> new()
+        entry := readdir(dir)
+        while(entry != null) {
+            result add(File new(entry@ name clone()))
+            entry = readdir(dir)
+        }
+        return result
+    }
 
     getEntries: func -> ArrayList<String> {
         result := ArrayList<String> new()
