@@ -241,6 +241,19 @@ public class Type extends Node implements MustBeResolved {
 					+getName());
 		}
 		
+		if(ref != null) {
+			if(ref instanceof TypeDecl) {
+				TypeDecl tDecl = (TypeDecl) ref;
+				if(!tDecl.getTypeParams().isEmpty()) {
+					if(getTypeParams().size() != tDecl.getTypeParams().size()) {
+						throw new OocCompilationError(this, stack, 
+								"Missing type parameters for "+this+". " +
+								"It should match "+tDecl.getInstanceType());
+					}
+				}
+			}
+		}
+		
 		return (ref == null) ? Response.LOOP : Response.OK;
 		
 	}
