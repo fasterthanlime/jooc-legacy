@@ -37,7 +37,10 @@ public class TypeWriter {
 		}
 		
 		if(type.getRef() instanceof TypeParam) {
-			cgen.current.append("uint8_t *");
+			cgen.current.append("uint8_t");
+			if(!type.isArray()) {
+				cgen.current.append("* ");
+			}
 			return;
 		}
 		
@@ -79,7 +82,7 @@ public class TypeWriter {
 		if(type.getRef() instanceof ClassDecl) {
 			cgen.current.app('*');
 		}
-		if(type.getRef() instanceof TypeParam) {
+		if(type.getRef() instanceof TypeParam && !type.isArray()) {
 			cgen.current.app('*');
 		}
 		// no-VLA workaround.

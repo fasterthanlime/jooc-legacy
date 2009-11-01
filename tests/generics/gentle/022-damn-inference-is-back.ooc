@@ -1,4 +1,4 @@
-import structs/LinkedList
+import structs/[LinkedList, ArrayList]
 
 MyNode: class <T> {
     
@@ -9,7 +9,8 @@ MyNode: class <T> {
 
 Container: class<T> {
     
-    list := LinkedList<Node<T>> new()
+    //list := LinkedList<Node<T>> new()
+    list := ArrayList<Node<T>> new()
     
     add: func (val: T) {
         list add(MyNode<T> new(val))
