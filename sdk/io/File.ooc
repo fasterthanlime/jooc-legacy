@@ -193,6 +193,14 @@ File: class {
 		return realpath(path, actualPath)
 	}
     
+    getAbsoluteFile: func -> This {
+        actualPath := getAbsolutePath()
+        if(!path equals(actualPath)) {
+            return File new(actualPath)
+        }
+        return this
+    }
+    
     copyTo: func(dstFile: This) {
         dstFile parent() mkdirs()
         src := FileReader new(this)
@@ -208,13 +216,19 @@ File: class {
     }
     
     getChildrenNames: func -> ArrayList<String> {
-        // TODO: check if we're a dir
-        // TODO: check if dir is null
+        if(!isDir()) {
+            Exception new(This, "Trying to get the children of the non-directory '" + path + "'!")
+        }
         dir := opendir(path)
+        if(!dir) {
+            Exception new(This, "Couldn't open directory '" + path + "' for reading!")
+        }
         result := ArrayList<String> new()
         entry := readdir(dir)
         while(entry != null) {
-            result add(entry@ name clone())
+            if(!entry@ name equals(".") && !entry@ name equals("..")) {
+                result add(entry@ name clone())
+            }
             entry = readdir(dir)
         }
         closedir(dir)
@@ -222,13 +236,19 @@ File: class {
     }
     
     getChildren: func -> ArrayList<This> {
-        // TODO: check if we're a dir
-        // TODO: check if dir is null
+        if(!isDir()) {
+            Exception new(This, "Trying to get the children of the non-directory '" + path + "'!")
+        }
         dir := opendir(path)
+        if(!dir) {
+            Exception new(This, "Couldn't open directory '" + path + "' for reading!")
+        }
         result := ArrayList<This> new()
         entry := readdir(dir)
         while(entry != null) {
-            result add(File new(entry@ name clone()))
+            if(!entry@ name equals(".") && !entry@ name equals("..")) {
+                result add(File new(this, entry@ name clone()))
+            }
             entry = readdir(dir)
         }
         closedir(dir)
