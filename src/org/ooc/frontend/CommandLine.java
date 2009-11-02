@@ -38,9 +38,19 @@ public class CommandLine {
 	private BuildParams params = new BuildParams();
 	private Driver driver = new CombineDriver(params);
 	
+	class Pair {
+		String in;
+		String out;
+		
+		public Pair(String in) {
+			this.in = in;
+			this.out = null;
+		}
+	}
+	
 	public CommandLine(String[] args) throws InterruptedException, IOException {
 		
-		List<String> modulePaths = new ArrayList<String>();
+		List<Pair> modulePaths = new ArrayList<Pair>();
 		List<String> nasms = new ArrayList<String>();
 		params.compiler = new Gcc();
 		
@@ -84,6 +94,14 @@ public class CommandLine {
         			
         			params.libPath.add(arg.substring(2));
         			
+        		} else if(option.startsWith("D")) {
+        			
+        			params.defines.add(arg.substring(2));
+        			
+        		} else if(option.startsWith("U")) {
+        			
+        			params.defines.remove(arg.substring(2));
+        			
         		} else if(option.startsWith("l")) {
         			
         			params.dynamicLibs.add(arg.substring(2));
@@ -92,22 +110,27 @@ public class CommandLine {
         			
         			System.out.println("Deprecated option -dyngc, you should use -gc=dynamic instead.");
         			params.dynGC = true;
+        			params.defineSymbol(BuildParams.GC_DEFINE);
         			
         		} else if(option.equals("nogc")) {
         			
         			System.out.println("Deprecated option -nogc, you should use -gc=off instead.");
         			params.enableGC = false;
+        			params.undefineSymbol(BuildParams.GC_DEFINE);
         			
         		} else if(option.startsWith("gc=")) {
         			
         			String subOption = option.substring(3);
         			if(subOption.equals("off")) {
         				params.enableGC = false;
+        				params.undefineSymbol(BuildParams.GC_DEFINE);
         			} else if(subOption.equals("dynamic")) {
         				params.enableGC = true;
+        				params.defineSymbol(BuildParams.GC_DEFINE);
         				params.dynGC = true;
         			} else if(subOption.equals("static")) {
         				params.enableGC = true;
+        				params.defineSymbol(BuildParams.GC_DEFINE);
         				params.dynGC = false;
         			} else {
         				System.out.println("Unrecognized option "+option
@@ -146,6 +169,15 @@ public class CommandLine {
         		} else if(option.equals("run") || option.equals("r")) {
         			
         			params.run = true;
+        			
+        		} else if(option.startsWith("o=")) {
+        			
+        			if(modulePaths.isEmpty()) {
+        				System.out.println("Using '-o' option before any .ooc file, ignoring..." +
+        						"\n(you should do something like ooc file.ooc -o myexecutable");
+        			} else {
+        				modulePaths.get(modulePaths.size() - 1).out = option.substring(2);
+        			}
         			
         		} else if(option.startsWith("driver=")) {
         			
@@ -247,9 +279,9 @@ public class CommandLine {
         				driver.additionals.add(arg);
             		} else {
             			if(!lowerArg.endsWith(".ooc")) {
-            				modulePaths.add(arg+".ooc");
+            				modulePaths.add(new Pair(arg+".ooc"));
             			} else {
-            				modulePaths.add(arg);
+            				modulePaths.add(new Pair(arg));
             			}
             		}
         	}
@@ -273,7 +305,7 @@ public class CommandLine {
 		do {
 			ModuleParser.clearCache();
 			int successCount = 0;
-			for(String modulePath: modulePaths) {
+			for(Pair modulePath: modulePaths) {
 				try {
 					int code = parse(modulePath);
 					if(code == 0) {
@@ -286,6 +318,8 @@ public class CommandLine {
 					System.err.println(err);
 					fail();
 					if(params.editor.length() > 0) {
+						System.out.println("Press [Enter] to launch "+params.editor);
+						reader.readLine();
 						launchEditor(params.editor, err);
 					}
 				}
@@ -334,9 +368,9 @@ public class CommandLine {
 		
 		if(err.getLocation() == null) return;
 		
-		//Thread thread = new Thread() {
-			//@Override
-			//public void run() {
+		Thread thread = new Thread() {
+			@Override
+			public void run() {
 				try {
 					ProcessBuilder builder = new ProcessBuilder();
 					FileLocation location = err.getLocation();
@@ -352,18 +386,24 @@ public class CommandLine {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			//}
-		//};
-		//thread.setDaemon(true);
-		//thread.start();
+			}
+		};
+		thread.setDaemon(true);
+		thread.start();
+		try {
+			// allow time for the program startup
+			Thread.sleep(3);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		
 	}
 
-	protected int parse(String modulePath) throws InterruptedException, IOException {
+	protected int parse(Pair modulePath) throws InterruptedException, IOException {
 		
 		params.outPath.mkdirs();
 		long tt1 = System.nanoTime();
-		Module module = new Parser(params).parse(modulePath);
+		Module module = new Parser(params).parse(modulePath.in);
 		module.setMain(true);
 		long tt2 = System.nanoTime();
 		
@@ -376,7 +416,7 @@ public class CommandLine {
 		long tt4 = System.nanoTime();
 		int code = 0;
 		if(params.compiler != null) {
-			code = driver.compile(module);
+			code = driver.compile(module, modulePath.out == null ? module.getSimpleName() : modulePath.out);
 		}
 		long tt5 = System.nanoTime();
 

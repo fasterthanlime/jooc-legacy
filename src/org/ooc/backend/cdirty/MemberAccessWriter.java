@@ -52,7 +52,7 @@ public class MemberAccessWriter {
 		}
 		
 		if(isStatic) {
-			if(memberAccess.getRef().isExtern() && memberAccess.getRef().getExternName().length() > 0) {
+			if(memberAccess.getRef().isExternWithName()) {
 				cgen.current.app(memberAccess.getRef().getExternName());
 				if(refLevel > 0) cgen.current.app(')');
 				return;

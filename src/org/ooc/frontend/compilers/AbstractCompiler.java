@@ -30,6 +30,12 @@ public interface AbstractCompiler {
 	/** .o file to link with */
 	public void addObjectFile(String path);
 	
+	/** -D option in gcc */
+	public void defineSymbol(String symbolName);
+	
+	/** -U option in gcc */
+	public void undefineSymbol(String symbolName);
+	
 	/** any compiler-specific option */
 	public void addOption(String option);
 	

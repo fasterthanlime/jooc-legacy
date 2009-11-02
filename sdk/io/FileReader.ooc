@@ -18,13 +18,13 @@ FileReader: class extends Reader {
 	}
 	
 	init: func ~withName (fileName: String) {
-		file = fopen(fileName, "r");
+		file = fopen(fileName, "r")
 		if (!file) 
 			Exception new(This, "File not found: " + fileName) throw()
 	}
 
 	read: func(chars: String, offset: Int, count: Int) -> SizeT {
-		fread(chars as Char* + offset, 1, count, file);
+		fread(chars as Char* + offset, 1, count, file)
 	}
 	
 	read: func ~char -> Char {
@@ -38,15 +38,20 @@ FileReader: class extends Reader {
 	}
 	
 	rewind: func(offset: Int) {
-		fseek(file, -offset, SEEK_CUR);
+		fseek(file, -offset, SEEK_CUR)
 	}
 	
 	mark: func -> Long { 
-		marker = ftell(file);
-		return marker;
+		marker = ftell(file)
+		return marker
 	}
 	
 	reset: func(marker: Long) {
-		fseek(file, marker, SEEK_SET);
+		fseek(file, marker, SEEK_SET)
 	}
+    
+    close: func {
+        fclose(file)
+    }
+    
 }

@@ -88,6 +88,10 @@ public abstract class Declaration extends Expression implements MustBeResolved {
 		this.externName = externName;
 	}
 	
+	public boolean isExternWithName() {
+		return externName != null && externName.length() > 0;
+	}
+	
 	@Override
 	public String toString() {
 		return super.toString() + ": " + name;
@@ -99,7 +103,7 @@ public abstract class Declaration extends Expression implements MustBeResolved {
 	
 	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
 		
-		if(name != null) {
+		if(name != null && !isExtern()) {
 			for(int i = 0; i < RESERVED_NAMES.length; i++) {
 				if(RESERVED_NAMES[i].equals(name)) {
 				 throw new OocCompilationError(this, stack, "'"+name

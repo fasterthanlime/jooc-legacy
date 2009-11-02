@@ -27,6 +27,7 @@ public class Type extends Node implements MustBeResolved {
 	
 	protected NodeList<Access> typeParams;
 	private boolean isConst = false;
+	//private String origin;
 	
 	private static Type voidType = null;
 	
@@ -51,6 +52,9 @@ public class Type extends Node implements MustBeResolved {
 		this.pointerLevel = pointerLevel;
 		this.referenceLevel = referenceLevel;
 		this.typeParams = new NodeList<Access>(startToken);
+		//StringWriter sw = new StringWriter();
+		//new Exception().printStackTrace(new PrintWriter(sw));
+		//this.origin = sw.toString();
 	}
 	
 	public NodeList<Access> getTypeParams() {
@@ -235,6 +239,19 @@ public class Type extends Node implements MustBeResolved {
 			}
 			throw new OocCompilationError(this, stack, "Couldn't resolve type "
 					+getName());
+		}
+		
+		if(ref != null) {
+			if(ref instanceof TypeDecl) {
+				TypeDecl tDecl = (TypeDecl) ref;
+				if(!tDecl.getTypeParams().isEmpty()) {
+					if(getTypeParams().size() != tDecl.getTypeParams().size()) {
+						throw new OocCompilationError(this, stack, 
+								"Missing type parameters for "+this+". " +
+								"It should match "+tDecl.getInstanceType());
+					}
+				}
+			}
 		}
 		
 		return (ref == null) ? Response.LOOP : Response.OK;

@@ -71,7 +71,7 @@ public class MemberCall extends FunctionCall {
 			if(fatal) {
 				throw new OocCompilationError(this, stack, "Calling member function "
 						+name+getArgsRepr()+" in an expression "+expression
-						+" which type hasn't been resolved yet! Stack = "+stack.toString(true));
+						+" which type hasn't been resolved yet!");
 			}
 			return Response.LOOP;
 		}
@@ -195,10 +195,9 @@ public class MemberCall extends FunctionCall {
 						i++;
 						if(candidate.getName().equals(typeParam)) {
 							Access result = type.getTypeParams().get(i);
-							if(result != null && result.getType() != null && result.getType().isFlat()) {
+							if(result != null && result.getType() != null) {
 								return result;
 							}
-							return new TypeAccess(NullLiteral.type); 
 						}
 					}
 				}

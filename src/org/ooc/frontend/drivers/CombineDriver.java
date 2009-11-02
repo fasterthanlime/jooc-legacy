@@ -16,7 +16,7 @@ public class CombineDriver extends Driver {
 	}
 
 	@Override
-	public int compile(Module module) throws Error, IOException, InterruptedException {
+	public int compile(Module module, String outName) throws Error, IOException, InterruptedException {
 		
 		params.compiler.reset();
 		
@@ -26,6 +26,9 @@ public class CombineDriver extends Driver {
 		params.compiler.addIncludePath(new File(params.distLocation, "libs/headers/").getPath());
 		params.compiler.addIncludePath(params.outPath.getPath());
 		addDeps(module, new HashSet<Module>(), new HashSet<String>());
+		for(String define: params.defines) {
+			params.compiler.defineSymbol(define);
+		}
 		for(String dynamicLib: params.dynamicLibs) {
 			params.compiler.addDynamicLibrary(dynamicLib);
 		}
@@ -37,7 +40,7 @@ public class CombineDriver extends Driver {
 		}
 		
 		if(params.link) {
-			params.compiler.setOutputPath(module.getSimpleName());
+			params.compiler.setOutputPath(outName);
 			Collection<String> libs = getFlagsFromUse(module);
 			for(String lib: libs) params.compiler.addObjectFile(lib);
 			

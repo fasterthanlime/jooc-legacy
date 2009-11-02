@@ -73,7 +73,7 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 	protected TypeDecl typeDecl;
 	
 	protected NodeList<VariableDeclAtom> atoms;
-	
+
 	public VariableDecl(Type type, boolean isStatic, Token startToken) {
 		super(null, startToken);
 		this.type = type;

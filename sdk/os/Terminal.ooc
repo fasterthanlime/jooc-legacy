@@ -32,7 +32,8 @@ Color: class {
 	blue  = 	34,
 	magenta = 	35,
 	cyan = 		36,
-	white = 	37	: static const Int
+    grey =   	37,
+    white  =    38	: static const Int
 }
 
 Terminal: class {

@@ -70,12 +70,6 @@ import org.ooc.frontend.model.VariableDecl;
 import org.ooc.frontend.model.VersionBlock;
 import org.ooc.frontend.model.While;
 import org.ooc.frontend.model.VariableDecl.VariableDeclAtom;
-import org.ooc.frontend.model.VersionNodes.VersionAnd;
-import org.ooc.frontend.model.VersionNodes.VersionName;
-import org.ooc.frontend.model.VersionNodes.VersionNegation;
-import org.ooc.frontend.model.VersionNodes.VersionNodeVisitor;
-import org.ooc.frontend.model.VersionNodes.VersionOr;
-import org.ooc.frontend.model.VersionNodes.VersionParen;
 import org.ooc.frontend.parser.BuildParams;
 import org.ooc.frontend.parser.TypeArgument;
 import org.ooc.middle.OocCompilationError;
@@ -354,6 +348,9 @@ public class CGenerator extends Generator implements Visitor {
 		
 		if(expression instanceof VariableAccess) {
 			VariableAccess varAcc = (VariableAccess) expression;
+			if(varAcc.getRef() == null) {
+				System.out.println("Null ref for varAcc to "+varAcc+" (addressOf is "+addressOf);
+			}
 			Type varAccType = varAcc.getRef().getType();
 			if(varAccType.getRef() instanceof TypeParam) {
 				AccessWriter.write(varAcc, false, this);
@@ -471,40 +468,9 @@ public class CGenerator extends Generator implements Visitor {
 	}
 
 	public void visit(VersionBlock versionBlock) throws IOException {
-		current.app("\n#if ");
-		
-		versionBlock.getVersion().accept(new VersionNodeVisitor() {
-			
-			public void visit(VersionOr versionOr) throws IOException {
-				versionOr.getLeft().accept(this);
-				current.app(" || ");
-				versionOr.getRight().accept(this);
-			}
-			
-			public void visit(VersionAnd versionAnd) throws IOException {
-				versionAnd.getLeft().accept(this);
-				current.app(" && ");
-				versionAnd.getRight().accept(this);
-			}
-			
-			public void visit(VersionNegation versionNegation) throws IOException {
-				current.app('!');
-				versionNegation.getInner().accept(this);
-			}
-			
-			public void visit(VersionName versionName) throws IOException {
-				current.app("defined(").app(versionName.getName()).app(")");
-			}
-
-			public void visit(VersionParen versionParen) throws IOException {
-				current.app('(');
-				versionParen.getInner().accept(this);
-				current.app(')');
-			}
-		});
-		
+		VersionBlockWriter.writeVersionBlockStart(versionBlock, this);
 		visit((Block) versionBlock);
-		current.app("\n#endif");
+		VersionBlockWriter.writeVersionBlockEnd(this);
 	}
 
 	public void visit(NodeMap<?, ? extends Node> list) throws IOException {}

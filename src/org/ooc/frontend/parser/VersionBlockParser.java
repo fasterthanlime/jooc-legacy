@@ -1,6 +1,8 @@
 package org.ooc.frontend.parser;
 
+import org.ooc.frontend.model.Include;
 import org.ooc.frontend.model.Module;
+import org.ooc.frontend.model.NodeList;
 import org.ooc.frontend.model.VersionBlock;
 import org.ooc.frontend.model.VersionNodes.VersionAnd;
 import org.ooc.frontend.model.VersionNodes.VersionName;
@@ -40,9 +42,39 @@ public class VersionBlockParser {
 		
 		VersionBlock block = new VersionBlock(node, startToken);
 		
-		ControlStatementFiller.fill(module, sReader, reader, block.getBody());
+		fill(module, sReader, reader, block);
 		
 		return block;
+		
+	}
+	
+	public static void fill(Module module, SourceReader sReader,
+			TokenReader reader, VersionBlock block) {
+		
+		if(reader.peek().type == TokenType.OPEN_BRACK) {
+			reader.skip();
+		} else {
+			throw new CompilationFailedError(sReader.getLocation(reader.peek()), "Expected opening brack after version(...)");
+		}
+		
+		NodeList<Include> includes = null;
+		while(reader.hasNext() && reader.peek().type != TokenType.CLOS_BRACK) {
+			if(reader.skipWhitespace()) continue;
+			if(!LineParser.fill(module, sReader, reader, block.getBody())) {
+				if(includes == null) includes = new NodeList<Include>();
+				if(IncludeParser.fill(sReader, reader, includes)) {
+					while(!includes.isEmpty()) {
+						Include include = includes.getLast();
+						include.setVersion(block);
+						module.getIncludes().add(include);
+						includes.remove(include);
+					}
+				} else {
+					throw new CompilationFailedError(sReader.getLocation(reader.peek()), "Expected line in code block");
+				}
+			}
+		}
+		reader.skip(); // the closing bracket
 		
 	}
 	
@@ -81,10 +113,16 @@ public class VersionBlockParser {
 			return node;
 		}
 		
+		String realName = "";
 		Token nameTok = reader.peek();
-		if(nameTok.isNameToken()) {
+		while(nameTok.type == TokenType.NAME || nameTok.type == TokenType.DEC_INT) {
 			reader.skip();
-			VersionNode node = new VersionName(nameTok.get(sReader));
+			realName += nameTok.get(sReader);
+			nameTok = reader.peek();
+		}
+		
+		if(!realName.isEmpty()) {
+			VersionNode node = new VersionName(realName);
 			VersionNode tmp;
 			while(true) {
 				tmp = getRemain(module, sReader, reader, node);

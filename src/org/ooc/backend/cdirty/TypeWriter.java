@@ -24,8 +24,11 @@ public class TypeWriter {
 	public static void write(Type type, CGenerator cgen, boolean doPrefix) throws IOException {
 		
 		if(type.getRef() == null) {
+			if(cgen.params.veryVerbose) {
+				Thread.dumpStack();
+			}
 			throw new OocCompilationError(type, cgen.module, "Unresolved type '"+type.getName()+"' isGeneric? "
-					+type.isGeneric()+" !!");
+					+type.isGeneric());
 		}
 		
 		if(type.getName().equals("Func")) {
@@ -34,7 +37,10 @@ public class TypeWriter {
 		}
 		
 		if(type.getRef() instanceof TypeParam) {
-			cgen.current.append("uint8_t *");
+			cgen.current.append("uint8_t");
+			if(!type.isArray()) {
+				cgen.current.append("* ");
+			}
 			return;
 		}
 		
@@ -76,6 +82,9 @@ public class TypeWriter {
 		if(type.getRef() instanceof ClassDecl) {
 			cgen.current.app('*');
 		}
+		if(type.getRef() instanceof TypeParam && !type.isArray()) {
+			cgen.current.app('*');
+		}
 		// no-VLA workaround.
 		if(type.isArray() && type.getArraySize() != null
 				&& !(type.getArraySize() instanceof Literal)  && !cgen.params.compiler.supportsVLAs()) {
@@ -95,7 +104,7 @@ public class TypeWriter {
 						cgen.current.app(']');
 					} else {
 						// no-VLA workaround
-						cgen.current.app(" = GC_malloc(");
+						cgen.current.app(" = gc_malloc(");
 						type.getArraySize().accept(cgen);
 						cgen.current.app(")");
 					}

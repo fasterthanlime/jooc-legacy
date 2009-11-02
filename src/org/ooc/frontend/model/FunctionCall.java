@@ -431,7 +431,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 				vdfe.unwrapToVarAcc(stack);
 				stack.pop(arguments);
 				stack.pop(this);
-				//return Response.RESTART;
+				return Response.RESTART;
 			}
 		}
 		return Response.OK;
@@ -464,14 +464,15 @@ public class FunctionCall extends Access implements MustBeResolved {
 		atom.replace(this, null);
 		
 		int lineIndex = stack.find(Line.class, varDeclIndex);
-		Line line = (Line) stack.get(lineIndex);		
+		Line line = (Line) stack.get(lineIndex);
 		
 		NodeList<Line> list = (NodeList<Line>) stack.get(lineIndex - 1);
 		VariableAccess varAcc = new VariableAccess(atom.getName(), startToken);
 		varAcc.setRef(decl);
 		returnArg = new AddressOf(varAcc, startToken);
 		list.addAfter(line, new Line(this));
-		
+
+		// essential
 		return Response.RESTART;
 		
 	}

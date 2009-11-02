@@ -11,7 +11,7 @@ SubProcess: class {
     init: func(=args) {executable = args[0]}
     
     setStdout: func(=stdOut){}
-    setStdin: func(=stdIn) {}    
+    setStdin:  func(=stdIn) {}    
     setStderr: func(=stdErr) {}
     
     execute: func -> Int {

@@ -30,7 +30,7 @@ public class TokenReader extends ListReader<Token> {
 	
 	public Token readWhiteless() {
 		skipWhitespace();
-		return list.get(index++);
+		return hasNext() ? list.get(index++) : null;
 	}
 	
 }

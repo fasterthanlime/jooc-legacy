@@ -39,7 +39,14 @@ StringBuffer: class {
 	}
 	
 	toString: func -> String {
-		data[capacity] = '\0'
+        if(size + 1 < capacity) {
+            newCapa := size + 1
+            tmp := gc_realloc(data as Char*, newCapa)
+            if(!tmp) Exception new(This, "Not enough memory to reallocate string in buffer for toString() call") throw()
+            data = tmp
+            capacity = newCapa
+        }
+		data[size] = '\0'
 		return data // ugly hack. or is it?
 	}
 	

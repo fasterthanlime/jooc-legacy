@@ -17,22 +17,77 @@ public class FunctionDeclWriter {
 	public static void write(FunctionDecl functionDecl, CGenerator cgen) throws IOException {
 		
 		if(functionDecl.isProto()) {
+			
+			// FW
 			cgen.current = cgen.fw;
+			
+			if(functionDecl.getVersion() != null) {
+				VersionBlockWriter.writeVersionBlockStart(functionDecl.getVersion(), cgen);
+			}
+			
 			cgen.current.nl().app("extern ");
 			writeFuncPrototype(functionDecl, cgen);
 			cgen.current.app(';');
-		} else if(!functionDecl.isExtern() && !functionDecl.isAbstract()) {
+			
+			if(functionDecl.getVersion() != null) {
+				VersionBlockWriter.writeVersionBlockEnd(cgen);
+			}
+			
+		} else if(functionDecl.isExtern()) {
+
+			if(functionDecl.isExternWithName()) {
+			
+				// FW
+				cgen.current = cgen.fw;
+			
+				if(functionDecl.getVersion() != null) {
+					VersionBlockWriter.writeVersionBlockStart(functionDecl.getVersion(), cgen);
+				}
+				
+				cgen.current.nl().app("#ifndef ");
+				functionDecl.writeFullName(cgen.current);
+				
+				cgen.current.nl().app("#define ");
+				functionDecl.writeFullName(cgen.current);
+				
+				cgen.current.app(' ').app(functionDecl.getExternName());
+				
+				cgen.current.nl().app("#endif");
+				
+				if(functionDecl.getVersion() != null) {
+					VersionBlockWriter.writeVersionBlockEnd(cgen);
+				}
+			
+			}
+			
+		} else if(!functionDecl.isAbstract()) {
+			
+			// FW
 			cgen.current = cgen.fw;
+			
+			if(functionDecl.getVersion() != null) {
+				VersionBlockWriter.writeVersionBlockStart(functionDecl.getVersion(), cgen);
+			}
+			
 			cgen.current.nl();
 			writeFuncPrototype(functionDecl, cgen);
 			cgen.current.app(';');
+			
+			if(functionDecl.getVersion() != null) {
+				VersionBlockWriter.writeVersionBlockEnd(cgen);
+			}
 		
+			// CW
 			cgen.current = cgen.cw;
+			
+			if(functionDecl.getVersion() != null) {
+				VersionBlockWriter.writeVersionBlockStart(functionDecl.getVersion(), cgen);
+			}
+			
 			writeFuncPrototype(functionDecl, cgen);
 			cgen.current.app(' ').openBlock();
 			
 			if(functionDecl.isEntryPoint()) {
-				// FIXME what if we want no gc?
 				if(cgen.params.enableGC) {
 					cgen.current.nl().app("GC_INIT();");
 				}
@@ -43,6 +98,10 @@ public class FunctionDeclWriter {
 				line.accept(cgen);
 			}
 			cgen.current.closeSpacedBlock();
+			
+			if(functionDecl.getVersion() != null) {
+				VersionBlockWriter.writeVersionBlockEnd(cgen);
+			}
 		}
 		
 	}
@@ -134,7 +193,7 @@ public class FunctionDeclWriter {
 				param.getArgument().accept(cgen);
 			}
 		}
-		
+
 		while(iter.hasNext()) {
 			Argument arg = iter.next();
 			if(!isFirst) cgen.current.app(", ");

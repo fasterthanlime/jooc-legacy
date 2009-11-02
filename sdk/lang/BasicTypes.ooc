@@ -13,11 +13,12 @@ Char: cover from char
 UChar: cover from unsigned char
 WChar: cover from wchar_t
 
-isalnum: extern func(letter: Char) -> Int
-isalpha: extern func(letter: Char) -> Int
-isdigit: extern func(letter: Char) -> Int
-isspace: extern func(letter: Char) -> Int
-tolower: extern func(letter: Char) -> Char
+isalnum: extern func(letter: Int) -> Int
+isalpha: extern func(letter: Int) -> Int
+isdigit: extern func(letter: Int) -> Int
+isspace: extern func(letter: Int) -> Int
+tolower: extern func(letter: Int) -> Int
+toupper: extern func(letter: Int) -> Int
 
 Char: cover from char {
 
@@ -170,7 +171,7 @@ String: cover from Char* {
 		
 		diff = (len - start) : SizeT
 		sub := gc_malloc(diff + 1) as This	
-		sub[diff + 1] = 0
+		sub[diff] = '\0'
 		memcpy(sub, this as Char* + start, diff)
 		return sub
 	}
@@ -186,7 +187,7 @@ String: cover from Char* {
 		
 		diff = (end - start) : SizeT
 		sub := gc_malloc(diff + 1) as This
-		sub[diff + 1] = 0
+		sub[diff] = 0
 		memcpy(sub, this as Char* + start, diff)
 		return sub
 	}
@@ -270,6 +271,24 @@ String: cover from Char* {
 		memcpy(copy + 1, this, length)
 		return copy
 	}
+    
+    toLower: func -> This {
+        copy := clone()
+        length := length()
+        for(i in 0..length) {
+            copy[i] = tolower(copy[i])
+        }
+        return copy
+    }
+    
+    toUpper: func -> This {
+        copy := clone()
+        length := length()
+        for(i in 0..length) {
+            copy[i] = toupper(copy[i])
+        }
+        return copy
+    }
 
 	charAt: func(index: SizeT) -> Char {
 		this as Char* [index]

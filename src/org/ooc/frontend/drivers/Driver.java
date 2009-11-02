@@ -29,7 +29,7 @@ import org.ooc.utils.ShellUtils;
  * 
  * @author Amos Wenger
  */
-public abstract class  Driver {
+public abstract class Driver {
 
 	public BuildParams params;
 	public List<String> additionals = new ArrayList<String>();
@@ -40,7 +40,7 @@ public abstract class  Driver {
 		this.params = params;
 	}
 
-	public abstract int compile(Module module) throws Error,
+	public abstract int compile(Module module, String outName) throws Error,
 			IOException, InterruptedException;
 	
 	protected void copyLocalHeaders(Module module, BuildParams params, HashSet<Module> done) {

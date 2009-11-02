@@ -68,4 +68,12 @@ public class Gcc extends BaseCompiler {
 		return new Gcc();
 	}
 
+	public void defineSymbol(String symbolName) {
+		command.add("-D" + symbolName);
+	}
+
+	public void undefineSymbol(String symbolName) {
+		command.add("-U" + symbolName);		
+	}
+
 }

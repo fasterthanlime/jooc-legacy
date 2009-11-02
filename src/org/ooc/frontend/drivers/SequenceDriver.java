@@ -24,7 +24,7 @@ public class SequenceDriver extends Driver {
 	}
 
 	@Override
-	public int compile(Module module) throws Error, IOException, InterruptedException {
+	public int compile(Module module, String outName) throws Error, IOException, InterruptedException {
 		
 		copyLocalHeaders(module, params, new HashSet<Module>());
 		
@@ -59,13 +59,18 @@ public class SequenceDriver extends Driver {
 					String path = new File(params.outPath, currentModule.getPath("")).getPath();
 					String oPath = path + ".o";
 					String cPath = path + ".c";
-					oPaths.add(oPath);
+					synchronized(oPaths) {
+						oPaths.add(oPath);
+					}
 					
 					if(new File(cPath).lastModified() > new File(oPath).lastModified()) {
 					
 						compiler.addObjectFile(cPath);
 						compiler.setOutputPath(oPath);
-						
+		
+						for(String define: params.defines) {
+							compiler.defineSymbol(define);
+						}
 						for(String dynamicLib: params.dynamicLibs) {
 							compiler.addDynamicLibrary(dynamicLib);
 						}
@@ -130,6 +135,9 @@ public class SequenceDriver extends Driver {
 				params.compiler.addObjectFile(oPath);
 			}
 			
+			for(String define: params.defines) {
+				params.compiler.defineSymbol(define);
+			}
 			for(String dynamicLib: params.dynamicLibs) {
 				params.compiler.addDynamicLibrary(dynamicLib);
 			}
@@ -137,7 +145,7 @@ public class SequenceDriver extends Driver {
 				params.compiler.addObjectFile(additional);
 			}
 			
-			params.compiler.setOutputPath(module.getSimpleName());
+			params.compiler.setOutputPath(outName);
 			Collection<String> libs = getFlagsFromUse(module);
 			for(String lib: libs) params.compiler.addObjectFile(lib);
 			

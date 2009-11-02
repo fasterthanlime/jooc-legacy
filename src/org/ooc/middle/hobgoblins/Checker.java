@@ -2,7 +2,6 @@ package org.ooc.middle.hobgoblins;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.HashSet;
 
 import org.ooc.frontend.model.ClassDecl;
 import org.ooc.frontend.model.CoverDecl;
@@ -31,33 +30,21 @@ import org.ooc.middle.walkers.SketchyNosy;
  */
 public class Checker implements Hobgoblin {
 
-	final HashSet<String> funcNames = new HashSet<String>();
-	final HashMap<TypeDecl, HashSet<String>> classFuncNames = new HashMap<TypeDecl, HashSet<String>>();
+	final HashMap<String, FunctionDecl> funcNames = new HashMap<String, FunctionDecl>();
+	final HashMap<TypeDecl, HashMap<String, FunctionDecl>> classFuncNames = new HashMap<TypeDecl, HashMap<String, FunctionDecl>>();
 	
 	public boolean process(Module module, BuildParams params) throws IOException {
 		
 		SketchyNosy.get(new Opportunist<Node>() {
 
 			public boolean take(Node node, NodeList<Node> stack) throws IOException {
-				if(node instanceof Type) checkType((Type) node, stack);
-				else if(node instanceof FunctionCall) checkFunctionCall((FunctionCall) node, stack);
+				if(node instanceof FunctionCall) checkFunctionCall((FunctionCall) node, stack);
 				else if(node instanceof VariableAccess) checkVariableAccess((VariableAccess) node, stack);
 				else if(node instanceof FunctionDecl) checkFunctionDecl((FunctionDecl) node, stack);
 				else if(node instanceof VariableDecl) checkVariableDecl((VariableDecl) node, stack);
 				else if(node instanceof TypeDecl) checkTypeDecl((TypeDecl) node, stack);
 				else if(node instanceof ValuedReturn) checkValuedReturn((ValuedReturn) node, stack);
 				return true;
-			}
-			
-			private void checkType(Type node, NodeList<Node> stack) {
-				// Done in CGenerator already.
-				/*
-				if(node.getRef() == null) {
-					throw new OocCompilationError(node, stack,
-							node.getClass().getSimpleName()+" "+node
-							+" hasn't been resolved :(, stack = "+stack.toString(true));
-				}
-				*/
 			}
 			
 			private void checkFunctionCall(FunctionCall node, NodeList<Node> stack) {
@@ -91,30 +78,40 @@ public class Checker implements Hobgoblin {
 						name = node.getTypeDecl().toString() + "." + name;
 					}
 					
+					String suffixedName = node.getName()+"_"+node.getSuffix();
+					FunctionDecl other;
 					if(node.isMember()) {
-						HashSet<String> set = classFuncNames.get(node.getTypeDecl());
+						HashMap<String, FunctionDecl> set = classFuncNames.get(node.getTypeDecl());
 						if(set == null) {
-							set = new HashSet<String>();
+							set = new HashMap<String, FunctionDecl>();
 							classFuncNames.put(node.getTypeDecl(), set);
 						}
-						if(!set.add(node.getName()+"_"+node.getSuffix())) {
-							throwError(node, stack, name);
-						}
+						other = set.put(suffixedName, node);
 					} else {
-						if(!funcNames.add(node.getName()+"_"+node.getSuffix())) {
-							throwError(node, stack, name);
+						other = funcNames.put(suffixedName, node);
+					}
+					if(other != null) {
+						// if either are unversioned, it's an immediate lose
+						if(node.getVersion() == null || other.getVersion() == null) {
+							throwError(node, other, stack, name);
+						}
+						// if their version is the same, it's a lose too.
+						if(node.getVersion().equals(other.getVersion())) {
+							throwError(node, other, stack, name);
 						}
 					}
 				}
 			}
 			
-			void throwError(FunctionDecl node, NodeList<Node> stack, String name)
+			void throwError(FunctionDecl node, FunctionDecl other, NodeList<Node> stack, String name)
 			throws OocCompilationError {
 				if(name.equals("class") && stack.find(CoverDecl.class) != -1) return;
-				throw new OocCompilationError(node, stack,
+				// FIXME debug
+				new OocCompilationError(node, stack,
 						"Two functions have the same name '"+name
-							+"', add suffix to one of them! (even if they have different signatures). e.g. "+name+": func ~suffix "+node.getArgsRepr()+" -> ReturnType");
-
+							+"', add suffix to one of them! (even if they have different signatures). e.g. "
+							+name+": func ~suffix "+node.getArgsRepr()+" -> "+node.getReturnType()).printStackTrace();
+				throw new OocCompilationError(other, stack, "The other definition is here:");
 			}
 			
 			
