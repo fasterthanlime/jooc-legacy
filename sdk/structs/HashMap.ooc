@@ -120,8 +120,8 @@ HashMap: class <T> extends Iterable<T> {
 	 * @param String key The key associated with the HashEntry
 	 * @return HashEntry
 	 */
-	getEntry: func (key: String) -> HashEntry {
-		entry = null : HashEntry
+	getEntry: func (key: String) -> HashEntry<T> {
+		entry = null : HashEntry<T>
 		hash : UInt = ac_X31_hash(key) % capacity
 		iter := buckets[hash] iterator()
 		while (iter hasNext()) {
@@ -241,7 +241,7 @@ HashMap: class <T> extends Iterable<T> {
 		for (i: UInt in 0..capacity) {
 			buckets[i] = ArrayList<T> new()
 		}
-		entry : HashEntry
+		entry : HashEntry<T>
 		for (bucket: UInt in 0..old_capacity) {
 			if (old_buckets[bucket] size() > 0) {
 				iter := old_buckets[bucket] iterator()
