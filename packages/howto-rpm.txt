@@ -1,0 +1,74 @@
+=== Guidelines to packagers ====
+
+Packagers can use spec files to build rpm. ooc-fedora.spec file works fine with Fedora and/or Centos.
+
+As RPM can produce multiple rpm from a complete installed base, you'd rather to get every external libs to create packages.
+Here is a list of external libs that you can get to produce RPM:
+    * ooc-gtk
+    * ooc-gdk
+    * ooc-docs
+    * ooc-tubes
+
+For now, there is no 0.3 release, so packages are build from a 'git-date' revision. For example, package build against a extraction on November, 2d 2009, is released as ooc-0.3.git20091102. 
+
+The current specfile create this rpms:
+    ooc
+    ooc-gtk (depends on ooc-gdk)
+    ooc-gdk
+
+Note that ooc-gtk provides dependence on "gtk2-devel".
+
+As soon as releases are ready, we will release package as "stable".
+
+=== Preparation ===
+
+Prepare an build environnement, from your home directory, type on terminal:
+ $ su -c "yum insall rpmdevtools"
+ $ rpmdev-setuptree
+
+Then, prepare you tarballs like this, replace VERSION with release or git`date +"%Y%m%d"`:
+copy your ooc directory to "ooc-0.3.gitVERSION", then:
+
+ $ tar cvfj ooc-0.3.gitVERSION.tar.bz2 ooc-0.3.gitVERSION
+
+Do the same with ooc-gtk, ooc-gdk... etc...
+   * Copy every tarballs into $HOME/rpmbuild/SOURCE
+   * Copy ooc/packages/ooc-fedora.spec to $HOME/rpmbuild/SPEC
+
+You can now try:
+$ rpmbuild -bp ~/rpmbuild/SPEC/ooc-fedora.spec
+$ rpmbuild -bc ~/rpmbuild/SPEC/ooc-fedora.spec
+$ rpmbuild -bi ~/rpmbuild/SPEC/ooc-fedora.spec
+
+If everything seems to be ok, you can produce binary package and source rpm.
+
+Warning, it's not recommanded to give binary packages that are **not** produced by "mock". Please, follow the next step.
+
+=== Use mock ===
+
+Mock is a fedora software that produce rpms for multiple platforms (if you are on x86_64 computer, you can produce i586 rpm). It can produce rpm for old fedora, next fedora, and Centos. Everything from an only one computer.
+
+First, install mock:
+ $ su -c "yum install mock"
+
+Then produce a srpm package:
+$ rpmbuild -bs  ~/rpmbuild/SPEC/ooc-fedora.spec
+
+Now, produce rpm for fedora 11:
+$ mkdir results
+$ mock -v -r fedora-11-i586 ~/rpmbuild/SRPM/ooc-0.3.gitVERSION.srpm --resultdir ./results
+
+You can try to produce centos packages, rawhide (next version), or EPEL (Centos) package by changing fedora-11-i586 (or fedora-11-x86_64) by the release you need. Every targets are listed by this command:
+$ ls /etc/mock/*.cfg
+
+=== For other RPM plateforms ===
+
+There are a lot of rpm based distributions, as OpenSuse, Mandriva, etc...
+
+Please, copy fedora spec file and change configuration to be standard to your target distribution. Fedora spec files are not fully compatible with Mandriva, that is not compatible with OpenSuse, etc... 
+Be sure to test your packages before giving to communitiy.
+
+=== The end ===
+
+Last words, don't hesitate to contact me to get information: <metal3d@gmail.com>. 
+And finnaly: thanks for reading and giving help !
