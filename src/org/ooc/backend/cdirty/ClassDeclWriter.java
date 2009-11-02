@@ -48,8 +48,10 @@ public class ClassDeclWriter {
 
 		for (FunctionDecl decl : classDecl.getFunctions()) {
 
-			if (!decl.isStatic() || (decl.isExtern() && decl.getExternName().length() > 0)) {
-				// FIXME extern functions outta be written (#ifdefs)
+			if (!decl.isStatic() || (decl.isExternWithName())) {
+				if(decl.isExternWithName()) {
+					FunctionDeclWriter.write(decl, cgen);
+				}
 				continue;
 			}
 
@@ -96,8 +98,7 @@ public class ClassDeclWriter {
 
 		// Non-static (ie. instance) functions
 		for (FunctionDecl decl : classDecl.getFunctions()) {
-			if (decl.isStatic() || decl.isAbstract() || (decl.isExtern() && decl.isExternWithName())) {
-				// FIXME extern functions outta be written alright (#ifdefs)
+			if (decl.isStatic() || decl.isAbstract() || (decl.isExternWithName())) {
 				continue;
 			}
 			

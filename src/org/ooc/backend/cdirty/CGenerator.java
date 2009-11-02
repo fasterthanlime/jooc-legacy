@@ -348,6 +348,9 @@ public class CGenerator extends Generator implements Visitor {
 		
 		if(expression instanceof VariableAccess) {
 			VariableAccess varAcc = (VariableAccess) expression;
+			if(varAcc.getRef() == null) {
+				System.out.println("Null ref for varAcc to "+varAcc+" (addressOf is "+addressOf);
+			}
 			Type varAccType = varAcc.getRef().getType();
 			if(varAccType.getRef() instanceof TypeParam) {
 				AccessWriter.write(varAcc, false, this);

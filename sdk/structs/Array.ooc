@@ -63,7 +63,7 @@ Array: class <T> extends Iterable<T> {
 
 ArrayIterator: class <T> extends Iterator {
 	
-	array: Array
+	array: Array<T>
 	i := 0
 	
 	init: func (=array) {}
