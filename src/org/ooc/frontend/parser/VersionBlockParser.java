@@ -121,7 +121,7 @@ public class VersionBlockParser {
 			nameTok = reader.peek();
 		}
 		
-		if(!realName.isEmpty()) {
+		if(realName.length() > 0) {
 			VersionNode node = new VersionName(realName);
 			VersionNode tmp;
 			while(true) {
