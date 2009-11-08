@@ -37,5 +37,9 @@ Stack: class <T> extends Iterable<T> {
 		return size() - 1
 	}
     
+    clear: func {
+        data clear()
+    }
+    
     iterator: func -> Iterator<T> { data iterator() }
 }
