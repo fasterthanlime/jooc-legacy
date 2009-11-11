@@ -64,8 +64,6 @@ public class MemberAccess extends VariableAccess {
 	@Override
 	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
 
-		System.out.println("Resolving "+this);
-		
 		Type exprType = expression.getType();
 		if(exprType == null) {
 			int typeIndex = stack.find(TypeDecl.class);
@@ -118,7 +116,6 @@ public class MemberAccess extends VariableAccess {
 				}
 			}
 			if(ref instanceof FunctionDecl && !expression.getType().getName().equals("Class")) {
-				System.out.println("Ref is a function decl, expression.getType() = "+expression.getType());
 				MemberAccess membAcc = new MemberAccess(expression, "class", startToken);
 				this.expression = membAcc;
 				stack.push(this);
@@ -197,7 +194,6 @@ public class MemberAccess extends VariableAccess {
 
 		if(ref == null && exprType.getRef() instanceof CoverDecl && getName().equals("class")) {
 			MemberCall membCall = new MemberCall(expression, "class", "", startToken);
-			System.out.println("KALAMAZOO this = "+this+" || membCall = "+this+" || stack = "+stack.toString(true));
 			if(!stack.peek().replace(this, membCall)) {
 				throw new OocCompilationError(this, stack, "Couldn't replace class access with member call");
 			}
@@ -213,22 +209,16 @@ public class MemberAccess extends VariableAccess {
 			if(!exprType.getName().equals("Class")) {
 				MemberAccess membAcc = new MemberAccess(expression, "class", startToken);
 				this.expression = membAcc;
-				System.out.println("Set expression to membAcc "+membAcc);
 				stack.push(this);
 				membAcc.resolve(stack, res, true);
 				stack.pop(this);
-				System.out.println("membAcc was resolved to "+membAcc+", now try-resolving");
 				tryResolve(stack, expression.getType(), res);
-				System.out.println("And now returning true!");
 				return true;
 			}
 		}
 		
 		if(ref == null) {
 			ref = typeDecl.getFunction(getName(), "", null);
-			if(ref != null) {
-				System.out.println("Resolved ref to a function, e.g. "+ref);
-			}
 		}
 		
 		return ref != null;
