@@ -48,7 +48,7 @@ version(windows) {
 }
 
 File: class {
-    PATH_MAX := static const 16383 // cause we alloc +1
+    MAX_PATH_LENGTH := static const 16383 // cause we alloc +1
     
 	path: String
 	separator = '/' : static const Char
@@ -189,7 +189,7 @@ File: class {
 	
 	getAbsolutePath: func -> String {
 		// TODO, realpath() is a posix thing, needs to be versioned out
-		actualPath := String new(PATH_MAX + 1)
+		actualPath := String new(MAX_PATH_LENGTH + 1)
 		return realpath(path, actualPath)
 	}
     
@@ -263,8 +263,8 @@ File: class {
      * @return the current working directory
      */
 	getCwd: static func() -> String {
-		ret := String new(File PATH_MAX + 1)
-		getcwd(ret, File PATH_MAX)
+		ret := String new(File MAX_PATH_LENGTH + 1)
+		getcwd(ret, File MAX_PATH_LENGTH)
         return ret
 	}
     

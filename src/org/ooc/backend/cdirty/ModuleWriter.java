@@ -129,17 +129,6 @@ public class ModuleWriter {
 		cgen.current.app("-fwd.h\"");
 		cgen.current.nl();
 		
-		cgen.current.nl();
-		for(Node node: module.getBody()) {
-			if(node instanceof Line) {
-				Line line = (Line) node;
-				Node inner = line.getStatement();
-				if(inner instanceof VariableDecl) {
-					node.accept(cgen);
-				}
-			}
-		}
-		
 		/** Write the .c file */
 		cgen.current = cgen.cw;
 		cgen.current.app("/* ");
@@ -179,8 +168,23 @@ public class ModuleWriter {
 		ModuleWriter.writeLoadFunc(cgen);
 		if(module.isMain()) writeDefaultMain(cgen);
 		
+		/** Finish the .h file (global variables/functions) **/
 		cgen.current = cgen.hw;
+		
+		cgen.current.nl();
+		for(Node node: module.getBody()) {
+			if(node instanceof Line) {
+				Line line = (Line) node;
+				Node inner = line.getStatement();
+				if(inner instanceof VariableDecl) {
+					node.accept(cgen);
+				}
+			}
+		}
+		
 		cgen.current.nl().nl().app("#endif // ").app(hName).nl().nl();
+		
+		/** Finish the -fwd.h file */
 		
 		cgen.current = cgen.fw;
 		cgen.current.nl().nl().app("#endif // ").app(hFwdName).nl().nl();
