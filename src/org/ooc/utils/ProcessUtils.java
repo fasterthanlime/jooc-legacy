@@ -112,7 +112,7 @@ public class ProcessUtils {
 		StreamRelay relay1 = new StreamRelay(process.getInputStream(), System.out);
 		StreamRelay relay2 = new StreamRelay(process.getErrorStream(), System.err);
 		
-		while(relay1.update() || relay2.update()) {
+		while(relay2.update() || relay1.update()) {
 			// enjoy =)
 		}
 		
