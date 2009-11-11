@@ -44,5 +44,8 @@ StringTokenizerIterator: class <T> extends Iterator<T> {
 	init: func(=st) {}
 	hasNext: func -> Bool { st hasNext() }
 	next: func -> T       { st nextToken() }
+    hasPrev: func -> Bool { false }
+    prev: func -> T       { null }
+    remove: func -> Bool  { false }
 	
 }

@@ -522,6 +522,11 @@ Iterator: abstract class <T> {
 
 	hasNext: abstract func -> Bool
 	next: abstract func -> T
+    
+    hasPrev: abstract func -> Bool
+    prev: abstract func -> T
+    
+    remove: abstract func -> Bool
 	
 }
 

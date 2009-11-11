@@ -68,15 +68,23 @@ ArrayIterator: class <T> extends Iterator {
 	
 	init: func (=array) {}
 	
-	hasNext: func -> Bool {
-		return i < array size
-	}
+	hasNext: func -> Bool { i < array size }
 	
 	next: func -> T {
 		value := array get(i)
 		i += 1
 		return value
 	}
+    
+    hasPrev: func -> Bool { i > 0 }
+    
+    prev: func -> T {
+        i -= 1
+        value := array get(i)
+        return value
+    }
+    
+    remove: func -> Bool { false }
 	
 }
 

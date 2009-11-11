@@ -280,6 +280,20 @@ HashMapValueIterator: class <T> extends Iterator<T> {
         return map get(key)
     }
     
+    hasPrev: func -> Bool { index > 0 }
+    
+    prev: func -> T {
+        index -= 1
+        key := map keys get(index)
+        return map get(key)
+    }
+    
+    remove: func -> Bool {
+        result := map remove(map keys get(index))
+        if(index <= map keys size()) index -= 1
+        return result
+    }
+    
 }
 
 

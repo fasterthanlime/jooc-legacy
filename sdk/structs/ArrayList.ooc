@@ -163,15 +163,27 @@ ArrayListIterator: class <T> extends Iterator<T> {
 	
 	init: func(=list) {}
 	
-	hasNext: func -> Bool {
-		return index < list size()
-	}
+	hasNext: func -> Bool { index < list size() }
 	
 	next: func -> T {
 		element := list get(index)
 		index += 1
 		return element
 	}
+    
+    hasPrev: func -> Bool { index > 0 }
+    
+    prev: func -> T {
+        index -= 1
+		element := list get(index)
+		return element
+	}
+    
+    remove: func -> Bool {
+        result := list removeAt(index)
+        if(index <= list size()) index -= 1
+        return result
+    }
 	
 }
 
