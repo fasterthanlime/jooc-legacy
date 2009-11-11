@@ -85,6 +85,10 @@ public enum Target {
 		case HAIKU:
 			return "haiku" + arch;
 		case OSX:
+			Double version = Double.parseDouble(System.getProperty("os.version").substring(0,4));
+			if(version < 10.6) {
+				return "osx32"; // The 32bit libraries must be used with OSX prior to 10.6
+			}
 			return "osx" + arch;
 		default:
 			return super.toString();
