@@ -50,7 +50,6 @@ public abstract class Driver {
 		for(Include inc: module.getIncludes()) {
 			if(inc.getMode() == Mode.LOCAL) {
 				try {
-					System.out.println("module = "+module+", path = "+module.getPrefixLessPath());
 					File file = params.sourcePath.getFile(module.getPrefixLessPath()).getParentFile();
 					
 					FileUtils.copy(new File(file, inc.getPath() + ".h"),

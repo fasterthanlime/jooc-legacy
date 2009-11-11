@@ -137,25 +137,26 @@ LinkedList: class <T> extends List<T> {
 	
 	remove: func (data: T) -> Bool {return false}
 	
-	removeNode: func(toRemove: Node<T>) {
+	removeNode: func(toRemove: Node<T>) -> Bool {
 		if(toRemove next) {
-				toRemove next prev = toRemove prev
-			} else {
-				last = toRemove prev
-				if(toRemove prev) {
-					toRemove prev next = null
-				}
-			}
-			
-			if(toRemove prev) {
-				toRemove prev next = toRemove next
-			} else {
-				first = toRemove next
-				if(toRemove next) {
-					toRemove next prev = null
-				}
-			}
-			size -= 1
+            toRemove next prev = toRemove prev
+        } else {
+            last = toRemove prev
+            if(toRemove prev) {
+                toRemove prev next = null
+            }
+        }
+        
+        if(toRemove prev) {
+            toRemove prev next = toRemove next
+        } else {
+            first = toRemove next
+            if(toRemove next) {
+                toRemove next prev = null
+            }
+        }
+        size -= 1
+        return true // FIXME: probably not right.
 	}
 	
 	set: func (index: Int, data: T) {}
@@ -236,10 +237,7 @@ LinkedListIterator: class <T> extends Iterator<T>  {
 	}
 	
 	hasNext: func -> Bool {
-		if(current)
-			return true
-			 
-		return false
+		return (current != null)
 	}
 	 
 	next: func -> T {
@@ -248,11 +246,24 @@ LinkedListIterator: class <T> extends Iterator<T>  {
 		return prev data
 	}
 	
-	nextNode: func -> Node<T> {
-		prev := current
-		current = current next
-		return prev
-	}
+    hasPrev: func -> Bool {
+        return (current != null && current prev != null)
+    }
+    
+    prev: func -> T {
+        current = current prev
+        return current data
+    }
+    
+    remove: func -> Bool {
+        old := current
+        if(current next) {
+            current = current next
+        } else {
+            current = current prev
+        }
+        return list removeNode(old)
+    }
 	
 }
 
