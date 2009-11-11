@@ -65,45 +65,63 @@ public class FunctionDeclWriter {
 			// FW
 			cgen.current = cgen.fw;
 			
-			if(functionDecl.getVersion() != null) {
-				VersionBlockWriter.writeVersionBlockStart(functionDecl.getVersion(), cgen);
-			}
-			
-			cgen.current.nl();
-			writeFuncPrototype(functionDecl, cgen);
-			cgen.current.app(';');
-			
-			if(functionDecl.getVersion() != null) {
-				VersionBlockWriter.writeVersionBlockEnd(cgen);
+			if(functionDecl.isInline()) {
+				writeFullBody(functionDecl, cgen);
+			} else {
+				writeFullPrototype(functionDecl, cgen);
 			}
 		
 			// CW
 			cgen.current = cgen.cw;
 			
-			if(functionDecl.getVersion() != null) {
-				VersionBlockWriter.writeVersionBlockStart(functionDecl.getVersion(), cgen);
-			}
-			
-			writeFuncPrototype(functionDecl, cgen);
-			cgen.current.app(' ').openBlock();
-			
-			if(functionDecl.isEntryPoint()) {
-				if(cgen.params.enableGC) {
-					cgen.current.nl().app("GC_INIT();");
-				}
-				cgen.current.nl().app(cgen.module.getLoadFunc().getName()).app("();");
-			}
-			
-			for(Line line: functionDecl.getBody()) {
-				line.accept(cgen);
-			}
-			cgen.current.closeSpacedBlock();
-			
-			if(functionDecl.getVersion() != null) {
-				VersionBlockWriter.writeVersionBlockEnd(cgen);
+			if(!functionDecl.isInline()) {
+				writeFullBody(functionDecl, cgen);
 			}
 		}
 		
+	}
+
+	private static void writeFullPrototype(FunctionDecl functionDecl,
+			CGenerator cgen) throws IOException {
+		if(functionDecl.getVersion() != null) {
+			VersionBlockWriter.writeVersionBlockStart(functionDecl.getVersion(), cgen);
+		}
+		
+		cgen.current.nl();
+		writeFuncPrototype(functionDecl, cgen);
+		cgen.current.app(';');
+		
+		if(functionDecl.getVersion() != null) {
+			VersionBlockWriter.writeVersionBlockEnd(cgen);
+		}
+	}
+
+	private static void writeFullBody(FunctionDecl functionDecl, CGenerator cgen)
+			throws IOException {
+		
+		if(functionDecl.getVersion() != null) {
+			VersionBlockWriter.writeVersionBlockStart(functionDecl.getVersion(), cgen);
+		}
+		
+		cgen.current.nl();
+		writeFuncPrototype(functionDecl, cgen);
+		cgen.current.app(' ').openBlock();
+		
+		if(functionDecl.isEntryPoint()) {
+			if(cgen.params.enableGC) {
+				cgen.current.nl().app("GC_INIT();");
+			}
+			cgen.current.nl().app(cgen.module.getLoadFunc().getName()).app("();");
+		}
+		
+		for(Line line: functionDecl.getBody()) {
+			line.accept(cgen);
+		}
+		cgen.current.closeSpacedBlock();
+		
+		if(functionDecl.getVersion() != null) {
+			VersionBlockWriter.writeVersionBlockEnd(cgen);
+		}
 	}
 
 	public static void writeFuncPrototype(FunctionDecl functionDecl, CGenerator cgen) throws IOException {
@@ -113,7 +131,9 @@ public class FunctionDeclWriter {
 	
 	public static void writeFuncPrototype(FunctionDecl functionDecl, CGenerator cgen, String additionalSuffix) throws IOException {
 		
-		if(functionDecl.isInline()) cgen.current.append("inline ");
+		if(functionDecl.isInline()) {
+			cgen.current.append("inline static ");
+		}
 			
 		Type returnType = functionDecl.getReturnType();
 		if (returnType.getRef() instanceof TypeParam) {
