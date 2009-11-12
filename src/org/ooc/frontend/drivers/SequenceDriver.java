@@ -85,7 +85,7 @@ public class SequenceDriver extends Driver {
 							e.printStackTrace();
 						}
 						
-						if(params.verbose) System.out.print(compiler.getCommandLine());
+						if(params.verbose) System.out.println(compiler.getCommandLine());
 						
 						long tt1 = System.nanoTime();
 						int code = -1;

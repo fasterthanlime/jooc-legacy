@@ -145,6 +145,12 @@ List: abstract class <T> extends Iterable<T> {
         }
         return arr&
     }
+    
+    each: func (f: Func (T)) {
+		for(i in 0..size()) {
+			f(get(i))
+		}
+	}
 	
 }
 
