@@ -213,6 +213,9 @@ public class ModuleWriter {
 		}
 		if(!got) {
 			cgen.current.nl().app("int main()").openBlock();
+			if(cgen.params.enableGC) {
+				cgen.current.nl().app("GC_INIT();");
+			}
 			cgen.current.nl().app(cgen.module.getLoadFunc().getName()).app("();");
 			cgen.current.closeBlock().nl().nl();
 		}
