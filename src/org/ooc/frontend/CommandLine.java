@@ -52,7 +52,6 @@ public class CommandLine {
 		
 		List<Pair> modulePaths = new ArrayList<Pair>();
 		List<String> nasms = new ArrayList<String>();
-		params.compiler = new Gcc();
 		
 		for(String arg: args) {
 			if(arg.startsWith("-")) {
@@ -290,6 +289,12 @@ public class CommandLine {
 		if(modulePaths.isEmpty()) {
 			System.err.println("ooc: no files.");
 			return;
+		}
+		
+		if (params.compiler == null){
+			if (params.verbose)
+				System.out.println("No compiler given ... using GCC");
+			params.compiler = new Gcc();
 		}
 		
 		if(!nasms.isEmpty()) {
