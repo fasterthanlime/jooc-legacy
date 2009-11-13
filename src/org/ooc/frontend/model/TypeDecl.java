@@ -149,6 +149,7 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic {
 		for(VariableDecl decl: variables) {
 			if(decl.hasAtom(name)) return decl;
 		}
+		if(getSuperRef() != null) return getSuperRef().getVariable(name);
 		return null;
 	}
 	

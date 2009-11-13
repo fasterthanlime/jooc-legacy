@@ -142,14 +142,6 @@ public class ClassDecl extends TypeDecl {
 	}
 	
 	@Override
-	public VariableDecl getVariable(String name) {
-		VariableDecl variable = super.getVariable(name);
-		if(variable != null) return variable;
-		if(getSuperRef() != null) return getSuperRef().getVariable(name);
-		return null;
-	}
-	
-	@Override
 	public void getVariables(NodeList<VariableDecl> variables) {
 		super.getVariables(variables);
 		if(getSuperRef() != null) getSuperRef().getVariables(variables);
