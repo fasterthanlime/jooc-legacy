@@ -96,13 +96,15 @@ public class ModuleWriter {
 		}
 		cgen.current.nl();
 		
-		// include .h-level imports (which contains types we extend)
-		for(Import imp: tightImports) {
-			String include = imp.getModule().getOutPath('/');
-			cgen.current.nl().app("#include <").app(include).app(".h>");
-		}
+		cgen.current = cgen.fw;
+		
 		// foward-include .c-level imports (which doesn't contain types we extend)
 		for(Import imp: looseImports) {
+			String include = imp.getModule().getOutPath('/');
+			cgen.current.nl().app("#include <").app(include).app("-fwd.h>");
+		}
+		
+		for(Import imp: tightImports) {
 			String include = imp.getModule().getOutPath('/');
 			cgen.current.nl().app("#include <").app(include).app("-fwd.h>");
 		}
@@ -127,6 +129,13 @@ public class ModuleWriter {
 		cgen.current.app("#include \"");
 		cgen.current.app(module.getSimpleName());
 		cgen.current.app("-fwd.h\"");
+		cgen.current.nl();
+		
+		// include .h-level imports (which contains types we extend)
+		for(Import imp: tightImports) {
+			String include = imp.getModule().getOutPath('/');
+			cgen.current.nl().app("#include <").app(include).app(".h>");
+		}
 		cgen.current.nl();
 		
 		/** Write the .c file */
@@ -161,7 +170,6 @@ public class ModuleWriter {
 				node.accept(cgen);
 			}
 		}
-		//module.getTypes().accept(cgen);
 		module.getOps().accept(cgen);
 		module.getLoadFunc().accept(cgen);
 		

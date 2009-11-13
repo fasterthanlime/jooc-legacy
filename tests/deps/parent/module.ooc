@@ -1,5 +1,5 @@
 doThing: func {
 
-	"Hey, I'm doing THINGS!" println()
+        "Hey, I'm doing THINGS!" println()
 
 }

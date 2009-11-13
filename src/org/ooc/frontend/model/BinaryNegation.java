@@ -6,24 +6,17 @@ import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.OpDecl.OpType;
 import org.ooc.frontend.model.tokens.Token;
 
-public class Not extends UnaryOperation {
+public class BinaryNegation extends UnaryOperation {
 
-	public static Type type = new Type("Bool", Token.defaultToken);
-	
-	public Not(Expression inner, Token startToken) {
+	public BinaryNegation(Expression inner, Token startToken) {
 		super(inner, startToken);
 	}
 
 	@Override
-	public Type getType() {
-		return type;
-	}
-	
-	@Override
 	public OpType getOpType() {
-		return OpType.NOT;
+		return OpType.B_NEG;
 	}
-	
+
 	public void accept(Visitor visitor) throws IOException {
 		visitor.visit(this);
 	}

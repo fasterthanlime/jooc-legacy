@@ -8,6 +8,7 @@ import org.ooc.frontend.model.ArrayAccess;
 import org.ooc.frontend.model.ArrayLiteral;
 import org.ooc.frontend.model.Assignment;
 import org.ooc.frontend.model.BinaryCombination;
+import org.ooc.frontend.model.BinaryNegation;
 import org.ooc.frontend.model.Block;
 import org.ooc.frontend.model.BoolLiteral;
 import org.ooc.frontend.model.BuiltinType;
@@ -74,6 +75,7 @@ public interface Visitor {
 	public void visit(Sub sub) throws IOException;
 	public void visit(Div div) throws IOException;
 	public void visit(Not not) throws IOException;
+	public void visit(BinaryNegation binaryNegation) throws IOException;
 	public void visit(Mod mod) throws IOException;
 	public void visit(Compare compare) throws IOException;
 	

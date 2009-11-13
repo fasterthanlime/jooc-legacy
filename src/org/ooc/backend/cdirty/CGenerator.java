@@ -13,6 +13,7 @@ import org.ooc.frontend.model.ArrayAccess;
 import org.ooc.frontend.model.ArrayLiteral;
 import org.ooc.frontend.model.Assignment;
 import org.ooc.frontend.model.BinaryCombination;
+import org.ooc.frontend.model.BinaryNegation;
 import org.ooc.frontend.model.Block;
 import org.ooc.frontend.model.BoolLiteral;
 import org.ooc.frontend.model.BuiltinType;
@@ -141,7 +142,12 @@ public class CGenerator extends Generator implements Visitor {
 
 	public void visit(Not not) throws IOException {
 		current.app('!');
-		not.getExpression().accept(this);		
+		not.getInner().accept(this);		
+	}
+	
+	public void visit(BinaryNegation binaryNeg) throws IOException {
+		current.app('~');
+		binaryNeg.getInner().accept(this);		
 	}
 	
 	public void visit(Mod mod) throws IOException {

@@ -6,6 +6,7 @@ import org.ooc.frontend.model.AddressOf;
 import org.ooc.frontend.model.ArrayAccess;
 import org.ooc.frontend.model.Assignment;
 import org.ooc.frontend.model.BinaryCombination;
+import org.ooc.frontend.model.BinaryNegation;
 import org.ooc.frontend.model.Cast;
 import org.ooc.frontend.model.Compare;
 import org.ooc.frontend.model.Declaration;
@@ -57,6 +58,16 @@ public class ExpressionParser {
 				return null;
 			}
 			return new Not(inner, firstToken);
+		}
+		
+		if(firstToken.type == TokenType.TILDE) {
+			reader.skip();
+			Expression inner = ExpressionParser.parse(module, sReader, reader, noDecl);
+			if(inner == null) {
+				reader.reset(mark);
+				return null;
+			}
+			return new BinaryNegation(inner, firstToken);
 		}
 		
 		if(firstToken.type == TokenType.MINUS) {

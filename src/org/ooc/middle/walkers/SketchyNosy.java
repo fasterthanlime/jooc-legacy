@@ -9,6 +9,7 @@ import org.ooc.frontend.model.ArrayAccess;
 import org.ooc.frontend.model.ArrayLiteral;
 import org.ooc.frontend.model.Assignment;
 import org.ooc.frontend.model.BinaryCombination;
+import org.ooc.frontend.model.BinaryNegation;
 import org.ooc.frontend.model.Block;
 import org.ooc.frontend.model.BoolLiteral;
 import org.ooc.frontend.model.BuiltinType;
@@ -408,6 +409,11 @@ public class SketchyNosy implements Visitor {
 	public void visit(NodeMap<?, ? extends Node> node) throws IOException {
 		if(node.hasChildren()) visitAll(node);
 		else if(!oppo.take(node, stack)) running = false;		
+	}
+
+	public void visit(BinaryNegation node) throws IOException {
+		if(node.hasChildren()) visitAll(node);
+		else if(!oppo.take(node, stack)) running = false;
 	}
 	
 }

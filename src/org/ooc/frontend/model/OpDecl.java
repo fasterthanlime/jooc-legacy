@@ -18,6 +18,7 @@ public class OpDecl extends Declaration {
 		DIV,
 		DIV_ASS,
 		ASS,
+		NOT,
 		MOD,
 		L_OR,
 		L_AND,
@@ -39,7 +40,8 @@ public class OpDecl extends Declaration {
 		LTE,
 		EQ,
 		NE,
-		AS;
+		AS,
+		B_NEG;
 		
 		public String toPrettyString() {
 			switch(this) {
@@ -79,6 +81,8 @@ public class OpDecl extends Declaration {
 				return "<=";
 			case NE:
 				return "!=";
+			case NOT:
+				return "!";
 			case ASS:
 				return "=";
 			case ADD_ASS:
@@ -105,6 +109,8 @@ public class OpDecl extends Declaration {
 				return "&=";
 			case AS:
 				return "as";
+			case B_NEG:
+				return "~";
 			}
 			
 			return "unknown";
@@ -114,7 +120,7 @@ public class OpDecl extends Declaration {
 			switch(this) {
 			case ADD: case SUB: case MUL: case DIV:
 			case ADD_ASS: case SUB_ASS: case MUL_ASS: case DIV_ASS:
-			case B_AND: case B_OR: case B_XOR:
+			case B_AND: case B_OR: case B_XOR: case B_NEG:
 				return true;
 			default:
 				return false;
