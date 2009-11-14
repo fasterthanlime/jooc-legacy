@@ -4,7 +4,7 @@ StringTokenizer: class extends Iterable<String> {
     index = 0, length: Int
 
 	init: func~withChr(input: String, delim: Char) {
-		this~withString(input, delim& as String)
+		this~withString(input, String new(delim))
 	}
 	
 	init: func~withString(=input, =delim) {

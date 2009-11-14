@@ -63,8 +63,16 @@ atol: extern func (String) -> Long
 
 String: cover from Char* {
 
-	new: static func (length: SizeT) -> This {
-		return gc_malloc(length)
+    new: static func~withLength (length: SizeT) -> This {
+		result : This = gc_malloc(length + 1)
+		result[length] = 0
+		result
+	}
+	
+	new: static func~withChar (c: Char) -> This {
+		result := This new~withLength(1)
+		result[0] = c
+		result
 	}
 	
 	length: extern(strlen) func -> SizeT
