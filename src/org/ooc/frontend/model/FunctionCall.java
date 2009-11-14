@@ -733,11 +733,6 @@ public class FunctionCall extends Access implements MustBeResolved {
 			}
 		}
 		
-		// FIXME debug KALAMAZOO
-		if(name.equals("add")) {
-			System.out.println(this+" gives score "+score+" to "+decl);
-		}
-		
 		return score;
 	}
 
