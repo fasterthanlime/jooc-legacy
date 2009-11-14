@@ -72,6 +72,9 @@ public class BuildParams {
 	// either "32" or "64"
 	public String arch = "";
 	
+	public String[] fatArchitectures;
+	public String osxSDKAndDeploymentTarget;
+	
 	// maximum number of rounds the {@link Tinkerer} will do before blowing up.
 	public int blowup = 256;
 	

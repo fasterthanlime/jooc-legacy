@@ -78,6 +78,20 @@ public class SequenceDriver extends Driver {
 							compiler.addObjectFile(compilerArg);
 						}
 						
+						// perhaps these should be per-compiler overrides but GCC and clang
+						// both accept these flags
+						if (params.fatArchitectures != null) {
+							for (String arch: params.fatArchitectures) {
+								params.compiler.addOption("-arch");
+								params.compiler.addOption(arch);
+							}
+						}
+						if (params.osxSDKAndDeploymentTarget != null) {
+							params.compiler.addOption("-isysroot");
+							params.compiler.addOption("/Developer/SDKs/MacOSX" + params.osxSDKAndDeploymentTarget + ".sdk");
+							params.compiler.addOption("-mmacosx-version-min=" + params.osxSDKAndDeploymentTarget);
+						}
+
 						try {
 							Collection<String> libs = getFlagsFromUse(currentModule);
 							for(String lib: libs) compiler.addObjectFile(lib);
@@ -145,6 +159,20 @@ public class SequenceDriver extends Driver {
 				params.compiler.addObjectFile(additional);
 			}
 			
+			// perhaps these should be per-compiler overrides but GCC and clang
+			// both accept these flags
+			if (params.fatArchitectures != null) {
+				for (String arch: params.fatArchitectures) {
+					params.compiler.addOption("-arch");
+					params.compiler.addOption(arch);
+				}
+			}
+			if (params.osxSDKAndDeploymentTarget != null) {
+				params.compiler.addOption("-isysroot");
+				params.compiler.addOption("/Developer/SDKs/MacOSX" + params.osxSDKAndDeploymentTarget + ".sdk");
+				params.compiler.addOption("-mmacosx-version-min=" + params.osxSDKAndDeploymentTarget);
+			}
+
 			params.compiler.setOutputPath(outName);
 			Collection<String> libs = getFlagsFromUse(module);
 			for(String lib: libs) params.compiler.addObjectFile(lib);

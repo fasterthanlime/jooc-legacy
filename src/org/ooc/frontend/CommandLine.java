@@ -264,7 +264,15 @@ public class CommandLine {
 					else
 						System.out.println("Unrecognized architecture: " + arch);
 			
-        		} else {
+				} else if(option.startsWith("archs=")) {
+					
+					params.fatArchitectures = arg.substring("archs=".length() + 1).split(",");
+					
+				} else if(option.startsWith("osxtarget=")) {
+					
+					params.osxSDKAndDeploymentTarget = arg.substring("osxtarget=".length() + 1);
+					
+				} else {
         			
         			System.err.println("Unrecognized option: '"+arg+"'");
         			
