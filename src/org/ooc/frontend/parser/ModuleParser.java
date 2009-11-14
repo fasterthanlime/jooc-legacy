@@ -70,6 +70,7 @@ public class ModuleParser {
 				if(declaration != null) {
 					if(declaration instanceof VariableDecl) {
 						module.getBody().add(new Line(declaration));
+						((VariableDecl)declaration).setGlobal(true);
 					} else {
 						module.getBody().add(declaration);
 					}
