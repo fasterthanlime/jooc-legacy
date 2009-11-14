@@ -76,4 +76,17 @@ public class Gcc extends BaseCompiler {
 		command.add("-U" + symbolName);		
 	}
 
+	public void setFatArchitectures(String[] archs) {
+		for (String arch: archs) {
+			command.add("-arch");
+			command.add(arch);
+		}
+	}
+	
+	public void setOSXSDKAndDeploymentTarget(String version) {
+		command.add("-isysroot");
+		command.add("/Developer/SDKs/MacOSX" + version + ".sdk");
+		command.add("-mmacosx-version-min=" + version);
+	}
+	
 }

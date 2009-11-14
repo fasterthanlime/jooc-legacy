@@ -39,18 +39,11 @@ public class CombineDriver extends Driver {
 			params.compiler.addObjectFile(compilerArg);
 		}
 		
-		// perhaps these should be per-compiler overrides but GCC and clang
-		// both accept these flags
 		if (params.fatArchitectures != null) {
-			for (String arch: params.fatArchitectures) {
-				params.compiler.addOption("-arch");
-				params.compiler.addOption(arch);
-			}
+			params.compiler.setFatArchitectures(params.fatArchitectures);
 		}
 		if (params.osxSDKAndDeploymentTarget != null) {
-			params.compiler.addOption("-isysroot");
-			params.compiler.addOption("/Developer/SDKs/MacOSX" + params.osxSDKAndDeploymentTarget + ".sdk");
-			params.compiler.addOption("-mmacosx-version-min=" + params.osxSDKAndDeploymentTarget);
+			params.compiler.setOSXSDKAndDeploymentTarget(params.osxSDKAndDeploymentTarget);
 		}
 		
 		if(params.link) {

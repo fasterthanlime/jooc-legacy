@@ -36,6 +36,12 @@ public interface AbstractCompiler {
 	/** -U option in gcc */
 	public void undefineSymbol(String symbolName);
 	
+	/** multiple -arch options in gcc */
+	public void setFatArchitectures(String[] archs);
+	
+	/** -isysroot /Developer/SDKs/MacOSXxxx.sdk -mmacosx-version-min=xxx in gcc */
+	public void setOSXSDKAndDeploymentTarget(String version);
+	
 	/** any compiler-specific option */
 	public void addOption(String option);
 	
