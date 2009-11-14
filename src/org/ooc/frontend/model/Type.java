@@ -17,6 +17,8 @@ public class Type extends Node implements MustBeResolved {
 		public static final int CLASS = 4;
 	}
 
+	private boolean groundTypeChecked = false;
+	
 	protected String name;
 	protected int pointerLevel;
 	protected int referenceLevel;
@@ -254,7 +256,15 @@ public class Type extends Node implements MustBeResolved {
 			}
 		}
 		
-		return (ref == null) ? Response.LOOP : Response.OK;
+		if(ref == null) {
+			// not resolved? loop.
+			return Response.LOOP;
+		} else if(!groundTypeChecked) {
+			// not checked for ground type? loop.
+			checkGroundType(stack, res, fatal);
+			if(!groundTypeChecked) return Response.LOOP;
+		}
+		return Response.OK;
 		
 	}
 
@@ -272,6 +282,34 @@ public class Type extends Node implements MustBeResolved {
 	
 	public Type getGroundType() {
 		return getGroundType(null);
+	}
+	
+	public void checkGroundType(NodeList<Node> stack, Resolver res, boolean fatal) {
+		if(!(this.ref instanceof CoverDecl)) {
+			groundTypeChecked = true;
+		} else {
+			Declaration fromRef = this.ref;
+			CoverDecl coverDecl = (CoverDecl) fromRef;
+			Type fromType = coverDecl.getFromType();
+			
+			while(fromType != null) {
+				if(this == fromType) {
+					throw new OocCompilationError(this, stack, "Type defined in terms of itself: "+this);
+				}
+				
+				fromRef = fromType.getRef();
+				if(fromRef == null) {
+					fromType.resolve(stack, res, fatal);
+				}
+				if(fromRef instanceof CoverDecl) {
+					coverDecl = (CoverDecl) fromRef;
+					fromType = coverDecl.getFromType();
+					continue;
+				}
+				break;
+			}
+		}
+		groundTypeChecked = true;
 	}
 	
 	public Type getGroundType(Resolver res) {

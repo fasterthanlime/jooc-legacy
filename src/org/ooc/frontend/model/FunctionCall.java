@@ -728,6 +728,9 @@ public class FunctionCall extends Access implements MustBeResolved {
 			if(declArg.getType().equals(callArg.getType())) {
 				score += 10;
 			}
+			if(declArg.getType().isSuperOf(callArg.getType())) {
+				score += 5;
+			}
 		}
 		
 		return score;
