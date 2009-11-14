@@ -68,6 +68,7 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 	}
 	
 	private boolean isStatic;
+	private boolean isGlobal;
 	
 	protected Type type;
 	protected TypeDecl typeDecl;
@@ -144,6 +145,14 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 	
 	public void setStatic(boolean isStatic) {
 		this.isStatic = isStatic;
+	}
+	
+	public boolean isGlobal() {
+		return isGlobal;
+	}
+	
+	public void setGlobal(boolean isGlobal) {
+		this.isGlobal = isGlobal;
 	}
 	
 	public void accept(Visitor visitor) throws IOException {

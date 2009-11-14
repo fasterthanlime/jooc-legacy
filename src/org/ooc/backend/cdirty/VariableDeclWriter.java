@@ -15,6 +15,27 @@ public class VariableDeclWriter {
 
 		if(variableDecl.isExtern()) return false;
 		
+		if (variableDecl.isGlobal())
+		{
+			assert cgen.current == cgen.hw;
+			cgen.current.app("extern ");
+			writeGuts(variableDecl, cgen, false);
+			cgen.current = cgen.cw;
+			writeGuts(variableDecl, cgen, true);
+			cgen.current.app(";\n");
+			cgen.current = cgen.hw;
+		}
+		else
+		{
+			writeGuts(variableDecl, cgen, true);
+		}
+		
+		return true;
+		
+	}
+	
+	private static void writeGuts(VariableDecl variableDecl, CGenerator cgen,
+			boolean writeInitializer) throws IOException {
 		// FIXME add const checking from the ooc side of things. Disabled C's
 		// const keyword because it causes problems with class initializations
 		//if(variableDecl.isConst()) cgen.current.app("const ");
@@ -29,7 +50,7 @@ public class VariableDeclWriter {
 				TypeWriter.writeSpaced(funcDecl.getReturnType(), cgen);
 				cgen.current.app("(*").app(atom.getName()).app(")");
 				FunctionDeclWriter.writeFuncArgs(funcDecl, cgen);
-				writeInitAndComma(cgen, type, iter.hasNext(), atom);
+				writeInitAndComma(cgen, type, iter.hasNext(), atom, writeInitializer);
 			}
 			
 		} else {
@@ -57,21 +78,20 @@ public class VariableDeclWriter {
 				if(type.isArray()) {
 					TypeWriter.writePostFinale(type, cgen);
 				}
-				writeInitAndComma(cgen, type, iter.hasNext(), atom);
+				writeInitAndComma(cgen, type, iter.hasNext(), atom, writeInitializer);
 			}
 			
 		}
-		
-		return true;
-		
 	}
 
 	private static void writeInitAndComma(CGenerator cgen, Type type,
-			boolean writeComma, VariableDeclAtom atom)
+			boolean writeComma, VariableDeclAtom atom, boolean writeInitializer)
 			throws IOException {
-		if(atom.getExpression() != null) {
-			cgen.current.app(" = ");
-			atom.getExpression().accept(cgen);
+		if(writeInitializer) {
+			if(atom.getExpression() != null) {
+				cgen.current.app(" = ");
+				atom.getExpression().accept(cgen);
+			}
 		}
 		if(writeComma) {
 			cgen.current.app(", ");

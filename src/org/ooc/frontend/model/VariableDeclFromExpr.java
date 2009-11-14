@@ -109,6 +109,7 @@ public class VariableDeclFromExpr extends VariableDecl {
 	private Assignment toDeclAssign(NodeList<Node> stack, VariableDeclAtom atom, Expression expr) {
 		
 		VariableDecl decl = new VariableDecl(expr.getType(), false, startToken);
+		decl.setGlobal(isGlobal());
 		decl.getAtoms().add(new VariableDeclAtom(atom.getName(), null, startToken));
 		
 		VariableAccess acc = new VariableAccess(decl, startToken);
