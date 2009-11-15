@@ -59,6 +59,7 @@ public class ClassDeclParser {
 				superType = TypeParser.parse(module, sReader, reader);
 			}
 			
+			reader.skipWhitespace();
 			Token t2 = reader.read();
 			if(t2.type != TokenType.OPEN_BRACK) {
 				throw new CompilationFailedError(sReader.getLocation(t2),
