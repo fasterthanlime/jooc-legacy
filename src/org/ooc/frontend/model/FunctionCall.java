@@ -172,7 +172,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 		
  		if(impl == null) {
  			if(fatal) {
- 				String message = "Couldn't resolve call to function "+name+getArgsRepr()+".";
+ 				String message = "No such function "+name+getArgsRepr()+".";
  				String guess = guessCorrectName(stack, res);
  				if(guess != null) {
  					message += " Did you mean "+guess+" ?";
