@@ -52,8 +52,10 @@ public abstract class Driver {
 				try {
 					File file = params.sourcePath.getFile(module.getPrefixLessPath()).getParentFile();
 					
+					File target = new File(params.outPath, inc.getPath() + ".h");
+					target.getParentFile().mkdirs();
 					FileUtils.copy(new File(file, inc.getPath() + ".h"),
-						new File(params.outPath, inc.getPath() + ".h"));
+						target);
 				} catch(Exception e) { e.printStackTrace(); }
 			}
 		}

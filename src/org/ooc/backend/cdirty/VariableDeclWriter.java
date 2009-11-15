@@ -65,7 +65,9 @@ public class VariableDeclWriter {
 				TypeWriter.writeSpaced(type, cgen);
 				type.setConst(isConst);
 			} else {
-				TypeWriter.write(type.getGroundType(), cgen);
+				Type ground = type.getGroundType().clone();
+				ground.setPointerLevel(ground.getPointerLevel() - 1);
+				TypeWriter.write(ground, cgen);
 				cgen.current.app(' ');
 			}
 			
