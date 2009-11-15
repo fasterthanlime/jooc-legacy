@@ -282,14 +282,13 @@ public class CommandLine {
         			String lowerArg = arg.toLowerCase();
 					if(lowerArg.endsWith(".s")) {
         				nasms.add(arg);
-        			} else if(lowerArg.endsWith(".o") || lowerArg.endsWith(".c") || lowerArg.endsWith(".cpp")
-							|| lowerArg.endsWith(".m") || lowerArg.endsWith(".cc") || lowerArg.endsWith(".mm")) {
-        				driver.additionals.add(arg);
+        			} else if(lowerArg.endsWith(".ooc")) {
+        				modulePaths.add(new Pair(arg));
             		} else {
-            			if(!lowerArg.endsWith(".ooc")) {
-            				modulePaths.add(new Pair(arg+".ooc"));
+            			if(lowerArg.contains(".")) {
+            				driver.additionals.add(arg);
             			} else {
-            				modulePaths.add(new Pair(arg));
+            				modulePaths.add(new Pair(arg+".ooc"));
             			}
             		}
         	}
