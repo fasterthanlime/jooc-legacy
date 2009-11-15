@@ -78,6 +78,10 @@ public class SequenceDriver extends Driver {
 							compiler.addObjectFile(compilerArg);
 						}
 						
+						for (File incPath: params.incPath.getPaths()) {
+							params.compiler.addIncludePath(incPath.getAbsolutePath());
+						}
+						
 						if (params.fatArchitectures != null) {
 							params.compiler.setFatArchitectures(params.fatArchitectures);
 						}
@@ -150,6 +154,10 @@ public class SequenceDriver extends Driver {
 			}
 			for(String additional: additionals) {
 				params.compiler.addObjectFile(additional);
+			}
+		
+			for (File libPath: params.libPath.getPaths()) {
+				params.compiler.addLibraryPath(libPath.getAbsolutePath());
 			}
 			
 			if (params.fatArchitectures != null) {

@@ -38,6 +38,12 @@ public class CombineDriver extends Driver {
 		for(String compilerArg: compilerArgs) {
 			params.compiler.addObjectFile(compilerArg);
 		}
+		for (File incPath: params.incPath.getPaths()) {
+			params.compiler.addIncludePath(incPath.getAbsolutePath());
+		}
+		for (File libPath: params.libPath.getPaths()) {
+			params.compiler.addLibraryPath(libPath.getAbsolutePath());
+		}
 		
 		if (params.fatArchitectures != null) {
 			params.compiler.setFatArchitectures(params.fatArchitectures);
