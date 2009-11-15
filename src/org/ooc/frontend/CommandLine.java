@@ -282,7 +282,8 @@ public class CommandLine {
         			String lowerArg = arg.toLowerCase();
 					if(lowerArg.endsWith(".s")) {
         				nasms.add(arg);
-        			} else if(lowerArg.endsWith(".o") || lowerArg.endsWith(".c") || lowerArg.endsWith(".cpp")) {
+        			} else if(lowerArg.endsWith(".o") || lowerArg.endsWith(".c") || lowerArg.endsWith(".cpp")
+							|| lowerArg.endsWith(".m") || lowerArg.endsWith(".cc") || lowerArg.endsWith(".mm")) {
         				driver.additionals.add(arg);
             		} else {
             			if(!lowerArg.endsWith(".ooc")) {
