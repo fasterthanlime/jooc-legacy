@@ -25,7 +25,7 @@ public abstract class BaseCompiler implements AbstractCompiler {
 				}
 			}
 		}
-		executablePath = execFile.getName();
+		executablePath = execFile.getAbsolutePath();
 		reset();
 	}
 	
