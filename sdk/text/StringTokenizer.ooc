@@ -3,7 +3,7 @@ StringTokenizer: class extends Iterable<String> {
 	input, delim: String
     index = 0, length: Int
 
-	init: func~withChr(input: String, delim: Char) {
+	init: func~withChar(input: String, delim: Char) {
 		this~withString(input, String new(delim))
 	}
 	
@@ -48,4 +48,16 @@ StringTokenizerIterator: class <T> extends Iterator<T> {
     prev: func -> T       { null }
     remove: func -> Bool  { false }
 	
+}
+
+String: cover from Char* {
+
+	split: func~withString(s:String) -> Iterable<String> {
+		StringTokenizer new(this, s)
+	}
+	
+	split: func~withChar(c:Char) -> Iterable<String> {
+		StringTokenizer new(this, c)
+	}
+
 }
