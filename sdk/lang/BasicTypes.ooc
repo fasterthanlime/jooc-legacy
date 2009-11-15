@@ -1,4 +1,4 @@
-include stdlib, stdio, ctype, stdint, stdbool
+include stddef, stdlib, stdio, ctype, stdint, stdbool
 
 /**
  * Pointer type
@@ -426,6 +426,7 @@ UInt64: cover from uint64_t
 Octet: cover from UInt8
 
 SizeT: cover from size_t extends LLong
+PtrDiffT: cover from ptrdiff_t extends LLong
 
 Bool: cover from bool {
 	
