@@ -72,7 +72,7 @@ public class TypeWriter {
 		
 	}
 	
-	public static  void writeFinale(Type type, CGenerator cgen) throws IOException {
+	public static void writeFinale(Type type, CGenerator cgen) throws IOException {
 		writePreFinale(type, cgen);
 		writePostFinale(type, cgen);
 	}

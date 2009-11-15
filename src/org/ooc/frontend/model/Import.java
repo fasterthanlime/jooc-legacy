@@ -29,7 +29,9 @@ public class Import extends Node {
 	}
 	
 	public Module getModule() {
-		if(module == null) return ModuleParser.cache.get(path);
+		if(module == null) {
+			return ModuleParser.cache.get(path + ".ooc");
+		}
 		return module;
 	}
 	
