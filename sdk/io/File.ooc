@@ -15,6 +15,7 @@ include stdio
 import structs/ArrayList
 
 import FileReader, FileWriter
+import os/Time
 import dirent
 
 include unistd
@@ -24,6 +25,9 @@ ModeT: cover from mode_t
 FileStat: cover from struct stat {
 	st_mode: extern ModeT
 	st_size: extern SizeT
+    st_atime: extern TimeT
+    st_mtime: extern TimeT
+    st_ctime: extern TimeT
 }
 
 S_ISDIR: extern func(...) -> Bool
@@ -78,8 +82,8 @@ File: class {
      */
 	isFile: func -> Bool {
 		stat: FileStat
-		lstat(path, stat&);
-		return S_ISREG(stat st_mode);
+		lstat(path, stat&)
+		return S_ISREG(stat st_mode)
 	}
 	
     /**
@@ -87,8 +91,8 @@ File: class {
      */
 	isLink: func -> Bool {
 		stat: FileStat
-		lstat(path, stat&);
-		return S_ISLNK(stat st_mode);
+		lstat(path, stat&)
+		return S_ISLNK(stat st_mode)
 	}
 	
     /**
@@ -96,8 +100,8 @@ File: class {
      */
 	size: func -> Int {
 		stat: FileStat
-		lstat(path, stat&);
-		return stat st_size;
+		lstat(path, stat&)
+		return stat st_size
 	}
 	
     /**
@@ -113,8 +117,8 @@ File: class {
      */
 	ownerPerm: func -> Int {
 		stat: FileStat
-		lstat(path, stat&);
-		return (stat st_mode) & S_IRWXU;
+		lstat(path, stat&)
+		return (stat st_mode) & S_IRWXU
 	}
 	
     /**
@@ -122,8 +126,8 @@ File: class {
      */
 	groupPerm: func -> Int {
 		stat: FileStat
-		lstat(path, stat&);
-		return (stat st_mode) & S_IRWXG;
+		lstat(path, stat&)
+		return (stat st_mode) & S_IRWXG
 	}
 	
     /**
@@ -131,8 +135,8 @@ File: class {
      */
 	otherPerm: func -> Int {
 		stat: FileStat
-		lstat(path, stat&);
-		return (stat st_mode) & S_IRWXO;
+		lstat(path, stat&)
+		return (stat st_mode) & S_IRWXO
 	}
 	
     /**
@@ -166,6 +170,33 @@ File: class {
         idx := path lastIndexOf(separator)
         if(idx == -1) return null
         return path substring(0, idx)
+    }
+    
+    /**
+     * @return the time of last access
+     */
+    lastAccessed: func -> Long {
+        stat: FileStat
+		lstat(path, stat&)
+		return stat st_atime
+    }
+    
+    /**
+     * @return the time of last modification
+     */
+    lastModified: func -> Long {
+        stat: FileStat
+		lstat(path, stat&)
+		return stat st_mtime
+    }
+    
+    /**
+     * @return the time of creation
+     */
+    created: func -> Long {
+        stat: FileStat
+		lstat(path, stat&)
+		return stat st_ctime
     }
     
     mkdir: func -> Int {
