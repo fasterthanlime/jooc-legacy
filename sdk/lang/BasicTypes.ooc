@@ -307,6 +307,10 @@ operator == (str1: String, str2: String) -> Bool {
 	return str1 equals(str2)
 }
 
+operator != (str1: String, str2: String) -> Bool {
+	return !str1 equals(str2)
+}
+
 operator [] (string: String, index: SizeT) -> Char {
 	string charAt(index)
 }

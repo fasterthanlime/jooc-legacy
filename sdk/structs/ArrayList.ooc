@@ -180,7 +180,7 @@ ArrayListIterator: class <T> extends Iterator<T> {
 	}
     
     remove: func -> Bool {
-        result := list removeAt(index)
+        result := list removeAt(index - 1)
         if(index <= list size()) index -= 1
         return result
     }
