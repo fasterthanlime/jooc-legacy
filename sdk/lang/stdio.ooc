@@ -9,15 +9,15 @@ println: func {
 }
 
 // input/output
-printf: extern func (String, ...)
-fprintf: extern func (FStream, String, ...)
-sprintf: extern func (String, String, ...)
-snprintf: extern func (String, Int, String, ...)
+printf: extern func (String, ...) -> Int
+fprintf: extern func (FStream, String, ...) -> Int
+sprintf: extern func (String, String, ...) -> Int
+snprintf: extern func (String, Int, String, ...) -> Int
 
-vprintf: extern func (String, VaList)
-vfprintf: extern func (FStream, String, VaList)
-vsprintf: extern func (String, String, VaList)
-vsnprintf: extern func (String, Int, String, VaList)
+vprintf: extern func (String, VaList) -> Int
+vfprintf: extern func (FStream, String, VaList) -> Int
+vsprintf: extern func (String, String, VaList) -> Int
+vsnprintf: extern func (String, Int, String, VaList) -> Int
 
 fread: extern func (ptr: Pointer, size: SizeT, nmemb: SizeT, stream: FStream) -> SizeT
 fwrite: extern func (ptr: Pointer, size: SizeT, nmemb: SizeT, stream: FStream) -> SizeT
