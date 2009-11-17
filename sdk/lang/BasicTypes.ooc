@@ -301,6 +301,21 @@ String: cover from Char* {
 	charAt: func(index: SizeT) -> Char {
 		this as Char* [index]
 	}
+
+	format: func(...) -> String {
+		list:VaList
+
+		va_start(list, this)
+		length := vsnprintf(null, 0, this, list)+1
+		output: String = gc_malloc(length)
+		va_end(list)
+
+		va_start(list, this)
+		vsnprintf(output, length, this, list)
+		va_end(list)
+
+		return output
+	}
 }
 
 operator == (str1: String, str2: String) -> Bool {
