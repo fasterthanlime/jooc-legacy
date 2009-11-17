@@ -114,6 +114,20 @@ public class MemberCall extends FunctionCall {
 			autocast();
 		}
 		
+		if(impl != null) {
+			if(expression instanceof VariableAccess) {
+				VariableAccess varAcc = (VariableAccess) expression;
+				System.out.println("Checking call "+this);
+				if(varAcc.getRef() instanceof TypeDecl && !(varAcc.getRef() instanceof TypeParam)) {
+					if(!impl.isStatic()) {
+						throw new OocCompilationError(this, stack, 
+								"Trying to call member member functions "+getProtoRepr()
+								+" as if it were static. But it's not.");
+					}
+				}
+			}
+		}
+		
 		if(fatal && impl == null) {
 			String message = "No such function "
 				+typeDeclaration.getInstanceType()+"."+name+getArgsRepr();
