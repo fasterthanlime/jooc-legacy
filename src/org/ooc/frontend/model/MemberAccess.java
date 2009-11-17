@@ -104,7 +104,6 @@ public class MemberAccess extends VariableAccess {
 		if(ref != null) {
 			if(expression instanceof VariableAccess) {
 				VariableAccess varAcc = (VariableAccess) expression;
-				System.out.println("Checking access "+this);
 				if(varAcc.getRef() instanceof TypeDecl && !(varAcc.getRef() instanceof TypeParam)) {
 					if(ref instanceof VariableDecl) {
 						VariableDecl varDecl = (VariableDecl) ref;

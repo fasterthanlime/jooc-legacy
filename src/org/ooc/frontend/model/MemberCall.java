@@ -117,7 +117,6 @@ public class MemberCall extends FunctionCall {
 		if(impl != null) {
 			if(expression instanceof VariableAccess) {
 				VariableAccess varAcc = (VariableAccess) expression;
-				System.out.println("Checking call "+this);
 				if(varAcc.getRef() instanceof TypeDecl && !(varAcc.getRef() instanceof TypeParam)) {
 					if(!impl.isStatic()) {
 						throw new OocCompilationError(this, stack, 
