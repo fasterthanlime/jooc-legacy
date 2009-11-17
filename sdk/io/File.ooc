@@ -9,7 +9,7 @@
 
 // the pipe (e.g. '|') and __USE_BSD are used like #define
 // before includes. In this case, we need __USE_BSD to get lstat()
-include sys/types, sys/stat | (__USE_BSD)
+include sys/types, sys/stat
 include stdio
 
 import structs/ArrayList

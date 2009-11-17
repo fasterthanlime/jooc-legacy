@@ -1,4 +1,4 @@
-include unistd, sys/time | (__USE_BSD)
+include unistd, sys/time
 
 TimeT: cover from time_t
 
@@ -8,7 +8,7 @@ TMStruct: cover /* from struct tm */ {
 
 usleep: extern /*proto*/ func (UInt)
 time: extern proto func (TimeT*) -> TimeT
-localtime: extern /*proto*/ func (TimeT*) -> TMStruct*
+localtime: extern proto func (TimeT*) -> TMStruct*
 
 TimeVal: cover from struct timeval {
 	tv_sec: extern TimeT
@@ -22,8 +22,8 @@ gettimeofday: extern func (TimeVal*, TimeZone*) -> Int
 
 Time: class {
 	
-	microtime: static func -> Long {
-		return microsec() + sec() * 1_000_000
+	microtime: static func -> LLong {
+		return microsec() as LLong + (sec() as LLong) * 1_000_000
 	}
 	
 	microsec: static func -> SUSecondsT {
