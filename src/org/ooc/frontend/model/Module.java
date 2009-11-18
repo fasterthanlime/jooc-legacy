@@ -241,11 +241,11 @@ public class Module extends Node implements Scope {
 	
 	public void addType(TypeDecl tDecl, Resolver res) {
 		if(tDecl.getVersion() != null) {
-			System.out.println("tDecl " + tDecl + " is versioned " + tDecl.getVersion());
+			//System.out.println("tDecl " + tDecl + " is versioned " + tDecl.getVersion());
 			if(tDecl.getVersion().isSatisfied(res)) {
 				types.put(tDecl.getName(), tDecl);
 			} else {
-				System.out.println(tDecl + " rejected!");
+				//System.out.println(tDecl + " rejected!");
 			}
 		}
 	}

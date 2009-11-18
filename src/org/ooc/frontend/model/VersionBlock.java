@@ -108,7 +108,7 @@ public class VersionBlock extends Block implements MustBeResolved {
 			if(stmt instanceof Versioned) {
 				Versioned vs = (Versioned) stmt;
 				vs.setVersion(this);
-				System.out.println("Just versioned "+ vs + " to " + version);
+				//System.out.println("Just versioned "+ vs + " to " + version);
 				Module module = stack.getModule();
 				
 				if(stmt instanceof TypeDecl) {
