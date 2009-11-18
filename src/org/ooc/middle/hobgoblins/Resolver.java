@@ -56,8 +56,11 @@ public class Resolver implements Hobgoblin {
 							if(fatal) {
 								System.out.println(must+" has RESTARTed in fatal round.");
 							}
-							restartCount++;
-							System.out.println("("+restartCount+") [ "+must.getClass().getSimpleName()+" ]\t\t"+must+" has RESTARTed.");
+							if(params.veryVerbose) {
+								restartCount++;
+								System.out.println("("+restartCount+") [ "+must.getClass().getSimpleName()+" ]\t\t"+must+" has RESTARTed.");
+							}
+								
 							restarted = true;
 							running = true;
 							return false;
