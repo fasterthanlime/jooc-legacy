@@ -2,6 +2,9 @@ package org.ooc.frontend.model;
 
 import java.io.IOException;
 
+import org.ooc.middle.hobgoblins.Resolver;
+
+import org.ooc.frontend.Target;
 
 public class VersionNodes {
 
@@ -23,6 +26,8 @@ public class VersionNodes {
 		
 		public abstract void accept(VersionNodeVisitor visitor) throws IOException;
 		public abstract void acceptChildren(VersionNodeVisitor visitor) throws IOException;
+		public abstract boolean isSatisfied(Resolver res);
+		
 	}
 	
 	public static class VersionName extends VersionNode {
@@ -49,6 +54,24 @@ public class VersionNodes {
 		@Override
 		public String toString() {
 			return name;
+		}
+
+		@Override
+		public boolean isSatisfied(Resolver res) {
+			if(name.toLowerCase().contains("win") && Target.guessHost() == Target.WIN) {
+				return true;
+			}
+			if((name.toLowerCase().contains("linux") 
+					|| name.toLowerCase().contains("unix")) && Target.guessHost() == Target.LINUX) {
+				return true;
+			}
+			if(name.toLowerCase().contains("apple") && Target.guessHost() == Target.OSX) {
+				return true;
+			}
+			if(name.toLowerCase().contains("sun") && Target.guessHost() == Target.SOLARIS) {
+				return true;
+			}
+			return false;
 		}
 		
 	}
@@ -79,6 +102,11 @@ public class VersionNodes {
 		public String toString() {
 			return "!" + inner;
 		}
+
+		@Override
+		public boolean isSatisfied(Resolver res) {
+			return !inner.isSatisfied(res);
+		}
 		
 	}
 	
@@ -107,6 +135,11 @@ public class VersionNodes {
 		@Override
 		public String toString() {
 			return "(" + inner + ")";
+		}
+		
+		@Override
+		public boolean isSatisfied(Resolver res) {
+			return inner.isSatisfied(res);
 		}
 		
 	}
@@ -160,6 +193,11 @@ public class VersionNodes {
 		public String toString() {
 			return left + " && " + right;
 		}
+		
+		@Override
+		public boolean isSatisfied(Resolver res) {
+			return left.isSatisfied(res) && right.isSatisfied(res);
+		}
 
 	}
 	
@@ -177,6 +215,11 @@ public class VersionNodes {
 		@Override
 		public String toString() {
 			return left + " || " + right;
+		}
+		
+		@Override
+		public boolean isSatisfied(Resolver res) {
+			return left.isSatisfied(res) || right.isSatisfied(res);
 		}
 		
 	}

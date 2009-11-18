@@ -10,6 +10,8 @@ import org.ooc.frontend.model.tokens.Token;
 import org.ooc.middle.structs.NodeMap;
 import org.ubi.SourceReader;
 
+import org.ooc.middle.hobgoblins.Resolver;
+
 public class Module extends Node implements Scope {
 
 	protected String underName;
@@ -237,13 +239,26 @@ public class Module extends Node implements Scope {
 		return types;
 	}
 	
+	public void addType(TypeDecl tDecl, Resolver res) {
+		if(tDecl.getVersion() != null) {
+			System.out.println("tDecl " + tDecl + " is versioned " + tDecl.getVersion());
+			if(tDecl.getVersion().isSatisfied(res)) {
+				types.put(tDecl.getName(), tDecl);
+			} else {
+				System.out.println(tDecl + " rejected!");
+			}
+		}
+	}
+	
 	public NodeList<OpDecl> getOps() {
 		return ops;
 	}
 
 	public TypeDecl getType(String typeName) {
+		// FIXME make this version-aware
 		TypeDecl typeDecl = getTypes().get(typeName);
 		if(typeDecl != null) return typeDecl;
+		
 		for(Import imp: imports) {
 			Module module = imp.getModule();
 			if(module != null) {
@@ -251,6 +266,7 @@ public class Module extends Node implements Scope {
 				if(typeDecl != null) return typeDecl;
 			}
 		}
+		
 		return null;
 	}
 

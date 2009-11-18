@@ -4,11 +4,14 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 
 import org.ooc.frontend.Visitor;
+import org.ooc.frontend.model.interfaces.Versioned;
 import org.ooc.frontend.model.tokens.Token;
 
 
-public abstract class TypeDecl extends Declaration implements Scope, Generic {
+public abstract class TypeDecl extends Declaration implements Scope, Generic, Versioned {
 
+	private VersionBlock version = null;
+	
 	protected NodeList<VariableDecl> variables;
 	protected NodeList<FunctionDecl> functions;
 	
@@ -246,6 +249,14 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic {
 	
 	public Module getModule() {
 		return module;
+	}
+	
+	public VersionBlock getVersion() {
+		return version;
+	}
+	
+	public void setVersion(VersionBlock block) {
+		this.version = block;
 	}
 
 }

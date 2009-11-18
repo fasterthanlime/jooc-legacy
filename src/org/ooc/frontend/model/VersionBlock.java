@@ -108,7 +108,16 @@ public class VersionBlock extends Block implements MustBeResolved {
 			if(stmt instanceof Versioned) {
 				Versioned vs = (Versioned) stmt;
 				vs.setVersion(this);
-				stack.getModule().getBody().add(stmt);
+				System.out.println("Just versioned "+ vs + " to " + version);
+				Module module = stack.getModule();
+				
+				if(stmt instanceof TypeDecl) {
+					TypeDecl tDecl = (TypeDecl) stmt;
+					module.addType(tDecl, res);
+				} else {
+					module.getBody().add(stmt);
+				}
+				
 				body.remove(i);
 				i--;
 			}
@@ -128,6 +137,15 @@ public class VersionBlock extends Block implements MustBeResolved {
 		if(!(o instanceof VersionBlock)) return super.equals(o);
 		VersionBlock vb = (VersionBlock) o;
 		return this.version.toString().equals(vb.version.toString());
+	}
+
+	public boolean isSatisfied(Resolver res) {
+		return version.isSatisfied(res);
+	}
+	
+	@Override
+	public String toString() {
+		return version.toString();
 	}
 
 }

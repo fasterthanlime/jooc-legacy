@@ -2,9 +2,18 @@ include unistd, sys/time
 
 TimeT: cover from time_t
 
-TMStruct: cover from struct tm {
-	tm_sec, tm_min, tm_hour, tm_mday, tm_mon, tm_year, tm_wday, tm_yday, tm_isdst : extern Int
+version(apple) {
+    TMStruct: cover from struct tm {
+        tm_sec, tm_min, tm_hour, tm_mday, tm_mon, tm_year, tm_wday, tm_yday, tm_isdst : extern Int
+    }
 }
+
+version(linux) {
+    TMStruct: cover /* from struct tm */ {
+        tm_sec, tm_min, tm_hour, tm_mday, tm_mon, tm_year, tm_wday, tm_yday, tm_isdst : /* extern */ Int
+    }
+}
+
 
 usleep: extern /*proto*/ func (UInt)
 time: extern proto func (TimeT*) -> TimeT
