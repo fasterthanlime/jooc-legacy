@@ -431,7 +431,8 @@ public class FunctionCall extends Access implements MustBeResolved {
 				vdfe.unwrapToVarAcc(stack);
 				stack.pop(arguments);
 				stack.pop(this);
-				return Response.RESTART;
+				//return Response.RESTART;
+				return Response.LOOP;
 			}
 		}
 		return Response.OK;
@@ -472,8 +473,9 @@ public class FunctionCall extends Access implements MustBeResolved {
 		returnArg = new AddressOf(varAcc, startToken);
 		list.addAfter(line, new Line(this));
 
-		// essential
-		return Response.RESTART;
+		// not so essential after all?
+		//return Response.RESTART;
+		return Response.LOOP;
 		
 	}
 

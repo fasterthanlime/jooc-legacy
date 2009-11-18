@@ -107,15 +107,16 @@ public class Foreach extends ControlStatement implements MustBeResolved {
 		}
 		
 		if(collection.getType().getPointerLevel() > 0) {
-			System.out.println("It's an array! " + collection);
+			//System.out.println("It's an array! " + collection);
 			Type targetType = new Type("ArrayList", collection.startToken);
 			targetType.getTypeParams().add(new TypeAccess(collection.getType().dereference(), collection.startToken));
 			collection = new Cast(collection, targetType, collection.startToken);
-			System.out.println("Turned into "+collection);
+			//System.out.println("Turned into "+collection);
 			return Response.LOOP;
 		}
 
 		if(collection.getType().getRef() instanceof ClassDecl) {
+			
 			ClassDecl classDecl = (ClassDecl) collection.getType().getRef();
 			if(classDecl.isChildOf("Iterable")) {
 				MemberCall iterCall = new MemberCall(collection, "iterator", "", startToken);
@@ -169,7 +170,8 @@ public class Foreach extends ControlStatement implements MustBeResolved {
 				block.getBody().add(new Line(vdfe));
 				block.getBody().add(new Line(while1));
 				
-				return Response.RESTART;
+				//return Response.RESTART;
+				return Response.LOOP;
 			}
 		}
 		

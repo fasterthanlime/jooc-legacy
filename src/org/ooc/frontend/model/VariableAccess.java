@@ -12,9 +12,6 @@ import org.ooc.middle.hobgoblins.Resolver;
 
 public class VariableAccess extends Access implements MustBeResolved {
 
-	/// incognito means that it won't throw an error if resolving when fatal
-	protected boolean incognito = false;
-	
 	/// dead means that it won't be resolved anymore
 	protected boolean dead = false;
 	

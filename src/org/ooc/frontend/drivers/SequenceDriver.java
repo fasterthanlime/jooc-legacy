@@ -71,30 +71,30 @@ public class SequenceDriver extends Driver {
 						for(String define: params.defines) {
 							compiler.defineSymbol(define);
 						}
-						for(String dynamicLib: params.dynamicLibs) {
-							compiler.addDynamicLibrary(dynamicLib);
-						}
+						
 						for(String compilerArg: compilerArgs) {
 							compiler.addObjectFile(compilerArg);
 						}
 						
 						for (File incPath: params.incPath.getPaths()) {
-							params.compiler.addIncludePath(incPath.getAbsolutePath());
+							compiler.addIncludePath(incPath.getAbsolutePath());
 						}
 						
 						if (params.fatArchitectures != null) {
-							params.compiler.setFatArchitectures(params.fatArchitectures);
+							compiler.setFatArchitectures(params.fatArchitectures);
 						}
 						if (params.osxSDKAndDeploymentTarget != null) {
-							params.compiler.setOSXSDKAndDeploymentTarget(params.osxSDKAndDeploymentTarget);
+							compiler.setOSXSDKAndDeploymentTarget(params.osxSDKAndDeploymentTarget);
 						}
 
+						/*
 						try {
 							Collection<String> libs = getFlagsFromUse(currentModule);
 							for(String lib: libs) compiler.addObjectFile(lib);
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
+						*/
 						
 						if(params.verbose) System.out.println(compiler.getCommandLine());
 						

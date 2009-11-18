@@ -305,6 +305,8 @@ public class CommandLine {
 			params.compiler = new Gcc();
 		}
 		
+		System.out.println("Include path = "+params.incPath);
+		
 		if(!nasms.isEmpty()) {
 			driver.compileNasms(nasms, driver.additionals);
 		}

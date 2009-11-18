@@ -21,10 +21,12 @@ public class Resolver implements Hobgoblin {
 	boolean restarted = false;
 	public boolean fatal = false;
 	
+	static int restartCount = 0;
+	
 	public BuildParams params;
 	public Module module;
 	
-	public boolean process(Module module, BuildParams params) throws IOException {
+	public boolean process(Module module, final BuildParams params) throws IOException {
 		
 		this.module = module;
 		this.params = params;
@@ -34,16 +36,28 @@ public class Resolver implements Hobgoblin {
 				if(node instanceof MustBeResolved) {
 					MustBeResolved must = (MustBeResolved) node;
 					if(!must.isResolved()) {
-						Response res = must.resolve(stack, Resolver.this, fatal);
+						Response res = Response.OK;
+						try {
+							res = must.resolve(stack, Resolver.this, fatal);
+						} catch(OocCompilationError e) {
+							if(params.veryVerbose) {
+								e.printStackTrace();
+							} else {
+								throw e;
+							}
+						}
 						if(res == Response.LOOP) {
 							if(fatal) {
 								System.out.println(must+" has LOOPed in fatal round.");
 							}
+							//System.out.println(must+" has LOOPed.");
 							running = true;
 						} else if(res == Response.RESTART) {
 							if(fatal) {
 								System.out.println(must+" has RESTARTed in fatal round.");
 							}
+							restartCount++;
+							System.out.println("("+restartCount+") [ "+must.getClass().getSimpleName()+" ]\t\t"+must+" has RESTARTed.");
 							restarted = true;
 							running = true;
 							return false;
