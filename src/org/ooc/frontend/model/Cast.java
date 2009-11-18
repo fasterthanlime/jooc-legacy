@@ -119,17 +119,25 @@ public class Cast extends Expression implements MustBeResolved {
 		}
 		
 		Response response;
-		
+
 		for(OpDecl op: res.module.getOps()) {
 			response = tryOp(stack, op, res, fatal, castMode);
-			if(response != Response.OK) return response;
+			if(response != Response.OK) {
+				// FIXME debug KALAMAZOO
+				System.out.println("Got op "+op);
+				return response;
+			}
 		}
 		for(Import imp: res.module.getImports()) {
 			for(OpDecl op: imp.getModule().getOps()) {
 				response = tryOp(stack, op, res, fatal, castMode);
-				if(response != Response.OK) return response;
+				if(response != Response.OK) {
+					// FIXME debug KALAMAZOO
+					System.out.println("Got op "+op);
+					return response;
+				}
 			}
-		}		
+		}	
 		
 		return Response.OK;
 		
@@ -138,12 +146,23 @@ public class Cast extends Expression implements MustBeResolved {
 	private Response tryOp(NodeList<Node> stack, OpDecl op, Resolver res, boolean fatal, CastMode castMode) {
 		
 		if(op.opType != OpType.AS) return Response.OK;
-		
+
 		FunctionDecl func = op.getFunc();
 		NodeList<Argument> args = func.getArguments();
 
+		
 		if(castMode == CastMode.REGULAR) {
-			if(expression.getType().softEquals(args.get(0).getType(), res) && type.softEquals(func.getReturnType(), res)) {
+			if(!expression.getType().isResolved() || !args.get(0).getType().isResolved() || !func.getReturnType().isResolved()) {
+				// FIXME deubg KALAMAZOO
+				System.out.println("Looping cause one of expr/args(0)/retType isn't resolved");
+				return Response.LOOP;
+			}
+			//if(expression.getType().softEquals(args.get(0).getType(), res) && type.softEquals(func.getReturnType(), res)) {
+			if(expression.getType().equals(args.get(0).getType()) && type.equals(func.getReturnType())) {
+				// FIXME debug KALAMAZOO
+				System.out.println("Regular-took operator overloading "+func+" for cast from "+expression+" to "+getType());
+				// FIXME debug KALAMAZOO
+				
 				FunctionCall call = new FunctionCall(op.getFunc(), startToken);
 				call.getArguments().add(expression);
 				Node parent = stack.peek();
@@ -154,6 +173,10 @@ public class Cast extends Expression implements MustBeResolved {
 			}
 		} else if(castMode == CastMode.ARRAY) {
 			if(args.get(0).getType().getPointerLevel() > 0) {
+				// FIXME debug KALAMAZOO
+				System.out.println("Array-took operator overloading "+func+" for cast from "+expression+" to "+getType());
+				// FIXME debug KALAMAZOO
+				
 				ArrayLiteral lit = (ArrayLiteral) expression;
 				if(lit.getInnerType() == null) {
 					if(fatal) {

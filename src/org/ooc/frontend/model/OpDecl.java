@@ -186,7 +186,7 @@ public class OpDecl extends Declaration {
 	
 	@Override
 	public String toString() {
-		return "operator "+getOpString()+" "+func.getArgsRepr();
+		return "operator "+getOpString()+" "+func.getArgsRepr()+" -> "+func.getReturnType();
 	}
 	
 	@Override

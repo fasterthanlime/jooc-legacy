@@ -435,7 +435,11 @@ public class Type extends Node implements MustBeResolved {
 
 	public boolean softEquals(Type type, Resolver res) {
 		if(type == null) return false;
-		resolve(res);
+		// that's a ugly hack - but on the other hand, we can't expect generics
+		// to work properly on opeartor overloads, for example
+		if(name.equals("uint8_t")) return false;
+		//if(isGenericRecursive()) return false;
+		//resolve(res);
 		if(equals(type)) {
 			return true;
 		}
