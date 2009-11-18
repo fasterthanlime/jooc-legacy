@@ -74,7 +74,7 @@ String: cover from Char* {
 
     new: static func~withLength (length: SizeT) -> This {
         result : This = gc_malloc(length + 1)
-        result[length] = 0
+        result[length] = '\0'
         result
     }
     

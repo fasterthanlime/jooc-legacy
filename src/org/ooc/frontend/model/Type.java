@@ -366,7 +366,7 @@ public class Type extends Node implements MustBeResolved {
 		|| name.equals("UChar") || name.equals("Int8")  || name.equals("Int16")
 		|| name.equals("Int32") || name.equals("Int64") || name.equals("UInt8")
 		|| name.equals("UInt16")|| name.equals("UInt32")|| name.equals("UInt64")
-		|| name.equals("SizeT")
+		|| name.equals("SizeT") || name.equals("Float") || name.equals("Double")
 		) return Classification.NUMBER;
 		
 		return Classification.CLASS;

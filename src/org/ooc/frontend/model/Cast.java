@@ -1,9 +1,9 @@
 package org.ooc.frontend.model;
 
 import java.io.IOException;
+import java.util.LinkedHashMap;
 
 import org.ooc.frontend.Visitor;
-import org.ooc.frontend.model.IntLiteral.Format;
 import org.ooc.frontend.model.OpDecl.OpType;
 import org.ooc.frontend.model.interfaces.MustBeResolved;
 import org.ooc.frontend.model.tokens.Token;
@@ -78,8 +78,10 @@ public class Cast extends Expression implements MustBeResolved {
 				&& dstDecl.getTypeParams().size() != src.getTypeParams().size()) {
 				throw new Error("Invalid cast between types "+dstDecl.getType()+" and "+src);
 			}
-			type.getTypeParams().clear();
-			type.getTypeParams().addAll(src.getTypeParams());
+			if(src != null) {
+				type.getTypeParams().clear();
+				type.getTypeParams().addAll(src.getTypeParams());
+			}
 		}
 	}
 	
@@ -111,101 +113,175 @@ public class Cast extends Expression implements MustBeResolved {
 			return Response.LOOP;
 		}
 		
-		CastMode castMode = CastMode.REGULAR;
-		
 		Expression realExpr = expression.bitchJumpCasts(); 
 		if(realExpr instanceof ArrayLiteral) {
-			castMode = CastMode.ARRAY;
-		}
-		
-		Response response;
-
-		for(OpDecl op: res.module.getOps()) {
-			response = tryOp(stack, op, res, fatal, castMode);
-			if(response != Response.OK) {
-				// FIXME debug KALAMAZOO
-				System.out.println("Got op "+op);
-				return response;
-			}
-		}
-		for(Import imp: res.module.getImports()) {
-			for(OpDecl op: imp.getModule().getOps()) {
-				response = tryOp(stack, op, res, fatal, castMode);
-				if(response != Response.OK) {
-					// FIXME debug KALAMAZOO
-					System.out.println("Got op "+op);
-					return response;
-				}
-			}
-		}	
-		
-		return Response.OK;
-		
-	}
-
-	private Response tryOp(NodeList<Node> stack, OpDecl op, Resolver res, boolean fatal, CastMode castMode) {
-		
-		if(op.opType != OpType.AS) return Response.OK;
-
-		FunctionDecl func = op.getFunc();
-		NodeList<Argument> args = func.getArguments();
-
-		
-		if(castMode == CastMode.REGULAR) {
-			if(!expression.getType().isResolved() || !args.get(0).getType().isResolved() || !func.getReturnType().isResolved()) {
-				// FIXME deubg KALAMAZOO
-				System.out.println("Looping cause one of expr/args(0)/retType isn't resolved");
-				return Response.LOOP;
-			}
-			//if(expression.getType().softEquals(args.get(0).getType(), res) && type.softEquals(func.getReturnType(), res)) {
-			if(expression.getType().equals(args.get(0).getType()) && type.equals(func.getReturnType())) {
-				// FIXME debug KALAMAZOO
-				System.out.println("Regular-took operator overloading "+func+" for cast from "+expression+" to "+getType());
-				// FIXME debug KALAMAZOO
-				
-				FunctionCall call = new FunctionCall(op.getFunc(), startToken);
-				call.getArguments().add(expression);
-				Node parent = stack.peek();
-				parent.replace(this, call);
-				call.resolve(stack, res, true);
-				//return Response.RESTART;
-				return Response.LOOP;
-			}
-		} else if(castMode == CastMode.ARRAY) {
-			if(args.get(0).getType().getPointerLevel() > 0) {
-				// FIXME debug KALAMAZOO
-				System.out.println("Array-took operator overloading "+func+" for cast from "+expression+" to "+getType());
-				// FIXME debug KALAMAZOO
-				
-				ArrayLiteral lit = (ArrayLiteral) expression;
-				if(lit.getInnerType() == null) {
-					if(fatal) {
-						throw new OocCompilationError(lit, stack,
-								"Couldn't resolve inner type of ArrayLiteral, can't correctly call the overloaded cast!");
-					}
-					return Response.LOOP;
-				}
-				FunctionCall call = new FunctionCall(op.getFunc(), startToken);
-				call.getArguments().add(expression);
-				call.getArguments().add(new IntLiteral(lit.elements.size(), Format.DEC, lit.startToken));
-				TypeAccess typeAccess = new TypeAccess(lit.getInnerType());
-				call.getTypeParams().add(typeAccess);
-				typeAccess.resolve(stack, res, true);
-				Node parent = stack.peek();
-				parent.replace(this, call);
-				Response resp2 = Response.RESTART;
-				while(resp2 == Response.RESTART) {
-					resp2 = call.resolve(stack, res, true);
-				}
-				//return Response.RESTART;
-				return Response.LOOP;
-			}
+			tryArrayOverload(stack, res, fatal);
+		} else {
+			tryRegularOverload(stack, res, fatal);
 		}
 		
 		return Response.OK;
 		
 	}
 	
+	private Response tryRegularOverload(NodeList<Node> stack, Resolver res, boolean fatal) {
+		
+		Type leftType = expression.getType();
+		Type rightType = getType();
+		if(!leftType.isResolved() || !rightType.isResolved()) {
+			System.out.println("Bitch-looping because either "+leftType+" or "+rightType+" isn't resolved");
+			return Response.LOOP;
+		}
+		
+		OpDecl bestOp = null;
+		int bestScore = 0;
+		for(OpDecl op: res.module.getOps()) {
+			int score = getRegularOpScore(stack, OpType.AS, op, res, leftType, rightType);
+			if(score > bestScore) {
+				bestScore = score;
+				bestOp = op;
+			}
+		}
+		for(Import imp: res.module.getImports()) {
+			for(OpDecl op: imp.getModule().getOps()) {
+				int score = getRegularOpScore(stack, OpType.AS, op, res, leftType, rightType);
+				if(score > bestScore) {
+					bestScore = score;
+					bestOp = op;
+				}
+			}
+		}
+		
+		if(bestOp != null) {
+			FunctionCall call = new FunctionCall(bestOp.getFunc(), startToken);
+			call.getArguments().add(expression);
+			Node parent = stack.peek();
+			parent.replace(this, call);
+			call.resolve(stack, res, true);
+			return Response.LOOP;
+		}
+		
+		return Response.OK;
+		
+	}
+
+	private int getRegularOpScore(NodeList<Node> stack, OpType opType, OpDecl op, Resolver res, Type leftType, Type rightType) {
+		
+		int score = 0;
+		if(op.getOpType() == opType) {
+			NodeList<Argument> args = op.getFunc().getArguments();
+			if(args.size() == 2) return score; // not for us
+			if(args.size() != 1) {
+				throw new OocCompilationError(op, stack,
+						"To overload the "+opType.toPrettyString()+" operator, you need exactly one arguments, not "
+						+op.getFunc().getArgsRepr());
+			}
+			Type firstType = args.get(0).getType();
+			Type secondType = op.getFunc().getReturnType();
+			if(firstType.softEquals(leftType, res)) {
+				if(secondType.softEquals(rightType, res) || isGeneric(secondType, op.getFunc().getTypeParams())) {
+					score += 10;
+					if(firstType.equals(leftType)) {
+						score += 20;
+					}
+					if(secondType.equals(rightType)) {
+						score += 20;
+					}
+				}
+			}
+		}
+		
+		return score;
+		
+	}
+	
+	private Response tryArrayOverload(NodeList<Node> stack, Resolver res, boolean fatal) {
+		
+		Type leftType = expression.getType();
+		Type rightType = getType();
+		if(!leftType.isResolved() || !rightType.isResolved()) {
+			System.out.println("Bitch-looping because either "+leftType+" or "+rightType+" isn't resolved");
+			return Response.LOOP;
+		}
+		
+		OpDecl bestOp = null;
+		int bestScore = 0;
+		for(OpDecl op: res.module.getOps()) {
+			int score = getArrayOpScore(stack, OpType.AS, op, res, leftType, rightType);
+			if(score > bestScore) {
+				bestScore = score;
+				bestOp = op;
+			}
+		}
+		for(Import imp: res.module.getImports()) {
+			for(OpDecl op: imp.getModule().getOps()) {
+				int score = getArrayOpScore(stack, OpType.AS, op, res, leftType, rightType);
+				if(score > bestScore) {
+					bestScore = score;
+					bestOp = op;
+				}
+			}
+		}
+		
+		if(bestOp != null) {
+			ArrayLiteral lit = (ArrayLiteral) expression;
+			if(lit.getInnerType() == null) {
+				if(fatal) {
+					throw new OocCompilationError(lit, stack,
+							"Couldn't resolve inner type of ArrayLiteral, can't correctly call the overloaded cast!");
+				}
+				return Response.LOOP;
+			}
+			
+			FunctionCall call = new FunctionCall(bestOp.getFunc(), startToken);
+			call.getArguments().add(expression);
+			call.getArguments().add(new IntLiteral(lit.elements.size(), IntLiteral.Format.DEC, lit.startToken));
+			TypeAccess typeAccess = new TypeAccess(lit.getInnerType());
+			call.getTypeParams().add(typeAccess);
+			typeAccess.resolve(stack, res, true);
+			Node parent = stack.peek();
+			parent.replace(this, call);
+			return Response.LOOP;
+		}
+		
+		return Response.OK;
+		
+	}
+	
+	private int getArrayOpScore(NodeList<Node> stack, OpType opType, OpDecl op, Resolver res, Type leftType, Type rightType) {
+		
+		int score = 0;
+		if(op.getOpType() == opType) {
+			NodeList<Argument> args = op.getFunc().getArguments();
+			if(args.size() == 1) return score; // not for us
+			if(args.size() > 2 || args.size() < 1) {
+				throw new OocCompilationError(op, stack,
+						"To overload the "+opType.toPrettyString()+" operator from arrays, you need exactly two arguments (T* and size), not "
+						+op.getFunc().getArgsRepr());
+			}
+			Type firstType = args.get(0).getType();
+			Type secondType = op.getFunc().getReturnType();
+			if(firstType.softEquals(leftType, res)) {
+				if(secondType.softEquals(rightType, res) || isGeneric(secondType, op.getFunc().getTypeParams())) {
+					score += 10;
+					if(firstType.equals(leftType)) {
+						score += 20;
+					}
+					if(secondType.equals(rightType)) {
+						score += 20;
+					}
+				}
+			}
+		}
+		
+		return score;
+		
+	}
+	
+	private boolean isGeneric(Type type, LinkedHashMap<String, TypeParam> linkedHashMap) {
+		return linkedHashMap.containsKey(type.getName());
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends Node> T bitchJumpCasts() {

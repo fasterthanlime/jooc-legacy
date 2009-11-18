@@ -21,7 +21,9 @@ public class TypeWriter {
 		write(type, cgen, true);		
 	}
 	
-	public static void write(Type type, CGenerator cgen, boolean doPrefix) throws IOException {
+	public static void write(Type typeParam, CGenerator cgen, boolean doPrefix) throws IOException {
+		
+		Type type = typeParam;
 		
 		if(type.getRef() == null) {
 			if(cgen.params.veryVerbose) {

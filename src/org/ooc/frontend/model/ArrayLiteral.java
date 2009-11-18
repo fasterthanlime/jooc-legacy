@@ -99,6 +99,7 @@ public class ArrayLiteral extends Literal implements MustBeUnwrapped, MustBeReso
 			type.setArray(true);
 			stack.push(this);
 			type.resolve(stack, res, fatal);
+			innerType.resolve(stack, res, fatal);
 			stack.pop(this);
 		}
 		
