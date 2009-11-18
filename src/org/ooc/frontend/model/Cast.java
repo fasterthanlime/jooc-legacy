@@ -113,12 +113,17 @@ public class Cast extends Expression implements MustBeResolved {
 			return Response.LOOP;
 		}
 		
+		Response response;
+		
 		Expression realExpr = expression.bitchJumpCasts(); 
-		if(realExpr instanceof ArrayLiteral) {
-			tryArrayOverload(stack, res, fatal);
-		} else {
-			tryRegularOverload(stack, res, fatal);
+		//if(realExpr instanceof ArrayLiteral) {
+		if(realExpr.getType().getPointerLevel() > 0) {
+			response = tryArrayOverload(stack, res, fatal);
+			if(response != Response.OK) return response;
 		}
+		
+		response = tryRegularOverload(stack, res, fatal);
+		if(response != Response.OK) return response;
 		
 		return Response.OK;
 		
@@ -224,23 +229,47 @@ public class Cast extends Expression implements MustBeResolved {
 		}
 		
 		if(bestOp != null) {
-			ArrayLiteral lit = (ArrayLiteral) expression;
-			if(lit.getInnerType() == null) {
-				if(fatal) {
-					throw new OocCompilationError(lit, stack,
-							"Couldn't resolve inner type of ArrayLiteral, can't correctly call the overloaded cast!");
+			Type innerType = expression.getType().dereference();
+			int numElements = -1;
+			
+			if(expression instanceof VariableAccess) {
+				expression = ((VariableAccess) expression).getRef();
+				System.out.println("ref is now "+expression);
+				if(expression instanceof VariableDeclFromExpr) {
+					VariableDeclFromExpr vdfe = (VariableDeclFromExpr) expression;
+					expression = vdfe.getAtoms().getFirst().getExpression();
 				}
-				return Response.LOOP;
+			}
+			
+			if(expression instanceof ArrayLiteral) {
+				ArrayLiteral lit = (ArrayLiteral) expression;
+				if(lit.getInnerType() == null) {
+					if(fatal) {
+						throw new OocCompilationError(lit, stack,
+								"Couldn't resolve inner type of ArrayLiteral, can't correctly call the overloaded cast!");
+					}
+					return Response.LOOP;
+				}
+				numElements = lit.getElements().size();
+			} else {
+				throw new OocCompilationError(expression, stack, "Trying to array-cast to " + getType() 
+						+ " an array of which we don't know the size! Try a constructor instead, passing the" +
+						  " size explicitly as an argument.");
 			}
 			
 			FunctionCall call = new FunctionCall(bestOp.getFunc(), startToken);
 			call.getArguments().add(expression);
-			call.getArguments().add(new IntLiteral(lit.elements.size(), IntLiteral.Format.DEC, lit.startToken));
-			TypeAccess typeAccess = new TypeAccess(lit.getInnerType());
+			// FIXME this is debug code, obviously =)
+			call.getArguments().add(new IntLiteral(numElements, IntLiteral.Format.DEC, expression.startToken));
+			TypeAccess typeAccess = new TypeAccess(innerType, expression.startToken);
 			call.getTypeParams().add(typeAccess);
 			typeAccess.resolve(stack, res, true);
 			Node parent = stack.peek();
 			parent.replace(this, call);
+			Response resp2 = Response.RESTART;
+			while(resp2 == Response.RESTART) {
+				resp2 = call.resolve(stack, res, true);
+			}
 			return Response.LOOP;
 		}
 		
@@ -259,17 +288,16 @@ public class Cast extends Expression implements MustBeResolved {
 						"To overload the "+opType.toPrettyString()+" operator from arrays, you need exactly two arguments (T* and size), not "
 						+op.getFunc().getArgsRepr());
 			}
+			
 			Type firstType = args.get(0).getType();
 			Type secondType = op.getFunc().getReturnType();
-			if(firstType.softEquals(leftType, res)) {
-				if(secondType.softEquals(rightType, res) || isGeneric(secondType, op.getFunc().getTypeParams())) {
-					score += 10;
-					if(firstType.equals(leftType)) {
-						score += 20;
-					}
-					if(secondType.equals(rightType)) {
-						score += 20;
-					}
+			if(secondType.softEquals(rightType, res) || isGeneric(secondType, op.getFunc().getTypeParams())) {
+				score += 10;
+				if(firstType.equals(leftType)) {
+					score += 20;
+				}
+				if(secondType.equals(rightType)) {
+					score += 20;
 				}
 			}
 		}

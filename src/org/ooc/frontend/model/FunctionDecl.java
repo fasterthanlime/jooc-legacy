@@ -341,8 +341,9 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 				arguments.add(argc);
 				arguments.add(argv);
 				
-				MemberCall constructCall = new MemberCall(new TypeAccess(arg.getType()), "new", "withData", arg.startToken);
-				constructCall.getTypeParams().add(new TypeAccess(NullLiteral.type));
+				MemberCall constructCall = new MemberCall(new TypeAccess(arg.getType(), arg.startToken),
+						"new", "withData", arg.startToken);
+				constructCall.getTypeParams().add(new TypeAccess(NullLiteral.type, constructCall.startToken));
 				constructCall.getArguments().add(new VariableAccess(argv, startToken));
 				constructCall.getArguments().add(new VariableAccess(argc, startToken));
 				

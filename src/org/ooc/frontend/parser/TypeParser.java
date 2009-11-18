@@ -131,7 +131,7 @@ public class TypeParser {
 			Access innerType = null;
 			
 			Type type = TypeParser.parse(module, sReader, reader);
-			if(type != null) innerType = new TypeAccess(type);
+			if(type != null) innerType = new TypeAccess(type, type.startToken);
 			
 			if(innerType == null) {
 				innerType = AccessParser.parse(module, sReader, reader);

@@ -339,7 +339,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 					ourType.setReferenceLevel(0);
 					ourType.setArray(false);
 				}
-				TypeAccess typeAcc = new TypeAccess(ourType);
+				TypeAccess typeAcc = new TypeAccess(ourType, callArg.startToken);
 				typeAcc.resolve(stack, res, fatal);
 				result = typeAcc;
 				if(res.params.veryVerbose)

@@ -183,8 +183,7 @@ public class MemberAccess extends VariableAccess {
 			FunctionCall sizeofArray = new FunctionCall("sizeof", startToken);
 			sizeofArray.getArguments().add(expression);
 			FunctionCall sizeofType = new FunctionCall("sizeof", startToken);
-			 // FIXME it should probably be type.dereference()
-			sizeofType.getArguments().add(new TypeAccess(expression.getType().dereference()));
+			sizeofType.getArguments().add(new TypeAccess(expression.getType().dereference(), expression.startToken));
 			
 			Div div = new Div(sizeofArray, sizeofType, startToken);
 			stack.peek().replace(this, new Parenthesis(div, startToken));

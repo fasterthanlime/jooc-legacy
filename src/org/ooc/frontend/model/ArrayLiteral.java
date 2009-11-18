@@ -112,8 +112,8 @@ public class ArrayLiteral extends Literal implements MustBeUnwrapped, MustBeReso
 
 	public boolean unwrap(NodeList<Node> stack) throws IOException {
 		
-		if(stack.peek() instanceof Cast) {
-			//System.out.println("ArrayLiteral "+this+" in a Cast. Not unwrapping =)");
+		if(stack.peek() instanceof Cast || stack.peek() instanceof Foreach) {
+			System.out.println("ArrayLiteral "+this+" in a "+stack.peek().getClass().getSimpleName()+". Not unwrapping =)");
 			return false;
 		}
 		

@@ -5,14 +5,14 @@ import java.io.IOException;
 import org.ooc.frontend.Visitor;
 import org.ooc.middle.OocCompilationError;
 import org.ooc.middle.hobgoblins.Resolver;
-
+import org.ooc.frontend.model.tokens.Token;
 
 public class TypeAccess extends VariableAccess {
 
 	private Type type;
 
-	public TypeAccess(Type type) {
-		super((String) null, type.startToken);
+	public TypeAccess(Type type, Token startToken) {
+		super((String) null, startToken);
 		this.type = type;
 	}
 	
