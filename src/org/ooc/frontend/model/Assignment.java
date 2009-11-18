@@ -227,7 +227,8 @@ public class Assignment extends BinaryOperation {
 	}
 
 	private Mul mul(ArrayAccess arrAcc, MemberAccess sizeAccess) {
-		return new Mul(arrAcc.index, sizeAccess, startToken);
+		assert(arrAcc.indices.size() == 1);
+		return new Mul(arrAcc.indices.getFirst(), sizeAccess, startToken);
 	}
 
 	private void unwrapToMemcpy(NodeList<Node> stack, Expression realLeft, Expression realRight, Expression size) {

@@ -128,17 +128,21 @@ public class ExpressionParser {
 			
 			if(token.type == TokenType.OPEN_SQUAR) {
 
+				ArrayAccess arrAcc = new ArrayAccess(expr, token);
+				expr = arrAcc;
 				reader.skip();
 				Expression index = ExpressionParser.parse(module, sReader, reader, noDecl);
+				
 				if(index == null) {
 					throw new CompilationFailedError(sReader.getLocation(reader.peek()),
 						"Expected expression for the index of an array access");
 				}
+				arrAcc.getIndices().add(index);
+				
 				if(reader.read().type != TokenType.CLOS_SQUAR) {
 					throw new CompilationFailedError(sReader.getLocation(reader.prev()),
-						"Expected closing bracket to end array access, got "+reader.prev().type+" instead.");
+						"Expected closing bracket to end array access, got "+reader.prev()+" instead.");
 				}
-				expr = new ArrayAccess(expr, index, token);
 				continue;
 				
 			}

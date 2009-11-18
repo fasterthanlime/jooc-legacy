@@ -23,6 +23,11 @@ public class ArrayLiteral extends Literal implements MustBeUnwrapped, MustBeReso
 		elements = new NodeList<Expression>(startToken);
 	}
 	
+	public int getDepth() {
+		if(elements.isEmpty() || !(elements.getFirst() instanceof ArrayLiteral)) return 1;
+		return 1 + ((ArrayLiteral) elements.getFirst()).getDepth();
+	}
+	
 	@Override
 	public boolean replace(Node oldie, Node kiddo) {
 		if(oldie == type) {
@@ -114,6 +119,10 @@ public class ArrayLiteral extends Literal implements MustBeUnwrapped, MustBeReso
 		
 		if(stack.peek() instanceof Cast || stack.peek() instanceof Foreach) {
 			//System.out.println("ArrayLiteral "+this+" in a "+stack.peek().getClass().getSimpleName()+". Not unwrapping =)");
+			return false;
+		}
+		
+		if(stack.peek(2) instanceof ArrayLiteral) {
 			return false;
 		}
 		

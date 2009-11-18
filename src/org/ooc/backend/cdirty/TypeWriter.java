@@ -3,6 +3,7 @@ package org.ooc.backend.cdirty;
 import java.io.IOException;
 
 import org.ooc.backend.cdirty.FunctionDeclWriter.ArgsWriteMode;
+import org.ooc.frontend.model.ArrayLiteral;
 import org.ooc.frontend.model.ClassDecl;
 import org.ooc.frontend.model.CoverDecl;
 import org.ooc.frontend.model.FunctionDecl;
@@ -88,20 +89,25 @@ public class TypeWriter {
 	public static void writePreFinale(Type type, CGenerator cgen)
 			throws IOException {
 		if(type.getRef() instanceof ClassDecl) {
-			cgen.current.app("* /* classDecl */");
+			cgen.current.app("*");
 		}
 		if(type.getRef() instanceof TypeParam && !type.isArray()) {
-			cgen.current.app("* /* typeParam && !isArray */");
+			cgen.current.app("*");
 		}
 		// no-VLA workaround.
 		if(type.isArray() && type.getArraySize() != null
 				&& !(type.getArraySize() instanceof Literal)  && !cgen.params.compiler.supportsVLAs()) {
-			cgen.current.app("* /* isArray && size != null, literal, supportsVlas */");
+			cgen.current.app("*");
 		}
 	}
 	
 	public static void writePostFinale(Type type, CGenerator cgen)
 			throws IOException {
+		writePostFinale(type, cgen, null);
+	}
+	
+	public static void writePostFinale(Type type, CGenerator cgen, ArrayLiteral arrLitParam) throws IOException {
+		ArrayLiteral arrLit = arrLitParam; // Java is paranoid. Or at least Eclipse is.
 		int level = type.getPointerLevel() + type.getReferenceLevel();
 		for(int i = 0; i < level; i++) {
 			if(type.isArray()) {
@@ -117,10 +123,15 @@ public class TypeWriter {
 						cgen.current.app(")");
 					}
 				} else {
-					cgen.current.app("[]");
+					cgen.current.app("[");
+					if(arrLit != null) {
+						cgen.current.app(String.valueOf(arrLit.getElements().size()));
+						if(i + 1 < level) arrLit = (ArrayLiteral) arrLit.getElements().getFirst();
+					}
+					cgen.current.app("]");
 				}
 			} else {
-				cgen.current.app("* /* postFinale */");
+				cgen.current.app("*");
 			}
 		}
 	}

@@ -13,12 +13,12 @@ public class ArrayAccess extends Access implements MustBeResolved {
 
 	Type type;
 	protected Expression variable;
-	protected Expression index;
+	protected NodeList<Expression> indices;
 
-	public ArrayAccess(Expression variable, Expression index, Token token) {
-		super(token);
+	public ArrayAccess(Expression variable, Token startToken) {
+		super(startToken);
 		this.variable = variable;
-		this.index = index;
+		this.indices =  new NodeList<Expression>(startToken);
 	}
 	
 	public Expression getVariable() {
@@ -28,15 +28,11 @@ public class ArrayAccess extends Access implements MustBeResolved {
 	public void setVariable(Expression variable) {
 		this.variable = variable;
 	}
+	
+	public NodeList<Expression> getIndices() {
+		return indices;
+	}
 
-	public Expression getIndex() {
-		return index;
-	}
-	
-	public void setIndex(Expression index) {
-		this.index = index;
-	}
-	
 	public Type getType() {
 		if(type == null) {
 			Type exprType = variable.getType();
@@ -67,9 +63,10 @@ public class ArrayAccess extends Access implements MustBeResolved {
 	
 	public void acceptChildren(Visitor visitor) throws IOException {
 		variable.accept(visitor);
-		index.accept(visitor);
+		indices.accept(visitor);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean replace(Node oldie, Node kiddo) {
 		
@@ -78,8 +75,8 @@ public class ArrayAccess extends Access implements MustBeResolved {
 			return true;
 		}
 		
-		if(oldie == index) {
-			index = (Expression) kiddo;
+		if(oldie == indices) {
+			indices = (NodeList<Expression>) kiddo;
 			return true;
 		}
 		
@@ -141,10 +138,10 @@ public class ArrayAccess extends Access implements MustBeResolved {
 		}
 		NodeList<Argument> args = op.getFunc().getArguments();
 		if(args.get(0).getType().softEquals(variable.getType(), res)
-				&& args.get(1).getType().softEquals(index.getType(), res)) {
+				&& args.get(1).getType().softEquals(indices.getFirst().getType(), res)) {
 			FunctionCall call = new FunctionCall(op.getFunc(), startToken);
 			call.getArguments().add(variable);
-			call.getArguments().add(index);
+			call.getArguments().addAll(indices);
 			call.getArguments().add(ass.getRight());
 			if(!stack.get(assignIndex - 1).replace(ass, call)) {
 				throw new OocCompilationError(this, stack, "Couldn't replace array-access-assign with a function call");
@@ -167,10 +164,10 @@ public class ArrayAccess extends Access implements MustBeResolved {
 		}
 		NodeList<Argument> args = op.getFunc().getArguments();
 		if(args.get(0).getType().softEquals(variable.getType(), res)
-				&& args.get(1).getType().softEquals(index.getType(), res)) {
+				&& args.get(1).getType().softEquals(indices.getFirst().getType(), res)) {
 			FunctionCall call = new FunctionCall(op.getFunc(), startToken);
 			call.getArguments().add(variable);
-			call.getArguments().add(index);
+			call.getArguments().addAll(indices);
 			stack.peek().replace(this, call);
 			return true;
 		}
@@ -181,7 +178,7 @@ public class ArrayAccess extends Access implements MustBeResolved {
 	
 	@Override
 	public String toString() {
-		return getClass().getSimpleName() + "|" + variable + "["+index+"]";
+		return getClass().getSimpleName() + "|" + variable + "["+indices+"]";
 	}
 	
 }

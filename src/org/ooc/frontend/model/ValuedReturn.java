@@ -105,8 +105,9 @@ public class ValuedReturn extends Return implements MustBeResolved {
 		
 		if(expression instanceof ArrayAccess) {
 			ArrayAccess arrAccess = (ArrayAccess) expression;
+			assert(arrAccess.indices.size() == 1);
 			expression = new Add(new AddressOf(arrAccess.variable, startToken),
-					new Mul(arrAccess.index, sizeAccess, startToken), startToken);
+					new Mul(arrAccess.indices.getFirst(), sizeAccess, startToken), startToken);
 		} else {
 			expression = new AddressOf(expression, startToken);
 		}
