@@ -15,8 +15,10 @@ public class IncludeWriter {
 		}
 		
 		for(Define define: include.getDefines()) {
+			cgen.current.nl().app("#ifndef ").app(define.name);
 			cgen.current.nl().app("#define ").app(define.name);
 			if(define.value != null) cgen.current.app(' ').app(define.value);
+			cgen.current.nl().app("#endif");
 		}
 		if(include.getMode() == Mode.PATHY) {
 			cgen.current.nl().app("#include <").app(include.getPath()).app(".h>");
