@@ -67,7 +67,8 @@ public class VariableDeclWriter {
 			} else {
 				Type ground = type.getGroundType().clone();
 				ground.setPointerLevel(ground.getPointerLevel() - 1);
-				TypeWriter.write(ground, cgen);
+				TypeWriter.write(ground, cgen, true, false);
+				TypeWriter.writeFinale(ground, cgen);
 				cgen.current.app(' ');
 			}
 			

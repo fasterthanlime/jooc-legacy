@@ -22,6 +22,10 @@ public class TypeWriter {
 	}
 	
 	public static void write(Type typeParam, CGenerator cgen, boolean doPrefix) throws IOException {
+		write(typeParam, cgen, doPrefix, true);
+	}
+		
+	public static void write(Type typeParam, CGenerator cgen, boolean doPrefix, boolean doFinale) throws IOException {
 		
 		Type type = typeParam;
 		
@@ -70,7 +74,9 @@ public class TypeWriter {
 			cgen.current.app(' ');
 		}
 		
-		writeFinale(type, cgen);
+		if(doFinale) {
+			writeFinale(type, cgen);
+		}
 		
 	}
 	
@@ -82,15 +88,15 @@ public class TypeWriter {
 	public static void writePreFinale(Type type, CGenerator cgen)
 			throws IOException {
 		if(type.getRef() instanceof ClassDecl) {
-			cgen.current.app('*');
+			cgen.current.app("* /* classDecl */");
 		}
 		if(type.getRef() instanceof TypeParam && !type.isArray()) {
-			cgen.current.app('*');
+			cgen.current.app("* /* typeParam && !isArray */");
 		}
 		// no-VLA workaround.
 		if(type.isArray() && type.getArraySize() != null
 				&& !(type.getArraySize() instanceof Literal)  && !cgen.params.compiler.supportsVLAs()) {
-			cgen.current.app('*');
+			cgen.current.app("* /* isArray && size != null, literal, supportsVlas */");
 		}
 	}
 	
@@ -114,7 +120,7 @@ public class TypeWriter {
 					cgen.current.app("[]");
 				}
 			} else {
-				cgen.current.app('*');
+				cgen.current.app("* /* postFinale */");
 			}
 		}
 	}
