@@ -134,7 +134,7 @@ public class Cast extends Expression implements MustBeResolved {
 		Type leftType = expression.getType();
 		Type rightType = getType();
 		if(!leftType.isResolved() || !rightType.isResolved()) {
-			System.out.println("Bitch-looping because either "+leftType+" or "+rightType+" isn't resolved");
+			//System.out.println("Bitch-looping because either "+leftType+" or "+rightType+" isn't resolved");
 			return Response.LOOP;
 		}
 		
@@ -205,7 +205,7 @@ public class Cast extends Expression implements MustBeResolved {
 		Type leftType = expression.getType();
 		Type rightType = getType();
 		if(!leftType.isResolved() || !rightType.isResolved()) {
-			System.out.println("Bitch-looping because either "+leftType+" or "+rightType+" isn't resolved");
+			//System.out.println("Bitch-looping because either "+leftType+" or "+rightType+" isn't resolved");
 			return Response.LOOP;
 		}
 		
@@ -234,7 +234,6 @@ public class Cast extends Expression implements MustBeResolved {
 			
 			if(expression instanceof VariableAccess) {
 				expression = ((VariableAccess) expression).getRef();
-				System.out.println("ref is now "+expression);
 				if(expression instanceof VariableDeclFromExpr) {
 					VariableDeclFromExpr vdfe = (VariableDeclFromExpr) expression;
 					expression = vdfe.getAtoms().getFirst().getExpression();
