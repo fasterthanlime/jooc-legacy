@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.OpDecl.OpType;
+import org.ooc.frontend.model.interfaces.MustBeResolved;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.middle.OocCompilationError;
 import org.ooc.middle.hobgoblins.Resolver;
@@ -137,6 +138,11 @@ public class Assignment extends BinaryOperation {
 	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
 
 		if(dead) return Response.OK;
+		
+		if(!(stack.peek() instanceof Line)) {
+			throw new OocCompilationError(this, stack,
+					"It's illegal to use an assignment as an expression (it's for your own good.) Did you mean '==' ?");
+		}
 		
 		if(right.getType() != null && left.getType() != null) {
 			if(left.getType().isSuperOf(right.getType())) {
