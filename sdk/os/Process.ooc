@@ -1,15 +1,20 @@
 import Pipe, unistd, wait
+import structs/ArrayList
 
 SubProcess: class {
 
-    args: String* 
+    args: ArrayList<String>
     executable: String
     stdOut = null: Pipe
     stdIn  = null: Pipe
     stdErr = null: Pipe
+    buf :String*
     stdoutPipe: Pipe 
-    init: func(=args) {executable = args[0]}
-    
+    init: func(=args) {
+        this executable = this args get(0)
+        this args add(null) // execvp wants NULL to end the array
+        buf = this args toArray() // ArrayList<String> => String*
+    } 
     setStdout: func(=stdOut){}
     setStdin:  func(=stdIn) {}    
     setStderr: func(=stdErr) {}
@@ -23,7 +28,7 @@ SubProcess: class {
                 stdOut close('r')
                 dup2(stdOut writeFD, 1)
             }
-            execvp(executable, args)
+            execvp(executable, buf)
        
         } else {
             waitpid(-1, status&, null)
