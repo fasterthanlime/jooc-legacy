@@ -34,6 +34,8 @@ log10: extern (log10) func ~Double (Double) -> Double
 log10: extern (log10f) func ~Float (Float) -> Float
 log10: extern (log10l) func ~Long (LDouble) -> LDouble
 
+round: extern (lround) func ~dl (Double) -> Long
+
 
 // memory management
 sizeof: extern func (...) -> SizeT

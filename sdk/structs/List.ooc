@@ -131,7 +131,7 @@ List: abstract class <T> extends Iterable<T> {
 		return get(lastIndex())
 	}
 
-	lastIndex: func -> SizeT {
+	lastIndex: func -> Int {
 		return size() - 1
 	}
     
