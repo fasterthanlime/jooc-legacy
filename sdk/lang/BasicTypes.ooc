@@ -266,6 +266,7 @@ String: cover from Char* {
         copy := gc_malloc(length + 2) as Char*
         memcpy(copy, this, length)
         copy as Char* [length] = other
+        copy as Char* [length + 1] = '\0'
         return copy
     }
     
