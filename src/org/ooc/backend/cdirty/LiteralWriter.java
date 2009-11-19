@@ -24,11 +24,11 @@ public class LiteralWriter {
 		case HEX:
 		case BIN: // C has no binary literals, write it as hex
 			cgen.current.app("0x");
-			cgen.current.app(Long.toHexString(numberLiteral.getValue()));
+			cgen.current.app(numberLiteral.getValue().toString(16));
 			break;
 		case OCT:
 			cgen.current.app('0');
-			cgen.current.app(Long.toOctalString(numberLiteral.getValue()));
+			cgen.current.app(numberLiteral.getValue().toString(8));
 			break;
 		default:
 			cgen.current.app(String.valueOf(numberLiteral.getValue()));

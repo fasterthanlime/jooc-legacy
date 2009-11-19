@@ -1,5 +1,7 @@
 package org.ooc.frontend.parser;
 
+import java.math.BigInteger;
+
 import org.ooc.frontend.model.ArrayLiteral;
 import org.ooc.frontend.model.BoolLiteral;
 import org.ooc.frontend.model.CharLiteral;
@@ -35,16 +37,16 @@ public class LiteralParser {
 			}
 		}
 		if(token.type == TokenType.DEC_INT) 
-			return new IntLiteral(Long.parseLong(token.get(sReader)
+			return new IntLiteral(new BigInteger(token.get(sReader)
 					.replace("_", "")), Format.DEC, token);
 		if(token.type == TokenType.HEX_INT)
-			return new IntLiteral(Long.parseLong(token.get(sReader)
+			return new IntLiteral(new BigInteger(token.get(sReader)
 					.replace("_", "").toUpperCase(), 16), Format.HEX, token);
 		if(token.type == TokenType.OCT_INT)
-			return new IntLiteral(Long.parseLong(token.get(sReader)
+			return new IntLiteral(new BigInteger(token.get(sReader)
 					.replace("_", "").toUpperCase(), 8), Format.OCT, token);
 		if(token.type == TokenType.BIN_INT)
-			return new IntLiteral(Long.parseLong(token.get(sReader)
+			return new IntLiteral(new BigInteger(token.get(sReader)
 					.replace("_", "").toUpperCase(), 2), Format.BIN, token);
 		if(token.type == TokenType.DEC_FLOAT)
 			return new FloatLiteral(Double.parseDouble(token.get(sReader)

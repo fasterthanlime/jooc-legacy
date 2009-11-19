@@ -1,6 +1,7 @@
 package org.ooc.frontend.model;
 
 import java.io.IOException;
+import java.math.BigInteger;
 
 import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.tokens.Token;
@@ -14,11 +15,15 @@ public class IntLiteral extends Literal {
 		BIN,
 	}
 	
-	protected long value;
+	protected BigInteger value;
 	protected Format format;
 	public static Type type = new Type("Int", Token.defaultToken);
 	
 	public IntLiteral(long value, Format format, Token startToken) {
+		this(new BigInteger(String.valueOf(value)), format, startToken);
+	}
+	
+	public IntLiteral(BigInteger value, Format format, Token startToken) {
 		super(startToken);
 		this.value = value;
 		this.format = format;
@@ -28,7 +33,7 @@ public class IntLiteral extends Literal {
 		return type;
 	}
 	
-	public long getValue() {
+	public BigInteger getValue() {
 		return value;
 	}
 	
