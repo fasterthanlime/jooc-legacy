@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.OpDecl.OpType;
-import org.ooc.frontend.model.interfaces.MustBeResolved;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.middle.OocCompilationError;
 import org.ooc.middle.hobgoblins.Resolver;
@@ -139,7 +138,10 @@ public class Assignment extends BinaryOperation {
 
 		if(dead) return Response.OK;
 		
-		if(!(stack.peek() instanceof Line)) {
+		// if the parent is not a line
+		// or the parent is not (a for of which we are not the test)
+		// then it's illegal to use an assignment as an expression
+		if(!(stack.peek() instanceof Line) || !(stack.peek() instanceof For && ((For) stack.peek()).getTest() != this)) {
 			throw new OocCompilationError(this, stack,
 					"It's illegal to use an assignment as an expression (here, in a "
 					+stack.peek().getClass().getSimpleName()+") Did you mean '==' ?");
