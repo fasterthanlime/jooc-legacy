@@ -38,7 +38,7 @@ public class CoverDeclWriter {
 			} else {
 				cgen.current.nl().app("typedef ");
 				if(fromType instanceof FuncType) {
-					TypeWriter.writeFuncPointer(((FuncType) fromType).getDecl(), cover.getName(), cgen);
+					TypeWriter.writeFuncPointer(((FuncType) fromType).getDecl(), cover.getUnderName(), cgen);
 				} else {
 					TypeWriter.writeSpaced(fromType.getGroundType(), cgen, false);
 					cgen.current.app(cover.getUnderName());
