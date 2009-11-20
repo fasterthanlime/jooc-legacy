@@ -141,7 +141,8 @@ public class Assignment extends BinaryOperation {
 		
 		if(!(stack.peek() instanceof Line)) {
 			throw new OocCompilationError(this, stack,
-					"It's illegal to use an assignment as an expression (it's for your own good.) Did you mean '==' ?");
+					"It's illegal to use an assignment as an expression (here, in a "
+					+stack.peek().getClass().getSimpleName()+") Did you mean '==' ?");
 		}
 		
 		if(right.getType() != null && left.getType() != null) {
