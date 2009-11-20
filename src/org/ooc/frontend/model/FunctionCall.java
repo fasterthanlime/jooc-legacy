@@ -420,14 +420,15 @@ public class FunctionCall extends Access implements MustBeResolved {
 				continue;
 			}
 			if(!arg.getType().getName().equals(genType.getName())) continue;
-			Expression expr = arguments.get(i);
-			if(!(expr instanceof VariableAccess || expr instanceof Cast)) {
+			Expression originalExpr = arguments.get(i);
+			Expression expr = originalExpr.bitchJumpCasts();
+			if(!(expr instanceof VariableAccess)) {
 				String tmpName = generateTempName(genType.getName()+"param", stack);
 				VariableDeclFromExpr vdfe = new VariableDeclFromExpr(
 						tmpName, expr, startToken);
-				arguments.replace(expr, vdfe);
 				stack.push(this);
 				stack.push(arguments);
+				stack.peek().replace(originalExpr, vdfe);
 				vdfe.unwrapToVarAcc(stack);
 				stack.pop(arguments);
 				stack.pop(this);
