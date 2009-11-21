@@ -138,6 +138,15 @@ public class Assignment extends BinaryOperation {
 
 		if(dead) return Response.OK;
 		
+		// if the parent is not a line
+		// or the parent is not (a for of which we are not the test)
+		// then it's illegal to use an assignment as an expression
+		if(!(stack.peek() instanceof Line) && !(stack.peek() instanceof For && ((For) stack.peek()).getTest() != this)) {
+			throw new OocCompilationError(this, stack,
+					"It's illegal to use an assignment as an expression (here, in a "
+					+stack.peek().getClass().getSimpleName()+") Did you mean '==' ?");
+		}
+		
 		if(right.getType() != null && left.getType() != null) {
 			if(left.getType().isSuperOf(right.getType())) {
 				right = new Cast(right, left.getType(), right.startToken);

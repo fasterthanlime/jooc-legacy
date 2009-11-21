@@ -97,11 +97,11 @@ public class Tokenizer {
 		public Token handle(int index, char c, SourceReader reader) throws EOFException {
 			if(c != first) return null;
 			reader.read();
-			if(second == '\0' || second != reader.peek()) {
+			if(second == '\0' || !reader.hasNext() || second != reader.peek()) {
 				return new Token(index, 1, firstType);
 			}
 			reader.read();
-			if(third == '\0' || third != reader.peek()) {
+			if(third == '\0' || !reader.hasNext() || third != reader.peek()) {
 				return new Token(index, 2, secondType);
 			}
 			reader.read();

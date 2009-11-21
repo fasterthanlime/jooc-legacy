@@ -116,6 +116,10 @@ String: cover from Char* {
         }
         return true
     }
+
+	startsWith: func~withChar(c: Char) -> Bool {
+		return this[0] == c
+	}
     
     endsWith: func(s: String) -> Bool {
         l1 = this length() : SizeT
@@ -266,6 +270,7 @@ String: cover from Char* {
         copy := gc_malloc(length + 2) as Char*
         memcpy(copy, this, length)
         copy as Char* [length] = other
+        copy as Char* [length + 1] = '\0'
         return copy
     }
     

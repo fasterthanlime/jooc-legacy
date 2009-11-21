@@ -18,12 +18,14 @@ Stack: class <T> extends Iterable<T> {
 		return data removeAt(lastIndex())
 	}
     
+    /*
     pop: func ~checked (value: T) -> T {
         real := pop()
         if(real != value)
             Exception new(This, "Trying to pop %p, but %p came out.") throw()
         return real
     }
+    */
 	
 	peek: func() -> T {
 		if (isEmpty())
