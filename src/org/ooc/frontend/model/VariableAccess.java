@@ -108,10 +108,17 @@ public class VariableAccess extends Access implements MustBeResolved {
 		}
 		
 		{
-			FunctionDecl func = getFunction(name, "", null, stack);
+			FunctionDecl func = getFunction(name, null, null, stack);
 			if(func != null) {
 				ref = func;
 				return Response.OK;
+			}
+			for(Import imp: stack.getModule().getImports()) {
+				func = imp.getModule().getFunction(name, null, null);
+				if(func != null) {
+					ref = func;
+					return Response.OK;
+				}
 			}
 		}
 		
