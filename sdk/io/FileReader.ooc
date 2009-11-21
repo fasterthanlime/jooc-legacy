@@ -3,7 +3,7 @@ import io/Reader, io/File
 fopen: extern func(filename: Char*, mode: Char*) -> FILE*
 fread: extern func(ptr: Pointer, size: SizeT, count: SizeT, stream: FILE*) -> SizeT
 feof: extern func(stream: FILE*) -> Int
-fseek: extern func(stream: FILE*, offset: Long, origin: Int)
+fseek: extern func(stream: FILE*, offset: Long, origin: Int) -> Int
 SEEK_CUR: extern func
 SEEK_SET: extern func
 SEEK_END: extern func
