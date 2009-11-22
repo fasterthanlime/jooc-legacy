@@ -344,6 +344,10 @@ operator [] (string: String, index: SizeT) -> Char {
     string charAt(index)
 }
 
+operator [] (string: String, range: Range) -> String {
+    string substring(range min, range max)
+}
+         
 operator * (str: String, count: Int) -> String {
     return str times(count)
 }
