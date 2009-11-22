@@ -204,9 +204,10 @@ HashMap: class <T> extends Iterable<T> {
         hash : UInt = ac_X31_hash(key) % capacity
         if (entry) {
             for (i: UInt in 0.. keys size()) {
-                key := keys get(i)
-                if (key equals(key as String)) {
+                cKey := keys get(i)
+                if (key equals(cKey)) {
                     keys removeAt(i)
+                    break
                 }
             }
             size -= 1
@@ -230,8 +231,8 @@ HashMap: class <T> extends Iterable<T> {
         for (i: UInt in 0..old_capacity) {
             old_buckets[i] = buckets[i] clone()
         }
-    /* Clear key list */
-    keys clear()
+        /* Clear key list */
+        keys clear()
         /* Transfer old buckets to new buckets! */
         capacity = _capacity
         buckets = gc_malloc(capacity * Pointer size)
