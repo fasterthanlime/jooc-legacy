@@ -1,0 +1,243 @@
+
+=======================================
+
+Tinkerer, round 1, 7 left ([025-le-retour-du-fils-de-la-vengeance, lang.stdio, lang.BasicTypes, lang.memory, lang.ooclib, structs.ArrayList, structs.List])
+Parent is.. anything but a Line: [([ctx as ValueList])->get(Int:1) as Value<Pointer>], unwrapping. ([ctx as ValueList])->get(Int:1)
+(1) [ MemberCall ]		([ctx as ValueList])->get(Int:1) has RESTARTed.
+Replacing varDecl VariableDecl|candidate:T with type uint8_t, for its own good
+(2) [ VariableDecl ]		VariableDecl|candidate:uint8_t[] has RESTARTed.
+Replacing varDecl VariableDecl|element:T with type uint8_t, for its own good
+(3) [ VariableDecl ]		VariableDecl|element:uint8_t[] has RESTARTed.
+
+=======================================
+
+Tinkerer, round 2, 7 left ([025-le-retour-du-fils-de-la-vengeance, lang.stdio, lang.BasicTypes, lang.memory, lang.ooclib, structs.ArrayList, structs.List])
+Parent is an vDeclAtom VariableDeclAtom: gcall=([ctx as ValueList])->get(Int:1), unwrapping.([ctx as ValueList])->get(Int:1)
+|| stack.peek(3) = VariableDeclFromExpr gcall:T = ([ctx as ValueList])->get(Int:1)
+Replacing varDecl VariableDeclFromExpr gcall:T = null with type uint8_t, for its own good
+(4) [ VariableDeclFromExpr ]		VariableDeclFromExpr gcall:uint8_t[] = null has RESTARTed.
+Module lang.stdio finished resolving.
+Module lang.memory finished resolving.
+Module lang.ooclib finished resolving.
+Replacing varDecl VariableDecl|candidate:T with type uint8_t, for its own good
+(5) [ VariableDecl ]		VariableDecl|candidate:uint8_t[] has RESTARTed.
+Parent is.. anything but a Line: [(iter)->next()], unwrapping. (iter)->next()
+(6) [ MemberCall ]		(iter)->next() has RESTARTed.
+
+=======================================
+
+Tinkerer, round 3, 4 left ([025-le-retour-du-fils-de-la-vengeance, lang.BasicTypes, structs.ArrayList, structs.List])
+Module lang.BasicTypes finished resolving.
+ArrayList<T> is generic-recursive, trying to get <ArrayListIterator> in it.
+T* is generic-recursive, trying to get <ArrayList> in it.
+Parent is an assignment Assignment: element = (iter1)->next(), unwrapping. (iter1)->next()
+(7) [ MemberCall ]		(iter1)->next() has RESTARTed.
+
+=======================================
+
+Tinkerer, round 4, 3 left ([025-le-retour-du-fils-de-la-vengeance, structs.ArrayList, structs.List])
+(8) [ VariableDeclFromExpr ]		VariableDeclFromExpr element:T = ArrayAccess|this->data[[index]] has RESTARTed.
+Parent is an vDeclAtom VariableDeclAtom: gcall=(iter)->next(), unwrapping.(iter)->next()
+|| stack.peek(3) = VariableDeclFromExpr gcall:T = (iter)->next()
+
+=======================================
+
+Tinkerer, round 5, 3 left ([025-le-retour-du-fils-de-la-vengeance, structs.ArrayList, structs.List])
+Replacing varDecl VariableDecl|element:T with type uint8_t, for its own good
+(9) [ VariableDecl ]		VariableDecl|element:uint8_t[] has RESTARTed.
+Parent is an vDeclAtom VariableDeclAtom: retval=(this)->get(Int:(this)->lastIndex()), unwrapping.(this)->get(Int:(this)->lastIndex())
+|| stack.peek(3) = VariableDeclFromExpr retval:Class = (this)->get(Int:(this)->lastIndex())
+Parent is.. anything but a Line: [(this)->get(Int:i)], unwrapping. (this)->get(Int:i)
+(10) [ MemberCall ]		(this)->get(Int:i) has RESTARTed.
+
+=======================================
+
+Tinkerer, round 6, 3 left ([025-le-retour-du-fils-de-la-vengeance, structs.ArrayList, structs.List])
+Parent is an vDeclAtom VariableDeclAtom: element=(this->list)->get(Int:this->index), unwrapping.(this->list)->get(Int:this->index)
+|| stack.peek(3) = VariableDeclFromExpr element:T = (this->list)->get(Int:this->index)
+Replacing varDecl VariableDeclFromExpr element:T = null with type uint8_t, for its own good
+(11) [ VariableDeclFromExpr ]		VariableDeclFromExpr element:uint8_t[] = null has RESTARTed.
+List<T> is generic-recursive, trying to get <T> in it.
+Matched <List> with List<T>, varAccType-wise
+Matched <T> with this->T, genericRecursive-wise
+List<T> is generic-recursive, trying to get <T> in it.
+Matched <List> with List<T>, varAccType-wise
+Matched <T> with this->T, genericRecursive-wise
+Parent is.. anything but a Line: &(__OP_IDX_List_Int__T(List<T>:this, Int:i)), unwrapping. __OP_IDX_List_Int__T(List<T>:this, Int:i)
+(12) [ FunctionCall ]		__OP_IDX_List_Int__T(List<T>:this, Int:i) has RESTARTed.
+
+=======================================
+
+Tinkerer, round 7, 3 left ([025-le-retour-du-fils-de-la-vengeance, structs.ArrayList, structs.List])
+Parent is an vDeclAtom VariableDeclAtom: element=(this->list)->get(Int:this->index), unwrapping.(this->list)->get(Int:this->index)
+|| stack.peek(3) = VariableDeclFromExpr element:T = (this->list)->get(Int:this->index)
+Replacing varDecl VariableDeclFromExpr element:T = null with type uint8_t, for its own good
+(13) [ VariableDeclFromExpr ]		VariableDeclFromExpr element:uint8_t[] = null has RESTARTed.
+Parent is an vDeclAtom VariableDeclAtom: gcall=__OP_IDX_List_Int__T(List<T>:this, Int:i), unwrapping.__OP_IDX_List_Int__T(List<T>:this, Int:i)
+|| stack.peek(3) = VariableDeclFromExpr gcall:Class = __OP_IDX_List_Int__T(List<T>:this, Int:i)
+List<T> is generic-recursive, trying to get <Class> in it.
+Parent is an vDeclAtom VariableDeclAtom: gcall=(this)->get(Int:i), unwrapping.(this)->get(Int:i)
+|| stack.peek(3) = VariableDeclFromExpr gcall:Class = (this)->get(Int:i)
+Parent is.. anything but a Line: return (list)->get(Int:i), unwrapping. (list)->get(Int:i)
+(14) [ MemberCall ]		(list)->get(Int:i) has RESTARTed.
+
+=======================================
+
+Tinkerer, round 8, 3 left ([025-le-retour-du-fils-de-la-vengeance, structs.ArrayList, structs.List])
+Parent is an vDeclAtom VariableDeclAtom: result=(this->list)->removeAt(Int:(this->index - 1)), unwrapping.(this->list)->removeAt(Int:(this->index - 1))
+|| stack.peek(3) = VariableDeclFromExpr result:T = (this->list)->removeAt(Int:(this->index - 1))
+Replacing varDecl VariableDeclFromExpr result:T = null with type uint8_t, for its own good
+(15) [ VariableDeclFromExpr ]		VariableDeclFromExpr result:uint8_t[] = null has RESTARTed.
+Parent is an vDeclAtom VariableDeclAtom: gcall=(list)->get(Int:i), unwrapping.(list)->get(Int:i)
+|| stack.peek(3) = VariableDeclFromExpr gcall:T = (list)->get(Int:i)
+Replacing varDecl VariableDeclFromExpr gcall:T = null with type uint8_t, for its own good
+(16) [ VariableDeclFromExpr ]		VariableDeclFromExpr gcall:uint8_t[] = null has RESTARTed.
+
+=======================================
+
+Tinkerer, round 9, 3 left ([025-le-retour-du-fils-de-la-vengeance, structs.ArrayList, structs.List])
+Parent is.. anything but a Line: return (list)->get(Int:i), unwrapping. (list)->get(Int:i)
+(17) [ MemberCall ]		(list)->get(Int:i) has RESTARTed.
+
+=======================================
+
+Tinkerer, round 10, 3 left ([025-le-retour-du-fils-de-la-vengeance, structs.ArrayList, structs.List])
+Parent is an vDeclAtom VariableDeclAtom: gcall=(list)->get(Int:i), unwrapping.(list)->get(Int:i)
+|| stack.peek(3) = VariableDeclFromExpr gcall:T = (list)->get(Int:i)
+Replacing varDecl VariableDeclFromExpr gcall:T = null with type uint8_t, for its own good
+(18) [ VariableDeclFromExpr ]		VariableDeclFromExpr gcall:uint8_t[] = null has RESTARTed.
+Module structs.List finished resolving.
+
+=======================================
+
+Tinkerer, round 11, 2 left ([025-le-retour-du-fils-de-la-vengeance, structs.ArrayList])
+
+=======================================
+
+Tinkerer, round 12, 2 left ([025-le-retour-du-fils-de-la-vengeance, structs.ArrayList])
+Module structs.ArrayList finished resolving.
+
+=======================================
+
+Tinkerer, round 13, 1 left ([025-le-retour-du-fils-de-la-vengeance])
+
+=======================================
+
+Tinkerer, round 14, 1 left ([025-le-retour-du-fils-de-la-vengeance])
+
+=======================================
+
+Tinkerer, round 15, 1 left ([025-le-retour-du-fils-de-la-vengeance])
+
+=======================================
+
+Tinkerer, round 16, 1 left ([025-le-retour-du-fils-de-la-vengeance])
+
+=======================================
+
+Tinkerer, round 17, 1 left ([025-le-retour-du-fils-de-la-vengeance])
+
+=======================================
+
+Tinkerer, round 18, 1 left ([025-le-retour-du-fils-de-la-vengeance])
+
+=======================================
+
+Tinkerer, round 19, 1 left ([025-le-retour-du-fils-de-la-vengeance])
+
+=======================================
+
+Tinkerer, round 20, 1 left ([025-le-retour-du-fils-de-la-vengeance])
+
+=======================================
+
+Tinkerer, round 21, 1 left ([025-le-retour-du-fils-de-la-vengeance])
+java.lang.Exception: Stack trace
+	at java.lang.Thread.dumpStack(Thread.java:1206)
+	at org.ooc.frontend.model.VariableAccess.resolve(VariableAccess.java:164)
+	at org.ooc.middle.hobgoblins.Resolver$1.take(Resolver.java:41)
+	at org.ooc.middle.hobgoblins.Resolver$1.take(Resolver.java:1)
+	at org.ooc.middle.walkers.SketchyNosy.visitAll(SketchyNosy.java:101)
+	at org.ooc.middle.walkers.SketchyNosy.visit(SketchyNosy.java:230)
+	at org.ooc.frontend.model.VariableAccess.accept(VariableAccess.java:53)
+	at org.ooc.frontend.model.MemberAccess.acceptChildren(MemberAccess.java:46)
+	at org.ooc.middle.walkers.SketchyNosy.visitAll(SketchyNosy.java:97)
+	at org.ooc.middle.walkers.SketchyNosy.visit(SketchyNosy.java:320)
+	at org.ooc.frontend.model.MemberAccess.accept(MemberAccess.java:41)
+	at org.ooc.frontend.model.Type.acceptChildren(Type.java:115)
+	at org.ooc.middle.walkers.SketchyNosy.visitAll(SketchyNosy.java:97)
+	at org.ooc.middle.walkers.SketchyNosy.visit(SketchyNosy.java:280)
+	at org.ooc.frontend.model.Type.accept(Type.java:107)
+	at org.ooc.frontend.model.VariableDeclFromExpr.acceptChildren(VariableDeclFromExpr.java:63)
+	at org.ooc.middle.walkers.SketchyNosy.visitAll(SketchyNosy.java:97)
+	at org.ooc.middle.walkers.SketchyNosy.visit(SketchyNosy.java:240)
+	at org.ooc.frontend.model.VariableDecl.accept(VariableDecl.java:159)
+	at org.ooc.frontend.model.Line.acceptChildren(Line.java:33)
+	at org.ooc.middle.walkers.SketchyNosy.visitAll(SketchyNosy.java:97)
+	at org.ooc.middle.walkers.SketchyNosy.visit(SketchyNosy.java:195)
+	at org.ooc.frontend.model.Line.accept(Line.java:25)
+	at org.ooc.frontend.model.NodeList.acceptChildren(NodeList.java:185)
+	at org.ooc.middle.walkers.SketchyNosy.visitAll(SketchyNosy.java:97)
+	at org.ooc.middle.walkers.SketchyNosy.visit(SketchyNosy.java:295)
+	at org.ooc.frontend.model.NodeList.accept(NodeList.java:180)
+	at org.ooc.frontend.model.Block.acceptChildren(Block.java:22)
+	at org.ooc.middle.walkers.SketchyNosy.visitAll(SketchyNosy.java:97)
+	at org.ooc.middle.walkers.SketchyNosy.visit(SketchyNosy.java:300)
+	at org.ooc.frontend.model.Block.accept(Block.java:18)
+	at org.ooc.frontend.model.Line.acceptChildren(Line.java:33)
+	at org.ooc.middle.walkers.SketchyNosy.visitAll(SketchyNosy.java:97)
+	at org.ooc.middle.walkers.SketchyNosy.visit(SketchyNosy.java:195)
+	at org.ooc.frontend.model.Line.accept(Line.java:25)
+	at org.ooc.frontend.model.NodeList.acceptChildren(NodeList.java:185)
+	at org.ooc.middle.walkers.SketchyNosy.visitAll(SketchyNosy.java:97)
+	at org.ooc.middle.walkers.SketchyNosy.visit(SketchyNosy.java:295)
+	at org.ooc.frontend.model.NodeList.accept(NodeList.java:180)
+	at org.ooc.frontend.model.FunctionDecl.acceptChildren(FunctionDecl.java:197)
+	at org.ooc.middle.walkers.SketchyNosy.visitAll(SketchyNosy.java:97)
+	at org.ooc.middle.walkers.SketchyNosy.visit(SketchyNosy.java:250)
+	at org.ooc.frontend.model.FunctionDecl.accept(FunctionDecl.java:183)
+	at org.ooc.frontend.model.NodeList.acceptChildren(NodeList.java:185)
+	at org.ooc.middle.walkers.SketchyNosy.visitAll(SketchyNosy.java:97)
+	at org.ooc.middle.walkers.SketchyNosy.visit(SketchyNosy.java:295)
+	at org.ooc.frontend.model.NodeList.accept(NodeList.java:180)
+	at org.ooc.frontend.model.Module.acceptChildren(Module.java:139)
+	at org.ooc.middle.walkers.SketchyNosy.visitAll(SketchyNosy.java:97)
+	at org.ooc.middle.walkers.SketchyNosy.visit(SketchyNosy.java:110)
+	at org.ooc.middle.hobgoblins.Resolver.process(Resolver.java:84)
+	at org.ooc.middle.Tinkerer.process(Tinkerer.java:53)
+	at org.ooc.frontend.CommandLine.tinker(CommandLine.java:483)
+	at org.ooc.frontend.CommandLine.parse(CommandLine.java:425)
+	at org.ooc.frontend.CommandLine.<init>(CommandLine.java:323)
+	at org.ooc.frontend.CommandLine.main(CommandLine.java:35)
+(depth = 11)./025-le-retour-du-fils-de-la-vengeance.ooc:13:22: [ERROR] Couldn't resolve access to T., btw, stack = 
+  Module : 025-le-retour-du-fils-de-la-vengeance
+    [test(Pointer), main()]
+      test(Pointer)
+        [Line: Block]
+          Line: Block
+            Block
+              [Line: VariableDeclFromExpr gcall:uint8_t[] = null, Line: ([ctx as ValueList])->get(Int:1), Line: [gcall as Value<Pointer>]]
+                Line: VariableDeclFromExpr gcall:uint8_t[] = null
+                  VariableDeclFromExpr gcall:uint8_t[] = null
+                    uint8_t[]
+                      T->size
+    ctx as ValueList get(1) as Value<Pointer>
+                     ^^^
+(depth = 10)./025-le-retour-du-fils-de-la-vengeance.ooc:13:22: [ERROR] Couldn't resolve type of T
+    ctx as ValueList get(1) as Value<Pointer>
+                     ^^^
+Module 025-le-retour-du-fils-de-la-vengeance finished resolving.
+(depth = 11)./025-le-retour-du-fils-de-la-vengeance.ooc:13:22: [ERROR] VariableAccess to T hasn't been resolved :S stack = 
+  Module : 025-le-retour-du-fils-de-la-vengeance
+    [test(Pointer), main()]
+      test(Pointer)
+        [Line: Block]
+          Line: Block
+            Block
+              [Line: VariableDeclFromExpr gcall:uint8_t[] = null, Line: ([ctx as ValueList])->get(Int:1), Line: [gcall as Value<Pointer>]]
+                Line: VariableDeclFromExpr gcall:uint8_t[] = null
+                  VariableDeclFromExpr gcall:uint8_t[] = null
+                    uint8_t[]
+                      T->size
+    ctx as ValueList get(1) as Value<Pointer>
+                     ^^^

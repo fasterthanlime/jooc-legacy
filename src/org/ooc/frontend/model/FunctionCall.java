@@ -95,7 +95,11 @@ public class FunctionCall extends Access implements MustBeResolved {
 	
 	private Type realTypize(Type typeArg, Resolver res, NodeList<Node> stack) {
 
+		System.out.println("Realtypizing T for "+this+"\n");
+		
 		Type realType = getRealType(typeArg.getName(), stack, res, true);
+		
+		System.out.println("realType is "+realType);
 		
 		Type type = null;
 		if(realType == null) {
@@ -258,6 +262,8 @@ public class FunctionCall extends Access implements MustBeResolved {
 		if(genType != null) {
 			Node parent = stack.peek();
 			if(parent instanceof Assignment) {
+				// FIXME debug KALAMAZOO
+				System.out.println("Parent is an assignment "+parent+", unwrapping. " + this);
 				Assignment ass = (Assignment) parent;
 				if(ass.getLeft() instanceof Access) {
 					returnArg = new AddressOf(ass.getLeft(), startToken);
@@ -265,11 +271,16 @@ public class FunctionCall extends Access implements MustBeResolved {
 					return Response.RESTART;
 				}
 			} else if(parent instanceof VariableDeclAtom) {
+				// FIXME debug KALAMAZOO
+				System.out.println("Parent is an vDeclAtom "+parent+", unwrapping." + this);
+				System.out.println("|| stack.peek(3) = "+stack.peek(3));
 				VariableDeclAtom atom = (VariableDeclAtom) parent;
 				return unwrapFromVarDecl(stack, res, genType, atom, fatal);
 			} else if(parent instanceof Line) {
 				// alright =)
 			} else {
+				// FIXME debug KALAMAZOO
+				System.out.println("Parent is.. anything but a Line: "+parent+", unwrapping. " + this);
 				VariableDeclFromExpr vdfe = new VariableDeclFromExpr(
 						generateTempName("gcall", stack), this, startToken);
 				Type implRetType = impl.getReturnType();
@@ -295,7 +306,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 		
 	}
 
-	protected Type getRealType(String typeParam, NodeList<Node> stack, Resolver res, boolean fatal) {
+	protected final Type getRealType(String typeParam, NodeList<Node> stack, Resolver res, boolean fatal) {
 
 		Expression realExpr = getRealExpr(typeParam, stack, res, fatal);
 		if(realExpr == null) return null;
@@ -346,7 +357,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 					System.out.println("Matched <"+typeParam+"> with "+result+", varAccType-wise");
 				break;
 			}
-			// e.g. func <T> myFunc(list:)
+			// e.g. func <T> myFunc(list: List<T>)
 			if(arg.getType().isGenericRecursive()) {
 				if(res.params.veryVerbose)
 					System.out.println(arg.getType()+" is generic-recursive, trying to get <"+typeParam+"> in it.");

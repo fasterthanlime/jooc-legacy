@@ -1,6 +1,6 @@
 import structs/[List, ArrayList]
 
-duplicate: func (list: ArrayList) -> ArrayList {
+duplicate: func (list: ArrayList<T>) -> ArrayList<T> {
 	
 	T := list T
 	dupe := ArrayList<T> new()
@@ -13,8 +13,8 @@ printType: func (object: Object) {
 	
 	T := object class
 	printf("It's an %s", T name)
-	if(T instanceof(List)) {
-		printf("<%s>", object as ArrayList T name)
+	if(T inheritsFrom(List)) {
+		printf("<%s>", object as ArrayList<T> T name)
 	}
 	println()
 	fflush(stdout)

@@ -7,7 +7,8 @@ Cacou: class {
     id: Int
     
 	init: func {
-        id = idSeed += 4
+        id = idSeed
+        idSeed += 4
     }
 	
 	draw: func {

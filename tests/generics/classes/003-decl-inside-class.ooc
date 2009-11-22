@@ -16,18 +16,18 @@ Getter: class <T> {
 		data = gc_malloc(T size)
 	}
 	
-	get: func(prov: Provider) -> T {
+	get: func(prov: Provider<T>) -> T {
 		element: T
 		element = prov provide()
 		return element
 	}
 	
-	get2: func(prov: Provider) -> T {
+	get2: func(prov: Provider<T>) -> T {
 		field = prov provide()
 		return field
 	}
 	
-	get3: func(prov: Provider) -> T {
+	get3: func(prov: Provider<T>) -> T {
 		data@ = prov provide()
 		return data@
 	}
