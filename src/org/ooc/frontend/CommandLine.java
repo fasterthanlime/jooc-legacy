@@ -173,7 +173,7 @@ public class CommandLine {
         			
         			if(modulePaths.isEmpty()) {
         				System.out.println("Using '-o' option before any .ooc file, ignoring..." +
-        						"\n(you should do something like ooc file.ooc -o myexecutable");
+        						"\n(you should do something like ooc file.ooc -o=myexecutable");
         			} else {
         				modulePaths.get(modulePaths.size() - 1).out = option.substring(2);
         			}
