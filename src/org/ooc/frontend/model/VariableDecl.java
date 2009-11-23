@@ -325,8 +325,6 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 		if(type != null && type.getRef() != null && !type.isArray() && type.isGenericRecursive()
 				&& type.isFlat() && !isMember() && !(this instanceof Argument)) {
 			
-			// FIXME debug KALAMAZOO
-			System.out.println("Replacing varDecl " + this+ " with type uint8_t, for its own good");
 			Type newType = new Type("uint8_t", type.startToken);
 			newType.setPointerLevel(1);
 			VariableAccess tAccess = new VariableAccess(type.getRef().getName(), startToken);

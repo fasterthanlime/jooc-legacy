@@ -95,11 +95,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 	
 	private Type realTypize(Type typeArg, Resolver res, NodeList<Node> stack) {
 
-		System.out.println("Realtypizing T for "+this+"\n");
-		
 		Type realType = getRealType(typeArg.getName(), stack, res, true);
-		
-		System.out.println("realType is "+realType);
 		
 		Type type = null;
 		if(realType == null) {
@@ -244,6 +240,12 @@ public class FunctionCall extends Access implements MustBeResolved {
 		// Determine the real type of this function call.
 		if(realType == null) {
 			Type retType = impl.getReturnType();
+			// FIXME huh that's such a bad, bad fix.
+			retType.resolve(stack, res, fatal);
+			if(retType.getRef() == null) {
+				if(fatal) throw new OocCompilationError(this, stack, "Huh, ref of retType of impl is still null, wtf? (That ain't good.) retType = " + retType);
+				return Response.LOOP;
+			}
 			if(retType.isGenericRecursive()) {
 				Type candidate = realTypize(retType, res, stack);
 				if(candidate == null) {
@@ -262,8 +264,6 @@ public class FunctionCall extends Access implements MustBeResolved {
 		if(genType != null) {
 			Node parent = stack.peek();
 			if(parent instanceof Assignment) {
-				// FIXME debug KALAMAZOO
-				System.out.println("Parent is an assignment "+parent+", unwrapping. " + this);
 				Assignment ass = (Assignment) parent;
 				if(ass.getLeft() instanceof Access) {
 					returnArg = new AddressOf(ass.getLeft(), startToken);
@@ -271,16 +271,11 @@ public class FunctionCall extends Access implements MustBeResolved {
 					return Response.RESTART;
 				}
 			} else if(parent instanceof VariableDeclAtom) {
-				// FIXME debug KALAMAZOO
-				System.out.println("Parent is an vDeclAtom "+parent+", unwrapping." + this);
-				System.out.println("|| stack.peek(3) = "+stack.peek(3));
 				VariableDeclAtom atom = (VariableDeclAtom) parent;
 				return unwrapFromVarDecl(stack, res, genType, atom, fatal);
 			} else if(parent instanceof Line) {
 				// alright =)
 			} else {
-				// FIXME debug KALAMAZOO
-				System.out.println("Parent is.. anything but a Line: "+parent+", unwrapping. " + this);
 				VariableDeclFromExpr vdfe = new VariableDeclFromExpr(
 						generateTempName("gcall", stack), this, startToken);
 				Type implRetType = impl.getReturnType();

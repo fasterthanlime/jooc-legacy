@@ -76,17 +76,54 @@ public class VariableAccess extends Access implements MustBeResolved {
 
 		if(isResolved()) return Response.OK;
 		
+		// Search in the type params of the current function
 		{
 			int funcIndex = stack.find(FunctionDecl.class);
 			if(funcIndex != -1) {
 				FunctionDecl decl = (FunctionDecl) stack.get(funcIndex);
 				TypeParam genType = decl.getTypeParams().get(name);
 				if(genType != null) {
-					ref = genType.getArgument();
+					if(ref == null) {
+						ref = genType.getArgument();
+					}
 					return Response.OK;
 				}
 			}
 		}
+		
+		// Search in the type params of the super-types of the current TypeDecl
+		/*
+		{
+			int typeDeclIndex = stack.find(TypeDecl.class);
+			if(typeDeclIndex != -1) {
+				TypeDecl typeDecl = (TypeDecl) stack.get(typeDeclIndex);
+				Type superType = typeDecl.getSuperType();
+				if(superType != null) {
+					TypeDecl superTypeDecl = (TypeDecl) superType.getRef();
+					Expression val = superTypeDecl.getTypeParams().get(name);
+					Expression thisVal = typeDecl.getTypeParams().get(name);
+					if(val != null && thisVal == null) {
+						int index = -1;
+						Iterator<String> iter = superTypeDecl.getTypeParams().keySet().iterator();
+						int i = 0;
+						while(iter.hasNext()) {
+							String tp = iter.next();
+							if(tp.equals(name)) {
+								index = i;
+								break;
+							}
+						}
+						Expression expr = superType.getTypeParams().get(index);
+						ref = expr.getType().getRef();
+						if(ref == null) {
+							return Response.LOOP;
+						}
+						return Response.OK;
+					}
+				}
+			}
+		}
+		*/
 		
 		
 		{

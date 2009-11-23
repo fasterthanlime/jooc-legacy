@@ -167,15 +167,24 @@ public class MemberCall extends FunctionCall {
 	}
 	
 	@Override
-	protected Expression getRealExpr(String typeParam, NodeList<Node> stack, Resolver res, boolean fatal) {
+	protected Expression getRealExpr(String needle, NodeList<Node> stack, Resolver res, boolean fatal) {
 		
-		Expression result = getRealExpr(typeParam, stack, res, fatal, expression.getType());
+		Type type = expression.getType();
+		
+		Expression result = super.getRealExpr(needle, stack, res, fatal);
 		if(result != null) return result;
-		return super.getRealExpr(typeParam, stack, res, fatal);
+		
+		while(type != null) {
+			result = getRealExpr(needle, stack, res, fatal, type);
+			if(result != null) return result;
+			type = ((TypeDecl) type.getRef()).getSuperType();
+		}
+		
+		return null;
 		
 	}
 	
-	protected Expression getRealExpr(String typeParam, NodeList<Node> stack, Resolver res, boolean fatal, Type type) {
+	protected Expression getRealExpr(String needle, NodeList<Node> stack, Resolver res, boolean fatal, Type type) {
 		
 		if(type != null && !type.getTypeParams().isEmpty()) {
 			Declaration ref = type.getRef();
@@ -186,7 +195,7 @@ public class MemberCall extends FunctionCall {
 					int i = -1;
 					for(TypeParam candidate: typeParams.values()) {
 						i++;
-						if(candidate.getName().equals(typeParam)) {
+						if(candidate.getName().equals(needle)) {
 							Access result = type.getTypeParams().get(i);
 							if(result != null && result.getType() != null) {
 								return result;

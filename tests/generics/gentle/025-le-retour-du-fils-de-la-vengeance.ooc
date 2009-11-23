@@ -2,18 +2,27 @@ import structs/ArrayList
 
 Value: class <T> {
 
+    val: T
+    
+    init: func(=val) {}
+
 }
 
-ValueList: class extends ArrayList<Value<Pointer>> {}
+ValueList: class extends ArrayList<Value<String>> {}
 
-test: func (ctx: Pointer) {
+test1: func <T> (ctx: Pointer, T:Class) -> T {
     /* works */
-    ctx as ArrayList<Value<Pointer>> get(1) as Value<Pointer>
-    /* does not work */
-    //ctx as ValueList get(1) as Value<Pointer>
+    ctx as ArrayList<Value<String>> get(0) as Value<String> val
+}
+
+test2: func <T> (ctx: Pointer, T:Class) -> T {
+    /* works too! */
+    ctx as ValueList get(0) as Value<String> val
 }
 
 main: func {
-    vl := ArrayList<Value<Pointer>> new()
-    test(vl)
+    vl := ArrayList<Value<String>> new()
+    vl add(Value<String> new("Yay!"))
+    test1(vl, String) println()
+    test2(vl, String) println()
 }

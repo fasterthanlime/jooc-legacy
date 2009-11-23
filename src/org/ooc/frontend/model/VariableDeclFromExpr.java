@@ -99,6 +99,7 @@ public class VariableDeclFromExpr extends VariableDecl {
 			addAfterLine(stack, toDeclAssign(stack, atom, expr)); 
 			return Response.RESTART;
 		}
+		
 		if(expr != null && stack.peek(3) instanceof Module) {
 			((Module) stack.peek(3)).getLoadFunc().getBody().add(0, new Line(toDeclAssign(stack, atom, expr)));
 		}
