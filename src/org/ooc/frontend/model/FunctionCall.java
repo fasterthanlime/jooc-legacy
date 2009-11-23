@@ -385,7 +385,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 				String key = keys.next();
 				if(key.equals(needle)) {
 					Type realType = getRealType(haystack.getName(), stack, res, fatal);
-					if(realType != null) {
+					if(realType != null && i < realType.getTypeParams().size()) {
 						return realType.getTypeParams().get(i);
 					}
 				}

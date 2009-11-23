@@ -84,7 +84,8 @@ public class ClassDeclParser {
 				
 				VariableDecl varDecl = VariableDeclParser.parse(module, sReader, reader);
 				if(varDecl != null) {
-					if(reader.read().type != TokenType.LINESEP) {
+					Token tok = reader.read();
+					if(tok.type != TokenType.LINESEP && tok.type != TokenType.OOCDOC) {
 						throw new CompilationFailedError(sReader.getLocation(reader.prev()),
 							"Expected semi-colon after variable declaration in class declaration");
 					}
