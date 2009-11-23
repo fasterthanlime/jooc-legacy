@@ -30,9 +30,9 @@ fflush: extern func (stream: FStream)
 fputc: extern func (Char, FStream)
 fputs: extern func (String, FStream)
 
-scanf: extern func (format: String, ...)
+scanf: extern func (format: String, ...) -> Int
 fscanf: extern func (stream: FStream, format: String, ...)
-sscanf: extern func (str: String, format: String, ...)
+sscanf: extern func (str: String, format: String, ...) -> Int
 
 vscanf: extern func (format: String, ap: VaList)
 vfscanf: extern func (stream: FStream, format: String, ap: VaList)
