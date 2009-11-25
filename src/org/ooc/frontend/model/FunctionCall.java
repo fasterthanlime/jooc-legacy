@@ -241,7 +241,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 		if(realType == null) {
 			Type retType = impl.getReturnType();
 			// FIXME huh that's such a bad, bad fix.
-			retType.resolve(stack, res, fatal);
+			retType.resolve(stack, res, false);
 			if(retType.getRef() == null) {
 				if(fatal) throw new OocCompilationError(this, stack, "Huh, ref of retType of impl is still null, wtf? (That ain't good.) retType = " + retType);
 				return Response.LOOP;
