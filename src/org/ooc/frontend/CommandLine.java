@@ -140,6 +140,10 @@ public class CommandLine {
         			
         			params.clean = false;
         			
+        		} else if(option.equals("nomain")) {
+        			
+        			params.defaultMain = false;
+        			
         		} else if(option.equals("nolines")) {
         			
         			params.lineDirectives = false;

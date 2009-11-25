@@ -69,6 +69,9 @@ public class BuildParams {
 	// depends on "debug" flag
 	public boolean lineDirectives = true;
 	
+	// add a main method if there's none in the specified ooc file
+	public boolean defaultMain = true;
+	
 	// either "32" or "64"
 	public String arch = "";
 	

@@ -174,7 +174,7 @@ public class ModuleWriter {
 		module.getLoadFunc().accept(cgen);
 		
 		ModuleWriter.writeLoadFunc(cgen);
-		if(module.isMain()) writeDefaultMain(cgen);
+		if(module.isMain() && cgen.params.defaultMain) writeDefaultMain(cgen);
 		
 		/** Finish the .h file (global variables/functions) **/
 		cgen.current = cgen.hw;

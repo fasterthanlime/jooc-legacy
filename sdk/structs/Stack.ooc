@@ -39,7 +39,7 @@ Stack: class <T> extends Iterable<T> {
 	}
 	
 	isEmpty: func() -> Bool {
-		return size() <= 0
+		return data isEmpty()
 	}
 	
 	lastIndex: func() -> Int {
