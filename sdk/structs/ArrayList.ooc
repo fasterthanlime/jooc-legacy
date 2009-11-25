@@ -61,7 +61,8 @@ ArrayList: class <T> extends List<T> {
 			index += 1
 			candidate : T
 			candidate = data[index]
-			if(candidate == element) return index
+            // that workaround sucks, but it works
+			if(memcmp(candidate&, element&, T size) == 0) return index
 		}
 		return -1
 	}
@@ -71,7 +72,8 @@ ArrayList: class <T> extends List<T> {
 		while(index) {
 			candidate : T
 			candidate = data[index]
-			if(candidate == element) return index
+            // that workaround sucks, but it works
+			if(memcmp(candidate&, element&, T size) == 0) return index
 			index -= 1
 		}
 		return -1

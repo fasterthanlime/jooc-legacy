@@ -121,7 +121,7 @@ public class UseDefParser {
 		set.add(params.libsPath);
 		
 		int i = 0;
-		while(i++ < 3) {
+		while(!set.isEmpty()) {
 			Set<File> nextSet = new HashSet<File>();
 			for(File candidate: set) {
 				if(candidate.getPath().endsWith(fileName)) {

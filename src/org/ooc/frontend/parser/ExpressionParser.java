@@ -83,11 +83,13 @@ public class ExpressionParser {
 		Expression expr = null;
 		if(reader.peek().type == TokenType.OPEN_PAREN) {
 			reader.skip();
+			reader.skipWhitespace();
 			expr = parse(module, sReader, reader, noDecl);
 			expr = new Parenthesis(expr, expr.startToken);
+			reader.skipWhitespace();
 			if(reader.read().type != TokenType.CLOS_PAREN) {
 				throw new CompilationFailedError(sReader.getLocation(reader.prev())
-						, "Expected closing parenthesis.");
+						, "Expected closing parenthesis, but got "+reader.prev());
 			}
 		} else {
 			expr = parseFlatNoparen(module, sReader, reader, noDecl);
