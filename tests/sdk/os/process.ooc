@@ -4,12 +4,12 @@ import structs/ArrayList
 main: func() {
 
     args := ArrayList<String> new()
-    args add("/bin/ls").add(".")
+    args add("echo").add("5")
     
     process := SubProcess new(args)
     myPipe := Pipe new()
     process setStdout(myPipe)
     process execute()
-    myPipe read(20) as String println()
+    myPipe read(20) as String print()
                   
 }
