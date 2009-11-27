@@ -1,0 +1,3 @@
+[general]
+compilerBackend=gcc
+testDir=.
