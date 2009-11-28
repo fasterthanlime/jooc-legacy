@@ -38,6 +38,7 @@ LinkedList: class <T> extends List<T> {
 			node := Node<T> new(prevNode,nextNode,data)
 			prevNode next = node
 			nextNode prev = node
+			size += 1
 		} else if (index == 0) {
 			node := Node<T> new(null,first,data)
 			if(first) {
@@ -47,6 +48,7 @@ LinkedList: class <T> extends List<T> {
 				first = node
 				last = node
 			}
+			size += 1
 		} else {
 			Exception new(This, "Check index: 0 <= " + index + " < " + size) throw()
 		}
@@ -135,7 +137,14 @@ LinkedList: class <T> extends List<T> {
 		}
 	}
 	
-	remove: func (data: T) -> Bool {return false}
+	remove: func (data: T) -> Bool {
+		i := indexOf(data)
+		if(i != -1) {
+			removeAt(i)
+			return true
+		}			
+		return false
+	}
 	
 	removeNode: func(toRemove: Node<T>) -> Bool {
 		if(toRemove next) {
