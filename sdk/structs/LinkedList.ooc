@@ -32,13 +32,15 @@ LinkedList: class <T> extends List<T> {
 	}
 	
 	add: func ~withIndex(index: Int, data: T) {
-		if(index > 0) {
+		if(index > 0 && index <= lastIndex()) {
 			prevNode := getNode(index - 1)
 			nextNode := prevNode next
 			node := Node<T> new(prevNode,nextNode,data)
 			prevNode next = node
 			nextNode prev = node
 			size += 1
+		} else if(index > 0 && index == size()) {
+			add(data)
 		} else if (index == 0) {
 			node := Node<T> new(null,first,data)
 			if(first) {
