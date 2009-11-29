@@ -40,15 +40,15 @@ public class CoverDeclParser {
 		
 		if(reader.read().type == TokenType.COVER_KW) {
 
-			Type overType = null;
+			Type fromType = null;
 			Type superType = null;
 			while(true) {
 				Token token = reader.peek();
 				if(token.type == TokenType.FROM_KW) {
 					reader.skip();
 					reader.skipWhitespace();
-					overType = TypeParser.parse(module, sReader, reader);
-					if(overType == null) {
+					fromType = TypeParser.parse(module, sReader, reader);
+					if(fromType == null) {
 						throw new CompilationFailedError(sReader.getLocation(reader.peek()),
 						"Expected cover's base type name after the from keyword.");
 					}
@@ -65,7 +65,7 @@ public class CoverDeclParser {
 				throw new CompilationFailedError(sReader.getLocation(startToken), "A cover cannot extends itself!");
 			}
 			
-			CoverDecl coverDecl = new CoverDecl(name, superType, overType, module, startToken);
+			CoverDecl coverDecl = new CoverDecl(name, superType, fromType, module, startToken);
 			module.parseStack.push(coverDecl);
 			coverDecl.setExternName(externName);
 			if(comment != null) coverDecl.setComment(comment);
@@ -127,10 +127,10 @@ public class CoverDeclParser {
 						throw new CompilationFailedError(sReader.getLocation(reader.prev()),
 							"Expected newline after variable declaration in cover declaration, but got "+reader.prev());
 					}
-					if(overType != null && !varDecl.isExtern()) {
+					if(fromType != null && !varDecl.isExtern()) {
 						throw new CompilationFailedError(sReader.getLocation(reader.prev()),
 							"You can't add non-extern member variables to a Cover which already has a base type (in this case, "
-								+overType.getName()+")");
+								+fromType.getName()+")");
 					}
 					coverDecl.addVariable(varDecl);
 					continue;
