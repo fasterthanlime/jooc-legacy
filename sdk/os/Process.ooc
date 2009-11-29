@@ -28,12 +28,19 @@ SubProcess: class {
                 stdOut close('r')
                 dup2(stdOut writeFD, 1)
             }
+            if (stdErr != null) {
+                stdErr close('r')
+                dup2(stdErr writeFD, 1)
+            }
             execvp(executable, buf)
-       
         } else {
             waitpid(-1, status&, null)
             if (WIFEXITED(status)) {
                 result = WEXITSTATUS(status)
+                if (stdOut != null) {
+                    stdOut close('w')
+                }
+
             }
         }
         return result

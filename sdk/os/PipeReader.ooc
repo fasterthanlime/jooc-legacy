@@ -13,6 +13,5 @@ PipeReader: class {
     hasNext: func() -> Bool {
         buf = pipe read(1) as String
         buf  != "\0"
-
     }
 }
