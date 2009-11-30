@@ -14,6 +14,9 @@ public class BuildParams {
 
 	public AbstractCompiler compiler = null;
 	
+	/** If no compiler is specified, use gcc by default (or not) */
+	public boolean gccByDefault = false;
+	
 	public File distLocation = DistLocator.locate();
 	public File sdkLocation = SdkLocator.locate();
 	

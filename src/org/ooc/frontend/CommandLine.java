@@ -233,8 +233,11 @@ public class CommandLine {
         				params.compiler = new Clang();
         			}
         		} else if(option.equals("onlygen")) {
+        			
 					params.compiler = null;
+					params.gccByDefault = false;
 					params.clean = false;
+					
         		} else if(option.equals("help-backends") || option.equals("-help-backends")) {
         			
         			Help.printHelpBackends();
@@ -303,7 +306,7 @@ public class CommandLine {
 			return;
 		}
 		
-		if (params.compiler == null){
+		if (params.compiler == null && params.gccByDefault) {
 			if (params.verbose)
 				System.out.println("No compiler given ... using GCC");
 			params.compiler = new Gcc();

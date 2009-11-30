@@ -13,11 +13,8 @@ public class OocCompilationError extends CompilationFailedError {
 	 */
 	private static final long serialVersionUID = -1356486317872050599L;
 
-	private NodeList<Node> stack = null;
-	
 	public OocCompilationError(Node node, NodeList<Node> stack, String message) {
 		this(node.startToken, stack.getModule(), message);
-		this.stack = stack;
 	}
 	
 	public OocCompilationError(Node node, Module module, String message) {
@@ -26,7 +23,6 @@ public class OocCompilationError extends CompilationFailedError {
 	
 	public OocCompilationError(Token startToken, NodeList<Node> stack, String message) {
 		this(startToken, stack.getModule(), message);
-		this.stack = stack;
 	}
 	
 	public OocCompilationError(Token startToken, Module module, String message) {
@@ -40,8 +36,7 @@ public class OocCompilationError extends CompilationFailedError {
 	
 	@Override
 	public String toString() {
-		if(stack == null) return getMessage().trim();
-		return "(depth = "+ stack.size() +")" + getMessage().trim();
+		return getMessage().trim();
 	}
 
 }
