@@ -180,23 +180,24 @@ public class SequenceDriver extends Driver {
 							+ Target.guessHost().toString(params.arch.equals("") ? Target.getArch() : params.arch) + "/libgc.a").getPath());
 				}
 			}
+			if(params.verbose) System.out.println(params.compiler.getCommandLine());
+	
+			long tt1 = System.nanoTime();
+			int code = params.compiler.launch();
+			long tt2 = System.nanoTime();
+			if(params.verbose) System.out.println("  (linking " + ((tt2 - tt1) / 1000000)+"ms)");
+			
+			if(params.verbose) {
+				System.out.println("(total " + ((System.nanoTime() - tt0) / 1000000)+"ms)");
+			}
+			
+			if(code != 0) {
+				System.err.println("C compiler failed, aborting compilation process");
+				return code;
+			}
+		
 		}
 		
-		if(params.verbose) System.out.println(params.compiler.getCommandLine());
-
-		long tt1 = System.nanoTime();
-		int code = params.compiler.launch();
-		long tt2 = System.nanoTime();
-		if(params.verbose) System.out.println("  (linking " + ((tt2 - tt1) / 1000000)+"ms)");
-		
-		if(params.verbose) {
-			System.out.println("(total " + ((System.nanoTime() - tt0) / 1000000)+"ms)");
-		}
-		
-		if(code != 0) {
-			System.err.println("C compiler failed, aborting compilation process");
-			return code;
-		}
 		
 		return 0;
 		
