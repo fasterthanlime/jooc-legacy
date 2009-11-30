@@ -204,8 +204,8 @@ public class SequenceDriver extends Driver {
 			
 			// TODO: make this platform-independant (for now it's a linux-friendly hack)
 			List<String> args = new ArrayList<String>();
-			args.add("ar");
-			args.add("rcs");
+			args.add("ar"); // ar = archive tool
+			args.add("rcs"); // r = insert files, c = create archive, s = create/update .o file index
 			args.add(params.outlib);
 			
 			HashSet<Module> allModules = collectDeps(module, new HashSet<Module>(), new HashSet<String>());
