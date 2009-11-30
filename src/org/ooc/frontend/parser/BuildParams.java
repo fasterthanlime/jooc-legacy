@@ -72,6 +72,9 @@ public class BuildParams {
 	// depends on "debug" flag
 	public boolean lineDirectives = true;
 	
+	// if non-null, will create a static library with 'ar rcs <outlib> <all .o files>'
+	public String outlib = null;
+	
 	// add a main method if there's none in the specified ooc file
 	public boolean defaultMain = true;
 	

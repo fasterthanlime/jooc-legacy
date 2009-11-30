@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.ooc.frontend.Target;
@@ -13,6 +14,7 @@ import org.ooc.frontend.compilers.AbstractCompiler;
 import org.ooc.frontend.model.Import;
 import org.ooc.frontend.model.Module;
 import org.ooc.frontend.parser.BuildParams;
+import org.ooc.utils.ProcessUtils;
 
 public class SequenceDriver extends Driver {
 
@@ -196,6 +198,33 @@ public class SequenceDriver extends Driver {
 				return code;
 			}
 		
+		}
+		
+		if(params.outlib != null) {
+			
+			// TODO: make this platform-independant (for now it's a linux-friendly hack)
+			List<String> args = new ArrayList<String>();
+			args.add("ar");
+			args.add("rcs");
+			args.add(params.outlib);
+			
+			HashSet<Module> allModules = collectDeps(module, new HashSet<Module>(), new HashSet<String>());
+			for(Module dep: allModules) {
+				args.add(new File(params.outPath, dep.getPath("")).getPath() + ".o");
+			}
+			
+			if(params.verbose) {
+				StringBuilder command = new StringBuilder();
+				for(String arg: args) {
+					command.append(arg).append(" ");
+				}
+				System.out.println(command);
+			}
+			
+			ProcessBuilder builder = new ProcessBuilder(args);
+			Process process = builder.start();
+			ProcessUtils.redirectIO(process);
+			
 		}
 		
 		

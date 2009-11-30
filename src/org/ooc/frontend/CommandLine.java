@@ -69,6 +69,10 @@ public class CommandLine {
         			params.outPath = new File(arg.substring(arg.indexOf('=') + 1));
         			params.clean = false;
         			
+        		} else if(option.startsWith("outlib")) {
+        			
+        			params.outlib = arg.substring(arg.indexOf('=') + 1);
+        			
         		} else if(option.startsWith("incpath")) {
         			
         			params.incPath.add(arg.substring(arg.indexOf('=') + 1));
