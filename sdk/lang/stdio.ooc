@@ -2,10 +2,10 @@ include stdio
 import BasicTypes
 
 println: func ~withStr (str: String) {
-	printf("%s\n", str)
+    printf("%s\n", str)
 }
 println: func {
-	printf("\n")
+    printf("\n")
 }
 
 // input/output
@@ -42,59 +42,70 @@ fgets: extern func (str: String, length: SizeT, stream: FStream)
 
 FILE: extern cover
 FStream: cover from FILE* {
-	
-	// TODO encodings
-	readChar: func -> Char {
-		c : Char
-		fread(c&, 1, 1, this)
-		return c
-	}
-	
-	readLine: func -> String {
-		// 128 is a reasonable default. Most terminals are 80x25
-		chunk := 128
-		length := chunk
-		pos := 0
-		str := gc_malloc(length) as String
-		
-		fgets(str, chunk, this)
-		
-		// while it's not '\n' it means not all the line has been read
-		while(str last() != '\n') {
-			// now insert the rest of the line in str
-			pos += chunk - 1 // -1 cause we want to insert the rest before the '\0'
-			
-			// try to grow the string
-			length += chunk
-			tmp := gc_realloc(str, length)
-			if(!tmp) Exception new(This, "Ran out of memory while reading a (apparently never-ending) line!")
-			str = tmp
+    open: static func (filename, mode: const String) -> This {
+        fopen(filename, mode)
+    }
 
-			// we cast as Char* to avoid operator overloading
-			// TODO encodings
-			fgets(str as Char* + pos, chunk, this)
-		}
-		
-		return str
-	}
+    close: func -> Int {
+        fclose(this)
+    }
+
+    flush: func {
+        fflush(this)
+    }
+    
+    // TODO encodings
+    readChar: func -> Char {
+        c : Char
+        fread(c&, 1, 1, this)
+        return c
+    }
+    
+    readLine: func -> String {
+        // 128 is a reasonable default. Most terminals are 80x25
+        chunk := 128
+        length := chunk
+        pos := 0
+        str := gc_malloc(length) as String
+        
+        fgets(str, chunk, this)
+        
+        // while it's not '\n' it means not all the line has been read
+        while(str last() != '\n') {
+            // now insert the rest of the line in str
+            pos += chunk - 1 // -1 cause we want to insert the rest before the '\0'
+            
+            // try to grow the string
+            length += chunk
+            tmp := gc_realloc(str, length)
+            if(!tmp) Exception new(This, "Ran out of memory while reading a (apparently never-ending) line!")
+            str = tmp
+
+            // we cast as Char* to avoid operator overloading
+            // TODO encodings
+            fgets(str as Char* + pos, chunk, this)
+        }
+        
+        return str
+    }
     
     hasNext: func -> Bool {
         feof(this) == 0
     }
-	
-	write: func ~chr (chr: Char) {
-		fputc(chr, this)
-	}
-	
-	write: func (str: String) {
-		fputs(str, this)
-	}
-	
-	write: func ~precise (str: Char*, offset: SizeT, length: SizeT) -> SizeT {
-		// TODO encodings
-		fwrite(str + offset, 1, length, this)
-	}
-	
+    
+    write: func ~chr (chr: Char) {
+        fputc(chr, this)
+    }
+    
+    write: func (str: String) {
+        fputs(str, this)
+    }
+    
+    write: func ~precise (str: Char*, offset: SizeT, length: SizeT) -> SizeT {
+        // TODO encodings
+        fwrite(str + offset, 1, length, this)
+    }
+    
 }
 
 stdout, stderr, stdin : extern FStream
