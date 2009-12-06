@@ -42,6 +42,17 @@ fgets: extern func (str: String, length: SizeT, stream: FStream)
 
 FILE: extern cover
 FStream: cover from FILE* {
+    open: static func (filename, mode: const String) -> This {
+        fopen(filename, mode)
+    }
+
+    close: func -> Int {
+        fclose(this)
+    }
+
+    flush: func {
+        fflush(this)
+    }
     
     // TODO encodings
     readChar: func -> Char {
