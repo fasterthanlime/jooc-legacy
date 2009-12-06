@@ -176,8 +176,10 @@ HashMap: class <T> extends Iterable<T> {
      */
     get: func (key: String) -> T {
         entry := getEntry(key)
-        if (entry) return entry value
-        return
+        if (entry) {
+	    return entry value
+        }
+        return null
     }
 
     /**
