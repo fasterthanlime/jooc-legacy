@@ -184,7 +184,6 @@ public class ClassDecl extends TypeDecl {
 		if(!hasRegisteredFinalizer) {
 			FunctionDecl finalizer = getFunction(DESTROY_FUNC_NAME, null, null);
 			if(finalizer != null && !finalizer.getBody().isEmpty()) {
-				System.out.println("Wow, "+this+" actually has a finalizer :D");
 				FunctionDecl defaults = getFunction(DEFAULTS_FUNC_NAME, null, null);
 				FunctionCall call = new FunctionCall("gc_register_finalizer", finalizer.startToken);
 				NodeList<Expression> args = call.getArguments();
