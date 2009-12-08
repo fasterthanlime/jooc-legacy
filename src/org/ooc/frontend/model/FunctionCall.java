@@ -118,6 +118,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 				type.getTypeParams().set(i, expr);
 			}
 		}
+		
 		return type;
 		
 	}
