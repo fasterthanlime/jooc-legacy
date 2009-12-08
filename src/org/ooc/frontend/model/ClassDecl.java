@@ -13,7 +13,9 @@ public class ClassDecl extends TypeDecl {
 	public static final String DESTROY_FUNC_NAME = "__destroy__";
 	public static final String DEFAULTS_FUNC_NAME = "__defaults__";
 	public static final String LOAD_FUNC_NAME = "__load__";
-
+	
+	protected boolean hasRegisteredFinalizer = false;
+	
 	protected boolean isAbstract;
 	
 	protected OocDocComment comment;
@@ -176,6 +178,33 @@ public class ClassDecl extends TypeDecl {
 					addInit();
 					//return Response.RESTART;
 				}
+			}
+		}
+		
+		if(!hasRegisteredFinalizer) {
+			FunctionDecl finalizer = getFunction(DESTROY_FUNC_NAME, null, null);
+			if(finalizer != null && !finalizer.getBody().isEmpty()) {
+				System.out.println("Wow, "+this+" actually has a finalizer :D");
+				FunctionDecl defaults = getFunction(DEFAULTS_FUNC_NAME, null, null);
+				FunctionCall call = new FunctionCall("gc_register_finalizer", finalizer.startToken);
+				NodeList<Expression> args = call.getArguments();
+				/*
+				 * void GC_debug_register_finalizer (GC_PTR obj, GC_finalization_proc fn, GC_PTR cd,
+		  		 * GC_finalization_proc *ofn, GC_PTR *ocd);
+				 */
+				VariableAccess thisAccess = new VariableAccess("this", finalizer.startToken);
+				args.add(thisAccess); // for object "this"
+				
+				VariableAccess destroyAccess = new MemberAccess(thisAccess, "__destroy__", finalizer.startToken);
+				args.add(destroyAccess); // call the finalizer
+				
+				NullLiteral nil = new NullLiteral(finalizer.startToken);
+				args.add(nil); // cd (no argument to apss)
+				args.add(nil); // ofn (we don't care)
+				args.add(nil); // ocd (we don't care)
+				defaults.getBody().add(0, new Line(call));
+				hasRegisteredFinalizer = true;
+				return Response.LOOP;
 			}
 		}
 		

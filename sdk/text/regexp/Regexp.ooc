@@ -67,6 +67,25 @@ main: func {
 		printf("No match\n")
 		
 	// if (string =~ /^Hello, (\w+)/i)
+	
+	tryLoop()
 		
+}
+
+/**
+ * Check that the regexp is in fact freed. A dot is displayed each time
+ * one is allocated, and a caret is displayed each time one his freed =)
+ */
+tryLoop: func {
+
+    PCRE_DEBUG = true
+    
+    for(i in 0..10_000) {
+        rx := Regexp new("^Hello \\w+$", PCRE CASELESS)
+        if(rx matches("HELLO world")) {
+            printf(".")
+        }
+    }
+    
 }
 

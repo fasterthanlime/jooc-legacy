@@ -6,21 +6,26 @@ pcre_compile: extern func (String, Int, const Char**, Int*, Pointer) -> Pcre
 pcre_exec: extern func(Pcre, Pointer, String, Int, Int, Int, Int*, Int) -> Int
 pcre_free: extern func(Pointer)
 
+PCRE_DEBUG : Bool = false
+
 PCRE: class extends RegexpBackend {
 	CASELESS : extern(PCRE_CASELESS) static const Int
-
-	error: String
+    
+    error: String
 	errorNum: Int
 	re: Pcre
 	
-	destroy: func {
+	__destroy__: func {
+        if(PCRE_DEBUG) {
+            printf("^")
+        }
 		pcre_free(re)
 	}
 	
 	setPattern: func(pattern: String, options: Int) {
 		this pattern = pattern
 		
-		re = pcre_compile(pattern, options, error&, errorNum&, null)
+		re = pcre_compile(pattern, options, error& as const Char**, errorNum&, null)
 		if (! re)
 			printf("PCRE compilation failed at expression offset %d: %s\n", errorNum, error)
 	}

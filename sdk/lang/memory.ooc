@@ -1,3 +1,5 @@
+GC_finalization_proc: extern cover {}
+
 version(gc) {
     include gc/gc
     
@@ -7,6 +9,8 @@ version(gc) {
     gc_calloc: func (nmemb: SizeT, size: SizeT) -> Pointer {
         gc_malloc(nmemb * size)
     }
+    gc_register_finalizer: extern(GC_register_finalizer) func (obj: Pointer, callback: GC_finalization_proc, userdata: Pointer, oldObj: Pointer, oldCallback: Pointer)
+    gc_invoke_finalizers: extern(GC_invoke_finalizers) func ()
 }
 
 version(!gc) {

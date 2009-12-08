@@ -218,6 +218,13 @@ public class MemberAccess extends VariableAccess {
 		
 		if(ref == null) {
 			ref = typeDecl.getFunction(getName(), "", null);
+			if(ref != null) {
+				FunctionDecl fDecl = (FunctionDecl) ref;
+				if(fDecl.getTypeDecl() instanceof ClassDecl) {
+					ClassDecl baseClass = ((ClassDecl) fDecl.getTypeDecl()).getBaseClass(fDecl);
+					ref = baseClass.getFunction(fDecl.getName(), fDecl.getSuffix(), null);
+				}
+			}
 		}
 		
 		return ref != null;
