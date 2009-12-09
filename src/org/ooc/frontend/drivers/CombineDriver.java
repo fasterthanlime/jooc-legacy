@@ -52,11 +52,11 @@ public class CombineDriver extends Driver {
 			params.compiler.setOSXSDKAndDeploymentTarget(params.osxSDKAndDeploymentTarget);
 		}
 		
+		Collection<String> libs = getFlagsFromUse(module, params.link);
+		for(String lib: libs) params.compiler.addObjectFile(lib);
+		
 		if(params.link) {
 			params.compiler.setOutputPath(outName);
-			Collection<String> libs = getFlagsFromUse(module);
-			for(String lib: libs) params.compiler.addObjectFile(lib);
-			
 			if(params.enableGC) {
 				params.compiler.addDynamicLibrary("pthread");
 				if(params.dynGC) {

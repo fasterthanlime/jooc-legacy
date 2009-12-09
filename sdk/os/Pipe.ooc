@@ -41,14 +41,10 @@ Pipe: class  {
     }
 
     close: func(arg: Char) -> Int{
-        result :Int
-        match arg {
-            case 'r' => result = readFD close()
-            case 'w' => result = writeFD close()
-            case     => result = -666
+        return match arg {
+            case 'r' => readFD close()
+            case 'w' => writeFD close()
+            case     => -666
         }
-        return result
     }
 }          
-
-

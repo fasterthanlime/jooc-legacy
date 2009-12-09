@@ -7,7 +7,7 @@ main: func (args: Array<String>) {
 		println("Usage: ")
 	}
 	
-	p := SubProcess new(["mplayer", args get(1), null])
+	p := Process new(["mplayer", args get(1), null])
 	exitCode := p execute()
 	println("Process ended with exit code " + exitCode)
 	return exitCode

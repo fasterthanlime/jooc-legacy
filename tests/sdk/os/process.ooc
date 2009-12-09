@@ -6,7 +6,7 @@ main: func() {
     args := ArrayList<String> new()
     args add("echo").add("5")
     
-    process := SubProcess new(args)
+    process := Process new(args)
     myPipe := Pipe new()
     process setStdout(myPipe)
     process execute()

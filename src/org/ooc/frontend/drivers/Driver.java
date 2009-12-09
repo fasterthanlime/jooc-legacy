@@ -81,37 +81,39 @@ public abstract class Driver {
 		
 	}
 	
-	protected Collection<String> getFlagsFromUse(Module module) throws IOException, InterruptedException {
+	protected Collection<String> getFlagsFromUse(Module module, boolean doLinking) throws IOException, InterruptedException {
 
 		Set<String> list = new HashSet<String>();
 		Set<Module> done = new HashSet<Module>();
-		getFlagsFromUse(module, list, done, new HashSet<UseDef>());
+		getFlagsFromUse(module, list, done, new HashSet<UseDef>(), doLinking);
 		return list;
 		
 	}
 
-	protected void getFlagsFromUse(Module module, Set<String> flagsDone, Set<Module> modulesDone, Set<UseDef> usesDone) throws IOException, InterruptedException {
+	protected void getFlagsFromUse(Module module, Set<String> flagsDone,
+			Set<Module> modulesDone, Set<UseDef> usesDone, boolean doLinking) throws IOException, InterruptedException {
 
 		if(modulesDone.contains(module)) return;
 		modulesDone.add(module);
 		
 		for(Use use: module.getUses()) {
 			UseDef useDef = use.getUseDef();
-			getFlagsFromUse(useDef, flagsDone, usesDone);
+			getFlagsFromUse(useDef, flagsDone, usesDone, doLinking);
 		}
 		
 		for(Import imp: module.getImports()) {
-			getFlagsFromUse(imp.getModule(), flagsDone, modulesDone, usesDone);
+			getFlagsFromUse(imp.getModule(), flagsDone, modulesDone, usesDone, doLinking);
 		}
 		
 	}
 
 	private void getFlagsFromUse(UseDef useDef, Set<String> flagsDone,
-			Set<UseDef> usesDone) throws IOException, InterruptedException {
+			Set<UseDef> usesDone, boolean doLinking) throws IOException, InterruptedException {
 		
 		if(usesDone.contains(useDef)) return;
 		usesDone.add(useDef);
 		compileNasms(useDef.getLibs(), flagsDone);
+		
 		for(String pkg: useDef.getPkgs()) {
 			PkgInfo info = PkgConfigFrontend.getInfo(pkg);
 			for(String cflag: info.cflags) {
@@ -119,11 +121,13 @@ public abstract class Driver {
 					flagsDone.add(cflag);
 				}
 			}
-			for(String library: info.libraries) {
-				 // FIXME lazy
-				String lpath = "-l"+library;
-				if(!flagsDone.contains(lpath)) {
-					flagsDone.add(lpath);
+			if(doLinking) {
+				for(String library: info.libraries) {
+					// FIXME lazy
+					String lpath = "-l"+library;
+					if(!flagsDone.contains(lpath)) {
+						flagsDone.add(lpath);
+					}
 				}
 			}
 		}
@@ -144,7 +148,7 @@ public abstract class Driver {
 		}
 		
 		for(Requirement req: useDef.getRequirements()) {
-			getFlagsFromUse(req.getUseDef(), flagsDone, usesDone);
+			getFlagsFromUse(req.getUseDef(), flagsDone, usesDone, doLinking);
 		}
 		
 	}

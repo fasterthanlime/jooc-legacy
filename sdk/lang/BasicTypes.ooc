@@ -134,10 +134,36 @@ String: cover from Char* {
         return true
     }
     
-    indexOf: func(c: Char) -> SizeT {
+    indexOf: func ~charZero (c: Char) -> Int {
+        indexOf(c, 0)
+    }
+    
+    indexOf: func ~char (c: Char, start: Int) -> Int {
         length := length()
-        for(i: SizeT in 0..length) {
+        for(i: Int in 0..length) {
             if(this[i] == c) {
+                return i
+            }
+        }
+        return -1
+    }
+    
+    indexOf: func ~stringZero (s: This) -> Int {
+        indexOf(s, 0)
+    }
+    
+    indexOf: func ~string (s: This, start: Int) -> Int {
+        length := length()
+        slength := s length()
+        for(i: Int in start..length) {
+            matches := true
+            for(j : Int in 0..slength) {
+                if(!(this[i + j] == s[j])) {
+                    matches = false
+                    break;
+                }
+            }
+            if(matches) {
                 return i
             }
         }

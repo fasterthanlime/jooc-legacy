@@ -89,14 +89,12 @@ public class SequenceDriver extends Driver {
 							compiler.setOSXSDKAndDeploymentTarget(params.osxSDKAndDeploymentTarget);
 						}
 
-						/*
 						try {
-							Collection<String> libs = getFlagsFromUse(currentModule);
+							Collection<String> libs = getFlagsFromUse(currentModule, false);
 							for(String lib: libs) compiler.addObjectFile(lib);
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
-						*/
 						
 						if(params.verbose) System.out.println(compiler.getCommandLine());
 						
@@ -170,7 +168,7 @@ public class SequenceDriver extends Driver {
 			}
 
 			params.compiler.setOutputPath(outName);
-			Collection<String> libs = getFlagsFromUse(module);
+			Collection<String> libs = getFlagsFromUse(module, true);
 			for(String lib: libs) params.compiler.addObjectFile(lib);
 			
 			if(params.enableGC) {
