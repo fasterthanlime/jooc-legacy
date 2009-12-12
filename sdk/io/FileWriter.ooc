@@ -1,7 +1,7 @@
 import io/Writer, io/File
  
-FileWriter: class extends Writer {	
-	file: FStream
+FileWriter: class extends Writer {    
+    file: FStream
 
     init: func ~withFile (fileObject: File, append: Bool) {
         init(fileObject getPath(), append)
@@ -17,34 +17,34 @@ FileWriter: class extends Writer {
             Exception new(This, "File not found: " + fileName) throw()
     }
 
-	init: func ~withNameAndFileOverwrite(fileName: String) {
-		init(fileName, false)
-	}
+    init: func ~withNameAndFileOverwrite(fileName: String) {
+        init(fileName, false)
+    }
 
     init: func ~withNameOverwrite (fileName: String) {
         init(fileName, false)
     }
 
     write: func(chars: String, length: SizeT) -> SizeT {
-		file write(chars, 0, length)
+        file write(chars, 0, length)
     }
-	
-	write: func ~chr (chr: Char) {
-		file write(chr)
-	}
-	
-	close: func() {
-		fclose(file);
-	}
-	
-	writef: final func(fmt: String, ...) {
-		ap: VaList
+    
+    write: func ~chr (chr: Char) {
+        file write(chr)
+    }
+    
+    close: func() {
+        fclose(file);
+    }
+    
+    writef: final func(fmt: String, ...) {
+        ap: VaList
         va_start(ap, fmt)
         fprintf(file, fmt, ap)
         va_end(ap)
-	}
-	
-	vwritef: final func(fmt: String, args: VaList) {
-		vfprintf(file, fmt, args)
-	}
+    }
+    
+    vwritef: final func(fmt: String, args: VaList) {
+        vfprintf(file, fmt, args)
+    }
 }

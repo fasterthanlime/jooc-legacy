@@ -117,9 +117,9 @@ String: cover from Char* {
         return true
     }
 
-	startsWith: func~withChar(c: Char) -> Bool {
-		return this[0] == c
-	}
+    startsWith: func~withChar(c: Char) -> Bool {
+        return this[0] == c
+    }
     
     endsWith: func(s: String) -> Bool {
         l1 = this length() : SizeT

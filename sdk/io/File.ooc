@@ -29,8 +29,8 @@ getcwd: extern func(buf: String, size: SizeT) -> String
 
 ModeT: cover from mode_t
 FileStat: cover from struct stat {
-	st_mode: extern ModeT
-	st_size: extern SizeT
+    st_mode: extern ModeT
+    st_size: extern SizeT
     st_atime: extern TimeT
     st_mtime: extern TimeT
     st_ctime: extern TimeT
@@ -50,111 +50,111 @@ realpath: extern func(path: String, resolved: String) -> String
 
 version(unix) {
     File separator = '/'
-	File pathDelimiter = ':'
+    File pathDelimiter = ':'
 }
 version(windows) {
     File separator = '\\'
-	File pathDelimiter = ';'
+    File pathDelimiter = ';'
 }
 
 File: class {
     MAX_PATH_LENGTH := static const 16383 // cause we alloc +1
     
-	path: String
-	separator = '/' : static const Char
-	pathDelimiter = ':' : static const Char
-		
-	getPath: func -> String {
-		return path
-	}
+    path: String
+    separator = '/' : static const Char
+    pathDelimiter = ':' : static const Char
+        
+    getPath: func -> String {
+        return path
+    }
 
-	init: func(=path) {}
+    init: func(=path) {}
     
     init: func ~parentFile(parent: File, .path) { this(parent path + File separator + path) }
     
     init: func ~parentPath(parent: String, .path) { this(parent + File separator + path) }
-	
+    
     /**
      * @return true if it's a directory
      */
-	isDir: func -> Bool {
-		stat: FileStat
-		lstat(path, stat&)
-		return S_ISDIR(stat st_mode)
-	}
-	
+    isDir: func -> Bool {
+        stat: FileStat
+        lstat(path, stat&)
+        return S_ISDIR(stat st_mode)
+    }
+    
     /**
      * @return true if it's a file (ie. not a directory)
      */
-	isFile: func -> Bool {
-		stat: FileStat
-		lstat(path, stat&)
-		return S_ISREG(stat st_mode)
-	}
-	
+    isFile: func -> Bool {
+        stat: FileStat
+        lstat(path, stat&)
+        return S_ISREG(stat st_mode)
+    }
+    
     /**
      * @return true if the file is a symbolic link
      */
-	isLink: func -> Bool {
-		stat: FileStat
-		lstat(path, stat&)
-		return S_ISLNK(stat st_mode)
-	}
-	
+    isLink: func -> Bool {
+        stat: FileStat
+        lstat(path, stat&)
+        return S_ISLNK(stat st_mode)
+    }
+    
     /**
      * @return the size of the file, in bytes
      */
-	size: func -> Int {
-		stat: FileStat
-		lstat(path, stat&)
-		return stat st_size
-	}
-	
+    size: func -> Int {
+        stat: FileStat
+        lstat(path, stat&)
+        return stat st_size
+    }
+    
     /**
      * @return true if the file exists and can be
      * opened for reading
      */
-	exists: func -> Bool {
-		return fopen(path, "r") ? true : false
-	}
-	
+    exists: func -> Bool {
+        return fopen(path, "r") ? true : false
+    }
+    
     /**
      * @return the permissions for the owner of this file
      */
-	ownerPerm: func -> Int {
-		stat: FileStat
-		lstat(path, stat&)
-		return (stat st_mode) & S_IRWXU
-	}
-	
+    ownerPerm: func -> Int {
+        stat: FileStat
+        lstat(path, stat&)
+        return (stat st_mode) & S_IRWXU
+    }
+    
     /**
      * @return the permissions for the group of this file
      */
-	groupPerm: func -> Int {
-		stat: FileStat
-		lstat(path, stat&)
-		return (stat st_mode) & S_IRWXG
-	}
-	
+    groupPerm: func -> Int {
+        stat: FileStat
+        lstat(path, stat&)
+        return (stat st_mode) & S_IRWXG
+    }
+    
     /**
      * @return the permissions for the others (not owner, not group)
      */
-	otherPerm: func -> Int {
-		stat: FileStat
-		lstat(path, stat&)
-		return (stat st_mode) & S_IRWXO
-	}
-	
+    otherPerm: func -> Int {
+        stat: FileStat
+        lstat(path, stat&)
+        return (stat st_mode) & S_IRWXO
+    }
+    
     /**
      * @return the last part of the path, e.g. for /etc/init.d/bluetooth
      * name() will return 'bluetooth'
      */
-	name: func -> String {
-		trimmed := path trim(separator)
-		idx := trimmed lastIndexOf(separator)
-		if(idx == -1) return trimmed
-		return trimmed substring(idx + 1)
-	}
+    name: func -> String {
+        trimmed := path trim(separator)
+        idx := trimmed lastIndexOf(separator)
+        if(idx == -1) return trimmed
+        return trimmed substring(idx + 1)
+    }
     
     /**
      * @return the parent of this file, e.g. for /etc/init.d/bluetooth
@@ -183,8 +183,8 @@ File: class {
      */
     lastAccessed: func -> Long {
         stat: FileStat
-		lstat(path, stat&)
-		return stat st_atime
+        lstat(path, stat&)
+        return stat st_atime
     }
     
     /**
@@ -192,8 +192,8 @@ File: class {
      */
     lastModified: func -> Long {
         stat: FileStat
-		lstat(path, stat&)
-		return stat st_mtime
+        lstat(path, stat&)
+        return stat st_mtime
     }
     
     /**
@@ -201,8 +201,8 @@ File: class {
      */
     created: func -> Long {
         stat: FileStat
-		lstat(path, stat&)
-		return stat st_ctime
+        lstat(path, stat&)
+        return stat st_ctime
     }
     
     mkdir: func -> Int {
@@ -223,12 +223,12 @@ File: class {
         }
         mkdir()
     }
-	
-	getAbsolutePath: func -> String {
-		// TODO, realpath() is a posix thing, needs to be versioned out
-		actualPath := String new(MAX_PATH_LENGTH + 1)
-		return realpath(path, actualPath)
-	}
+    
+    getAbsolutePath: func -> String {
+        // TODO, realpath() is a posix thing, needs to be versioned out
+        actualPath := String new(MAX_PATH_LENGTH + 1)
+        return realpath(path, actualPath)
+    }
     
     getAbsoluteFile: func -> This {
         actualPath := getAbsolutePath()
@@ -299,10 +299,10 @@ File: class {
     /**
      * @return the current working directory
      */
-	getCwd: static func() -> String {
-		ret := String new(File MAX_PATH_LENGTH + 1)
-		getcwd(ret, File MAX_PATH_LENGTH)
+    getCwd: static func() -> String {
+        ret := String new(File MAX_PATH_LENGTH + 1)
+        getcwd(ret, File MAX_PATH_LENGTH)
         return ret
-	}
+    }
     
 }
