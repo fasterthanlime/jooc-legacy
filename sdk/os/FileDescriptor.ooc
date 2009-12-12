@@ -6,12 +6,20 @@ write: extern func(FileDescriptor, Pointer, Int) -> Int
 read:  extern func(FileDescriptor, Pointer, Int) -> Int
 close: extern func(FileDescriptor) -> Int
 
+STDIN_FILENO : extern FileDescriptor
+STDOUT_FILENO: extern FileDescriptor
+STDERR_FILENO: extern FileDescriptor
+
 FileDescriptor: cover from Int {
 
     write: func(data: Pointer, len: Int) -> Int{
         result := write(this, data, len)
         //_errMsg(result, "write")
         return result
+    }
+    
+    write: func ~string (str: String) -> Int {
+        write(str, str length())
     }
     
     read: func(len: Int) -> Pointer {

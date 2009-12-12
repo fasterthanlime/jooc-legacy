@@ -243,10 +243,14 @@ public class FunctionCall extends Access implements MustBeResolved {
 			Type retType = impl.getReturnType();
 			// FIXME huh that's such a bad, bad fix.
 			retType.resolve(stack, res, false);
+			// FIXME why does it need to be removed for some things to compile? I hate j/ooc.
+			// I hate it so bad. Long live rock.
+			/*
 			if(retType.getRef() == null) {
 				if(fatal) throw new OocCompilationError(this, stack, "Huh, ref of retType of impl is still null, wtf? (That ain't good.) retType = " + retType);
 				return Response.LOOP;
 			}
+			*/
 			if(retType.isGenericRecursive()) {
 				Type candidate = realTypize(retType, res, stack);
 				if(candidate == null) {

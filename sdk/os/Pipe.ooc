@@ -5,7 +5,6 @@ include fcntl
 include sys/stat
 include sys/types
 
-
 open: extern func(String, Int) -> Int
 write: extern func(Int, Pointer, Int) -> Int
 read: extern func(Int, Pointer, Int) -> Int
@@ -15,8 +14,26 @@ close: extern func(Int) -> Int
 Pipe: class  {
     readFD:  FileDescriptor 
     writeFD: FileDescriptor 
-    //readFD: Int
-    //writeFD: Int
+
+    init: func ~withFDs (=readFD, =writeFD) {
+        if(readFD == -1) {
+            fds := [-1]
+            pipe(fds)
+            this readFD = fds[0]
+            if (pipe(fds) < 0) {
+                "Error in creating the pipe" println()
+            }
+        }
+        
+        if(writeFD == -1) {
+            fds := [-1]
+            pipe(fds)
+            this writeFD = fds[0]
+            if (pipe(fds) < 0) {
+                "Error in creating the pipe" println()
+            }
+        }
+    }
     
     init: func() {
        
@@ -34,6 +51,10 @@ Pipe: class  {
         buf := gc_malloc(len)
         read(readFD, buf, len)
         return buf
+    }
+    
+    write: func ~string (str: String) -> Int {
+        write(str, str length())
     }
     
     write: func(data: Pointer, len: Int) -> Int{
