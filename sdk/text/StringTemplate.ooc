@@ -15,7 +15,11 @@ String: cover from Char* {
             } else if(identifier) {
                 if(p@ == '}' && (p + 1)@ == '}') {
                     /* end of an identifier! */
-                    length := (p - identifier) as SizeT
+                    /* skip spaces at the end of the identifier */
+                    end := p - 1
+                    while(end@ == ' ') { end -= 1 }
+                    /* calculate the length */
+                    length := (end + 1 - identifier) as SizeT
                     key := String new(length)
                     memcpy(key, identifier, length)
                     /* (the \0 byte is already set.) */
@@ -26,6 +30,10 @@ String: cover from Char* {
                     buffer append(value)
                     identifier = null
                     p += 2
+                } else if(p@ == ' ' && identifier == p) {
+                    /* skip spaces at the beginning of the identifier */
+                    identifier += 1
+                    p += 1
                 } else {
                     /* part of the identifier, skip */
                     p += 1
