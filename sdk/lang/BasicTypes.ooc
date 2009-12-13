@@ -1,3 +1,5 @@
+import structs/ArrayList /* for Iterable<T> toArrayList */
+
 include stddef, stdlib, stdio, ctype, stdint, stdbool
 
 /**
@@ -724,7 +726,17 @@ Iterator: abstract class <T> {
 Iterable: abstract class <T> {
 
     iterator: abstract func -> Iterator<T>
-    
+
+    /**
+      * @return the contents of the iterable as ArrayList.
+      */
+    toArrayList: func -> ArrayList<T> {
+        result := ArrayList<T> new()
+        for(elem: T in this) {
+            result add(elem)
+        }
+        result
+    }
 }
 
 Interface: class {

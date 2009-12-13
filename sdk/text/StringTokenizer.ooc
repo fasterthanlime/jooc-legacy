@@ -52,17 +52,6 @@ StringTokenizer: class extends Iterable<String> {
         splits += 1
         return input substring(oldIndex, index)
     }
-
-    /**
-     * @return the tokens as ArrayList<String>
-     */
-    toArrayList: func -> ArrayList<String> {
-        result := ArrayList<String> new()
-        for(token: String in this) {
-            result add(token)
-        }
-        result
-    }
 }
 
 StringTokenizerIterator: class <T> extends Iterator<T> {
