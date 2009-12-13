@@ -55,7 +55,7 @@ public class ControlStatementWriter {
 			cgen.current.closeBlock();
 		} else { 
 			throw new OocCompilationError(foreach.getCollection(), cgen.module,
-					"Iterating over.. not a Range but a "+foreach.getCollection().getType());
+					"Iterating over... not a Range but a "+foreach.getCollection().getType());
 		}
 	}
 

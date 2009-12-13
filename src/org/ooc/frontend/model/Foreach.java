@@ -115,10 +115,14 @@ public class Foreach extends ControlStatement implements MustBeResolved {
 			return Response.LOOP;
 		}
 
-		if(collection.getType().getRef() instanceof ClassDecl) {
+		if(collection instanceof RangeLiteral) {
+			return Response.OK;
+		}
+		
+		//if(collection.getType().getRef() instanceof ClassDecl) {
 			
-			ClassDecl classDecl = (ClassDecl) collection.getType().getRef();
-			if(classDecl.isChildOf("Iterable")) {
+			//TypeDecl typeDecl = (TypeDecl) collection.getType().getRef();
+			//if(classDecl.isChildOf("Iterable")) {
 				MemberCall iterCall = new MemberCall(collection, "iterator", "", startToken);
 				Response resp = Response.LOOP;
 				while(resp == Response.LOOP) {
@@ -170,17 +174,9 @@ public class Foreach extends ControlStatement implements MustBeResolved {
 				block.getBody().add(new Line(vdfe));
 				block.getBody().add(new Line(while1));
 				
-				//return Response.RESTART;
 				return Response.LOOP;
-			}
-		}
-		
-		if(!(collection instanceof RangeLiteral)) {
-			throw new OocCompilationError(collection, stack,
-					"Iterating over.. not a Range but a "+collection.getType());
-		}
-		
-		return Response.OK;
+			//}
+		//}
 		
 	}
 	

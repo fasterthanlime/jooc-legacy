@@ -9,7 +9,6 @@ Pointer: cover from void*
 /**
  * character and pointer types
  */
-Char: cover from char
 UChar: cover from unsigned char
 WChar: cover from wchar_t
 
@@ -23,23 +22,27 @@ toupper: extern func(letter: Int) -> Int
 Char: cover from char {
     
     isAlphaNumeric: func -> Bool {
-        return isalnum(this)
+        isalnum(this)
     }
     
     isAlpha: func -> Bool { 
-        return isalpha(this)
+        isalpha(this)
     }
     
     isDigit: func -> Bool {
-        return isdigit(this)
+        isdigit(this)
     }
     
     isWhitespace: func() -> Bool {
-        return isspace(this)
+        isspace(this)
     }
     
-    toLower: func() -> Char {
-        return tolower(this)
+    toLower: func -> This {
+        tolower(this)
+    }
+    
+    toUpper: func -> This {
+        toupper(this)
     }
     
     toInt: func -> Int {
@@ -342,7 +345,7 @@ String: cover from Char* {
         this as Char* [index]
     }
 
-    format: func(...) -> String {
+    format: func (...) -> String {
         list:VaList
 
         va_start(list, this)
@@ -356,6 +359,11 @@ String: cover from Char* {
 
         return output
     }
+    
+    iterator: func -> StringIterator<Char> {
+        StringIterator<Char> new(this)
+    }
+    
 }
 
 operator == (str1: String, str2: String) -> Bool {
@@ -763,3 +771,37 @@ Exception: class {
 
 }
 
+
+/**
+ * iterators
+ */
+
+StringIterator: class <T> extends Iterator<T> {
+    
+    i := 0
+    str: String
+    
+    init: func (=str) {}
+    
+    hasNext: func -> Bool {
+        i < str length()
+    }
+    
+    next: func -> T {
+        c := str[i]
+        i += 1
+        return c
+    }
+    
+    hasPrev: func -> Bool {
+        i > 0
+    }
+    
+    prev: func -> T {
+        i -= 1
+        return str[i]
+    }
+    
+    remove: func -> Bool { false } // this could be implemented!
+    
+}

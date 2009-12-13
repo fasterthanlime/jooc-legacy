@@ -120,7 +120,6 @@ public class UseDefParser {
 		Set<File> set = new HashSet<File>();
 		set.add(params.libsPath);
 		
-		int i = 0;
 		while(!set.isEmpty()) {
 			Set<File> nextSet = new HashSet<File>();
 			for(File candidate: set) {
