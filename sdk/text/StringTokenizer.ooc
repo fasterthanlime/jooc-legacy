@@ -1,15 +1,24 @@
 StringTokenizer: class extends Iterable<String> {
 
     input, delim: String
-    index = 0, length: Int
+    index = 0, length, maxSplits, splits: Int
 
-    init: func~withChar(input: String, delim: Char) {
-        this~withString(input, String new(delim))
+    init: func~withCharWithoutMaxSplits(input: String, delim: Char) {
+        this~withChar(input, delim, -1)
+    }
+
+    init: func~withStringWithoutMaxSplits(input: String, delim: String) {
+        this~withString(input, delim, -1)
+    }
+
+    init: func~withChar(input: String, delim: Char, maxSplits: Int) {
+        this~withString(input, String new(delim), maxSplits)
     }
     
-    init: func~withString(=input, =delim) {
+    init: func~withString(=input, =delim, =maxSplits) {
         T = String // small fix for runtime introspection
         length = input length()
+        splits = 0
     }
     
     iterator: func -> Iterator<String> { StringTokenizerIterator new(this) }
@@ -22,16 +31,23 @@ StringTokenizer: class extends Iterable<String> {
     nextToken: func() -> String {
         // at the end?
         if(!hasNext()) return null
-        
+
         // skip all delimiters
         while(hasNext() && delim contains(input[index])) index += 1
         
         // save the index
         oldIndex := index
-        
+
+        // maximal count of splits done?
+        if(splits == maxSplits) {
+            index = length
+            return input substring(oldIndex)
+        }
+         
         // skip all non-delimiters
         while(hasNext() && !delim contains(input[index])) index += 1
         
+        splits += 1
         return input substring(oldIndex, index)
     }
 }
@@ -52,12 +68,19 @@ StringTokenizerIterator: class <T> extends Iterator<T> {
 
 String: cover from Char* {
 
-    split: func~withString(s:String) -> Iterable<String> {
-        StringTokenizer new(this, s)
+    split: func~withString(s: String, maxSplits: Int) -> Iterable<String> {
+        StringTokenizer new(this, s, maxSplits)
     }
     
-    split: func~withChar(c:Char) -> Iterable<String> {
-        StringTokenizer new(this, c)
+    split: func~withChar(c: Char, maxSplits: Int) -> Iterable<String> {
+        StringTokenizer new(this, c, maxSplits)
     }
 
+    split: func~withStringWithoutMaxSplits(s: String) -> Iterable<String> {
+        StringTokenizer new(this, s)
+    }
+
+    split: func~withCharWithoutMaxSplits(c: Char) -> Iterable<String> {
+        StringTokenizer new(this, c)
+    }
 }
