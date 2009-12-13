@@ -1,3 +1,5 @@
+import structs/ArrayList
+
 StringTokenizer: class extends Iterable<String> {
 
     input, delim: String
@@ -50,6 +52,17 @@ StringTokenizer: class extends Iterable<String> {
         splits += 1
         return input substring(oldIndex, index)
     }
+
+    /**
+     * @return the tokens as ArrayList<String>
+     */
+    toArrayList: func -> ArrayList<String> {
+        result := ArrayList<String> new()
+        for(token: String in this) {
+            result add(token)
+        }
+        result
+    }
 }
 
 StringTokenizerIterator: class <T> extends Iterator<T> {
@@ -68,19 +81,19 @@ StringTokenizerIterator: class <T> extends Iterator<T> {
 
 String: cover from Char* {
 
-    split: func~withString(s: String, maxSplits: Int) -> Iterable<String> {
+    split: func~withString(s: String, maxSplits: Int) -> StringTokenizer {
         StringTokenizer new(this, s, maxSplits)
     }
     
-    split: func~withChar(c: Char, maxSplits: Int) -> Iterable<String> {
+    split: func~withChar(c: Char, maxSplits: Int) -> StringTokenizer {
         StringTokenizer new(this, c, maxSplits)
     }
 
-    split: func~withStringWithoutMaxSplits(s: String) -> Iterable<String> {
+    split: func~withStringWithoutMaxSplits(s: String) -> StringTokenizer {
         StringTokenizer new(this, s)
     }
 
-    split: func~withCharWithoutMaxSplits(c: Char) -> Iterable<String> {
+    split: func~withCharWithoutMaxSplits(c: Char) -> StringTokenizer {
         StringTokenizer new(this, c)
     }
 }
