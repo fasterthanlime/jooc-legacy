@@ -82,6 +82,7 @@ public class SourceReader {
         while((length = fR.read(buffer)) != -1) {
             content.append(buffer, 0, length);
         }
+        fR.close();
         return content.toString();
     }
 

@@ -59,6 +59,7 @@ public class ReadEnv {
 				//System.out.println("While trying to get environment variables, got: " + line + "\n");
 			}
 		}
+		br.close();
 		
 		} catch(IOException e) {
 			e.printStackTrace();
