@@ -299,4 +299,10 @@ HashMapValueIterator: class <T> extends Iterator<T> {
     
 }
 
+operator [] <T> (map: HashMap<T>, key: String) -> T {
+    map get(key)
+}
 
+operator []= <T> (map: HashMap<T>, key: String, value: T) {
+    map put(key, value)
+}
