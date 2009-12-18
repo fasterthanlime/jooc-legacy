@@ -89,6 +89,7 @@ public class ShellUtils {
 			if(exitCode == 0) {
 				result = writer.toString();
 			}
+			writer.close();
 		} catch (Exception e) {
 			/* Exception? Will return null */
 			e.printStackTrace();

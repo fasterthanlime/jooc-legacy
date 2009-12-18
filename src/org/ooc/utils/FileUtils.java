@@ -98,6 +98,7 @@ public class FileUtils {
 		while((n = reader.read(cbuf)) != -1) {
 			builder.append(cbuf, 0, n);
 		}
+		reader.close();
 		return builder.toString();
 		
 	}
