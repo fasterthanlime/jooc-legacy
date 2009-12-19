@@ -175,8 +175,10 @@ String: cover from Char* {
         return -1
     }
     
-    contains: func (c: Char) -> Bool { indexOf(c) != -1 }
+    contains: func ~char (c: Char) -> Bool { indexOf(c) != -1 }
     
+    contains: func ~string (s: This) -> Bool { indexOf(s) != -1 }
+
     trim: func ~space -> This { return trim(' ') }
     
     trim: func(c: Char) -> This {
