@@ -508,6 +508,8 @@ public class SourceReader {
                         c = '\n'; break;
                     case 't': // tab
                         c = '\t'; break;
+                    case 'v': // vertical tab
+                        c = '\013'; break;
                     case 'b': // backspace
                         c = '\b'; break;
                     case 'f': // form feed
