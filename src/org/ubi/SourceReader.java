@@ -508,6 +508,8 @@ public class SourceReader {
                         c = '\n'; break;
                     case 't': // tab
                         c = '\t'; break;
+                    case 'v': // vertical tab
+                        c = '\013'; break;
                     case 'b': // backspace
                         c = '\b'; break;
                     case 'f': // form feed
@@ -1006,6 +1008,10 @@ public class SourceReader {
         		output.append("\""); return;
             case '\t':
             	output.append("\\t"); return;
+            case '\b':
+            	output.append("\\b"); return;
+            case '\013':
+            	output.append("\\v"); return;
             case '\r':
             	output.append("\\r"); return;
             case '\n':
