@@ -234,7 +234,7 @@ public class CGenerator extends Generator implements Visitor {
 
 	public void visit(CharLiteral charLiteral) throws IOException {
 		current.app('\'');
-		SourceReader.spelled(charLiteral.getValue(), current);
+		current.app(SourceReader.spelled(charLiteral.getValue()));
 		current.app('\'');		
 	}
 
