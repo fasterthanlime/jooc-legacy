@@ -1,5 +1,5 @@
-import Pipe, PipeReader, unistd, wait
-import structs/ArrayList
+import Env, Pipe, PipeReader, unistd, wait
+import structs/[ArrayList, HashMap]
 import text/StringBuffer
 
 Process: class {
@@ -10,17 +10,28 @@ Process: class {
     stdIn  = null: Pipe
     stdErr = null: Pipe
     buf : String*
-    stdoutPipe: Pipe 
+    stdoutPipe: Pipe
+    env: HashMap<String>
+    cwd: String
     
     init: func(=args) {
         this executable = this args get(0)
         this args add(null) // execvp wants NULL to end the array
         buf = this args toArray() // ArrayList<String> => String*
+        env = null
+        cwd = null
+    }
+
+    init: func ~withEnv (.args, .env) {
+        this(args)
+        this env = env
     }
     
     setStdout: func(=stdOut){}
     setStdin:  func(=stdIn) {}    
     setStderr: func(=stdErr) {}
+    setEnv: func(=env) {}
+    setCwd: func(=cwd) {}
     
     execute: func -> Int {
         
@@ -36,6 +47,17 @@ Process: class {
                 stdErr close('r')
                 dup2(stdErr writeFD, 1)
             }
+            /* amend the environment if needed */
+            if(this env) {
+                for(key: String in this env keys) {
+                    Env set(key, env[key], true)
+                }
+            }
+            /* set a new cwd? */
+            if(cwd != null) {
+                chdir(cwd)
+            }
+            /* run the stuff. */
             execvp(executable, buf)
         } else {
             waitpid(-1, status&, null)
