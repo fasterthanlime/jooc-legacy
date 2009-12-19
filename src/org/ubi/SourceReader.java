@@ -989,6 +989,8 @@ public class SourceReader {
         		return "\\\"";
             case '\t':
                 return "\\t";
+            case '\f':
+            	return "\\f";
             case '\013':
             	return "\\v";
             case '\r':
@@ -1012,6 +1014,8 @@ public class SourceReader {
         		output.append("\""); return;
             case '\t':
             	output.append("\\t"); return;
+            case '\f':
+            	output.append("\\f"); return;
             case '\b':
             	output.append("\\b"); return;
             case '\013':
