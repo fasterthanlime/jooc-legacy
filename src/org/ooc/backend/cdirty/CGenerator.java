@@ -129,8 +129,12 @@ public class CGenerator extends Generator implements Visitor {
 	}
 
 	public void visit(Sub sub) throws IOException {
-		sub.getLeft().accept(this);
-		current.app(" - ");
+		if(sub.getLeft() instanceof IntLiteral && ((IntLiteral) sub.getLeft()).getValue().intValue() == 0) {
+			current.app("-");
+		} else {
+			sub.getLeft().accept(this);
+			current.app(" - ");
+		}
 		sub.getRight().accept(this);		
 	}
 
@@ -229,7 +233,9 @@ public class CGenerator extends Generator implements Visitor {
 	}
 
 	public void visit(CharLiteral charLiteral) throws IOException {
-		current.app('\'').app(SourceReader.spelled(charLiteral.getValue())).app('\'');		
+		current.app('\'');
+		current.app(SourceReader.spelled(charLiteral.getValue()));
+		current.app('\'');		
 	}
 
 	public void visit(Line line) throws IOException {

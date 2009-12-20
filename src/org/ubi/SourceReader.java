@@ -519,7 +519,7 @@ public class SourceReader {
                     case '\'': // simple quote
                         c = '\''; break;
                     default:
-                    	throw new SyntaxError(getLocation(), "Invalid escape sequence : \\"+spelled(c));
+                    	throw new SyntaxError(getLocation(), "Invalid escape sequence : "+spelled(c));
                 }
             // intentional fallthrough
             default:
@@ -556,6 +556,8 @@ public class SourceReader {
                         c = '\n'; break;
                     case 't': // tab
                         c = '\t'; break;
+                    case 'v': // vertical tab
+                        c = '\013'; break;
                     case 'b': // backspace
                         c = '\b'; break;
                     case 'f': // form feed
@@ -565,7 +567,7 @@ public class SourceReader {
                     case '\'': // simple quote
                         c = '\''; break;
                     default:
-                    	throw new SyntaxError(null, "Invalid escape sequence : \\"+spelled(c));
+                    	throw new SyntaxError(null, "Invalid escape sequence : "+spelled(c));
                 }
             // intentional fallthrough
             default:
@@ -987,6 +989,10 @@ public class SourceReader {
         		return "\\\"";
             case '\t':
                 return "\\t";
+            case '\f':
+            	return "\\f";
+            case '\013':
+            	return "\\v";
             case '\r':
                 return "\\r";
             case '\n':
@@ -1008,6 +1014,8 @@ public class SourceReader {
         		output.append("\""); return;
             case '\t':
             	output.append("\\t"); return;
+            case '\f':
+            	output.append("\\f"); return;
             case '\b':
             	output.append("\\b"); return;
             case '\013':
