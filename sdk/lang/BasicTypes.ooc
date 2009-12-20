@@ -1,4 +1,5 @@
 import structs/ArrayList /* for Iterable<T> toArrayList */
+import text/StringBuffer /* for String replace ~string */
 
 include stddef, stdlib, stdio, ctype, stdint, stdbool
 
@@ -161,16 +162,8 @@ String: cover from Char* {
         length := length()
         slength := s length()
         for(i: Int in start..length) {
-            matches := true
-            for(j : Int in 0..slength) {
-                if(!(this[i + j] == s[j])) {
-                    matches = false
-                    break;
-                }
-            }
-            if(matches) {
+            if(memcmp(this as Char* + i, s, slength) == 0)
                 return i
-            }
         }
         return -1
     }
@@ -306,6 +299,29 @@ String: cover from Char* {
         copy as Char* [length + 1] = '\0'
         return copy
     }
+
+    count: func ~char (what: Char) -> SizeT {
+        count := 0
+        p := this
+        while(p@) {
+            if(p@ == what)
+                count += 1
+            p += 1
+        }
+        return count
+    }
+
+    count: func ~string (what: String) -> SizeT {
+        whatLength := what length()
+        count := 0
+        p := this
+        while(p@) {
+            if(memcmp(p, what, whatLength) == 0)
+                count += 1
+            p += 1
+        }
+        return count
+    }
     
     replace: func (oldie, kiddo: Char) -> This {
         length := length()
@@ -313,6 +329,24 @@ String: cover from Char* {
             if(this[i] == oldie) this[i] = kiddo
         }
         return this
+    }
+
+    replace: func ~string (oldie, kiddo: This) -> This {
+        length := length()
+        oldieLength := oldie length()
+        buffer := StringBuffer new(length)
+        i: SizeT = 0
+        while(i < length) {
+            if(memcmp(this as Char* + i, oldie, oldieLength) == 0) {
+                /* found oldie! */
+                buffer append(kiddo)
+                i += oldieLength
+            } else {
+                buffer append(this as Char* [i])
+                i += 1    
+            }
+        }
+        buffer toString()
     }
     
     prepend: func (other: String) -> This {
