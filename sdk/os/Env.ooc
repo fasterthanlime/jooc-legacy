@@ -17,7 +17,7 @@ Env: class {
     }
 
     set: static func ~overwrite (key, value: String) -> Int {
-        set(key, value)
+        set(key, value, true)
     }
 
     unset: static func (key: String) -> Int {
