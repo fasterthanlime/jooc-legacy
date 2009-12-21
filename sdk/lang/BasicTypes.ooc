@@ -316,9 +316,12 @@ String: cover from Char* {
         count := 0
         p := this
         while(p@) {
-            if(memcmp(p, what, whatLength) == 0)
+            if(memcmp(p, what, whatLength) == 0) {
                 count += 1
-            p += 1
+                p += whatLength
+            } else {
+                p += 1
+            }
         }
         return count
     }
