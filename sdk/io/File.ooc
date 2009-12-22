@@ -45,6 +45,7 @@ S_IRWXO: extern func(...)
 
 lstat: extern func(String, FileStat*) -> Int
 mkdir: extern func(String, ModeT) -> Int
+_remove: extern(remove) func(path: String) -> Int
 
 realpath: extern func(path: String, resolved: String) -> String
 
@@ -236,6 +237,11 @@ File: class {
             return File new(actualPath)
         }
         return this
+    }
+
+    /** try to remove the file. This only works for files, not directories. */
+    remove: func -> Int {
+        _remove(this path)
     }
     
     copyTo: func(dstFile: This) {

@@ -1,4 +1,5 @@
 import structs/ArrayList /* for Iterable<T> toArrayList */
+import text/StringBuffer /* for String replace ~string */
 
 include stddef, stdlib, stdio, ctype, stdint, stdbool
 
@@ -88,6 +89,24 @@ String: cover from Char* {
         result[0] = c
         result
     }
+
+    /** compare `length` characters of `this` with `other`, starting at `start`. */
+    compare: func (other: This, start, length: SizeT) -> Bool {
+        for(i: SizeT in 0..length) {
+            if(this[start + i] != other[i]) {
+                return false
+            }
+        }
+        return true
+    }
+
+    compare: func ~implicitLength (other: This, start: SizeT) -> Bool {
+        compare(other, start, other length())
+    }
+
+    compare: func ~whole (other: This) -> Bool {
+        compare(other, 0, other length())
+    }
     
     length: extern(strlen) func -> SizeT
     
@@ -161,16 +180,8 @@ String: cover from Char* {
         length := length()
         slength := s length()
         for(i: Int in start..length) {
-            matches := true
-            for(j : Int in 0..slength) {
-                if(!(this[i + j] == s[j])) {
-                    matches = false
-                    break;
-                }
-            }
-            if(matches) {
+            if(compare(s, i, slength))
                 return i
-            }
         }
         return -1
     }
@@ -306,6 +317,31 @@ String: cover from Char* {
         copy as Char* [length + 1] = '\0'
         return copy
     }
+
+    count: func ~char (what: Char) -> SizeT {
+        count := 0
+        for(i: SizeT in 0..length()) {
+            if(this[i] == what)
+                count += 1
+        }
+        return count
+    }
+
+    count: func ~string (what: String) -> SizeT {
+        length := this length()
+        whatLength := what length()
+        count := 0
+        i := 0
+        while(i < length) {
+            if(compare(what, i, whatLength)) {
+                count += 1
+                i += whatLength 
+            } else {
+                i += 1
+            }
+        }
+        return count
+    }
     
     replace: func (oldie, kiddo: Char) -> This {
         length := length()
@@ -313,6 +349,24 @@ String: cover from Char* {
             if(this[i] == oldie) this[i] = kiddo
         }
         return this
+    }
+
+    replace: func ~string (oldie, kiddo: This) -> This {
+        length := length()
+        oldieLength := oldie length()
+        buffer := StringBuffer new(length)
+        i: SizeT = 0
+        while(i < length) {
+            if(compare(oldie, i, oldieLength)) {
+                /* found oldie! */
+                buffer append(kiddo)
+                i += oldieLength
+            } else {
+                buffer append(this as Char* [i])
+                i += 1    
+            }
+        }
+        buffer toString()
     }
     
     prepend: func (other: String) -> This {
