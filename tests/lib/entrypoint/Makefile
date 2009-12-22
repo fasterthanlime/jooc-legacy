@@ -3,4 +3,4 @@ all:
 	gcc myapp.c mylib.a -Iobjs/ -o myapp
 
 clean:
-	rm -rf objs/* *.a
+	rm -rf objs/ *.a

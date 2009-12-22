@@ -36,7 +36,7 @@ public class CoverDeclWriter {
 		cgen.current = cgen.cw;
 		
 		cgen.current.app("/* cover " + cover.getName() + " has version " +
-				(cover.getVersion() != null ? cover.getVersion().getVersion().toString() : "null */"));
+				(cover.getVersion() != null ? cover.getVersion().getVersion().toString() : "null") + " */");
 		if(cover.getVersion() != null) {
 			VersionBlockWriter.writeVersionBlockStart(cover.getVersion(), cgen);
 		}

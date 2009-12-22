@@ -14,7 +14,7 @@ public class VersionBlockWriter {
 
 	public static void writeVersionBlockStart(VersionBlock versionBlock, final CGenerator cgen) throws IOException {
 		
-		cgen.current.app("\n#if ");
+		cgen.current.app("\n\n#if ");
 		
 		versionBlock.getVersion().accept(new VersionNodeVisitor() {
 			
@@ -45,7 +45,7 @@ public class VersionBlockWriter {
 				cgen.current.app(')');
 			}
 		});
-		cgen.current.nl();
+		//cgen.current.nl();
 		
 	}
 	

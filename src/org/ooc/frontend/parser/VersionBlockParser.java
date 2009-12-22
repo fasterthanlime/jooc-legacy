@@ -86,7 +86,7 @@ public class VersionBlockParser {
 			if(stmt instanceof Versioned) {
 				Versioned vs = (Versioned) stmt;
 				vs.setVersion(block);
-				System.out.println("Just versioned "+ vs + " to " + block.getVersion());
+				//System.out.println("Just versioned "+ vs + " to " + block.getVersion());
 				
 				module.add(stmt);
 				body.remove(i);
