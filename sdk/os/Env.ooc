@@ -5,7 +5,6 @@ import structs/HashMap
 getenv: extern func (path: String) -> String
 setenv: extern func (key, value: String, overwrite: Bool) -> Int
 unsetenv: extern func (key: String) -> Int
-clearenv: extern func -> Int
 
 Env: class {
     get: static func (variableName: String) -> String {
@@ -23,8 +22,7 @@ Env: class {
     unset: static func (key: String) -> Int {
         unsetenv(key)
     }
-
-    clear: static func {
-        clearenv()
-    }
+    
+    /* clearenv is not used since it's not part of the POSIX-2001 standard
+     * and not available, for example, on OSX */
 }
