@@ -1,7 +1,5 @@
 include unistd| (_BSD_SOURCE), stdlib | (_BSD_SOURCE)
 
-import structs/HashMap
-
 getenv: extern func (path: String) -> String
 setenv: extern func (key, value: String, overwrite: Bool) -> Int
 unsetenv: extern func (key: String) -> Int
