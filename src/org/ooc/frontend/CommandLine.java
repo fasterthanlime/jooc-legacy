@@ -56,7 +56,7 @@ public class CommandLine {
 		for(String arg: args) {
 			if(arg.startsWith("-")) {
         		String option = arg.substring(1);
-        		if(option.startsWith("sourcepath")) {
+        		if(option.startsWith("sourcepath=")) {
         			
         			String sourcePathOption = arg.substring(arg.indexOf('=') + 1);
         			StringTokenizer tokenizer = new StringTokenizer(sourcePathOption, File.pathSeparator);
@@ -64,28 +64,32 @@ public class CommandLine {
         				params.sourcePath.add(tokenizer.nextToken());
         			}
         			
-        		} else if(option.startsWith("outpath")) {
+        		} else if(option.startsWith("outpath=")) {
         			
         			params.outPath = new File(arg.substring(arg.indexOf('=') + 1));
         			params.clean = false;
         			
-        		} else if(option.startsWith("outlib")) {
+        		} else if(option.startsWith("outlib=")) {
         			
         			params.outlib = arg.substring(arg.indexOf('=') + 1);
         			
-        		} else if(option.startsWith("incpath")) {
+        		} else if(option.startsWith("incpath=")) {
         			
         			params.incPath.add(arg.substring(arg.indexOf('=') + 1));
+        			
+        		} else if(option.startsWith("entrypoint")) {
+        			
+        			params.entryPoint = arg.substring(arg.indexOf('=') + 1);
         			
         		} else if(option.startsWith("I")) {
         			
         			params.incPath.add(arg.substring(2));
         			
-        		} else if(option.startsWith("libpath")) {
+        		} else if(option.startsWith("libpath=")) {
         			
         			params.libPath.add(arg.substring(arg.indexOf('=') + 1));
         			
-        		} else if(option.startsWith("editor")) {
+        		} else if(option.startsWith("editor=")) {
         			
         			params.editor = arg.substring(arg.indexOf('=') + 1);
         			

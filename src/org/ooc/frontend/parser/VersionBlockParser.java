@@ -1,8 +1,10 @@
 package org.ooc.frontend.parser;
 
 import org.ooc.frontend.model.Include;
+import org.ooc.frontend.model.Line;
 import org.ooc.frontend.model.Module;
 import org.ooc.frontend.model.NodeList;
+import org.ooc.frontend.model.Statement;
 import org.ooc.frontend.model.VersionBlock;
 import org.ooc.frontend.model.VersionNodes.VersionAnd;
 import org.ooc.frontend.model.VersionNodes.VersionName;
@@ -10,6 +12,7 @@ import org.ooc.frontend.model.VersionNodes.VersionNegation;
 import org.ooc.frontend.model.VersionNodes.VersionNode;
 import org.ooc.frontend.model.VersionNodes.VersionOr;
 import org.ooc.frontend.model.VersionNodes.VersionParen;
+import org.ooc.frontend.model.interfaces.Versioned;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.frontend.model.tokens.TokenReader;
 import org.ooc.frontend.model.tokens.Token.TokenType;
@@ -75,6 +78,21 @@ public class VersionBlockParser {
 			}
 		}
 		reader.skip(); // the closing bracket
+		
+		NodeList<Line> body = block.getBody();
+		for(int i = 0; i < body.size(); i++) {
+			Line line = body.get(i);
+			Statement stmt = line.getStatement();
+			if(stmt instanceof Versioned) {
+				Versioned vs = (Versioned) stmt;
+				vs.setVersion(block);
+				System.out.println("Just versioned "+ vs + " to " + block.getVersion());
+				
+				module.add(stmt);
+				body.remove(i);
+				i--;
+			}
+		}
 		
 	}
 	

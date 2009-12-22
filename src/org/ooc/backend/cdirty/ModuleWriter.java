@@ -207,12 +207,12 @@ public class ModuleWriter {
 		for(Node node: cgen.module.getBody()) {
 			if(!(node instanceof FunctionDecl)) continue;
 			FunctionDecl decl = (FunctionDecl) node;
-			if(decl.isEntryPoint()) {
+			if(decl.isEntryPoint(cgen.params)) {
 				got = true;
 			}
 		}
 		if(!got) {
-			cgen.current.nl().app("int main()").openBlock();
+			cgen.current.nl().app("int ").app(cgen.params.entryPoint).app("()").openBlock();
 			if(cgen.params.enableGC) {
 				cgen.current.nl().app("GC_INIT();");
 			}

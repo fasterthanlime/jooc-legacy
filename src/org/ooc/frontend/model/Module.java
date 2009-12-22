@@ -5,12 +5,11 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.ooc.frontend.Target;
 import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.middle.structs.NodeMap;
 import org.ubi.SourceReader;
-
-import org.ooc.middle.hobgoblins.Resolver;
 
 public class Module extends Node implements Scope {
 
@@ -239,13 +238,18 @@ public class Module extends Node implements Scope {
 		return types;
 	}
 	
-	public void addType(TypeDecl tDecl, Resolver res) {
+	public void addType(TypeDecl tDecl) {
 		if(tDecl.getVersion() != null) {
-			//System.out.println("tDecl " + tDecl + " is versioned " + tDecl.getVersion());
-			if(tDecl.getVersion().isSatisfied(res)) {
+			System.out.println("tDecl " + tDecl + " is versioned " + tDecl.getVersion());
+			
+			/**
+			 * When we're going to want cross-compilation, we'll want to make that
+			 * *not* Target.guessHost()
+			 */
+			if(tDecl.getVersion().isSatisfied(Target.guessHost())) {
 				types.put(tDecl.getName(), tDecl);
 			} else {
-				//System.out.println(tDecl + " rejected!");
+				System.out.println(tDecl + " rejected!");
 			}
 		}
 	}
@@ -272,6 +276,15 @@ public class Module extends Node implements Scope {
 
 	public String getPackageName() {
 		return packageName;
+	}
+
+	public void add(Statement statement) {
+		if(statement instanceof TypeDecl) {
+			addType((TypeDecl) statement);
+		} else {
+			System.out.println("Added "+statement);
+			body.add(statement);
+		}
 	}
 	
 }

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.ooc.frontend.Target;
 import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.VersionNodes.VersionAnd;
 import org.ooc.frontend.model.VersionNodes.VersionName;
@@ -13,7 +14,6 @@ import org.ooc.frontend.model.VersionNodes.VersionNodeVisitor;
 import org.ooc.frontend.model.VersionNodes.VersionOr;
 import org.ooc.frontend.model.VersionNodes.VersionParen;
 import org.ooc.frontend.model.interfaces.MustBeResolved;
-import org.ooc.frontend.model.interfaces.Versioned;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.middle.OocCompilationError;
 import org.ooc.middle.hobgoblins.Resolver;
@@ -101,27 +101,6 @@ public class VersionBlock extends Block implements MustBeResolved {
 		} catch (IOException e) {
 			throw new CompilationFailedError(e);
 		}
-
-		for(int i = 0; i < body.size(); i++) {
-			Line line = body.get(i);
-			Statement stmt = line.getStatement();
-			if(stmt instanceof Versioned) {
-				Versioned vs = (Versioned) stmt;
-				vs.setVersion(this);
-				//System.out.println("Just versioned "+ vs + " to " + version);
-				Module module = stack.getModule();
-				
-				if(stmt instanceof TypeDecl) {
-					TypeDecl tDecl = (TypeDecl) stmt;
-					module.addType(tDecl, res);
-				} else {
-					module.getBody().add(stmt);
-				}
-				
-				body.remove(i);
-				i--;
-			}
-		}
 		
 		return Response.OK;
 		
@@ -139,8 +118,8 @@ public class VersionBlock extends Block implements MustBeResolved {
 		return this.version.toString().equals(vb.version.toString());
 	}
 
-	public boolean isSatisfied(Resolver res) {
-		return version.isSatisfied(res);
+	public boolean isSatisfied(Target target) {
+		return version.isSatisfied(target);
 	}
 	
 	@Override
