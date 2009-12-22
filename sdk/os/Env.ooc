@@ -7,7 +7,7 @@ version (!windows) {
     unsetenv: extern func (key: String) -> Int
 }
 version (windows) {
-    putenv: extern func (str: String) -> Int
+    putenv: extern proto func (str: String) -> Int
 }
 
 Env: class {
