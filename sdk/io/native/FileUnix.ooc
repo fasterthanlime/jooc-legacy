@@ -7,9 +7,13 @@ import dirent
 
 version(linux) {
         include unistd | (__USE_BSD), sys/stat | (__USE_BSD), sys/types | (__USE_BSD), stdlib | (__USE_BSD)
+        
+        realpath: extern proto func(path: String, resolved: String) -> String
 }
 version(!linux) {
         include unistd, sys/stat, sys/types, stdlib
+        
+        realpath: extern func(path: String, resolved: String) -> String
 }
 
 version(unix) {
@@ -39,8 +43,6 @@ version(unix) {
 	lstat: extern func(String, FileStat*) -> Int
 	_mkdir: extern(mkdir) func(String, ModeT) -> Int
 	_remove: extern(remove) func(path: String) -> Int
-
-	realpath: extern func(path: String, resolved: String) -> String
 
 	FileUnix: class extends File {
 
@@ -140,7 +142,6 @@ version(unix) {
 		 * The absolute path, e.g. "my/dir" => "/current/directory/my/dir"
 		 */
 		getAbsolutePath: func -> String {
-			// TODO, realpath() is a posix thing, needs to be versioned out
 			actualPath := String new(MAX_PATH_LENGTH + 1)
 			return realpath(path, actualPath)
 		}
@@ -149,7 +150,7 @@ version(unix) {
 		 * A file corresponding to the absolute path
 		 * @see getAbsolutePath
 		 */
-		getAbsoluteFile: func -> This {
+		getAbsoluteFile: func -> File {
 			actualPath := getAbsolutePath()
 			if(!path equals(actualPath)) {
 				return File new(actualPath)
