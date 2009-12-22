@@ -241,8 +241,14 @@ public class ModuleWriter {
 		for(TypeDecl typeDecl: cgen.module.getTypes().values()) {
 			if (typeDecl instanceof ClassDecl) {
 				ClassDecl classDecl = (ClassDecl) typeDecl;
+				if(classDecl.getVersion() != null) {
+					VersionBlockWriter.writeVersionBlockStart(classDecl.getVersion(), cgen);
+				}
 				cgen.current.nl().app(classDecl.getName()).app("_").app(
 						classDecl.getFunction(ClassDecl.LOAD_FUNC_NAME, "", null).getName()).app("();");
+				if(classDecl.getVersion() != null) {
+					VersionBlockWriter.writeVersionBlockEnd(cgen);
+				}
 			}
 		}
 		for (Import imp : cgen.module.getImports()) {

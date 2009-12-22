@@ -21,22 +21,44 @@ public class ClassDeclWriter {
 		
 		/* -fwd.h file */
 		cgen.current = cgen.fw;
+		if(classDecl.getVersion() != null) {
+			VersionBlockWriter.writeVersionBlockStart(classDecl.getVersion(), cgen);
+		}
+		
 		writeMemberFuncPrototypes(classDecl, cgen);
+		
+		if(classDecl.getVersion() != null) {
+			VersionBlockWriter.writeVersionBlockEnd(cgen);
+		}
 		
 		/* .h file */
 		cgen.current = cgen.hw;
+		if(classDecl.getVersion() != null) {
+			VersionBlockWriter.writeVersionBlockStart(classDecl.getVersion(), cgen);
+		}
 		
 		writeObjectStruct(classDecl, cgen);
 		writeClassStruct(classDecl, cgen);
 		
+		if(classDecl.getVersion() != null) {
+			VersionBlockWriter.writeVersionBlockEnd(cgen);
+		}
+		
 		/* .c file */
 		cgen.current = cgen.cw;
+		if(classDecl.getVersion() != null) {
+			VersionBlockWriter.writeVersionBlockStart(classDecl.getVersion(), cgen);
+		}
 		cgen.current.nl();
 		
 		writeInstanceImplFuncs(classDecl, cgen);
 		writeClassGettingFunction(classDecl, cgen);
 		writeInstanceVirtualFuncs(classDecl, cgen);
 		writeStaticFuncs(classDecl, cgen);
+		
+		if(classDecl.getVersion() != null) {
+			VersionBlockWriter.writeVersionBlockEnd(cgen);
+		}
 		
 		TypeWriter.doStruct = false;
 		
