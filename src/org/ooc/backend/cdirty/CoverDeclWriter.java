@@ -53,6 +53,10 @@ public class CoverDeclWriter {
 
 	public static  void writeTypedef(CoverDecl cover, CGenerator cgen) throws IOException {
 		
+		if(cover.getVersion() != null) {
+			VersionBlockWriter.writeVersionBlockStart(cover.getVersion(), cgen);
+		}
+		
 		if(!cover.isAddon() && !cover.isExtern()) {
 			Type fromType = cover.getFromType();
 			if(fromType == null) {
@@ -68,6 +72,10 @@ public class CoverDeclWriter {
 				}
 				cgen.current.app(';');
 			}
+		}
+		
+		if(cover.getVersion() != null) {
+			VersionBlockWriter.writeVersionBlockEnd(cgen);
 		}
 	}
 	
