@@ -1,4 +1,4 @@
-include unistd| (_BSD_SOURCE), stdlib | (_BSD_SOURCE)
+include stdlib | (_BSD_SOURCE)
 
 getenv: extern func (path: String) -> String
 setenv: extern func (key, value: String, overwrite: Bool) -> Int
