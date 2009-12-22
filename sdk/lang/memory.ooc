@@ -1,7 +1,8 @@
-GC_finalization_proc: extern cover {}
 
 version(gc) {
     include gc/gc
+
+    GC_finalization_proc: extern cover {}
     
     gc_malloc: extern(GC_MALLOC) func (size: SizeT) -> Pointer
     gc_malloc_atomic: extern(GC_MALLOC_ATOMIC) func (size: SizeT) -> Pointer

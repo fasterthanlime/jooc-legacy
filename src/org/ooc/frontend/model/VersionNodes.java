@@ -2,8 +2,6 @@ package org.ooc.frontend.model;
 
 import java.io.IOException;
 
-import org.ooc.middle.hobgoblins.Resolver;
-
 import org.ooc.frontend.Target;
 
 public class VersionNodes {
@@ -26,7 +24,7 @@ public class VersionNodes {
 		
 		public abstract void accept(VersionNodeVisitor visitor) throws IOException;
 		public abstract void acceptChildren(VersionNodeVisitor visitor) throws IOException;
-		public abstract boolean isSatisfied(Resolver res);
+		public abstract boolean isSatisfied(Target target);
 		
 	}
 	
@@ -57,18 +55,18 @@ public class VersionNodes {
 		}
 
 		@Override
-		public boolean isSatisfied(Resolver res) {
-			if(name.toLowerCase().contains("win") && Target.guessHost() == Target.WIN) {
+		public boolean isSatisfied(Target target) {
+			if(name.toLowerCase().contains("win") && target == Target.WIN) {
 				return true;
 			}
 			if((name.toLowerCase().contains("linux") 
-					|| name.toLowerCase().contains("unix")) && Target.guessHost() == Target.LINUX) {
+					|| name.toLowerCase().contains("unix")) && target == Target.LINUX) {
 				return true;
 			}
-			if(name.toLowerCase().contains("apple") && Target.guessHost() == Target.OSX) {
+			if(name.toLowerCase().contains("apple") && target == Target.OSX) {
 				return true;
 			}
-			if(name.toLowerCase().contains("sun") && Target.guessHost() == Target.SOLARIS) {
+			if(name.toLowerCase().contains("sun") && target == Target.SOLARIS) {
 				return true;
 			}
 			return false;
@@ -104,8 +102,8 @@ public class VersionNodes {
 		}
 
 		@Override
-		public boolean isSatisfied(Resolver res) {
-			return !inner.isSatisfied(res);
+		public boolean isSatisfied(Target target) {
+			return !inner.isSatisfied(target);
 		}
 		
 	}
@@ -138,8 +136,8 @@ public class VersionNodes {
 		}
 		
 		@Override
-		public boolean isSatisfied(Resolver res) {
-			return inner.isSatisfied(res);
+		public boolean isSatisfied(Target target) {
+			return inner.isSatisfied(target);
 		}
 		
 	}
@@ -195,8 +193,8 @@ public class VersionNodes {
 		}
 		
 		@Override
-		public boolean isSatisfied(Resolver res) {
-			return left.isSatisfied(res) && right.isSatisfied(res);
+		public boolean isSatisfied(Target target) {
+			return left.isSatisfied(target) && right.isSatisfied(target);
 		}
 
 	}
@@ -218,8 +216,8 @@ public class VersionNodes {
 		}
 		
 		@Override
-		public boolean isSatisfied(Resolver res) {
-			return left.isSatisfied(res) || right.isSatisfied(res);
+		public boolean isSatisfied(Target target) {
+			return left.isSatisfied(target) || right.isSatisfied(target);
 		}
 		
 	}

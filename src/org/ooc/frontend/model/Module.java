@@ -2,15 +2,11 @@ package org.ooc.frontend.model;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.tokens.Token;
-import org.ooc.middle.structs.NodeMap;
+import org.ooc.middle.structs.MultiMap;
 import org.ubi.SourceReader;
-
-import org.ooc.middle.hobgoblins.Resolver;
 
 public class Module extends Node implements Scope {
 
@@ -20,7 +16,7 @@ public class Module extends Node implements Scope {
 	protected NodeList<Include> includes;
 	protected NodeList<Import> imports;
 	protected NodeList<Use> uses;
-	protected NodeMap<String, TypeDecl> types;
+	protected MultiMap<String, TypeDecl> types;
 	//protected MultiMap<String, FunctionDecl> functions;
 	protected NodeList<OpDecl> ops;
 	protected NodeList<Node> body;
@@ -63,7 +59,7 @@ public class Module extends Node implements Scope {
 		this.uses = new NodeList<Use>(startToken);
 		this.body = new NodeList<Node>(startToken);
 		this.ops = new NodeList<OpDecl>();
-		this.types = new NodeMap<String, TypeDecl>(new LinkedHashMap<String, TypeDecl>());
+		this.types = new MultiMap<String, TypeDecl>();
 		//this.functions = new MultiMap<String, FunctionDecl>();
 		
 		// set it as extern, so it won't get written implicitly
@@ -235,18 +231,19 @@ public class Module extends Node implements Scope {
 		}
 	}
 	
-	public Map<String, TypeDecl> getTypes() {
+	public MultiMap<String, TypeDecl> getTypes() {
 		return types;
 	}
 	
-	public void addType(TypeDecl tDecl, Resolver res) {
+	public void addType(TypeDecl tDecl) {
 		if(tDecl.getVersion() != null) {
 			//System.out.println("tDecl " + tDecl + " is versioned " + tDecl.getVersion());
-			if(tDecl.getVersion().isSatisfied(res)) {
-				types.put(tDecl.getName(), tDecl);
-			} else {
-				//System.out.println(tDecl + " rejected!");
-			}
+			
+			/**
+			 * When we're going to want cross-compilation, we'll want to make that
+			 * *not* Target.guessHost()
+			 */
+			types.put(tDecl.getName(), tDecl);
 		}
 	}
 	
@@ -272,6 +269,14 @@ public class Module extends Node implements Scope {
 
 	public String getPackageName() {
 		return packageName;
+	}
+
+	public void add(Statement statement) {
+		if(statement instanceof TypeDecl) {
+			addType((TypeDecl) statement);
+		} else {
+			body.add(statement);
+		}
 	}
 	
 }

@@ -30,6 +30,10 @@ public class MultiMap<K, V> extends Node {
 		map = new LinkedHashMap<K, Object>();
 	}
 	
+	public void put(K key, V value) {
+		add(key, value);
+	}
+	
 	@SuppressWarnings("unchecked")
 	public void add(K key, V value) {
 		
@@ -149,6 +153,25 @@ public class MultiMap<K, V> extends Node {
 
 	public Set<K> keySet() {
 		return map.keySet();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<V> values() {
+		ArrayList<V> values = new ArrayList<V>();
+		
+		for(Object key: map.keySet()) {
+			final Object o = map.get(key);
+			if(o instanceof List<?>) {
+				List<V> list = (List<V>) o;
+				for(V value: list) {
+					values.add(value);
+				}
+			} else if(o != null) {
+				values.add((V) o);
+			}
+		}
+		
+		return values;
 	}
 	
 }

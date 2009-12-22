@@ -107,7 +107,7 @@ public class FunctionDeclWriter {
 		writeFuncPrototype(functionDecl, cgen);
 		cgen.current.app(' ').openBlock();
 		
-		if(functionDecl.isEntryPoint()) {
+		if(functionDecl.isEntryPoint(cgen.params)) {
 			if(cgen.params.enableGC) {
 				cgen.current.nl().app("GC_INIT();");
 			}

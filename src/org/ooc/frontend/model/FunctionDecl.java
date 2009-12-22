@@ -11,6 +11,7 @@ import org.ooc.frontend.model.NodeList.AddListener;
 import org.ooc.frontend.model.interfaces.MustBeUnwrapped;
 import org.ooc.frontend.model.interfaces.Versioned;
 import org.ooc.frontend.model.tokens.Token;
+import org.ooc.frontend.parser.BuildParams;
 import org.ooc.middle.OocCompilationError;
 import org.ooc.middle.hobgoblins.Resolver;
 
@@ -291,8 +292,8 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 		return name.equals(decl2.getName()) && (suffix.equals(decl2.getSuffix()));
 	}
 
-	public boolean isEntryPoint() {
-		return name.equals("main");
+	public boolean isEntryPoint(BuildParams params) {
+		return name.equals(params.entryPoint);
 	}
 
 	public VariableDecl getVariable(String name) {
@@ -332,7 +333,7 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 			return true;
 		}
 		
-		if(isEntryPoint()) {
+		if(name.equals("main")) {
 			if(arguments.size() == 1 && arguments.getFirst().getType().getName().equals("Array")) {
 				Argument arg = arguments.getFirst();
 				arguments.clear();
@@ -453,7 +454,7 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 				
 				Line line = getBody().getLast();
 				if(!(line.getStatement() instanceof Return)) {
-					if(isEntryPoint()) {
+					if(name.equals("main")) {
 						getBody().add(new Line(new ValuedReturn(
 								new IntLiteral(0, Format.DEC, startToken), startToken)));
 						//return Response.RESTART;

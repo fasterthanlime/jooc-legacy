@@ -7,8 +7,13 @@ import org.ooc.frontend.model.*;
 public class CoverDeclWriter {
 
 	public static void write(CoverDecl cover, CGenerator cgen) throws IOException {
+		
 		cgen.current = cgen.hw;
 
+		if(cover.getVersion() != null) {
+			VersionBlockWriter.writeVersionBlockStart(cover.getVersion(), cgen);
+		}
+		
 		// addons only add functions to an already imported cover, so
 		// we don't need to struct it again, it would confuse the C compiler
 		if(!cover.isAddon() && !cover.isExtern() && cover.getFromType() == null) {
@@ -22,9 +27,27 @@ public class CoverDeclWriter {
 			cgen.current.closeBlock().app(';').nl();
 		}
 		
+		if(cover.getVersion() != null) {
+			VersionBlockWriter.writeVersionBlockEnd(cgen);
+		}
+		
+		/* and now the functions */
+		
+		cgen.current = cgen.cw;
+		
+		cgen.current.app("/* cover " + cover.getName() + " has version " +
+				(cover.getVersion() != null ? cover.getVersion().getVersion().toString() : "null") + " */");
+		if(cover.getVersion() != null) {
+			VersionBlockWriter.writeVersionBlockStart(cover.getVersion(), cgen);
+		}
+		
 		for(FunctionDecl decl: cover.getFunctions()) {
 			decl.accept(cgen);
 			cgen.current.nl();
+		}
+		
+		if(cover.getVersion() != null) {
+			VersionBlockWriter.writeVersionBlockEnd(cgen);
 		}
 	}
 

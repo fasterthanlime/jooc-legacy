@@ -89,6 +89,24 @@ String: cover from Char* {
         result[0] = c
         result
     }
+
+    /** compare `length` characters of `this` with `other`, starting at `start`. */
+    compare: func (other: This, start, length: SizeT) -> Bool {
+        for(i: SizeT in 0..length) {
+            if(this[start + i] != other[i]) {
+                return false
+            }
+        }
+        return true
+    }
+
+    compare: func ~implicitLength (other: This, start: SizeT) -> Bool {
+        compare(other, start, other length())
+    }
+
+    compare: func ~whole (other: This) -> Bool {
+        compare(other, 0, other length())
+    }
     
     length: extern(strlen) func -> SizeT
     
@@ -162,7 +180,7 @@ String: cover from Char* {
         length := length()
         slength := s length()
         for(i: Int in start..length) {
-            if(memcmp(this as Char* + i, s, slength) == 0)
+            if(compare(s, i, slength))
                 return i
         }
         return -1
@@ -302,23 +320,25 @@ String: cover from Char* {
 
     count: func ~char (what: Char) -> SizeT {
         count := 0
-        p := this
-        while(p@) {
-            if(p@ == what)
+        for(i: SizeT in 0..length()) {
+            if(this[i] == what)
                 count += 1
-            p += 1
         }
         return count
     }
 
     count: func ~string (what: String) -> SizeT {
+        length := this length()
         whatLength := what length()
         count := 0
-        p := this
-        while(p@) {
-            if(memcmp(p, what, whatLength) == 0)
+        i := 0
+        while(i < length) {
+            if(compare(what, i, whatLength)) {
                 count += 1
-            p += 1
+                i += whatLength 
+            } else {
+                i += 1
+            }
         }
         return count
     }
@@ -337,7 +357,7 @@ String: cover from Char* {
         buffer := StringBuffer new(length)
         i: SizeT = 0
         while(i < length) {
-            if(memcmp(this as Char* + i, oldie, oldieLength) == 0) {
+            if(compare(oldie, i, oldieLength)) {
                 /* found oldie! */
                 buffer append(kiddo)
                 i += oldieLength

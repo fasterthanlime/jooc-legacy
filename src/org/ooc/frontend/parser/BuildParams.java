@@ -87,6 +87,10 @@ public class BuildParams {
 	// maximum number of rounds the {@link Tinkerer} will do before blowing up.
 	public int blowup = 256;
 	
+	// the entry point. for most apps, it will be main,
+	// but for libraries, kernels, Win32 apps, etc. it can have another name
+	public String entryPoint = "main";
+	
 	public List<String> dynamicLibs = new ArrayList<String>();
 
 	/* Builtin defines */
