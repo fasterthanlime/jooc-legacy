@@ -14,51 +14,10 @@ include stdio
 
 import structs/ArrayList
 import FileReader, FileWriter
-import os/Time
-import dirent
+import native/[FileWin32, FileUnix]
 
-version(linux) {
-        include unistd | (__USE_BSD), sys/stat | (__USE_BSD), sys/types | (__USE_BSD), stdlib | (__USE_BSD)
-}
-
-version(!linux) {
-        include unistd, sys/stat, sys/types, stdlib
-}
-
-getcwd: extern func(buf: String, size: SizeT) -> String
-
-ModeT: cover from mode_t
-FileStat: cover from struct stat {
-    st_mode: extern ModeT
-    st_size: extern SizeT
-    st_atime: extern TimeT
-    st_mtime: extern TimeT
-    st_ctime: extern TimeT
-}
-
-S_ISDIR: extern func(...) -> Bool
-S_ISREG: extern func(...) -> Bool
-S_ISLNK: extern func(...) -> Bool
-S_IRWXU: extern func(...)
-S_IRWXG: extern func(...)
-S_IRWXO: extern func(...)
-
-lstat: extern func(String, FileStat*) -> Int
-mkdir: extern func(String, ModeT) -> Int
-_remove: extern(remove) func(path: String) -> Int
-
-realpath: extern func(path: String, resolved: String) -> String
-
-version(unix) {
-    File separator = '/'
-    File pathDelimiter = ':'
-}
-version(windows) {
-    File separator = '\\'
-    File pathDelimiter = ';'
-}
-
-File: class {
+File: abstract class {
+	
     MAX_PATH_LENGTH := static const 16383 // cause we alloc +1
     
     path: String
@@ -69,47 +28,44 @@ File: class {
         return path
     }
 
-    init: func(=path) {}
+	new: static func (.path) -> This {
+		version(unix) {
+			return FileUnix new(path)
+		}
+		version(windows) {
+			return FileWin32 new(path)
+		}
+		Exception new(This, "Unsupported platform!\n") throw()
+		null
+	}
+
+    new: static func ~parentFile(parent: File, .path) -> This {
+		return new(parent path + File separator + path)
+	}
     
-    init: func ~parentFile(parent: File, .path) { this(parent path + File separator + path) }
-    
-    init: func ~parentPath(parent: String, .path) { this(parent + File separator + path) }
+    new: static func ~parentPath(parent: String, .path) -> This {
+		return new(parent + File separator + path)
+	}
     
     /**
      * @return true if it's a directory
      */
-    isDir: func -> Bool {
-        stat: FileStat
-        lstat(path, stat&)
-        return S_ISDIR(stat st_mode)
-    }
+    isDir: abstract func -> Bool
     
     /**
      * @return true if it's a file (ie. not a directory)
      */
-    isFile: func -> Bool {
-        stat: FileStat
-        lstat(path, stat&)
-        return S_ISREG(stat st_mode)
-    }
+    isFile: abstract func -> Bool
     
     /**
      * @return true if the file is a symbolic link
      */
-    isLink: func -> Bool {
-        stat: FileStat
-        lstat(path, stat&)
-        return S_ISLNK(stat st_mode)
-    }
+    isLink: abstract func -> Bool
     
     /**
      * @return the size of the file, in bytes
      */
-    size: func -> Int {
-        stat: FileStat
-        lstat(path, stat&)
-        return stat st_size
-    }
+    size: abstract func -> Int
     
     /**
      * @return true if the file exists and can be
@@ -122,29 +78,17 @@ File: class {
     /**
      * @return the permissions for the owner of this file
      */
-    ownerPerm: func -> Int {
-        stat: FileStat
-        lstat(path, stat&)
-        return (stat st_mode) & S_IRWXU
-    }
+    ownerPerm: abstract func -> Int
     
     /**
      * @return the permissions for the group of this file
      */
-    groupPerm: func -> Int {
-        stat: FileStat
-        lstat(path, stat&)
-        return (stat st_mode) & S_IRWXG
-    }
+    groupPerm: abstract func -> Int
     
     /**
      * @return the permissions for the others (not owner, not group)
      */
-    otherPerm: func -> Int {
-        stat: FileStat
-        lstat(path, stat&)
-        return (stat st_mode) & S_IRWXO
-    }
+    otherPerm: abstract func -> Int
     
     /**
      * @return the last part of the path, e.g. for /etc/init.d/bluetooth
@@ -180,44 +124,33 @@ File: class {
     }
     
     /**
-     * @return the time of last access
-     */
-    lastAccessed: func -> Long {
-        stat: FileStat
-        lstat(path, stat&)
-        return stat st_atime
-    }
-    
-    /**
-     * @return the time of last modification
-     */
-    lastModified: func -> Long {
-        stat: FileStat
-        lstat(path, stat&)
-        return stat st_mtime
-    }
-    
-    /**
-     * @return the time of creation
-     */
-    created: func -> Long {
-        stat: FileStat
-        lstat(path, stat&)
-        return stat st_ctime
-    }
-    
+	 * create a directory at the path specified by this file,
+	 * with permissions 0c755 by default
+	 */
     mkdir: func -> Int {
         mkdir(0c755)
     }
     
-    mkdir: func ~withMode (mode: Int32) -> Int {
-        return mkdir(path, mode)
-    }
+    /**
+	 * create a directory at the path specified by this file
+	 * @param mode The permissions at the creation of the directory
+	 */
+    mkdir: abstract func ~withMode (mode: Int32) -> Int
     
+    /**
+	 * create a directory at the path specified by this file,
+	 * and all the parent directories if needed,
+	 * with permissions 0c755 by default
+	 */
     mkdirs: func {
         mkdirs(0c755)
     }
         
+    /**
+	 * create a directory at the path specified by this file,
+	 * and all the parent directories if needed
+	 * @param mode The permissions at the creation of the directory
+	 */
     mkdirs: func ~withMode (mode: Int32) -> Int {
         if(parent := parent()) {
             parent mkdirs()
@@ -225,25 +158,55 @@ File: class {
         mkdir()
     }
     
-    getAbsolutePath: func -> String {
-        // TODO, realpath() is a posix thing, needs to be versioned out
-        actualPath := String new(MAX_PATH_LENGTH + 1)
-        return realpath(path, actualPath)
-    }
+    /**
+     * @return the time of last access
+     */
+    lastAccessed: abstract func -> Long
     
-    getAbsoluteFile: func -> This {
-        actualPath := getAbsolutePath()
-        if(!path equals(actualPath)) {
-            return File new(actualPath)
-        }
-        return this
-    }
+    /**
+     * @return the time of last modification
+     */
+    lastModified: abstract func -> Long
+    
+    /**
+     * @return the time of creation
+     */
+    created: abstract func -> Long
+    
+    /**
+     * The absolute path, e.g. "my/dir" => "/current/directory/my/dir"
+     */
+    getAbsolutePath: abstract func -> String
+    
+    /**
+     * A file corresponding to the absolute path
+     * @see getAbsolutePath
+     */
+    getAbsoluteFile: abstract func -> This
+    
+    /**
+     * List the name of the children of this path
+     * Works only on directories, obviously
+     */
+    getChildrenNames: abstract func -> ArrayList<String>
+    
+    /**
+     * List the children of this path
+     * Works only on directories, obviously
+     */
+    getChildren: abstract func -> ArrayList<This>
 
-    /** try to remove the file. This only works for files, not directories. */
+    /**
+     * Tries to remove the file. This only works for files, not directories.
+     */
     remove: func -> Int {
         _remove(this path)
     }
     
+    /**
+     * Copies the content of this file to another
+     * @param dstFile the file to copy to
+     */
     copyTo: func(dstFile: This) {
         dstFile parent() mkdirs()
         src := FileReader new(this)
@@ -257,47 +220,11 @@ File: class {
         dst close()
         src close()
     }
-    
-    getChildrenNames: func -> ArrayList<String> {
-        if(!isDir()) {
-            Exception new(This, "Trying to get the children of the non-directory '" + path + "'!")
-        }
-        dir := opendir(path)
-        if(!dir) {
-            Exception new(This, "Couldn't open directory '" + path + "' for reading!")
-        }
-        result := ArrayList<String> new()
-        entry := readdir(dir)
-        while(entry != null) {
-            if(!entry@ name equals(".") && !entry@ name equals("..")) {
-                result add(entry@ name clone())
-            }
-            entry = readdir(dir)
-        }
-        closedir(dir)
-        return result
-    }
-    
-    getChildren: func -> ArrayList<This> {
-        if(!isDir()) {
-            Exception new(This, "Trying to get the children of the non-directory '" + path + "'!")
-        }
-        dir := opendir(path)
-        if(!dir) {
-            Exception new(This, "Couldn't open directory '" + path + "' for reading!")
-        }
-        result := ArrayList<This> new()
-        entry := readdir(dir)
-        while(entry != null) {
-            if(!entry@ name equals(".") && !entry@ name equals("..")) {
-                result add(File new(this, entry@ name clone()))
-            }
-            entry = readdir(dir)
-        }
-        closedir(dir)
-        return result
-    }
 
+	/**
+	 * Get a child of this path
+	 * @name The name of the child, relatively to this path
+	 */
     getChild: func (name: String) -> This {
         new(this path + File separator + name)
     }
@@ -305,9 +232,9 @@ File: class {
     /**
      * @return the current working directory
      */
-    getCwd: static func() -> String {
+    getCwd: static func -> String {
         ret := String new(File MAX_PATH_LENGTH + 1)
-        getcwd(ret, File MAX_PATH_LENGTH)
+        _getcwd(ret, File MAX_PATH_LENGTH)
         return ret
     }
     
