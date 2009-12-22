@@ -1,4 +1,4 @@
-include stdlib | (_BSD_SOURCE)
+include stdlib | (__USE_BSD)
 
 getenv: extern func (path: String) -> String
 
