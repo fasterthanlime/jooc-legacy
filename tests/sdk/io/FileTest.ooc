@@ -1,9 +1,17 @@
 import io/File
+import os/Env
 
 main: func {
 	
-	file := File new("/bin/ls") as File
-	dir := File new("/bin/") as File
+	file, dir : File
+	version(!windows) {
+		dir  = File new("/bin")
+		file = dir getChild("ls")
+	}
+	version(windows) {
+		dir  = File new(Env get("WINDIR"))
+		file = dir getChild("explorer.exe")
+	}
 	
 	printf("%s\t(name = %s)\tisFile? %s\tisDir? %s\tsize: %d\n",
                 file path, file name(), file isFile() toString(), file isDir() toString(), file size())
