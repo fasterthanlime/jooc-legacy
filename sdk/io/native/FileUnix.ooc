@@ -7,16 +7,14 @@ import dirent
 
 version(linux) {
         include unistd | (__USE_BSD), sys/stat | (__USE_BSD), sys/types | (__USE_BSD), stdlib | (__USE_BSD)
-        
-        realpath: extern proto func(path: String, resolved: String) -> String
 }
 version(!linux) {
         include unistd, sys/stat, sys/types, stdlib
-        
-        realpath: extern func(path: String, resolved: String) -> String
 }
 
 version(unix) {
+
+    realpath: extern func(path: String, resolved: String) -> String
 
 	// separators
     File separator = '/'
