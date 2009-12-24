@@ -76,6 +76,15 @@ public class AddressOf extends Access implements MustBeResolved {
 			}
 			return Response.LOOP;
 		}
+		
+		if(!expression.canBeReferenced()) {
+			VariableDeclFromExpr vdfe = new VariableDeclFromExpr(generateTempName("overzealous", stack), expression, expression.startToken);
+			this.expression = vdfe;
+			stack.push(this);
+			vdfe.unwrap(stack);
+			stack.pop(this);
+		}
+		
 		return Response.OK;
 			
 	}

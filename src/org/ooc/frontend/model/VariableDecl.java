@@ -168,7 +168,7 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 		atoms.accept(visitor);
 	}
 
-	public boolean unwrap(NodeList<Node> stack) throws OocCompilationError, IOException {
+	public boolean unwrap(NodeList<Node> stack) {
 	
 		if(stack.get(stack.size() - 2) instanceof ClassDecl) {
 			unwrapToClassInitializers(stack, (ClassDecl) stack.get(stack.size() - 2));

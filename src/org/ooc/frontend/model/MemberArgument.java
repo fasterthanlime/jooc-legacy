@@ -1,6 +1,5 @@
 package org.ooc.frontend.model;
 
-import java.io.EOFException;
 import java.io.IOException;
 
 import org.ooc.frontend.Visitor;
@@ -88,7 +87,7 @@ public class MemberArgument extends Argument {
 	}
 	
 	@Override
-	public boolean unwrap(NodeList<Node> stack) throws OocCompilationError, EOFException {
+	public boolean unwrap(NodeList<Node> stack) {
 		return false;
 	}
 

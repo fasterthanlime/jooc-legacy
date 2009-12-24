@@ -90,7 +90,22 @@ public class ArrayAccess extends Access implements MustBeResolved {
 
 	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
 		
-		int assignIndex = stack.find(Assignment.class);
+		int assignIndex = -1;
+		
+		if(stack.peek() instanceof Assignment) {
+			Assignment ass = (Assignment) stack.peek();
+			if(ass.getLeft() == this) {
+				assignIndex = stack.size() - 1;
+			} else {
+				NodeList<Node> copy = new NodeList<Node>();
+				copy.addAll(stack);
+				copy.pop();
+				Response response = ass.resolve(copy, res, fatal);
+				if(response != Response.OK) {
+					return response;
+				}
+			}
+		}
 		
 		for(OpDecl op: res.module.getOps()) {
 			if(tryOp(stack, res, assignIndex, op)) {
@@ -144,6 +159,8 @@ public class ArrayAccess extends Access implements MustBeResolved {
 			call.getArguments().addAll(indices);
 			call.getArguments().add(ass.getRight());
 			if(!stack.get(assignIndex - 1).replace(ass, call)) {
+				System.out.println("stack = "+stack.toString(true));
+				Thread.dumpStack();
 				throw new OocCompilationError(this, stack, "Couldn't replace array-access-assign with a function call");
 			}
 			return true;
@@ -164,7 +181,7 @@ public class ArrayAccess extends Access implements MustBeResolved {
 		}
 		NodeList<Argument> args = op.getFunc().getArguments();
 		if(args.get(0).getType().softEquals(variable.getType(), res)
-				&& args.get(1).getType().softEquals(indices.getFirst().getType(), res)) {
+		&& args.get(1).getType().softEquals(indices.getFirst().getType(), res)) {
 			FunctionCall call = new FunctionCall(op.getFunc(), startToken);
 			call.getArguments().add(variable);
 			call.getArguments().addAll(indices);
@@ -178,7 +195,7 @@ public class ArrayAccess extends Access implements MustBeResolved {
 	
 	@Override
 	public String toString() {
-		return getClass().getSimpleName() + "|" + variable + "["+indices+"]";
+		return variable.toString() + indices;
 	}
 	
 }

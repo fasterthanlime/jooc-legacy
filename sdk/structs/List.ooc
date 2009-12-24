@@ -142,6 +142,10 @@ List: abstract class <T> extends Iterable<T> {
         arr : T* = gc_malloc(size() * T size)
         for(i in 0..size()) {
             arr[i] = this[i]
+            // is problematic for now, for some reason
+            
+            //value := this[i]
+            //memcpy(arr& + (i * T size), value&, T size)
         }
         return arr&
     }

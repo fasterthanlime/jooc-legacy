@@ -42,7 +42,7 @@ public class StringLiteral extends Literal {
 	
 	@Override
 	public String toString() {
-		return "StringLiteral:\""+value+"\"";
+		return "\""+value+"\"";
 	}
 
 }

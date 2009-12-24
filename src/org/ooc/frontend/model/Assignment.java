@@ -147,19 +147,18 @@ public class Assignment extends BinaryOperation {
 					+stack.peek().getClass().getSimpleName()+") Did you mean '==' ?");
 		}
 		
-		if(right.getType() != null && left.getType() != null) {
-			if(left.getType().isSuperOf(right.getType())) {
-				right = new Cast(right, left.getType(), right.startToken);
-			}
-		}
-		
 		if(left.getType() == null) {
 			if(fatal) throw new OocCompilationError(left, stack, "Left type of assignment unresolved: "+left+" (btw, stack = "+stack.toString(true));
 			return Response.LOOP;
 		}
+		
 		if(right.getType() == null) {
 			if(fatal) throw new OocCompilationError(right, stack, "Right type of assignment unresolved: "+right);
 			return Response.LOOP;
+		}
+		
+		if(left.getType().isSuperOf(right.getType())) {
+			right = new Cast(right, left.getType(), right.startToken);
 		}
 		
 		boolean isGeneric = false;
@@ -208,8 +207,7 @@ public class Assignment extends BinaryOperation {
 					}
 					right = ((Cast) right).getExpression();
 				}
-				VariableDeclFromExpr vdfe = new VariableDeclFromExpr(
-						generateTempName("genref", stack), right, right.startToken);
+				VariableDeclFromExpr vdfe = new VariableDeclFromExpr(generateTempName("genref", stack), right, right.startToken);
 				vdfe.setType(right.getType()); // fixate the type
 				addBeforeLine(stack, vdfe);
 				vdfe.unwrapToVarAcc(stack);
