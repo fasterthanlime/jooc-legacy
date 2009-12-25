@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.ooc.frontend.Target;
@@ -51,8 +52,13 @@ public class SequenceDriver extends Driver {
 					Module currentModule = null;
 					
 					synchronized(iterator) {
-						currentModule = iterator.next();
-						iterator.remove();
+						try {
+							currentModule = iterator.next();
+							iterator.remove();
+						} catch(NoSuchElementException e) {
+							// oh, we reached the end early? good.
+							break;
+						}
 					}
 				
 					initCompiler(compiler);
