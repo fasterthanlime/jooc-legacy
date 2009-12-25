@@ -125,8 +125,9 @@ public class SequenceDriver extends Driver {
 						
 					} else {
 						
-						if(params.verbose)
+						if(params.veryVerbose) {
 							System.out.println("Skipping "+cPath+", just the same.");
+						}
 						
 					}
 					
