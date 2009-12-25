@@ -81,6 +81,10 @@ public class CommandLine {
         			
         			params.entryPoint = arg.substring(arg.indexOf('=') + 1);
         			
+        		} else if(option.startsWith("j")) {
+        			
+        			params.sequenceThreads = Integer.parseInt(arg.substring(2));
+        			
         		} else if(option.startsWith("I")) {
         			
         			params.incPath.add(arg.substring(2));

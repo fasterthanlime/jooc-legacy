@@ -93,6 +93,9 @@ public class BuildParams {
 	
 	public List<String> dynamicLibs = new ArrayList<String>();
 
+	// how many threads to use with the sequence driver
+	public int sequenceThreads = Runtime.getRuntime().availableProcessors();
+
 	/* Builtin defines */
 	public static final String GC_DEFINE = "__OOC_USE_GC__";
 

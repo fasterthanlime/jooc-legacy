@@ -31,6 +31,10 @@ public class SequenceDriver extends Driver {
 		
 		copyLocalHeaders(module, params, new HashSet<Module>());
 		
+		if(params.verbose) {
+			System.out.println("Sequence driver, using " + params.sequenceThreads + " threads.");
+		}
+		
 		HashSet<Module> toCompile = collectDeps(module, new HashSet<Module>(), new HashSet<String>());
 		
 		final ArrayList<String> oPaths = new ArrayList<String> ();
@@ -134,7 +138,7 @@ public class SequenceDriver extends Driver {
 			}
 		};
 		
-		for(int i = 0; i < 4; i++) {
+		for(int i = 0; i < params.sequenceThreads; i++) {
 			new Thread(runnable).start();
 		}
 		
