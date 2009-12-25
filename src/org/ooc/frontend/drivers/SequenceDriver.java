@@ -106,7 +106,7 @@ public class SequenceDriver extends Driver {
 							e.printStackTrace();
 						}
 						long tt2 = System.nanoTime();
-						if(params.verbose) System.out.println("  (" + ((tt2 - tt1) / 1000000)+"ms)");
+						if(params.timing) System.out.println("  (" + ((tt2 - tt1) / 1000000)+")");
 							
 						if(code != 0) {
 							System.err.println("C compiler failed, aborting compilation process");
@@ -185,11 +185,8 @@ public class SequenceDriver extends Driver {
 			long tt1 = System.nanoTime();
 			int code = params.compiler.launch();
 			long tt2 = System.nanoTime();
-			if(params.verbose) System.out.println("  (linking " + ((tt2 - tt1) / 1000000)+"ms)");
-			
-			if(params.verbose) {
-				System.out.println("(total " + ((System.nanoTime() - tt0) / 1000000)+"ms)");
-			}
+			if(params.timing) System.out.println("  (linking " + ((tt2 - tt1) / 1000000)+"ms)");
+			if(params.timing) System.out.println("(total " + ((System.nanoTime() - tt0) / 1000000)+"ms)");
 			
 			if(code != 0) {
 				System.err.println("C compiler failed, aborting compilation process");

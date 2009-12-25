@@ -15,7 +15,9 @@ public class VariableDeclWriter {
 
 	public static boolean write(VariableDecl variableDecl, CGenerator cgen) throws IOException {
 
-		if(variableDecl.isExtern()) return false;
+		if(variableDecl.isExtern()) {
+			return false;
+		}
 		
 		if (variableDecl.isGlobal())
 		{
