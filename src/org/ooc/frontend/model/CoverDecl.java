@@ -6,8 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.ooc.frontend.Visitor;
-import org.ooc.frontend.model.Compare.CompareType;
-import org.ooc.frontend.model.VariableDecl.VariableDeclAtom;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.middle.hobgoblins.Resolver;
 
@@ -39,49 +37,12 @@ public class CoverDecl extends TypeDecl {
 		if(fromType != null) {
 			instanceType.referenceLevel = fromType.referenceLevel;
 		}
+		
 		if(fromType == null || (!fromType.isVoid())) {
-			addClassDecl();
+			FunctionDecl fDecl = new FunctionDecl("class", "", false, true, false, false, startToken);
+			fDecl.setReturnType(new Type("Class", startToken));
+			addFunction(fDecl);
 		}
-	}
-
-	private void addClassDecl() {
-		classGettingFunc = new FunctionDecl("class", "", false, true, false, false, startToken);
-		classGettingFunc.setReturnType(new Type("Class", startToken));
-		
-		FunctionCall classSizeOf = new FunctionCall("sizeof", startToken);
-		classSizeOf.arguments.add(new VariableAccess("Class", startToken));
-		
-		FunctionCall malloc = new FunctionCall("gc_malloc", startToken);
-		malloc.arguments.add(classSizeOf);
-		
-		FunctionCall coverSizeOf = new FunctionCall("sizeof", startToken);
-		if(fromType == null || fromType.isFlat()) {
-			coverSizeOf.arguments.add(new VariableAccess(getName(), startToken));
-		} else {
-			coverSizeOf.arguments.add(new VariableAccess("Pointer", startToken));
-		}
-		
-		VariableDecl varDecl = new VariableDecl(new Type("Class", startToken), true, startToken);
-		NullLiteral nullLiteral = new NullLiteral(startToken);
-		varDecl.atoms.add(new VariableDeclAtom("_class", nullLiteral, startToken));
-		classGettingFunc.getBody().add(new Line(varDecl));
-		
-		VariableAccess classAccess = new VariableAccess("_class", startToken);
-		
-		If ifNull = new If(new Compare(classAccess, nullLiteral, CompareType.EQUAL, startToken), startToken);
-		classGettingFunc.getBody().add(new Line(ifNull));
-		
-		ifNull.body.add(new Line(new Assignment(classAccess, malloc, startToken)));
-		ifNull.body.add(new Line(new Assignment(new MemberAccess(classAccess, "size", startToken),
-				coverSizeOf, startToken)));
-		ifNull.body.add(new Line(new Assignment(new MemberAccess(classAccess, "instanceSize", startToken),
-				coverSizeOf, startToken)));
-		ifNull.body.add(new Line(new Assignment(new MemberAccess(classAccess, "name", startToken),
-				new StringLiteral(name, startToken), startToken)));
-		
-		classGettingFunc.getBody().add(new Line(new ValuedReturn(classAccess, startToken)));
-
-		addFunction(classGettingFunc);
 	}
 	
 	@Override

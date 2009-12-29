@@ -35,15 +35,19 @@ public class CoverDeclWriter {
 		
 		cgen.current = cgen.cw;
 		
-		cgen.current.app("/* cover " + cover.getName() + " has version " +
-				(cover.getVersion() != null ? cover.getVersion().getVersion().toString() : "null") + " */");
+		//cgen.current.app("/* cover " + cover.getName() + " has version " +
+		//		(cover.getVersion() != null ? cover.getVersion().getVersion().toString() : "null") + " */");
 		if(cover.getVersion() != null) {
 			VersionBlockWriter.writeVersionBlockStart(cover.getVersion(), cgen);
 		}
 		
 		for(FunctionDecl decl: cover.getFunctions()) {
-			decl.accept(cgen);
-			cgen.current.nl();
+			if(decl.getName().equals("class") && decl.getSuffix().isEmpty()) {
+				if(!cover.isAddon()) writeClassFunction(cover, cgen);
+			} else {
+				decl.accept(cgen);
+				cgen.current.nl();
+			}
 		}
 		
 		if(cover.getVersion() != null) {
@@ -51,7 +55,28 @@ public class CoverDeclWriter {
 		}
 	}
 
-	public static  void writeTypedef(CoverDecl cover, CGenerator cgen) throws IOException {
+	public static void writeClassFunction(CoverDecl cover, CGenerator cgen) throws IOException {
+		
+		cgen.current = cgen.fw;
+        
+        cgen.current.nl().app("lang__Class *"). app(cover.getName()). app("_class();");
+        
+        cgen.current = cgen.cw;
+        
+        cgen.current.nl().
+        app("lang__Class *"). app(cover.getName()). app("_class() {"). tab(). nl().
+            app("static lang__Class _class = {"). tab(). nl().
+                app(".size = sizeof("). app(cover.getUnderName()). app("),"). nl().
+                app(".instanceSize = sizeof("). app(cover.getUnderName()). app("),"). nl().
+                app(".name = \""). app(cover.getName()). app("\"").
+            untab(). nl(). app("};").
+            nl(). app("return &_class;").
+        untab(). nl(). app("}").
+        nl();
+		
+	}
+	
+	public static void writeTypedef(CoverDecl cover, CGenerator cgen) throws IOException {
 		
 		if(cover.getVersion() != null) {
 			VersionBlockWriter.writeVersionBlockStart(cover.getVersion(), cgen);
