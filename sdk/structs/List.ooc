@@ -73,6 +73,16 @@ List: abstract class <T> extends Iterable<T> {
 	contains: func(element: T) -> Bool {
 		return indexOf(element) != -1
 	}
+    
+    /**
+     * @return true if oldie has been replaced by kiddo
+     */
+    replace: func (oldie, kiddo: T) -> Bool {
+        idx := indexOf(oldie)
+        if(idx == -1) return false
+        set(idx, kiddo)
+        return true
+    }
 	
 	/**
 	 * @return the element at the specified position in this list.
