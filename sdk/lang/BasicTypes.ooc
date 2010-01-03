@@ -875,3 +875,9 @@ StringIterator: class <T> extends Iterator<T> {
 }
 
 None: class {init: func {}}
+
+Cell: class <T> {
+    val :T
+    init: func(=val) {}
+}
+
