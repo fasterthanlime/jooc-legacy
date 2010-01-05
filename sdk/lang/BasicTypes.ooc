@@ -873,3 +873,11 @@ StringIterator: class <T> extends Iterator<T> {
     remove: func -> Bool { false } // this could be implemented!
     
 }
+
+None: class {init: func {}}
+
+Cell: class <T> {
+    val :T
+    init: func(=val) {}
+}
+
