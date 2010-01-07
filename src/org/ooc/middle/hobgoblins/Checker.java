@@ -66,9 +66,10 @@ public class Checker implements Hobgoblin {
 			private void checkFunctionDecl(FunctionDecl node, NodeList<Node> stack) {
 				if(node.getName().length() > 0) {
 					if(Character.isUpperCase(node.getName().charAt(0)) && !node.isExtern()) {
-						throw new OocCompilationError(node, stack,
+						// turned it into a warning
+						new OocCompilationError(node, stack,
 								"Upper-case function name '"+node.getProtoRepr()
-								+"'. Function should always begin with a lowercase letter, e.g. camelCase");
+								+"'. Function should always begin with a lowercase letter, e.g. camelCase").printStackTrace();
 					}
 				}
 				
