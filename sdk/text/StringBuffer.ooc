@@ -1,4 +1,6 @@
-StringBuffer: class {
+import io/Writer
+
+StringBuffer: class extends Writer {
     
     size: SizeT
     capacity: SizeT
@@ -12,6 +14,19 @@ StringBuffer: class {
         data = gc_malloc(capacity)
         size = 0
     }
+
+    close: func {
+        /* do nothing. */
+    }
+
+    write: func ~chr (chr: Char) {
+        append(chr)
+    }
+
+    write: func (chars: String, length: SizeT) -> SizeT {
+        append(chars, length)
+        length
+    }
     
     append: func ~str (str: String) {
         length := str length()
@@ -23,7 +38,7 @@ StringBuffer: class {
         memcpy(data as Char* + size, str, length)
         size += length
     }
-    
+ 
     append: func ~chr (chr: Char) {
         checkLength(size + 1)
         data[size] = chr
