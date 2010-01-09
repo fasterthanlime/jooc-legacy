@@ -874,7 +874,8 @@ StringIterator: class <T> extends Iterator<T> {
     
 }
 
-None: class {init: func {}}
+NoneType: class {init: func {}}
+None := NoneType new()
 
 Cell: class <T> {
     val :T
