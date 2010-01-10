@@ -45,7 +45,7 @@ Process: class {
             }
             if (stdErr != null) {
                 stdErr close('r')
-                dup2(stdErr writeFD, 1)
+                dup2(stdErr writeFD, 2)
             }
             /* amend the environment if needed */
             if(this env) {
@@ -66,7 +66,9 @@ Process: class {
                 if (stdOut != null) {
                     stdOut close('w')
                 }
-
+                if (stdErr != null) {
+                    stdErr close('w')
+                }
             }
         }
         return result
