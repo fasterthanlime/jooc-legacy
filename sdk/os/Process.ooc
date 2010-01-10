@@ -34,9 +34,32 @@ Process: class {
     setCwd: func(=cwd) {}
     
     execute: func -> Int {
-        
+        executeNoWait()
+        wait()
+    }
+
+    /** Wait for the process to end. Bad things will happen if you haven't called `executeNoWait` before. */
+    wait: func -> Int {
         status: Int
         result := -555
+        if(stdIn != null) {
+            stdIn close('w')
+        }
+        waitpid(-1, status&, null)
+        if (WIFEXITED(status)) {
+            result = WEXITSTATUS(status)
+            if (stdOut != null) {
+                stdOut close('w')
+            }
+            if (stdErr != null) {
+                stdErr close('w')
+            }
+        }    
+        return result
+    }
+
+    /** Execute the process without waiting for it to end. You have to call `wait` manually. */
+    executeNoWait: func {
         pid := fork()
         if (pid == 0) {
             if (stdIn != null) {
@@ -63,23 +86,7 @@ Process: class {
             }
             /* run the stuff. */
             execvp(executable, buf)
-        } else {
-            if(stdIn != null) {
-                stdIn close('w')
-            }
-            waitpid(-1, status&, null)
-            if (WIFEXITED(status)) {
-                result = WEXITSTATUS(status)
-                if (stdOut != null) {
-                    stdOut close('w')
-                }
-                if (stdErr != null) {
-                    stdErr close('w')
-                }
-            }
         }
-        return result
-        
     }
     
     /**
