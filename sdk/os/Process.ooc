@@ -39,6 +39,10 @@ Process: class {
         result := -555
         pid := fork()
         if (pid == 0) {
+            if (stdIn != null) {
+                stdIn close('w')
+                dup2(stdIn readFD, 0)
+            }
             if (stdOut != null) {
                 stdOut close('r')
                 dup2(stdOut writeFD, 1)
@@ -60,6 +64,9 @@ Process: class {
             /* run the stuff. */
             execvp(executable, buf)
         } else {
+            if(stdIn != null) {
+                stdIn close('w')
+            }
             waitpid(-1, status&, null)
             if (WIFEXITED(status)) {
                 result = WEXITSTATUS(status)
