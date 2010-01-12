@@ -418,12 +418,14 @@ String: cover from Char* {
         return output
     }
 
-    scanf: func (format: This, ...) {
+    scanf: func (format: This, ...) -> Int {
         list: VaList
 
         va_start(list, format)
-        vsscanf(this, format, list)
+        retval := vsscanf(this, format, list)
         va_end(list)
+        
+        return retval
     }
     
     iterator: func -> StringIterator<Char> {
