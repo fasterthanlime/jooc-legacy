@@ -157,9 +157,6 @@ public abstract class Driver {
 		
 		boolean has = false;
 		if(nasms.isEmpty()) return;
-		if(params.verbose) {
-			System.out.println("Should compile nasms "+nasms);
-		}
 		
 		List<String> reallyNasms = new ArrayList<String>();
 		for(String nasm: nasms) {
@@ -170,6 +167,9 @@ public abstract class Driver {
 		}
 		
 		if(has) {
+			if(params.verbose) {
+				System.out.println("Should compile nasms "+reallyNasms);
+			}
 			List<String> command = new ArrayList<String>();
 			command.add(findExec("nasm").getPath());
 			command.add("-f");

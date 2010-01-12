@@ -133,13 +133,20 @@ public class ExpressionParser {
 				ArrayAccess arrAcc = new ArrayAccess(expr, token);
 				expr = arrAcc;
 				reader.skip();
-				Expression index = ExpressionParser.parse(module, sReader, reader, noDecl);
 				
-				if(index == null) {
-					throw new CompilationFailedError(sReader.getLocation(reader.peek()),
+				while(reader.peekWhiteless().type != TokenType.CLOS_SQUAR) {
+					Expression index = ExpressionParser.parse(module, sReader, reader, noDecl);
+					if(index == null) {
+						throw new CompilationFailedError(sReader.getLocation(reader.peek()),
 						"Expected expression for the index of an array access");
+					}
+					arrAcc.getIndices().add(index);
+					
+					if(reader.peekWhiteless().type != TokenType.COMMA) {
+						break;
+					}
+					reader.skip();
 				}
-				arrAcc.getIndices().add(index);
 				
 				if(reader.read().type != TokenType.CLOS_SQUAR) {
 					throw new CompilationFailedError(sReader.getLocation(reader.prev()),
