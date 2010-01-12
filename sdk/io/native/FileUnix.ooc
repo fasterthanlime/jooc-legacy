@@ -12,7 +12,7 @@ version(!linux) {
         include unistd, sys/stat, sys/types, stdlib
 }
 
-version(unix) {
+version(unix || apple) {
 
     realpath: extern proto func(path: String, resolved: String) -> String
 
