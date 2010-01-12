@@ -6,17 +6,17 @@ import structs/ArrayList
 import dirent
 
 version(linux) {
-        include unistd | (__USE_BSD), sys/stat | (__USE_BSD), sys/types | (__USE_BSD), stdlib
+    include unistd | (__USE_BSD), sys/stat | (__USE_BSD), sys/types | (__USE_BSD), stdlib
+    realpath: extern proto func(path: String, resolved: String) -> String
 }
 version(!linux) {
-        include unistd, sys/stat, sys/types, stdlib
+    include unistd, sys/stat, sys/types, stdlib
+    realpath: extern func(path: String, resolved: String) -> String
 }
 
 version(unix || apple) {
 
-    realpath: extern proto func(path: String, resolved: String) -> String
-
-	// separators
+    // separators
     File separator = '/'
     File pathDelimiter = ':'
     
