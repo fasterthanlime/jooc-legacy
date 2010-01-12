@@ -146,11 +146,12 @@ public class ArrayAccess extends Access implements MustBeResolved {
 			return false;
 		}
 		
-		if(op.getFunc().getArguments().size() != 3) {
+		if(op.getFunc().getArguments().size() < 3) {
 			throw new OocCompilationError(op, stack,
 					"To overload the indexed assign operator, you need exactly three arguments, not "
 					+op.getFunc().getArgsRepr());
 		}
+		
 		NodeList<Argument> args = op.getFunc().getArguments();
 		if(args.get(0).getType().softEquals(variable.getType(), res)
 				&& args.get(1).getType().softEquals(indices.getFirst().getType(), res)) {
@@ -174,11 +175,12 @@ public class ArrayAccess extends Access implements MustBeResolved {
 		
 		if(op.getOpType() != OpType.IDX) return false;
 		
-		if(op.getFunc().getArguments().size() != 2) {
+		if(op.getFunc().getArguments().size() < 2) {
 			throw new OocCompilationError(op, stack,
-					"To overload the indexing operator, you need exactly two arguments, not "
+					"To overload the indexing operator, you need at least two arguments, not "
 					+op.getFunc().getArgsRepr());
 		}
+		
 		NodeList<Argument> args = op.getFunc().getArguments();
 		if(args.get(0).getType().softEquals(variable.getType(), res)
 		&& args.get(1).getType().softEquals(indices.getFirst().getType(), res)) {
