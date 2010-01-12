@@ -42,7 +42,7 @@ public class CoverDeclWriter {
 		}
 		
 		for(FunctionDecl decl: cover.getFunctions()) {
-			if(decl.getName().equals("class") && decl.getSuffix().isEmpty()) {
+			if(decl.getName().equals("class") && decl.getSuffix().length() == 0) {
 				if(!cover.isAddon()) writeClassFunction(cover, cgen);
 			} else {
 				decl.accept(cgen);
