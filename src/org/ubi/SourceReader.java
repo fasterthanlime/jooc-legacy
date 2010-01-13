@@ -1158,4 +1158,28 @@ public class SourceReader {
 		
 	}
 
+	/**
+	 * Reads an exponent, such as in a number literal (for example: 8E5 or 1.5e+24).
+	 * If no exponent is read, the position is reset
+	 * @return true if an exponent could be read, otherwise false
+	 */
+	public boolean readExponent() throws IOException {
+		if (peek() == 'e' || peek() == 'E') {
+			int expMark = mark();
+			skip(1);
+			
+			if (peek() == '+' || peek() == '-') {
+				skip(1);
+			}
+			
+			if (Character.isDigit(peek())) {
+				skip(1);
+				readMany("0123456789", "_", true);
+				return true;
+			}
+			reset(expMark);
+		}
+		return false;
+	}
+
 }

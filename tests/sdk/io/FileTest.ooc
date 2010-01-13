@@ -13,12 +13,12 @@ main: func {
 		file = dir getChild("explorer.exe")
 	}
 	
-	printf("%s\n\tname() = %s\n\tisFile() = %s\n\tisDir() = %s\n\tsize() = %d\n",
+	printf("%s\n\tname() = %s\n\tisFile() = %s\n\tisDir() = %s\n\tsize() = %Ld\n",
                 file path, file name(), file isFile() toString(), file isDir() toString(), file size())
     printf("\tcreated() = %Ld\n\tlastAccessed() = %Ld\n\tlastModified() = %Ld\n",
                 file created(), file lastAccessed(), file lastModified())
                 
-	printf("%s\n\tname() = %s\n\tisFile() = %s\n\tisDir() = %s\n\tsize() = %d\n\tcreated() = %Ld\n\tlastAccessed() = %Ld\n\tlastModified() = %Ld\n",
+	printf("%s\n\tname() = %s\n\tisFile() = %s\n\tisDir() = %s\n\tsize() = %Ld\n",
                 dir path, dir name(),    dir isFile() toString(), dir isDir() toString(),  dir size())
     printf("\tcreated() = %Ld\n\tlastAccessed() = %Ld\n\tlastModified() = %Ld\n",
                 dir created(), dir lastAccessed(), dir lastModified())

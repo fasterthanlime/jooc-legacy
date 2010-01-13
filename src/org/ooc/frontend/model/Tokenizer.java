@@ -333,14 +333,21 @@ public class Tokenizer {
 					reader.read();
 					if(reader.peek() != '.') {
 						reader.readMany("0123456789", "_", true);
+						reader.readExponent();
 						tokens.add(new Token(index, reader.mark() - index,
 								TokenType.DEC_FLOAT));
 						continue;
 					}
 					reader.rewind(1);
 				}
-				tokens.add(new Token(index, reader.mark() - index,
-					TokenType.DEC_INT));
+				
+				byte type = TokenType.DEC_INT;
+				
+				if (reader.readExponent()) {
+					type = TokenType.DEC_FLOAT;
+				}
+				
+				tokens.add(new Token(index, reader.mark() - index, type));
 				continue;
 			}
 			
