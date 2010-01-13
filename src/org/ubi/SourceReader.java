@@ -1053,11 +1053,23 @@ public class SourceReader {
 
     }
 
-	public static void spelled(String str, Appendable output) throws IOException {
+    public static void spelled(String str, Appendable output) throws IOException {
+    	
+    	spelled(str, output, false);
+    	
+    }
+    
+    
+	public static void spelled(String str, Appendable output, boolean doBackslashes) throws IOException {
 		
 		int length = str.length();
 		for(int i = 0; i < length; i++) {
-			spelled(str.charAt(i), output);
+			char c = str.charAt(i);
+			if(doBackslashes && c == '\\') {
+				output.append("\\\\");
+			} else {
+				spelled(c, output); 
+			}
         }
 		
 	}

@@ -5,12 +5,15 @@ import java.util.Iterator;
 
 import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.interfaces.MustBeUnwrapped;
+import org.ooc.frontend.model.interfaces.Versioned;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.middle.OocCompilationError;
 import org.ooc.middle.hobgoblins.Resolver;
 
-public class VariableDecl extends Declaration implements MustBeUnwrapped, PotentiallyStatic {
+public class VariableDecl extends Declaration implements MustBeUnwrapped, PotentiallyStatic, Versioned {
 
+	private VersionBlock version = null;
+	
 	public static class VariableDeclAtom extends Node {
 		String name;
 		Expression expression;
@@ -340,6 +343,14 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 		}
 		
 		return Response.OK;
+	}
+	
+	public void setVersion(VersionBlock version) {
+		this.version = version;
+	}
+	
+	public VersionBlock getVersion() {
+		return version;
 	}
 	
 }

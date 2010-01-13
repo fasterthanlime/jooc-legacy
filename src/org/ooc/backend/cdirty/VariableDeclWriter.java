@@ -19,6 +19,10 @@ public class VariableDeclWriter {
 			return false;
 		}
 		
+		if(variableDecl.getVersion() != null) {
+			VersionBlockWriter.writeVersionBlockStart(variableDecl.getVersion(), cgen);
+		}
+		
 		if (variableDecl.isGlobal())
 		{
 			assert cgen.current == cgen.hw;
@@ -32,6 +36,10 @@ public class VariableDeclWriter {
 		else
 		{
 			writeGuts(variableDecl, cgen, true);
+		}
+		
+		if(variableDecl.getVersion() != null) {
+			VersionBlockWriter.writeVersionBlockEnd(cgen);
 		}
 		
 		return true;

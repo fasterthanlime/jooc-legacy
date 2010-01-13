@@ -245,7 +245,7 @@ public class CGenerator extends Generator implements Visitor {
 			current.app("#line ");
 			current.app(String.valueOf(module.getReader().getLocation(line.startToken).getLineNumber()));
 			current.app(" \"");
-			current.app(SourceReader.spelled(module.getReader().getFileName()));
+			SourceReader.spelled(module.getReader().getFileName(), current, true);
 			current.app("\"");
 			current.nl();
 		}
