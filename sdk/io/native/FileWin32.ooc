@@ -10,12 +10,23 @@ version(windows) {
     // separators
     File separator = '\\'
     File pathDelimiter = ';'
-    
+    	
+	/*
+	 * apparently on windows, every stat operation is a find
+	 * This makes sense, since most fs(es) on Win32 are case-insensitive
+	 */
     FindData: cover from WIN32_FIND_DATA {
-        attr:         extern(dwFileAttributes) Long // DWORD
-		fileSizeLow:  extern(nFileSizeLow)     Long // DWORD
-		fileSizeHigh: extern(nFileSizeHigh)    Long // DWORD
+        attr:           extern(dwFileAttributes) Long // DWORD
+		fileSizeLow:    extern(nFileSizeLow)     Long // DWORD
+		fileSizeHigh:   extern(nFileSizeHigh)    Long // DWORD
+		creationTime:   extern(ftCreationTime)   FileTime
+		lastAccessTime: extern(ftLastAccessTime) FileTime
+		lastWriteTime:  extern(ftLastWriteTime)  FileTime
     }
+	
+	/*
+	 * file attributes (incomplete list)
+	 */
     FILE_ATTRIBUTE_DIRECTORY,
     FILE_ATTRIBUTE_REPARSE_POINT,
     FILE_ATTRIBUTE_NORMAL : extern Long // DWORD
@@ -89,10 +100,7 @@ version(windows) {
         size: func -> LLong {
             ffd: FindData
             findSingle(ffd&)
-			li: LargeInteger
-			li lowPart  = ffd fileSizeLow
-			li highPart = ffd fileSizeHigh
-            return li quadPart
+            return toLLong(ffd fileSizeLow, ffd fileSizeHigh)
         }
         
         /**
@@ -128,24 +136,27 @@ version(windows) {
          * @return the time of last access
          */
         lastAccessed: func -> Long {
-            // FIXME stub
-            return 0
+            ffd: FindData
+            findSingle(ffd&)
+            return toTimestamp(ffd lastAccessTime)
         }
         
         /**
          * @return the time of last modification
          */
         lastModified: func -> Long {
-            // FIXME stub
-            return 0
+            ffd: FindData
+            findSingle(ffd&)
+            return toTimestamp(ffd lastWriteTime)
         }
         
         /**
          * @return the time of creation
          */
         created: func -> Long {
-            // FIXME stub
-            return 0
+            ffd: FindData
+            findSingle(ffd&)
+            return toTimestamp(ffd creationTime)
         }
         
         /**

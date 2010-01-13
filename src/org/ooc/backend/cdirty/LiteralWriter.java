@@ -1,6 +1,7 @@
 package org.ooc.backend.cdirty;
 
 import java.io.IOException;
+import java.math.BigInteger;
 
 import org.ooc.frontend.model.FloatLiteral;
 import org.ooc.frontend.model.IntLiteral;
@@ -9,6 +10,8 @@ import org.ubi.SourceReader;
 
 public class LiteralWriter {
 
+	private static BigInteger  INT_MAX = new BigInteger("2").pow(32);
+	
 	public static void writeFloat(FloatLiteral floatLiteral, CGenerator cgen) throws IOException {
 		cgen.current.app(Double.toString(floatLiteral.getValue()));
 	}
@@ -31,7 +34,12 @@ public class LiteralWriter {
 			cgen.current.app(numberLiteral.getValue().toString(8));
 			break;
 		default:
-			cgen.current.app(String.valueOf(numberLiteral.getValue()));
+			cgen.current.app(numberLiteral.getValue().toString());
+		}
+		
+		// if it's greater than a Long, then it's a Long
+		if(numberLiteral.getValue().compareTo(INT_MAX) > -1) {
+			cgen.current.app("LL");
 		}
 	}
 
