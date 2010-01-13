@@ -76,7 +76,7 @@ version(unix || apple) {
 		/**
 		 * @return the size of the file, in bytes
 		 */
-		size: func -> Int {
+		size: func -> LLong {
 			stat: FileStat
 			lstat(path, stat&)
 			return stat st_size

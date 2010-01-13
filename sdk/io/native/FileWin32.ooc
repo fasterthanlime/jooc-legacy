@@ -20,11 +20,19 @@ version(windows) {
     INVALID_HANDLE_VALUE: extern Handle
     
     FindData: cover from WIN32_FIND_DATA {
-        attr: extern(dwFileAttributes) Long // DWORD
+        attr:         extern(dwFileAttributes) Long // DWORD
+		fileSizeLow:  extern(nFileSizeLow)     Long // DWORD
+		fileSizeHigh: extern(nFileSizeHigh)    Long // DWORD
     }
     FILE_ATTRIBUTE_DIRECTORY,
     FILE_ATTRIBUTE_REPARSE_POINT,
     FILE_ATTRIBUTE_NORMAL : extern Long // DWORD
+	
+	LargeInteger: cover from LARGE_INTEGER {
+		lowPart : extern(LowPart)  Long
+		highPart: extern(HighPart) Long
+		quadPart: extern(QuadPart) LLong
+	}
     
     // functions from Win32
     FindFirstFile: extern func (String, FindData*) -> Handle
@@ -72,9 +80,13 @@ version(windows) {
             return ((ffd attr) & FILE_ATTRIBUTE_REPARSE_POINT)
         }
         
-        size: func -> Int {
-            // FIXME stub
-            return 0
+        size: func -> LLong {
+            ffd: FindData
+            findSingle(ffd&)
+			li: LargeInteger
+			li lowPart  = ffd fileSizeLow
+			li highPart = ffd fileSizeHigh
+            return li quadPart
         }
         
         /**
