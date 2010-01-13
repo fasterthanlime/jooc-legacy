@@ -1,3 +1,5 @@
+import text/StringBuffer
+
 EscapeSequence: class {
     valid := static 1
     needMore := static 2
@@ -74,4 +76,46 @@ EscapeSequence: class {
         }
         return This valid
     }
+
+    /** Unescape the string `s`. This will handle hexadecimal, octal and one-character escape
+     * escape sequences. Unknown escape sequences will just get the '\\' stripped. ("\\u" -> "u")
+     */
+    unescape: static func (s: String) -> String {
+        buffer := StringBuffer new()
+        i := 0
+        while(i < s length()) {
+            if(s[i] == '\\') {
+                /* escape sequence starting! */
+                i += 1
+                j := i
+                if(s[i] > '0' && s[i] < '8') {
+                    /* octal. */
+                    while(s[j] >= '0' && s[j] < '8') {
+                        j += 1
+                    }
+                } else if(s[i] == 'x') {
+                    /* hexadecimal. */
+                    j += 3
+                } else {
+                    /* one character */
+                    j += 1
+                }
+                chr: Char
+                if(getCharacter(s substring(i, j), chr&) == This valid) {
+                    /* valid escape sequence. */
+                    buffer append(chr)
+                } else {
+                    /* invalid or incomplete escape sequence - just append the chars without the leading '\\'. */
+                    buffer append(s substring(i, j))
+                }
+                i = j
+            } else {
+                /* ordinary character. */
+                buffer append(s[i])
+                i += 1
+            }
+        }
+        return buffer toString()
+    }
+
 }

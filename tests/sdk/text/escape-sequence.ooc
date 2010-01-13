@@ -23,4 +23,6 @@ main: func {
     printSeq("\\\\")
     printSeq("\\u")
     printSeq("\\1")
+
+    EscapeSequence unescape("Hello\\tsir.\\nThis is an \\101: \\x41. Backslash: \\\\. \\unknown") println()
 }

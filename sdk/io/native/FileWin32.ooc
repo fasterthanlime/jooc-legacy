@@ -2,6 +2,9 @@
 import structs/ArrayList
 import ../File
 
+//INVALID_HANDLE_VALUE: extern Handle
+//FILE_ATTRIBUTE_DIRECTORY: extern Long // DWORD
+
 version(windows) {
 	
 	// includes
@@ -12,9 +15,18 @@ version(windows) {
     File pathDelimiter = ';'
     
     // covers
+	Handle: cover from HANDLE
+	
+	INVALID_HANDLE_VALUE: extern Handle
+	
     FindData: cover from WIN32_FIND_DATA {
-		
+		attr: extern(dwFileAttributes) Long // DWORD
 	}
+	FILE_ATTRIBUTE_DIRECTORY: extern Long // DWORD
+	
+	// functions from Win32
+	FindFirstFile: extern func (String, FindData*) -> Handle
+	FindClose: extern func (Handle)
 
 	_remove: func(path: String) -> Int {
 		printf("Win32: should remove file %s\n", path)
@@ -24,9 +36,23 @@ version(windows) {
 
 		init: func ~win32 (=path) {}
 
+		findSingle: func (ffdPtr: FindData*) {
+			hFind := findFirst(ffdPtr)
+			FindClose(hFind)
+		}
+
+		findFirst: func (ffdPtr: FindData*) -> Handle {
+			hFind := FindFirstFile(path, ffdPtr)
+			if(hFind == INVALID_HANDLE_VALUE) {
+				Exception new("Got invalid handle for file %s" format(path)) throw()
+			}
+			return hFind
+		}
+
 		isDir: func -> Bool {
-			// FIXME stub
-			return false
+			ffd: FindData
+			findSingle(ffd&)
+			return ((ffd attr) & FILE_ATTRIBUTE_DIRECTORY)
 		}
 		
 		isFile: func -> Bool {

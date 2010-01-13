@@ -3,10 +3,21 @@
 	<!-- set global properties for this build -->
 	<property name="build" location="build/javac-classes"/>
 	<property name="bin" location="bin"/>
+	<loadfile property="version-codename" srcFile="utils/version.txt">
+		<filterchain>
+			<tokenfilter>
+				<trim/>
+				<ignoreblank/>
+			</tokenfilter>
+		</filterchain>
+	</loadfile>
 
 	<target name="init">
 		<!-- Create the time stamp -->
-		<tstamp/>
+		<tstamp>
+			<format property="date" pattern="yyyy-MM-dd"/>
+			<format property="time" pattern="HH:mm"/>
+		</tstamp>
 		<!-- Create the build directory structure used by compile -->
 		<mkdir dir="${build}"/>
 		<mkdir dir="${bin}"/>
@@ -25,8 +36,10 @@
     <target name="create_run_jar" depends="compile">
         <jar destfile="bin/ooc.jar" filesetmanifest="mergewithoutmain">
             <manifest>
+				<attribute name="Built-By" value="${user.name}"/>
                 <attribute name="Main-Class" value="org.ooc.frontend.CommandLine"/>
                 <attribute name="Class-Path" value="."/>
+				<attribute name="Implementation-Version" value="${version-codename}, built on ${date} at ${time}"/> 
             </manifest>
             <fileset dir="${build}"/>
         </jar>
