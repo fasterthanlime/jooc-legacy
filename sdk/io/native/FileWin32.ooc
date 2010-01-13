@@ -1,23 +1,15 @@
 
+import native/win32/types
 import structs/ArrayList
 import ../File
 
-//INVALID_HANDLE_VALUE: extern Handle
-//FILE_ATTRIBUTE_DIRECTORY: extern Long // DWORD
-
 version(windows) {
-    
-    // includes
-    include windows
+	
+	include windows
     
     // separators
     File separator = '\\'
     File pathDelimiter = ';'
-    
-    // covers
-    Handle: cover from HANDLE
-    
-    INVALID_HANDLE_VALUE: extern Handle
     
     FindData: cover from WIN32_FIND_DATA {
         attr:         extern(dwFileAttributes) Long // DWORD
@@ -27,21 +19,23 @@ version(windows) {
     FILE_ATTRIBUTE_DIRECTORY,
     FILE_ATTRIBUTE_REPARSE_POINT,
     FILE_ATTRIBUTE_NORMAL : extern Long // DWORD
-	
-	LargeInteger: cover from LARGE_INTEGER {
-		lowPart : extern(LowPart)  Long
-		highPart: extern(HighPart) Long
-		quadPart: extern(QuadPart) LLong
-	}
     
-    // functions from Win32
+    /*
+	 * find-related functions from Win32
+	 */
     FindFirstFile: extern func (String, FindData*) -> Handle
     FindClose: extern func (Handle)
 
+	/*
+	 * remove implementation
+	 */
     _remove: func(path: String) -> Int {
         printf("Win32: should remove file %s\n", path)
     }
 
+	/*
+	 * Win32 implementation of File
+	 */
     FileWin32: class extends File {
 
         init: func ~win32 (=path) {}
@@ -59,12 +53,18 @@ version(windows) {
             return hFind
         }
 
+		/**
+		 * @return true if it's a directory
+		 */
         isDir: func -> Bool {
             ffd: FindData
             findSingle(ffd&)
             return ((ffd attr) & FILE_ATTRIBUTE_DIRECTORY)
         }
         
+		/**
+		 * @return true if it's a file (ie. not a directory nor a symbolic link)
+		 */
         isFile: func -> Bool {
             ffd: FindData
             findSingle(ffd&)
@@ -74,12 +74,18 @@ version(windows) {
 				   (((ffd attr) & FILE_ATTRIBUTE_REPARSE_POINT) == 0)
         }
         
+		/**
+		 * @return true if the file is a symbolic link
+		 */
         isLink: func -> Bool {
             ffd: FindData
             findSingle(ffd&)
             return ((ffd attr) & FILE_ATTRIBUTE_REPARSE_POINT)
         }
         
+		/**
+		 * @return the size of the file, in bytes
+		 */
         size: func -> LLong {
             ffd: FindData
             findSingle(ffd&)

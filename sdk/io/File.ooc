@@ -4,7 +4,7 @@
  * 
  * @author Pierre-Alexandre Croiset
  * @author fredreichbier
- * @author Amos Wenger
+ * @author Amos Wenger, aka nddrylliog
  */
 
 // the pipe (e.g. '|') and __USE_BSD are used like #define
@@ -53,7 +53,7 @@ File: abstract class {
     isDir: abstract func -> Bool
     
     /**
-     * @return true if it's a file (ie. not a directory)
+     * @return true if it's a file (ie. not a directory nor a symbolic link)
      */
     isFile: abstract func -> Bool
     

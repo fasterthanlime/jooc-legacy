@@ -42,6 +42,9 @@ version(unix || apple) {
 	_mkdir: extern(mkdir) func(String, ModeT) -> Int
 	_remove: extern(remove) func(path: String) -> Int
 
+    /*
+     * Unix (POSIX) implementation of File
+     */
 	FileUnix: class extends File {
 
 		init: func ~unix (=path) {}
@@ -56,7 +59,7 @@ version(unix || apple) {
 		}
 		
 		/**
-		 * @return true if it's a file (ie. not a directory)
+		 * @return true if it's a file (ie. not a directory nor a symbolic link)
 		 */
 		isFile: func -> Bool {
 			stat: FileStat
