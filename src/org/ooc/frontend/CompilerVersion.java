@@ -8,19 +8,7 @@ package org.ooc.frontend;
  */
 public class CompilerVersion {
 
-	/** The major version number */
-	public static int major;
-	
-	/** The minor version number */
-    public static int minor;
-    
-    /** A release isn't fun without a codename */
-    public static String codename;
-    
-    /** The build date */
-    public static String date;
-    
-    /**
+	/**
      * Print a line of information about the compiler
      */
 	public static void printVersion() {
@@ -30,7 +18,7 @@ public class CompilerVersion {
 			prop = CompilerVersion.class.getPackage().getImplementationVersion();
 		}
 		
-		System.out.println("# ooc v"+prop);
+		System.out.println("ooc v"+prop);
 		
 	}
 	
