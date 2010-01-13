@@ -13,9 +13,9 @@ main: func {
 		file = dir getChild("explorer.exe")
 	}
 	
-	printf("%s\t(name = %s)\tisFile? %s\tisDir? %s\tsize: %d\n",
+	printf("%s\t(name = %s)\tisFile? %s\tisDir? %s\tsize: %Ld\n",
                 file path, file name(), file isFile() toString(), file isDir() toString(), file size())
-	printf("%s\t(name = %s)\tisFile? %s\tisDir? %s\tsize: %d\n",
+	printf("%s\t(name = %s)\tisFile? %s\tisDir? %s\tsize: %Ld\n",
                 dir path, dir name(), dir isFile() toString(), dir isDir() toString(), dir size())
 	
 	asdf := File new("asdf") as File
