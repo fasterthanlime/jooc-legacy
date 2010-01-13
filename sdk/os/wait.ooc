@@ -1,4 +1,6 @@
-include sys/wait
+version(unix || apple) {
+	include sys/wait
+}
 
 /* Constants */
 WEXITSTATUS: extern func (Int) -> Int
