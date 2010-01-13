@@ -259,4 +259,9 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic, Ve
 		this.version = block;
 	}
 
+	@Override
+	public void addToModule(Module module) {
+		module.addType(this);
+	}
+
 }

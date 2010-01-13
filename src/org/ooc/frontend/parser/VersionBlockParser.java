@@ -87,8 +87,7 @@ public class VersionBlockParser {
 				Versioned vs = (Versioned) stmt;
 				vs.setVersion(block);
 				//System.out.println("Just versioned "+ vs + " to " + block.getVersion());
-				
-				module.add(stmt);
+				stmt.addToModule(module);
 				body.remove(i);
 				i--;
 			}

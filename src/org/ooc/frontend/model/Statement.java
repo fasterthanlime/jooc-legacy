@@ -8,4 +8,8 @@ public abstract class Statement extends Node {
 		super(startToken);
 	}
 	
+	public void addToModule(Module module) {
+		module.getBody().add(this);
+	}
+	
 }

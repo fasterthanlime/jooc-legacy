@@ -21,6 +21,7 @@ public class VariableDeclWriter {
 		
 		if(variableDecl.getVersion() != null) {
 			VersionBlockWriter.writeVersionBlockStart(variableDecl.getVersion(), cgen);
+			cgen.current.nl();
 		}
 		
 		if (variableDecl.isGlobal())
@@ -40,6 +41,7 @@ public class VariableDeclWriter {
 		
 		if(variableDecl.getVersion() != null) {
 			VersionBlockWriter.writeVersionBlockEnd(cgen);
+			cgen.current.nl();
 		}
 		
 		return true;

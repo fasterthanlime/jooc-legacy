@@ -353,5 +353,10 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 		return version;
 	}
 	
+	@Override
+	public void addToModule(Module module) {
+		module.getBody().add(new Line(this));
+	}
+	
 }
 

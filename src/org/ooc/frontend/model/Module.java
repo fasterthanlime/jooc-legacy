@@ -270,13 +270,5 @@ public class Module extends Node implements Scope {
 	public String getPackageName() {
 		return packageName;
 	}
-
-	public void add(Statement statement) {
-		if(statement instanceof TypeDecl) {
-			addType((TypeDecl) statement);
-		} else {
-			body.add(statement);
-		}
-	}
 	
 }
