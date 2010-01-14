@@ -15,12 +15,12 @@ main: func {
 	
 	printf("%s\n\tname() = %s\n\tisFile() = %s\n\tisDir() = %s\n\tsize() = %Ld\n",
                 file path, file name(), file isFile() toString(), file isDir() toString(), file size())
-    printf("\tcreated() = %Ld\n\tlastAccessed() = %Ld\n\tlastModified() = %Ld\n",
+    printf("\tcreated() = %ld\n\tlastAccessed() = %ld\n\tlastModified() = %ld\n",
                 file created(), file lastAccessed(), file lastModified())
                 
 	printf("%s\n\tname() = %s\n\tisFile() = %s\n\tisDir() = %s\n\tsize() = %Ld\n",
                 dir path, dir name(),    dir isFile() toString(), dir isDir() toString(),  dir size())
-    printf("\tcreated() = %Ld\n\tlastAccessed() = %Ld\n\tlastModified() = %Ld\n",
+    printf("\tcreated() = %ld\n\tlastAccessed() = %ld\n\tlastModified() = %ld\n",
                 dir created(), dir lastAccessed(), dir lastModified())
 	
 	asdf := File new("asdf") as File
