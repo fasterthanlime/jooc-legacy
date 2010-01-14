@@ -12,9 +12,13 @@ import org.ooc.middle.hobgoblins.Resolver;
 
 public class ArrayLiteral extends Literal implements MustBeUnwrapped, MustBeResolved {
 
-	private static Type defaultType = NullLiteral.type;
-	protected Type innerType = null;
-	protected Type type = defaultType;
+	private FunctionCall outerCall = null;
+	private int outerArgIndex = -1;
+	
+	//private static Type defaultType = NullLiteral.type;
+	private static Type defaultType = null;
+	private Type innerType = null;
+	private Type type = defaultType;
 	
 	protected NodeList<Expression> elements;
 	
@@ -55,7 +59,7 @@ public class ArrayLiteral extends Literal implements MustBeUnwrapped, MustBeReso
 	}
 
 	public void acceptChildren(Visitor visitor) throws IOException {
-		type.accept(visitor);
+		if(type != null) type.accept(visitor);
 		elements.accept(visitor);
 	}
 
@@ -71,14 +75,48 @@ public class ArrayLiteral extends Literal implements MustBeUnwrapped, MustBeReso
 		
 		if(type != defaultType) return Response.OK;
 		
+		
 		if(!elements.isEmpty()) {
+			
 			Iterator<Expression> iter = elements.iterator();
-			Expression first = iter.next();
-			Type innerType = first.getType();
+			
+			// try to determine the innerType from an outer call
+			if(outerCall != null && outerArgIndex != -1) {
+				FunctionDecl impl = outerCall.getImpl();
+				if(impl == null) {
+					if(fatal) {
+						throw new OocCompilationError(this, stack, "Couldn't resolve type of an array literal because" +
+								" the function call it's in hasn't been resolved.");
+					}
+					return Response.LOOP;
+				}
+				Argument arg = impl.getArguments().get(outerArgIndex);
+				
+				ArrayLiteral lit = this;
+				int pointerLevel = 0;
+				while(lit != null) {
+					Node first = lit.getElements().getFirst();
+					if(first instanceof ArrayLiteral) {
+						lit = (ArrayLiteral) first;
+						pointerLevel++;
+					} else {
+						lit = null;
+					}
+				}
+				innerType = new Type(arg.getType().getName(), arg.getType().startToken);
+				innerType.setPointerLevel(pointerLevel);
+			}
+			
+			// try to determine the innerType from the first element
+			if(innerType == null) {
+				Expression first = iter.next();
+				innerType = first.getType();
+			}
+			
+			// if we didn't resolve it && fatal, we're screwed :/ 
 			if(innerType == null) {
 				if(fatal) {
-					throw new OocCompilationError(first, stack, "Couldn't resolve type of "
-							+first+" in an "+innerType+" array literal");
+					throw new OocCompilationError(this, stack, "Couldn't resolve type of an array literal");
 				}
 				return Response.LOOP;
 			}
@@ -98,7 +136,6 @@ public class ArrayLiteral extends Literal implements MustBeUnwrapped, MustBeReso
 				}
 			}
 
-			this.innerType = innerType;
 			this.type = new Type(innerType.name, innerType.pointerLevel + 1, startToken);
 			type.getTypeParams().addAll(innerType.getTypeParams());
 			type.setArray(true);
@@ -115,7 +152,22 @@ public class ArrayLiteral extends Literal implements MustBeUnwrapped, MustBeReso
 		
 	}
 
+	@SuppressWarnings("unchecked")
 	public boolean unwrap(NodeList<Node> stack) throws IOException {
+
+		// try to determine the innerType from the outer requirements
+		if(outerCall == null || outerArgIndex == -1) {
+			ArrayLiteral lit = this;
+			int litIndex = stack.find(ArrayLiteral.class);
+			int callIndex = stack.find(FunctionCall.class);
+			if(callIndex != -1) {
+				if(litIndex != -1 && litIndex > callIndex) {
+					lit = (ArrayLiteral) stack.get(litIndex);
+				}
+				outerCall = (FunctionCall) stack.get(callIndex);
+				outerArgIndex = ((NodeList<Node>) stack.get(callIndex + 1)).indexOf(lit);
+			}
+		}
 		
 		if(stack.peek() instanceof Cast || stack.peek() instanceof Foreach) {
 			//System.out.println("ArrayLiteral "+this+" in a "+stack.peek().getClass().getSimpleName()+". Not unwrapping =)");

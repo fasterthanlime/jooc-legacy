@@ -405,7 +405,7 @@ public class CGenerator extends Generator implements Visitor {
 			if(!element.getType().getName().equals(arrayLiteral.getType().getName())) {
 				doCasting = true;
 				current.app("((");
-				arrayLiteral.getElements().get(0).getType().accept(this);
+				arrayLiteral.getInnerType().accept(this);
 				current.app(") ");
 			}
 			element.accept(this);

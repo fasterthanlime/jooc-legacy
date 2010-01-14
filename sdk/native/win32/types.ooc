@@ -18,19 +18,19 @@ version(windows) {
      * Large integers
      */
     LargeInteger: cover from LARGE_INTEGER {
-		lowPart : extern(LowPart)  Long
-		highPart: extern(HighPart) Long
-		quadPart: extern(QuadPart) LLong
-	}
+        lowPart : extern(LowPart)  Long
+        highPart: extern(HighPart) Long
+        quadPart: extern(QuadPart) LLong
+    }
     
     /*
      * Unsigned large integers
      */
     ULargeInteger: cover from ULARGE_INTEGER {
-		lowPart : extern(LowPart)  Long
-		highPart: extern(HighPart) Long
-		quadPart: extern(QuadPart) LLong
-	}
+        lowPart : extern(LowPart)  Long
+        highPart: extern(HighPart) Long
+        quadPart: extern(QuadPart) LLong
+    }
     
     toLLong: func ~twoPartsLargeInteger (lowPart, highPart: Long) -> LLong {
         li: LargeInteger
@@ -47,13 +47,13 @@ version(windows) {
     }
     
     /*
-	 * FILETIME is, in fact, an Int64 that stores the number of
-	 * 100-nanoseconds intervals from January 1st, 1601 (according to the MSDN)
-	 */
-	FileTime: cover from FILETIME {
-		lowDateTime:    extern(dwLowDateTime)  Long // DWORD
-		highDateTime:   extern(dwHighDateTime) Long // DWORD
-	}
+     * FILETIME is, in fact, an Int64 that stores the number of
+     * 100-nanoseconds intervals from January 1st, 1601 (according to the MSDN)
+     */
+    FileTime: cover from FILETIME {
+        lowDateTime:    extern(dwLowDateTime)  Long // DWORD
+        highDateTime:   extern(dwHighDateTime) Long // DWORD
+    }
 
     /*
      * source: http://frenk.wordpress.com/2009/12/14/convert-filetime-to-unix-timestamp/

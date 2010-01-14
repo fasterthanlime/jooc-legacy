@@ -37,9 +37,9 @@ public class LiteralWriter {
 			cgen.current.app(numberLiteral.getValue().toString());
 		}
 		
-		// if it's greater than a Long, then it's a Long
+		// if it's greater than an int's max, then it's a Long
 		if(numberLiteral.getValue().compareTo(INT_MAX) > -1) {
-			cgen.current.app("LL");
+			cgen.current.app("L");
 		}
 	}
 
