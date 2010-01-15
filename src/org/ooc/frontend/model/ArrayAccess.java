@@ -110,21 +110,29 @@ public class ArrayAccess extends Access implements MustBeResolved {
 		
 		OpDecl bestOp = null;
 		int bestScore = 0;
-		for(OpDecl op: res.module.getOps()) {
-			int score = getOpScore(stack, res, assignIndex, op);
-			if(bestScore < score) {
-				bestOp = op;
-				bestScore = score;
-			}
-		}
-		for(Import imp: res.module.getImports()) {
-			for(OpDecl op: imp.getModule().getOps()) {
+		try {
+			for(OpDecl op: res.module.getOps()) {
 				int score = getOpScore(stack, res, assignIndex, op);
 				if(bestScore < score) {
 					bestOp = op;
 					bestScore = score;
 				}
 			}
+			
+			for(Import imp: res.module.getImports()) {
+				for(OpDecl op: imp.getModule().getOps()) {
+					int score = getOpScore(stack, res, assignIndex, op);
+					if(bestScore < score) {
+						bestOp = op;
+						bestScore = score;
+					}
+				}
+			}
+		} catch(OocCompilationError ex) {
+			if(fatal) {
+				throw ex;
+			}
+			return Response.LOOP;
 		}
 		
 		if(bestOp != null) {
@@ -198,9 +206,7 @@ public class ArrayAccess extends Access implements MustBeResolved {
 				Expression exp = indices.get(idx);
 				Argument arg = args.get(idx+1);
 				
-				if(exp instanceof MustBeResolved && ((MustBeResolved)exp).resolve(stack, res, true) != Response.OK) {
-					// FIXME I'm not entirely sure how to handle this, so I'm doing this
-					// in the least-friendly way possible: death by exception
+				if(exp.getType() == null) {
 					throw new OocCompilationError(exp, stack,
 							"Unable to determine the type of the expression being used as an index");
 				}
@@ -216,6 +222,11 @@ public class ArrayAccess extends Access implements MustBeResolved {
 			if(assignIndex != -1) {
 				Argument last = args.getLast();
 				Assignment ass = (Assignment)stack.get(assignIndex);
+				if (ass.getRight().getType() == null) {
+					throw new OocCompilationError(ass.getRight(), stack,
+							"Unable to determine the type of the expression being assigned");
+				}
+				
 				if(ass.getRight().getType().softEquals(last.getType(), res)) {
 					score += 10;
 					if(ass.getRight().getType().equals(last.getType())) {
