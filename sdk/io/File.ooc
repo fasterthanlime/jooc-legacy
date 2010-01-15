@@ -29,7 +29,7 @@ File: abstract class {
     }
 
 	new: static func (.path) -> This {
-		version(unix) {
+		version(unix || apple) {
 			return FileUnix new(path)
 		}
 		version(windows) {

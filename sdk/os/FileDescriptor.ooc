@@ -1,5 +1,5 @@
 include fcntl
-import  unistd
+import unistd
 
 open:  extern func(String, Int) -> Int
 write: extern func(FileDescriptor, Pointer, Int) -> Int
@@ -22,13 +22,16 @@ FileDescriptor: cover from Int {
         write(str, str length())
     }
     
-    read: func(len: Int) -> Pointer {
+    read: func ~toBuf (buf: Pointer, len: Int) -> Int {
+        read(this, buf, len)
+    }
+    
+    read: func ~evilAlloc (len: Int) -> Pointer {
         buf := gc_malloc(len)
-        /*result :=*/ read(this, buf, len)
-        //_errMsg(result, "read")
+        read(buf, len) // todo: check errors
         return buf
     }
-
+    
     close: func() -> Int{
         result := close(this)
         //_errMsg(result, "close")

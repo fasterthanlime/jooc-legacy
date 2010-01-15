@@ -5,13 +5,13 @@ import structs/ArrayList
 
 import dirent
 
+realpath: extern func(path: String, resolved: String) -> String
+
 version(linux) {
     include unistd | (__USE_BSD), sys/stat | (__USE_BSD), sys/types | (__USE_BSD), stdlib
-    realpath: extern proto func(path: String, resolved: String) -> String
 }
 version(!linux) {
     include unistd, sys/stat, sys/types, stdlib
-    realpath: extern func(path: String, resolved: String) -> String
 }
 
 version(unix || apple) {
