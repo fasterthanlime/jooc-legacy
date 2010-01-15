@@ -161,6 +161,8 @@ public class ArrayAccess extends Access implements MustBeResolved {
 			} else {
 				stack.peek().replace(this, call);
 			}
+			
+			return Response.LOOP;
 		}
 		
 		return Response.OK;
