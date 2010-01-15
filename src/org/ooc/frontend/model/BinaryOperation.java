@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 
 import org.ooc.frontend.Visitor;
+import org.ooc.frontend.model.AddressOf;
 import org.ooc.frontend.model.OpDecl.OpType;
 import org.ooc.frontend.model.interfaces.MustBeResolved;
 import org.ooc.frontend.model.interfaces.MustBeUnwrapped;
@@ -121,6 +122,18 @@ public abstract class BinaryOperation extends Expression implements MustBeUnwrap
 		}
 		
 		if(bestOp != null) {
+		    NodeList<Argument> args = bestOp.getFunc().getArguments();
+			Argument leftArg = args.get(0);
+			Argument rightArg = args.get(1);
+		    
+		    if(leftArg.getType().softEquals(left.getType(), res) && leftArg.getType().getReferenceLevel() == (left.getType().getReferenceLevel() + 1)) {
+		        left = new AddressOf(left, left.startToken);
+	        }
+	        
+	        if(rightArg.getType().softEquals(right.getType(), res) && rightArg.getType().getReferenceLevel() == (right.getType().getReferenceLevel() + 1)) {
+		        right = new AddressOf(right, right.startToken);
+	        }
+		    
 			FunctionCall call = new FunctionCall(bestOp.getFunc(), startToken);
 			call.getArguments().add(left);
 			call.getArguments().add(right);
@@ -156,6 +169,11 @@ public abstract class BinaryOperation extends Expression implements MustBeUnwrap
 				if(second.getType().softEquals(right.getType(), res) || isGeneric(second.getType(), op.getFunc().getTypeParams())) {
 					score += 10;
 					if(first.getType().equals(left.getType())) {
+					    // prefer operators where the first argument is a reference to something other than a class
+        			    if(first.getType().getReferenceLevel() == (left.getType().getReferenceLevel() + 1)) {
+        			        score += 10;
+        			    }
+					    
 						score += 20;
 					}
 					if(second.getType().equals(right.getType())) {
