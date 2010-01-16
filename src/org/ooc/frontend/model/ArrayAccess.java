@@ -145,17 +145,7 @@ public class ArrayAccess extends Access implements MustBeResolved {
 			}
 			
 			call.getArguments().add(variable);
-			
-			for(int argIdx = 0; argIdx < indices.size(); ++argIdx) {
-				arg = args.get(argIdx+1);
-				Expression exp = indices.get(argIdx);
-				
-				if(arg.getType().getReferenceLevel() == exp.getType().getReferenceLevel() + 1) {
-					exp = new AddressOf(exp, exp.startToken);
-				}
-				
-				call.getArguments().add(exp);
-			}
+			call.getArguments().addAll(indices);
 			
 			if(assignIndex != -1) {
 				Assignment ass = (Assignment)stack.get(assignIndex);
@@ -201,6 +191,10 @@ public class ArrayAccess extends Access implements MustBeResolved {
 			}
 			
 			score += 10;
+			
+			if(variable.getType().getReferenceLevel() == first.getType().getReferenceLevel() + 1) {
+				score += 10;
+			}
 			
 			for(int idx = 0; idx < indices.size(); ++idx) {
 				Expression exp = indices.get(idx);

@@ -129,10 +129,6 @@ public abstract class BinaryOperation extends Expression implements MustBeUnwrap
 		    if(leftArg.getType().softEquals(left.getType(), res) && leftArg.getType().getReferenceLevel() == (left.getType().getReferenceLevel() + 1)) {
 		        left = new AddressOf(left, left.startToken);
 	        }
-	        
-	        if(rightArg.getType().softEquals(right.getType(), res) && rightArg.getType().getReferenceLevel() == (right.getType().getReferenceLevel() + 1)) {
-		        right = new AddressOf(right, right.startToken);
-	        }
 		    
 			FunctionCall call = new FunctionCall(bestOp.getFunc(), startToken);
 			call.getArguments().add(left);
