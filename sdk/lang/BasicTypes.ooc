@@ -193,11 +193,17 @@ String: cover from Char* {
     trim: func ~space -> This { return trim(' ') }
     
     trim: func(c: Char) -> This {
+        if(length() == 0) return this
+        
         start := 0
         while(this[start] == c) start += 1;
+        
         end := length()
+        if(start >= end) return ""
         while(this[end - 1] == c) end -= 1;
+        
         if(start != 0 || end != length()) return substring(start, end)
+        
         return this
     }
     
@@ -231,6 +237,7 @@ String: cover from Char* {
         if(start > len) {
             printf("String.substring~tillEnd: out of bounds: length = %zd, start = %zd\n",
                 len, start);
+            Exception new(This, "substring") throw()
             return null
         }
         
@@ -244,9 +251,12 @@ String: cover from Char* {
     substring: func (start: SizeT, end: SizeT) -> This {
         len = this length() : SizeT
         
+        if(start == end) return ""
+        
         if(start > len || start > end || end > len) {
             printf("String.substring: out of bounds: length = %zd, start = %zd, end = %zd\n",
                 len, start, end);
+            Exception new(This, "substring") throw()
             return null
         }
         
