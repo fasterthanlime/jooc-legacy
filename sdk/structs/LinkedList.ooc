@@ -66,6 +66,7 @@ LinkedList: class <T> extends List<T> {
 			current = next
 		}
 		last = null
+		size = 0
 	}
 	
 	get: func(index: Int) -> T {
