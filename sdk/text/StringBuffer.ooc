@@ -14,6 +14,12 @@ StringBuffer: class extends Writer {
         data = gc_malloc(capacity)
         size = 0
     }
+    
+    init: func ~withContent (.data) {
+        this data = data clone()
+        size = data length()
+        capacity = data length()
+    }
 
     close: func {
         /* do nothing. */
