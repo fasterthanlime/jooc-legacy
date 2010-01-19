@@ -453,7 +453,7 @@ public class CommandLine {
 		output(module, new HashSet<Module>());
 		long tt4 = System.nanoTime();
 		int code = 0;
-		if(params.compiler != null) {
+		if(params.compiler != null && params.backend.equals("c")) {
 			code = driver.compile(module, modulePath.out == null ? module.getSimpleName() : modulePath.out);
 		}
 		long tt5 = System.nanoTime();
