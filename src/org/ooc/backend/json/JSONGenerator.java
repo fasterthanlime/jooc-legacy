@@ -87,13 +87,13 @@ import org.ubi.SourceReader;
 public class JSONGenerator extends Generator implements Visitor {
 
 	public File out;
-	public JSONObject root;
+	public JSONArray root;
 
 	public JSONGenerator(File outPath, Module module) {
 		super(outPath, module);
 		String basePath = module.getOutPath();
 		
-		this.root = new JSONObject();
+		this.root = new JSONArray();
 		this.out = new File(outPath, basePath + ".json");
 		this.out.getParentFile().mkdirs();
 	}
@@ -203,7 +203,10 @@ public class JSONGenerator extends Generator implements Visitor {
 	};
 
 	void addObject(JSONObject obj) throws JSONException {
-		root.put(obj.getString("tag"), obj);
+		JSONArray entry = new JSONArray();
+		entry.put(obj.getString("tag"));
+		entry.put(obj);
+		root.put(entry);
 	};
 
 	JSONObject buildFunctionDecl(FunctionDecl node) throws JSONException {
@@ -322,12 +325,20 @@ public class JSONGenerator extends Generator implements Visitor {
 			/* `members` */
 			JSONArray members = new JSONArray();
 			for(FunctionDecl function: node.getFunctions()) {
-				if(!function.getName().startsWith("__")) /* exclude "private" functions */
-					members.put(buildFunctionDecl(function));
+				if(!function.getName().startsWith("__")) {/* exclude "private" functions */
+					JSONArray member = new JSONArray();
+					member.put(function.getName());
+					member.put(buildFunctionDecl(function));
+					members.put(member);
+				}
 			}
 			for(VariableDecl decl: node.getVariables()) {
-				for(VariableDeclAtom atom: decl.getAtoms())
-					members.put(buildVariableDeclAtom(decl, atom, node));
+				for(VariableDeclAtom atom: decl.getAtoms()) {
+					JSONArray member = new JSONArray();
+					member.put(atom.getName());
+					member.put(buildVariableDeclAtom(decl, atom, node));
+					members.put(member);
+				}
 			}
 			obj.put("members", members);
 			addObject(obj);
@@ -353,12 +364,21 @@ public class JSONGenerator extends Generator implements Visitor {
 			/* `members` */
 			JSONArray members = new JSONArray();
 			for(FunctionDecl function: node.getFunctions())
-				if(!function.getName().equals("class"))
-					members.put(buildFunctionDecl(function));
+				if(!function.getName().equals("class")) {
+					JSONArray member = new JSONArray();
+					member.put(function.getName());
+					member.put(buildFunctionDecl(function));
+					members.put(member);
+				}
+
 			for(CoverDecl addon: node.getAddons()) {
 				for(FunctionDecl function: addon.getFunctions())
-					if(!function.getName().equals("class"))
-						members.put(buildFunctionDecl(function));
+					if(!function.getName().equals("class")) {
+						JSONArray member = new JSONArray();
+						member.put(function.getName());
+						member.put(buildFunctionDecl(function));
+						members.put(member);
+					}			
 			}
 			obj.put("members", members);
 			addObject(obj);
