@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Iterator;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONException;
 
@@ -12,6 +13,7 @@ import org.ooc.backend.Generator;
 import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.Add;
 import org.ooc.frontend.model.AddressOf;
+import org.ooc.frontend.model.Argument;
 import org.ooc.frontend.model.ArrayAccess;
 import org.ooc.frontend.model.ArrayLiteral;
 import org.ooc.frontend.model.Assignment;
@@ -107,7 +109,11 @@ public class JSONGenerator extends Generator implements Visitor {
 		writer.close();
 	}
 
-	public void visit(Module module) throws IOException {};
+	public void visit(Module module) throws IOException {
+		NodeList<FunctionDecl> functions = new NodeList<FunctionDecl>();
+		module.getFunctions(functions);
+		functions.accept(this);
+	};
 	
 	public void visit(Add add) throws IOException {};
 	public void visit(Mul mul) throws IOException {};
@@ -154,8 +160,95 @@ public class JSONGenerator extends Generator implements Visitor {
 
 	public void visit(VariableDecl variableDecl) throws IOException {};
 	public void visit(VariableDeclAtom variableDeclAtom) throws IOException {};
-	public void visit(FunctionDecl functionDecl) throws IOException {};
-	
+
+	String resolveType(Type type) {
+		if(type instanceof FuncType) {
+			return "Func";
+		} else {
+			String tag = type.getName();
+			int pointerLevel = type.getPointerLevel();
+			while(pointerLevel-- > 0)
+				tag = "pointer(" + tag + ")";
+			int referenceLevel = type.getReferenceLevel();
+			while(referenceLevel-- > 0)
+				tag = "reference(" + tag + ")";
+			return tag;
+		}
+	}
+
+	public void visit(FunctionDecl functionDecl) throws IOException {
+		try {
+			addObject(buildFunctionDecl(functionDecl));
+		} catch(JSONException e) {
+			throw new IOException("Fail.");
+		}
+	};
+
+	void addObject(JSONObject obj) throws JSONException {
+		root.put(obj.getString("tag"), obj);
+	};
+
+	JSONObject buildFunctionDecl(FunctionDecl node) throws JSONException {
+		JSONObject obj = new JSONObject();
+		String name = node.getName();
+		if(node.getSuffix().length() > 0)
+			name = name + "~" + node.getSuffix();
+		obj.put("name", node.getName());
+		if(node.isMember()) {
+			obj.put("tag", "memberFunction(" + node.getTypeDecl().getName() + ", " + name + ")");
+			obj.put("type", "memberFunction");
+		} else {
+			obj.put("tag", name);
+			obj.put("type", "function");
+		}
+		if(node.isExtern()) {
+			if(!node.isExternWithName()) {
+				obj.put("extern", true);
+			} else {
+				obj.put("extern", node.getExternName());
+			}
+		} else {
+			obj.put("extern", false);
+		}
+		JSONArray modifiers = new JSONArray();
+		if(node.isStatic())
+			modifiers.put("static");
+		if(node.isFinal())
+			modifiers.put("final");
+		if(node.isAbstract())
+			modifiers.put("abstract");
+		obj.put("modifiers", modifiers);
+		/* `genericTypes` */
+		JSONArray genericTypes = new JSONArray();
+		for(TypeParam typeParam: node.getTypeParams().values()) {
+			genericTypes.put(typeParam.getName());
+		}
+		obj.put("genericTypes", genericTypes);
+		/* `arguments` */
+		JSONArray arguments = new JSONArray();
+		for(Argument arg: node.getArguments()) {
+			JSONArray argObj = new JSONArray();
+			argObj.put(arg.getName());
+			argObj.put(resolveType(arg.getType()));
+			if(arg.getType().isConst()) {
+				JSONArray mods = new JSONArray();
+				mods.put("const");
+				argObj.put(mods);
+			} else {
+				argObj.put(JSONObject.NULL);
+			}
+			arguments.put(argObj);
+		}
+		obj.put("arguments", arguments);
+		/* `returnType` */
+		if(node.getReturnType()	!= Type.getVoid()) {
+			obj.put("returnType", resolveType(node.getReturnType()));
+		} else {
+			obj.put("returnType", JSONObject.NULL);
+		}
+		return obj;
+	}	
+			
 	public void visit(ClassDecl classDecl) throws IOException {};
 	public void visit(CoverDecl cover) throws IOException {};
 	public void visit(InterfaceDecl interfaceDecl) throws IOException {};
@@ -170,7 +263,11 @@ public class JSONGenerator extends Generator implements Visitor {
 
 	public void visit(VarArg varArg) throws IOException {};
 	
-	public void visit(NodeList<? extends Node> list) throws IOException {};
+	public void visit(NodeList<? extends Node> list) throws IOException {
+		for(Node node: list) {
+			node.accept(this);
+		}
+	};
 	public void visit(NodeMap<?, ? extends Node> list) throws IOException {};
 	public void visit(MultiMap<?, ?> list) throws IOException {};
 
