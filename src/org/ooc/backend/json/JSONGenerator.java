@@ -67,6 +67,7 @@ import org.ooc.frontend.model.StringLiteral;
 import org.ooc.frontend.model.Sub;
 import org.ooc.frontend.model.Ternary;
 import org.ooc.frontend.model.Type;
+import org.ooc.frontend.model.TypeDecl;
 import org.ooc.frontend.model.TypeParam;
 import org.ooc.frontend.model.Use;
 import org.ooc.frontend.model.ValuedReturn;
@@ -110,9 +111,19 @@ public class JSONGenerator extends Generator implements Visitor {
 	}
 
 	public void visit(Module module) throws IOException {
+		/* functions */
 		NodeList<FunctionDecl> functions = new NodeList<FunctionDecl>();
 		module.getFunctions(functions);
 		functions.accept(this);
+		/* classes */
+		for(TypeDecl type: module.getTypes().values()) {
+			if(type instanceof ClassDecl)
+				type.accept(this);
+		}
+		/* variables */
+		NodeList<VariableDecl> variables = new NodeList<VariableDecl>();
+		module.getVariables(variables);
+		variables.accept(this);
 	};
 	
 	public void visit(Add add) throws IOException {};
@@ -158,7 +169,14 @@ public class JSONGenerator extends Generator implements Visitor {
 	public void visit(MemberAccess memberAccess) throws IOException {};
 	public void visit(ArrayAccess arrayAccess) throws IOException {};
 
-	public void visit(VariableDecl variableDecl) throws IOException {};
+	public void visit(VariableDecl variableDecl) throws IOException {
+		try {
+			for(VariableDeclAtom atom: variableDecl.getAtoms())
+				addObject(buildVariableDeclAtom(variableDecl, atom, null));
+		} catch (JSONException e) {
+			throw new IOException("fail!");
+		}
+	};
 	public void visit(VariableDeclAtom variableDeclAtom) throws IOException {};
 
 	String resolveType(Type type) {
@@ -226,7 +244,15 @@ public class JSONGenerator extends Generator implements Visitor {
 		obj.put("genericTypes", genericTypes);
 		/* `arguments` */
 		JSONArray arguments = new JSONArray();
+		Boolean first = true;
 		for(Argument arg: node.getArguments()) {
+			if(first && node.hasThis()) {
+				/* ignore the `this` argument */
+				first = false;
+				continue; 
+			} else if(first) {
+				first = false;
+			}
 			JSONArray argObj = new JSONArray();
 			argObj.put(arg.getName());
 			argObj.put(resolveType(arg.getType()));
@@ -247,9 +273,69 @@ public class JSONGenerator extends Generator implements Visitor {
 			obj.put("returnType", JSONObject.NULL);
 		}
 		return obj;
-	}	
+	}
+
+	JSONObject buildVariableDeclAtom(VariableDecl decl, VariableDeclAtom node, ClassDecl cls) throws JSONException {
+		JSONObject obj = new JSONObject();
+		obj.put("name", node.getName());
+		if(cls != null) {
+			obj.put("tag", "field(" + cls.getName() + ", " + node.getName() + ")");
+			obj.put("type", "field");
+		} else {
+			obj.put("tag", node.getName());
+			obj.put("type", "globalVariable");
+		}
+		JSONArray modifiers = new JSONArray();
+		if(decl.isStatic())
+			modifiers.put("static");
+/*		if(node.isConst())
+			modifiers.put("const");*/
+		obj.put("modifiers", modifiers);
+		if(decl.isExtern()) {
+			if(!decl.isExternWithName()) {
+				obj.put("extern", true);
+			} else {
+				obj.put("extern", decl.getExternName());
+			}
+		} else {
+			obj.put("extern", false);
+		}
+		obj.put("varType", resolveType(decl.getType()));
+		if(node.getExpression() != null) /* TODO: make this work for `:=` */
+			obj.put("value", node.getExpression().toString());
+		else
+			obj.put("value", JSONObject.NULL);
+		return obj;
+	}
 			
-	public void visit(ClassDecl classDecl) throws IOException {};
+	public void visit(ClassDecl node) throws IOException {
+		try {
+			JSONObject obj = new JSONObject();
+			obj.put("name", node.getName());
+			obj.put("type", "class");
+			obj.put("tag", node.getName());
+			obj.put("abstract", node.isAbstract());
+			if(node.getSuperRef() != null)
+				obj.put("extends", node.getSuperRef().getName());
+			else
+				obj.put("extends", JSONObject.NULL);
+			/* `members` */
+			JSONArray members = new JSONArray();
+			for(FunctionDecl function: node.getFunctions()) {
+				if(!function.getName().startsWith("__")) /* exclude "private" functions */
+					members.put(buildFunctionDecl(function));
+			}
+			for(VariableDecl decl: node.getVariables()) {
+				for(VariableDeclAtom atom: decl.getAtoms())
+					members.put(buildVariableDeclAtom(decl, atom, node));
+			}
+			obj.put("members", members);
+			addObject(obj);
+		} catch(JSONException e) {
+			throw new IOException("Fail.");
+		}
+	};
+
 	public void visit(CoverDecl cover) throws IOException {};
 	public void visit(InterfaceDecl interfaceDecl) throws IOException {};
 

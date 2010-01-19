@@ -195,6 +195,8 @@ public class Module extends Node implements Scope {
 		for(Node node: body) {
 			if(node instanceof VariableDecl) {
 				variables.add((VariableDecl) node);
+			} else if(node instanceof Line && ((Line)node).statement instanceof VariableDecl) {
+				variables.add((VariableDecl)((Line)node).statement);
 			}
 		}
 	}
