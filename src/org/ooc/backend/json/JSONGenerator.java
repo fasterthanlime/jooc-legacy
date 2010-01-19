@@ -117,7 +117,7 @@ public class JSONGenerator extends Generator implements Visitor {
 		functions.accept(this);
 		/* classes */
 		for(TypeDecl type: module.getTypes().values()) {
-			if(type instanceof ClassDecl)
+			if(type instanceof ClassDecl || type instanceof CoverDecl)
 				type.accept(this);
 		}
 		/* variables */
@@ -336,7 +336,37 @@ public class JSONGenerator extends Generator implements Visitor {
 		}
 	};
 
-	public void visit(CoverDecl cover) throws IOException {};
+	public void visit(CoverDecl node) throws IOException {
+		try {
+			JSONObject obj = new JSONObject();
+			obj.put("name", node.getName());
+			obj.put("type", "cover");
+			obj.put("tag", node.getName());
+			if(node.getSuperRef() != null)
+				obj.put("extends", node.getSuperRef().getName());
+			else
+				obj.put("extends", JSONObject.NULL);
+			if(node.getFromType() != null)
+				obj.put("from", node.getFromType().toString());
+			else
+				obj.put("from", JSONObject.NULL);
+			/* `members` */
+			JSONArray members = new JSONArray();
+			for(FunctionDecl function: node.getFunctions())
+				if(!function.getName().equals("class"))
+					members.put(buildFunctionDecl(function));
+			for(CoverDecl addon: node.getAddons()) {
+				for(FunctionDecl function: addon.getFunctions())
+					if(!function.getName().equals("class"))
+						members.put(buildFunctionDecl(function));
+			}
+			obj.put("members", members);
+			addObject(obj);
+		} catch(JSONException e) {
+			throw new IOException("Fail.");
+		}		
+	};
+
 	public void visit(InterfaceDecl interfaceDecl) throws IOException {};
 
 	public void visit(TypeArgument typeArgument) throws IOException {};
