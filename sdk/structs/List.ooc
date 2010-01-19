@@ -137,6 +137,10 @@ List: abstract class <T> extends Iterable<T> {
 	
 	clone: abstract func -> List<T>
 
+    first: func -> T {
+        return get(0)
+    }
+
     last: func -> T {
 		return get(lastIndex())
 	}
