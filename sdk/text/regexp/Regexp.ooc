@@ -55,7 +55,7 @@ Regexp: class {
 	getEngineName: func -> String { regexpBackend getName() }
 	
 }
-
+/*
 main: func {
 	rx := Regexp new("^Hello \\w+$", PCRE CASELESS)
 	printf("Engine: %d\n", rx getEngine());
@@ -71,12 +71,12 @@ main: func {
 	tryLoop()
 		
 }
-
+*/
 /**
  * Check that the regexp is in fact freed. A dot is displayed each time
  * one is allocated, and a caret is displayed each time one his freed =)
  */
-tryLoop: func {
+/*tryLoop: func {
 
     PCRE_DEBUG = true
     
@@ -88,4 +88,4 @@ tryLoop: func {
     }
     
 }
-
+*/
