@@ -5,5 +5,6 @@ helloThere: mangled(yay) func {
 yay: extern func
 
 main: func {
+    helloThere()
     yay()
 }
