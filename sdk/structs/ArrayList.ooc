@@ -105,8 +105,10 @@ ArrayList: class <T> extends List<T> {
 	 * Replaces the element at the specified position in this list with
 	 * the specified element.
 	 */ 
-	set: func(index: Int, element: T) {
+	set: func(index: Int, element: T) -> T {
+        old := data[index]
 		data[index] = element
+        old
 	}
 
 	/**

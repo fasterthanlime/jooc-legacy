@@ -126,28 +126,56 @@ List: abstract class <T> extends Iterable<T> {
 	 * Replaces the element at the specified position in this list with
 	 * the specified element.
 	 */ 
-	set: abstract func(index: Int, element: T)
+	set: abstract func(index: Int, element: T) -> T
 	
 	/**
 	 * @return the number of elements in this list.
 	 */
 	size: abstract func -> Int
 
+    /**
+     * @return an interator on this list
+     */
 	iterator: abstract func -> Iterator<T>
 	
+    /**
+     * @return a copy of this list
+     */
 	clone: abstract func -> List<T>
 
+    /**
+     * @return the first element of this list
+     */
     first: func -> T {
         return get(0)
     }
-
+    
+    /**
+     * @return the last element of this list
+     */
     last: func -> T {
 		return get(lastIndex())
 	}
 
+    /**
+     * @return the last index of this list (e.g. size() - 1)
+     */
 	lastIndex: func -> Int {
 		return size() - 1
 	}
+    
+    /**
+     * Reverse this list (destructive)
+     */
+    reverse: func {
+        i := 0
+        j := size() - 1
+        while (i <= j / 2) {
+            set(i, set(j, get(i)))
+            i += 1
+            j -= 1
+        }
+    }
     
     /**
      * Convert this list to a raw C array
@@ -156,10 +184,6 @@ List: abstract class <T> extends Iterable<T> {
         arr : T* = gc_malloc(size() * T size)
         for(i in 0..size()) {
             arr[i] = this[i]
-            // is problematic for now, for some reason
-            
-            //value := this[i]
-            //memcpy(arr& + (i * T size), value&, T size)
         }
         return arr&
     }
