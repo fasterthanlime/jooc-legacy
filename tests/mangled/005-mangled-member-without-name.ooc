@@ -4,15 +4,15 @@ Greeter: class {
     init: func (=message) {
     }
 
-    greet: mangled(huhu) func {
+    greet: mangled func {
         message println()
     }
 }
 
-huhu: extern func(Greeter)
+greet: extern func(Greeter)
 
 main: func {
     g := Greeter new("Hello World!")
     g greet()
-    huhu(g)
+    greet(g)
 }
