@@ -261,10 +261,14 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 			dst.append(externName);
 		} else {
 		*/
+		if(isMangled()) {
+			dst.append(getMangledName());
+		} else {
 			if(isMember()) {
 				dst.append(typeDecl.getExternName()).append('_');
 			}
 			writeSuffixedName(dst);
+		}
 		//}
 		
 	}
