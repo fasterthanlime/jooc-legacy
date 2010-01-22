@@ -192,6 +192,10 @@ public class ArrayAccess extends Access implements MustBeResolved {
 			
 			score += 10;
 			
+			if(first.getType().equals(variable.getType())) {
+				score += 20;
+			}
+			
 			if(variable.getType().getReferenceLevel() == first.getType().getReferenceLevel() + 1) {
 				score += 10;
 			}
