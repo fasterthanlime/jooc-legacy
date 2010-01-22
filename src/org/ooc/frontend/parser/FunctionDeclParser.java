@@ -45,6 +45,7 @@ public class FunctionDeclParser {
 		boolean isFinal = false;
 		boolean isInline = false;
 		String externName = null;
+		String mangledName = null;
 		
 		Token kw = reader.peek();
 		keywordRead: while(true) {
@@ -55,6 +56,7 @@ public class FunctionDeclParser {
 			case TokenType.PROTO_KW: reader.skip(); isProto = true; break;
 			case TokenType.INLINE_KW: reader.skip(); isInline = true; break;
 			case TokenType.EXTERN_KW: externName = ExternParser.parse(sReader, reader); break;
+			case TokenType.MANGLED_KW: mangledName = MangledParser.parse(sReader, reader); break;
 			default: break keywordRead;
 			}
 			kw = reader.peek();
@@ -88,6 +90,7 @@ public class FunctionDeclParser {
 		FunctionDecl functionDecl = new FunctionDecl(
 				name, suffix, isFinal, isStatic, isAbstract, externName, startToken);
 		functionDecl.setInline(isInline);
+		functionDecl.setMangledName(mangledName);
 		functionDecl.setProto(isProto);
 		if(genTypes != null) {
 			for(TypeParam genType: genTypes) {

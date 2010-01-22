@@ -34,7 +34,10 @@ public class LocalAccessWriter {
 				cgen.current.app('*');
 			}
 		}
-		cgen.current.app(variableAccess.getRef().getExternName(variableAccess));
+		if(variableAccess.getRef().isMangled())
+			cgen.current.app(variableAccess.getRef().getMangledName());
+		else
+			cgen.current.app(variableAccess.getRef().getExternName(variableAccess));
 		if(refLevel > 0) cgen.current.app(')');
 		
 	}
