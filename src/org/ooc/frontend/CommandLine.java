@@ -439,6 +439,8 @@ public class CommandLine {
 		module.setMain(true);
 		long tt2 = System.nanoTime();
 		
+		if(params.verbose) System.out.println("Finished parsing, now tinkering...");
+		
 		ArrayList<Module> list = new ArrayList<Module>();
 		collectModules(module, list);
 		tinker(list);
