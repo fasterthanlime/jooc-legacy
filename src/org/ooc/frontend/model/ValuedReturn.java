@@ -86,7 +86,7 @@ public class ValuedReturn extends Return implements MustBeResolved {
 			Declaration genericType) {
 		
 		if(!(expression.canBeReferenced())) {
-			VariableDeclFromExpr vdfe = new VariableDeclFromExpr(generateTempName("retval", stack), expression, startToken);
+			VariableDeclFromExpr vdfe = new VariableDeclFromExpr(generateTempName("retval", stack), expression, startToken, null);
 			vdfe.setType(expression.getType());
 			expression = vdfe;
 			stack.push(this);

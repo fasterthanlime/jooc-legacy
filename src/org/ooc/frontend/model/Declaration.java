@@ -51,15 +51,18 @@ public abstract class Declaration extends Expression implements MustBeResolved {
 		"restrict", 
 	};
 	
-	public Declaration(String name, Token startToken) {
-		this(name, null, startToken);
+	protected Module module;
+
+	public Declaration(String name, Token startToken, Module module) {
+		this(name, null, startToken, module);
 	}
 	
-	public Declaration(String name, String externName, Token startToken) {
+	public Declaration(String name, String externName, Token startToken, Module module) {
 		super(startToken);
 		this.name = name;
 		this.externName = externName;
 		this.mangledName = null;
+		this.module = module;
 	}
 
 	public String getName() {

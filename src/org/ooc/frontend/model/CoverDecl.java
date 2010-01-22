@@ -39,7 +39,7 @@ public class CoverDecl extends TypeDecl {
 		}
 		
 		if(fromType == null || (!fromType.isVoid())) {
-			FunctionDecl fDecl = new FunctionDecl("class", "", false, true, false, false, startToken);
+			FunctionDecl fDecl = new FunctionDecl("class", "", false, true, false, false, startToken, module);
 			fDecl.setReturnType(new Type("Class", startToken));
 			addFunction(fDecl);
 		}

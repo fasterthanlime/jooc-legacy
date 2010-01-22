@@ -207,7 +207,7 @@ public class Assignment extends BinaryOperation {
 					}
 					right = ((Cast) right).getExpression();
 				}
-				VariableDeclFromExpr vdfe = new VariableDeclFromExpr(generateTempName("genref", stack), right, right.startToken);
+				VariableDeclFromExpr vdfe = new VariableDeclFromExpr(generateTempName("genref", stack), right, right.startToken, null);
 				vdfe.setType(right.getType()); // fixate the type
 				addBeforeLine(stack, vdfe);
 				vdfe.unwrapToVarAcc(stack);

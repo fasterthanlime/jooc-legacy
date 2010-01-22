@@ -88,7 +88,7 @@ public class FunctionDeclParser {
 		}
 		
 		FunctionDecl functionDecl = new FunctionDecl(
-				name, suffix, isFinal, isStatic, isAbstract, externName, startToken);
+				name, suffix, isFinal, isStatic, isAbstract, externName, startToken, module);
 		functionDecl.setInline(isInline);
 		functionDecl.setMangledName(mangledName);
 		functionDecl.setProto(isProto);

@@ -48,7 +48,7 @@ public class LineParser {
 				expr = memberCall.getExpression();
 				if(expr instanceof FunctionCall || expr instanceof BinaryOperation) {
 					VariableDeclFromExpr vdfe = new VariableDeclFromExpr(
-							"callroot" + (seedNumber++), expr, statement.startToken);
+							"callroot" + (seedNumber++), expr, statement.startToken, null);
 					body.addBefore(line, new Line(vdfe));
 					expr = new VariableAccess(vdfe, expr.startToken);
 					memberCall.setExpression(expr);

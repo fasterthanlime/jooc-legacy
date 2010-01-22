@@ -78,8 +78,8 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 	
 	protected NodeList<VariableDeclAtom> atoms;
 
-	public VariableDecl(Type type, boolean isStatic, Token startToken) {
-		super(null, startToken);
+	public VariableDecl(Type type, boolean isStatic, Token startToken, Module module) {
+		super(null, startToken, module);
 		this.type = type;
 		this.isStatic = isStatic;
 		this.atoms = new NodeList<VariableDeclAtom>(startToken);

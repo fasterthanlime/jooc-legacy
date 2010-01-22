@@ -142,7 +142,7 @@ public class Foreach extends ControlStatement implements MustBeResolved {
 				
 				Block block = new Block(startToken);
 				
-				VariableDecl vdfe = new VariableDecl(iterCall.getType(), false, startToken);
+				VariableDecl vdfe = new VariableDecl(iterCall.getType(), false, startToken, null);
 				vdfe.setType(iterType);
 				vdfe.getAtoms().add(new VariableDeclAtom(generateTempName("iter", stack),
 						iterCall, startToken));
@@ -161,7 +161,7 @@ public class Foreach extends ControlStatement implements MustBeResolved {
 					VariableAccess varAcc = (VariableAccess) variable;
 					if(varAcc.getRef() == null) {
 						Type innerType = iterCall.getType().getTypeParams().getFirst().getType();
-						VariableDecl varDecl = new VariableDecl(innerType, false, varAcc.startToken);
+						VariableDecl varDecl = new VariableDecl(innerType, false, varAcc.startToken, null);
 						varDecl.getAtoms().add(new VariableDeclAtom(varAcc.getName(), null, varAcc.startToken));
 						block.getBody().add(0, new Line(varDecl));
 					}

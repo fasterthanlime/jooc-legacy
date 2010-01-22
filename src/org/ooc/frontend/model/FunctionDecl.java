@@ -43,13 +43,13 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 	private VersionBlock version = null;
 	
 	public FunctionDecl(String name, String suffix, boolean isFinal,
-			boolean isStatic, boolean isAbstract, boolean isExtern, Token startToken) {
-		this(name, suffix, isFinal, isStatic, isAbstract, isExtern ? "" : null, startToken);
+			boolean isStatic, boolean isAbstract, boolean isExtern, Token startToken, Module module) {
+		this(name, suffix, isFinal, isStatic, isAbstract, isExtern ? "" : null, startToken, module);
 	}
 	
 	public FunctionDecl(String name, String suffix, boolean isFinal,
-			boolean isStatic, boolean isAbstract, String externName, Token startToken) {
-		super(name, externName, startToken);
+			boolean isStatic, boolean isAbstract, String externName, Token startToken, Module module) {
+		super(name, externName, startToken, module);
 		this.suffix = suffix;
 		this.isFinal = isFinal;
 		this.isStatic = isStatic;
@@ -353,7 +353,7 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 				constructCall.getArguments().add(new VariableAccess(argc, startToken));
 				
 				VariableDeclFromExpr vdfe = new VariableDeclFromExpr(arg.getName(), 
-						constructCall, arg.startToken);
+						constructCall, arg.startToken, module);
 				
 				body.add(0, new Line(vdfe));
 			}

@@ -63,7 +63,7 @@ public class Module extends Node implements Scope {
 		//this.functions = new MultiMap<String, FunctionDecl>();
 		
 		// set it as extern, so it won't get written implicitly
-		this.loadFunc = new FunctionDecl(underName + "_load", "", false, false, false, true, Token.defaultToken);
+		this.loadFunc = new FunctionDecl(underName + "_load", "", false, false, false, true, Token.defaultToken, this);
 		
 	}
 	
