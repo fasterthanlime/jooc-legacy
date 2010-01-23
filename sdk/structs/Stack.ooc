@@ -31,8 +31,19 @@ Stack: class <T> extends Iterable<T> {
 		if (isEmpty())
 			Exception new(This, "Trying to peek an empty stack.") throw()
 			
-		return data get(lastIndex())
+		return data last()
 	}
+    
+    peek: func ~index (index: Int) -> T {
+        size := data size()
+        if (index < 1)
+            Exception new(This, "Trying to peek(%d)! index must be >= 1 < size" format(index)) throw()
+            
+        if (index >= size)
+			Exception new(This, "Trying to peek(%d) a stack of size %d" format(index, size)) throw()
+        
+        return data get(size - index)
+    }
 	
 	size: func() -> Int {	
 		return data size()
