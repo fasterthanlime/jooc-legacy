@@ -55,6 +55,10 @@ public class Module extends Node implements Scope {
 		
 		this.underName = "_"+fullName.replaceAll("[^a-zA-Z0-9_]", "_");
 		this.memberPrefix = fullName.replaceAll("[^a-zA-Z0-9_]", "_") + "__";
+		if(!this.memberPrefix.matches("^[a-zA-Z_].*$")) {
+			// the first char has to be [a-zA-Z_].
+			this.memberPrefix = "_" + this.memberPrefix;
+		}
 
 		this.includes = new NodeList<Include>(startToken);
 		this.imports = new NodeList<Import>(startToken);

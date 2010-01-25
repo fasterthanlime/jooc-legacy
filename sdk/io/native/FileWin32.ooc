@@ -40,7 +40,7 @@ version(windows) {
 	/*
 	 * remove implementation
 	 */
-    _remove: mangled func(path: String) -> Int {
+    _remove: unmangled func(path: String) -> Int {
         printf("Win32: should remove file %s\n", path)
     }
 

@@ -344,6 +344,7 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 		}
 		
 		if(name.equals("main")) {
+			this.setUnmangledName(""); /* `main` shall not be mangled. */
 			if(arguments.size() == 1 && arguments.getFirst().getType().getName().equals("Array")) {
 				Argument arg = arguments.getFirst();
 				arguments.clear();
