@@ -110,8 +110,8 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 			dst.append(externName);
 		} else {
 		*/
-		if(isMangled()) {
-			dst.append(getMangledName());
+		if(isUnmangled()) {
+			dst.append(getUnmangledName());
 		} else if(isExtern()) {
 			if(isExternWithName()) {
 				dst.append(getExternName());

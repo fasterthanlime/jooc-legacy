@@ -1,4 +1,4 @@
-someVeryLongVariable: mangled(shortName) Int
+someVeryLongVariable: unmangled(shortName) Int
 shortName: extern Int
 
 main: func {

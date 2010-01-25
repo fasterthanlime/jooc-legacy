@@ -75,7 +75,7 @@ public class VariableDeclParser {
 		
 		boolean isStatic = false;
 		String externName = null;
-		String mangledName = null;
+		String unmangledName = null;
 		
 		while(true) {
 			Token t = reader.peek();
@@ -84,8 +84,8 @@ public class VariableDeclParser {
 				reader.skip();
 			} else if(t.type == TokenType.EXTERN_KW) {
 				externName = ExternParser.parse(sReader, reader);
-			} else if(t.type == TokenType.MANGLED_KW) {
-				mangledName = MangledParser.parse(sReader, reader);
+			} else if(t.type == TokenType.UNMANGLED_KW) {
+				unmangledName = UnmangledParser.parse(sReader, reader);
 			} else {
 				break;
 			}
@@ -110,7 +110,7 @@ public class VariableDeclParser {
 		
 		VariableDecl decl = new VariableDecl(type, isStatic, declStartToken.cloneEnclosing(reader.prev()), module);
 		decl.setExternName(externName);
-		decl.setMangledName(mangledName);
+		decl.setUnmangledName(unmangledName);
 		decl.getAtoms().addAll(atoms);
 		
 		return decl;

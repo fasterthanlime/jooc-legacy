@@ -26,7 +26,7 @@ public final class Token implements Locatable {
 		public static final byte EXTERN_KW = 16; // extern keyword
 		public static final byte INLINE_KW = 17; // extern keyword
 		public static final byte PROTO_KW = 18; // proto keyword
-		public static final byte MANGLED_KW = 19; // mangled keyword
+		public static final byte UNMANGLED_KW = 19; // unmangled keyword
 			
 		public static final byte BREAK_KW = 20; // break keyword
 		public static final byte CONTINUE_KW = 21; // continue keyword
@@ -152,7 +152,7 @@ public final class Token implements Locatable {
 			"extern",
 			"inline",
 			"proto",
-			"mangled",
+			"unmangled",
 			
 			"break",
 			"continue",

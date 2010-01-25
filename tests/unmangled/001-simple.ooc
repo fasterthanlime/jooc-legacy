@@ -1,4 +1,4 @@
-helloThere: mangled(yay) func {
+helloThere: unmangled(yay) func {
     "Hi There!" println()
 }
 
