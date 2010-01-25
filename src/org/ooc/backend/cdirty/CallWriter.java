@@ -54,7 +54,7 @@ public class CallWriter {
 		}
 		
 		if(functionCall.isConstructorCall()) {
-			cgen.current.app(impl.getTypeDecl().getName());
+			cgen.current.app(impl.getTypeDecl().getUnderName());
 			if(impl.getTypeDecl() instanceof ClassDecl) {
 				cgen.current.app("_init");
 			} else{
@@ -205,7 +205,7 @@ public class CallWriter {
 			cgen.current.app(memberCall.getName());
 		} else {
 			if(memberCall.isSuperCall()) {
-				cgen.current.append(impl.getTypeDecl().getSuperName());
+				cgen.current.append(impl.getTypeDecl().getSuperRef().getUnderName());
 				cgen.current.append("_");
 				cgen.current.app(memberCall.getName());
 				cgen.current.append("_impl");

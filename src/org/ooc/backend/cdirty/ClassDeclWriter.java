@@ -12,7 +12,7 @@ import org.ooc.frontend.model.VariableDecl;
 
 public class ClassDeclWriter {
 	
-	public static final String LANG_PREFIX = "lang__";
+	public static final String LANG_PREFIX = "lang_BasicTypes__";
 	public static final String CLASS_NAME = LANG_PREFIX+"Class";
 	
 	public static void write(ClassDecl classDecl, CGenerator cgen) throws IOException {
@@ -106,7 +106,7 @@ public class ClassDeclWriter {
 				cgen.current.app(")");
 			}
 			cgen.current.app("((").app(baseClass.getUnderName()).app(
-					"Class *)((lang__Object *)this)->class)->");
+					"Class *)((lang_BasicTypes__Object *)this)->class)->");
 			decl.writeSuffixedName(cgen.current);
 
 			FunctionDeclWriter.writeFuncArgs(decl, ArgsWriteMode.NAMES_ONLY, baseClass, cgen);
@@ -127,8 +127,7 @@ public class ClassDeclWriter {
 			FunctionDeclWriter.writeFuncPrototype(decl, cgen, decl.isFinal() ? null : "_impl");
 			cgen.current.openBlock();
 			if(decl.getName().equals(ClassDecl.DEFAULTS_FUNC_NAME) && classDecl.getSuperName().length() > 0) {
-				cgen.current.nl().app(classDecl.getSuperName()).app("_")
-					.app(ClassDecl.DEFAULTS_FUNC_NAME).app("_impl((")
+				cgen.current.nl().app(decl.getFullName()).app("_impl((")
 					.app(classDecl.getSuperRef().getUnderName()).app(" *) this);");
 			}
 			decl.getBody().accept(cgen);
@@ -139,8 +138,7 @@ public class ClassDeclWriter {
 
 	public static void writeClassGettingFunction(ClassDecl classDecl,
 			CGenerator cgen) throws IOException {
-
-		cgen.current.app(CLASS_NAME).app(" *").app(classDecl.getName()).app("_class()")
+		cgen.current.app(CLASS_NAME).app(" *").app(classDecl.getUnderName()).app("_class()")
 				.openSpacedBlock();
 		if (classDecl.getSuperName().length() > 0)
 			cgen.current.app("static ").app("bool __done__ = false;").nl();
@@ -154,7 +152,7 @@ public class ClassDeclWriter {
 		if (classDecl.getSuperName().length() > 0) {
 			cgen.current.nl().app("if(!__done__)").openBlock().nl().app(
 					"__done__ = true;").nl().app("classPtr->super = ").app(
-					classDecl.getSuperName()).app("_class();").closeBlock();
+					classDecl.getSuperRef().getUnderName()).app("_class();").closeBlock();
 		}
 
 		cgen.current.nl().app("return classPtr;").closeSpacedBlock();
@@ -213,7 +211,7 @@ public class ClassDeclWriter {
 	public static void writeMemberFuncPrototypes(ClassDecl classDecl,
 			CGenerator cgen) throws IOException {
 
-		cgen.current.nl().app(CLASS_NAME).app(" *").app(classDecl.getName()).app("_class();").nl();
+		cgen.current.nl().app(CLASS_NAME).app(" *").app(classDecl.getUnderName()).app("_class();").nl();
 		for (FunctionDecl decl : classDecl.getFunctions()) {
 			
 			if(decl.isExternWithName()) {

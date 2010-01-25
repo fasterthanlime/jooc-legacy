@@ -36,7 +36,7 @@ public class CastWriter {
 				// FIXME that's.. probably not quite right =)
 				assert(access.getIndices().size() == 1);
 				access.getIndices().getFirst().accept(cgen);
-				cgen.current.app(" * ").app(cast.getType().getMangledName());
+				cgen.current.app(" * ").app(cast.getType().getUnderName());
 				cgen.current.app("_class()->size))");
 				return;
 			}
