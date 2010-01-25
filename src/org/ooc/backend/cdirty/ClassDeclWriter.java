@@ -127,8 +127,8 @@ public class ClassDeclWriter {
 			FunctionDeclWriter.writeFuncPrototype(decl, cgen, decl.isFinal() ? null : "_impl");
 			cgen.current.openBlock();
 			if(decl.getName().equals(ClassDecl.DEFAULTS_FUNC_NAME) && classDecl.getSuperName().length() > 0) {
-				cgen.current.nl().app(decl.getFullName()).app("_impl((")
-					.app(classDecl.getSuperRef().getUnderName()).app(" *) this);");
+				cgen.current.nl().app(classDecl.getSuperRef().getUnderName()).app('_').app(ClassDecl.DEFAULTS_FUNC_NAME)
+					.app("_impl((").app(classDecl.getSuperRef().getUnderName()).app(" *) this);");
 			}
 			decl.getBody().accept(cgen);
 			cgen.current.closeSpacedBlock();
