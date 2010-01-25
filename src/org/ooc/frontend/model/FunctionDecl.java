@@ -344,7 +344,6 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 		}
 		
 		if(name.equals("main")) {
-			this.setUnmangledName(""); /* `main` shall not be mangled. */
 			if(arguments.size() == 1 && arguments.getFirst().getType().getName().equals("Array")) {
 				Argument arg = arguments.getFirst();
 				arguments.clear();
@@ -416,6 +415,10 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 
 	@Override
 	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
+
+		if(isEntryPoint(res.params))
+			setUnmangledName(""); // the entry point should not be mangled.
+
 
 		for(Argument arg: arguments) {
 			Type argType = arg.getType();
