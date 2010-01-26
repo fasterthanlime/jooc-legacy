@@ -18,6 +18,9 @@ main: func(argc: Int, argv: String*) {
 		case 	=> "Not very imaginative, are you?" println()
 	}
 	
-	if(msg) { msg println(); "...was a message brought to you by Match(TM)" println(); }
+	if(msg) {
+        msg println()
+        "...was a message brought to you by Match(TM)" println()
+    }
 	
 }

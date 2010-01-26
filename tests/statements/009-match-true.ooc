@@ -8,7 +8,7 @@ main: func(argc: Int, argv: String*) {
 	x := argv[1] toInt()
 	match true {
 		case 0 <= x && x <= 2
-			=> "Man, you suck at school" println()
+            => "Man, you suck at school" println()
 		case 2 < x && x <= 4
 			=> "Hehe, too bad. Just too bad." println()
 		case 4 < x && x <= 6
