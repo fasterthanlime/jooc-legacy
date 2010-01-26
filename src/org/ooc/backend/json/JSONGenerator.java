@@ -29,6 +29,7 @@ import org.ooc.frontend.model.ClassDecl;
 import org.ooc.frontend.model.Compare;
 import org.ooc.frontend.model.ControlStatement;
 import org.ooc.frontend.model.CoverDecl;
+import org.ooc.frontend.model.Declaration;
 import org.ooc.frontend.model.Dereference;
 import org.ooc.frontend.model.Div;
 import org.ooc.frontend.model.Else;
@@ -236,6 +237,16 @@ public class JSONGenerator extends Generator implements Visitor {
 		} else {
 			obj.put("extern", false);
 		}
+		if(node.isUnmangled()) {
+			if(!node.isUnmangledWithName()) {
+				obj.put("unmangled", true);
+			} else {
+				obj.put("unmangled", node.getUnmangledName());
+			}
+		} else {
+			obj.put("unmangled", false);
+		}
+		obj.put("fullName", node.getFullName());
 		JSONArray modifiers = new JSONArray();
 		if(node.isStatic())
 			modifiers.put("static");
@@ -308,6 +319,18 @@ public class JSONGenerator extends Generator implements Visitor {
 		} else {
 			obj.put("extern", false);
 		}
+		if(decl.isGlobal()) {
+			if(decl.isUnmangled()) {
+				if(!decl.isUnmangledWithName()) {
+					obj.put("unmangled", true);
+				} else {
+					obj.put("unmangled", decl.getUnmangledName());
+				}
+			} else {
+				obj.put("unmangled", false);
+			}
+			obj.put("fullName", decl.getFullName(node));
+		}
 		obj.put("varType", resolveType(decl.getType()));
 		if(node.getExpression() != null) /* TODO: make this work for `:=` */
 			obj.put("value", node.getExpression().toString());
@@ -332,6 +355,16 @@ public class JSONGenerator extends Generator implements Visitor {
 			} else {
 				obj.put("doc", JSONObject.NULL);
 			}
+			if(node.isUnmangled()) {
+				if(!node.isUnmangledWithName()) {
+					obj.put("unmangled", true);
+				} else {
+					obj.put("unmangled", node.getUnmangledName());
+				}
+			} else {
+				obj.put("unmangled", false);
+			}
+			obj.put("fullName", node.getUnderName());
 			/* `members` */
 			JSONArray members = new JSONArray();
 			for(FunctionDecl function: node.getFunctions()) {
@@ -376,6 +409,16 @@ public class JSONGenerator extends Generator implements Visitor {
 			} else {
 				obj.put("doc", JSONObject.NULL);
 			}
+			if(node.isUnmangled()) {
+				if(!node.isUnmangledWithName()) {
+					obj.put("unmangled", true);
+				} else {
+					obj.put("unmangled", node.getUnmangledName());
+				}
+			} else {
+				obj.put("unmangled", false);
+			}
+			obj.put("fullName", node.getUnderName());
 			/* `members` */
 			JSONArray members = new JSONArray();
 			for(FunctionDecl function: node.getFunctions())
