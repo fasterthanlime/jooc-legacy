@@ -466,7 +466,7 @@ public class CGenerator extends Generator implements Visitor {
 				if(line.getStatement() instanceof FunctionCall) {
 					CallWriter.bypassPrelude = (FunctionCall) line.getStatement();
 				}
-				line.getStatement().accept(this);
+				line.accept(this);
 			}
 			
 			current.untab().nl().app("}");
