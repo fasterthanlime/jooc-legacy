@@ -171,7 +171,9 @@ LinkedList: class <T> extends List<T> {
         return true // FIXME: probably not right.
 	}
 	
-	set: func (index: Int, data: T) {}
+	set: func (index: Int, data: T) -> T {
+        // FIXME: stub
+    }
 	
 	size: func -> Int {return size}
 	

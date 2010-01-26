@@ -78,8 +78,8 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 	
 	protected NodeList<VariableDeclAtom> atoms;
 
-	public VariableDecl(Type type, boolean isStatic, Token startToken) {
-		super(null, startToken);
+	public VariableDecl(Type type, boolean isStatic, Token startToken, Module module) {
+		super(null, startToken, module);
 		this.type = type;
 		this.isStatic = isStatic;
 		this.atoms = new NodeList<VariableDeclAtom>(startToken);
@@ -91,6 +91,44 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 		throw new UnsupportedOperationException("Can't getName on a VariableDeclaration with multiple variables "+atoms);
 	}
 	
+	public String getFullName(VariableDeclAtom atom) {
+		
+		StringBuilder sB = new StringBuilder();
+		try {
+			writeFullName(sB, atom);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return sB.toString();
+		
+	}
+
+	public void writeFullName(Appendable dst, VariableDeclAtom atom) throws IOException {
+		
+		/*
+		if(externName != null && externName.length() > 0) {
+			dst.append(externName);
+		} else {
+		*/
+		if(isUnmangled()) {
+			dst.append(getUnmangledName());
+		} else if(isExtern()) {
+			if(isExternWithName()) {
+				dst.append(getExternName());
+			} else {
+				dst.append(atom.getName());
+			}
+		} else if(isGlobal()) {
+			if(module != null) {
+				dst.append(module.getMemberPrefix());
+			}
+			dst.append(atom.getName());
+		} else {
+			dst.append(atom.getName());
+		}
+		//}
+	}
+
 	public boolean hasAtom(String name) {
 		for(VariableDeclAtom atom: atoms) {
 			if(atom.name.equals(name)) return true;

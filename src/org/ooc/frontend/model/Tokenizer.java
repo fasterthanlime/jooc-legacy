@@ -55,6 +55,7 @@ public class Tokenizer {
 		new Name("in", TokenType.IN_KW),
 		new Name("version", TokenType.VERSION_KW),
 		new Name("proto", TokenType.PROTO_KW),
+		new Name("unmangled", TokenType.UNMANGLED_KW),
 		new Name("inline", TokenType.INLINE_KW),
 		new Name("operator", TokenType.OPERATOR_KW),
 		//TODO I'm not sure if those three should be keywords.

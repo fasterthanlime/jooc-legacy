@@ -9,6 +9,7 @@ public abstract class Declaration extends Expression implements MustBeResolved {
 
 	protected String name;
 	protected String externName;
+	protected String unmangledName;
 	
 	public static final String[] RESERVED_NAMES = new String[] {
 		"auto",
@@ -50,14 +51,18 @@ public abstract class Declaration extends Expression implements MustBeResolved {
 		"restrict", 
 	};
 	
-	public Declaration(String name, Token startToken) {
-		this(name, null, startToken);
+	protected Module module;
+
+	public Declaration(String name, Token startToken, Module module) {
+		this(name, null, startToken, module);
 	}
 	
-	public Declaration(String name, String externName, Token startToken) {
+	public Declaration(String name, String externName, Token startToken, Module module) {
 		super(startToken);
 		this.name = name;
 		this.externName = externName;
+		this.unmangledName = null;
+		this.module = module;
 	}
 
 	public String getName() {
@@ -92,6 +97,24 @@ public abstract class Declaration extends Expression implements MustBeResolved {
 		return externName != null && externName.length() > 0;
 	}
 	
+	public String getUnmangledName() {
+		if(unmangledName.length() == 0)
+			return getName();
+		return unmangledName;
+	}
+
+	public boolean isUnmangled() {
+		return unmangledName != null;
+	}
+
+	public boolean isUnmangledWithName() {
+		return unmangledName != null && unmangledName.length() > 0;
+	}
+
+	public void setUnmangledName(String unmangledName) {
+		this.unmangledName = unmangledName;
+	}
+
 	@Override
 	public String toString() {
 		return super.toString() + ": " + name;

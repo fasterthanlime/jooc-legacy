@@ -13,6 +13,7 @@ public class Module extends Node implements Scope {
 	protected String underName;
 	protected String fullName;
 	protected String name;
+	protected String memberPrefix;
 	protected NodeList<Include> includes;
 	protected NodeList<Import> imports;
 	protected NodeList<Use> uses;
@@ -30,7 +31,7 @@ public class Module extends Node implements Scope {
 	public long lastModified;
 	private String packageName;
 	private String pathElement;
-	
+
 	public Module(String fullName, File element, SourceReader reader) {
 		
 		super(Token.defaultToken);
@@ -53,7 +54,12 @@ public class Module extends Node implements Scope {
 		}
 		
 		this.underName = "_"+fullName.replaceAll("[^a-zA-Z0-9_]", "_");
-		
+		this.memberPrefix = fullName.replaceAll("[^a-zA-Z0-9_]", "_") + "__";
+		if(!this.memberPrefix.matches("^[a-zA-Z_].*$")) {
+			// the first char has to be [a-zA-Z_].
+			this.memberPrefix = "_" + this.memberPrefix;
+		}
+
 		this.includes = new NodeList<Include>(startToken);
 		this.imports = new NodeList<Import>(startToken);
 		this.uses = new NodeList<Use>(startToken);
@@ -63,8 +69,12 @@ public class Module extends Node implements Scope {
 		//this.functions = new MultiMap<String, FunctionDecl>();
 		
 		// set it as extern, so it won't get written implicitly
-		this.loadFunc = new FunctionDecl(underName + "_load", "", false, false, false, true, Token.defaultToken);
+		this.loadFunc = new FunctionDecl(underName + "_load", "", false, false, false, true, Token.defaultToken, this);
 		
+	}
+
+	public String getMemberPrefix() {
+		return memberPrefix;
 	}
 	
 	public String getSimpleName() {

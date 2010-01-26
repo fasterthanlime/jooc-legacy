@@ -39,7 +39,7 @@ public class CoverDecl extends TypeDecl {
 		}
 		
 		if(fromType == null || (!fromType.isVoid())) {
-			FunctionDecl fDecl = new FunctionDecl("class", "", false, true, false, false, startToken);
+			FunctionDecl fDecl = new FunctionDecl("class", "", false, true, false, false, startToken, module);
 			fDecl.setReturnType(new Type("Class", startToken));
 			addFunction(fDecl);
 		}
@@ -124,6 +124,10 @@ public class CoverDecl extends TypeDecl {
 	
 	public boolean isAddon() {
 		return base != null;
+	}
+
+	public CoverDecl getBase() {
+		return base;
 	}
 
 	public void accept(Visitor visitor) throws IOException {

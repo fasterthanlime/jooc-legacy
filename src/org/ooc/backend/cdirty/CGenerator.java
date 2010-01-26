@@ -252,7 +252,7 @@ public class CGenerator extends Generator implements Visitor {
 
 		if(line.getStatement() instanceof FunctionCall) CallWriter.bypassPrelude = (FunctionCall) line.getStatement();
 		line.getStatement().accept(this);
-		if(!(line.getStatement() instanceof ControlStatement || line.getStatement() instanceof VersionBlock)) {
+		if(!(line.getStatement() instanceof ControlStatement || line.getStatement() instanceof VersionBlock || line.getStatement() instanceof Match)) {
 			current.app(';');
 		}
 	}
@@ -466,8 +466,7 @@ public class CGenerator extends Generator implements Visitor {
 				if(line.getStatement() instanceof FunctionCall) {
 					CallWriter.bypassPrelude = (FunctionCall) line.getStatement();
 				}
-				line.getStatement().accept(this);
-				current.append(";");
+				line.accept(this);
 			}
 			
 			current.untab().nl().app("}");

@@ -417,7 +417,7 @@ String: cover from Char* {
         list:VaList
 
         va_start(list, this)
-        length := vsnprintf(null, 0, this, list)+1
+        length := vsnprintf(null, 0, this, list) + 1
         output: String = gc_malloc(length)
         va_end(list)
 

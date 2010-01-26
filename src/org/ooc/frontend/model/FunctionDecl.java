@@ -43,13 +43,13 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 	private VersionBlock version = null;
 	
 	public FunctionDecl(String name, String suffix, boolean isFinal,
-			boolean isStatic, boolean isAbstract, boolean isExtern, Token startToken) {
-		this(name, suffix, isFinal, isStatic, isAbstract, isExtern ? "" : null, startToken);
+			boolean isStatic, boolean isAbstract, boolean isExtern, Token startToken, Module module) {
+		this(name, suffix, isFinal, isStatic, isAbstract, isExtern ? "" : null, startToken, module);
 	}
 	
 	public FunctionDecl(String name, String suffix, boolean isFinal,
-			boolean isStatic, boolean isAbstract, String externName, Token startToken) {
-		super(name, externName, startToken);
+			boolean isStatic, boolean isAbstract, String externName, Token startToken, Module module) {
+		super(name, externName, startToken, module);
 		this.suffix = suffix;
 		this.isFinal = isFinal;
 		this.isStatic = isStatic;
@@ -261,10 +261,19 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 			dst.append(externName);
 		} else {
 		*/
-			if(isMember()) {
-				dst.append(typeDecl.getExternName()).append('_');
+		if(isUnmangled()) {
+			dst.append(getUnmangledName());
+		} else {
+			if(isExtern()) {
+				dst.append(getExternName());
+			} else {
+				dst.append(module.getMemberPrefix());
+				if(isMember()) {
+					dst.append(typeDecl.getExternName()).append('_');
+				}
+				writeSuffixedName(dst);
 			}
-			writeSuffixedName(dst);
+		}
 		//}
 		
 	}
@@ -325,6 +334,7 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 		if(name.length() == 0) {
 			Module module = stack.getModule();
 			name = stack.get(0).generateTempName(module.getUnderName()+"_closure", stack);
+			this.module = module;
 			VariableAccess varAcc = new VariableAccess(name, startToken);
 			varAcc.setRef(this);
 			stack.peek().replace(this, varAcc);
@@ -349,7 +359,7 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 				constructCall.getArguments().add(new VariableAccess(argc, startToken));
 				
 				VariableDeclFromExpr vdfe = new VariableDeclFromExpr(arg.getName(), 
-						constructCall, arg.startToken);
+						constructCall, arg.startToken, module);
 				
 				body.add(0, new Line(vdfe));
 			}
@@ -405,6 +415,10 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 
 	@Override
 	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
+
+		if(isEntryPoint(res.params))
+			setUnmangledName(""); // the entry point should not be mangled.
+
 
 		for(Argument arg: arguments) {
 			Type argType = arg.getType();

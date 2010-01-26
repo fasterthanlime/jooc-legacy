@@ -62,7 +62,7 @@ public class VariableDeclWriter {
 			while(iter.hasNext()) {
 				VariableDeclAtom atom = iter.next();
 				TypeWriter.writeSpaced(funcDecl.getReturnType(), cgen);
-				cgen.current.app("(*").app(atom.getName()).app(")");
+				cgen.current.app("(*").app(variableDecl.getFullName(atom)).app(")");
 				FunctionDeclWriter.writeFuncArgs(funcDecl, cgen);
 				writeInitAndComma(cgen, type, iter.hasNext(), atom, writeInitializer);
 			}
@@ -99,7 +99,7 @@ public class VariableDeclWriter {
 				if(type.isArray()) {
 					TypeWriter.writePreFinale(type, cgen);
 				}
-				cgen.current.app(atom.getName());
+				cgen.current.app(variableDecl.getFullName(atom));
 				if(type.isArray()) {
 					if(atom.getExpression() instanceof ArrayLiteral) {
 						TypeWriter.writePostFinale(type, cgen, (ArrayLiteral) atom.getExpression());

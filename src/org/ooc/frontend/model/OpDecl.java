@@ -131,8 +131,8 @@ public class OpDecl extends Declaration {
 	protected OpType opType;
 	protected FunctionDecl func;
 	
-	public OpDecl(OpType opType, FunctionDecl func, Token startToken) {
-		super("Operator "+opType, startToken);
+	public OpDecl(OpType opType, FunctionDecl func, Token startToken, Module module) {
+		super("Operator "+opType, startToken, module);
 		this.opType = opType;
 		this.func = func;
 		String name = "__OP_"+opType.toString();

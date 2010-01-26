@@ -12,12 +12,12 @@ public class VariableDeclFromExpr extends VariableDecl {
 
 	protected boolean isConst;
 	
-	public VariableDeclFromExpr(String name, Expression expression, Token startToken) {
-		this(name, expression, false, startToken);
+	public VariableDeclFromExpr(String name, Expression expression, Token startToken, Module module) {
+		this(name, expression, false, startToken, module);
 	}
-	
-	public VariableDeclFromExpr(String name, Expression expression, boolean isStatic, Token startToken) {
-		super(null, isStatic, startToken);
+
+	public VariableDeclFromExpr(String name, Expression expression, boolean isStatic, Token startToken, Module module) {
+		super(null, isStatic, startToken, module);
 		atoms.add(new VariableDeclAtom(name, expression, startToken));
 	}
 	
@@ -109,7 +109,7 @@ public class VariableDeclFromExpr extends VariableDecl {
 
 	private Assignment toDeclAssign(NodeList<Node> stack, VariableDeclAtom atom, Expression expr) {
 		
-		VariableDecl decl = new VariableDecl(expr.getType(), false, startToken);
+		VariableDecl decl = new VariableDecl(expr.getType(), false, startToken, module);
 		decl.setGlobal(isGlobal());
 		decl.getAtoms().add(new VariableDeclAtom(atom.getName(), null, startToken));
 		

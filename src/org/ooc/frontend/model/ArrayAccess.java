@@ -179,7 +179,7 @@ public class ArrayAccess extends Access implements MustBeResolved {
 		}
 		
 		Argument first = args.getFirst();
-		if(first.getType().equals(variable.getType())) {
+		if(first.getType().softEquals(variable.getType(), res)) {
 			if(opType == OpType.IDX && args.size() < 2) {
 				throw new OocCompilationError(op, stack,
 						"To overload the indexing operator, you need at least two arguments, not "
@@ -191,6 +191,10 @@ public class ArrayAccess extends Access implements MustBeResolved {
 			}
 			
 			score += 10;
+			
+			if(first.getType().equals(variable.getType())) {
+				score += 20;
+			}
 			
 			if(variable.getType().getReferenceLevel() == first.getType().getReferenceLevel() + 1) {
 				score += 10;

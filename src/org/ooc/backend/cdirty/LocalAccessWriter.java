@@ -2,9 +2,12 @@ package org.ooc.backend.cdirty;
 
 import java.io.IOException;
 
+import org.ooc.frontend.model.CoverDecl;
 import org.ooc.frontend.model.TypeDecl;
 import org.ooc.frontend.model.TypeParam;
+import org.ooc.frontend.model.FunctionDecl;
 import org.ooc.frontend.model.VariableAccess;
+import org.ooc.frontend.model.VariableDecl;
 
 public class LocalAccessWriter {
 
@@ -15,7 +18,11 @@ public class LocalAccessWriter {
 	public static void write(VariableAccess variableAccess, boolean doTypeParams, CGenerator cgen, int refOffset) throws IOException {
 		
 		if(variableAccess.getRef() instanceof TypeDecl && !(variableAccess.getRef() instanceof TypeParam)) {
-			cgen.current.app(variableAccess.getName()).app("_class()");
+			TypeDecl ref = (TypeDecl) variableAccess.getRef();
+			if(ref instanceof CoverDecl && ((CoverDecl)ref).isAddon()) {
+				ref = ((CoverDecl)ref).getBase();
+			}
+			cgen.current.app(ref.getUnderName()).app("_class()");
 			return;
 		}
 
@@ -34,7 +41,15 @@ public class LocalAccessWriter {
 				cgen.current.app('*');
 			}
 		}
-		cgen.current.app(variableAccess.getRef().getExternName(variableAccess));
+		if(variableAccess.getRef() instanceof VariableDecl) {
+			VariableDecl ref = (VariableDecl)variableAccess.getRef();
+			cgen.current.app(ref.getFullName(ref.getAtom(variableAccess.getName())));
+		} else if(variableAccess.getRef() instanceof FunctionDecl) {
+			// closure, man!
+			cgen.current.app(((FunctionDecl)variableAccess.getRef()).getFullName());
+		} else {
+			cgen.current.app(variableAccess.getRef().getExternName());
+		}
 		if(refLevel > 0) cgen.current.app(')');
 		
 	}

@@ -51,7 +51,7 @@ public class ForParser {
 			if(variable instanceof VariableAccess && collection instanceof RangeLiteral) {
 				// FIXME not flexible enough
 				VariableAccess varAcc = ((VariableAccess) variable);
-				VariableDecl vDecl = new VariableDecl(IntLiteral.type, false, startToken);
+				VariableDecl vDecl = new VariableDecl(IntLiteral.type, false, startToken, module);
 				vDecl.getAtoms().add(new VariableDeclAtom(varAcc.getName(), null, startToken));
 				variable = vDecl;
 			}

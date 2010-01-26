@@ -27,14 +27,14 @@ public class ClassDecl extends TypeDecl {
 				new Type("Object", Token.defaultToken) : superType, module, startToken);
 		this.isAbstract = isAbstract;
 		
-		addFunction(new FunctionDecl(LOAD_FUNC_NAME,     "", false, true,  false, false, startToken));
-		addFunction(new FunctionDecl(DEFAULTS_FUNC_NAME, "", false, false, false, false, startToken));
-		addFunction(new FunctionDecl(DESTROY_FUNC_NAME,  "", false, false, false, false, startToken));
+		addFunction(new FunctionDecl(LOAD_FUNC_NAME,     "", false, true,  false, false, startToken, module));
+		addFunction(new FunctionDecl(DEFAULTS_FUNC_NAME, "", false, false, false, false, startToken, module));
+		addFunction(new FunctionDecl(DESTROY_FUNC_NAME,  "", false, false, false, false, startToken, module));
 	}
 
 	public void addInit() {
 		if(!isAbstract && defaultInit == null) {
-			FunctionDecl init = new FunctionDecl("init", "", false, false, false, false, startToken);
+			FunctionDecl init = new FunctionDecl("init", "", false, false, false, false, startToken, module);
 			addFunction(init);
 			defaultInit = init;
 		}
@@ -101,7 +101,7 @@ public class ClassDecl extends TypeDecl {
 			defaultInit = null;
 		}
 		
-		FunctionDecl constructor = new FunctionDecl("new", decl.getSuffix(), false, true, false, false, decl.startToken);
+		FunctionDecl constructor = new FunctionDecl("new", decl.getSuffix(), false, true, false, false, decl.startToken, module);
 		Type retType = getType().clone();
 		retType.getTypeParams().clear();
 		
@@ -113,7 +113,7 @@ public class ClassDecl extends TypeDecl {
 		VariableAccess classAccess = new MemberAccess(thisTypeAccess, "class", decl.startToken);
 		MemberCall allocCall = new MemberCall(classAccess, "alloc", "", decl.startToken);
 		Cast cast = new Cast(allocCall, getType(), decl.startToken);
-		VariableDeclFromExpr vdfe = new VariableDeclFromExpr("this", cast, decl.startToken);
+		VariableDeclFromExpr vdfe = new VariableDeclFromExpr("this", cast, decl.startToken, module);
 		constructor.getBody().add(new Line(vdfe));
 		
 		for(TypeParam genType: typeParams.values()) {

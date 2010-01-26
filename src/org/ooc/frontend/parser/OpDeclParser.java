@@ -77,7 +77,7 @@ public class OpDeclParser {
 			throw new CompilationFailedError(null, "Expected function after operator overloading of "+type);
 		}
 		
-		return new OpDecl(type, decl, startToken);
+		return new OpDecl(type, decl, startToken, module);
 		
 	}
 
