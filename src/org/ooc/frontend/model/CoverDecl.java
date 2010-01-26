@@ -122,6 +122,10 @@ public class CoverDecl extends TypeDecl {
 		return base != null;
 	}
 
+	public CoverDecl getBase() {
+		return base;
+	}
+
 	public void accept(Visitor visitor) throws IOException {
 		visitor.visit(this);
 	}

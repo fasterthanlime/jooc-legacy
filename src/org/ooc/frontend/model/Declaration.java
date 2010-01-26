@@ -9,7 +9,7 @@ public abstract class Declaration extends Expression implements MustBeResolved {
 
 	protected String name;
 	protected String externName;
-	protected String mangledName;
+	protected String unmangledName;
 	
 	public static final String[] RESERVED_NAMES = new String[] {
 		"auto",
@@ -61,7 +61,7 @@ public abstract class Declaration extends Expression implements MustBeResolved {
 		super(startToken);
 		this.name = name;
 		this.externName = externName;
-		this.mangledName = null;
+		this.unmangledName = null;
 		this.module = module;
 	}
 
@@ -97,22 +97,22 @@ public abstract class Declaration extends Expression implements MustBeResolved {
 		return externName != null && externName.length() > 0;
 	}
 	
-	public String getMangledName() {
-		if(mangledName.length() == 0)
+	public String getUnmangledName() {
+		if(unmangledName.length() == 0)
 			return getName();
-		return mangledName;
+		return unmangledName;
 	}
 
-	public boolean isMangled() {
-		return mangledName != null;
+	public boolean isUnmangled() {
+		return unmangledName != null;
 	}
 
-	public boolean isMangledWithName() {
-		return mangledName != null && mangledName.length() > 0;
+	public boolean isUnmangledWithName() {
+		return unmangledName != null && unmangledName.length() > 0;
 	}
 
-	public void setMangledName(String mangledName) {
-		this.mangledName = mangledName;
+	public void setUnmangledName(String unmangledName) {
+		this.unmangledName = unmangledName;
 	}
 
 	@Override

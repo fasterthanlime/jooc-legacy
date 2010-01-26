@@ -261,13 +261,18 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 			dst.append(externName);
 		} else {
 		*/
-		if(isMangled()) {
-			dst.append(getMangledName());
+		if(isUnmangled()) {
+			dst.append(getUnmangledName());
 		} else {
-			if(isMember()) {
-				dst.append(typeDecl.getExternName()).append('_');
+			if(isExtern()) {
+				dst.append(getExternName());
+			} else {
+				dst.append(module.getMemberPrefix());
+				if(isMember()) {
+					dst.append(typeDecl.getExternName()).append('_');
+				}
+				writeSuffixedName(dst);
 			}
-			writeSuffixedName(dst);
 		}
 		//}
 		
@@ -329,6 +334,7 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 		if(name.length() == 0) {
 			Module module = stack.getModule();
 			name = stack.get(0).generateTempName(module.getUnderName()+"_closure", stack);
+			this.module = module;
 			VariableAccess varAcc = new VariableAccess(name, startToken);
 			varAcc.setRef(this);
 			stack.peek().replace(this, varAcc);
@@ -409,6 +415,10 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 
 	@Override
 	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
+
+		if(isEntryPoint(res.params))
+			setUnmangledName(""); // the entry point should not be mangled.
+
 
 		for(Argument arg: arguments) {
 			Type argType = arg.getType();

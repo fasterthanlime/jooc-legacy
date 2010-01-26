@@ -21,7 +21,7 @@ public class MemberAccessWriter {
 			VariableAccess varAcc = (VariableAccess) memberAccess.getExpression();
 			if(varAcc.getRef() instanceof TypeDecl) {
 				if(memberAccess.getName().equals("class")) {
-					cgen.current.app(varAcc.getName()).app("_class()");
+					cgen.current.app(varAcc.getUnderName()).app("_class()");
 					return;
 				}
 			}
@@ -59,7 +59,7 @@ public class MemberAccessWriter {
 			}
 			
 			cgen.current.app("((").app(refTypeDecl.getType().getUnderName())
-				.app("Class*) ").app(refTypeDecl.getType().getName())
+				.app("Class*) ").app(refTypeDecl.getType().getUnderName())
 				.app("_class())->").app(memberAccess.getName());
 		} else {
 			boolean isArrow = (refTypeDecl instanceof ClassDecl);

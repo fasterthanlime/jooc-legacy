@@ -244,8 +244,7 @@ public class ModuleWriter {
 				if(classDecl.getVersion() != null) {
 					VersionBlockWriter.writeVersionBlockStart(classDecl.getVersion(), cgen);
 				}
-				cgen.current.nl().app(classDecl.getName()).app("_").app(
-						classDecl.getFunction(ClassDecl.LOAD_FUNC_NAME, "", null).getName()).app("();");
+				cgen.current.nl().app(classDecl.getFunction(ClassDecl.LOAD_FUNC_NAME, "", null).getFullName()).app("();");
 				if(classDecl.getVersion() != null) {
 					VersionBlockWriter.writeVersionBlockEnd(cgen);
 				}

@@ -239,8 +239,8 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic, Ve
 	}
 	
 	public String getUnderName() {
-		if(module != null && module.getPackageName().length() > 0 && !isExtern())
-			return module.getPackageName() + "__" + getName();
+		if(module != null && !isExtern())
+			return module.getMemberPrefix() + getName();
 		return getName();
 	}
 	

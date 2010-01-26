@@ -62,11 +62,7 @@ public class VariableDeclWriter {
 			while(iter.hasNext()) {
 				VariableDeclAtom atom = iter.next();
 				TypeWriter.writeSpaced(funcDecl.getReturnType(), cgen);
-				if(variableDecl.isMangled())
-					// mangled variable decls only have one atom.
-					cgen.current.app("(*").app(variableDecl.getMangledName()).app(")");
-				else
-					cgen.current.app("(*").app(atom.getName()).app(")");
+				cgen.current.app("(*").app(variableDecl.getFullName(atom)).app(")");
 				FunctionDeclWriter.writeFuncArgs(funcDecl, cgen);
 				writeInitAndComma(cgen, type, iter.hasNext(), atom, writeInitializer);
 			}
@@ -103,11 +99,7 @@ public class VariableDeclWriter {
 				if(type.isArray()) {
 					TypeWriter.writePreFinale(type, cgen);
 				}
-				if(variableDecl.isMangled())
-					// mangled variable decls only have one atom
-					cgen.current.app(variableDecl.getMangledName());
-				else
-					cgen.current.app(atom.getName());
+				cgen.current.app(variableDecl.getFullName(atom));
 				if(type.isArray()) {
 					if(atom.getExpression() instanceof ArrayLiteral) {
 						TypeWriter.writePostFinale(type, cgen, (ArrayLiteral) atom.getExpression());

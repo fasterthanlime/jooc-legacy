@@ -4,7 +4,7 @@ Greeter: class {
     init: func (=message) {
     }
 
-    greet: mangled(huhu) func {
+    greet: unmangled(huhu) func {
         message println()
     }
 }

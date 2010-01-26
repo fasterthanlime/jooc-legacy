@@ -59,13 +59,13 @@ public class CoverDeclWriter {
 		
 		cgen.current = cgen.fw;
         
-        cgen.current.nl().app("lang__Class *"). app(cover.getName()). app("_class();");
+        cgen.current.nl().app("lang_BasicTypes__Class *"). app(cover.getUnderName()). app("_class();");
         
         cgen.current = cgen.cw;
         
         cgen.current.nl().
-        app("lang__Class *"). app(cover.getName()). app("_class() {"). tab(). nl().
-            app("static lang__Class _class = {"). tab(). nl().
+        app("lang_BasicTypes__Class *"). app(cover.getUnderName()). app("_class() {"). tab(). nl().
+            app("static lang_BasicTypes__Class _class = {"). tab(). nl().
                 app(".size = sizeof("). app(cover.getUnderName()). app("),"). nl().
                 app(".instanceSize = sizeof("). app(cover.getUnderName()). app("),"). nl().
                 app(".name = \""). app(cover.getName()). app("\"").
