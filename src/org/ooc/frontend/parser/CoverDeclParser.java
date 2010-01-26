@@ -23,6 +23,9 @@ public class CoverDeclParser {
 		Token commentToken = reader.peek();
 		if(commentToken.type == TokenType.OOCDOC) {
 			comment = new OocDocComment(reader.read().get(sReader), commentToken);
+			// allow an arbitrary number of newlines after the oocdoc comment.
+			while(reader.peek().type == TokenType.LINESEP)
+				reader.skip();
 		}
 		
 		Token startToken = reader.peek();
