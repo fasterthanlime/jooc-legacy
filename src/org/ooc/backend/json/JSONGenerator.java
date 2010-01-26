@@ -222,6 +222,11 @@ public class JSONGenerator extends Generator implements Visitor {
 			obj.put("tag", name);
 			obj.put("type", "function");
 		}
+		if(node.getComment() != null) {
+			obj.put("doc", node.getComment().getContent());
+		} else {
+			obj.put("doc", JSONObject.NULL);
+		}
 		if(node.isExtern()) {
 			if(!node.isExternWithName()) {
 				obj.put("extern", true);
@@ -322,6 +327,11 @@ public class JSONGenerator extends Generator implements Visitor {
 				obj.put("extends", node.getSuperRef().getName());
 			else
 				obj.put("extends", JSONObject.NULL);
+			if(node.getComment() != null) {
+				obj.put("doc", node.getComment().getContent());
+			} else {
+				obj.put("doc", JSONObject.NULL);
+			}
 			/* `members` */
 			JSONArray members = new JSONArray();
 			for(FunctionDecl function: node.getFunctions()) {
@@ -361,6 +371,11 @@ public class JSONGenerator extends Generator implements Visitor {
 				obj.put("from", node.getFromType().toString());
 			else
 				obj.put("from", JSONObject.NULL);
+			if(node.getComment() != null) {
+				obj.put("doc", node.getComment().getContent());
+			} else {
+				obj.put("doc", JSONObject.NULL);
+			}
 			/* `members` */
 			JSONArray members = new JSONArray();
 			for(FunctionDecl function: node.getFunctions())
