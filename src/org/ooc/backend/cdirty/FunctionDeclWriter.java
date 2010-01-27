@@ -99,6 +99,11 @@ public class FunctionDeclWriter {
 	private static void writeFullBody(FunctionDecl functionDecl, CGenerator cgen)
 			throws IOException {
 		
+		if(functionDecl.isInline()) {
+			System.out.println("Writing full body of "+functionDecl+", which is inline, and cgen.current = "+
+					(cgen.current == cgen.cw ? "cw" : (cgen.current == cgen.hw ? "hw" : (cgen.current == cgen.fw ? "fw" : "unknown"))));
+		}
+		
 		if(functionDecl.getVersion() != null) {
 			VersionBlockWriter.writeVersionBlockStart(functionDecl.getVersion(), cgen);
 		}

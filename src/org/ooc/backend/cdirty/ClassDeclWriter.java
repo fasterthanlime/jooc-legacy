@@ -94,6 +94,9 @@ public class ClassDeclWriter {
 			if (decl.isStatic() || decl.isFinal())
 				continue;
 
+			// yup, that's right baby.
+			cgen.current = decl.isInline() ? cgen.hw : cgen.cw;
+			
 			cgen.current.nl();
 			FunctionDeclWriter.writeFuncPrototype(decl, cgen);
 			cgen.current.openSpacedBlock();
@@ -123,6 +126,9 @@ public class ClassDeclWriter {
 			if (decl.isStatic() || decl.isAbstract() || (decl.isExternWithName())) {
 				continue;
 			}
+			
+			// yup, that's right baby.
+			cgen.current = decl.isInline() ? cgen.hw : cgen.cw;
 			
 			FunctionDeclWriter.writeFuncPrototype(decl, cgen, decl.isFinal() ? null : "_impl");
 			cgen.current.openBlock();
