@@ -7,7 +7,9 @@ include stddef, stdlib, stdio, ctype, stdint, stdbool
  * Pointer type
  */
 Void: cover from void
-Pointer: cover from void*
+Pointer: cover from void* {
+    toString: func -> String { "%p" format(this) }
+}
 
 /**
  * character and pointer types
