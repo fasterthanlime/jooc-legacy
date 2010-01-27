@@ -12,49 +12,86 @@ Pointer: cover from void*
 /**
  * character and pointer types
  */
-UChar: cover from unsigned char
-WChar: cover from wchar_t
-
-isalnum: extern func(letter: Int) -> Int
-isalpha: extern func(letter: Int) -> Int
-isdigit: extern func(letter: Int) -> Int
-isspace: extern func(letter: Int) -> Int
-tolower: extern func(letter: Int) -> Int
-toupper: extern func(letter: Int) -> Int
-
 Char: cover from char {
-    
+    // check for an alphanumeric character
     isAlphaNumeric: func -> Bool {
-        isalnum(this)
+        isAlpha() || isDigit()
     }
-    
-    isAlpha: func -> Bool { 
-        isalpha(this)
+
+    // check for an alphabetic character
+    isAlpha: func -> Bool {
+        isLower() || isUpper()
     }
-    
+
+    // check for a lowercase alphabetic character
+    isLower: func -> Bool {
+        this >= 'a' && this <= 'z'
+    }
+
+    // check for an uppercase alphabetic character
+    isUpper: func -> Bool {
+        this >= 'A' && this <= 'Z'
+    }
+
+    // check for a decimal digit (0 through 9)
     isDigit: func -> Bool {
-        isdigit(this)
+        this >= '0' && this <= '9'
     }
-    
-    isWhitespace: func() -> Bool {
-        isspace(this)
+
+    // check for a hexadecimal digit (0 1 2 3 4 5 6 7 8 9 a b c d e f A B C D E F)
+    isHexDigit: func -> Bool {
+        isDigit() ||
+        (this >= 'A' && this <= 'F') ||
+        (this >= 'a' && this <= 'f')
     }
-    
-    toLower: func -> This {
-        tolower(this)
+
+    // check for a control character
+    isControl: func -> Bool {
+        (this >= 0 && this <= 31) || this == 127
     }
-    
-    toUpper: func -> This {
-        toupper(this)
+
+    // check for any printable character except space
+    isGraph: func -> Bool {
+        isPrintable() && this != ' '
     }
-    
+
+    // check for any printable character including space
+    isPrintable: func -> Bool {
+        this >= 32 && this <= 126
+    }
+
+    // check for any printable character which is not a space or an alphanumeric character
+    isPunctuation: func -> Bool {
+        isPrintable() && !isAlphaNumeric() && this != ' '
+    }
+
+    // check for white-space characters: space, form-feed ('\f'), newline ('\n'),
+    // carriage return ('\r'), horizontal tab ('\t'), and vertical tab ('\v')
+    isWhitespace: func -> Bool {
+        this == ' '  ||
+        this == '\f' ||
+        this == '\n' ||
+        this == '\r' ||
+        this == '\t' ||
+        this == '\v'
+    }
+
+    // check for a blank character; that is, a space or a tab
+    isBlank: func -> Bool {
+        this == ' ' || this == '\t'
+    }
+
     toInt: func -> Int {
-        if ((this >= 48) && (this <= 57)) {
-            return (this - 48)
+        if (isDigit()) {
+            return (this - '0')
         }
         return -1
     }
-    
+
+    toLower: extern(tolower) func -> This
+
+    toUpper: extern(toupper) func -> This
+
     toString: func -> String {
         String new(this)
     }
@@ -66,8 +103,11 @@ Char: cover from char {
     println: func {
         printf("%c\n", this)
     }
-    
 }
+
+SChar: cover from signed char extends Char
+UChar: cover from unsigned char extends Char
+WChar: cover from wchar_t
 
 operator as (value: Char) -> String {
     value toString()
@@ -395,7 +435,7 @@ String: cover from Char* {
         copy := clone()
         length := length()
         for(i in 0..length) {
-            copy[i] = tolower(copy[i])
+            copy[i] = copy[i] toLower()
         }
         return copy
     }
@@ -404,7 +444,7 @@ String: cover from Char* {
         copy := clone()
         length := length()
         for(i in 0..length) {
-            copy[i] = toupper(copy[i])
+            copy[i] = copy[i] toUpper()
         }
         return copy
     }
