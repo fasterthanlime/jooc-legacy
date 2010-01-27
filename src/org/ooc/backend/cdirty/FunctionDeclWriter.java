@@ -137,7 +137,10 @@ public class FunctionDeclWriter {
 	public static void writeFuncPrototype(FunctionDecl functionDecl, CGenerator cgen, String additionalSuffix) throws IOException {
 		
 		if(functionDecl.isInline()) {
-			cgen.current.append("inline static ");
+			if(cgen.current == cgen.hw) {
+				cgen.current.append("inline ");
+			}
+			cgen.current.append("static ");
 		}
 			
 		Type returnType = functionDecl.getReturnType();
