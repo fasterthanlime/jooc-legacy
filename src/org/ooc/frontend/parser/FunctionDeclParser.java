@@ -24,6 +24,9 @@ public class FunctionDeclParser {
 		if(reader.peek().type == TokenType.OOCDOC) {
 			Token token = reader.read();
 			comment = new OocDocComment(token.get(sReader), token);
+			// allow an arbitrary number of newlines after the oocdoc comment.
+			while(reader.peek().type == TokenType.LINESEP)
+				reader.skip();
 		}
 		
 		Token startToken= reader.peek();
