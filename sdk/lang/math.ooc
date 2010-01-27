@@ -1,5 +1,4 @@
 include math
-import types
 
 cos: extern func (Double) -> Double
 sin: extern func (Double) -> Double

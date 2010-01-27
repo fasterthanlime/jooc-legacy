@@ -1,5 +1,4 @@
 include memory
-import types
 
 version(gc) {
     include gc/gc
