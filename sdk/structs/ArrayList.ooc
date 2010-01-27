@@ -38,7 +38,10 @@ ArrayList: class <T> extends List<T> {
         // inserting at 0 can be optimized
 		if(index == 0) {
             ensureCapacity(size + 1)
-            memmove(data& + T size, data&, T size)
+            dst, src: Octet*
+            dst = data& + (T size)
+            src = data&
+            memmove(dst, src, T size * size)
             data[0] = element
             size += 1
             return
