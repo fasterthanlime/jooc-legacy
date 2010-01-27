@@ -1,5 +1,5 @@
 include stdlib
-import BasicTypes
+import types
 
 exit: extern func (Int)
 

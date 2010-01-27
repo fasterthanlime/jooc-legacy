@@ -1,5 +1,5 @@
 include memory
-import BasicTypes
+import types
 
 version(gc) {
     include gc/gc
