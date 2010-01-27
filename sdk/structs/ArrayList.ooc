@@ -35,7 +35,16 @@ ArrayList: class <T> extends List<T> {
 	}
 
 	add: func ~withIndex (index: Int, element: T) {
-		checkIndex(index)
+        // inserting at 0 can be optimized
+		if(index == 0) {
+            ensureCapacity(size + 1)
+            memmove(data& + T size, data&, T size)
+            data[0] = element
+            size += 1
+            return
+        }
+        
+        checkIndex(index)
 		ensureCapacity(size + 1)
 		dst, src: Octet*
 		dst = data& + (T size * (index + 1))
