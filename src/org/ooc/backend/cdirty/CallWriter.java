@@ -62,7 +62,7 @@ public class CallWriter {
 			}
 			if(impl.getSuffix().length() > 0) cgen.current.app('_').app(impl.getSuffix());
 		} else if(impl.isFromPointer()) {
-			cgen.current.app(functionCall.getName());
+			cgen.current.app(functionCall.getFullName());
 		} else {
 			impl.writeFullName(cgen.current);
 		}
