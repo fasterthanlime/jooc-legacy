@@ -1,5 +1,4 @@
 include stdio
-import BasicTypes
 
 println: func ~withStr (str: String) {
     printf("%s\n", str)
