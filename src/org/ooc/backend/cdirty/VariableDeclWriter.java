@@ -15,7 +15,7 @@ public class VariableDeclWriter {
 
 	public static boolean write(VariableDecl variableDecl, CGenerator cgen) throws IOException {
 
-		if(variableDecl.isExtern()) {
+		if(variableDecl.isExtern() && !variableDecl.isProto()) {
 			return false;
 		}
 		
