@@ -47,6 +47,11 @@ ArrayList: class <T> extends List<T> {
             return
         }
         
+        if(index == size) {
+            add(element)
+            return
+        }
+        
         checkIndex(index)
 		ensureCapacity(size + 1)
 		dst, src: Octet*
