@@ -603,6 +603,9 @@ public class FunctionCall extends Access implements MustBeResolved {
 						FuncType funcType = (FuncType) varDecl.getType();
 						if(matchesArgs(funcType.getDecl())) {
 							impl = funcType.getDecl();
+							// copy the module information for getFullName if it's global.
+							if(varDecl.isGlobal())
+								impl.module = varDecl.module;
 							break;
 						}
 					}
@@ -617,6 +620,9 @@ public class FunctionCall extends Access implements MustBeResolved {
 					if(varDecl.getType() instanceof FuncType) {
 						FuncType funcType = (FuncType) varDecl.getType();
 						impl = funcType.getDecl();
+						// copy the module information for getFullName if it's global.
+						if(varDecl.isGlobal())
+							impl.module = varDecl.module;
 					} else {
 						if(varDecl.getType() == null) return Response.OK;
 						if(fatal) {
@@ -767,5 +773,11 @@ public class FunctionCall extends Access implements MustBeResolved {
 	public boolean canBeReferenced() {
 		return false;
 	}
-	
+
+	public String getFullName() {
+		if(impl.module != null)
+			return impl.module.getMemberPrefix() + getName();
+		else
+			return getName();
+	}
 }

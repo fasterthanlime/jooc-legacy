@@ -99,6 +99,11 @@ public class FunctionDeclWriter {
 	private static void writeFullBody(FunctionDecl functionDecl, CGenerator cgen)
 			throws IOException {
 		
+		if(functionDecl.isInline()) {
+			System.out.println("Writing full body of "+functionDecl+", which is inline, and cgen.current = "+
+					(cgen.current == cgen.cw ? "cw" : (cgen.current == cgen.hw ? "hw" : (cgen.current == cgen.fw ? "fw" : "unknown"))));
+		}
+		
 		if(functionDecl.getVersion() != null) {
 			VersionBlockWriter.writeVersionBlockStart(functionDecl.getVersion(), cgen);
 		}
@@ -132,7 +137,10 @@ public class FunctionDeclWriter {
 	public static void writeFuncPrototype(FunctionDecl functionDecl, CGenerator cgen, String additionalSuffix) throws IOException {
 		
 		if(functionDecl.isInline()) {
-			cgen.current.append("inline static ");
+			if(cgen.current == cgen.hw) {
+				cgen.current.append("inline ");
+			}
+			cgen.current.append("static ");
 		}
 			
 		Type returnType = functionDecl.getReturnType();

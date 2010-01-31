@@ -12,7 +12,7 @@ import org.ooc.frontend.model.VariableDecl;
 
 public class ClassDeclWriter {
 	
-	public static final String LANG_PREFIX = "lang_BasicTypes__";
+	public static final String LANG_PREFIX = "lang_types__";
 	public static final String CLASS_NAME = LANG_PREFIX+"Class";
 	
 	public static void write(ClassDecl classDecl, CGenerator cgen) throws IOException {
@@ -94,6 +94,9 @@ public class ClassDeclWriter {
 			if (decl.isStatic() || decl.isFinal())
 				continue;
 
+			// yup, that's right baby.
+			cgen.current = decl.isInline() ? cgen.hw : cgen.cw;
+			
 			cgen.current.nl();
 			FunctionDeclWriter.writeFuncPrototype(decl, cgen);
 			cgen.current.openSpacedBlock();
@@ -106,7 +109,7 @@ public class ClassDeclWriter {
 				cgen.current.app(")");
 			}
 			cgen.current.app("((").app(baseClass.getUnderName()).app(
-					"Class *)((lang_BasicTypes__Object *)this)->class)->");
+					"Class *)((lang_types__Object *)this)->class)->");
 			decl.writeSuffixedName(cgen.current);
 
 			FunctionDeclWriter.writeFuncArgs(decl, ArgsWriteMode.NAMES_ONLY, baseClass, cgen);
@@ -123,6 +126,9 @@ public class ClassDeclWriter {
 			if (decl.isStatic() || decl.isAbstract() || (decl.isExternWithName())) {
 				continue;
 			}
+			
+			// yup, that's right baby.
+			cgen.current = decl.isInline() ? cgen.hw : cgen.cw;
 			
 			FunctionDeclWriter.writeFuncPrototype(decl, cgen, decl.isFinal() ? null : "_impl");
 			cgen.current.openBlock();

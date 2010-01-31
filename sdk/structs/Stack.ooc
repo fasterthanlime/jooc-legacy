@@ -11,7 +11,7 @@ Stack: class <T> extends Iterable<T> {
 		data add(element)
 	}
 	
-	pop: func() -> T {				
+	pop: func() -> T {
 		if (isEmpty())
 			Exception new(This, "Trying to pop an empty stack.") throw()
 			

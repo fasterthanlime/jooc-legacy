@@ -71,6 +71,7 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 	}
 	
 	private boolean isStatic;
+	private boolean isProto;
 	private boolean isGlobal;
 	
 	protected Type type;
@@ -187,7 +188,15 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 	public void setStatic(boolean isStatic) {
 		this.isStatic = isStatic;
 	}
+
+	public boolean isProto() {
+		return isProto;
+	}
 	
+	public void setProto(boolean isProto) {
+		this.isProto = isProto;
+	}
+
 	public boolean isGlobal() {
 		return isGlobal;
 	}

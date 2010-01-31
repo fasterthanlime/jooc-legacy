@@ -96,7 +96,7 @@ public class TypeWriter {
 		}
 		// no-VLA workaround.
 		if(type.isArray() && type.getArraySize() != null
-				&& !(type.getArraySize() instanceof Literal)  && !cgen.params.compiler.supportsVLAs()) {
+				&& !(type.getArraySize() instanceof Literal)  && (cgen.params.compiler == null || !cgen.params.compiler.supportsVLAs())) {
 			cgen.current.app("*");
 		}
 	}
@@ -112,7 +112,7 @@ public class TypeWriter {
 		for(int i = 0; i < level; i++) {
 			if(type.isArray()) {
 				if(i == 0 && type.getArraySize() != null) {
-					if(type.getArraySize() instanceof Literal || cgen.params.compiler.supportsVLAs()) {
+					if(type.getArraySize() instanceof Literal || (cgen.params.compiler == null || cgen.params.compiler.supportsVLAs())) {
 						cgen.current.app('[');
 						type.getArraySize().accept(cgen);
 						cgen.current.app(']');
