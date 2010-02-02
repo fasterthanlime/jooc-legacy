@@ -17,7 +17,6 @@ import org.ubi.SourceReader;
 public class FunctionDeclParser {
 
 	public static FunctionDecl parse(Module module, SourceReader sReader, TokenReader reader, boolean skipFunc) {
-
 		int mark = reader.mark();
 		
 		OocDocComment comment = null;

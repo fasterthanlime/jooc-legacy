@@ -119,6 +119,7 @@ public class UseDefParser {
 		
 		Set<File> set = new HashSet<File>();
 		set.add(params.libsPath);
+		set.add(params.sdkLocation);
 		
 		while(!set.isEmpty()) {
 			Set<File> nextSet = new HashSet<File>();

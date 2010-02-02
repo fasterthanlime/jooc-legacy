@@ -12,6 +12,7 @@ import org.ooc.frontend.model.Declaration;
 import org.ooc.frontend.model.Import;
 import org.ooc.frontend.model.Line;
 import org.ooc.frontend.model.Module;
+import org.ooc.frontend.model.OocDocComment;
 import org.ooc.frontend.model.OpDecl;
 import org.ooc.frontend.model.VariableDecl;
 import org.ooc.frontend.model.tokens.Token;
@@ -37,7 +38,7 @@ public class ModuleParser {
 			
 			while(reader.hasNext()) {
 	
-				if(reader.peek().type == TokenType.LINESEP) {
+				if(reader.peek().type == TokenType.LINESEP || reader.peek().type == TokenType.OOCDOC) {
 					reader.skip();
 					continue;
 				}
