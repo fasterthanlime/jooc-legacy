@@ -1,5 +1,5 @@
-import structs/ArrayList /* for Iterable<T> toArrayList */
-import text/StringBuffer /* for String replace ~string */
+import structs/[List, ArrayList] /* for Iterable<T> toArrayList and String join */
+import text/StringBuffer /* for String replace ~string and String join */
 
 include stddef, stdlib, stdio, ctype, stdint, stdbool
 
@@ -104,6 +104,10 @@ Char: cover from char {
     
     println: func {
         printf("%c\n", this)
+    }
+
+    join: func (list: List<String>) -> String {
+        String new(this) join(list)
     }
 }
 
@@ -333,6 +337,23 @@ String: cover from Char* {
 
     println: func {
         printf("%s\n", this)
+    }
+
+    join: func (list: List<String>) -> String {
+        if(!list T inheritsFrom(String)) {
+            Exception new("You cannot use `String join` with %s instances." format(list T name)) throw()
+        }
+        /* TODO: A more performant implementation is possible. */
+        result := StringBuffer new()
+        first := true
+        for(item: String in list) {
+            if(first)
+                first = false
+            else
+                result append(this)
+            result append(item)
+        }
+        result toString()
     }
     
     times: func (count: Int) -> This {
