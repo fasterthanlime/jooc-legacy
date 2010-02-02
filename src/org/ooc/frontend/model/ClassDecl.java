@@ -31,14 +31,6 @@ public class ClassDecl extends TypeDecl {
 		addFunction(new FunctionDecl(DEFAULTS_FUNC_NAME, "", false, false, false, false, startToken, module));
 		addFunction(new FunctionDecl(DESTROY_FUNC_NAME,  "", false, false, false, false, startToken, module));
 	}
-
-	public void addInit() {
-		if(!isAbstract && defaultInit == null) {
-			FunctionDecl init = new FunctionDecl("init", "", false, false, false, false, startToken, module);
-			addFunction(init);
-			defaultInit = init;
-		}
-	}
 	
 	@Override
 	public ClassDecl getSuperRef() {
@@ -91,6 +83,14 @@ public class ClassDecl extends TypeDecl {
 		}
 		
 		super.addFunction(decl);
+	}
+	
+	public void addDefaultInit() {
+		if(!isAbstract && defaultInit == null) {
+			FunctionDecl init = new FunctionDecl("init", "", false, false, false, false, startToken, module);
+			addFunction(init);
+			defaultInit = init;
+		}
 	}
 
 	private void addInit(FunctionDecl decl) {
@@ -175,7 +175,7 @@ public class ClassDecl extends TypeDecl {
 			if(defaultInit == null) {
 				FunctionDecl superInit = getSuperRef().getFunction("init", "", null);
 				if(superInit != null && superInit == getSuperRef().defaultInit) {
-					addInit();
+					addDefaultInit();
 					//return Response.RESTART;
 				}
 			}

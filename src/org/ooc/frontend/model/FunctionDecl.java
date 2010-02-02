@@ -256,12 +256,9 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 
 	public void writeFullName(Appendable dst) throws IOException {
 		
-		/*
 		if(externName != null && externName.length() > 0) {
 			dst.append(externName);
-		} else {
-		*/
-		if(isUnmangled()) {
+		} else if(isUnmangled()) {
 			dst.append(getUnmangledName());
 		} else {
 			if(isExtern()) {
@@ -274,7 +271,6 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 				writeSuffixedName(dst);
 			}
 		}
-		//}
 		
 	}
 

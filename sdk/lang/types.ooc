@@ -1,4 +1,4 @@
-import structs/ArrayList /* for Iterable<T> toArrayList */
+import structs/[List, ArrayList] /* for Iterable<T> toArrayList */
 import text/StringBuffer /* for String replace ~string */
 
 include stddef, stdlib, stdio, ctype, stdint, stdbool
@@ -334,7 +334,7 @@ String: cover from Char* {
     println: func {
         printf("%s\n", this)
     }
-    
+
     times: func (count: Int) -> This {
         length := length()
         result := gc_malloc((length * count) + 1) as Char*

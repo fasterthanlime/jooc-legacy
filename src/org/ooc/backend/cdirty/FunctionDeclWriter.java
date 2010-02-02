@@ -35,30 +35,7 @@ public class FunctionDeclWriter {
 			
 		} else if(functionDecl.isExtern()) {
 
-			if(functionDecl.isExternWithName()) {
-			
-				// FW
-				cgen.current = cgen.fw;
-			
-				if(functionDecl.getVersion() != null) {
-					VersionBlockWriter.writeVersionBlockStart(functionDecl.getVersion(), cgen);
-				}
-				
-				cgen.current.nl().app("#ifndef ");
-				functionDecl.writeFullName(cgen.current);
-				
-				cgen.current.nl().app("#define ");
-				functionDecl.writeFullName(cgen.current);
-				
-				cgen.current.app(' ').app(functionDecl.getExternName());
-				
-				cgen.current.nl().app("#endif");
-				
-				if(functionDecl.getVersion() != null) {
-					VersionBlockWriter.writeVersionBlockEnd(cgen);
-				}
-			
-			}
+			// blah. leave them alone.
 			
 		} else if(!functionDecl.isAbstract()) {
 			
