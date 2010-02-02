@@ -1,3 +1,5 @@
+import text/StringBuffer /* for List join */
+
 /**
  * List interface for a data container
  */
@@ -193,7 +195,27 @@ List: abstract class <T> extends Iterable<T> {
 			f(get(i))
 		}
 	}
-	
+
+    join: func ~string (str: String) -> String {
+        if(!this T inheritsFrom(String)) {
+            Exception new("You cannot use `String join` with %s instances." format(this T name)) throw()
+        }
+        /* TODO: A more performant implementation is possible. */
+        result := StringBuffer new()
+        first := true
+        for(item: String in this) {
+            if(first)
+                first = false
+            else
+                result append(str)
+            result append(item)
+        }
+        result toString()
+    }
+
+    join: func ~char (chr: Char) -> String {
+        join(String new(chr))
+    }
 }
 
 /** Operators */
