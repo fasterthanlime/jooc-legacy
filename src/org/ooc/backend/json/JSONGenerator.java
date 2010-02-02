@@ -112,6 +112,21 @@ public class JSONGenerator extends Generator implements Visitor {
 	}
 
 	public void visit(Module module) throws IOException {
+		/* the "!module" entity */
+		try {
+			JSONObject obj = new JSONObject();
+			obj.put("type", "module");
+			obj.put("tag", "!module");
+			obj.put("path", module.getPath());
+			JSONArray imports = new JSONArray();
+			for(Import import_: module.getImports()) {
+				imports.put(import_.getPath());
+			}
+			obj.put("imports", imports);
+			addObject(obj);
+		} catch (JSONException e) {
+			throw new IOException("Failed.");
+		}
 		/* functions */
 		NodeList<FunctionDecl> functions = new NodeList<FunctionDecl>();
 		module.getFunctions(functions);
@@ -341,6 +356,7 @@ public class JSONGenerator extends Generator implements Visitor {
 			
 	public void visit(ClassDecl node) throws IOException {
 		try {
+			/* TODO: genericTypes */
 			JSONObject obj = new JSONObject();
 			obj.put("name", node.getName());
 			obj.put("type", "class");
