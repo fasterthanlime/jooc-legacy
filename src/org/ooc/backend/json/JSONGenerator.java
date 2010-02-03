@@ -356,7 +356,6 @@ public class JSONGenerator extends Generator implements Visitor {
 			
 	public void visit(ClassDecl node) throws IOException {
 		try {
-			/* TODO: genericTypes */
 			JSONObject obj = new JSONObject();
 			obj.put("name", node.getName());
 			obj.put("type", "class");
@@ -371,6 +370,12 @@ public class JSONGenerator extends Generator implements Visitor {
 			} else {
 				obj.put("doc", JSONObject.NULL);
 			}
+			/* `genericTypes` */
+			JSONArray genericTypes = new JSONArray();
+			for(TypeParam typeParam: node.getTypeParams().values()) {
+				genericTypes.put(typeParam.getName());
+			}
+			obj.put("genericTypes", genericTypes);
 			if(node.isUnmangled()) {
 				if(!node.isUnmangledWithName()) {
 					obj.put("unmangled", true);
