@@ -230,7 +230,7 @@ public class JSONGenerator extends Generator implements Visitor {
 		String name = node.getName();
 		if(node.getSuffix().length() > 0)
 			name = name + "~" + node.getSuffix();
-		obj.put("name", node.getName());
+		obj.put("name", name);
 		if(node.isMember()) {
 			obj.put("tag", "memberFunction(" + node.getTypeDecl().getName() + ", " + name + ")");
 			obj.put("type", "memberFunction");
