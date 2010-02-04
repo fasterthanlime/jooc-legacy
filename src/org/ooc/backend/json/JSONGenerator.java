@@ -117,7 +117,7 @@ public class JSONGenerator extends Generator implements Visitor {
 			JSONObject obj = new JSONObject();
 			obj.put("type", "module");
 			obj.put("tag", "!module");
-			obj.put("path", module.getPath());
+			obj.put("path", module.getFullName().replace('.', '/')); // we want the ooc name.
 			JSONArray imports = new JSONArray();
 			for(Import import_: module.getImports()) {
 				imports.put(import_.getPath());
