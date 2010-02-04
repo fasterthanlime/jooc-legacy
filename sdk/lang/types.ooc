@@ -571,6 +571,18 @@ operator as (value: LLong) -> String {
     value toString()
 }
 
+operator as (value: Long) -> String {
+    value toString()
+}
+
+operator as (value: Int) -> String {
+    value toString()
+}
+
+operator as (value: Short) -> String {
+    value toString()
+}
+
 Long:  cover from signed long  extends LLong
 Int:   cover from signed int   extends LLong
 Short: cover from signed short extends LLong
@@ -589,19 +601,7 @@ ULong:  cover from unsigned long  extends ULLong
 UInt:   cover from unsigned int   extends ULLong
 UShort: cover from unsigned short extends ULLong
 
-operator as (value: UInt) -> String {
-    value toString()
-}
-
-operator as (value: Short) -> String {
-    value toString()
-}
-
-operator as (value: UShort) -> String {
-    value toString()
-}
-
-operator as (value: Long) -> String {
+operator as (value: ULLong) -> String {
     value toString()
 }
 
@@ -609,7 +609,11 @@ operator as (value: ULong) -> String {
     value toString()
 }
 
-operator as (value: ULLong) -> String {
+operator as (value: UInt) -> String {
+    value toString()
+}
+
+operator as (value: UShort) -> String {
     value toString()
 }
 
