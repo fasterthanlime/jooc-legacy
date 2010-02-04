@@ -3,8 +3,6 @@ package org.ooc.backend.json;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Iterator;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONException;
@@ -27,13 +25,10 @@ import org.ooc.frontend.model.Cast;
 import org.ooc.frontend.model.CharLiteral;
 import org.ooc.frontend.model.ClassDecl;
 import org.ooc.frontend.model.Compare;
-import org.ooc.frontend.model.ControlStatement;
 import org.ooc.frontend.model.CoverDecl;
-import org.ooc.frontend.model.Declaration;
 import org.ooc.frontend.model.Dereference;
 import org.ooc.frontend.model.Div;
 import org.ooc.frontend.model.Else;
-import org.ooc.frontend.model.Expression;
 import org.ooc.frontend.model.FloatLiteral;
 import org.ooc.frontend.model.FlowControl;
 import org.ooc.frontend.model.For;
@@ -80,10 +75,8 @@ import org.ooc.frontend.model.While;
 import org.ooc.frontend.model.VariableDecl.VariableDeclAtom;
 import org.ooc.frontend.parser.BuildParams;
 import org.ooc.frontend.parser.TypeArgument;
-import org.ooc.middle.OocCompilationError;
 import org.ooc.middle.structs.MultiMap;
 import org.ooc.middle.structs.NodeMap;
-import org.ubi.SourceReader;
 
 public class JSONGenerator extends Generator implements Visitor {
 
@@ -140,50 +133,50 @@ public class JSONGenerator extends Generator implements Visitor {
 		NodeList<VariableDecl> variables = new NodeList<VariableDecl>();
 		module.getVariables(variables);
 		variables.accept(this);
-	};
+	}
 	
-	public void visit(Add add) throws IOException {};
-	public void visit(Mul mul) throws IOException {};
-	public void visit(Sub sub) throws IOException {};
-	public void visit(Div div) throws IOException {};
-	public void visit(Not not) throws IOException {};
-	public void visit(BinaryNegation binaryNegation) throws IOException {};
-	public void visit(Mod mod) throws IOException {};
-	public void visit(Compare compare) throws IOException {};
+	public void visit(Add add) throws IOException {}
+	public void visit(Mul mul) throws IOException {}
+	public void visit(Sub sub) throws IOException {}
+	public void visit(Div div) throws IOException {}
+	public void visit(Not not) throws IOException {}
+	public void visit(BinaryNegation binaryNegation) throws IOException {}
+	public void visit(Mod mod) throws IOException {}
+	public void visit(Compare compare) throws IOException {}
 	
-	public void visit(FunctionCall functionCall) throws IOException {};
-	public void visit(MemberCall memberCall) throws IOException {};
+	public void visit(FunctionCall functionCall) throws IOException {}
+	public void visit(MemberCall memberCall) throws IOException {}
 	
-	public void visit(Parenthesis parenthesis) throws IOException {};
-	public void visit(Assignment assignment) throws IOException {};
-	public void visit(ValuedReturn return1) throws IOException {};
-	public void visit(Return return1) throws IOException {};
+	public void visit(Parenthesis parenthesis) throws IOException {}
+	public void visit(Assignment assignment) throws IOException {}
+	public void visit(ValuedReturn return1) throws IOException {}
+	public void visit(Return return1) throws IOException {}
 	
-	public void visit(NullLiteral nullLiteral) throws IOException {};
-	public void visit(IntLiteral numberLiteral) throws IOException {};
-	public void visit(FloatLiteral floatLiteral) throws IOException {};
-	public void visit(StringLiteral stringLiteral) throws IOException {};
-	public void visit(RangeLiteral rangeLiteral) throws IOException {};
-	public void visit(BoolLiteral boolLiteral) throws IOException {};
-	public void visit(CharLiteral charLiteral) throws IOException {};
-	public void visit(ArrayLiteral arrayLiteral) throws IOException {};
+	public void visit(NullLiteral nullLiteral) throws IOException {}
+	public void visit(IntLiteral numberLiteral) throws IOException {}
+	public void visit(FloatLiteral floatLiteral) throws IOException {}
+	public void visit(StringLiteral stringLiteral) throws IOException {}
+	public void visit(RangeLiteral rangeLiteral) throws IOException {}
+	public void visit(BoolLiteral boolLiteral) throws IOException {}
+	public void visit(CharLiteral charLiteral) throws IOException {}
+	public void visit(ArrayLiteral arrayLiteral) throws IOException {}
 	
-	public void visit(Line line) throws IOException {};
+	public void visit(Line line) throws IOException {}
 
-	public void visit(Include include) throws IOException {};
-	public void visit(Import import1) throws IOException {};
-	public void visit(Use use) throws IOException {};
+	public void visit(Include include) throws IOException {}
+	public void visit(Import import1) throws IOException {}
+	public void visit(Use use) throws IOException {}
 
-	public void visit(If if1) throws IOException {};
-	public void visit(Else else1) throws IOException {};
-	public void visit(While while1) throws IOException {};
-	public void visit(For for1) throws IOException {};
-	public void visit(Foreach foreach) throws IOException {};
-	public void visit(FlowControl break1) throws IOException {};
+	public void visit(If if1) throws IOException {}
+	public void visit(Else else1) throws IOException {}
+	public void visit(While while1) throws IOException {}
+	public void visit(For for1) throws IOException {}
+	public void visit(Foreach foreach) throws IOException {}
+	public void visit(FlowControl break1) throws IOException {}
 
-	public void visit(VariableAccess variableAccess) throws IOException {};
-	public void visit(MemberAccess memberAccess) throws IOException {};
-	public void visit(ArrayAccess arrayAccess) throws IOException {};
+	public void visit(VariableAccess variableAccess) throws IOException {}
+	public void visit(MemberAccess memberAccess) throws IOException {}
+	public void visit(ArrayAccess arrayAccess) throws IOException {}
 
 	public void visit(VariableDecl variableDecl) throws IOException {
 		try {
@@ -192,22 +185,23 @@ public class JSONGenerator extends Generator implements Visitor {
 		} catch (JSONException e) {
 			throw new IOException("fail!");
 		}
-	};
-	public void visit(VariableDeclAtom variableDeclAtom) throws IOException {};
+	}
+	
+	public void visit(VariableDeclAtom variableDeclAtom) throws IOException {}
 
 	String resolveType(Type type) {
 		if(type instanceof FuncType) {
 			return "Func";
-		} else {
-			String tag = type.getName();
-			int pointerLevel = type.getPointerLevel();
-			while(pointerLevel-- > 0)
-				tag = "pointer(" + tag + ")";
-			int referenceLevel = type.getReferenceLevel();
-			while(referenceLevel-- > 0)
-				tag = "reference(" + tag + ")";
-			return tag;
 		}
+		
+		String tag = type.getName();
+		int pointerLevel = type.getPointerLevel();
+		while(pointerLevel-- > 0)
+			tag = "pointer(" + tag + ")";
+		int referenceLevel = type.getReferenceLevel();
+		while(referenceLevel-- > 0)
+			tag = "reference(" + tag + ")";
+		return tag;
 	}
 
 	public void visit(FunctionDecl functionDecl) throws IOException {
@@ -216,14 +210,14 @@ public class JSONGenerator extends Generator implements Visitor {
 		} catch(JSONException e) {
 			throw new IOException("Fail.");
 		}
-	};
+	}
 
 	void addObject(JSONObject obj) throws JSONException {
 		JSONArray entry = new JSONArray();
 		entry.put(obj.getString("tag"));
 		entry.put(obj);
 		root.put(entry);
-	};
+	}
 
 	JSONObject buildFunctionDecl(FunctionDecl node) throws JSONException {
 		JSONObject obj = new JSONObject();
@@ -278,14 +272,14 @@ public class JSONGenerator extends Generator implements Visitor {
 		obj.put("genericTypes", genericTypes);
 		/* `arguments` */
 		JSONArray arguments = new JSONArray();
-		Boolean first = true;
+		Boolean first = Boolean.TRUE;
 		for(Argument arg: node.getArguments()) {
-			if(first && node.hasThis()) {
+			if(first.booleanValue() && node.hasThis()) {
 				/* ignore the `this` argument */
-				first = false;
+				first = Boolean.FALSE;
 				continue; 
-			} else if(first) {
-				first = false;
+			} else if(first.booleanValue()) {
+				first = Boolean.FALSE;
 			}
 			JSONArray argObj = new JSONArray();
 			argObj.put(arg.getName());
@@ -409,7 +403,7 @@ public class JSONGenerator extends Generator implements Visitor {
 		} catch(JSONException e) {
 			throw new IOException("Fail.");
 		}
-	};
+	}
 
 	public void visit(CoverDecl node) throws IOException {
 		try {
@@ -464,42 +458,42 @@ public class JSONGenerator extends Generator implements Visitor {
 		} catch(JSONException e) {
 			throw new IOException("Fail.");
 		}		
-	};
+	}
 
-	public void visit(InterfaceDecl interfaceDecl) throws IOException {};
+	public void visit(InterfaceDecl interfaceDecl) throws IOException {}
 
-	public void visit(TypeArgument typeArgument) throws IOException {};
-	public void visit(RegularArgument regularArgument) throws IOException {};
-	public void visit(MemberArgument memberArgument) throws IOException {};
-	public void visit(MemberAssignArgument memberArgument) throws IOException {};
+	public void visit(TypeArgument typeArgument) throws IOException {}
+	public void visit(RegularArgument regularArgument) throws IOException {}
+	public void visit(MemberArgument memberArgument) throws IOException {}
+	public void visit(MemberAssignArgument memberArgument) throws IOException {}
 
-	public void visit(Type type) throws IOException {};
-	public void visit(BuiltinType builtinType) throws IOException {};
+	public void visit(Type type) throws IOException {}
+	public void visit(BuiltinType builtinType) throws IOException {}
 
-	public void visit(VarArg varArg) throws IOException {};
+	public void visit(VarArg varArg) throws IOException {}
 	
 	public void visit(NodeList<? extends Node> list) throws IOException {
 		for(Node node: list) {
 			node.accept(this);
 		}
-	};
-	public void visit(NodeMap<?, ? extends Node> list) throws IOException {};
-	public void visit(MultiMap<?, ?> list) throws IOException {};
+	}
+	public void visit(NodeMap<?, ? extends Node> list) throws IOException {}
+	public void visit(MultiMap<?, ?> list) throws IOException {}
 
-	public void visit(Block block) throws IOException {};
-	public void visit(VersionBlock versionBlock) throws IOException {};
+	public void visit(Block block) throws IOException {}
+	public void visit(VersionBlock versionBlock) throws IOException {}
 
-	public void visit(Cast cast) throws IOException {};
+	public void visit(Cast cast) throws IOException {}
 
-	public void visit(AddressOf addressOf) throws IOException {};
-	public void visit(Dereference dereference) throws IOException {};
+	public void visit(AddressOf addressOf) throws IOException {}
+	public void visit(Dereference dereference) throws IOException {}
 
-	public void visit(OpDecl opDecl) throws IOException {};
+	public void visit(OpDecl opDecl) throws IOException {}
 
-	public void visit(BinaryCombination binaryCombination) throws IOException {};
-	public void visit(Ternary ternary) throws IOException {};
+	public void visit(BinaryCombination binaryCombination) throws IOException {}
+	public void visit(Ternary ternary) throws IOException {}
 
-	public void visit(Match match) throws IOException {};
-	public void visit(Case case1) throws IOException {};
+	public void visit(Match match) throws IOException {}
+	public void visit(Case case1) throws IOException {}
 	
 }

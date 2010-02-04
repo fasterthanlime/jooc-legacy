@@ -124,7 +124,7 @@ public abstract class BinaryOperation extends Expression implements MustBeUnwrap
 		if(bestOp != null) {
 		    NodeList<Argument> args = bestOp.getFunc().getArguments();
 			Argument leftArg = args.get(0);
-			Argument rightArg = args.get(1);
+			//Argument rightArg = args.get(1);
 		    
 		    if(leftArg.getType().softEquals(left.getType(), res) && leftArg.getType().getReferenceLevel() == (left.getType().getReferenceLevel() + 1)) {
 		        left = new AddressOf(left, left.startToken);

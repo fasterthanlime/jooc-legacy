@@ -777,7 +777,6 @@ public class FunctionCall extends Access implements MustBeResolved {
 	public String getFullName() {
 		if(impl.module != null)
 			return impl.module.getMemberPrefix() + getName();
-		else
-			return getName();
+		return getName();
 	}
 }
