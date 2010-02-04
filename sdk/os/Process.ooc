@@ -13,30 +13,30 @@ Process: abstract class {
     buf : String*
     env: HashMap<String>
     cwd: String
-    
+
     new: static func (args: ArrayList<String>) -> This {
-		version(unix || apple) {
-			return ProcessUnix new(args) as This
-		}
-		version(windows) {
-			return ProcessWin32 new(args) as This
-		}
-		Exception new(This, "Unsupported platform!\n") throw()
-		null
-	}
+        version(unix || apple) {
+            return ProcessUnix new(args) as This
+        }
+        version(windows) {
+            return ProcessWin32 new(args) as This
+        }
+        Exception new(This, "Unsupported platform!\n") throw()
+        null
+    }
 
     new: static func ~withEnv (.args, .env) -> This {
         p := new(args)
         p env = env
         p
     }
-    
+
     setStdout: func(=stdOut){}
-    setStdin:  func(=stdIn) {}    
+    setStdin:  func(=stdIn) {}
     setStderr: func(=stdErr) {}
     setEnv: func(=env) {}
     setCwd: func(=cwd) {}
-    
+
     /** Execute the process and wait for it to end */
     execute: func -> Int {
         executeNoWait()
@@ -48,7 +48,7 @@ Process: abstract class {
 
     /** Execute the process without waiting for it to end. You have to call `wait` manually. */
     executeNoWait: abstract func
-    
+
     /**
      * Execute the process, and return all the output to stdout
      * as a string
@@ -57,16 +57,16 @@ Process: abstract class {
 
         stdOut = Pipe new()
         execute()
-        
+
         result := PipeReader new(stdOut) toString()
 
         stdOut close('r'). close('w')
         stdOut = null
-        
+
         result
-        
+
     }
-    
+
     /**
      * Execute the process, and return all the output to stderr
      * as a string
@@ -75,17 +75,17 @@ Process: abstract class {
 
         stdErr = Pipe new()
         execute()
-        
+
         result := PipeReader new(stdErr) toString()
 
         stdErr close('r'). close('w')
         stdErr = null
-        
+
         result
-        
+
     }
 
-    /** 
+    /**
      * Send `data` to the process, wait for the process to end and get the
      * stdout and stderr data. You have to do `setStdIn(Pipe new())`/
      * `setStdOut(Pipe new())`/`setStdErr(Pipe new())`
@@ -93,24 +93,24 @@ Process: abstract class {
      * You can pass null as data, stdoutData or stderrData.
      */
     communicate: func (data: String, stdoutData, stderrData: String*) -> Int {
-        
+
         /* send data to stdin */
         if(data != null) {
             written := 0
             while(written < data length())
                 written += stdIn write(data)
         }
-        
+
         /* wait for the process */
         result := wait()
-        
+
         /* get the data */
         if(stdoutData != null)
             stdoutData@ = PipeReader new(stdOut) toString()
         if(stderrData != null)
             stderrData@ = PipeReader new(stdErr) toString()
-            
+
         result
-        
+
     }
 }
