@@ -118,4 +118,29 @@ EscapeSequence: class {
         return buffer toString()
     }
 
+    /** Escape a string. This will replace non-printable characters with equivalents like \something or \x??. **/
+    escape: static func (s: String) -> String {
+        buf := StringBuffer new()
+        for(chr in s) {
+            if(!chr isPrintable()) {
+                buf append(match chr {
+                    case '\'' => "\\'"
+                    case '"' => "\\\""
+                    case '\\' => "\\\\"
+                    case 0 => "\\0" /* won't happen */
+        //            case 'a' => chr@ = '\a' /* TODO: ooc doesn't know it */
+                    case '\b' => "\\b"
+                    case '\f' => "\\f"
+                    case '\n' => "\\n"
+                    case '\r' => "\\r"
+                    case '\t' => "\\t"
+                    case '\v' => "\\v"
+                    case => "\\x%hhx" format(chr)
+                })
+            } else {
+                buf append(chr)
+            }
+        }
+        buf toString()
+    }
 }
