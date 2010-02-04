@@ -2,6 +2,7 @@ import structs/[List, ArrayList] /* for Iterable<T> toArrayList */
 import text/StringBuffer /* for String replace ~string */
 
 include stddef, stdlib, stdio, ctype, stdint, stdbool
+include float
 
 /**
  * Pointer type
@@ -719,6 +720,15 @@ operator as (value: Double) -> String {
 operator as (value: LDouble) -> String {
     value toString()
 }
+
+DBL_MAX: extern static const Double
+DBL_MIN: extern static const Double
+
+FLT_MAX: extern static const Float
+FLT_MIN: extern static const Float
+
+LDBL_MAX: extern static const LDouble
+LDBL_MIN: extern static const LDouble
 
 /**
  * custom types
