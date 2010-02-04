@@ -123,6 +123,7 @@ ArrayList: class <T> extends List<T> {
 	 * the specified element.
 	 */ 
 	set: func(index: Int, element: T) -> T {
+        checkIndex(index)
         old := data[index]
 		data[index] = element
         old

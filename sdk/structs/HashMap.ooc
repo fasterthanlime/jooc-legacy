@@ -44,7 +44,7 @@ HashMap: class <T> extends Iterable<T> {
         buckets = gc_malloc(capacity * Pointer size)
         if (!buckets) {
             Exception new(This,
-            "Out of memory: failed to allocate " + (capacity * sizeof(ArrayList)) + " bytes\n") throw()
+            "Out of memory: failed to allocate " + (capacity * Pointer size) + " bytes\n") throw()
         }
         for (i: UInt in 0..capacity) {
             buckets[i] = ArrayList<T> new()
