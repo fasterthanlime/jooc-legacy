@@ -1,4 +1,4 @@
-import structs/[HashMap, ArrayList]
+import structs/[HashMap, ArrayList], text/StringBuffer
 import ../Process
 import native/win32/errors
 
@@ -18,8 +18,14 @@ ProcessInformation: cover from PROCESS_INFORMATION
 
 ProcessWin32: class extends Process {
 
+    cmdLine: String = ""
+
     init: func ~win32 (=args) {
-        this executable = this args get(0)
+        sb := StringBuffer new()
+        for(arg in args) {
+            sb append('"'). append(arg). append("\" ")
+        }
+        cmdLine = sb toString()
     }
     
     /** Wait for the process to end. Bad things will happen if you haven't called `executeNoWait` before. */
@@ -32,13 +38,13 @@ ProcessWin32: class extends Process {
         si structSize = StartupInfo size
         
         pi: ProcessInformation
-        ZeroMemory(pi&, ProcessInformation size);
+        ZeroMemory(pi&, ProcessInformation size)
 
         // Reference: http://msdn.microsoft.com/en-us/library/ms682512%28VS.85%29.aspx
         // Start the child process. 
         if(!CreateProcess(
             null,        // No module name (use command line)
-            executable,  // Command line
+            cmdLine,     // Command line
             null,        // Process handle not inheritable
             null,        // Thread handle not inheritable
             false,       // Set handle inheritance to false
@@ -48,8 +54,8 @@ ProcessWin32: class extends Process {
             si&,         // Pointer to STARTUPINFO structure
             pi&          // Pointer to PROCESS_INFORMATION structure
         )) {
-            printf( "CreateProcess failed (%d).\n", GetLastError());
-            return;
+            Exception new(This, "CreateProcess failed (%d).\n" format(GetLastError())) throw()
+            return
         }   
     }
     
