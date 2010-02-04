@@ -450,15 +450,7 @@ public class JSONGenerator extends Generator implements Visitor {
 					members.put(member);
 				}
 
-			for(CoverDecl addon: node.getAddons()) {
-				for(FunctionDecl function: addon.getFunctions())
-					if(!function.getName().equals("class")) {
-						JSONArray member = new JSONArray();
-						member.put(function.getName());
-						member.put(buildFunctionDecl(function));
-						members.put(member);
-					}			
-			}
+			obj.put("addon", node.isAddon());
 			obj.put("members", members);
 			addObject(obj);
 		} catch(JSONException e) {

@@ -1,4 +1,4 @@
-import structs/HashMap
+import structs/[ArrayList, HashMap]
 import ../[Env, Process, wait, unistd, Pipe, PipeReader]
 
 ProcessUnix: class extends Process {

@@ -1,4 +1,4 @@
-
+import structs/ArrayList
 import ../Process
 
 ProcessWin32: class extends Process {
