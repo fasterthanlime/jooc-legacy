@@ -56,6 +56,10 @@ public class CoverDecl extends TypeDecl {
 		return getFunction(name, suffix, call, recursive, new HashSet<CoverDecl>(), bestScoreParam, bestMatchParam);
 	}
 
+	public ArrayList<CoverDecl> getAddons() {
+		return (ArrayList<CoverDecl>)addons;
+	}
+
 	private FunctionDecl getFunction(String name, String suffix,
 			FunctionCall call, boolean recursive, HashSet<CoverDecl> done,
 			int bestScoreParam, FunctionDecl bestMatchParam) {

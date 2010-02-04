@@ -11,6 +11,7 @@ import java.util.Set;
 import java.util.StringTokenizer;
 
 import org.ooc.backend.cdirty.CGenerator;
+import org.ooc.backend.json.JSONGenerator;
 import org.ooc.frontend.compilers.Clang;
 import org.ooc.frontend.compilers.Gcc;
 import org.ooc.frontend.compilers.Icc;
@@ -249,7 +250,12 @@ public class CommandLine {
 					params.compiler = null;
 					params.gccByDefault = false;
 					params.clean = false;
-					
+			} else if(option.startsWith("backend=")) {
+				params.backend = option.substring("backend=".length());
+				if(!params.backend.equals("c") && !params.backend.equals("json")) {
+					System.out.println("Unrecognized backend: " + params.backend);
+					params.backend = "c";
+				}
         		} else if(option.equals("help-backends") || option.equals("-help-backends")) {
         			
         			Help.printHelpBackends();
@@ -355,7 +361,7 @@ public class CommandLine {
 						launchEditor(params.editor, err);
 					}
 				}
-				if(params.clean) FileUtils.deleteRecursive(params.outPath);
+				if(params.clean && params.backend.equals("c")) FileUtils.deleteRecursive(params.outPath);
 			}
 			
 			if(modulePaths.size() > 1) {
@@ -449,7 +455,7 @@ public class CommandLine {
 		output(module, new HashSet<Module>());
 		long tt4 = System.nanoTime();
 		int code = 0;
-		if(params.compiler != null) {
+		if(params.compiler != null && params.backend.equals("c")) {
 			code = driver.compile(module, modulePath.out == null ? module.getSimpleName() : modulePath.out);
 		}
 		long tt5 = System.nanoTime();
@@ -487,7 +493,11 @@ public class CommandLine {
 				output(imp.getModule(), done);
 			}
 		}
-		new CGenerator(params.outPath, module).generate(params);
+		if(params.backend.equals("c")) {
+			new CGenerator(params.outPath, module).generate(params);
+		} else {
+			new JSONGenerator(params.outPath, module).generate(params);
+		}
 	}
 
 	protected void collectModules(Module module, List<Module> list) throws IOException {
