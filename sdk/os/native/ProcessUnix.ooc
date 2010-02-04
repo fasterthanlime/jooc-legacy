@@ -5,7 +5,7 @@ import PipeUnix
 version(unix || apple) {
 
 ProcessUnix: class extends Process {
-    
+
     init: func ~unix (=args) {
         this executable = this args get(0)
         this args add(null) // execvp wants NULL to end the array
@@ -13,7 +13,7 @@ ProcessUnix: class extends Process {
         env = null
         cwd = null
     }
-    
+
     /** Wait for the process to end. Bad things will happen if you haven't called `executeNoWait` before. */
     wait: func -> Int {
         status: Int
@@ -30,7 +30,7 @@ ProcessUnix: class extends Process {
             if (stdErr != null) {
                 stdErr close('w')
             }
-        }    
+        }
         return result
     }
 
@@ -64,7 +64,7 @@ ProcessUnix: class extends Process {
             execvp(executable, buf)
         }
     }
-    
+
 }
 
 }

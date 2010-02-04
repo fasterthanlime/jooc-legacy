@@ -17,33 +17,33 @@ FileDescriptor: cover from Int {
         //_errMsg(result, "write")
         return result
     }
-    
+
     write: func ~string (str: String) -> Int {
         write(str, str length())
     }
-    
+
     read: func ~toBuf (buf: Pointer, len: Int) -> Int {
         read(this, buf, len)
     }
-    
+
     read: func ~evilAlloc (len: Int) -> Pointer {
         buf := gc_malloc(len)
         read(buf, len) // todo: check errors
         return buf
     }
-    
+
     close: func() -> Int{
         result := close(this)
         //_errMsg(result, "close")
         return result
     }
-    
-    /*    
+
+    /*
     dup2: func(fd: FileDescriptor) -> FileDescriptor {
         return dup2(This, fd)
     }
     */
-    
+
     _errMsg: func(var: Int, funcName: String) {
         if (var < 0) {
             printf("Error in FileDescriptor : %s\n", funcName)
@@ -51,7 +51,7 @@ FileDescriptor: cover from Int {
     }
 }
 
-    
-        
-        
+
+
+
 
