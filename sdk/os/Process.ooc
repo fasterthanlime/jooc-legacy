@@ -37,6 +37,7 @@ Process: abstract class {
     setEnv: func(=env) {}
     setCwd: func(=cwd) {}
     
+    /** Execute the process and wait for it to end */
     execute: func -> Int {
         executeNoWait()
         wait()
@@ -92,19 +93,24 @@ Process: abstract class {
      * You can pass null as data, stdoutData or stderrData.
      */
     communicate: func (data: String, stdoutData, stderrData: String*) -> Int {
+        
         /* send data to stdin */
         if(data != null) {
             written := 0
             while(written < data length())
                 written += stdIn write(data)
         }
+        
         /* wait for the process */
         result := wait()
+        
         /* get the data */
         if(stdoutData != null)
             stdoutData@ = PipeReader new(stdOut) toString()
         if(stderrData != null)
             stderrData@ = PipeReader new(stdErr) toString()
+            
         result
+        
     }
 }

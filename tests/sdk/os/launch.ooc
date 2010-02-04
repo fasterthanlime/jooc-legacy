@@ -7,7 +7,12 @@ main: func (args: Array<String>) {
 		println("Usage: ")
 	}
 	
-	p := Process new(["mplayer", args get(1)] as ArrayList<String>)
+    executable := "mplayer"
+    version(windows) {
+        executable = "notepad"
+    }
+    
+	p := Process new([executable, args get(1)] as ArrayList<String>)
 	exitCode := p execute()
 	println("Process ended with exit code " + exitCode)
 	return exitCode

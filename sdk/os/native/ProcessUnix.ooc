@@ -1,5 +1,8 @@
-import structs/HashMap
+import structs/[HashMap, ArrayList]
 import ../[Env, Process, wait, unistd, Pipe, PipeReader]
+import PipeUnix
+
+version(unix || apple) {
 
 ProcessUnix: class extends Process {
     
@@ -37,15 +40,15 @@ ProcessUnix: class extends Process {
         if (pid == 0) {
             if (stdIn != null) {
                 stdIn close('w')
-                dup2(stdIn readFD, 0)
+                dup2(stdIn as PipeUnix readFD, 0)
             }
             if (stdOut != null) {
                 stdOut close('r')
-                dup2(stdOut writeFD, 1)
+                dup2(stdOut as PipeUnix writeFD, 1)
             }
             if (stdErr != null) {
                 stdErr close('r')
-                dup2(stdErr writeFD, 2)
+                dup2(stdErr as PipeUnix writeFD, 2)
             }
             /* amend the environment if needed */
             if(this env) {
@@ -64,3 +67,4 @@ ProcessUnix: class extends Process {
     
 }
 
+}
