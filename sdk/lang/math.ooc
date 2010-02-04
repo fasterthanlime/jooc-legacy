@@ -26,3 +26,5 @@ log10: extern (log10l) func ~Long (LDouble) -> LDouble
 
 round: extern (lround) func ~dl (Double) -> Long
 
+ceil: extern func (Double) -> Double
+floor: extern func (Double) -> Double
