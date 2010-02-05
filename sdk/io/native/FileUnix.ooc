@@ -41,9 +41,9 @@ version(unix || apple) {
     lstat: extern func(String, FileStat*) -> Int
     _mkdir: extern(mkdir) func(String, ModeT) -> Int
     remove: extern func(path: String) -> Int
-        _remove: unmangled func(path: String) -> Int {
-            remove(path)
-        }
+    _remove: unmangled func(path: String) -> Int {
+        remove(path)
+    }
 
     /*
      * Unix (POSIX) implementation of File

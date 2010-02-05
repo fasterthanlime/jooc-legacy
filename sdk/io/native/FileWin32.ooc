@@ -33,11 +33,13 @@ version(windows) {
     FILE_ATTRIBUTE_NORMAL : extern Long // DWORD
 
     /*
-     * find-related functions from Win32
+     * file-related functions from Win32
      */
     FindFirstFile: extern func (String, FindData*) -> Handle
+    FindNextFile: extern func(Handle, FindData*) -> Bool
     FindClose: extern func (Handle)
     GetFileAttributes: extern func (String) -> Long
+    CreateDirectory:extern func (String, Pointer) -> Bool
 
     /*
      * remove implementation
@@ -64,7 +66,7 @@ version(windows) {
         findSingle: func (ffdPtr: FindData*) {
             hFind := findFirst(ffdPtr)
             if(hFind == INVALID_HANDLE_VALUE) {
-                Exception new("Got invalid handle for file %s" format(path)) throw()
+                Exception new("[findSingle] Got invalid handle for file %s" format(path)) throw()
             }
             FindClose(hFind)
         }
@@ -72,7 +74,7 @@ version(windows) {
         findFirst: func (ffdPtr: FindData*) -> Handle {
             hFind := FindFirstFile(path, ffdPtr)
             if(hFind == INVALID_HANDLE_VALUE) {
-                Exception new("Got invalid handle for file %s" format(path)) throw()
+                Exception new("[findFirst] Got invalid handle for file %s" format(path)) throw()
             }
             return hFind
         }
@@ -141,8 +143,14 @@ version(windows) {
         }
 
         mkdir: func ~withMode (mode: Int32) -> Int {
-            // FIXME stub
-            return -1
+            if(isRelative()) {
+                getAbsoluteFile() mkdir()
+                return
+            }
+
+            parent := parent()
+            if(!parent exists()) parent mkdir()
+            CreateDirectory(path, null) ? 0 : -1
         }
 
         /**
@@ -196,10 +204,19 @@ version(windows) {
          * Works only on directories, obviously
          */
         getChildrenNames: func -> ArrayList<String> {
-            printf("Win32: Should get children names of %s\n", path)
+            result := ArrayList<String> new()
+            ffd: FindData
+            hFile := FindFirstFile(path + "\\*", ffd&)
+            running := (hFile != INVALID_HANDLE_VALUE)
+            while(running) {
+                if(ffd fileName != "." && ffd fileName != "..") {
+                    result add(path +  '\\' + ffd fileName)
+                }
+                running = FindNextFile(hFile, ffd&)
+            }
+            FindClose(ffd&)
 
-            // FIXME stub
-            return ArrayList<String> new()
+            result
         }
 
         /**
@@ -207,10 +224,19 @@ version(windows) {
          * Works only on directories, obviously
          */
         getChildren: func -> ArrayList<This> {
-            printf("Win32: Should get children of %s\n", path)
+            result := ArrayList<This> new()
+            ffd: FindData
+            hFile := FindFirstFile(path + "\\*", ffd&)
+            running := (hFile != INVALID_HANDLE_VALUE)
+            while(running) {
+                if(ffd fileName != "." && ffd fileName != "..") {
+                    result add(File new(path + '\\' + ffd fileName))
+                }
+                running = FindNextFile(hFile, ffd&)
+            }
+            FindClose(ffd&)
 
-            // FIXME stub
-            return ArrayList<This> new()
+            result
         }
 
     }

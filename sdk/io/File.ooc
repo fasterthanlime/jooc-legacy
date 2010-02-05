@@ -189,7 +189,7 @@ File: abstract class {
      * A file corresponding to the absolute path
      * @see getAbsolutePath
      */
-    getAbsoluteFile: func -> String {
+    getAbsoluteFile: func -> This {
         return File new(getAbsolutePath())
     }
 
