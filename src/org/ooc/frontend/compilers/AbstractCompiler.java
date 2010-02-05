@@ -9,6 +9,8 @@ import java.io.IOException;
  */
 public interface AbstractCompiler {
 
+	public void setExecutable(String executableName);
+	
 	/** -o option in gcc */
 	public void setOutputPath(String path);
 	

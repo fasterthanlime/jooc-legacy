@@ -94,6 +94,10 @@ public class CommandLine {
         			
         			params.libPath.add(arg.substring(arg.indexOf('=') + 1));
         			
+        		} else if(option.startsWith("linker=")) {
+        			
+        			params.linker = arg.substring(arg.indexOf('=') + 1);
+        			
         		} else if(option.startsWith("editor=")) {
         			
         			params.editor = arg.substring(arg.indexOf('=') + 1);

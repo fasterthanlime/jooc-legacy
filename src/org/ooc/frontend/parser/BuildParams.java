@@ -17,6 +17,9 @@ public class BuildParams {
 	/** If no compiler is specified, use gcc by default (or not) */
 	public boolean gccByDefault = true;
 	
+	// if non-null, use 'linker' as the last step of the compile process, with driver=sequence
+	public String linker = null;
+	
 	public File distLocation = DistLocator.locate();
 	public File sdkLocation = SdkLocator.locate();
 	
@@ -106,6 +109,7 @@ public class BuildParams {
 		String path = ReadEnv.getEnv().get("OOC_LIBS");
 		return path == null ? new File("/usr/lib/ooc/") : new File(path);
 	}
+	
 	
 	public BuildParams() {
 		// use the GC by default =)

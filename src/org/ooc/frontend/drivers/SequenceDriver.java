@@ -152,6 +152,7 @@ public class SequenceDriver extends Driver {
 		if(params.link) {
 			
 			initCompiler(params.compiler);
+			if(params.linker != null) params.compiler.setExecutable(params.linker);
 			
 			for(String oPath: oPaths) {
 				params.compiler.addObjectFile(oPath);

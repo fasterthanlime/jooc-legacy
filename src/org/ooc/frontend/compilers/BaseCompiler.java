@@ -13,8 +13,13 @@ public abstract class BaseCompiler implements AbstractCompiler {
 	protected List<String> command = new ArrayList<String>();
 	protected String executablePath;
 	
-	@SuppressWarnings("null")
 	public BaseCompiler(String executableName) {
+		setExecutable(executableName);
+		reset();
+	}
+	
+	@SuppressWarnings("null")
+	public void setExecutable(String executableName) {
 		File execFile = new File(executableName);
 		if(!execFile.exists()) {
 			execFile = ShellUtils.findExecutable(executableName);
@@ -26,9 +31,13 @@ public abstract class BaseCompiler implements AbstractCompiler {
 			}
 		}
 		executablePath = execFile.getAbsolutePath();
-		reset();
+		if(command.size() == 0) {
+			command.add(executablePath);
+		} else {
+			command.set(0, executablePath);
+		}
 	}
-	
+
 	public int launch() throws IOException, InterruptedException {
 		ProcessBuilder builder = new ProcessBuilder();
 		builder.command(command);
