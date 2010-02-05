@@ -1,4 +1,5 @@
 import text/StringBuffer
+use math
 
 EscapeSequence: class {
     valid := static 1
