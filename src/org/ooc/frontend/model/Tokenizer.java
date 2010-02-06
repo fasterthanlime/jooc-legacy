@@ -132,6 +132,8 @@ public class Tokenizer {
 		new CharTuple('+', TokenType.PLUS, '=', TokenType.PLUS_ASSIGN),
 		new CharTuple('*', TokenType.STAR, '=', TokenType.STAR_ASSIGN),
 		new CharTuple('^', TokenType.CARET),
+		new CharTuple('<', TokenType.LESSTHAN),
+		new CharTuple('>', TokenType.GREATERTHAN),
 	};
 	
 	public List<Token> parse(SourceReader reader) throws IOException {
@@ -247,6 +249,7 @@ public class Tokenizer {
 				continue;
 			}
 			
+			/*
 			if(c == '<') {
 				reader.read();
 				char c2 = reader.peek();
@@ -288,6 +291,7 @@ public class Tokenizer {
 				}
 				continue;
 			}
+			*/
 			
 			if(c == '=') {
 				reader.read();
