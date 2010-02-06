@@ -131,8 +131,6 @@ public class Tokenizer {
 		new CharTuple('@', TokenType.AT),
 		new CharTuple('+', TokenType.PLUS, '=', TokenType.PLUS_ASSIGN),
 		new CharTuple('*', TokenType.STAR, '=', TokenType.STAR_ASSIGN),
-		new CharTuple('>', TokenType.GREATERTHAN, '=', TokenType.GREATERTHAN_EQUALS),
-		new CharTuple('>', TokenType.GREATERTHAN, '=', TokenType.GREATERTHAN_EQUALS),
 		new CharTuple('^', TokenType.CARET),
 	};
 	
@@ -255,8 +253,38 @@ public class Tokenizer {
 				if(c2 == '=') {
 					reader.read();
 					tokens.add(new Token(index, 2, TokenType.LESSTHAN_EQUALS));
+				} else if(c2 == '<') {
+					reader.read();
+					char c3 = reader.peek();
+					if(c3 == '=') {
+						reader.read();
+						tokens.add(new Token(index, 3, TokenType.LSHIFT_ASSIGN));
+					} else {
+						tokens.add(new Token(index, 2, TokenType.LSHIFT));
+					}
 				} else {
 					tokens.add(new Token(index, 1, TokenType.LESSTHAN));
+				}
+				continue;
+			}
+			
+			if(c == '>') {
+				reader.read();
+				char c2 = reader.peek();
+				if(c2 == '=') {
+					reader.read();
+					tokens.add(new Token(index, 2, TokenType.GREATERTHAN_EQUALS));
+				} else if(c2 == '>') {
+					reader.read();
+					char c3 = reader.peek();
+					if(c3 == '=') {
+						reader.read();
+						tokens.add(new Token(index, 3, TokenType.RSHIFT_ASSIGN));
+					} else {
+						tokens.add(new Token(index, 2, TokenType.RSHIFT));
+					}
+				} else {
+					tokens.add(new Token(index, 1, TokenType.GREATERTHAN));
 				}
 				continue;
 			}
@@ -369,6 +397,11 @@ public class Tokenizer {
 		}
 		
 		tokens.add(new Token(reader.mark(), 0, TokenType.LINESEP));
+
+		for(Token token: tokens) {
+			System.out.print(token.toString() + ", ");
+		}
+		System.out.println();
 		
 		return tokens;
 	}

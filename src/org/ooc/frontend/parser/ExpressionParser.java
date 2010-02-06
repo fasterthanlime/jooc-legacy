@@ -204,29 +204,27 @@ public class ExpressionParser {
 					|| token.type == TokenType.PERCENT || token.type == TokenType.GREATERTHAN
 					|| token.type == TokenType.LESSTHAN || token.type == TokenType.GREATERTHAN_EQUALS
 					|| token.type == TokenType.LESSTHAN_EQUALS || token.type == TokenType.EQUALS
+					|| token.type == TokenType.LSHIFT || token.type == TokenType.LSHIFT_ASSIGN
+					|| token.type == TokenType.RSHIFT || token.type == TokenType.RSHIFT_ASSIGN
 					|| token.type == TokenType.NOT_EQUALS || token.type == TokenType.PLUS_ASSIGN
 					|| token.type == TokenType.MINUS_ASSIGN || token.type == TokenType.STAR_ASSIGN
 					|| token.type == TokenType.SLASH_ASSIGN || token.type == TokenType.DOUBLE_PIPE
 					|| token.type == TokenType.DOUBLE_AMPERSAND || token.type == TokenType.PIPE
 					|| token.type == TokenType.AMPERSAND || token.type == TokenType.BINARY_AND
 					|| token.type == TokenType.CARET) {
-				
+
 				reader.skip();
-				boolean isLessThan = false;
-				boolean isGreaterThan = false;
+				reader.skipWhitespace();
+				
 				boolean isAssign = false;
+				
+				System.out.println("reader.peek() = "+reader.peek());
 				if(reader.peek().type == TokenType.ASSIGN) {
 					isAssign = true;
-					reader.skip();
-				} else if(reader.peek().type == TokenType.LESSTHAN) {
-					isLessThan = true;
-					reader.skip();
-				} else if(reader.peek().type == TokenType.GREATERTHAN) {
-					isGreaterThan = true;
-					reader.skip();
 				}
-				
+
 				reader.skipWhitespace();
+				
 				Expression rvalue = ExpressionParser.parse(module, sReader, reader, noDecl);
 				if(rvalue == null) {
 					throw new CompilationFailedError(sReader.getLocation(reader.peek()),
@@ -244,16 +242,10 @@ public class ExpressionParser {
 					case TokenType.PERCENT:
 						expr = new Mod(expr, rvalue, token); break;
 					case TokenType.GREATERTHAN:
-						if(isGreaterThan) {
-							expr = new BinaryCombination(BinaryComp.RSHIFT, expr, rvalue, token); break;
-						}
 						expr = new Compare(expr, rvalue, CompareType.GREATER, token); break;
-					case TokenType.GREATERTHAN_EQUALS: 
+					case TokenType.GREATERTHAN_EQUALS:
 						expr = new Compare(expr, rvalue, CompareType.GREATER_OR_EQUAL, token); break;
 					case TokenType.LESSTHAN:
-						if(isLessThan) {
-							expr = new BinaryCombination(BinaryComp.LSHIFT, expr, rvalue, token); break;
-						}
 						expr = new Compare(expr, rvalue, CompareType.LESSER, token); break;
 					case TokenType.LESSTHAN_EQUALS:
 						expr = new Compare(expr, rvalue, CompareType.LESSER_OR_EQUAL, token); break;
@@ -296,6 +288,16 @@ public class ExpressionParser {
 							expr = new Assignment(Mode.B_XOR, expr, rvalue, token); break;
 						}
 						expr = new BinaryCombination(BinaryComp.BITWISE_XOR, expr, rvalue, token); break;
+					case TokenType.LSHIFT:
+						expr = new BinaryCombination(BinaryComp.LSHIFT, expr, rvalue, token); break;
+					case TokenType.RSHIFT:
+						expr = new BinaryCombination(BinaryComp.RSHIFT, expr, rvalue, token); break;
+					case TokenType.LSHIFT_ASSIGN:
+						rvalue = new BinaryCombination(BinaryComp.LSHIFT, expr, rvalue, token);
+						expr = new Assignment(Mode.REGULAR, expr, rvalue, token); break;
+					case TokenType.RSHIFT_ASSIGN:
+						rvalue = new BinaryCombination(BinaryComp.RSHIFT, expr, rvalue, token);
+						expr = new Assignment(Mode.REGULAR, expr, rvalue, token); break;
 					default: throw new CompilationFailedError(sReader.getLocation(reader.prev()),
 							"Unknown binary operation yet "+token.type);
 				}

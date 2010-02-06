@@ -127,6 +127,12 @@ public final class Token implements Locatable {
 		
 		public static final byte DOUBLE_ARROW = 95; // =>
 		
+		public static final byte LSHIFT = 96; // <<
+		public static final byte LSHIFT_ASSIGN = 97; // <<=
+		
+		public static final byte RSHIFT = 98; // <<
+		public static final byte RSHIFT_ASSIGN = 99; // <<=
+		
 	}
 	
 	public static final class TokenString {
@@ -247,7 +253,12 @@ public final class Token implements Locatable {
 			
 			" &",
 			"^",
-			"=>"
+			"=>",
+			
+			"<<",
+			"<<=",
+			">>",
+			">>=",
 		};
 		
 	}
