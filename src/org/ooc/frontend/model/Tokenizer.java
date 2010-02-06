@@ -248,51 +248,7 @@ public class Tokenizer {
 				}
 				continue;
 			}
-			
-			/*
-			if(c == '<') {
-				reader.read();
-				char c2 = reader.peek();
-				if(c2 == '=') {
-					reader.read();
-					tokens.add(new Token(index, 2, TokenType.LESSTHAN_EQUALS));
-				} else if(c2 == '<') {
-					reader.read();
-					char c3 = reader.peek();
-					if(c3 == '=') {
-						reader.read();
-						tokens.add(new Token(index, 3, TokenType.LSHIFT_ASSIGN));
-					} else {
-						tokens.add(new Token(index, 2, TokenType.LSHIFT));
-					}
-				} else {
-					tokens.add(new Token(index, 1, TokenType.LESSTHAN));
-				}
-				continue;
-			}
-			
-			if(c == '>') {
-				reader.read();
-				char c2 = reader.peek();
-				if(c2 == '=') {
-					reader.read();
-					tokens.add(new Token(index, 2, TokenType.GREATERTHAN_EQUALS));
-				} else if(c2 == '>') {
-					reader.read();
-					char c3 = reader.peek();
-					if(c3 == '=') {
-						reader.read();
-						tokens.add(new Token(index, 3, TokenType.RSHIFT_ASSIGN));
-					} else {
-						tokens.add(new Token(index, 2, TokenType.RSHIFT));
-					}
-				} else {
-					tokens.add(new Token(index, 1, TokenType.GREATERTHAN));
-				}
-				continue;
-			}
-			*/
-			
+		
 			if(c == '=') {
 				reader.read();
 				char c2 = reader.peek();

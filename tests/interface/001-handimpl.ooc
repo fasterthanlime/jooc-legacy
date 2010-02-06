@@ -1,16 +1,15 @@
+
 /** Base class for all Interfaces */
-/*
 Interface: class {
 	realThis: Object
 	funcs: Object
 	
 	init: func (=realThis, =funcs) {}
 }
-*/
 
 /** Killable interface - object class */
 Killable: class extends Interface {
-	kill: inline func { funcs as KillableFuncs doKill(realThis) }
+	kill: func { funcs as KillableFuncs doKill(realThis) }
 	init: func (.realThis, funcs: KillableFuncs) { super(realThis, funcs as Object) }
 }
 
