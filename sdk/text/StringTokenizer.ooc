@@ -4,6 +4,7 @@ StringTokenizer: class extends Iterable<String> {
 
     input, delim: String
     index = 0, length, maxSplits, splits: Int
+    empties: Bool
 
     init: func~withCharWithoutMaxSplits(input: String, delim: Char) {
         this~withChar(input, delim, -1)
@@ -21,6 +22,7 @@ StringTokenizer: class extends Iterable<String> {
         T = String // small fix for runtime introspection
         length = input length()
         splits = 0
+        empties = false
     }
     
     iterator: func -> Iterator<String> { StringTokenizerIterator new(this) }
@@ -34,8 +36,13 @@ StringTokenizer: class extends Iterable<String> {
         // at the end?
         if(!hasNext()) return null
 
-        // skip all delimiters
-        while(hasNext() && delim contains(input[index])) index += 1
+        if(!empties) {
+            // skip all delimiters
+            while(hasNext() && delim contains(input[index])) index += 1
+        } else if(hasNext() && delim contains(input[index])) {
+            // skip only one delimiter
+            index += 1
+        }
         
         // save the index
         oldIndex := index
@@ -85,4 +92,17 @@ String: cover from Char* {
     split: func~withCharWithoutMaxSplits(c: Char) -> StringTokenizer {
         StringTokenizer new(this, c)
     }
+
+    split: func~withStringWithEmpties(s: String, empties: Bool) -> StringTokenizer {
+        tok := StringTokenizer new(this, s)
+        tok empties = empties
+        tok
+    }
+
+    split: func~withCharWithEmpties(c: Char, empties: Bool) -> StringTokenizer {
+        tok := StringTokenizer new(this, c)
+        tok empties = empties
+        tok
+    }
+
 }
