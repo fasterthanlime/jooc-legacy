@@ -46,6 +46,8 @@ public class TypeAccess extends VariableAccess {
 		
 		if(type.isResolved()) return Response.OK;
 		
+		type.resolve(stack, res, fatal);
+		
 		if(type.isFlat() && type.getTypeParams().isEmpty()) {
 			VariableDecl var = getVariable(type.getName(), stack);
 			if(var != null && var.getType() != null && var.getType().getName().equals("Class")) {
