@@ -2,9 +2,9 @@
  * Allows to test various file attributes, list the children
  * of a directory, etc.
  *
- * @author Pierre-Alexandre Croiset
- * @author fredreichbier
- * @author Amos Wenger, aka nddrylliog
+ * :author: Pierre-Alexandre Croiset
+ * :author: fredreichbier
+ * :author: Amos Wenger, aka nddrylliog
  */
 
 // the pipe (e.g. '|') and __USE_BSD are used like #define
@@ -50,27 +50,27 @@ File: abstract class {
     }
 
     /**
-     * @return true if it's a directory
+     * :return: true if it's a directory
      */
     isDir: abstract func -> Bool
 
     /**
-     * @return true if it's a file (ie. not a directory nor a symbolic link)
+     * :return: true if it's a file (ie. not a directory nor a symbolic link)
      */
     isFile: abstract func -> Bool
 
     /**
-     * @return true if the file is a symbolic link
+     * :return: true if the file is a symbolic link
      */
     isLink: abstract func -> Bool
 
     /**
-     * @return the size of the file, in bytes
+     * :return: the size of the file, in bytes
      */
     size: abstract func -> LLong
 
     /**
-     * @return true if the file exists and can be
+     * :return: true if the file exists and can be
      * opened for reading
      */
     exists: func -> Bool {
@@ -78,22 +78,22 @@ File: abstract class {
     }
 
     /**
-     * @return the permissions for the owner of this file
+     * :return: the permissions for the owner of this file
      */
     ownerPerm: abstract func -> Int
 
     /**
-     * @return the permissions for the group of this file
+     * :return: the permissions for the group of this file
      */
     groupPerm: abstract func -> Int
 
     /**
-     * @return the permissions for the others (not owner, not group)
+     * :return: the permissions for the others (not owner, not group)
      */
     otherPerm: abstract func -> Int
 
     /**
-     * @return the last part of the path, e.g. for /etc/init.d/bluetooth
+     * :return: the last part of the path, e.g. for /etc/init.d/bluetooth
      * name() will return 'bluetooth'
      */
     name: func -> String {
@@ -104,7 +104,7 @@ File: abstract class {
     }
 
     /**
-     * @return the parent of this file, e.g. for /etc/init.d/bluetooth
+     * :return: the parent of this file, e.g. for /etc/init.d/bluetooth
      * it will return /etc/init.d/ (as a File), or null if it's the
      * root directory.
      */
@@ -115,7 +115,7 @@ File: abstract class {
     }
 
     /**
-     * @return the parent of this file, e.g. for /etc/init.d/bluetooth
+     * :return: the parent of this file, e.g. for /etc/init.d/bluetooth
      * it will return /etc/init.d/ (as a File), or null if it's the
      * root directory.
      */
@@ -135,7 +135,8 @@ File: abstract class {
 
     /**
      * create a directory at the path specified by this file
-     * @param mode The permissions at the creation of the directory
+     *
+     * :param mode: The permissions at the creation of the directory
      */
     mkdir: abstract func ~withMode (mode: Int32) -> Int
 
@@ -151,7 +152,8 @@ File: abstract class {
     /**
      * create a directory at the path specified by this file,
      * and all the parent directories if needed
-     * @param mode The permissions at the creation of the directory
+     *
+     * :param mode: The permissions at the creation of the directory
      */
     mkdirs: func ~withMode (mode: Int32) -> Int {
         if(parent := parent()) {
@@ -161,22 +163,22 @@ File: abstract class {
     }
 
     /**
-     * @return the time of last access
+     * :return: the time of last access
      */
     lastAccessed: abstract func -> Long
 
     /**
-     * @return the time of last modification
+     * :return: the time of last modification
      */
     lastModified: abstract func -> Long
 
     /**
-     * @return the time of creation
+     * :return: the time of creation
      */
     created: abstract func -> Long
 
     /**
-     * @return true if the function is relative to the current directory
+     * :return: true if the function is relative to the current directory
      */
     isRelative: abstract func -> Bool
 
@@ -187,7 +189,8 @@ File: abstract class {
 
     /**
      * A file corresponding to the absolute path
-     * @see getAbsolutePath
+     *
+     * :see: getAbsolutePath
      */
     getAbsoluteFile: func -> This {
         return File new(getAbsolutePath())
@@ -214,7 +217,8 @@ File: abstract class {
 
     /**
      * Copies the content of this file to another
-     * @param dstFile the file to copy to
+     *
+     * :param dstFile: the file to copy to
      */
     copyTo: func(dstFile: This) {
         dstFile parent() mkdirs()
@@ -232,14 +236,15 @@ File: abstract class {
 
     /**
      * Get a child of this path
-     * @name The name of the child, relatively to this path
+     *
+     * :param name: The name of the child, relatively to this path
      */
     getChild: func (name: String) -> This {
         new(this path + File separator + name)
     }
 
     /**
-     * @return the current working directory
+     * :return: the current working directory
      */
     getCwd: static func -> String {
         ret := String new(File MAX_PATH_LENGTH + 1)
