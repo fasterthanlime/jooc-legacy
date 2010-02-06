@@ -220,6 +220,7 @@ public class ExpressionParser {
 				
 				if(reader.peek().type == TokenType.ASSIGN) {
 					isAssign = true;
+					reader.skip();
 				}
 
 				reader.skipWhitespace();
