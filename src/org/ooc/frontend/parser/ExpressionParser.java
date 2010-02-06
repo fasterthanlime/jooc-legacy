@@ -218,7 +218,6 @@ public class ExpressionParser {
 				
 				boolean isAssign = false;
 				
-				System.out.println("reader.peek() = "+reader.peek());
 				if(reader.peek().type == TokenType.ASSIGN) {
 					isAssign = true;
 				}

@@ -398,11 +398,6 @@ public class Tokenizer {
 		
 		tokens.add(new Token(reader.mark(), 0, TokenType.LINESEP));
 
-		for(Token token: tokens) {
-			System.out.print(token.toString() + ", ");
-		}
-		System.out.println();
-		
 		return tokens;
 	}
 	
