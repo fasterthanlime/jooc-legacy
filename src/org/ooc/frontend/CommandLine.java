@@ -417,10 +417,12 @@ public class CommandLine {
 					ProcessBuilder builder = new ProcessBuilder();
 					FileLocation location = err.getLocation();
 					String absolutePath = new File(location.getFileName()).getAbsolutePath();
-					if(editor.equals("geany")) {
+					if(editor.endsWith("geany")) {
 						builder.command(editor, absolutePath+":"+location.getLineNumber()+":"+(location.getLinePos() - 1));
-					} else if(editor.equals("mate")) {
+					} else if(editor.endsWith("mate")) {
 						builder.command(editor, absolutePath, "-l", String.valueOf(location.getLineNumber()));
+					} else if(editor.endsWith("gedit")) {
+						builder.command(editor, absolutePath, "+" + String.valueOf(location.getLineNumber()));
 					} else {
 						builder.command(editor, absolutePath);
 					}
