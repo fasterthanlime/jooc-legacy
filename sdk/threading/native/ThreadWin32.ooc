@@ -1,7 +1,7 @@
 import ../[Thread, Runnable]
-//import native/win32/[types, errors]
+import native/win32/[types, errors]
 
-//version(windows) {
+version(windows) {
 
 include windows
 
@@ -36,4 +36,4 @@ ThreadWin32: class extends Thread {
 
 }
 
-//}
+}
