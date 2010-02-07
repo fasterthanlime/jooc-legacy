@@ -62,6 +62,7 @@ import org.ooc.frontend.model.StringLiteral;
 import org.ooc.frontend.model.Sub;
 import org.ooc.frontend.model.Ternary;
 import org.ooc.frontend.model.Type;
+import org.ooc.frontend.model.TypeDecl;
 import org.ooc.frontend.model.TypeParam;
 import org.ooc.frontend.model.Use;
 import org.ooc.frontend.model.ValuedReturn;
@@ -310,7 +311,7 @@ public class CGenerator extends Generator implements Visitor {
 	public void visit(RegularArgument regularArgument) throws IOException {
 		Type type = regularArgument.getType();
 		if(type.isArray()) {
-			current.app(type.getName()).app(' ').app(regularArgument.getName());
+			current.app(((TypeDecl)type.getRef()).getUnderName()).app(' ').app(regularArgument.getName());
 			for(int i = 0; i < type.getPointerLevel(); i++) {
 				current.app("[]");
 			}
