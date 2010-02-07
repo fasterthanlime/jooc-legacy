@@ -26,12 +26,12 @@ HashMap: class <T> extends Iterable<T> {
     keys: ArrayList<String>
     
     /**
-     * Returns a hash table with 10 buckets
+     * Returns a hash table with 100 buckets
      * @return HashTable
      */
     
     init: func {
-        init(10)
+        init(100)
     }
 
     /**
