@@ -2,6 +2,18 @@ import text/StringBuffer
 import structs/HashMap
 
 String: cover from Char* {
+    /**
+        Replace all template tokens in *this* with the matching value of *values*.
+
+        Example::
+
+            import text/StringTemplate
+            values := HashMap<String> new()
+            values put("what", "world") .put("suffix", "... yay")
+            "Hello {{ what }}! {{   suffix}}" formatTermplate(values) println()
+            // -> Hello world! ... yay
+
+    */
     formatTemplate: func (values: HashMap<String>) -> String {
         length := this length()
         buffer := StringBuffer new(length)
