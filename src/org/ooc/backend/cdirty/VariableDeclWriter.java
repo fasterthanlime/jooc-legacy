@@ -124,7 +124,9 @@ public class VariableDeclWriter {
 		}
 		if(writeComma) {
 			cgen.current.app(", ");
-			TypeWriter.writeFinale(type.getGroundType(), cgen);
+			if(!type.isArray()) {
+				TypeWriter.writeFinale(type.getGroundType(), cgen);
+			}
 		}
 	}
 	
