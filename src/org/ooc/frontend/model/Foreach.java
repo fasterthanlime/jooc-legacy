@@ -45,7 +45,11 @@ public class Foreach extends ControlStatement implements MustBeResolved {
 	}
 	
 	public void acceptChildren(Visitor visitor) throws IOException {
-		variable.accept(visitor);
+		// we don't want to resolve VariableAccesses - they should create new
+		// variables, this fixes #64 http://github.com/nddrylliog/ooc/issues#issue/64
+		if(variable instanceof VariableDecl) {
+			variable.accept(visitor);
+		}
 		collection.accept(visitor);
 		body.accept(visitor);
 	}
@@ -97,7 +101,8 @@ public class Foreach extends ControlStatement implements MustBeResolved {
 	@SuppressWarnings("unchecked")
 	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
 		
-		if(collection.getType() == null || (!collection.getType().getName().equals("Range") && collection.getType().getRef() == null)) {
+		if(collection.getType() == null ||
+		  (!collection.getType().getName().equals("Range") && collection.getType().getRef() == null)) {
 			if(fatal) {
 				throw new OocCompilationError(collection, stack, "Couldn't resolve type "
 						+collection.getType()+" of foreach's collection "+collection+" (ref = "
@@ -107,11 +112,9 @@ public class Foreach extends ControlStatement implements MustBeResolved {
 		}
 		
 		if(collection.getType().getPointerLevel() > 0) {
-			//System.out.println("It's an array! " + collection);
 			Type targetType = new Type("ArrayList", collection.startToken);
 			targetType.getTypeParams().add(new TypeAccess(collection.getType().dereference(), collection.startToken));
 			collection = new Cast(collection, targetType, collection.startToken);
-			//System.out.println("Turned into "+collection);
 			return Response.LOOP;
 		}
 
@@ -119,64 +122,59 @@ public class Foreach extends ControlStatement implements MustBeResolved {
 			return Response.OK;
 		}
 		
-		//if(collection.getType().getRef() instanceof ClassDecl) {
-			
-			//TypeDecl typeDecl = (TypeDecl) collection.getType().getRef();
-			//if(classDecl.isChildOf("Iterable")) {
-				MemberCall iterCall = new MemberCall(collection, "iterator", "", startToken);
-				Response resp = Response.LOOP;
-				while(resp == Response.LOOP) {
-					resp = iterCall.resolve(stack, res, true);
-				}
-				
-				Type iterType = iterCall.getType();
-				iterType.resolve(stack, res, false);
-				if(iterType.getRef() == null) {
-					if(fatal) throw new OocCompilationError(this, stack, "couldn't resolve iterType "+iterType);
-					return Response.LOOP;
-				}
+		MemberCall iterCall = new MemberCall(collection, "iterator", "", startToken);
+		Response resp = Response.LOOP;
+		while(resp == Response.LOOP) {
+			resp = iterCall.resolve(stack, res, true);
+		}
+		
+		Type iterType = iterCall.getType();
+		iterType.resolve(stack, res, false);
+		if(iterType.getRef() == null) {
+			if(fatal) throw new OocCompilationError(this, stack, "couldn't resolve iterType "+iterType);
+			return Response.LOOP;
+		}
+		
+		int lineIndex = stack.find(Line.class);
+		Line line = (Line) stack.get(lineIndex);
+		NodeList<Line> list = (NodeList<Line>) stack.get(lineIndex - 1);
+		
+		Block block = new Block(startToken);
+		
+		VariableDecl vdfe = new VariableDecl(iterCall.getType(), false, startToken, null);
+		vdfe.setType(iterType);
+		vdfe.getAtoms().add(new VariableDeclAtom(generateTempName("iter", stack),
+				iterCall, startToken));
 
-				int lineIndex = stack.find(Line.class);
-				Line line = (Line) stack.get(lineIndex);
-				NodeList<Line> list = (NodeList<Line>) stack.get(lineIndex - 1);
-				
-				Block block = new Block(startToken);
-				
-				VariableDecl vdfe = new VariableDecl(iterCall.getType(), false, startToken, null);
-				vdfe.setType(iterType);
-				vdfe.getAtoms().add(new VariableDeclAtom(generateTempName("iter", stack),
-						iterCall, startToken));
-
-				VariableAccess iterAcc = new VariableAccess(vdfe.getName(), startToken);
-				iterAcc.setRef(vdfe);
-				
-				MemberCall hasNextCall = new MemberCall(iterAcc, "hasNext", "", startToken);
-				hasNextCall.resolve(stack, res, true);
-				While while1 = new While(hasNextCall, startToken);
-				
-				MemberCall nextCall = new MemberCall(iterAcc, "next", "", startToken);
-				nextCall.resolve(stack, res, true);
-				
-				if(variable instanceof VariableAccess) {
-					VariableAccess varAcc = (VariableAccess) variable;
-					if(varAcc.getRef() == null) {
-						Type innerType = iterCall.getType().getTypeParams().getFirst().getType();
-						VariableDecl varDecl = new VariableDecl(innerType, false, varAcc.startToken, null);
-						varDecl.getAtoms().add(new VariableDeclAtom(varAcc.getName(), null, varAcc.startToken));
-						block.getBody().add(0, new Line(varDecl));
-					}
-				}
-				
-				while1.getBody().add(new Line(new Assignment(variable, nextCall, startToken)));
-				while1.getBody().addAll(getBody());
-				
-				list.replace(line, new Line(block));
-				block.getBody().add(new Line(vdfe));
-				block.getBody().add(new Line(while1));
-				
-				return Response.LOOP;
-			//}
-		//}
+		VariableAccess iterAcc = new VariableAccess(vdfe.getName(), startToken);
+		iterAcc.setRef(vdfe);
+		
+		MemberCall hasNextCall = new MemberCall(iterAcc, "hasNext", "", startToken);
+		hasNextCall.resolve(stack, res, true);
+		While while1 = new While(hasNextCall, startToken);
+		
+		MemberCall nextCall = new MemberCall(iterAcc, "next", "", startToken);
+		nextCall.resolve(stack, res, true);
+		
+		if(variable instanceof VariableAccess) {
+			VariableAccess varAcc = (VariableAccess) variable;
+			if(varAcc.getRef() == null) {
+				Type innerType = iterCall.getType().getTypeParams().getFirst().getType();
+				VariableDecl varDecl = new VariableDecl(innerType, false, varAcc.startToken, null);
+				varDecl.getAtoms().add(new VariableDeclAtom(varAcc.getName(), null, varAcc.startToken));
+				block.getBody().add(0, new Line(varDecl));
+				System.out.println("set varAcc ref to "+varDecl+", which has type "+varDecl.getType());
+			}
+		}
+		
+		while1.getBody().add(new Line(new Assignment(variable, nextCall, startToken)));
+		while1.getBody().addAll(getBody());
+		
+		list.replace(line, new Line(block));
+		block.getBody().add(new Line(vdfe));
+		block.getBody().add(new Line(while1));
+		
+		return Response.LOOP;
 		
 	}
 	
