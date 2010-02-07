@@ -249,6 +249,21 @@ String: cover from Char* {
         
         return this
     }
+
+    trim: func ~string (s: String) -> This {
+        if(length() == 0) return this
+        
+        start := 0
+        while(s contains(this[start])) start += 1;
+        
+        end := length()
+        if(start >= end) return ""
+        while(s contains(this[end - 1])) end -= 1;
+        
+        if(start != 0 || end != length()) return substring(start, end)
+        
+        return this    
+    }
     
     first: func -> SizeT {
         return this[0]
