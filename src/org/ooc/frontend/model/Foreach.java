@@ -163,7 +163,6 @@ public class Foreach extends ControlStatement implements MustBeResolved {
 				VariableDecl varDecl = new VariableDecl(innerType, false, varAcc.startToken, null);
 				varDecl.getAtoms().add(new VariableDeclAtom(varAcc.getName(), null, varAcc.startToken));
 				block.getBody().add(0, new Line(varDecl));
-				System.out.println("set varAcc ref to "+varDecl+", which has type "+varDecl.getType());
 			}
 		}
 		
