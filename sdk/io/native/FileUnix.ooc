@@ -8,7 +8,7 @@ import dirent
 realpath: extern func(path: String, resolved: String) -> String
 
 version(linux) {
-    include unistd | (__USE_BSD), sys/stat | (__USE_BSD), sys/types | (__USE_BSD), stdlib
+    include unistd | (__USE_BSD), sys/stat | (__USE_BSD), sys/types | (__USE_BSD), stdlib | (__USE_BSD), limits
 }
 version(!linux) {
     include unistd, sys/stat, sys/types, stdlib
@@ -217,4 +217,3 @@ version(unix || apple) {
     }
 
 }
-
