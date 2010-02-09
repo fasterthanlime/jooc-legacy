@@ -83,7 +83,22 @@ public class MemberAccess extends VariableAccess {
 					return Response.OK;
 				}
 			}
-			
+			if(expression instanceof VariableAccess && ((VariableAccess) expression).getRef() instanceof NamespaceDecl) {
+				NamespaceDecl ns = ((NamespaceDecl) ((VariableAccess) expression).getRef());
+				// push imported modules ...
+				for(Import imp: ns.getImports()) {
+					stack.push(imp.getModule());
+				}
+				VariableAccess varAcc = new VariableAccess(getName(), expression.startToken);
+				expression = varAcc;
+				varAcc.resolve(stack, res, fatal);
+				ref = varAcc.getRef();
+				for(Import imp: ns.getImports()) {
+					stack.pop();
+				}
+				return Response.OK;
+			}
+
 			if(fatal) {
 				throw new OocCompilationError(this, stack, "Couldn't resolve type of "+expression);
 			}

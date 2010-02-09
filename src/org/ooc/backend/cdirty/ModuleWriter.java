@@ -26,10 +26,10 @@ public class ModuleWriter {
 		/** Classify imports */
 		List<Import> tightImports = new ArrayList<Import>();
 		List<Import> looseImports = new ArrayList<Import>();
-		looseImports.addAll(module.getImports()); // imports are loose by default
+		looseImports.addAll(module.getAllImports()); // imports are loose by default
 		
 		for(TypeDecl selfDecl: module.getTypes().values()) {
-			for(Import imp: module.getImports()) {
+			for(Import imp: module.getAllImports()) {
 				if(selfDecl.getSuperRef() != null 
 						&& selfDecl.getSuperRef().getModule().equals(imp.getModule())) {
 					// tighten imports of modules which contain classes we extend
@@ -250,7 +250,7 @@ public class ModuleWriter {
 				}
 			}
 		}
-		for (Import imp : cgen.module.getImports()) {
+		for (Import imp : cgen.module.getAllImports()) {
 			cgen.current.nl().app(imp.getModule().getLoadFunc().getName()).app("();");
 		}
 		for (Node node : cgen.module.getLoadFunc().getBody()) {

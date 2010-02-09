@@ -111,7 +111,7 @@ public abstract class BinaryOperation extends Expression implements MustBeUnwrap
 				bestOp = op;
 			}
 		}
-		for(Import imp: res.module.getImports()) {
+		for(Import imp: res.module.getAllImports()) {
 			for(OpDecl op: imp.getModule().getOps()) {
 				int score = getOpScore(stack, opType, op, res);
 				if(score > bestScore) {

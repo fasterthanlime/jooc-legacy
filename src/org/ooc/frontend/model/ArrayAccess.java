@@ -119,7 +119,7 @@ public class ArrayAccess extends Access implements MustBeResolved {
 				}
 			}
 			
-			for(Import imp: res.module.getImports()) {
+			for(Import imp: res.module.getAllImports()) {
 				for(OpDecl op: imp.getModule().getOps()) {
 					int score = getOpScore(stack, res, assignIndex, op);
 					if(bestScore < score) {

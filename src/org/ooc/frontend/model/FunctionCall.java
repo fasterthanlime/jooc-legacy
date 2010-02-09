@@ -532,7 +532,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 		}
 		
 		Module module = (Module) mainStack.get(0);
-		for(Import imp: module.getImports()) {
+		for(Import imp: module.getGlobalImports()) {
 			for(Node node: imp.getModule().body) {
 				if(node instanceof FunctionDecl) {
 					FunctionDecl decl = (FunctionDecl) node;
@@ -588,7 +588,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 
 		if(impl == null) {
 			Module module = (Module) stack.get(0);
-			for(Import imp: module.getImports()) {
+			for(Import imp: module.getGlobalImports()) {
 				searchIn(imp.getModule());
 				if(impl != null) break;
 			}

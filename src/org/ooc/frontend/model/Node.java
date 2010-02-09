@@ -46,7 +46,26 @@ public abstract class Node implements Visitable {
 		
 		return getVariable(name, stack, stack.find(Scope.class, index - 1), exclude);
 	}
+
+	public TypeDecl getType(String name, NodeList<Node> stack) {
+		return getType(name, stack, stack.find(Module.class), null);
+	}
 	
+	public TypeDecl getType(String name, NodeList<Node> stack, Node exclude) {
+		return getType(name, stack, stack.find(Module.class), exclude);
+	}
+
+	public TypeDecl getType(String name, NodeList<Node> stack, int index, Node exclude) {
+		if(index == -1) return null;
+		
+		TypeDecl typeDecl = ((Module) stack.get(index)).getType(name);
+		
+		if(typeDecl != null && (exclude == null || typeDecl != exclude))
+			return typeDecl;
+		
+		return getType(name, stack, stack.find(Module.class, index - 1), exclude);
+	}
+
 	public FunctionDecl getFunction(String name, String suffix, FunctionCall call, NodeList<Node> stack) {
 		return getFunction(name, suffix, call, stack, stack.find(Scope.class), 0, null);
 	}

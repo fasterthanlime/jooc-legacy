@@ -126,6 +126,7 @@ public final class Token implements Locatable {
 		public static final byte CARET = 94; // ^
 		
 		public static final byte DOUBLE_ARROW = 95; // =>
+		public static final byte INTO_KW = 96; // into
 	}
 	
 	public static final class TokenString {
@@ -247,6 +248,8 @@ public final class Token implements Locatable {
 			" &",
 			"^",
 			"=>",
+
+			"into",
 		};
 		
 	}

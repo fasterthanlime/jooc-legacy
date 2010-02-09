@@ -494,7 +494,7 @@ public class CommandLine {
 	
 	protected void output(Module module, Set<Module> done) throws IOException {
 		done.add(module);
-		for(Import imp: module.getImports()) {
+		for(Import imp: module.getAllImports()) {
 			if(!done.contains(imp.getModule())) {
 				output(imp.getModule(), done);
 			}
@@ -508,7 +508,7 @@ public class CommandLine {
 
 	protected void collectModules(Module module, List<Module> list) throws IOException {
 		list.add(module);
-		for(Import imp: module.getImports()) {
+		for(Import imp: module.getAllImports()) {
 			if(!list.contains(imp.getModule())) {
 				collectModules(imp.getModule(), list);
 			}

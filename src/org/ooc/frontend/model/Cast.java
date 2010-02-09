@@ -148,7 +148,7 @@ public class Cast extends Expression implements MustBeResolved {
 				bestOp = op;
 			}
 		}
-		for(Import imp: res.module.getImports()) {
+		for(Import imp: res.module.getAllImports()) { // TODO: really all imports?
 			for(OpDecl op: imp.getModule().getOps()) {
 				int score = getRegularOpScore(stack, OpType.AS, op, res, leftType, rightType);
 				if(score > bestScore) {
@@ -219,7 +219,7 @@ public class Cast extends Expression implements MustBeResolved {
 				bestOp = op;
 			}
 		}
-		for(Import imp: res.module.getImports()) {
+		for(Import imp: res.module.getAllImports()) { // TODO: all imports?
 			for(OpDecl op: imp.getModule().getOps()) {
 				int score = getArrayOpScore(stack, OpType.AS, op, res, leftType, rightType);
 				if(score > bestScore) {

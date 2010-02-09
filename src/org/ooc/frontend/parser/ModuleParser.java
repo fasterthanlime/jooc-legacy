@@ -79,7 +79,7 @@ public class ModuleParser {
 				
 				if(LineParser.fill(module, sReader, reader, module.getLoadFunc().getBody())) continue;
 				if(IncludeParser.fill(sReader, reader, module.getIncludes())) continue;
-				if(ImportParser.fill(sReader, reader, module.getImports())) continue;
+				if(ImportParser.fill(module, sReader, reader)) continue;
 				if(UseParser.fill(sReader, reader, module.getUses(), parser.params)) continue;
 				if(CommentParser.parse(sReader, reader) != null) continue;
 				
@@ -89,7 +89,7 @@ public class ModuleParser {
 				
 			}
 			
-			for(Import imp: module.getImports()) {
+			for(Import imp: module.getAllImports()) {
 				String path = imp.getPath() + ".ooc";
 				if(path.startsWith("..")) {
 					path = FileUtils.resolveRedundancies(new File(module.getParentPath(), path)).getPath();
@@ -128,7 +128,7 @@ public class ModuleParser {
 			if(path.toLowerCase().endsWith(".ooc")) {
 				path = path.substring(0, path.length() - 4);
 				if(!path.equals(module.getPath())) {
-					module.getImports().add(new Import(path, Token.defaultToken));
+					module.getGlobalImports().add(new Import(path, Token.defaultToken));
 				}
 			}
 		}

@@ -74,7 +74,7 @@ public class CoverDeclParser {
 			if(comment != null) coverDecl.setComment(comment);
 			
 			boolean absorbed = false;
-			for(Import imp: module.getImports()) {
+			for(Import imp: module.getGlobalImports()) { // TODO: what about namespaced imports?
 				Module depMod = imp.getModule();
 				if(depMod != null) {
 					TypeDecl base = depMod.getTypes().get(name);
@@ -88,7 +88,7 @@ public class CoverDeclParser {
 			}
 			if(!absorbed) {
 				outer: for(Module other: ModuleParser.cache.values()) {
-					for(Import imp: other.getImports()) {
+					for(Import imp: other.getGlobalImports()) {
 						if(imp.getFullName().equals(module.getFullName())) {
 							TypeDecl addon = other.getTypes().get(name);
 							if(addon != null) {

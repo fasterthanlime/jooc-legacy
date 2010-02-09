@@ -73,8 +73,18 @@ public class VariableAccess extends Access implements MustBeResolved {
 	}
 
 	public Response resolve(final NodeList<Node> stack, final Resolver res, final boolean fatal) {
-
+		
 		if(isResolved()) return Response.OK;
+
+		// Look if it is a namespace.
+		{
+			NamespaceDecl ns = stack.getModule().getNamespace(getName());
+			if(ns != null) {
+				// Yes, it is.
+				ref = ns;
+				return Response.OK;
+			}
+		}
 		
 		// Search in the type params of the current function
 		{
@@ -150,7 +160,7 @@ public class VariableAccess extends Access implements MustBeResolved {
 				ref = func;
 				return Response.OK;
 			}
-			for(Import imp: stack.getModule().getImports()) {
+			for(Import imp: stack.getModule().getGlobalImports()) {
 				func = imp.getModule().getFunction(name, null, null);
 				if(func != null) {
 					ref = func;
@@ -188,7 +198,7 @@ public class VariableAccess extends Access implements MustBeResolved {
 			return Response.OK;
 		}
 		
-		ref = res.module.getType(name);
+		ref = getType(name, stack);
 		if(ref != null) return Response.OK;
 		
 		if(fatal && ref == null) {

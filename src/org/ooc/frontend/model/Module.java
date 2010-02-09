@@ -15,7 +15,8 @@ public class Module extends Node implements Scope {
 	protected String name;
 	protected String memberPrefix;
 	protected NodeList<Include> includes;
-	protected NodeList<Import> imports;
+	protected NodeList<Import> globalImports;
+	protected NodeList<NamespaceDecl> namespaces;
 	protected NodeList<Use> uses;
 	protected MultiMap<String, TypeDecl> types;
 	//protected MultiMap<String, FunctionDecl> functions;
@@ -61,7 +62,8 @@ public class Module extends Node implements Scope {
 		}
 
 		this.includes = new NodeList<Include>(startToken);
-		this.imports = new NodeList<Import>(startToken);
+		this.globalImports = new NodeList<Import>(startToken);
+		this.namespaces = new NodeList<NamespaceDecl>(startToken);
 		this.uses = new NodeList<Use>(startToken);
 		this.body = new NodeList<Node>(startToken);
 		this.ops = new NodeList<OpDecl>();
@@ -71,6 +73,19 @@ public class Module extends Node implements Scope {
 		// set it as extern, so it won't get written implicitly
 		this.loadFunc = new FunctionDecl(underName + "_load", "", false, false, false, true, Token.defaultToken, this);
 		
+	}
+
+	public void addNamespace(NamespaceDecl decl) {
+		namespaces.add(decl);
+	}
+
+	public NamespaceDecl getNamespace(String name) {
+		for(NamespaceDecl decl: namespaces) {
+			if(decl.getName().equals(name)) {
+				return decl;
+			}
+		}
+		return null;
 	}
 
 	public String getMemberPrefix() {
@@ -118,7 +133,15 @@ public class Module extends Node implements Scope {
 		return includes;
 	}
 	
-	public NodeList<Import> getImports() {
+	public NodeList<Import> getGlobalImports() {
+		return globalImports;
+	}
+
+	public NodeList<Import> getAllImports() {
+		NodeList<Import> imports = new NodeList<Import>();
+		imports.addAll(getGlobalImports());
+		for(NamespaceDecl ns: namespaces)
+			imports.addAll(ns.getImports());
 		return imports;
 	}
 	
@@ -140,7 +163,7 @@ public class Module extends Node implements Scope {
 
 	public void acceptChildren(Visitor visitor) throws IOException {
 		includes.accept(visitor);
-		imports.accept(visitor);
+		globalImports.accept(visitor);
 		uses.accept(visitor);
 		body.accept(visitor);
 		types.accept(visitor);
@@ -181,7 +204,7 @@ public class Module extends Node implements Scope {
 	public VariableDecl getVariable(String name) {
 		VariableDecl varDecl = getVariableInBody(name, body);
 		if (varDecl != null) return varDecl;
-		for(Import imp: imports) {
+		for(Import imp: globalImports) {
 			varDecl = getVariableInBody(name, imp.getModule().body);
 			if (varDecl != null) return varDecl;
 		}
@@ -268,7 +291,7 @@ public class Module extends Node implements Scope {
 		TypeDecl typeDecl = getTypes().get(typeName);
 		if(typeDecl != null) return typeDecl;
 		
-		for(Import imp: imports) {
+		for(Import imp: globalImports) {
 			Module module = imp.getModule();
 			if(module != null) {
 				typeDecl = module.getTypes().get(typeName);

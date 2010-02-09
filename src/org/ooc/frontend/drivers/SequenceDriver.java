@@ -256,7 +256,7 @@ public class SequenceDriver extends Driver {
 		toCompile.add(module);
 		done.add(module.getPath());
 		
-		for(Import import1: module.getImports()) {
+		for(Import import1: module.getAllImports()) {
 			if(done.contains(import1.getModule().getPath())) continue;
 			collectDeps(import1.getModule(), toCompile, done);
 		}

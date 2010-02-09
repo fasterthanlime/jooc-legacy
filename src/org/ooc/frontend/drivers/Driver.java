@@ -60,7 +60,7 @@ public abstract class Driver {
 			}
 		}
 		
-		for(Import imp: module.getImports()) {
+		for(Import imp: module.getAllImports()) {
 			copyLocalHeaders(imp.getModule(), params, done);
 		}
 		
@@ -73,7 +73,7 @@ public abstract class Driver {
 		
 		params.compiler.addObjectFile(new File(params.outPath, module.getPath(".c")).getPath());
 		
-		for(Import imp: module.getImports()) {
+		for(Import imp: module.getAllImports()) {
 			if(!done.contains(imp.getModule().getPath())) {
 				addDeps(imp.getModule(), toCompile, done);
 			}
@@ -101,7 +101,7 @@ public abstract class Driver {
 			getFlagsFromUse(useDef, flagsDone, usesDone, doLinking);
 		}
 		
-		for(Import imp: module.getImports()) {
+		for(Import imp: module.getAllImports()) {
 			getFlagsFromUse(imp.getModule(), flagsDone, modulesDone, usesDone, doLinking);
 		}
 		

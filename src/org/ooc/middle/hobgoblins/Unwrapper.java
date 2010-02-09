@@ -88,7 +88,7 @@ public class Unwrapper implements Hobgoblin {
 			superType.setRef(superRef);
 		}
 		
-		for(Import imp: module.getImports()) {
+		for(Import imp: module.getAllImports()) {
 			if(!hashSet.contains(imp.getModule())) {
 				resolveSuper(imp.getModule(), hashSet);
 			}
