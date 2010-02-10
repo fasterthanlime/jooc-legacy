@@ -1,6 +1,10 @@
 import io/Writer
 import text/StringBuffer
 
+/**
+    Note: StringBuffer has been depreciated. Use BufferWriter instead.
+*/
+
 write: func (writer: Writer) {
     for(i in 0..10) {
         writer write("yay =D ")
@@ -8,7 +12,7 @@ write: func (writer: Writer) {
 }
 
 main: func {
-    sb := BufferWriter new()
+    sb := StringBuffer new()
     write(sb)
-    sb buffer() toString() println()
+    sb toString() println()
 }

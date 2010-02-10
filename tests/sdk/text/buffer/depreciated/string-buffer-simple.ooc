@@ -1,8 +1,11 @@
 import text/StringBuffer
 
+/**
+    Note: StringBuffer is depreciated. Use Buffer instead.
+*/
 main: func {
 
-	sb := Buffer new()
+	sb := StringBuffer new()
 	for(i in 0..10) {
 		sb append("yay =D ")
 	}
