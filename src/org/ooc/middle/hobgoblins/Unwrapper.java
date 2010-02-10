@@ -6,6 +6,7 @@ import java.util.HashSet;
 
 import org.ooc.frontend.model.Import;
 import org.ooc.frontend.model.Module;
+import org.ooc.frontend.model.NamespaceDecl;
 import org.ooc.frontend.model.Node;
 import org.ooc.frontend.model.NodeList;
 import org.ooc.frontend.model.Type;
@@ -79,7 +80,18 @@ public class Unwrapper implements Hobgoblin {
 		for(TypeDecl decl: module.getTypes().values()) {
 			Type superType = decl.getSuperType();
 			if(superType == null) continue;
-			TypeDecl superRef = module.getType(superType.getName());
+			TypeDecl superRef = null;
+			if(superType.getNamespace() == null) {
+				// no namespace? global namespace.
+				superRef = module.getType(superType.getName());
+			} else {
+				// look for this namespace.
+				NamespaceDecl ns = module.getNamespace(superType.getNamespace());
+				if(ns == null) {
+					throw new OocCompilationError(decl, module, superType.getNamespace() + ": This Namespace Does Not Exist.");
+				}
+				superRef = ns.resolveType(superType.getName());
+			}
 			if (superRef == null) {
 				throw new OocCompilationError(decl, module,
 						"Couldn't resolve parent type " + superType.getName()

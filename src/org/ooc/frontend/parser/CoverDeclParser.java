@@ -67,7 +67,7 @@ public class CoverDeclParser {
 			if(superType != null && name.equals(superType.getName())) {
 				throw new CompilationFailedError(sReader.getLocation(startToken), "A cover cannot extends itself!");
 			}
-			
+
 			CoverDecl coverDecl = new CoverDecl(name, superType, fromType, module, startToken);
 			module.parseStack.push(coverDecl);
 			coverDecl.setExternName(externName);

@@ -19,7 +19,7 @@ public class Type extends Node implements MustBeResolved {
 
 	private boolean groundTypeChecked = false;
 	
-	protected String name;
+	protected String name, namespace;
 	protected int pointerLevel;
 	protected int referenceLevel;
 	private Declaration ref;
@@ -54,9 +54,18 @@ public class Type extends Node implements MustBeResolved {
 		this.pointerLevel = pointerLevel;
 		this.referenceLevel = referenceLevel;
 		this.typeParams = new NodeList<Access>(startToken);
+		this.namespace = null;
 		//StringWriter sw = new StringWriter();
 		//new Exception().printStackTrace(new PrintWriter(sw));
 		//this.origin = sw.toString();
+	}
+
+	public String getNamespace() {
+		return namespace;
+	}
+
+	public void setNamespace(String namespace) {
+		this.namespace = namespace;
 	}
 	
 	public NodeList<Access> getTypeParams() {
@@ -121,6 +130,7 @@ public class Type extends Node implements MustBeResolved {
 		
 		StringBuilder sb = new StringBuilder();
 		if(isConst) sb.append("const ");
+		if(namespace != null) sb.append(namespace + " ");
 		sb.append(name);
 		
 		for(int i = 0; i < pointerLevel; i++) {
@@ -212,7 +222,20 @@ public class Type extends Node implements MustBeResolved {
 		
 		if(ref != null) return Response.OK;
 		
-		ref = stack.getModule().getType(name);
+		if(namespace == null) {
+			// no namespace? global namespace.
+			ref = stack.getModule().getType(name);
+		} else {
+			// look for this namespace.
+			NamespaceDecl ns = stack.getModule().getNamespace(namespace);
+			if(ns == null) {
+				throw new OocCompilationError(this, stack, namespace + ": This Namespace Does Not Exist.");
+			}
+			ref = ns.resolveType(name);
+			if(ref == null) {
+				throw new OocCompilationError(this, stack, "Couldn't resolve type " + name + " in namespace " + namespace + "!");
+			}
+		}
 
 		if(ref == null && name.equals("This")) {
 			int index = stack.find(TypeDecl.class);
@@ -299,7 +322,7 @@ public class Type extends Node implements MustBeResolved {
 				
 				fromRef = fromType.getRef();
 				if(fromRef == null) {
-					fromType.resolve(stack, res, fatal);
+					fromType.resolve(stack, res, false); // Don't ask me why, but this `false` is VERY important!
 				}
 				if(fromRef instanceof CoverDecl) {
 					coverDecl = (CoverDecl) fromRef;
