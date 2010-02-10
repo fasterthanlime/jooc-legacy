@@ -138,6 +138,8 @@ public class Module extends Node implements Scope {
 	}
 
 	public NodeList<Import> getAllImports() {
+		if(namespaces.isEmpty()) return globalImports;
+
 		NodeList<Import> imports = new NodeList<Import>();
 		imports.addAll(getGlobalImports());
 		for(NamespaceDecl ns: namespaces)
