@@ -76,8 +76,8 @@ FStream: cover from FILE* {
             
             // try to grow the string
             length += chunk
-            tmp := gc_realloc(str, length)
-            if(!tmp) Exception new(This, "Ran out of memory while reading a (apparently never-ending) line!")
+            tmp := gc_realloc(str, length) as String
+            if(!tmp) Exception new(This, "Ran out of memory while reading a (apparently never-ending) line!") throw()
             str = tmp
 
             // we cast as Char* to avoid operator overloading
