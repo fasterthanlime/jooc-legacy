@@ -78,11 +78,14 @@ public class VariableAccess extends Access implements MustBeResolved {
 
 		// Look if it is a namespace.
 		{
-			NamespaceDecl ns = stack.getModule().getNamespace(getName());
-			if(ns != null) {
-				// Yes, it is.
-				ref = ns;
-				return Response.OK;
+			// But only if we don't already have a Namespace.
+			if(!(stack.peek() instanceof NamespaceDecl)) {
+				NamespaceDecl ns = stack.getModule().getNamespace(getName());
+				if(ns != null) {
+					// Yes, it is.
+					ref = ns;
+					return Response.OK;
+				}
 			}
 		}
 		

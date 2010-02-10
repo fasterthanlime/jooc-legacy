@@ -65,6 +65,7 @@ public class MemberAccess extends VariableAccess {
 	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
 
 		Type exprType = expression.getType();
+
 		if(exprType == null) {
 			int typeIndex = stack.find(TypeDecl.class);
 			if(typeIndex != -1) {
@@ -83,15 +84,19 @@ public class MemberAccess extends VariableAccess {
 					return Response.OK;
 				}
 			}
+			
 			if(expression instanceof VariableAccess && ((VariableAccess) expression).getRef() instanceof NamespaceDecl) {
 				NamespaceDecl ns = ((NamespaceDecl) ((VariableAccess) expression).getRef());
 				// push imported modules ...
 				for(Import imp: ns.getImports()) {
 					stack.push(imp.getModule());
 				}
+				// push the namespace as a "sentinel".
+				stack.push(ns);
 				VariableAccess varAcc = new VariableAccess(getName(), expression.startToken);
 				varAcc.resolve(stack, res, fatal);
 				ref = varAcc.getRef();
+				stack.pop();
 				for(Import imp: ns.getImports()) {
 					stack.pop();
 				}
@@ -104,6 +109,7 @@ public class MemberAccess extends VariableAccess {
 			}
 			return Response.LOOP;
 		}
+
 		exprType = exprType.getFlatType(res);
 		if(exprType.getRef() == null) exprType.resolve(res);
 
