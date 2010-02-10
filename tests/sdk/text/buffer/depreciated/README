@@ -1,0 +1,6 @@
+Note: StringBuffer has been depreciated and replaced by
+BufferWriter, BufferReader, and Buffer.
+
+Buffer: A simple text buffer with append() and get() methods.
+BufferWriter: A Buffer wrapped in a Writer interface
+BufferReader: A Buffer wrapped in a Reader interface

@@ -264,11 +264,13 @@ String: cover from Char* {
         return -1
     }
     
+    /** return *true* if *this* contains the character *c* */
     contains: func ~char (c: Char) -> Bool { indexOf(c) != -1 }
     
+    /** return *true* if *this* contains the string *s* */
     contains: func ~string (s: This) -> Bool { indexOf(s) != -1 }
 
-    /** return a copy of *this* with space characters stripped at both ends. */
+    /** return a copy of *this* with space characters (ASCII 32) stripped at both ends. */
     trim: func ~space -> This { return trim(' ') }
     
     /** return a copy of *this* with *c* characters stripped at both ends. */
@@ -340,9 +342,7 @@ String: cover from Char* {
         len = this length() : SizeT
         
         if(start > len) {
-            printf("String.substring~tillEnd: out of bounds: length = %zd, start = %zd\n",
-                len, start);
-            Exception new(This, "substring") throw()
+            Exception new(This, "String.substring: out of bounds: length = %zd, start = %zd\n" format(len, start)) throw()
             return null
         }
         
@@ -361,9 +361,7 @@ String: cover from Char* {
         if(start == end) return ""
         
         if(start > len || start > end || end > len) {
-            printf("String.substring: out of bounds: length = %zd, start = %zd, end = %zd\n",
-                len, start, end);
-            Exception new(This, "substring") throw()
+            Exception new(This, "String.substring: out of bounds: length = %zd, start = %zd, end = %zd\n" format(len, start, end)) throw()
             return null
         }
         
@@ -417,7 +415,7 @@ String: cover from Char* {
     /** return a copy of *this*. */
     clone: func -> This {
         length := length()
-        copy := gc_malloc(length + 1)
+        copy := new(length)
         memcpy(copy, this, length + 1)
         return copy
     }
@@ -776,7 +774,6 @@ operator as (value: Bool) -> String {
  */
 Float: cover from float extends LDouble
 Double: cover from double extends LDouble
-
 LDouble: cover from long double {
     
     toString: func -> String {

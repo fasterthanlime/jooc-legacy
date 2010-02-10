@@ -3,7 +3,7 @@ import structs/ArrayList
 Stack: class <T> extends Iterable<T> {
 	data: ArrayList<T>
 	
-	init: func() {
+	init: func {
 		data = ArrayList<T> new()
 	}
 
@@ -11,23 +11,14 @@ Stack: class <T> extends Iterable<T> {
 		data add(element)
 	}
 	
-	pop: func() -> T {
+	pop: func -> T {
 		if (isEmpty())
 			Exception new(This, "Trying to pop an empty stack.") throw()
 			
 		return data removeAt(lastIndex())
 	}
-    
-    /*
-    pop: func ~checked (value: T) -> T {
-        real := pop()
-        if(real != value)
-            Exception new(This, "Trying to pop %p, but %p came out.") throw()
-        return real
-    }
-    */
 	
-	peek: func() -> T {
+	peek: func -> T {
 		if (isEmpty())
 			Exception new(This, "Trying to peek an empty stack.") throw()
 			
@@ -45,15 +36,15 @@ Stack: class <T> extends Iterable<T> {
         return data get(size - index)
     }
 	
-	size: func() -> Int {	
+	size: func -> Int {	
 		return data size()
 	}
 	
-	isEmpty: func() -> Bool {
+	isEmpty: func -> Bool {
 		return data isEmpty()
 	}
 	
-	lastIndex: func() -> Int {
+	lastIndex: func -> Int {
 		return size() - 1
 	}
     
