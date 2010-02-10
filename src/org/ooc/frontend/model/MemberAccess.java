@@ -90,12 +90,12 @@ public class MemberAccess extends VariableAccess {
 					stack.push(imp.getModule());
 				}
 				VariableAccess varAcc = new VariableAccess(getName(), expression.startToken);
-				expression = varAcc;
 				varAcc.resolve(stack, res, fatal);
 				ref = varAcc.getRef();
 				for(Import imp: ns.getImports()) {
 					stack.pop();
 				}
+				stack.peek().replace(this, varAcc);
 				return Response.OK;
 			}
 

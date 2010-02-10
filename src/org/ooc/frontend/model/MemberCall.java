@@ -66,6 +66,21 @@ public class MemberCall extends FunctionCall {
 		
 		if(dead) return Response.OK;
 		
+		if(expression instanceof VariableAccess && ((VariableAccess) expression).getRef() instanceof NamespaceDecl) {
+			NamespaceDecl ns = ((NamespaceDecl) ((VariableAccess) expression).getRef());
+			// push imported modules ...
+			for(Import imp: ns.getImports()) {
+				stack.push(imp.getModule());
+			}
+			FunctionCall call = new FunctionCall(getName(), expression.startToken);
+			call.resolve(stack, res, fatal);
+			for(Import imp: ns.getImports()) {
+				stack.pop();
+			}
+			stack.peek().replace(this, call);
+			return Response.OK;
+		}	
+
 		Type exprType = expression.getType();
 		if(exprType == null) {
 			if(fatal) {
