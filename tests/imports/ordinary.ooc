@@ -14,3 +14,8 @@ Greeter: class {
         "Hello %s!" format(who) println()
     }
 }
+
+pipapo: func (hello: String) -> Int {
+    hello println()
+    42
+}
