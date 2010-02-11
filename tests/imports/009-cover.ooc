@@ -1,6 +1,6 @@
 import lang/types into Types
 
-IntAddon: cover from (Types Int) extends (Types Int) {
+IntAddon: cover from Types Int extends Types Int {
     test: func {
         (this + 42) toString() println()
     }
