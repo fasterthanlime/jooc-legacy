@@ -1,6 +1,6 @@
 import io/File into IO
 
-printName: func (file: (IO File)) {
+printName: func (file: IO File) {
     file name() println()
 }
 

@@ -107,7 +107,7 @@ public class FunctionDeclParser {
 		if(token.type == TokenType.ARROW) {
 			reader.skip();
 			reader.skipWhitespace();
-			Type returnType = TypeParser.parse(module, sReader, reader);
+			Type returnType = TypeParser.parse(module, sReader, reader, false);
 			if(returnType == null) {
 				throw new CompilationFailedError(sReader.getLocation(reader.peek()),
 						"Expected return type after '->'");

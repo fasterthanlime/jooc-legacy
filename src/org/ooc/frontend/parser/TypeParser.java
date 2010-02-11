@@ -15,8 +15,11 @@ import org.ubi.CompilationFailedError;
 import org.ubi.SourceReader;
 
 public class TypeParser {
+	public static Type parse(Module module, SourceReader sReader, TokenReader reader) {
+		return parse(module, sReader, reader, true);
+	}
 
-	public static Type parse(Module module, SourceReader sReader, TokenReader reader) {	
+	public static Type parse(Module module, SourceReader sReader, TokenReader reader, boolean namespaceNeedsParens) {	
 		
 		boolean hasParens = false;
 		String name = "";
@@ -65,7 +68,7 @@ public class TypeParser {
 			name += reader.read().get(sReader);
 		}
 
-		if(reader.peek().type == TokenType.NAME && hasParens) {
+		if(reader.peek().type == TokenType.NAME && (hasParens || !namespaceNeedsParens)) {
 			// namespacey! what we read before is the namespace actually.
 			namespace = name;
 			name = reader.read().get(sReader);

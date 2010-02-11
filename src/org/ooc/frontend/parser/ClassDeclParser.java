@@ -60,7 +60,7 @@ public class ClassDeclParser {
 			Type superType = null;
 			if(reader.peek().type == TokenType.EXTENDS_KW) {
 				reader.skip();
-				superType = TypeParser.parse(module, sReader, reader);
+				superType = TypeParser.parse(module, sReader, reader, false);
 			}
 			
 			reader.skipWhitespace();

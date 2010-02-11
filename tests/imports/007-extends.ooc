@@ -1,6 +1,6 @@
 import ordinary into Yay
 
-Yohow: class extends (Yay Greeter) {
+Yohow: class extends Yay Greeter {
     init: func ~w (=who) {}
 
     greet: func {
