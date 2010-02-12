@@ -19,20 +19,26 @@ public class VersionBlockWriter {
 		versionBlock.getVersion().accept(new VersionNodeVisitor() {
 			
 			public void visit(VersionOr versionOr) throws IOException {
+				cgen.current.app("(");
 				versionOr.getLeft().accept(this);
 				cgen.current.app(" || ");
 				versionOr.getRight().accept(this);
+				cgen.current.app(")");
 			}
 			
 			public void visit(VersionAnd versionAnd) throws IOException {
+				cgen.current.app("(");
 				versionAnd.getLeft().accept(this);
 				cgen.current.app(" && ");
 				versionAnd.getRight().accept(this);
+				cgen.current.app(")");
 			}
 			
 			public void visit(VersionNegation versionNegation) throws IOException {
+				cgen.current.app("(");
 				cgen.current.app('!');
 				versionNegation.getInner().accept(this);
+				cgen.current.app(")");
 			}
 			
 			public void visit(VersionName versionName) throws IOException {
