@@ -50,7 +50,7 @@ public class CoverDeclParser {
 				if(token.type == TokenType.FROM_KW) {
 					reader.skip();
 					reader.skipWhitespace();
-					fromType = TypeParser.parse(module, sReader, reader);
+					fromType = TypeParser.parse(module, sReader, reader, false);
 					if(fromType == null) {
 						throw new CompilationFailedError(sReader.getLocation(reader.peek()),
 						"Expected cover's base type name after the from keyword.");
@@ -58,7 +58,7 @@ public class CoverDeclParser {
 					continue;
 				} else if(token.type == TokenType.EXTENDS_KW) {
 					reader.skip();
-					superType = TypeParser.parse(module, sReader, reader);
+					superType = TypeParser.parse(module, sReader, reader, false);
 					continue;
 				}
 				break;
@@ -67,7 +67,7 @@ public class CoverDeclParser {
 			if(superType != null && name.equals(superType.getName())) {
 				throw new CompilationFailedError(sReader.getLocation(startToken), "A cover cannot extends itself!");
 			}
-			
+
 			CoverDecl coverDecl = new CoverDecl(name, superType, fromType, module, startToken);
 			module.parseStack.push(coverDecl);
 			coverDecl.setExternName(externName);

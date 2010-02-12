@@ -15,10 +15,15 @@ import org.ubi.CompilationFailedError;
 import org.ubi.SourceReader;
 
 public class TypeParser {
+	public static Type parse(Module module, SourceReader sReader, TokenReader reader) {
+		return parse(module, sReader, reader, true);
+	}
 
-	public static Type parse(Module module, SourceReader sReader, TokenReader reader) {	
+	public static Type parse(Module module, SourceReader sReader, TokenReader reader, boolean namespaceNeedsParens) {	
 		
+		boolean hasParens = false;
 		String name = "";
+		String namespace = null;
 		int pointerLevel = 0;
 		int referenceLevel = 0;
 		boolean isArray = false;
@@ -31,7 +36,14 @@ public class TypeParser {
 		//TODO add more checks
 		while(reader.hasNext()) {
 			Token t = reader.peek();
-			if(t.type == TokenType.UNSIGNED) {
+			if(t.type == TokenType.OPEN_PAREN) {
+				if(hasParens) {
+					throw new CompilationFailedError(sReader.getLocation(reader.peek()),
+							"Only one pair of parens, please.");
+				}
+				reader.skip();
+				hasParens = true;
+			} else if(t.type == TokenType.UNSIGNED) {
 				reader.skip();
 				name += "unsigned ";
 			} else if(t.type == TokenType.SIGNED) {
@@ -51,11 +63,17 @@ public class TypeParser {
 				isConst = true;
 			} else break;
 		}
-			
+		
 		if(reader.peek().type == TokenType.NAME) {
 			name += reader.read().get(sReader);
 		}
-		
+
+		if(reader.peek().type == TokenType.NAME && (hasParens || !namespaceNeedsParens)) {
+			// namespacey! what we read before is the namespace actually.
+			namespace = name;
+			name = reader.read().get(sReader);
+		}
+
 		if(reader.peek().type == TokenType.LESSTHAN) {
 			typeParams = readTypeParams(module, sReader, reader, typeParams);
 		}
@@ -96,6 +114,15 @@ public class TypeParser {
 			referenceLevel++;
 			reader.skip();
 		}
+
+		if(hasParens) {
+			if(reader.peek().type == TokenType.CLOS_PAREN) {
+				reader.skip();
+			} else {
+				throw new CompilationFailedError(sReader.getLocation(reader.peek()),
+						"Close your parens please.");
+			}
+		}
 		
 		if(name.length() > 0) {
 			Type type = new Type(name.trim(), pointerLevel, referenceLevel, startToken);
@@ -106,6 +133,7 @@ public class TypeParser {
 					type.setName(decl.getName());
 				}
 			}
+			type.setNamespace(namespace);
 			type.setArray(isArray);
 			type.setConst(isConst);
 			if(typeParams != null) {

@@ -139,7 +139,7 @@ public class ArgumentParser {
 
 		if(reader.peek().type == TokenType.COLON) {
 			reader.skip();
-			Type type = TypeParser.parse(module, sReader, reader);
+			Type type = TypeParser.parse(module, sReader, reader, false);
 			if(type == null) {
 				throw new CompilationFailedError(sReader.getLocation(reader.peek()),
 						"Expected argument type after its name and ':'");

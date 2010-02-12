@@ -29,6 +29,14 @@ public class NamespaceDecl extends Declaration {
 	
 	}
 
+	public TypeDecl resolveType(String name) {
+		for(Import imp: imports) {
+			TypeDecl type = imp.getModule().getType(name);
+			if(type != null) return type;
+		}
+		return null;
+	}
+
 	public Type getType() {
 		return null;
 	}

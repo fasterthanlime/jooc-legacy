@@ -161,7 +161,7 @@ public class ClassDecl extends TypeDecl {
 		if(response != Response.OK) return response;
 		
 		if(isResolved()) return Response.OK;
-		
+
 		if(getSuperType() != null && !(super.getSuperRef() instanceof ClassDecl)) {
 			throw new OocCompilationError(this, stack, "Trying to extends a "
 					+getSuperRef().getClass().getSimpleName()+". You can only extend classes.");

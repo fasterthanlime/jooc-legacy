@@ -73,7 +73,12 @@ public class MemberCall extends FunctionCall {
 				stack.push(imp.getModule());
 			}
 			stack.push(ns);
+			
 			FunctionCall call = new FunctionCall(getName(), expression.startToken);
+			call.setSuffix(suffix);
+			call.getTypeParams().addAll(typeParams);
+			call.getArguments().addAll(arguments);
+
 			call.resolve(stack, res, fatal);
 			stack.pop();
 			for(Import imp: ns.getImports()) {
