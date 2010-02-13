@@ -354,10 +354,9 @@ public class ExpressionParser {
 
 	protected static void ensureAccess(Expression expr, SourceReader sReader, TokenReader reader) {
 
-		
 		if(!(expr instanceof Access)) {
 			throw new CompilationFailedError(sReader.getLocation(reader.peek()),
-					"Attempting to assign to a constant, e.g. "+expr);
+					"Can't assign to a "+expr.getClass().getSimpleName()+", e.g. "+expr);
 		}
 		
 	}
