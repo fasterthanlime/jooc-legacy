@@ -1,5 +1,3 @@
-include stdlib, memory
-
 import ArrayList
 
 /**
@@ -154,8 +152,10 @@ HashMap: class <T> extends Iterable<T> {
             buckets[hash] add(entry)
             size += 1
             load = size / capacity as Float
-            if (load >= 0.7) {
-                resize(capacity * 2)
+            // was >= 0.8, * 2
+            if (load > 0.7) {
+                v1 = capacity / 0.7, v2 = capacity * 2 : Int
+                resize(v1 > v2 ? v1 : v2)
             }
         }
         return true
@@ -224,22 +224,25 @@ HashMap: class <T> extends Iterable<T> {
      * @return Bool
      */
     resize: func (_capacity: UInt) -> Bool {
+        
         /* Keep track of old settings */
         old_capacity := capacity
-        old_buckets = gc_malloc(old_capacity * Pointer size) : ArrayList<T>*
+        old_buckets := gc_malloc(old_capacity * Pointer size) as ArrayList<T>*
         if (!old_buckets) {
-            Exception new(This, "Out of memory: failed to allocate %d bytes\n" + (old_capacity * ArrayList size)) throw()
+            Exception new(This, "Out of memory: failed to allocate %d bytes\n" + (old_capacity * Pointer size)) throw()
         }
         for (i: UInt in 0..old_capacity) {
             old_buckets[i] = buckets[i] clone()
         }
+        
         /* Clear key list */
         keys clear()
+        
         /* Transfer old buckets to new buckets! */
         capacity = _capacity
         buckets = gc_malloc(capacity * Pointer size)
         if (!buckets) {
-            Exception new(This, "Out of memory: failed to allocate %d bytes\n" + (capacity * ArrayList size)) throw()
+            Exception new(This, "Out of memory: failed to allocate %d bytes\n" + (capacity * Pointer size)) throw()
         }
         for (i: UInt in 0..capacity) {
             buckets[i] = ArrayList<T> new()
@@ -254,7 +257,7 @@ HashMap: class <T> extends Iterable<T> {
                 }
             }
         }
-    
+        
         return true
     }
     
@@ -267,6 +270,8 @@ HashMap: class <T> extends Iterable<T> {
     }
     
     size: func -> UInt { size }
+    
+    getKeys: func -> ArrayList<String> { keys }
 
 }
 

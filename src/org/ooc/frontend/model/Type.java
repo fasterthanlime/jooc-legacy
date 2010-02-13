@@ -458,6 +458,7 @@ public class Type extends Node implements MustBeResolved {
 
 	public boolean softEquals(Type type, Resolver res) {
 		if(type == null) return false;
+		
 		// that's a ugly hack - but on the other hand, we can't expect generics
 		// to work properly on opeartor overloads, for example
 		if(name.equals("uint8_t")) return false;
@@ -466,6 +467,7 @@ public class Type extends Node implements MustBeResolved {
 		if(equals(type)) {
 			return true;
 		}
+		
 		Declaration ref = type.getRef();
 		if(ref instanceof TypeDecl) {
 			TypeDecl typeDecl = (TypeDecl) ref;

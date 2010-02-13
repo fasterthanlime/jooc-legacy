@@ -80,14 +80,14 @@ MultiMapValueIterator: class <T> extends Iterator<T> {
     
     init: func(=map) {}
     
-    hasNext: func -> Bool { index < map keys size() && (sub == null || sub hasNext()) }
+    hasNext: func -> Bool { index < map getKeys() size() && (sub == null || sub hasNext()) }
     
     next: func -> T {
 
         // not in list mode
         if(!sub) {
             // retrieve value
-            key := map keys get(index)
+            key := map getKeys() get(index)
             val := map getAll(key) as Object
             if(val instanceOf(List)) {
                 // switch in list mode

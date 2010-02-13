@@ -218,6 +218,8 @@ public class ArrayAccess extends Access implements MustBeResolved {
 			}
 			
 			if(assignIndex != -1) {
+				System.out.println("Applying overload to " + this);
+				
 				Argument last = args.getLast();
 				Assignment ass = (Assignment)stack.get(assignIndex);
 				if (ass.getRight().getType() == null) {
