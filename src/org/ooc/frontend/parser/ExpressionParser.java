@@ -85,6 +85,10 @@ public class ExpressionParser {
 			reader.skip();
 			reader.skipWhitespace();
 			expr = parse(module, sReader, reader, noDecl);
+			if(expr == null) {
+				throw new CompilationFailedError(sReader.getLocation(reader.prev())
+						, "Failed to parse expression between parenthesis, got "+reader.prev());
+			}
 			expr = new Parenthesis(expr, expr.startToken);
 			reader.skipWhitespace();
 			if(reader.read().type != TokenType.CLOS_PAREN) {
