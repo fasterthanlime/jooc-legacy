@@ -86,8 +86,8 @@ public class ExpressionParser {
 			reader.skipWhitespace();
 			expr = parse(module, sReader, reader, noDecl);
 			if(expr == null) {
-				throw new CompilationFailedError(sReader.getLocation(reader.prev())
-						, "Failed to parse expression between parenthesis, got "+reader.prev());
+				throw new CompilationFailedError(sReader.getLocation(reader.peek())
+						, "Failed to parse expression between parenthesis, got "+reader.peek());
 			}
 			expr = new Parenthesis(expr, expr.startToken);
 			reader.skipWhitespace();
