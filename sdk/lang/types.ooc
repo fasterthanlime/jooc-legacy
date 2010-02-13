@@ -469,6 +469,8 @@ String: cover from Char* {
     
     /** clone myself, return all occurences of *oldie* with *kiddo* and return it. */
     replace: func (oldie, kiddo: Char) -> This {
+        if(!contains(oldie)) return this
+        
         length := length()
         copy := this clone()
         for(i in 0..length) {
@@ -479,6 +481,8 @@ String: cover from Char* {
 
     /** clone myself, return all occurences of *oldie* with *kiddo* and return it. */
     replace: func ~string (oldie, kiddo: This) -> This {
+        if(!contains(oldie)) return this
+        
         length := length()
         oldieLength := oldie length()
         buffer := StringBuffer new(length)
@@ -489,6 +493,7 @@ String: cover from Char* {
                 buffer append(kiddo)
                 i += oldieLength
             } else {
+                // TODO optimize: don't appepnd char by char, append chunk by chunk.
                 buffer append(this as Char* [i])
                 i += 1    
             }

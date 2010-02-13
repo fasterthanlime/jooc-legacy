@@ -164,10 +164,7 @@ public class ExpressionParser {
 					throw new CompilationFailedError(sReader.getLocation(reader.peek()),
 						"Expected expression after '='.");
 				}
-				if(!(expr instanceof Access)) {
-					throw new CompilationFailedError(sReader.getLocation(reader.peek()),
-						"Attempting to assign to a constant, e.g. "+expr);
-				}
+				ensureAccess(expr, sReader, reader);
 				if(token.type == TokenType.ASSIGN) {
 					expr = new Assignment(expr, rvalue, token);
 				}
@@ -283,27 +280,27 @@ public class ExpressionParser {
 					case TokenType.NOT_EQUALS:
 						expr = new Compare(expr, rvalue, CompareType.NOT_EQUAL, token); break;
 					case TokenType.PLUS_ASSIGN:
-						ensureAccess(expr);
+						ensureAccess(expr, sReader, reader);
 						expr = new Assignment(Mode.ADD, expr, rvalue, token); break;
 					case TokenType.MINUS_ASSIGN:
-						ensureAccess(expr);
+						ensureAccess(expr, sReader, reader);
 						expr = new Assignment(Mode.SUB, expr, rvalue, token); break;
 					case TokenType.STAR_ASSIGN:
-						ensureAccess(expr);
+						ensureAccess(expr, sReader, reader);
 						expr = new Assignment(Mode.MUL, expr, rvalue, token); break;
 					case TokenType.SLASH_ASSIGN:
-						ensureAccess(expr);
+						ensureAccess(expr, sReader, reader);
 						expr = new Assignment(Mode.DIV, expr, rvalue, token); break;
 					case TokenType.PIPE:
 						if(isAssign) {
-							ensureAccess(expr);
+							ensureAccess(expr, sReader, reader);
 							expr = new Assignment(Mode.B_OR, expr, rvalue, token); break;
 						}
 						expr = new BinaryCombination(BinaryComp.BITWISE_OR, expr, rvalue, token); break;
 					case TokenType.AMPERSAND:
 					case TokenType.BINARY_AND:
 						if(isAssign) {
-							ensureAccess(expr);
+							ensureAccess(expr, sReader, reader);
 							expr = new Assignment(Mode.B_AND, expr, rvalue, token); break;
 						}
 						expr = new BinaryCombination(BinaryComp.BITWISE_AND, expr, rvalue, token); break;
@@ -313,7 +310,7 @@ public class ExpressionParser {
 						expr = new BinaryCombination(BinaryComp.LOGICAL_AND, expr, rvalue, token); break;
 					case TokenType.CARET:
 						if(isAssign) {
-							ensureAccess(expr);
+							ensureAccess(expr, sReader, reader);
 							expr = new Assignment(Mode.B_XOR, expr, rvalue, token); break;
 						}
 						expr = new BinaryCombination(BinaryComp.BITWISE_XOR, expr, rvalue, token); break;
@@ -355,10 +352,12 @@ public class ExpressionParser {
 		return rvalue;
 	}
 
-	protected static void ensureAccess(Expression expr) {
+	protected static void ensureAccess(Expression expr, SourceReader sReader, TokenReader reader) {
 
+		
 		if(!(expr instanceof Access)) {
-			throw new CompilationFailedError(null, "Trying to assign to a constant :/");
+			throw new CompilationFailedError(sReader.getLocation(reader.peek()),
+					"Attempting to assign to a constant, e.g. "+expr);
 		}
 		
 	}
