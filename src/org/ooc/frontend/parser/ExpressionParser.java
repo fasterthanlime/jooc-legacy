@@ -352,8 +352,12 @@ public class ExpressionParser {
 		return rvalue;
 	}
 
-	protected static void ensureAccess(Expression expr, SourceReader sReader, TokenReader reader) {
+	protected static void ensureAccess(Expression exprParam, SourceReader sReader, TokenReader reader) {
 
+		Expression expr = exprParam;
+		while(expr instanceof Parenthesis) {
+			expr = ((Parenthesis) expr).getInner();
+		}
 		if(!(expr instanceof Access)) {
 			throw new CompilationFailedError(sReader.getLocation(reader.peek()),
 					"Can't assign to a "+expr.getClass().getSimpleName()+", e.g. "+expr);
