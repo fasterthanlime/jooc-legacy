@@ -37,6 +37,9 @@ public class ArrayLiteral extends Literal implements MustBeUnwrapped, MustBeReso
 		if(oldie == type) {
 			type = (Type) kiddo;
 			return true;
+		} else if(oldie == innerType) {
+			innerType = (Type) kiddo;
+			return true;
 		}
 		
 		return false;
