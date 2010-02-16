@@ -4,7 +4,7 @@ errno: extern Int
 strerror: extern func(Int) -> String
 
 OSError: class extends Exception {
-    init: func ~errno {
+    init: func {
         super(strerror(errno))
     }
 }
