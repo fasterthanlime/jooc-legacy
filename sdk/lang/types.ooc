@@ -928,7 +928,7 @@ Exception: class {
     origin: Class
     msg : String
 
-    init: func (=origin, =msg) {}
+    init: func ~origin(=origin, =msg) {}
     init: func ~noOrigin (=msg) {}
     
     crash: func {
