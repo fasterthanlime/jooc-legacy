@@ -26,10 +26,6 @@ File: abstract class {
     separator = '/' : static Char
     pathDelimiter = ':' : static Char
 
-    getPath: func -> String {
-        return path
-    }
-
     new: static func (.path) -> This {
         version(unix || apple) {
             return FileUnix new(path)
@@ -181,6 +177,11 @@ File: abstract class {
      * :return: true if the function is relative to the current directory
      */
     isRelative: abstract func -> Bool
+
+    /**
+     * the path this file has been created with
+     */
+    getPath: func -> String { path }
 
     /**
      * The absolute path, e.g. "my/dir" => "/current/directory/my/dir"
