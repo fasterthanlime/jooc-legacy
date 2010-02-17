@@ -35,10 +35,15 @@ public class CallWriter {
 		writePrelude(cgen, impl, functionCall);
 		
 		if(functionCall.getName().equals("sizeof")) {
+			if(functionCall.getArguments().size() != 1) {
+				throw new OocCompilationError(functionCall, cgen.module,
+						"sizeof needs exactly one argument! " + functionCall.getArguments().size()
+						+ (functionCall.getArguments().size() > 1 ? " is too many|" : " isn't enough|"));
+			}
 			Expression arg = functionCall.getArguments().getFirst();
 			if(!(arg instanceof VariableAccess)) {
 				throw new OocCompilationError(arg, cgen.module,
-						"You can only call sizeof() on a type! What the.. are you doing?");
+						"You can only call sizeof() on a type! What are you doing?");
 			}
 			cgen.current.app("sizeof(");
 			if(arg instanceof MemberAccess) {
