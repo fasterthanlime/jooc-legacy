@@ -20,8 +20,13 @@ public class UseDefParser {
 	
 	public static UseDef parse(String identifier, SourceReader sReader, Token token, BuildParams params) throws IOException {
 		
+		if(params.veryVerbose) System.out.println("Parsing usefile "+identifier);
+		
 		UseDef cached = cache.get(identifier);
-		if(cached != null) return cached;
+		if(cached != null) {
+			if(params.veryVerbose) System.out.println("Getting usefile "+identifier+" from cache");
+			return cached;
+		}
 		
 		File file = findUse(identifier+".use", params);
 		if(file == null) {
@@ -33,6 +38,8 @@ public class UseDefParser {
 					"\nFor more informations, see http://docs.ooc-lang.org/libs.html" +
 					"\n-------------------");
 		}
+		
+		if(params.veryVerbose) System.out.println("Found usefile "+identifier+" at "+file.getAbsolutePath());
 		
 		UseDef def = new UseDef(identifier);
 		cache.put(identifier, def);
@@ -110,6 +117,8 @@ public class UseDefParser {
 		for(Requirement req: def.getRequirements()) {
 			req.setDef(parse(req.getName(), sReader, token, params));
 		}
+		
+		if(params.veryVerbose) System.out.println("Finished reading usefile "+file.getAbsolutePath());
 		
 		return def;
 		
