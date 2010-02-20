@@ -187,31 +187,33 @@ String: cover from Char* {
         }
         return true
     }
+
+    /** TODO: make these inline again once inlines are fixed **/
     
     /** convert the string's contents to Int. */
-    toInt: inline func -> Int                       { strtol(this, null, 10)   }
-    toInt: inline func ~withBase (base: Int) -> Int { strtol(this, null, base) }
+    toInt: func -> Int                       { strtol(this, null, 10)   }
+    toInt: func ~withBase (base: Int) -> Int { strtol(this, null, base) }
     
     /** convert the string's contents to Long. */
-    toLong: inline func -> Long                        { strtol(this, null, 10)   }
-    toLong: inline func ~withBase (base: Long) -> Long { strtol(this, null, base) }
+    toLong: func -> Long                        { strtol(this, null, 10)   }
+    toLong: func ~withBase (base: Long) -> Long { strtol(this, null, base) }
     
     /** convert the string's contents to Long Long. */
-    toLLong: inline func -> LLong                         { strtol(this, null, 10)   }
-    toLLong: inline func ~withBase (base: LLong) -> LLong { strtol(this, null, base) }
+    toLLong: func -> LLong                         { strtol(this, null, 10)   }
+    toLLong: func ~withBase (base: LLong) -> LLong { strtol(this, null, base) }
     
     /** convert the string's contents to Unsigned Long. */
-    toULong: inline func -> ULong                         { strtoul(this, null, 10)   }
-    toULong: inline func ~withBase (base: ULong) -> ULong { strtoul(this, null, base) }
+    toULong: func -> ULong                         { strtoul(this, null, 10)   }
+    toULong: func ~withBase (base: ULong) -> ULong { strtoul(this, null, base) }
     
     /** convert the string's contents to Float. */
-    toFloat: inline func -> Float                         { strtof(this, null)   }
+    toFloat: func -> Float                         { strtof(this, null)   }
     
     /** convert the string's contents to Double. */
-    toDouble: inline func -> Double                       { strtod(this, null)   }
+    toDouble: func -> Double                       { strtod(this, null)   }
     
     /** convert the string's contents to Long Double. */
-    toLDouble: inline func -> LDouble                     { strtold(this, null)   }
+    toLDouble: func -> LDouble                     { strtold(this, null)   }
     
     /** return true if the string is empty or ``null``. */
     isEmpty: func -> Bool { (this == null) || (this[0] == 0) }
