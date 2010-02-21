@@ -202,10 +202,97 @@ IP4Address: class extends IPAddress {
     }
 }
 
-/*IP6Address: class extends IPAddress {
-    init: func(addr: String) {
+IP6Address: class extends IPAddress {
+    ai: In6Addr
+
+    init: func(ipAddress: String) {
+        if(ipAddress isEmpty()) {
+            InvalidAddress new("Address must not be blank") throw()
+        }
+
+        family = SocketFamily IP6
+        if(inet_pton(family, ipAddress, ai&) == -1) {
+            InvalidAddress new("Could not parse address") throw()
+        }
     }
-}*/
+
+    init: func ~withAddr(addr: InAddr) {
+        family = SocketFamily IP6
+        memcpy(ai&, addr&, sizeof(In6Addr))
+    }
+
+    toWords: func -> UInt16* { ai& }
+
+    isBroadcast: func -> Bool { false }
+    isWildcard: func -> Bool {
+        words := toWords()
+        return words[0] == 0 && words[1] == 0 && words[2] == 0 && words[3] == 0 && 
+            words[4] == 0 && words[5] == 0 && words[6] == 0 && words[7] == 0
+    }
+    isGlobalMulticast: func -> Bool {
+        words := toWords()
+        return (words[0] & 0xFFEF) == 0xFF0F
+    }
+    isIP4Compatible: func -> Bool {
+        words := toWords()
+        return words[0] == 0 && words[1] == 0 && words[2] == 0 && words[3] == 0 &&
+            words[4] == 0 && words[5] == 0
+    }
+    isIP4Mapped: func -> Bool {
+        words := toWords()
+        return words[0] == 0 && words[1] == 0 && words[2] == 0 && words[3] == 0 &&
+            words[4] == 0 && words[5] == 0xFFFF
+    }
+    isLinkLocal: func -> Bool {
+        words := toWords()
+        return (words[0] & 0xFFE0) == 0xFE80
+    }
+    isLinkLocalMulticast: func -> Bool {
+        words := toWords()
+        return (words[0] & 0xFFEF) == 0xFF02
+    }
+    isLoopback: func -> Bool {
+        words := toWords()
+        return words[0] == 0 && words[1] == 0 && words[2] == 0 && words[3] == 0 && 
+            words[4] == 0 && words[5] == 0 && words[6] == 0 && words[7] == 1
+    }
+    isMulticast: func -> Bool {
+        words := toWords()
+        return (words[0] & 0xFFE0) == 0xFF00
+    }
+    isNodeLocalMulticast: func -> Bool {
+        words := toWords()
+        return (words[0] & 0xFFEF) == 0xFF01
+    }
+    isOrgLocalMulticast: func -> Bool {
+        words := toWords()
+        return (words[0] & 0xFFEF) == 0xFF08
+    }
+    isSiteLocal: func -> Bool {
+        words := toWords()
+        return (words[0] & 0xFFE0) == 0xFEC0
+    }
+    isSiteLocalMulticast: func -> Bool {
+        words := toWords()
+        return (words[0] & 0xFFEF) == 0xFF05
+    }
+    isWellKnownMulticast: func -> Bool {
+        words := toWords()
+        return (words[0] & 0xFFF0) == 0xFF00
+    }
+    mask: func(mask: IPAddress) {
+        mask(mask, null)
+    }
+    mask: func ~withSet(mask: IPAddress, set: IPAddress) {
+        NetError new("Mask is only supported with IP4 addresses") throw()
+    }
+
+    toString: func -> String {
+        addrStr := String new(128)
+        inet_ntop(family, ai&, addrStr, 128)
+        return addrStr
+    }
+}
 
 SocketAddress: abstract class {
     new: static func(host: IPAddress, port: Int) -> This {
@@ -215,6 +302,9 @@ SocketAddress: abstract class {
             case SocketFamily IP4 =>
                 ip4Host := host as IP4Address
                 SocketAddressIP4 new(ip4Host ai, nPort)
+            case SocketFamily IP6 =>
+                ip6Host := host as IP6Address
+                SocketAddressIP6 new(ip4Host ai, nPort)
             case =>
                 NetError new("Unsupported IP Address type!") throw()
                 null
@@ -249,4 +339,22 @@ SocketAddressIP4: class extends SocketAddress {
 
     addr: func -> SockAddr* { (sa&) as SockAddr* }
     length: func -> UInt32 { sizeof(SockAddrIn) }
+}
+
+SocketAddressIP6: class extends SocketAddress {
+    sa: SockAddrIn6
+
+    init: func(addr: In6Addr, port: Int) {
+        memset(sa&, 0, sizeof(SockAddrIn6))
+        sa sin6_family = SocketFamily IP6
+        memcpy(sa sin6_addr&, addr&, sizeof(In6Addr))
+        sa sin6_port = port
+    }
+
+    family: func -> Int { sa sin6_family }
+    host: func -> IPAddress { IP6Address new(sa sin6_addr) }
+    port: func -> Int { ntohs(sa sin6_port) }
+
+    addr: func -> SockAddr* { (sa&) as SockAddr* }
+    length: func -> UInt32 { sizeof(SockAddrIn6) }
 }
