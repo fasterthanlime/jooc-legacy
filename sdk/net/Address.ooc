@@ -216,7 +216,7 @@ IP6Address: class extends IPAddress {
         }
     }
 
-    init: func ~withAddr(addr: InAddr) {
+    init: func ~withAddr(addr: In6Addr) {
         family = SocketFamily IP6
         memcpy(ai&, addr&, sizeof(In6Addr))
     }
@@ -304,7 +304,7 @@ SocketAddress: abstract class {
                 SocketAddressIP4 new(ip4Host ai, nPort)
             case SocketFamily IP6 =>
                 ip6Host := host as IP6Address
-                SocketAddressIP6 new(ip4Host ai, nPort)
+                SocketAddressIP6 new(ip6Host ai, nPort)
             case =>
                 NetError new("Unsupported IP Address type!") throw()
                 null
