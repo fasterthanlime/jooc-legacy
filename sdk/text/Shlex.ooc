@@ -26,7 +26,7 @@ Shlex: class {
     }
 
     close: func -> ArrayList<String> {
-        if(buffer size) { /* TODO: non-public api? */
+        if(!buffer toString() isEmpty()) {
             result add(buffer toString())
         }
         result
