@@ -28,7 +28,7 @@
 
 include stdlib, stdio, errno, string, sys/time
 
-malloc: extern func (Int)
+malloc: extern func (Int) -> Pointer
 exit: extern func (Int)
 errno: extern Int
 
@@ -38,14 +38,14 @@ ReturnValue: class {
 	exception: Exception
 	value: Pointer
 	
-	init: func (=exception, =value) 
+	init: func (=exception, =value) {}
 }
 
 Exception: class {
 	name: String
 	message: String
 	
-	init: func (=name, =message)
+	init: func (=name, =message) {}
 }
 
 /*************** Two malloc flavors *******************/
@@ -56,10 +56,10 @@ safe_malloc: func (size: SizeT) -> ReturnValue {
 	
 	mem = malloc(size) : Pointer
 	if(!mem) {
-		return new ReturnValue(new Exception("OutOfMemoryException", strerror(errno)), null)
+		return ReturnValue new(Exception new("OutOfMemoryException", strerror(errno)), null)
 	}
 	
-	return new ReturnValue(null, mem)
+	return ReturnValue new(null, mem)
 	
 }
 
@@ -98,11 +98,11 @@ ALLOC_SIZE := const 3000000000
 
 main: func -> Int {
 	
-	for(i: in 0..MAX_ITER) {
+	for(i in 0..MAX_ITER) {
 		try_alloc_safe(ALLOC_SIZE)
 	}
 	
-	for(i: in 0..MAX_ITER) {
+	for(i in 0..MAX_ITER) {
 		try_alloc_unsafe(ALLOC_SIZE)
 	}
 	
