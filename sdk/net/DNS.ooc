@@ -90,6 +90,9 @@ HostInfo: class {
         }
     }
 
+    /**
+        Returns a list of IPAddress associated with this host.
+    */
     addresses: func -> LinkedList<IPAddress> {
         addresses
     }

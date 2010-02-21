@@ -3,7 +3,7 @@ import io/[Reader, Writer]
 import berkeley into socket
 
 /**
-    A TCP stream socket interface.
+    A stream based socket interface.
 */
 StreamSocket: class extends Socket {
     remote: SocketAddress
