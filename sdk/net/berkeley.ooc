@@ -3,7 +3,7 @@ include sys/types
 include sys/socket
 include sys/ioctl
 include sys/poll
-include unistd | (_BSD_SOURCE)
+include unistd | (__USE_BSD)
 include sys/select
 include arpa/inet
 include netdb | (__USE_POSIX)
