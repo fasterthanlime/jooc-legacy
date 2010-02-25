@@ -225,7 +225,7 @@ IP6Address: class extends IPAddress {
         memcpy(ai&, addr&, sizeof(In6Addr))
     }
 
-    toWords: func -> UInt16* { ai& }
+    toWords: func -> UInt16* { ai& as UInt16* }
 
     isBroadcast: func -> Bool { false }
     isWildcard: func -> Bool {
@@ -302,28 +302,30 @@ SocketAddress: abstract class {
     new: static func(host: IPAddress, port: Int) -> This {
         nPort: Int = htons(port)
 
-        match host family {
-            case SocketFamily IP4 =>
-                ip4Host := host as IP4Address
-                SocketAddressIP4 new(ip4Host ai, nPort)
-            case SocketFamily IP6 =>
-                ip6Host := host as IP6Address
-                SocketAddressIP6 new(ip6Host ai, nPort)
-            case =>
-                NetError new("Unsupported IP Address type!") throw()
-                null
+        if(host family == SocketFamily IP4) {
+            ip4Host := host as IP4Address
+            return SocketAddressIP4 new(ip4Host ai, nPort)
+        }
+        else if(host family == SocketFamily IP6) {
+            ip6Host := host as IP6Address
+            return SocketAddressIP6 new(ip6Host ai, nPort)
+        }
+        else {
+            NetError new("Unsupported IP Address type!") throw()
+            return null
         }
     }
 
     newFromSock: static func(addr: SockAddr*, len: UInt) -> This {
-        match len {
-            case sizeof(SockAddrIn) =>
-                SocketAddressIP4 new(addr)
-            case sizeof(SockAddrIn6) =>
-                SocketAddressIP6 new(addr)
-            case =>
-                NetError new("Unknown SockAddr type!") throw()
-                null
+        if(len == sizeof(SockAddrIn)) {
+            return SocketAddressIP4 new(addr as SockAddrIn*)
+        }
+        else if(len == sizeof(SockAddrIn6)) {
+            return SocketAddressIP6 new(addr as SockAddrIn6*)
+        }
+        else {
+            NetError new("Unknown SockAddr type!") throw()
+            return null
         }
     }
 
@@ -369,7 +371,7 @@ SocketAddressIP6: class extends SocketAddress {
         memcpy(sa sin6_addr&, addr&, sizeof(In6Addr))
         sa sin6_port = port
     }
-    init: func ~sockAddr6(sockAddr: SockAddrIn6*) {
+    init: func ~sock6(sockAddr: SockAddrIn6*) {
         memcpy(sa&, sockAddr, sizeof(SockAddrIn6))
     }
 

@@ -3,7 +3,7 @@ include sys/types
 include sys/socket
 include sys/ioctl
 include sys/poll
-include unistd
+include unistd | (_BSD_SOURCE)
 include sys/select
 include arpa/inet
 include netdb | (__USE_POSIX)
@@ -105,7 +105,7 @@ setsockopt: extern func(s: Int, level: Int, optname: Int, optval: Pointer, optle
 getaddrinfo: extern func(nodename: String, servname: String, hints: AddrInfo*, servinfo: AddrInfo**) -> Int
 getnameinfo: extern func(sa: SockAddr*, salen: UInt32, host: String, hostlen: SizeT, serv: String, servlen: UInt32, flags: Int) -> Int
 freeaddrinfo: extern func(ai: AddrInfo*)
-gai_strerror: extern func(ecode: Int) -> const String
+gai_strerror: extern func(ecode: Int) -> const Char*
 gethostname: extern func(name: String, len: SizeT) -> Int
 gethostbyname: extern func(name: String) -> HostEntry*
 gethostbyaddr: extern func(addr: String, len: Int, type: Int) -> HostEntry*
