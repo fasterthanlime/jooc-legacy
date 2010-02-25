@@ -11,6 +11,9 @@ StreamSocket: class extends Socket {
     init: func ~addr(=remote) {
         super(remote family(), SocketType STREAM, 0)
     }
+    init: func ~addrDescriptor(=remote, .descriptor) {
+        super(remote family(), SocketType STREAM, 0, descriptor)
+    }
     init: func ~hostAndPort(host: String, port: Int) {
         this(host, port, SocketFamily UNSPEC)
     }

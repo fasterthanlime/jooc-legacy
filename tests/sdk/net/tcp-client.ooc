@@ -5,7 +5,7 @@ main: func {
     socket remote toString() println()
     socket connect()
 
-    bytesSent := socket send("hi server!\n")
+    bytesSent := socket send("hi server!")
     "Sent %d bytes!" format(bytesSent) println()
 
     buffer := String new(100)

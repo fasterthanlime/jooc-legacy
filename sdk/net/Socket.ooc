@@ -7,12 +7,13 @@ Socket: abstract class {
     descriptor: Int
     family, type, protocol: Int
 
-    init: func(=family, =type, =protocol) {
+    init: func ~sock(=family, =type, =protocol) {
         descriptor = socket(family, type, protocol)
         if (descriptor == -1) {
             SocketError new("Failed to create socket") throw()
         }
     }
+    init: func ~descriptor(=family, =type, =protocol, =descriptor) {}
 
     close: func {
         if (close(descriptor) == -1) {

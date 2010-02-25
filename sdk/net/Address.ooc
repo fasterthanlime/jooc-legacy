@@ -155,6 +155,10 @@ IP4Address: class extends IPAddress {
         }
     }
 
+    init: func ~wildcard {
+        this("0.0.0.0")
+    }
+
     init: func ~withAddr(addr: InAddr) {
         family = SocketFamily IP4
         memcpy(ai&, addr&, sizeof(InAddr))
@@ -296,7 +300,7 @@ IP6Address: class extends IPAddress {
 
 SocketAddress: abstract class {
     new: static func(host: IPAddress, port: Int) -> This {
-        nPort := htons(port)
+        nPort: Int = htons(port)
 
         match host family {
             case SocketFamily IP4 =>
@@ -307,6 +311,18 @@ SocketAddress: abstract class {
                 SocketAddressIP6 new(ip6Host ai, nPort)
             case =>
                 NetError new("Unsupported IP Address type!") throw()
+                null
+        }
+    }
+
+    newFromSock: static func(addr: SockAddr*, len: UInt) -> This {
+        match len {
+            case sizeof(SockAddrIn) =>
+                SocketAddressIP4 new(addr)
+            case sizeof(SockAddrIn6) =>
+                SocketAddressIP6 new(addr)
+            case =>
+                NetError new("Unknown SockAddr type!") throw()
                 null
         }
     }
@@ -326,11 +342,14 @@ SocketAddress: abstract class {
 SocketAddressIP4: class extends SocketAddress {
     sa: SockAddrIn
 
-    init: func(addr: InAddr, port: Int) {
+    init: func (addr: InAddr, port: Int) {
         memset(sa&, 0, sizeof(SockAddrIn))
         sa sin_family = SocketFamily IP4
         memcpy(sa sin_addr&, addr&, sizeof(InAddr))
         sa sin_port = port
+    }
+    init: func ~sock(sockAddr: SockAddrIn*) {
+        memcpy(sa&, sockAddr, sizeof(SockAddrIn))
     }
 
     family: func -> Int { sa sin_family }
@@ -349,6 +368,9 @@ SocketAddressIP6: class extends SocketAddress {
         sa sin6_family = SocketFamily IP6
         memcpy(sa sin6_addr&, addr&, sizeof(In6Addr))
         sa sin6_port = port
+    }
+    init: func ~sockAddr6(sockAddr: SockAddrIn6*) {
+        memcpy(sa&, sockAddr, sizeof(SockAddrIn6))
     }
 
     family: func -> Int { sa sin6_family }
