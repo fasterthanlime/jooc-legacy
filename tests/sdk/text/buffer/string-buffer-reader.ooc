@@ -1,5 +1,5 @@
 import io/Reader
-import text/StringBuffer
+import text/Buffer
 
 read: func (reader: Reader) {
     while (reader hasNext()) {

@@ -1,5 +1,5 @@
 import structs/[List, ArrayList] /* for Iterable<T> toArrayList */
-import text/StringBuffer /* for String replace ~string */
+import text/Buffer /* for String replace ~string */
 
 include stddef, stdlib, stdio, ctype, stdint, stdbool
 include float
@@ -505,7 +505,7 @@ String: cover from Char* {
         
         length := length()
         oldieLength := oldie length()
-        buffer := StringBuffer new(length)
+        buffer := Buffer new(length)
         i: SizeT = 0
         while(i < length) {
             if(compare(oldie, i, oldieLength)) {

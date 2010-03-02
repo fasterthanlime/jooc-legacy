@@ -1,5 +1,5 @@
 import io/Writer
-import text/StringBuffer
+import text/Buffer
 
 write: func (writer: Writer) {
     for(i in 0..10) {

@@ -113,37 +113,6 @@ BufferWriter: class extends Writer {
     }
 }
 
-// Provided for backwards compatiblity, depreciated and replaced by BufferWriter.
-StringBuffer: class extends BufferWriter {
-    init: func {
-        this(128)
-    }
-
-    init: func ~withCapa (capacity: Int) {
-        super(Buffer new(capacity))
-    }
-
-    init: func ~withContent (data: String) {
-        super(Buffer new(data))
-    }
-
-    append: func ~str (str: String) {
-        buffer append(str)
-    }
-
-    append: func ~strWithLength (str: String, length: SizeT) {
-        buffer append(str, length)
-    }
-
-    append: func ~chr (chr: Char) {
-        buffer append(chr)
-    }
-
-    toString: func -> String {
-        return buffer toString()
-    }
-}
-
 BufferReader: class extends Reader {
     buffer: Buffer
 

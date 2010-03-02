@@ -1,4 +1,4 @@
-import text/StringBuffer
+import text/Buffer
 
 main: func {
     dest := BufferWriter new()

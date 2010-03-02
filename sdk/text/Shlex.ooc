@@ -1,4 +1,4 @@
-import text/[EscapeSequence, StringBuffer]
+import text/[EscapeSequence, Buffer]
 import structs/ArrayList
 
 WAIT := 0
@@ -8,21 +8,16 @@ DQUOTED := 3
 
 Shlex: class {
     state: Int
-    buffer: StringBuffer
-    result: ArrayList<String>
-    backslash: Bool
-
-    init: func {
-        buffer = StringBuffer new()
-        result = ArrayList<String> new()
-    }
+    buffer := Buffer new()
+    result := ArrayList<String> new()
+    backslash := false
 
     _add: func (unquote: Bool) {
         if(unquote)
             result add(EscapeSequence unescape(buffer toString()))
         else
             result add(buffer toString())
-        buffer = StringBuffer new()
+        buffer = Buffer new()
     }
 
     close: func -> ArrayList<String> {
