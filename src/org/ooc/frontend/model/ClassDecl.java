@@ -3,6 +3,7 @@ package org.ooc.frontend.model;
 import java.io.IOException;
 
 import org.ooc.frontend.Visitor;
+import org.ooc.frontend.model.VersionNodes.VersionName;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.middle.OocCompilationError;
 import org.ooc.middle.hobgoblins.Resolver;
@@ -201,7 +202,11 @@ public class ClassDecl extends TypeDecl {
 				args.add(nil); // cd (no argument to apss)
 				args.add(nil); // ofn (we don't care)
 				args.add(nil); // ocd (we don't care)
-				defaults.getBody().add(0, new Line(call));
+				
+				VersionBlock vBlock = new VersionBlock(new VersionName("gc"), finalizer.startToken);
+				vBlock.getBody().add(new Line(call));
+				defaults.getBody().add(0, new Line(vBlock));
+				
 				hasRegisteredFinalizer = true;
 				return Response.LOOP;
 			}
