@@ -35,7 +35,16 @@ public class FunctionDeclWriter {
 			
 		} else if(functionDecl.isExtern()) {
 
-			// blah. leave them alone.
+			// FW
+			cgen.current = cgen.fw;
+			
+			if(functionDecl.getVersion() != null) VersionBlockWriter.writeVersionBlockStart(functionDecl.getVersion(), cgen);
+		
+			cgen.current.nl().app("#define ");
+			functionDecl.writeFullName(cgen.current);
+			cgen.current.app(' ').app(functionDecl.getExternName());
+			
+			if(functionDecl.getVersion() != null) VersionBlockWriter.writeVersionBlockEnd(cgen);
 			
 		} else if(!functionDecl.isAbstract()) {
 			

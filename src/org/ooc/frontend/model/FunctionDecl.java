@@ -256,20 +256,14 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 
 	public void writeFullName(Appendable dst) throws IOException {
 		
-		if(externName != null && externName.length() > 0) {
-			dst.append(externName);
-		} else if(isUnmangled()) {
+		if(isUnmangled()) {
 			dst.append(getUnmangledName());
 		} else {
-			if(isExtern()) {
-				dst.append(getExternName());
-			} else {
-				dst.append(module.getMemberPrefix());
-				if(isMember()) {
-					dst.append(typeDecl.getExternName()).append('_');
-				}
-				writeSuffixedName(dst);
+			dst.append(module.getMemberPrefix());
+			if(isMember()) {
+				dst.append(typeDecl.getExternName()).append('_');
 			}
+			writeSuffixedName(dst);
 		}
 		
 	}
