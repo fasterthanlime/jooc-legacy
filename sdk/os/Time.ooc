@@ -34,7 +34,7 @@ version(!windows) {
 		tv_usec: extern Int
 	}
 
-	time: extern proto func (TimeT*) -> TimeT
+	time: extern func (TimeT*) -> TimeT
 	localtime: extern func (TimeT*) -> TMStruct*
 	gettimeofday: extern func (TimeVal*, TimeZone*) -> Int
 	usleep: extern func (UInt)

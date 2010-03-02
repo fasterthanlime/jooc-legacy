@@ -25,15 +25,17 @@ public class FunctionDeclWriter {
 				VersionBlockWriter.writeVersionBlockStart(functionDecl.getVersion(), cgen);
 			}
 			
-			cgen.current.nl().app("extern ");
-			writeFuncPrototype(functionDecl, cgen);
+			cgen.current.nl().app("extern ").app(functionDecl.getExternName());
+			writeFuncArgs(functionDecl, cgen);
 			cgen.current.app(';');
 			
 			if(functionDecl.getVersion() != null) {
 				VersionBlockWriter.writeVersionBlockEnd(cgen);
 			}
 			
-		} else if(functionDecl.isExtern()) {
+		}
+		
+		if(functionDecl.isExtern()) {
 
 			// FW
 			cgen.current = cgen.fw;
