@@ -1,4 +1,4 @@
-import text/regexp/RegexpBackend
+import text/regexp/RegexpBackend, structs/ArrayList
 
 POSIX: class extends RegexpBackend {
 	setPattern: func(pattern: String, options: Int) {
@@ -8,10 +8,19 @@ POSIX: class extends RegexpBackend {
 	getName: func -> String { "POSIX" }
 	
 	matches: func(haystack: String) -> Bool {
-		return false
+		false
 	}
 	
 	matches: func~withOptions(haystack: String, options: Int) -> Bool {
-		return false
+		false
 	}
+    
+    getMatches: func(haystack: String) -> Matches {
+        null
+    }
+    
+	getMatches: func~withOptions(haystack: String, options: Int) -> Matches {
+        null
+    }
+    
 }

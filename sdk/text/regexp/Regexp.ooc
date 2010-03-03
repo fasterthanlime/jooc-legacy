@@ -1,4 +1,4 @@
-import text/regexp/[RegexpBackend, PCRE, POSIX]
+import text/regexp/[RegexpBackend, PCRE, POSIX], structs/ArrayList
 
 Regexp: class {
 	regexpBackend: RegexpBackend
@@ -49,12 +49,21 @@ Regexp: class {
 	matches: func~withOptions(haystack: String, options: Int) -> Bool {
 		return regexpBackend matches(haystack, options)
 	}
+    
+    getMatches: func(haystack: String) -> Matches {
+		return regexpBackend getMatches(haystack)
+	}
+	
+	getMatches: func~withOptions(haystack: String, options: Int) -> Matches {
+		return regexpBackend getMatches(haystack, options)
+	}
 
 	getEngine: func -> Int { type }
 	
 	getEngineName: func -> String { regexpBackend getName() }
 	
 }
+
 /*
 main: func {
 	rx := Regexp new("^Hello \\w+$", PCRE CASELESS)
