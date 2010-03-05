@@ -240,7 +240,14 @@ public class FunctionCall extends Access implements MustBeResolved {
 		// Determine the real type of this function call.
 		if(realType == null) {
 			Type retType = impl.getReturnType();
+			if(!retType.isResolved()) {
+				// should know if it's generic or not
+				return Response.LOOP;
+			}
 			if(retType.isGenericRecursive()) {
+				if(name.equals("doThing")) {
+					System.out.println("retType isGenericRecursive "+retType);
+				}
 				Type candidate = realTypize(retType, res, stack);
 				if(candidate == null) {
 					if(fatal) throw new OocCompilationError(this, stack, "RealType still null, can't resolve generic type "+retType);
@@ -249,6 +256,12 @@ public class FunctionCall extends Access implements MustBeResolved {
 				realType = candidate;
 			} else {
 				realType = retType;
+			}
+			if(name.equals("doThing")) {
+				System.out.println("impl returnType is "+impl.getReturnType());
+				System.out.println("realType for "+this+" is "+realType);
+				System.out.println("Type of expr = "+((MemberCall) this).getExpression().getType());
+				System.out.println("Type ref of expr = "+((MemberCall) this).getExpression().getType().getRef());
 			}
 		}
 		
