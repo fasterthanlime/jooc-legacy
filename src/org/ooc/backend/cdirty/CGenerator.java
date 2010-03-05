@@ -21,6 +21,7 @@ import org.ooc.frontend.model.Case;
 import org.ooc.frontend.model.Cast;
 import org.ooc.frontend.model.CharLiteral;
 import org.ooc.frontend.model.ClassDecl;
+import org.ooc.frontend.model.CommaSequence;
 import org.ooc.frontend.model.Compare;
 import org.ooc.frontend.model.ControlStatement;
 import org.ooc.frontend.model.CoverDecl;
@@ -58,12 +59,12 @@ import org.ooc.frontend.model.Parenthesis;
 import org.ooc.frontend.model.RangeLiteral;
 import org.ooc.frontend.model.RegularArgument;
 import org.ooc.frontend.model.Return;
+import org.ooc.frontend.model.Statement;
 import org.ooc.frontend.model.StringLiteral;
 import org.ooc.frontend.model.Sub;
 import org.ooc.frontend.model.Ternary;
 import org.ooc.frontend.model.Type;
 import org.ooc.frontend.model.TypeDecl;
-import org.ooc.frontend.model.TypeParam;
 import org.ooc.frontend.model.Use;
 import org.ooc.frontend.model.ValuedReturn;
 import org.ooc.frontend.model.VarArg;
@@ -365,7 +366,7 @@ public class CGenerator extends Generator implements Visitor {
 				System.out.println("Null ref for varAcc to "+varAcc+" (addressOf is "+addressOf);
 			}
 			Type varAccType = varAcc.getRef().getType();
-			if(varAccType.getRef() instanceof TypeParam) {
+			if(varAccType.isGeneric()) {
 				AccessWriter.write(varAcc, false, this);
 				return;
 			}
@@ -489,6 +490,17 @@ public class CGenerator extends Generator implements Visitor {
 
 	public void visit(For for1) throws IOException {
 		ControlStatementWriter.writeFor(for1, this);
+	}
+
+	public void visit(CommaSequence seq) throws IOException {
+		current.app("(");
+        boolean isFirst = true;
+        for(Statement statement: seq.getBody()) {
+            if(isFirst) isFirst = false;
+            else        current.app(", ");
+            statement.accept(this);
+        }
+        current.app(")");		
 	}
 
 }

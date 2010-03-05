@@ -68,13 +68,6 @@ public class VariableDeclFromExpr extends VariableDecl {
 	public String toString() {
 		return getClass().getSimpleName()+" "+getName()+":"+getType()+" = "+atoms.getFirst().getExpression();
 	}
-	
-	@Override
-	public void unwrapToClassInitializers(NodeList<Node> hierarchy,
-			ClassDecl classDecl) {
-		super.unwrapToClassInitializers(hierarchy, classDecl);
-		atoms.get(0).setExpression(null);
-	}
 
 	@Override
 	public boolean isResolved() {

@@ -62,7 +62,7 @@ public class ModuleWriter {
 		cgen.current.app("/* ");
 		cgen.current.app(module.getFullName());
 		cgen.current.app(" header file, generated with ooc */");
-		cgen.current.nl();
+		cgen.current.nl().nl();
 		
 		String hFwdName = "__" + module.getUnderName() + "__fwd__";
 		cgen.current.app("#ifndef ");
@@ -114,7 +114,7 @@ public class ModuleWriter {
 		cgen.current.app("/* ");
 		cgen.current.app(module.getFullName());
 		cgen.current.app(" header file, generated with ooc */");
-		cgen.current.nl();
+		cgen.current.nl().nl();
 		
 		String hName = "__" + module.getUnderName() + "__";
 		cgen.current.app("#ifndef ");
@@ -143,7 +143,7 @@ public class ModuleWriter {
 		cgen.current.app("/* ");
 		cgen.current.app(module.getFullName());
 		cgen.current.app(" source file, generated with ooc */");
-		cgen.current.nl();
+		cgen.current.nl().nl();
 		
 		cgen.current.app("#include \"");
 		cgen.current.app(module.getSimpleName());

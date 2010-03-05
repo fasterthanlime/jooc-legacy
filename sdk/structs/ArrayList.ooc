@@ -1,4 +1,4 @@
-import structs/List
+import List
 
 /**
  * Resizable-array implementation of the List interface. Implements all
@@ -19,12 +19,12 @@ ArrayList: class <T> extends List<T> {
 	}
 	
 	init: func ~withCapacity (=capacity) { 
-		data& = gc_malloc(capacity * T size)
+		data = gc_malloc(capacity * T size)
 	}
     
     init: func ~withData (.data, =size) {
-        this data& = gc_malloc(size * T size)
-        memcpy(this data&, data&, size * T size)
+        this data = gc_malloc(size * T size)
+        memcpy(this data, data, size * T size)
         capacity = size
     }
 	
@@ -39,8 +39,8 @@ ArrayList: class <T> extends List<T> {
 		if(index == 0) {
             ensureCapacity(size + 1)
             dst, src: Octet*
-            dst = data& + (T size)
-            src = data&
+            dst = data + (T size)
+            src = data
             memmove(dst, src, T size * size)
             data[0] = element
             size += 1
@@ -55,8 +55,8 @@ ArrayList: class <T> extends List<T> {
         checkIndex(index)
 		ensureCapacity(size + 1)
 		dst, src: Octet*
-		dst = data& + (T size * (index + 1))
-		src = data& + (T size * index)
+		dst = data + (T size * (index + 1))
+		src = data + (T size * index)
 		bsize := (size - index) * T size
 		memmove(dst, src, bsize)
 		data[index] = element
@@ -78,8 +78,7 @@ ArrayList: class <T> extends List<T> {
 			index += 1
 			candidate : T
 			candidate = data[index]
-            // that workaround sucks, but it works
-			if(memcmp(candidate&, element&, T size) == 0) return index
+			if(memcmp(candidate, element, T size) == 0) return index
 		}
 		return -1
 	}
@@ -89,8 +88,7 @@ ArrayList: class <T> extends List<T> {
 		while(index) {
 			candidate : T
 			candidate = data[index]
-            // that workaround sucks, but it works
-			if(memcmp(candidate&, element&, T size) == 0) return index
+			if(memcmp(candidate, element, T size) == 0) return index
 			index -= 1
 		}
 		return -1
@@ -98,7 +96,7 @@ ArrayList: class <T> extends List<T> {
 
 	removeAt: func (index: Int) -> T {
 		element := data[index]
-		memmove(data& + (index * T size), data& + ((index + 1) * T size), (size - index) * T size)
+        memmove(data + (index * T size), data + ((index + 1) * T size), (size - index) * T size)
 		size -= 1
 		return element
 	}
@@ -148,9 +146,9 @@ ArrayList: class <T> extends List<T> {
 	/** private */
 	grow: func {
 		capacity = capacity * 1.1 + 10
-		tmpData := gc_realloc(data&, capacity * T size)
+		tmpData := gc_realloc(data, capacity * T size)
 		if (tmpData) {
-			data& = tmpData
+			data = tmpData
 		} else {
 			printf("Failed to allocate %zu bytes of memory for array to grow! Exiting..\n",
 				capacity * T size)
@@ -174,7 +172,7 @@ ArrayList: class <T> extends List<T> {
 	}
     
     /** */
-    toArray: func -> Pointer { data& }
+    toArray: func -> Pointer { data }
 	
 }
 
@@ -183,7 +181,7 @@ ArrayListIterator: class <T> extends Iterator<T> {
 	list: ArrayList<T>
 	index := 0
 	
-	init: func(=list) {}
+	init: func ~iter (=list) {}
 	
 	hasNext: func -> Bool { index < list size() }
 	
@@ -202,9 +200,9 @@ ArrayListIterator: class <T> extends Iterator<T> {
 	}
     
     remove: func -> Bool {
-        result := list removeAt(index - 1)
+        if(list removeAt(index - 1) == null) return false
         if(index <= list size()) index -= 1
-        return result
+        return true
     }
 	
 }

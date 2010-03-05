@@ -58,4 +58,9 @@ public class Parenthesis extends Expression {
 		return "Parenthesis: (" + expression + ")";
 	}
 	
+	@Override
+	public boolean canBeReferenced() {
+		return expression.canBeReferenced();
+	}
+	
 }

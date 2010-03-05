@@ -127,7 +127,7 @@ public class FunctionDeclWriter {
 		}
 			
 		Type returnType = functionDecl.getReturnType();
-		if (returnType.getRef() instanceof TypeParam) {
+		if (returnType.isGeneric()) {
 			cgen.current.append("void ");
 		} else if(returnType instanceof FuncType) {
 			TypeWriter.writeFuncPointerStart((FunctionDecl) returnType.getRef(), cgen);
@@ -181,7 +181,7 @@ public class FunctionDeclWriter {
 		}
 		
 		Type returnType = functionDecl.getReturnType();
-		if(returnType.getRef() instanceof TypeParam) {
+		if(returnType.isGeneric()) {
 			if(!isFirst) cgen.current.app(", ");
 			isFirst = false;
 			if(mode == ArgsWriteMode.NAMES_ONLY) {

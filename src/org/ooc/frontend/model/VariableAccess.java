@@ -104,41 +104,6 @@ public class VariableAccess extends Access implements MustBeResolved {
 			}
 		}
 		
-		// Search in the type params of the super-types of the current TypeDecl
-		/*
-		{
-			int typeDeclIndex = stack.find(TypeDecl.class);
-			if(typeDeclIndex != -1) {
-				TypeDecl typeDecl = (TypeDecl) stack.get(typeDeclIndex);
-				Type superType = typeDecl.getSuperType();
-				if(superType != null) {
-					TypeDecl superTypeDecl = (TypeDecl) superType.getRef();
-					Expression val = superTypeDecl.getTypeParams().get(name);
-					Expression thisVal = typeDecl.getTypeParams().get(name);
-					if(val != null && thisVal == null) {
-						int index = -1;
-						Iterator<String> iter = superTypeDecl.getTypeParams().keySet().iterator();
-						int i = 0;
-						while(iter.hasNext()) {
-							String tp = iter.next();
-							if(tp.equals(name)) {
-								index = i;
-								break;
-							}
-						}
-						Expression expr = superType.getTypeParams().get(index);
-						ref = expr.getType().getRef();
-						if(ref == null) {
-							return Response.LOOP;
-						}
-						return Response.OK;
-					}
-				}
-			}
-		}
-		*/
-		
-		
 		{
 			VariableDecl varDecl = getVariable(name, stack);
 			if(varDecl != null) {
@@ -153,6 +118,15 @@ public class VariableAccess extends Access implements MustBeResolved {
 					return Response.LOOP;
 				}
 				ref = varDecl;
+				return Response.OK;
+			}
+		}
+		
+		if(name.equals("this")) {
+			int index = stack.find(TypeDecl.class);
+			if(index != -1) {
+				TypeDecl typeDecl = (TypeDecl) stack.get(index);
+				ref =  typeDecl.getThisDecl();
 				return Response.OK;
 			}
 		}
@@ -248,7 +222,6 @@ public class VariableAccess extends Access implements MustBeResolved {
 
 	@Override
 	public String toString() {
-		//return name+":"+ (getType() == null ? "<?>" : getType().toString());
 		return name;
 	}
 
@@ -257,6 +230,11 @@ public class VariableAccess extends Access implements MustBeResolved {
 			return ((TypeDecl) ref).getUnderName();
 		}
 		return getName();
+	}
+	
+	@Override
+	public boolean canBeReferenced() {
+		return true;
 	}
 
 }

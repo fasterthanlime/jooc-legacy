@@ -102,12 +102,13 @@ public class CallWriter {
 		NodeList<Expression> callArgs = functionCall.getArguments();
 		
 		boolean isFirst = isFirstParam;
-		if(functionCall.getImpl().getReturnType().getRef() instanceof TypeParam) {
+		if(functionCall.getImpl().getReturnType().isGeneric()) {
 			if(!isFirst) cgen.current.app(", ");
 			isFirst = false;
 			if(functionCall.getReturnArg() == null) {
 				cgen.current.app("NULL");
 			} else {
+				cgen.current.app("(uint8_t*) ");
 				functionCall.getReturnArg().accept(cgen);
 			}
 		}
@@ -179,8 +180,8 @@ public class CallWriter {
 			isFirst = false;
 			Expression expr = iter.next();
 			Argument implArg = implArgs.get(argIndex);
-			if(implArg.getType().isGeneric() && !expr.getType().isGeneric()) {
-				cgen.current.app("(uint8_t*) &");
+			if(implArg.getType().isGeneric()) {
+				cgen.current.app("(uint8_t*) ");
 			}
 			writeCallArg(expr, impl, argIndex, cgen);
 		}

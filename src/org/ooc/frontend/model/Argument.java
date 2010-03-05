@@ -18,6 +18,11 @@ public abstract class Argument extends VariableDecl {
 	}
 	
 	@Override
+	public boolean isArg() {
+		return true;
+	}
+	
+	@Override
 	public String getName() {
 		return getAtoms().get(0).name = name;
 	}

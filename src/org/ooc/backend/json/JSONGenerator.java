@@ -24,6 +24,7 @@ import org.ooc.frontend.model.Case;
 import org.ooc.frontend.model.Cast;
 import org.ooc.frontend.model.CharLiteral;
 import org.ooc.frontend.model.ClassDecl;
+import org.ooc.frontend.model.CommaSequence;
 import org.ooc.frontend.model.Compare;
 import org.ooc.frontend.model.CoverDecl;
 import org.ooc.frontend.model.Dereference;
@@ -486,5 +487,7 @@ public class JSONGenerator extends Generator implements Visitor {
 
 	public void visit(Match match) throws IOException {}
 	public void visit(Case case1) throws IOException {}
+
+	public void visit(CommaSequence seq) throws IOException {}
 	
 }

@@ -2,7 +2,6 @@ package org.ooc.frontend.model;
 
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 
 import org.ooc.frontend.Levenshtein;
 import org.ooc.frontend.Visitor;
@@ -22,7 +21,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 	protected final NodeList<Expression> typeParams;
 	protected final NodeList<Expression> arguments;
 	protected FunctionDecl impl;
-	protected AddressOf returnArg;
+	protected Expression returnArg;
 	protected Type realType;
 	
 	public FunctionCall(String name, Token startToken) {
@@ -85,8 +84,12 @@ public class FunctionCall extends Access implements MustBeResolved {
 		return arguments;
 	}
 	
-	public AddressOf getReturnArg() {
+	public Expression getReturnArg() {
 		return returnArg;
+	}
+	
+	public void setReturnArg(Expression returnArg) {
+		this.returnArg = returnArg;
 	}
 
 	public Type getType() {
@@ -95,13 +98,9 @@ public class FunctionCall extends Access implements MustBeResolved {
 	
 	private Type realTypize(Type typeArg, Resolver res, NodeList<Node> stack) {
 
-		Type realType = getRealType(typeArg.getName(), stack, res, true);
-		
-		Type type = null;
-		if(realType == null) {
+		Type type = getRealType(typeArg, stack, res, true);
+		if(type == null) {
 			type = typeArg.clone();
-		} else {
-			type = realType.clone();
 		}
 		
 		int i = -1;
@@ -135,6 +134,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 		typeParams.accept(visitor);
 		arguments.accept(visitor);
 		if(realType != null) realType.accept(visitor);
+		if(returnArg != null) returnArg.accept(visitor);
 	}
 	
 	@Override
@@ -197,29 +197,28 @@ public class FunctionCall extends Access implements MustBeResolved {
 			return Response.LOOP;
 		}
 
+		boolean andedSomearg = false;
 		int argOffset = impl.hasThis() ? 1 : 0;
-		for(int i = 0; i < arguments.size(); i++) {
-			Expression callArg = arguments.get(i);
-			if(i + argOffset < impl.getArguments().size()) {
-				Argument implArg = impl.getArguments().get(i + argOffset);
-				if(callArg.getType() != null && implArg.getType() != null
-						&& callArg.getType().isGeneric() && (callArg.getType().getPointerLevel() == 0)
-						&& implArg.getType().isFlat() && !implArg.getType().equals(callArg.getType())) {
-					arguments.set(i, new Cast(callArg, implArg.getType(), callArg.startToken));
-				}
+		for(int j = 0; j < impl.getArguments().size() - argOffset; j++) {
+			Argument implArg = impl.getArguments().get(j + argOffset);
+			
+			if(implArg instanceof VarArg) { continue; }
+            if(implArg.getType() == null || !implArg.getType().isResolved()) {
+                // need ref arg type, we'll do it later
+            	return Response.LOOP;
+            }
+            if(!implArg.getType().isGeneric()) { continue; }
+			
+			Expression callArg = arguments.get(j);
+			if(callArg.getType() == null || !callArg.getType().isResolved()) {
+				// need call arg type
+				return Response.LOOP;
 			}
-		}
-		
-		// If one of the arguments which type is generic is not a VariableAccess
-		// turn it into a VDFE and unwrap it
-		LinkedHashMap<String, TypeParam> generics = impl.getTypeParams();
-		if(!generics.isEmpty()) for(TypeParam genType: generics.values()) {
-			Response response = checkGenType(stack, genType, fatal);
-			if(response != Response.OK) return response;
-		}
-		if(impl.getTypeDecl() != null) for(TypeParam genType: impl.getTypeDecl().getTypeParams().values()) {
-			Response response = checkGenType(stack, genType, fatal);
-			if(response != Response.OK) return response;
+			
+            if(!(callArg instanceof AddressOf) && !callArg.getType().isGeneric()) {
+            	arguments.set(j, new AddressOf(callArg, callArg.startToken));
+                andedSomearg = true;
+            }
 		}
 		
 		// Find all variable accesses to fill this function's type params
@@ -241,16 +240,6 @@ public class FunctionCall extends Access implements MustBeResolved {
 		// Determine the real type of this function call.
 		if(realType == null) {
 			Type retType = impl.getReturnType();
-			// FIXME huh that's such a bad, bad fix.
-			retType.resolve(stack, res, false);
-			// FIXME why does it need to be removed for some things to compile? I hate j/ooc.
-			// I hate it so bad. Long live rock.
-			/*
-			if(retType.getRef() == null) {
-				if(fatal) throw new OocCompilationError(this, stack, "Huh, ref of retType of impl is still null, wtf? (That ain't good.) retType = " + retType);
-				return Response.LOOP;
-			}
-			*/
 			if(retType.isGenericRecursive()) {
 				Type candidate = realTypize(retType, res, stack);
 				if(candidate == null) {
@@ -263,54 +252,89 @@ public class FunctionCall extends Access implements MustBeResolved {
 			}
 		}
 		
-		// Turn any outer assigned access into a returnArg, unwrap if in varDecl.
-		Type returnType = impl.getReturnType();
-		TypeParam genType = impl.getGenericType(returnType.getName());
-		if(genType != null) {
-			Node parent = stack.peek();
-			if(parent instanceof Assignment) {
-				Assignment ass = (Assignment) parent;
-				if(ass.getLeft() instanceof Access) {
-					returnArg = new AddressOf(ass.getLeft(), startToken);
-					stack.get(stack.size() - 2).replace(ass, this);
-					return Response.RESTART;
-				}
-			} else if(parent instanceof VariableDeclAtom) {
-				VariableDeclAtom atom = (VariableDeclAtom) parent;
-				return unwrapFromVarDecl(stack, res, genType, atom, fatal);
-			} else if(parent instanceof Line) {
-				// alright =)
-			} else {
-				VariableDeclFromExpr vdfe = new VariableDeclFromExpr(
-						generateTempName("gcall", stack), this, startToken, null);
-				Type implRetType = impl.getReturnType();
-				if(implRetType.getRef() == null) {
-					if(impl.getTypeDecl() != null) stack.push(impl.getTypeDecl());
-					stack.push(impl);
-					implRetType.resolve(stack, res, false);
-					stack.pop(impl);
-					if(impl.getTypeDecl() != null) stack.pop(impl.getTypeDecl());
-				}
-				
-				if(!parent.replace(this, vdfe)) {
-					Thread.dumpStack();
-					throw new OocCompilationError(this, stack, "[FC] Couldn't replace \n"+this+" with \n"+vdfe
-							+"in \n"+parent.getClass().getSimpleName()+"|"+parent);
-				}
-				vdfe.unwrapToVarAcc(stack);
-				return Response.RESTART;
-			}
+		/* Unwrap if needed */
+		{
+			Response response = unwrapIfNeeded(stack);
+			if(response != Response.OK) return response;
 		}
+
+		/* Resolve returnArg */
+		if(returnArg != null) {
+ 			if(returnArg instanceof MustBeResolved && !((MustBeResolved) returnArg).isResolved()) {
+ 				// need returnArg to be resolved
+ 				return Response.LOOP;
+ 			}
+ 			if(!(returnArg instanceof AddressOf)) {
+ 				returnArg = returnArg.getGenericOperand();
+ 			}
+        }
 		
+		if(andedSomearg) return Response.LOOP;
 		return Response.OK;
 		
 	}
 
-	protected final Type getRealType(String typeParam, NodeList<Node> stack, Resolver res, boolean fatal) {
+	private Response unwrapIfNeeded(final NodeList<Node> stack) {
+		Node parent = stack.peek();
+        
+        if(impl == null || impl.getReturnType() == null) {
+            // need ref and refType
+            return Response.LOOP;
+        }
+        
+        int idx = 1;
+        while(parent instanceof Cast) {
+        	idx += 1;
+            parent = stack.peek(idx);
+        }
 
-		Expression realExpr = getRealExpr(typeParam, stack, res, fatal);
-		if(realExpr == null) return null;
-		return realExpr.getType();
+		if(impl.getReturnType().isGeneric() && !isFriendlyHost(parent)) {
+			VariableDecl vDecl = new VariableDecl(getType(), false, startToken, stack.getModule());
+            vDecl.getAtoms().add(new VariableDeclAtom(generateTempName("genCall", stack), null, startToken));
+            stack.addBeforeLine(stack, vDecl);
+            VariableAccess varAcc = new VariableAccess(vDecl, startToken);
+            setReturnArg(varAcc);
+            
+            CommaSequence seq = new CommaSequence(startToken);
+            seq.getBody().add(this);
+            seq.getBody().add(varAcc);
+            
+            stack.peek().replace(this, seq);
+            
+            // just unwrapped
+            return Response.LOOP;
+        }
+		
+		return Response.OK;
+	}
+	
+	/**
+	 * In some cases, a generic function call needs to be unwrapped,
+	 * e.g. when it's used as an expression in another call, etc.
+	 * However, some nodes are 'friendly' parents to us, e.g.
+	 * they handle things themselves and we don't need to unwrap.
+	 * @return true if the node is friendly, false if it is not and we
+	 * need to unwrap
+	 */
+    private boolean isFriendlyHost (Node node) {
+    	return  (node instanceof Line) ||
+				(node instanceof CommaSequence) ||
+				(node instanceof VariableDecl) ||
+				(node instanceof Assignment);
+    }
+
+	protected final Type getRealType(Type typeArg, NodeList<Node> stack, Resolver res, boolean fatal) {
+
+		Expression realExpr = getRealExpr(typeArg.getName(), stack, res, fatal);
+		if(realExpr == null) {
+			return null;
+		}
+		
+		if(realExpr instanceof VariableAccess && ((VariableAccess) realExpr).getName().equals(typeArg.getName())) {
+			return typeArg.clone();
+		}
+		
+		return realExpr instanceof TypeParam ? null : realExpr.getType();
 		
 	}
 	
@@ -389,7 +413,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 				i++;
 				String key = keys.next();
 				if(key.equals(needle)) {
-					Type realType = getRealType(haystack.getName(), stack, res, fatal);
+					Type realType = getRealType(haystack, stack, res, fatal);
 					if(realType != null && i < realType.getTypeParams().size()) {
 						return realType.getTypeParams().get(i);
 					}
@@ -419,76 +443,6 @@ public class FunctionCall extends Access implements MustBeResolved {
 			
 		return result;
 	
-	}
-
-	private Response checkGenType(final NodeList<Node> stack, TypeParam genType, boolean fatal) {
-		Iterator<Argument> iter = impl.getThisLessArgsIter();
-		int i = -1;
-		while(iter.hasNext()) {
-			i++;
-			Argument arg = iter.next();
-			if(arg.getType() == null) {
-				continue;
-			}
-			if(!arg.getType().getName().equals(genType.getName())) continue;
-			Expression originalExpr = arguments.get(i);
-			Expression expr = originalExpr.bitchJumpCasts();
-			if(!(expr instanceof VariableAccess)) {
-				String tmpName = generateTempName(genType.getName()+"param", stack);
-				VariableDeclFromExpr vdfe = new VariableDeclFromExpr(
-						tmpName, expr, startToken, null);
-				stack.push(this);
-				stack.push(arguments);
-				stack.peek().replace(originalExpr, vdfe);
-				vdfe.unwrapToVarAcc(stack);
-				stack.pop(arguments);
-				stack.pop(this);
-				// needed.
-				return Response.RESTART;
-			}
-		}
-		return Response.OK;
-	}
-
-	@SuppressWarnings({ "unchecked" })
-	private Response unwrapFromVarDecl(final NodeList<Node> stack, Resolver res,
-			TypeParam genType, VariableDeclAtom atom, boolean fatal) throws OocCompilationError {
-		
-		int varDeclIndex = stack.find(VariableDecl.class);
-		VariableDecl decl = (VariableDecl) stack.get(varDeclIndex);
-		
-		Type declType = decl.getType();
-		if(declType != null) declType = realTypize(declType, res, stack);
-		if(declType == null) {
-			if(fatal) {
-				throw new OocCompilationError(this, stack, "Couldn't resolve type of "+decl);
-			}
-			return Response.LOOP;
-		}
-		
-		Declaration typeRef = declType.getRef();
-		if(typeRef == null) {
-			if(fatal) {
-				throw new OocCompilationError(this, stack, "Couldn't figure out ref of type "+decl);
-			}
-			return Response.LOOP;
-		}
-		decl.setType(declType); // fixate the type
-		atom.replace(this, null);
-		
-		int lineIndex = stack.find(Line.class, varDeclIndex);
-		Line line = (Line) stack.get(lineIndex);
-		
-		NodeList<Line> list = (NodeList<Line>) stack.get(lineIndex - 1);
-		VariableAccess varAcc = new VariableAccess(atom.getName(), startToken);
-		varAcc.setRef(decl);
-		returnArg = new AddressOf(varAcc, startToken);
-		list.addAfter(line, new Line(this));
-
-		// not so essential after all?
-		//return Response.RESTART;
-		return Response.LOOP;
-		
 	}
 
 	protected void autocast() {
@@ -767,11 +721,6 @@ public class FunctionCall extends Access implements MustBeResolved {
 		}
 		throw new OocCompilationError(this, stack, "Couldn't figure out generic type <"+typeName+"> for call to "+getProtoRepr());
 		
-	}
-	
-	@Override
-	public boolean canBeReferenced() {
-		return false;
 	}
 
 	public String getFullName() {

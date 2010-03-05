@@ -7,10 +7,5 @@ public abstract class Literal extends Expression {
 	public Literal(Token startToken) {
 		super(startToken);
 	}
-	
-	@Override
-	public boolean canBeReferenced() {
-		return false;
-	}
 
 }

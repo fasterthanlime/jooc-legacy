@@ -69,10 +69,10 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 		}
 
 	}
-	
-	private boolean isStatic;
-	private boolean isProto;
-	private boolean isGlobal;
+
+	protected boolean isStatic;
+	protected boolean isProto;
+	protected boolean isGlobal;
 	
 	protected Type type;
 	protected TypeDecl typeDecl;
@@ -84,6 +84,10 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 		this.type = type;
 		this.isStatic = isStatic;
 		this.atoms = new NodeList<VariableDeclAtom>(startToken);
+	}
+	
+	public boolean isArg() {
+		return false;
 	}
 	
 	@Override
@@ -219,14 +223,7 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 	}
 
 	public boolean unwrap(NodeList<Node> stack) {
-	
-		if(stack.get(stack.size() - 2) instanceof ClassDecl) {
-			unwrapToClassInitializers(stack, (ClassDecl) stack.get(stack.size() - 2));
-			return false;
-		}
-		
 		return unwrapToVarAcc(stack);
-		
 	}
 
 	@SuppressWarnings("unchecked")
@@ -292,32 +289,6 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 		
 	}
 
-	public void unwrapToClassInitializers(NodeList<Node> hierarchy, ClassDecl classDecl) {		
-		
-		for(VariableDeclAtom atom: atoms) {
-
-			if(atom.getExpression() == null) continue;
-			VariableAccess access = isStatic ?
-					new VariableAccess(typeDecl.getType().getName(), atom.startToken)
-					: new VariableAccess("this", atom.startToken);
-					
-			Assignment assign = new Assignment(
-				new MemberAccess(access, atom.getName(), atom.startToken), atom.getExpression(), atom.startToken
-			);
-			atom.assign = assign;
-			Line line = new Line(assign);
-			if(isStatic) {
-				access.setRef(classDecl);
-				classDecl.getFunction(ClassDecl.LOAD_FUNC_NAME, "", null).getBody().add(line);
-			} else {
-				classDecl.getFunction(ClassDecl.DEFAULTS_FUNC_NAME, "", null).getBody().add(line);
-			}
-			atom.expression = null;
-		
-		}
-		
-	}
-
 	@Override
 	public boolean replace(Node oldie, Node kiddo) {
 		if(oldie == type) {
@@ -370,24 +341,27 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 			}
 		}
 		
-		Type type = getType();
-		if(type != null) setType(type); // fixate type
-		if(type != null && type.getRef() != null && !type.isArray() && type.isGenericRecursive()
-				&& type.isFlat() && !isMember() && !(this instanceof Argument)) {
-			
-			Type newType = new Type("uint8_t", type.startToken);
-			newType.setPointerLevel(1);
-			VariableAccess tAccess = new VariableAccess(type.getRef().getName(), startToken);
-			MemberAccess sizeAccess = new MemberAccess(tAccess, "size", startToken);
-			newType.setRef(type.getRef());
-			
-			newType.setArray(true);
-			newType.setArraySize(sizeAccess);
-			setType(newType);
-
-			return Response.RESTART;
-			
-		}
+		if(!isArg() && type != null && type.isGeneric() && type.getPointerLevel() == 0) {
+			for(VariableDeclAtom atom: atoms) {
+				Expression expr = atom.getExpression();
+	            if(expr != null) {
+	                if((expr instanceof FunctionCall) && ((FunctionCall) expr).getName().equals("gc_malloc")) {
+	                	return Response.OK;
+	                }
+	                
+	                Assignment ass = new Assignment(new VariableAccess(this, startToken), expr, startToken);
+	                stack.addAfter(this, ass);
+	                expr = null;
+	            }
+	            FunctionCall fCall = new FunctionCall("gc_malloc", startToken);
+	            VariableAccess tAccess = new VariableAccess(type.getName(), startToken);
+	            MemberAccess sizeAccess = new MemberAccess(tAccess, "size", startToken);
+	            fCall.getArguments().add(sizeAccess);
+	            atom.setExpression(fCall);
+	            // just set expr to gc_malloc cause generic!
+	            return Response.LOOP;
+			}
+        }
 		
 		return Response.OK;
 	}

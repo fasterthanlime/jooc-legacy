@@ -51,7 +51,7 @@ public class BuildParams {
 	public boolean veryVerbose = false;
 	
 	// Displays [ OK ] or [FAIL] at the end of the compilation
-	public boolean shout = false;
+	public boolean shout = true;
 	
 	// If false, output .o files. Otherwise output exectuables
 	public boolean link = true;

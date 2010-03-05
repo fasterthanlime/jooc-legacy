@@ -28,11 +28,6 @@ public class LocalAccessWriter {
 
 		// duplicated code with MemberAccessWriter: modularize!
 		int refLevel = variableAccess.getRef().getType().getReferenceLevel();
-		if(doTypeParams) {
-			if(variableAccess.getType().isGeneric()) {
-				refLevel++;
-			}
-		}
 		refLevel += refOffset;
 		
 		if(refLevel > 0) {

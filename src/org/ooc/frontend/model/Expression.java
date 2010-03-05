@@ -11,5 +11,9 @@ public abstract class Expression extends Statement implements Typed {
 	public Expression getInner() {
 		return this;
 	}
+	
+	public Expression getGenericOperand() {
+        return getType().isGeneric() ? this : new AddressOf(this, startToken);
+    }
 
 }

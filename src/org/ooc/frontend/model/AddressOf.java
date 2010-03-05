@@ -65,7 +65,7 @@ public class AddressOf extends Access implements MustBeResolved {
 	}
 
 	public boolean isResolved() {
-		return type != null;
+		return type != null && expression.canBeReferenced();
 	}
 
 	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
@@ -75,7 +75,7 @@ public class AddressOf extends Access implements MustBeResolved {
 				throw new OocCompilationError(this, stack, "Couldn't resolve type of AddressOf "+this);
 			}
 			return Response.LOOP;
-		}
+		}		
 		
 		if(!expression.canBeReferenced()) {
 			VariableDeclFromExpr vdfe = new VariableDeclFromExpr(generateTempName("overzealous", stack), expression, expression.startToken, null);
@@ -83,6 +83,7 @@ public class AddressOf extends Access implements MustBeResolved {
 			stack.push(this);
 			vdfe.unwrap(stack);
 			stack.pop(this);
+			return Response.RESTART;
 		}
 		
 		return Response.OK;

@@ -16,6 +16,7 @@ import org.ooc.frontend.model.Case;
 import org.ooc.frontend.model.Cast;
 import org.ooc.frontend.model.CharLiteral;
 import org.ooc.frontend.model.ClassDecl;
+import org.ooc.frontend.model.CommaSequence;
 import org.ooc.frontend.model.Compare;
 import org.ooc.frontend.model.CoverDecl;
 import org.ooc.frontend.model.Dereference;
@@ -136,6 +137,7 @@ public interface Visitor {
 	public void visit(MultiMap<?, ?> list) throws IOException;
 
 	public void visit(Block block) throws IOException;
+	public void visit(CommaSequence seq) throws IOException;
 	public void visit(VersionBlock versionBlock) throws IOException;
 
 	public void visit(Cast cast) throws IOException;

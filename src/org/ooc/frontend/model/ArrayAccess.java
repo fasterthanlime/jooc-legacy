@@ -22,6 +22,18 @@ public class ArrayAccess extends Access implements MustBeResolved {
 		this.indices =  new NodeList<Expression>(startToken);
 	}
 	
+	@Override
+	public Expression getGenericOperand() {
+        if(getType().isGeneric() && getType().getPointerLevel() == 0) {
+            MemberAccess sizeAcc = new MemberAccess(new VariableAccess(getType().getName(), startToken), "size", startToken);
+            ArrayAccess arrAcc = this;
+            // FIXME: wtf? we're modifying 'this' instead of making a copy of it?
+            arrAcc.indices.set(0, new Mul(arrAcc.indices.get(0), sizeAcc, arrAcc.startToken));
+            return new AddressOf(arrAcc, arrAcc.startToken);
+        }
+        return super.getGenericOperand();
+    }
+	
 	public Expression getVariable() {
 		return variable;
 	}
@@ -218,8 +230,6 @@ public class ArrayAccess extends Access implements MustBeResolved {
 			}
 			
 			if(assignIndex != -1) {
-				System.out.println("Applying overload to " + this);
-				
 				Argument last = args.getLast();
 				Assignment ass = (Assignment)stack.get(assignIndex);
 				if (ass.getRight().getType() == null) {
@@ -242,6 +252,11 @@ public class ArrayAccess extends Access implements MustBeResolved {
 	@Override
 	public String toString() {
 		return variable.toString() + indices;
+	}
+	
+	@Override
+	public boolean canBeReferenced() {
+		return true;
 	}
 	
 }

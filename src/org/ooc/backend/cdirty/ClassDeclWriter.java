@@ -9,6 +9,7 @@ import org.ooc.frontend.model.ClassDecl;
 import org.ooc.frontend.model.FunctionDecl;
 import org.ooc.frontend.model.Type;
 import org.ooc.frontend.model.VariableDecl;
+import org.ooc.frontend.model.VariableDecl.VariableDeclAtom;
 
 public class ClassDeclWriter {
 	
@@ -66,9 +67,9 @@ public class ClassDeclWriter {
 		
 	}
 
-	public static void writeStaticFuncs(ClassDecl classDecl, CGenerator cgen) throws IOException {
+	public static void writeStaticFuncs(ClassDecl cDecl, CGenerator cgen) throws IOException {
 
-		for (FunctionDecl decl : classDecl.getFunctions()) {
+		for (FunctionDecl decl : cDecl.getFunctions()) {
 
 			if (!decl.isStatic() || (decl.isExternWithName())) {
 				if(decl.isExternWithName()) {
@@ -80,6 +81,26 @@ public class ClassDeclWriter {
 			cgen.current.nl();
 			FunctionDeclWriter.writeFuncPrototype(decl, cgen);
 			cgen.current.openBlock();
+			
+            if(decl.getName() == ClassDecl.LOAD_FUNC_NAME) {
+                ClassDecl superRef = cDecl.getSuperRef();
+                if(superRef != null) {
+	            	FunctionDecl superLoad = superRef.getFunction(ClassDecl.LOAD_FUNC_NAME, null, null);
+	            	if(superLoad != null) {
+	            		cgen.current.nl().app(superLoad.getFullName()).app("();");
+	            	}
+                }
+            	for(VariableDecl vDecl: cDecl.getVariables()) {
+            		if(!vDecl.isStatic()) continue;
+            		for(VariableDeclAtom atom: vDecl.getAtoms()) {
+            			if(atom.getExpression() == null) continue;
+            			cgen.current.nl().app("((").app(cDecl.getUnderName()).app("Class*) ").app(cDecl.getUnderName()).app("_class())->").app(atom.getName()).app(" = ");
+            			atom.getExpression().accept(cgen);
+            			cgen.current.app(';');
+            		}
+				}
+            }
+			
 			decl.getBody().accept(cgen);
 			cgen.current.closeSpacedBlock();
 
@@ -132,10 +153,22 @@ public class ClassDeclWriter {
 			
 			FunctionDeclWriter.writeFuncPrototype(decl, cgen, decl.isFinal() ? null : "_impl");
 			cgen.current.openBlock();
-			if(decl.getName().equals(ClassDecl.DEFAULTS_FUNC_NAME) && classDecl.getSuperName().length() > 0) {
-				cgen.current.nl().app(classDecl.getSuperRef().getUnderName()).app('_').app(ClassDecl.DEFAULTS_FUNC_NAME)
-					.app("_impl((").app(classDecl.getSuperRef().getUnderName()).app(" *) this);");
+			if(decl.getName().equals(ClassDecl.DEFAULTS_FUNC_NAME)) {
+				if(classDecl.getSuperName().length() > 0) {
+					cgen.current.nl().app(classDecl.getSuperRef().getUnderName()).app('_').app(ClassDecl.DEFAULTS_FUNC_NAME)
+						.app("_impl((").app(classDecl.getSuperRef().getUnderName()).app(" *) this);");
+				}
+				for(VariableDecl vDecl: classDecl.getVariables()) {
+					if(vDecl.isStatic()) continue;
+					for(VariableDeclAtom atom: vDecl.getAtoms()) {
+						if(atom.getExpression() == null) continue;
+						cgen.current.nl().app("this->").app(atom.getName()).app(" = ");
+						atom.getExpression().accept(cgen);
+						cgen.current.app(';');
+					}
+				}
 			}
+			
 			decl.getBody().accept(cgen);
 			cgen.current.closeSpacedBlock();
 		}

@@ -29,11 +29,6 @@ public class MemberAccessWriter {
 		
 		// duplicated code with LocalAccessWriter: modularize!
 		int refLevel = memberAccess.getRef().getType().getReferenceLevel();
-		if(doTypeParams) {
-			if(memberAccess.getType().isGeneric()) {
-				refLevel++;
-			}
-		}
 		refLevel += refOffset;
 		
 		TypeDecl refTypeDecl = memberAccess.getRef().getTypeDecl();

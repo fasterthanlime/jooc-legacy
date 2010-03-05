@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 
 import org.ooc.frontend.Visitor;
+import org.ooc.frontend.model.VariableDecl.VariableDeclAtom;
 import org.ooc.frontend.model.interfaces.Versioned;
 import org.ooc.frontend.model.tokens.Token;
 
@@ -20,6 +21,8 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic, Ve
 	protected Type instanceType;
 	protected LinkedHashMap<String, TypeParam> typeParams;
 	
+	protected VariableDecl thisDecl;
+	
 	public TypeDecl(String name, Type superType, Module module, Token startToken) {
 		super(name, startToken, module);
 		this.superType = superType;
@@ -28,6 +31,12 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic, Ve
 		this.instanceType = new Type(name, startToken);
 		instanceType.setRef(this);
 		this.typeParams = new LinkedHashMap<String, TypeParam>();
+		this.thisDecl = new VariableDecl(instanceType, false, startToken, module);
+		this.thisDecl.getAtoms().add(new VariableDeclAtom("this", null, startToken));
+	}
+	
+	public VariableDecl getThisDecl() {
+		return thisDecl;
 	}
 	
 	public Type getInstanceType() {

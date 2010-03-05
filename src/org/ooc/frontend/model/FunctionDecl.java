@@ -66,10 +66,6 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 			}
 		});
 		this.typeParams = new LinkedHashMap<String, TypeParam>();
-		// FIXME this will bite us in the ass later. Ohh yes it will
-		// you see, nothing guarantees that "__returnArg" isn't in the scope already
-		// we should create returnArg in resolve instead, using generateTempName()
-		this.returnArg = new RegularArgument(NullLiteral.type, "__returnArg", startToken);
 	}
 
 	public LinkedHashMap<String, TypeParam> getTypeParams() {
@@ -170,6 +166,10 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 	
 	public void setReturnType(Type returnType) {
 		this.returnType = returnType;
+		// FIXME this will bite us in the ass later. Ohh yes it will
+		// you see, nothing guarantees that "__returnArg" isn't in the scope already
+		// we should create returnArg in resolve instead, using generateTempName()
+		this.returnArg = new RegularArgument(returnType, "__returnArg", startToken);
 	}
 	
 	public NodeList<Argument> getArguments() {
@@ -194,7 +194,6 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 		}
 		arguments.accept(visitor);
 		returnType.accept(visitor);
-		returnArg.getType().accept(visitor);
 		body.accept(visitor);
 	}
 
@@ -379,7 +378,7 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 	}
 
 	public boolean hasReturn() {
-		return !getReturnType().isVoid() && !(getReturnType().getRef() instanceof TypeParam);
+		return !getReturnType().isVoid() && !(getReturnType().isGeneric());
 	}
 
 	public TypeParam getGenericType(String name) {

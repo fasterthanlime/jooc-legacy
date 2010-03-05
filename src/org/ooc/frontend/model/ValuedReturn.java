@@ -64,63 +64,33 @@ public class ValuedReturn extends Return implements MustBeResolved {
 		if(funcIndex == -1) {
 			throw new OocCompilationError(this, stack, "'return' outside a function: wtf?");
 		}
-		FunctionDecl decl = (FunctionDecl) stack.get(funcIndex);
-		Type returnType = decl.getReturnType();
-		TypeParam param = getTypeParam(stack, returnType.getName());
-		if(param != null) {
-			unwrapToMemcpy(stack, decl, param);
-			//return Response.RESTART;
-			return Response.LOOP;
-		}
 		
-		if(returnType.isSuperOf(expression.getType())) {
-			expression = new Cast(expression, returnType, expression.startToken);
+		FunctionDecl fDecl = (FunctionDecl) stack.get(funcIndex);
+		if(fDecl.getReturnType().isGeneric()) {
+            if(expression.getType() == null || !expression.getType().isResolved()) {
+                // expr type is unresolved
+                return Response.LOOP;
+            }
+            
+            VariableAccess returnAcc = new VariableAccess(fDecl.getReturnArg(), startToken);
+            
+            If if1 = new If(returnAcc, startToken);
+            
+            Assignment ass = new Assignment(returnAcc, expression, startToken);
+            if1.getBody().add(new Line(ass));
+            
+            stack.peek().addBeforeLine(stack, if1);
+            stack.peek().replace(this, new Return(startToken));
+            
+            // just got replaced
+            return Response.LOOP;
+        }
+
+		if(fDecl.getReturnType().isSuperOf(expression.getType())) {
+			expression = new Cast(expression, fDecl.getReturnType(), expression.startToken);
 		}
 		
 		return Response.OK;
-		
-	}
-
-	@SuppressWarnings("unchecked")
-	private void unwrapToMemcpy(NodeList<Node> stack, FunctionDecl decl,
-			Declaration genericType) {
-		
-		if(!(expression.canBeReferenced())) {
-			VariableDeclFromExpr vdfe = new VariableDeclFromExpr(generateTempName("retval", stack), expression, startToken, null);
-			vdfe.setType(expression.getType());
-			expression = vdfe;
-			stack.push(this);
-			vdfe.unwrapToVarAcc(stack);
-			stack.pop(this);
-			return;
-		}
-		
-		FunctionCall call = new FunctionCall("memcpy", startToken);
-		VariableAccess returnArgAcc = new VariableAccess(decl.getReturnArg(), startToken);
-		NodeList<Expression> args = call.getArguments();
-		args.add(returnArgAcc);
-		
-		VariableAccess tAccess = new VariableAccess(genericType.getName(), startToken);
-		MemberAccess sizeAccess = new MemberAccess(tAccess, "size", startToken);
-		
-		if(expression instanceof ArrayAccess) {
-			ArrayAccess arrAccess = (ArrayAccess) expression;
-			assert(arrAccess.indices.size() == 1);
-			expression = new Add(new AddressOf(arrAccess.variable, startToken),
-					new Mul(arrAccess.indices.getFirst(), sizeAccess, startToken), startToken);
-		} else {
-			expression = new AddressOf(expression, startToken);
-		}
-		
-		args.add(expression);
-		args.add(sizeAccess);
-		
-		If if1 = new If(returnArgAcc, startToken);
-		if1.getBody().add(new Line(call));
-		stack.peek().replace(this, if1);
-		
-		int lineIndex = stack.find(Line.class);
-		((NodeList<Node>) stack.get(lineIndex - 1)).addAfter(stack.get(lineIndex), new Line(new Return(startToken)));
 		
 	}
 	

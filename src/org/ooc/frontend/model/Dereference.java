@@ -14,6 +14,14 @@ public class Dereference extends Access {
 		super(startToken);
 		setExpression(expression);
 	}
+	
+	@Override
+    public Expression getGenericOperand() {
+        if(expression.getType().isGeneric() && expression.getType().getPointerLevel() > 0) {
+            return expression;
+        }
+        return super.getGenericOperand();
+    }
 
 	@Override
 	public boolean replace(Node oldie, Node kiddo) {

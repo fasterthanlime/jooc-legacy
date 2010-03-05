@@ -36,7 +36,8 @@ public class VariableDeclWriter {
 		}
 		else
 		{
-			writeGuts(variableDecl, cgen, true);
+			// the initializer should be written somewhere else if it's a member
+			writeGuts(variableDecl, cgen, !variableDecl.isMember());
 		}
 		
 		if(variableDecl.getVersion() != null) {

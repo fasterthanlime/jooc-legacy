@@ -5,7 +5,6 @@ import java.io.IOException;
 import org.ooc.frontend.model.ArrayAccess;
 import org.ooc.frontend.model.Cast;
 import org.ooc.frontend.model.Expression;
-import org.ooc.frontend.model.TypeParam;
 import org.ooc.frontend.model.VariableAccess;
 
 public class CastWriter {
@@ -16,9 +15,10 @@ public class CastWriter {
 			return;
 		}
 		
-		if(cast.getExpression().getType().getRef() instanceof TypeParam) {
+		if(cast.getExpression().getType().isGeneric()) {
 			Expression expr = cast.getExpression();
 			if(expr instanceof VariableAccess) {
+				System.out.println("Writing cast "+cast);
 				VariableAccess access = (VariableAccess) expr;
 				cgen.current.app("*((");
 				cast.getType().accept(cgen);

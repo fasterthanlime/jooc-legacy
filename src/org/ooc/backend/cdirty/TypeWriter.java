@@ -10,7 +10,6 @@ import org.ooc.frontend.model.FunctionDecl;
 import org.ooc.frontend.model.Literal;
 import org.ooc.frontend.model.Type;
 import org.ooc.frontend.model.TypeDecl;
-import org.ooc.frontend.model.TypeParam;
 import org.ooc.middle.OocCompilationError;
 
 public class TypeWriter {
@@ -43,7 +42,7 @@ public class TypeWriter {
 			return;
 		}
 		
-		if(type.getRef() instanceof TypeParam) {
+		if(type.isGeneric()) {
 			cgen.current.append("uint8_t");
 			if(!type.isArray()) {
 				cgen.current.append("* ");
@@ -91,7 +90,7 @@ public class TypeWriter {
 		if(type.getRef() instanceof ClassDecl) {
 			cgen.current.app("*");
 		}
-		if(type.getRef() instanceof TypeParam && !type.isArray()) {
+		if(type.isGeneric() && !type.isArray()) {
 			cgen.current.app("*");
 		}
 		// no-VLA workaround.

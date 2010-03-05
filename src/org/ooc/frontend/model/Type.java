@@ -445,7 +445,7 @@ public class Type extends Node implements MustBeResolved {
 	}
 	
 	public boolean isGenericRecursive() {
-		return (ref instanceof TypeParam) || !typeParams.isEmpty();
+		return isGeneric() || !typeParams.isEmpty();
 	}
 
 	public Expression getArraySize() {

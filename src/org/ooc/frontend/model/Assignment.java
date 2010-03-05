@@ -147,144 +147,70 @@ public class Assignment extends BinaryOperation {
 					+stack.peek().getClass().getSimpleName()+") Did you mean '==' ?");
 		}
 		
-		if(left.getType() == null) {
+		if(left.getType() == null || !left.getType().isResolved()) {
 			if(fatal) throw new OocCompilationError(left, stack, "Left type of assignment unresolved: "+left+" (btw, stack = "+stack.toString(true));
 			return Response.LOOP;
 		}
 		
-		if(right.getType() == null) {
+		if(right.getType() == null || !left.getType().isResolved()) {
 			if(fatal) throw new OocCompilationError(right, stack, "Right type of assignment unresolved: "+right);
 			return Response.LOOP;
 		}
 		
+		/*
 		if(left.getType().isSuperOf(right.getType())) {
 			right = new Cast(right, left.getType(), right.startToken);
 		}
+		*/
 		
-		boolean isGeneric = false;
-		Expression realLeft = null;
-		Expression realRight = null;
-		Expression size = null;
-		if(left.getType().isGeneric()) {
-			isGeneric = true;
-			TypeParam genericType = (TypeParam) left.getType().getRef();
-			VariableAccess tAccess = new VariableAccess(genericType.getName(), startToken);
-			size = new MemberAccess(tAccess, "size", startToken);
-			realLeft = new AddressOf(left, left.startToken);
-			realRight = new AddressOf(right, right.startToken);
-		}
-		
-		if(!isGeneric && right.getType().isGeneric() && !(left instanceof ArrayAccess) && !isGeneric) {
-			right = new Cast(right, left.getType(), right.startToken);
-		}
-		
-		if(isGeneric) {
-			if(left instanceof ArrayAccess) {
-				ArrayAccess arrAcc = (ArrayAccess) left;
-				Expression var = arrAcc.getVariable();
-				if(var.getType().isGeneric()) {
-					VariableAccess tAccess = new VariableAccess(var.getType().getRef().getName(), startToken);
-					MemberAccess sizeAccess = new MemberAccess(tAccess, "size", startToken);
-					realLeft = new Add(new AddressOf(var, var.startToken), mul(arrAcc, sizeAccess), startToken);
-				}
-			}
-			if(right instanceof ArrayAccess) {
-				ArrayAccess arrAcc = (ArrayAccess) right;
-				Expression var = arrAcc.getVariable();
-				if(var.getType().isGeneric()) {
-					VariableAccess tAccess = new VariableAccess(var.getType().getRef().getName(), startToken);
-					MemberAccess sizeAccess = new MemberAccess(tAccess, "size", startToken);
-					realRight = new Add(new AddressOf(var, var.startToken), mul(arrAcc, sizeAccess), startToken);
-				}
-			} 
-			
-			if(!right.canBeReferenced()) {
-				// shortcut casts, otherwise we never know the real type.
-				Cast cast1 = null;
-				while(right instanceof Cast) {
-					if(cast1 == null) {
-						cast1 = ((Cast) right);
-					}
-					right = ((Cast) right).getExpression();
-				}
-				VariableDeclFromExpr vdfe = new VariableDeclFromExpr(generateTempName("genref", stack), right, right.startToken, null);
-				vdfe.setType(right.getType()); // fixate the type
-				addBeforeLine(stack, vdfe);
-				vdfe.unwrapToVarAcc(stack);
-				right = new VariableAccess(vdfe, vdfe.startToken);
-				realRight = new AddressOf(right, right.startToken);
-				if(cast1 != null) {
-					cast1.setExpression(realRight);
-					realRight = cast1;
-				}
-			}
-			
-			if(realLeft != null && realRight != null && size != null
-					&& (left.getType().isFlat() || left.getType().isArray())) {
-				unwrapToMemcpy(stack, realLeft, realRight, size);
-				return Response.LOOP;
-			}
-		}
+		// if we're an assignment from a generic return value
+        // we need to set the returnArg to left and disappear! =)
+        if(right instanceof FunctionCall) {
+            FunctionCall fCall = (FunctionCall) right;
+            FunctionDecl fDecl = fCall.getImpl();
+            if(fDecl == null || !fDecl.getReturnType().isResolved()) {
+            	if(res.fatal) {
+            		throw new OocCompilationError(this, stack, "Need more info on fDecl");
+            	}
+            	return Response.LOOP;
+            }
+            
+            if(fDecl.getReturnType().isGeneric()) {
+            	fCall.setReturnArg(left.getGenericOperand());
+                stack.peek().replace(this, fCall);
+                if(res.fatal) {
+            		throw new OocCompilationError(this, stack, "Just replaced ourselves with fCall, need to restart");
+            	}
+            	return Response.LOOP;
+            }
+        }
+        
+        if(isGeneric()) {
+        	MemberAccess sizeAcc = new MemberAccess(new VariableAccess(left.getType().getName(), startToken), "size", startToken);
+            
+        	FunctionCall fCall = new FunctionCall("memcpy", startToken);
+            fCall.getArguments().add(left. getGenericOperand());
+            fCall.getArguments().add(right.getGenericOperand());
+            fCall.getArguments().add(sizeAcc);
+            boolean result = stack.peek().replace(this, fCall);
+            
+            if(!result) {
+                if(res.fatal) throw new OocCompilationError(this, stack, "Couldn't replace ourselves ("+this
+                		+") with a memcpy/assignment in a "+stack.peek().getClass().getName()+"! trail = " +stack.toString(true));
+            }
+            
+            // Replaced ourselves, need to tidy up
+            return Response.LOOP;
+        }
 		
 		return super.resolve(stack, res, fatal);
 		
 	}
-
-	private Mul mul(ArrayAccess arrAcc, MemberAccess sizeAccess) {
-		assert(arrAcc.indices.size() == 1);
-		return new Mul(arrAcc.indices.getFirst(), sizeAccess, startToken);
-	}
-
-	private void unwrapToMemcpy(NodeList<Node> stack, Expression realLeft, Expression realRight, Expression size) {
-		
-		if(realLeft == null || realRight == null || size == null) {
-			throw new Error("Heh :/ either of those are null: realLeft = "+realLeft
-					+", realRight = "+realRight+", size = "+size);
-		}
-		
-		FunctionCall call = new FunctionCall("memcpy", startToken);
-		NodeList<Expression> args = call.getArguments();
-		args.add(realLeft);
-		args.add(realRight);
-		args.add(size);
-		
-		Node parent = stack.peek();
-
-		// why test if left is an array?
-		// because when declaring a variable of type which resolves to a TypeParam, e.g.
-		// value: T
-		// Then it translates to
-		// uint8_t value[T->size]
-		// That's an optimization. Thus, this will never be null, and it'll never
-		// need being malloc'd.
-		if(realLeft instanceof Access && !(left.getType().isArray())) {
-		
-			Block block = new Block(startToken);
-			
-			If if1 = new If(new Not(realLeft, realLeft.startToken), startToken);
-			FunctionCall alloc = new FunctionCall("gc_malloc", startToken);
-			alloc.getArguments().add(size);
-			Assignment allocAss = new Assignment(realLeft,
-					alloc, startToken);
-			allocAss.dead = true;
-			if1.getBody().add(new Line(allocAss));
-			block.getBody().add(new Line(if1));
-			block.getBody().add(new Line(call));
-			
-			// FIXME I'm not entirely sure this is right.
-			if(parent instanceof NodeList<?>) {
-				parent.replace(this, new Line(block));
-			} else {
-				parent.replace(this, block);
-			}
-		
-		} else {
-			
-			parent.replace(this, call);
-			
-		}
-		
-	}
+	
+	private boolean isGeneric() {
+        return (left. getType().isGeneric() && left. getType().getPointerLevel() == 0) ||
+        	   (right.getType().isGeneric() && right.getType().getPointerLevel() == 0);
+    }
 
 	@Override
 	public int getPriority() {

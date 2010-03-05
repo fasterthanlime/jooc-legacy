@@ -97,7 +97,7 @@ public class MemberAccess extends VariableAccess {
 				varAcc.resolve(stack, res, fatal);
 				ref = varAcc.getRef();
 				stack.pop();
-				for(Import imp: ns.getImports()) {
+				for(int i = 0; i < ns.getImports().size(); i++) {
 					stack.pop();
 				}
 				stack.peek().replace(this, varAcc);

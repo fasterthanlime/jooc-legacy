@@ -28,7 +28,7 @@ public class ClassDecl extends TypeDecl {
 				new Type("Object", Token.defaultToken) : superType, module, startToken);
 		this.isAbstract = isAbstract;
 		
-		addFunction(new FunctionDecl(LOAD_FUNC_NAME,     "", false, true,  false, false, startToken, module));
+		addFunction(new FunctionDecl(LOAD_FUNC_NAME,     "", false,  true, false, false, startToken, module));
 		addFunction(new FunctionDecl(DEFAULTS_FUNC_NAME, "", false, false, false, false, startToken, module));
 		addFunction(new FunctionDecl(DESTROY_FUNC_NAME,  "", false, false, false, false, startToken, module));
 	}
