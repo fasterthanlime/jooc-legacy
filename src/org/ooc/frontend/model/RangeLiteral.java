@@ -3,11 +3,10 @@ package org.ooc.frontend.model;
 import java.io.IOException;
 
 import org.ooc.frontend.Visitor;
-import org.ooc.frontend.model.interfaces.MustBeResolved;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.middle.hobgoblins.Resolver;
 
-public class RangeLiteral extends Literal implements MustBeResolved {
+public class RangeLiteral extends Literal {
 
 	protected Expression lower;
 	protected Expression upper;
@@ -69,12 +68,13 @@ public class RangeLiteral extends Literal implements MustBeResolved {
 		
 	}
 
+	@Override
 	public boolean isResolved() {
 		return false;
 	}
 
+	@Override
 	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
-		
 		Node parent = stack.peek();
 		if(!(parent instanceof Foreach)) {
 			MemberCall newCall = new MemberCall(new VariableAccess("Range", startToken), "new", null, startToken);
@@ -85,7 +85,6 @@ public class RangeLiteral extends Literal implements MustBeResolved {
 		}
 			
 		return Response.OK;
-		
 	}
 	
 	@Override

@@ -69,6 +69,9 @@ public class ValuedReturn extends Return implements MustBeResolved {
 		if(fDecl.getReturnType().isGeneric()) {
             if(expression.getType() == null || !expression.getType().isResolved()) {
                 // expr type is unresolved
+            	if(res.params.veryVerbose) {
+            		System.out.println("Expr type ("+expression.getType()+") of "+expression+" is unresolved, looping");
+            	}
                 return Response.LOOP;
             }
             

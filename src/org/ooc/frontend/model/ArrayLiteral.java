@@ -4,13 +4,12 @@ import java.io.IOException;
 import java.util.Iterator;
 
 import org.ooc.frontend.Visitor;
-import org.ooc.frontend.model.interfaces.MustBeResolved;
 import org.ooc.frontend.model.interfaces.MustBeUnwrapped;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.middle.OocCompilationError;
 import org.ooc.middle.hobgoblins.Resolver;
 
-public class ArrayLiteral extends Literal implements MustBeUnwrapped, MustBeResolved {
+public class ArrayLiteral extends Literal implements MustBeUnwrapped {
 
 	private FunctionCall outerCall = null;
 	private int outerArgIndex = -1;
@@ -70,14 +69,15 @@ public class ArrayLiteral extends Literal implements MustBeUnwrapped, MustBeReso
 		return true;
 	}
 
+	@Override
 	public boolean isResolved() {
-		return type != defaultType;
+		return type != defaultType && super.isResolved();
 	}
 	
+	@Override
 	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
 		
 		if(type != defaultType) return Response.OK;
-		
 		
 		if(!elements.isEmpty()) {
 			
@@ -151,7 +151,7 @@ public class ArrayLiteral extends Literal implements MustBeUnwrapped, MustBeReso
 		if(type == defaultType && fatal) {
 			throw new OocCompilationError(this, stack, "Couldn't figure out type of ArrayLiteral with elements "+elements);
 		}
-		return (type == defaultType) ? Response.LOOP : Response.OK; 
+		return (type == defaultType) ? Response.LOOP : super.resolve(stack, res, fatal);
 		
 	}
 
