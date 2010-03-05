@@ -8,7 +8,7 @@ import org.ooc.frontend.model.tokens.Token;
 public class FloatLiteral extends Literal {
 
 	protected double value;
-	public static Type type = new Type("Double", Token.defaultToken);
+	public static Type type = new Type("Float", Token.defaultToken);
 
 	public FloatLiteral(double value, Token startToken) {
 		super(startToken);
