@@ -1,7 +1,7 @@
 include memory
 
 version(gc) {
-    include gc/gc
+    include gc/gc | (GC_THREADS)
 
     GC_finalization_proc: extern cover {}
     
