@@ -39,6 +39,30 @@ Random: class {
         }
         return toRet
     }
+    
+    // Code taken from "http://software.intel.com/en-us/articles/fast-random-number-generator-on-the-intel-pentiumr-4-processor/"
+    fastRandom: static func() -> Int {
+        state = 214013 * state+ 2531011
+        return (state>>16) & 0x7fff
+    }
+
+    fastRandInt: static func(start, end: Int) -> Int {
+        return fastRandRange(start, end+1)
+    }
+    
+    fastRandInt: static func ~exclude(start, end: Int, ex: List<Int>) -> Int {
+        return exclude(start, end, ex, fastRandInt as Func)
+    }
+
+    fastRandRange: static func(start, end: Int) -> Int {
+        width := end - start
+        return start + (fastRandom() % width)
+    }
+
+    fastRandRange: static func ~exclude(start, end: Int, ex: List<Int>) -> Int {
+        return exclude(start, end, ex, fastRandRange as Func)
+    }
+    
 } 
 
 
