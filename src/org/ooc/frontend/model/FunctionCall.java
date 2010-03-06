@@ -293,7 +293,7 @@ public class FunctionCall extends Access implements MustBeResolved {
         	idx += 1;
             parent = stack.peek(idx);
         }
-
+        
 		if(impl.getReturnType().isGeneric() && !isFriendlyHost(parent)) {
 			VariableDecl vDecl = new VariableDecl(getType(), false, startToken, stack.getModule());
             vDecl.getAtoms().add(new VariableDeclAtom(generateTempName("genCall", stack), null, startToken));

@@ -28,7 +28,6 @@ MultiMap: class <T> extends HashMap<T> {
             list add(value)
             super put(key, list)
         }
-        
         return true
     }
     

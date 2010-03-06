@@ -265,7 +265,6 @@ public class Cast extends Expression implements MustBeResolved {
 			
 			FunctionCall call = new FunctionCall(bestOp.getFunc(), startToken);
 			call.getArguments().add(expression);
-			// FIXME this is debug code, obviously =)
 			call.getArguments().add(new IntLiteral(numElements, IntLiteral.Format.DEC, expression.startToken));
 			TypeAccess typeAccess = new TypeAccess(innerType, expression.startToken);
 			call.getTypeParams().add(typeAccess);

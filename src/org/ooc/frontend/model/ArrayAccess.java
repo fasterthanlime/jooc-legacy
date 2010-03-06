@@ -152,8 +152,6 @@ public class ArrayAccess extends Access implements MustBeResolved {
 			
 			Argument arg = args.getFirst();
 			if(arg.getType().getReferenceLevel() == variable.getType().getReferenceLevel() + 1) {
-				// FIXME KALAMAZOO
-				System.out.println(" >> Replacig variable "+variable+" with addressOf in overload of "+bestOp);
 				variable = new AddressOf(variable, startToken);
 			}
 			

@@ -200,5 +200,19 @@ public class ArrayLiteral extends Literal implements MustBeUnwrapped {
 		return false;
 		
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append('[');
+		boolean isFirst = true;
+		for(Statement element : elements) {
+			if(isFirst) isFirst = false;
+			else        sb.append(", ");
+			sb.append(element.toString());
+		}
+		sb.append(']');
+		return sb.toString();
+	}
 
 }

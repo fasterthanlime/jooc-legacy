@@ -347,6 +347,7 @@ public class Type extends Node implements MustBeResolved {
 					rawType.getReferenceLevel() + referenceLevel,
 					startToken
 				);
+				groundType.setArray(isArray);
 				if(res == null) {
 					groundType.ref = ref;
 				} else {

@@ -399,7 +399,9 @@ public class CGenerator extends Generator implements Visitor {
 	public void visit(Import import1) throws IOException {}
 	
 	public void visit(ArrayLiteral arrayLiteral) throws IOException {
-		current.app('{');
+		current.app("(");
+		arrayLiteral.getType().accept(this);
+		current.app(") {");
 		Iterator<Expression> iter = arrayLiteral.getElements().iterator();
 		while(iter.hasNext()) {
 			Expression element = iter.next();
