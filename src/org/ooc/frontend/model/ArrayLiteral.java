@@ -26,6 +26,12 @@ public class ArrayLiteral extends Literal implements MustBeUnwrapped {
 		elements = new NodeList<Expression>(startToken);
 	}
 	
+	@Override
+	public Expression getGenericOperand() {
+		System.out.println("Should get genericOperand of arrlit "+this);
+		return super.getGenericOperand();
+	}
+	
 	public int getDepth() {
 		if(elements.isEmpty() || !(elements.getFirst() instanceof ArrayLiteral)) return 1;
 		return 1 + ((ArrayLiteral) elements.getFirst()).getDepth();

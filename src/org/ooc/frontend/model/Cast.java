@@ -26,6 +26,12 @@ public class Cast extends Expression implements MustBeResolved {
 		this.expression = expression;
 		setType(targetType);
 	}
+	
+	@Override
+	public Expression getGenericOperand() {
+		// FIXME: hmm not really correct but fixes more thing than it breaks atm.
+		return expression.getGenericOperand();
+	}
 
 	@Override
 	public boolean replace(Node oldie, Node kiddo) {

@@ -26,9 +26,8 @@ public class ArrayAccess extends Access implements MustBeResolved {
 	public Expression getGenericOperand() {
         if(getType().isGeneric() && getType().getPointerLevel() == 0) {
             MemberAccess sizeAcc = new MemberAccess(new VariableAccess(getType().getName(), startToken), "size", startToken);
-            ArrayAccess arrAcc = this;
-            // FIXME: wtf? we're modifying 'this' instead of making a copy of it?
-            arrAcc.indices.set(0, new Mul(arrAcc.indices.get(0), sizeAcc, arrAcc.startToken));
+            ArrayAccess arrAcc = new ArrayAccess(variable, startToken);
+            arrAcc.indices.add(new Mul(indices.get(0), sizeAcc, arrAcc.startToken));
             return new AddressOf(arrAcc, arrAcc.startToken);
         }
         return super.getGenericOperand();
@@ -153,6 +152,8 @@ public class ArrayAccess extends Access implements MustBeResolved {
 			
 			Argument arg = args.getFirst();
 			if(arg.getType().getReferenceLevel() == variable.getType().getReferenceLevel() + 1) {
+				// FIXME KALAMAZOO
+				System.out.println(" >> Replacig variable "+variable+" with addressOf in overload of "+bestOp);
 				variable = new AddressOf(variable, startToken);
 			}
 			

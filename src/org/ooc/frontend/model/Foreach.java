@@ -124,8 +124,11 @@ public class Foreach extends ControlStatement implements MustBeResolved {
 		
 		MemberCall iterCall = new MemberCall(collection, "iterator", "", startToken);
 		Response resp = Response.LOOP;
+		int gardeFou = 10;
 		while(resp == Response.LOOP) {
 			resp = iterCall.resolve(stack, res, true);
+			gardeFou--;
+			if(gardeFou <= 0) return Response.LOOP;
 		}
 		
 		Type iterType = iterCall.getType();

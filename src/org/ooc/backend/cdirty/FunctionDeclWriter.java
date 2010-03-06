@@ -25,7 +25,9 @@ public class FunctionDeclWriter {
 				VersionBlockWriter.writeVersionBlockStart(functionDecl.getVersion(), cgen);
 			}
 			
-			cgen.current.nl().app("extern ").app(functionDecl.getExternName());
+			cgen.current.nl().app("extern ");
+			functionDecl.getReturnType().accept(cgen);
+			cgen.current.app(' ').app(functionDecl.getExternName());
 			writeFuncArgs(functionDecl, cgen);
 			cgen.current.app(';');
 			

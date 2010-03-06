@@ -6,6 +6,7 @@ import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.IntLiteral.Format;
 import org.ooc.frontend.model.OpDecl.OpType;
 import org.ooc.frontend.model.tokens.Token;
+import org.ooc.middle.OocCompilationError;
 import org.ooc.middle.hobgoblins.Resolver;
 
 public class Compare extends BinaryOperation {
@@ -62,31 +63,25 @@ public class Compare extends BinaryOperation {
 		
 		Response response = super.resolve(stack, res, fatal);
 		if(response != Response.OK) return response;
-	
-		boolean isGeneric = false;
-		Expression realLeft = left;
-		Expression realRight = right;
-		Expression size = null;
-		if(left.getType().isGenericRecursive() && !(left.getType().getRef() instanceof TypeDecl)) {
-			isGeneric = true;
-			realLeft = new AddressOf(left, left.startToken);
-			VariableAccess tAccess = new VariableAccess(left.getType().getRef().getName(), startToken);
-			size = new MemberAccess(tAccess, "size", startToken);
-		}
-		if(right.getType().isGeneric() && !(right.getType().getRef() instanceof TypeDecl)) {
-			isGeneric = true;
-			realRight = new AddressOf(right, right.startToken);
-			if(size == null) {
-				VariableAccess tAccess = new VariableAccess(right.getType().getRef().getName(), startToken);
-				size = new MemberAccess(tAccess, "size", startToken);
-			}
+
+		if(left.getType() == null || !left.getType().isResolved()) {
+			if(fatal) throw new OocCompilationError(left, stack, "Left type of assignment unresolved: "+left+" (btw, stack = "+stack.toString(true));
+			return Response.LOOP;
 		}
 		
-		if(isGeneric) {
+		if(right.getType() == null || !left.getType().isResolved()) {
+			if(fatal) throw new OocCompilationError(right, stack, "Right type of assignment unresolved: "+right);
+			return Response.LOOP;
+		}
+		
+		VariableAccess tAccess = new VariableAccess(left.getType().getRef().getName(), startToken);
+		Expression size = new MemberAccess(tAccess, "size", startToken);
+		
+		if(isGeneric()) {
 			FunctionCall call = new FunctionCall("memcmp", startToken);
 			NodeList<Expression> args = call.getArguments();
-			args.add(realLeft);
-			args.add(realRight);
+			args.add(left.getGenericOperand());
+			args.add(right.getGenericOperand());
 			args.add(size);
 			
 			left = call;
@@ -97,6 +92,11 @@ public class Compare extends BinaryOperation {
 		return Response.OK;
 		
 	}
+	
+	private boolean isGeneric() {
+        return (left. getType().isGeneric() && left. getType().getPointerLevel() == 0) ||
+        	   (right.getType().isGeneric() && right.getType().getPointerLevel() == 0);
+    }
 
 	@Override
 	public int getPriority() {

@@ -38,8 +38,8 @@ public class TypeParser {
 			Token t = reader.peek();
 			if(t.type == TokenType.OPEN_PAREN) {
 				if(hasParens) {
-					throw new CompilationFailedError(sReader.getLocation(reader.peek()),
-							"Only one pair of parens, please.");
+					// Double parens = not a Type
+					return null;
 				}
 				reader.skip();
 				hasParens = true;

@@ -207,7 +207,9 @@ public class FunctionCall extends Access implements MustBeResolved {
                 // need ref arg type, we'll do it later
             	return Response.LOOP;
             }
-            if(!implArg.getType().isGeneric()) { continue; }
+            if(!(implArg.getType().isGeneric() &&
+                 implArg.getType().getPointerLevel() == 0 &&
+                 implArg.getType().getReferenceLevel() == 0)) { continue; }
 			
 			Expression callArg = arguments.get(j);
 			if(callArg.getType() == null || !callArg.getType().isResolved()) {
