@@ -10,13 +10,13 @@ import org.ooc.frontend.model.VariableAccess;
 public class CastWriter {
 
 	public static void write(Cast cast, CGenerator cgen) throws IOException {
-		if(cast.getType().equals(cast.getExpression().getType())) {
-			cast.getExpression().accept(cgen);
+		if(cast.getType().equals(cast.getInner().getType())) {
+			cast.getInner().accept(cgen);
 			return;
 		}
 		
-		if(cast.getExpression().getType().isGeneric()) {
-			Expression expr = cast.getExpression();
+		if(cast.getInner().getType().isGeneric()) {
+			Expression expr = cast.getInner();
 			if(expr instanceof VariableAccess) {
 				VariableAccess access = (VariableAccess) expr;
 				cgen.current.app("*((");
@@ -44,7 +44,7 @@ public class CastWriter {
 		cgen.current.app("((");
 		cast.getType().accept(cgen);
 		cgen.current.app(") (");
-		cast.getExpression().accept(cgen);
+		cast.getInner().accept(cgen);
 		cgen.current.app("))");
 	}
 	

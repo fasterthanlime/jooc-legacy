@@ -179,7 +179,6 @@ public class ArrayLiteral extends Literal implements MustBeUnwrapped {
 		}
 		
 		if(stack.peek() instanceof Cast || stack.peek() instanceof Foreach) {
-			//System.out.println("ArrayLiteral "+this+" in a "+stack.peek().getClass().getSimpleName()+". Not unwrapping =)");
 			return false;
 		}
 		

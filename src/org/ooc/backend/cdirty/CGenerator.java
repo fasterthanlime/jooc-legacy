@@ -380,7 +380,7 @@ public class CGenerator extends Generator implements Visitor {
 		if(paren) current.app('(');
 		Expression expr = addressOf.getExpression();
 		while(expr instanceof Cast) {
-			expr = ((Cast) expr).getExpression();
+			expr = ((Cast) expr).getInner();
 		}
 		expr.accept(this);
 		if(paren) current.app(')');

@@ -341,8 +341,40 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 			}
 		}
 		
+		for(VariableDeclAtom atom : atoms) {
+			Expression expr = atom.getExpression();
+			if(expr != null) {
+	            Expression realExpr = expr;
+	            while(realExpr instanceof Cast) {
+	                realExpr = ((Cast) realExpr).inner;
+	            }
+	            if(realExpr instanceof FunctionCall) {
+	                FunctionCall fCall = (FunctionCall) realExpr;
+	                FunctionDecl fDecl = fCall.getImpl();
+	                if(fDecl == null || !fDecl.getReturnType().isResolved()) {
+	                    // fCall isn't resolved
+	                    return Response.LOOP;
+	                }
+	
+	                if(fDecl.getReturnType().isGeneric()) {
+	                	if(getType() == null) {
+	                		// FIXME KALAMAZOO
+	                		System.out.println("Looping because type isn't resolved, type = "+getType());
+	                		return Response.LOOP;
+	                	}
+	                	setType(getType()); // fixate the type
+	                	
+	                    Assignment ass = new Assignment(new VariableAccess(this, startToken), realExpr, startToken);
+	                    stack.addAfterLine(stack, ass);
+                        // token throwError("Couldn't add a " + ass toString() + " after a " + toString() + ", trail = " + trail toString())
+	                    atom.setExpression(null);
+	                }
+	            }
+	        }
+		}
+		
 		if(!isArg() && type != null && type.isGeneric() && type.getPointerLevel() == 0) {
-			for(VariableDeclAtom atom: atoms) {
+			for(VariableDeclAtom atom : atoms) {
 				Expression expr = atom.getExpression();
 	            if(expr != null) {
 	                if((expr instanceof FunctionCall) && ((FunctionCall) expr).getName().equals("gc_malloc")) {

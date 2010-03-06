@@ -18,25 +18,25 @@ public class Cast extends Expression implements MustBeResolved {
 		MAP, // for map literal
 	}
 	
-	protected Expression expression;
+	protected Expression inner;
 	protected Type type;
 	
 	public Cast(Expression expression, Type targetType, Token startToken) {
 		super(startToken);
-		this.expression = expression;
+		this.inner = expression;
 		setType(targetType);
 	}
 	
 	@Override
 	public Expression getGenericOperand() {
 		// FIXME: hmm not really correct but fixes more thing than it breaks atm.
-		return expression.getGenericOperand();
+		return inner.getGenericOperand();
 	}
 
 	@Override
 	public boolean replace(Node oldie, Node kiddo) {
-		if(oldie == expression) {
-			expression = (Expression) kiddo;
+		if(oldie == inner) {
+			inner = (Expression) kiddo;
 			return true;
 		}
 		
@@ -58,27 +58,28 @@ public class Cast extends Expression implements MustBeResolved {
 
 	public void acceptChildren(Visitor visitor) throws IOException {
 		type.accept(visitor);
-		expression.accept(visitor);
+		inner.accept(visitor);
 	}
 
 	public boolean hasChildren() {
 		return true;
 	}
 
-	public Expression getExpression() {
-		return expression;
+	@Override
+	public Expression getInner() {
+		return inner;
 	}
 
-	public void setExpression(Expression expression) {
-		this.expression = expression;
+	public void setInner(Expression expression) {
+		this.inner = expression;
 	}
 
 	public void setType(Type newType) {
 		this.type = newType;
-		if(type.isGenericRecursive() && expression.getType() != null && expression.getType().isGenericRecursive()) {
+		if(type.isGenericRecursive() && inner.getType() != null && inner.getType().isGenericRecursive()) {
 			type = type.clone();
 			TypeDecl dstDecl = (TypeDecl) newType.getRef();
-			Type src = expression.getType();
+			Type src = inner.getType();
 			if(dstDecl != null && dstDecl.getTypeParams() != null
 				&& src != null && src.getTypeParams() != null
 				&& dstDecl.getTypeParams().size() != src.getTypeParams().size()) {
@@ -92,18 +93,13 @@ public class Cast extends Expression implements MustBeResolved {
 	}
 	
 	@Override
-	public Expression getInner() {
-		return getExpression();
-	}
-	
-	@Override
 	public String toString() {
-		return "["+expression+" as "+type+"]";
+		return "["+inner+" as "+type+"]";
 	}
 	
 	@Override
 	public boolean canBeReferenced() {
-		return expression.canBeReferenced();
+		return inner.canBeReferenced();
 	}
 
 	public boolean isResolved() {
@@ -114,7 +110,7 @@ public class Cast extends Expression implements MustBeResolved {
 		
 		Response response;
 		
-		Expression realExpr = expression.bitchJumpCasts();
+		Expression realExpr = inner.bitchJumpCasts();
 		
 		if(realExpr.getType() == null) {
 			if(fatal) {
@@ -138,7 +134,7 @@ public class Cast extends Expression implements MustBeResolved {
 	
 	private Response tryRegularOverload(NodeList<Node> stack, Resolver res, boolean fatal) {
 		
-		Type leftType = expression.getType();
+		Type leftType = inner.getType();
 		Type rightType = getType();
 		if(!leftType.isResolved() || !rightType.isResolved()) {
 			//System.out.println("Bitch-looping because either "+leftType+" or "+rightType+" isn't resolved");
@@ -166,7 +162,7 @@ public class Cast extends Expression implements MustBeResolved {
 		
 		if(bestOp != null) {
 			FunctionCall call = new FunctionCall(bestOp.getFunc(), startToken);
-			call.getArguments().add(expression);
+			call.getArguments().add(inner);
 			Node parent = stack.peek();
 			parent.replace(this, call);
 			call.resolve(stack, res, true);
@@ -209,7 +205,7 @@ public class Cast extends Expression implements MustBeResolved {
 	
 	private Response tryArrayOverload(NodeList<Node> stack, Resolver res, boolean fatal) {
 		
-		Type leftType = expression.getType();
+		Type leftType = inner.getType();
 		Type rightType = getType();
 		if(!leftType.isResolved() || !rightType.isResolved()) {
 			//System.out.println("Bitch-looping because either "+leftType+" or "+rightType+" isn't resolved");
@@ -236,19 +232,19 @@ public class Cast extends Expression implements MustBeResolved {
 		}
 		
 		if(bestOp != null) {
-			Type innerType = expression.getType().dereference();
+			Type innerType = inner.getType().dereference();
 			int numElements = -1;
 			
-			if(expression instanceof VariableAccess) {
-				expression = ((VariableAccess) expression).getRef();
-				if(expression instanceof VariableDeclFromExpr) {
-					VariableDeclFromExpr vdfe = (VariableDeclFromExpr) expression;
-					expression = vdfe.getAtoms().getFirst().getExpression();
+			if(inner instanceof VariableAccess) {
+				inner = ((VariableAccess) inner).getRef();
+				if(inner instanceof VariableDeclFromExpr) {
+					VariableDeclFromExpr vdfe = (VariableDeclFromExpr) inner;
+					inner = vdfe.getAtoms().getFirst().getExpression();
 				}
 			}
 			
-			if(expression instanceof ArrayLiteral) {
-				ArrayLiteral lit = (ArrayLiteral) expression;
+			if(inner instanceof ArrayLiteral) {
+				ArrayLiteral lit = (ArrayLiteral) inner;
 				if(lit.getInnerType() == null) {
 					if(fatal) {
 						throw new OocCompilationError(lit, stack,
@@ -258,15 +254,15 @@ public class Cast extends Expression implements MustBeResolved {
 				}
 				numElements = lit.getElements().size();
 			} else {
-				throw new OocCompilationError(expression, stack, "Trying to array-cast to " + getType() 
+				throw new OocCompilationError(inner, stack, "Trying to array-cast to " + getType() 
 						+ " an array of which we don't know the size! Try a constructor instead, passing the" +
 						  " size explicitly as an argument.");
 			}
 			
 			FunctionCall call = new FunctionCall(bestOp.getFunc(), startToken);
-			call.getArguments().add(expression);
-			call.getArguments().add(new IntLiteral(numElements, IntLiteral.Format.DEC, expression.startToken));
-			TypeAccess typeAccess = new TypeAccess(innerType, expression.startToken);
+			call.getArguments().add(inner);
+			call.getArguments().add(new IntLiteral(numElements, IntLiteral.Format.DEC, inner.startToken));
+			TypeAccess typeAccess = new TypeAccess(innerType, inner.startToken);
 			call.getTypeParams().add(typeAccess);
 			typeAccess.resolve(stack, res, true);
 			Node parent = stack.peek();
@@ -318,7 +314,7 @@ public class Cast extends Expression implements MustBeResolved {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends Node> T bitchJumpCasts() {
-		return (T) expression;
+		return (T) inner;
 	}
 
 }

@@ -325,7 +325,7 @@ public class FunctionCall extends Access implements MustBeResolved {
     private boolean isFriendlyHost (Node node) {
     	return  (node instanceof Line) ||
 				(node instanceof CommaSequence) ||
-				(node instanceof VariableDecl) ||
+				(node instanceof VariableDeclAtom) ||
 				(node instanceof Assignment);
     }
 
