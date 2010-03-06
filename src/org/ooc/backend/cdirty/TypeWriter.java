@@ -96,7 +96,7 @@ public class TypeWriter {
 		// no-VLA workaround.
 		if(type.isArray() && type.getArraySize() != null
 				&& !(type.getArraySize() instanceof Literal)  && (cgen.params.compiler == null || !cgen.params.compiler.supportsVLAs())) {
-			cgen.current.app("/*  no-VLA workaround */ *");
+			cgen.current.app("*");
 		}
 	}
 	
@@ -130,7 +130,7 @@ public class TypeWriter {
 					cgen.current.app("]");
 				}
 			} else {
-				cgen.current.app("/* no-array */ *");
+				cgen.current.app("*");
 			}
 		}
 	}
