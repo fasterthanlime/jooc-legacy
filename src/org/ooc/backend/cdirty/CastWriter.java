@@ -18,7 +18,6 @@ public class CastWriter {
 		if(cast.getExpression().getType().isGeneric()) {
 			Expression expr = cast.getExpression();
 			if(expr instanceof VariableAccess) {
-				System.out.println("Writing cast "+cast);
 				VariableAccess access = (VariableAccess) expr;
 				cgen.current.app("*((");
 				cast.getType().accept(cgen);

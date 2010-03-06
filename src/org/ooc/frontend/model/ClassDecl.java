@@ -130,6 +130,9 @@ public class ClassDecl extends TypeDecl {
 		VariableAccess thisAccess = new VariableAccess(vdfe, decl.startToken);
 		thisAccess.setRef(vdfe);
 		
+		MemberCall defaultsCall = new MemberCall(thisAccess, "__defaults__", "", decl.startToken);
+		constructor.getBody().add(new Line(defaultsCall));
+		
 		FunctionCall initCall = new FunctionCall(decl, decl.startToken);
 		for(Argument arg: constructor.getArguments()) {
 			initCall.getArguments().add(new VariableAccess(arg, decl.startToken));
