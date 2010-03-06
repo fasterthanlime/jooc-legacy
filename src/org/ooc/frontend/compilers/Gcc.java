@@ -53,6 +53,7 @@ public class Gcc extends BaseCompiler {
 		super.reset();
 		command.add("-std=c99");
 		command.add("-Wall");
+        command.add("-O2");
 	}
 
 	public boolean supportsDeclInFor() {

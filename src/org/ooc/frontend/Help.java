@@ -31,6 +31,7 @@ public class Help {
 "-lmylib                         link with library 'mylib'\n" +
 "-timing                         print how much time it took to compile\n" +
 "-r, -run                        runs the executable after compilation\n" +
+"+option                         pass 'option' to the C compiler, e.g. +-D_GNU_SOURCE, or +-O2" +
 "\nFor help about the backend options, run 'ooc -help-backends'"
 		);
 		
