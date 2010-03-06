@@ -1,6 +1,7 @@
 package org.ooc.frontend.model;
 
 import java.io.IOException;
+import java.util.Iterator;
 
 import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.VersionNodes.VersionName;
