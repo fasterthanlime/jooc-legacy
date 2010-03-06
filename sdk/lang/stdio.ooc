@@ -8,36 +8,36 @@ println: func {
 }
 
 // input/output
-printf: extern func (String, ...) -> Int
-fprintf: extern func (FStream, String, ...) -> Int
-sprintf: extern func (String, String, ...) -> Int
-snprintf: extern func (String, Int, String, ...) -> Int
+printf: extern func (Char*, ...) -> Int
+fprintf: extern func (FStream, Char*, ...) -> Int
+sprintf: extern func (Char*, Char*, ...) -> Int
+snprintf: extern func (Char*, Int, Char*, ...) -> Int
 
-vprintf: extern func (String, VaList) -> Int
-vfprintf: extern func (FStream, String, VaList) -> Int
-vsprintf: extern func (String, String, VaList) -> Int
-vsnprintf: extern func (String, Int, String, VaList) -> Int
+vprintf: extern func (Char*, VaList) -> Int
+vfprintf: extern func (FStream, Char*, VaList) -> Int
+vsprintf: extern func (Char*, Char*, VaList) -> Int
+vsnprintf: extern func (Char*, Int, Char*, VaList) -> Int
 
 fread: extern func (ptr: Pointer, size: SizeT, nmemb: SizeT, stream: FStream) -> SizeT
 fwrite: extern func (ptr: Pointer, size: SizeT, nmemb: SizeT, stream: FStream) -> SizeT
 feof: extern func (stream: FStream) -> Int
 
-fopen: extern func (String, String) -> FStream
+fopen: extern func (Char*, Char*) -> FStream
 fclose: extern func (FStream) -> Int
 fflush: extern func (stream: FStream)
 
 fputc: extern func (Char, FStream)
-fputs: extern func (String, FStream)
+fputs: extern func (Char*, FStream)
 
-scanf: extern func (format: String, ...) -> Int
-fscanf: extern func (stream: FStream, format: String, ...) -> Int
-sscanf: extern func (str: String, format: String, ...) -> Int
+scanf: extern func (format: Char*, ...) -> Int
+fscanf: extern func (stream: FStream, format: Char*, ...) -> Int
+sscanf: extern func (str: Char*, format: Char*, ...) -> Int
 
-vscanf: extern func (format: String, ap: VaList) -> Int
-vfscanf: extern func (stream: FStream, format: String, ap: VaList) -> Int
-vsscanf: extern func (str: String, format: String, ap: VaList) -> Int
+vscanf: extern func (format: Char*, ap: VaList) -> Int
+vfscanf: extern func (stream: FStream, format: Char*, ap: VaList) -> Int
+vsscanf: extern func (str: Char*, format: Char*, ap: VaList) -> Int
 
-fgets: extern func (str: String, length: SizeT, stream: FStream)
+fgets: extern func (str: Char*, length: SizeT, stream: FStream) -> Char*
 
 FILE: extern cover
 FStream: cover from FILE* {
@@ -56,7 +56,8 @@ FStream: cover from FILE* {
     // TODO encodings
     readChar: func -> Char {
         c : Char
-        fread(c&, 1, 1, this)
+        count := fread(c&, 1, 1, this)
+        if(count < 1) Exception new(This, "Trying to read a char at the end of a file!") throw()
         return c
     }
     
@@ -65,12 +66,12 @@ FStream: cover from FILE* {
         chunk := 128
         length := chunk
         pos := 0
-        str := gc_malloc(length) as String
+        str := gc_malloc(length) as Char*
         
-        fgets(str, chunk, this)
+        returnVal := fgets(str, chunk, this)
         
         // while it's not '\n' it means not all the line has been read
-        while(str last() != '\n') {
+        while(str[strlen(str)] != '\n' && returnVal != null) {
             // now insert the rest of the line in str
             pos += chunk - 1 // -1 cause we want to insert the rest before the '\0'
             
@@ -80,9 +81,8 @@ FStream: cover from FILE* {
             if(!tmp) Exception new(This, "Ran out of memory while reading a (apparently never-ending) line!") throw()
             str = tmp
 
-            // we cast as Char* to avoid operator overloading
             // TODO encodings
-            fgets(str as Char* + pos, chunk, this)
+            returnVal = fgets(str, chunk, this)
         }
         
         return str

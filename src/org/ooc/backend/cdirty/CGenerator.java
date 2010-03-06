@@ -400,7 +400,12 @@ public class CGenerator extends Generator implements Visitor {
 	
 	public void visit(ArrayLiteral arrayLiteral) throws IOException {
 		current.app("(");
-		arrayLiteral.getType().accept(this);
+		if(arrayLiteral.getType().getName().equals("String")) {
+			// FIXME that's an awful workaround. j/ooc's handling of types is broken anyway.
+			current.app("char*[]");
+		} else {
+			arrayLiteral.getType().accept(this);
+		}
 		current.app(") {");
 		Iterator<Expression> iter = arrayLiteral.getElements().iterator();
 		while(iter.hasNext()) {

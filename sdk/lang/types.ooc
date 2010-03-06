@@ -122,12 +122,14 @@ operator as (value: Char) -> String {
     value toString()
 }
 
-strtol:  extern func (String, Pointer, Int) -> Long
-strtoll: extern func (String, Pointer, Int) -> LLong
-strtoul: extern func (String, Pointer, Int) -> ULong
-strtof:  extern func (String, Pointer)      -> Float
-strtod:  extern func (String, Pointer)      -> Double
-strtold: extern func (String, Pointer)      -> LDouble
+strtol:  extern func (Char*, Pointer, Int) -> Long
+strtoll: extern func (Char*, Pointer, Int) -> LLong
+strtoul: extern func (Char*, Pointer, Int) -> ULong
+strtof:  extern func (Char*, Pointer)      -> Float
+strtod:  extern func (Char*, Pointer)      -> Double
+strtold: extern func (Char*, Pointer)      -> LDouble
+
+strlen:  extern func (Char*) -> SizeT
 
 String: cover from Char* {
 
