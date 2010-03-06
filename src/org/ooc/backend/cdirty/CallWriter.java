@@ -180,7 +180,7 @@ public class CallWriter {
 			isFirst = false;
 			Expression expr = iter.next();
 			Argument implArg = implArgs.get(argIndex);
-			if(implArg.getType().isGeneric() && implArg.getType().getPointerLevel() == 0) {
+			if(implArg.getType().isGeneric()) {
 				cgen.current.app("(uint8_t*) ");
 			}
 			writeCallArg(expr, impl, argIndex, cgen);
