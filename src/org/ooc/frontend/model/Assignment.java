@@ -165,8 +165,13 @@ public class Assignment extends BinaryOperation {
 		
 		// if we're an assignment from a generic return value
         // we need to set the returnArg to left and disappear! =)
-        if(right instanceof FunctionCall) {
-            FunctionCall fCall = (FunctionCall) right;
+		Expression realRight = right;
+		if(realRight instanceof Cast) {
+			realRight = ((Cast) realRight).inner;
+		}
+		
+        if(realRight instanceof FunctionCall) {
+            FunctionCall fCall = (FunctionCall) realRight;
             FunctionDecl fDecl = fCall.getImpl();
             if(fDecl == null || !fDecl.getReturnType().isResolved()) {
             	if(res.fatal) {

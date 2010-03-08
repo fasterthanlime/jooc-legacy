@@ -345,8 +345,10 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 			Expression expr = atom.getExpression();
 			if(expr != null) {
 	            Expression realExpr = expr;
+	            Cast cast = null;
 	            while(realExpr instanceof Cast) {
-	                realExpr = ((Cast) realExpr).inner;
+	            	cast = (Cast) realExpr;
+	                realExpr = cast.inner;
 	            }
 	            if(realExpr instanceof FunctionCall) {
 	                FunctionCall fCall = (FunctionCall) realExpr;
@@ -362,7 +364,7 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 	                	}
 	                	setType(getType()); // fixate the type
 	                	
-	                    Assignment ass = new Assignment(new VariableAccess(this, startToken), realExpr, startToken);
+	                    Assignment ass = new Assignment(new VariableAccess(this, startToken), cast != null ? cast : realExpr, startToken);
 	                    stack.addAfterLine(stack, ass);
                         // token throwError("Couldn't add a " + ass toString() + " after a " + toString() + ", trail = " + trail toString())
 	                    atom.setExpression(null);
