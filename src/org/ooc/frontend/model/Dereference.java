@@ -72,5 +72,10 @@ public class Dereference extends Access {
 	public boolean hasChildren() {
 		return true;
 	}
+	
+	@Override
+	public boolean canBeReferenced() {
+		return true;
+	}
 
 }

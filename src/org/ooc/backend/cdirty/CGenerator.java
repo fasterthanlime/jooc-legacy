@@ -375,6 +375,12 @@ public class CGenerator extends Generator implements Visitor {
 				return;
 			}
 		}
+		
+		if(expression instanceof Dereference) {
+			((Dereference) expression).getExpression().accept(this);
+			return;
+		}
+		
 		current.app('&');
 		boolean paren = !(addressOf.getExpression() instanceof VariableAccess);
 		if(paren) current.app('(');

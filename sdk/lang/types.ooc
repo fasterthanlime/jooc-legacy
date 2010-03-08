@@ -906,6 +906,7 @@ Object: abstract class {
 
     /** return true if *class* is a subclass of *T*. */
     instanceOf: final func (T: Class) -> Bool {
+        if(!this) return false
         class inheritsFrom(T)
     }
     
