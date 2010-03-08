@@ -15,7 +15,7 @@ public class CastWriter {
 			return;
 		}
 		
-		if(cast.getInner().getType().isGeneric()) {
+		if(cast.getInner().getType().isGeneric() && cast.getInner().getType().getPointerLevel() == 0) {
 			Expression expr = cast.getInner();
 			if(expr instanceof VariableAccess) {
 				VariableAccess access = (VariableAccess) expr;

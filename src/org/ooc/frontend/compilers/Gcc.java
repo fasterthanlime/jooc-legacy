@@ -51,7 +51,7 @@ public class Gcc extends BaseCompiler {
 	@Override
 	public void reset() {
 		super.reset();
-		command.add("-std=c99");
+		command.add("-std=gnu99");
 		command.add("-Wall");
         command.add("-O2");
 	}
