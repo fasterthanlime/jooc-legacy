@@ -288,8 +288,11 @@ public class FunctionCall extends Access implements MustBeResolved {
             return Response.LOOP;
         }
         
+        Cast cast = null;
+        
         int idx = 1;
         while(parent instanceof Cast) {
+        	cast = (Cast) parent;
         	idx += 1;
             parent = stack.peek(idx);
         }
@@ -303,7 +306,7 @@ public class FunctionCall extends Access implements MustBeResolved {
             
             CommaSequence seq = new CommaSequence(startToken);
             seq.getBody().add(this);
-            seq.getBody().add(varAcc);
+            seq.getBody().add(cast != null ? new Cast(varAcc, cast.getType(), varAcc.startToken) : varAcc);
             
             stack.peek().replace(this, seq);
             

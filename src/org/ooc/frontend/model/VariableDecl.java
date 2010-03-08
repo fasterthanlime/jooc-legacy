@@ -358,8 +358,6 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 	
 	                if(fDecl.getReturnType().isGeneric()) {
 	                	if(getType() == null) {
-	                		// FIXME KALAMAZOO
-	                		System.out.println("Looping because type isn't resolved, type = "+getType());
 	                		return Response.LOOP;
 	                	}
 	                	setType(getType()); // fixate the type

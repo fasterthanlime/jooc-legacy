@@ -65,17 +65,17 @@ public class ValuedReturn extends Return implements MustBeResolved {
 			throw new OocCompilationError(this, stack, "'return' outside a function: wtf?");
 		}
 		
+		if(expression.getType() == null || !expression.getType().isResolved()) {
+            // expr type is unresolved
+        	if(res.params.veryVerbose) {
+        		System.out.println("Expr type ("+expression.getType()+") of "+expression+" is unresolved, looping");
+        	}
+            return Response.LOOP;
+        }
+		
 		FunctionDecl fDecl = (FunctionDecl) stack.get(funcIndex);
 		if(fDecl.getReturnType().isGeneric()) {
-            if(expression.getType() == null || !expression.getType().isResolved()) {
-                // expr type is unresolved
-            	if(res.params.veryVerbose) {
-            		System.out.println("Expr type ("+expression.getType()+") of "+expression+" is unresolved, looping");
-            	}
-                return Response.LOOP;
-            }
-            
-            VariableAccess returnAcc = new VariableAccess(fDecl.getReturnArg(), startToken);
+			VariableAccess returnAcc = new VariableAccess(fDecl.getReturnArg(), startToken);
             
             If if1 = new If(returnAcc, startToken);
             
@@ -89,7 +89,7 @@ public class ValuedReturn extends Return implements MustBeResolved {
             return Response.LOOP;
         }
 
-		if(fDecl.getReturnType().isSuperOf(expression.getType())) {
+		if(fDecl.getReturnType().isSuperOf(expression.getType()) || (expression.getType().isGeneric())) {
 			expression = new Cast(expression, fDecl.getReturnType(), expression.startToken);
 		}
 		

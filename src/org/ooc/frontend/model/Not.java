@@ -8,15 +8,13 @@ import org.ooc.frontend.model.tokens.Token;
 
 public class Not extends UnaryOperation {
 
-	public static Type type = new Type("Bool", Token.defaultToken);
-	
 	public Not(Expression inner, Token startToken) {
 		super(inner, startToken);
 	}
 
 	@Override
 	public Type getType() {
-		return type;
+		return BoolLiteral.type;
 	}
 	
 	@Override
