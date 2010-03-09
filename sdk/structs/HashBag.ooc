@@ -36,18 +36,14 @@ HashBag: class {
 
     isEmpty: func -> Bool {return myMap isEmpty()}
     
-    contains: func <T> (key: String, T: Class) -> Bool {
-        return myMap get(key) ? true : false
-    }
-
     remove: func (key: String) -> Bool {
         return myMap remove(key)
     }
-
+    
     size: func -> Int {myMap size}
-
-    exists: func(key: String) -> Bool {
-        myMap get(key) T != None
+    
+    contains: func(key: String) -> Bool {
+        myMap get(key) ? true : false
     }
 }
 
