@@ -9,6 +9,7 @@ import org.ooc.frontend.model.Module;
 import org.ooc.frontend.model.Tokenizer;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.frontend.model.tokens.TokenReader;
+import org.ooc.frontend.BuildParams;
 import org.ubi.CompilationFailedError;
 import org.ubi.SourceReader;
 

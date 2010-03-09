@@ -13,7 +13,7 @@ import org.ooc.frontend.model.Include;
 import org.ooc.frontend.model.Module;
 import org.ooc.frontend.model.Use;
 import org.ooc.frontend.model.Include.Mode;
-import org.ooc.frontend.parser.BuildParams;
+import org.ooc.frontend.BuildParams;
 import org.ooc.frontend.pkgconfig.PkgConfigFrontend;
 import org.ooc.frontend.pkgconfig.PkgInfo;
 import org.ooc.middle.UseDef;
@@ -32,8 +32,6 @@ import org.ooc.utils.ShellUtils;
 public abstract class Driver {
 
 	public BuildParams params;
-	public List<String> additionals = new ArrayList<String>();
-	public List<String> compilerArgs = new ArrayList<String>();
 	
 	public Driver(BuildParams params) {
 		super();

@@ -7,7 +7,7 @@ import java.util.HashSet;
 
 import org.ooc.frontend.Target;
 import org.ooc.frontend.model.Module;
-import org.ooc.frontend.parser.BuildParams;
+import org.ooc.frontend.BuildParams;
 
 public class CombineDriver extends Driver {
 
@@ -32,10 +32,10 @@ public class CombineDriver extends Driver {
 		for(String dynamicLib: params.dynamicLibs) {
 			params.compiler.addDynamicLibrary(dynamicLib);
 		}
-		for(String additional: additionals) {
+		for(String additional: params.additionals) {
 			params.compiler.addObjectFile(additional);
 		}
-		for(String compilerArg: compilerArgs) {
+		for(String compilerArg: params.compilerArgs) {
 			params.compiler.addObjectFile(compilerArg);
 		}
 		for (File incPath: params.incPath.getPaths()) {

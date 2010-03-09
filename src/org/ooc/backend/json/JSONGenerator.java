@@ -74,7 +74,7 @@ import org.ooc.frontend.model.VariableDecl;
 import org.ooc.frontend.model.VersionBlock;
 import org.ooc.frontend.model.While;
 import org.ooc.frontend.model.VariableDecl.VariableDeclAtom;
-import org.ooc.frontend.parser.BuildParams;
+import org.ooc.frontend.BuildParams;
 import org.ooc.frontend.parser.TypeArgument;
 import org.ooc.middle.structs.MultiMap;
 import org.ooc.middle.structs.NodeMap;

@@ -21,7 +21,7 @@ import org.ooc.frontend.drivers.Driver;
 import org.ooc.frontend.drivers.SequenceDriver;
 import org.ooc.frontend.model.Import;
 import org.ooc.frontend.model.Module;
-import org.ooc.frontend.parser.BuildParams;
+import org.ooc.frontend.BuildParams;
 import org.ooc.frontend.parser.ModuleParser;
 import org.ooc.frontend.parser.Parser;
 import org.ooc.middle.Tinkerer;
@@ -306,7 +306,7 @@ public class CommandLine {
         			
         		}
         	} else if(arg.startsWith("+")) {
-        		driver.compilerArgs.add(arg.substring(1));
+        		params.compilerArgs.add(arg.substring(1));
         	} else {
         			String lowerArg = arg.toLowerCase();
 					if(lowerArg.endsWith(".s")) {
@@ -315,7 +315,7 @@ public class CommandLine {
         				modulePaths.add(new Pair(arg));
             		} else {
             			if(lowerArg.contains(".")) {
-            				driver.additionals.add(arg);
+            				params.additionals.add(arg);
             			} else {
             				modulePaths.add(new Pair(arg+".ooc"));
             			}
@@ -335,7 +335,7 @@ public class CommandLine {
 		}
 		
 		if(!nasms.isEmpty()) {
-			driver.compileNasms(nasms, driver.additionals);
+			driver.compileNasms(nasms, params.additionals);
 		}
 		
 		if(params.sourcePath.isEmpty()) params.sourcePath.add(".");
