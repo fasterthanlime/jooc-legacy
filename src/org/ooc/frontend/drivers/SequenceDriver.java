@@ -14,7 +14,7 @@ import org.ooc.frontend.Target;
 import org.ooc.frontend.compilers.AbstractCompiler;
 import org.ooc.frontend.model.Import;
 import org.ooc.frontend.model.Module;
-import org.ooc.frontend.parser.BuildParams;
+import org.ooc.frontend.BuildParams;
 import org.ooc.utils.ProcessUtils;
 
 public class SequenceDriver extends Driver {
@@ -84,7 +84,7 @@ public class SequenceDriver extends Driver {
 							compiler.defineSymbol(define);
 						}
 						
-						for(String compilerArg: compilerArgs) {
+						for(String compilerArg: params.compilerArgs) {
 							compiler.addObjectFile(compilerArg);
 						}
 						
@@ -164,7 +164,7 @@ public class SequenceDriver extends Driver {
 			for(String dynamicLib: params.dynamicLibs) {
 				params.compiler.addDynamicLibrary(dynamicLib);
 			}
-			for(String additional: additionals) {
+			for(String additional: params.additionals) {
 				params.compiler.addObjectFile(additional);
 			}
 		
@@ -246,7 +246,7 @@ public class SequenceDriver extends Driver {
 		compiler.addIncludePath(new File(params.distLocation, "libs/headers/").getPath());
 		compiler.addIncludePath(params.outPath.getPath());
 		
-		for(String compilerArg: compilerArgs) {
+		for(String compilerArg: params.compilerArgs) {
 			compiler.addObjectFile(compilerArg);
 		}
 	}

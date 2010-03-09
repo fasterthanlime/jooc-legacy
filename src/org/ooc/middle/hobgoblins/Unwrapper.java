@@ -12,7 +12,7 @@ import org.ooc.frontend.model.NodeList;
 import org.ooc.frontend.model.Type;
 import org.ooc.frontend.model.TypeDecl;
 import org.ooc.frontend.model.interfaces.MustBeUnwrapped;
-import org.ooc.frontend.parser.BuildParams;
+import org.ooc.frontend.BuildParams;
 import org.ooc.middle.Hobgoblin;
 import org.ooc.middle.OocCompilationError;
 import org.ooc.middle.walkers.Opportunist;

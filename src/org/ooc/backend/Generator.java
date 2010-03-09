@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.ooc.frontend.model.Module;
-import org.ooc.frontend.parser.BuildParams;
+import org.ooc.frontend.BuildParams;
 
 public abstract class Generator {
 

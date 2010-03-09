@@ -15,7 +15,7 @@ import org.ooc.frontend.model.TypeDecl;
 import org.ooc.frontend.model.ValuedReturn;
 import org.ooc.frontend.model.VariableAccess;
 import org.ooc.frontend.model.VariableDecl;
-import org.ooc.frontend.parser.BuildParams;
+import org.ooc.frontend.BuildParams;
 import org.ooc.middle.Hobgoblin;
 import org.ooc.middle.OocCompilationError;
 import org.ooc.middle.walkers.Opportunist;

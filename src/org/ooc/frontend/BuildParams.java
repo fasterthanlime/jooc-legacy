@@ -1,4 +1,4 @@
-package org.ooc.frontend.parser;
+package org.ooc.frontend;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -98,6 +98,8 @@ public class BuildParams {
 	public String entryPoint = "main";
 	
 	public List<String> dynamicLibs = new ArrayList<String>();
+	public List<String> additionals = new ArrayList<String>();
+	public List<String> compilerArgs = new ArrayList<String>();
 
 	// how many threads to use with the sequence driver
 	public int sequenceThreads = Runtime.getRuntime().availableProcessors();
