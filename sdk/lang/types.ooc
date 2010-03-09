@@ -957,6 +957,7 @@ Exception: class {
         fflush(stdout)
         x := 0
         x = 1 / x
+        printf("%d", x)
     }
     
     getMessage: func -> String {
