@@ -79,9 +79,12 @@ public class ValuedReturn extends Return implements MustBeResolved {
             
             If if1 = new If(returnAcc, startToken);
             
-            Assignment ass = new Assignment(returnAcc, expression, startToken);
+            VariableDeclFromExpr vdfe = new VariableDeclFromExpr(generateTempName("returnVal", stack), expression, startToken, stack.getModule());
+            
+            Assignment ass = new Assignment(returnAcc, new VariableAccess(vdfe, startToken), startToken);
             if1.getBody().add(new Line(ass));
             
+            stack.peek().addBeforeLine(stack, vdfe);
             stack.peek().addBeforeLine(stack, if1);
             stack.peek().replace(this, new Return(startToken));
             
