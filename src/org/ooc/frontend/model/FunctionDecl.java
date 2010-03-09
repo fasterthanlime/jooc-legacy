@@ -333,7 +333,7 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 		}
 		
 		if(name.equals("main")) {
-			if(arguments.size() == 1 && arguments.getFirst().getType().getName().equals("Array")) {
+			if(arguments.size() == 1 && arguments.getFirst().getType().getName().equals("ArrayList")) {
 				Argument arg = arguments.getFirst();
 				arguments.clear();
 				Argument argc = new RegularArgument(IntLiteral.type, "argc", arg.startToken);
