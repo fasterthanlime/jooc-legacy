@@ -157,11 +157,9 @@ public class Assignment extends BinaryOperation {
 			return Response.LOOP;
 		}
 		
-		/*
 		if(left.getType().isSuperOf(right.getType())) {
 			right = new Cast(right, left.getType(), right.startToken);
 		}
-		*/
 		
 		// if we're an assignment from a generic return value
         // we need to set the returnArg to left and disappear! =)
