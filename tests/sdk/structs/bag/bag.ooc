@@ -8,7 +8,6 @@ main: func {
     b := a get(2, Bag)
     b add(42)
     b removeAt(0, Bag)
-    b get(0, Bag) // Should fail with an exception
 }
 
     
