@@ -1,5 +1,5 @@
 import threading/Mutex
-include pthread
+include pthread | (_XOPEN_SOURCE=500)
 
 version(unix || apple) {
 
