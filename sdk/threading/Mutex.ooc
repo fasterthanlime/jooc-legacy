@@ -14,9 +14,9 @@ Mutex: abstract class {
         version (unix || apple) {
           return MutexUnix new(recursive)
         }
-        version (windows) {
+        /*version (windows) {
           return MutexWin32 new(recursive)
-        }
+        }*/
 
         Exception new(This, "Unsupported platform!\n") throw()
         null
@@ -25,7 +25,7 @@ Mutex: abstract class {
     /**
         Create a new mutex object. Non-recursive, fast.
     */
-    new: static func ~normal -> This { This new(false) }
+    new: static func ~fast -> This { This new(false) }
 
     /**
         Acquire a lock on the mutex and blocking until it becomes available.

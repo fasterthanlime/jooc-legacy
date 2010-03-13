@@ -17,15 +17,15 @@ pthread_mutex_init: extern func(...) -> Int
 pthread_mutex_destroy: extern func(...) -> Int
 pthread_mutex_lock: extern func(...) -> Int
 pthread_mutex_trylock: extern func(...) -> Int
-PTHREAD_EBUSY: extern(EBUSY) Int
+pthread_mutex_unlock: extern func(...) -> Int
 
 
-UnixMutex: class extends Mutex {
+MutexUnix: class extends Mutex {
     mutex: PThreadMutex
 
     init: func(recursive: Bool) {
         // Set mutex type: fast or recursive?
-        attr: PThreadMutextAttr
+        attr: PThreadMutexAttr
         pthread_mutexattr_init(attr&)
         pthread_mutexattr_settype(attr&, match recursive {
             case true => PTHREAD_MUTEX_RECURSIVE
@@ -48,12 +48,8 @@ UnixMutex: class extends Mutex {
 
     tryAcquire: func -> Bool {
         result := pthread_mutex_trylock(mutex&)
-        if(result == 0) return true
-        else if(result == PTHREAD_EBUSY) return false
-        else {
-            Exception new("Error trying to acquire mutex lock") throw()
-            return false
-        }
+        if(result != 0) return false
+        else return true
     }
 
     release: func {
@@ -61,4 +57,6 @@ UnixMutex: class extends Mutex {
             Exception new("Error unlocking mutex") throw()
         }
     }
+}
+
 }
