@@ -28,26 +28,19 @@ Mutex: abstract class {
     new: static func ~normal -> This { This new(false) }
 
     /**
-        Lock the mutex and block until it becomes available.
-
-        :timeout: maxium number of milliseconds to block
+        Acquire a lock on the mutex and blocking until it becomes available.
     */
-    lock: abstract func ~withTimeout(timeout: Int)
+    acquire: abstract func
 
     /**
-        Lock the mutex and block indefinitely until it becomes available.
-    */
-    lock: abstract func
-
-    /**
-        Attempt to lock the mutex, but do not block if it is unavailable.
+        Try to acquire a lock on the mutex, but does not block if unavailable.
 
         :return: true if mutex successfully locked, false if not available
     */
-    tryLock: abstract func -> Bool
+    tryAcquire: abstract func -> Bool
 
     /**
-        Release the lock on the mutex so other threads can access it.
+        Release the lock on the mutex so other threads can acquire it.
     */
-    unlock: abstract func
+    release: abstract func
 }
