@@ -2,7 +2,7 @@ import structs/HashMap
 
 main: func (argc: Int, argv: String*) {
 	
-	ht := HashMap<String> new()
+	ht := HashMap<String, String> new()
 
 
 	/* Testing contains method */
@@ -37,7 +37,8 @@ main: func (argc: Int, argv: String*) {
 
 	/* Check out the keys */
 	printf("Keys: ") 
-	for(key: String in ht keys) {
+	//for(key: String in ht keys) {
+    for(key: String in ht getKeys()) {
 		printf("%s=%s ", key, ht get(key))
 	}
 	printf("\n") 

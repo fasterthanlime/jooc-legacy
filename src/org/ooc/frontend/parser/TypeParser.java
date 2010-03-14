@@ -168,9 +168,12 @@ public class TypeParser {
 				typeParams = null;
 				break;
 			}
+			
 			if(typeParams == null) typeParams = new NodeList<Access>(); 
 			typeParams.add(innerType);
+			
 			if(reader.peek().type != TokenType.COMMA) break;
+			reader.read();
 		}
 		if(reader.read().type != TokenType.GREATERTHAN) {
 			typeParams = null;

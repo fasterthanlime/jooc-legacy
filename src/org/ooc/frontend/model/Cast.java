@@ -76,6 +76,8 @@ public class Cast extends Expression implements MustBeResolved {
 
 	public void setType(Type newType) {
 		this.type = newType;
+		// TODO: figure out why this code was here in the first place..
+		/*
 		if(type.isGenericRecursive() && inner.getType() != null && inner.getType().isGenericRecursive()) {
 			type = type.clone();
 			TypeDecl dstDecl = (TypeDecl) newType.getRef();
@@ -90,6 +92,7 @@ public class Cast extends Expression implements MustBeResolved {
 				type.getTypeParams().addAll(src.getTypeParams());
 			}
 		}
+		*/
 	}
 	
 	@Override
