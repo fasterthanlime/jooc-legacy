@@ -315,35 +315,99 @@ String: cover from Char* {
         at both ends. */
     trim: func ~string (s: String) -> This {
         if(length() == 0) return this
-        
+
         start := 0
         while(s contains(this[start])) start += 1;
-        
+
         end := length()
         if(start >= end) return ""
         while(s contains(this[end - 1])) end -= 1;
-        
+
         if(start != 0 || end != length()) return substring(start, end)
-        
-        return this    
+
+        return this
     }
-    
+
+    /** return a copy of *this* with space characters (ASCII 32) stripped from the left side. */
+    trimLeft: func ~space -> This { return trimLeft(' ') }
+
+    /** return a copy of *this* with *c* characters stripped from the left side. */
+    trimLeft: func (c: Char) -> This {
+        if(length() == 0) return this
+
+        start := 0
+        while(this[start] == c) start += 1;
+
+        end := length()
+        if(start >= end) return ""
+
+        if(start != 0) return substring(start)
+
+        return this
+    }
+
+    /** return a copy of *this* with all characters contained by *s* stripped
+        from the left side. */
+    trimLeft: func ~string (s: String) -> This {
+        if(length() == 0) return this
+
+        start := 0
+        while(s contains(this[start])) start += 1;
+
+        end := length()
+        if(start >= end) return ""
+
+        if(start != 0) return substring(start)
+
+        return this
+    }
+
+    /** return a copy of *this* with space characters (ASCII 32) stripped from the right side. */
+    trimRight: func ~space -> This { return trimRight(' ') }
+
+    /** return a copy of *this* with *c* characters stripped from the right side. */
+    trimRight: func (c: Char) -> This {
+        if(length() == 0) return this
+
+        end := length()
+        if(0 >= end) return ""
+        while(this[end - 1] == c) end -= 1;
+
+        if(end != length()) return substring(0, end)
+
+        return this
+    }
+
+    /** return a copy of *this* with all characters contained by *s* stripped
+        from the right side. */
+    trimRight: func ~string (s: String) -> This {
+        if(length() == 0) return this
+
+        end := length()
+        while(s contains(this[end - 1])) end -= 1;
+        if(0 >= end) return ""
+
+        if(end != length()) return substring(0, end)
+
+        return this
+    }
+
     /** return the first character of *this*. If *this* is empty, 0 is returned. */
     first: func -> Char {
         return this[0]
     }
-    
+
     /** return the index of the last character of *this*. If *this* is empty,
         -1 is returned. */
     lastIndex: func -> SizeT {
         return length() - 1
     }
-    
+
     /** return the last character of *this*. */
     last: func -> Char {
         return this[lastIndex()]
     }
-    
+
     /** return the index of the last occurence of *c* in *this*.
         If *this* does not contain *c*, return -1. */
     lastIndexOf: func(c: Char) -> Int {
