@@ -102,12 +102,12 @@ Char: cover from char {
     toString: func -> String {
         String new(this)
     }
-    
+
     /** write this character to stdout without a following newline. */
-    print: func { 
+    print: func {
         printf("%c", this)
     }
-    
+
     /** write this character to stdout, followed by a newline */
     println: func {
         printf("%c\n", this)
@@ -140,7 +140,7 @@ String: cover from Char* {
         result[length] = '\0'
         result
     }
-    
+
     /** Create a new string of the length 1 containing only the character *c* */
     new: static func~withChar (c: Char) -> This {
         result := This new~withLength(1)
@@ -169,10 +169,10 @@ String: cover from Char* {
     compare: func ~whole (other: This) -> Bool {
         compare(other, 0, other length())
     }
-    
+
     /** return the string's length, excluding the null byte. */
     length: extern(strlen) func -> SizeT
-    
+
     /** return true if *other* and *this* are equal. This also returns false if either
         of these two is ``null``. */
     equals: func(other: String) -> Bool {
@@ -191,35 +191,35 @@ String: cover from Char* {
     }
 
     /** TODO: make these inline again once inlines are fixed **/
-    
+
     /** convert the string's contents to Int. */
     toInt: func -> Int                       { strtol(this, null, 10)   }
     toInt: func ~withBase (base: Int) -> Int { strtol(this, null, base) }
-    
+
     /** convert the string's contents to Long. */
     toLong: func -> Long                        { strtol(this, null, 10)   }
     toLong: func ~withBase (base: Long) -> Long { strtol(this, null, base) }
-    
+
     /** convert the string's contents to Long Long. */
     toLLong: func -> LLong                         { strtol(this, null, 10)   }
     toLLong: func ~withBase (base: LLong) -> LLong { strtol(this, null, base) }
-    
+
     /** convert the string's contents to Unsigned Long. */
     toULong: func -> ULong                         { strtoul(this, null, 10)   }
     toULong: func ~withBase (base: ULong) -> ULong { strtoul(this, null, base) }
-    
+
     /** convert the string's contents to Float. */
     toFloat: func -> Float                         { strtof(this, null)   }
-    
+
     /** convert the string's contents to Double. */
     toDouble: func -> Double                       { strtod(this, null)   }
-    
+
     /** convert the string's contents to Long Double. */
     toLDouble: func -> LDouble                     { strtold(this, null)   }
-    
+
     /** return true if the string is empty or ``null``. */
     isEmpty: func -> Bool { (this == null) || (this[0] == 0) }
-    
+
     /** return true if the first characters of *this* are equal to *s*. */
     startsWith: func(s: String) -> Bool {
         if (this length() < s length()) return false
@@ -233,7 +233,7 @@ String: cover from Char* {
     startsWith: func~withChar(c: Char) -> Bool {
         return this[0] == c
     }
-    
+
     /** return true if the last characters of *this* are equal to *s*. */
     endsWith: func(s: String) -> Bool {
         l1 = this length() : SizeT
@@ -247,13 +247,13 @@ String: cover from Char* {
         }
         return true
     }
-   
+
     /** return the index of *c*, starting at 0. If *this* does not contain
         *c*, return -1. */
     indexOf: func ~charZero (c: Char) -> Int {
         indexOf(c, 0)
     }
-    
+
     /** return the index of *c*, but only check characters ``start..length``.
         However, the return value is the index of the *c* relative to the
         string's beginning. If *this* does not contain *c*, return -1. */
@@ -266,13 +266,13 @@ String: cover from Char* {
         }
         return -1
     }
-    
+
     /** return the index of *s*, starting at 0. If *this* does not contain *s*,
         return -1. */
     indexOf: func ~stringZero (s: This) -> Int {
         indexOf(s, 0)
     }
-    
+
     /** return the index of *s*, but only check characters ``start..length``.
         However, the return value is relative to the *this*' first character.
         If *this* does not contain *c*, return -1. */
@@ -285,29 +285,29 @@ String: cover from Char* {
         }
         return -1
     }
-    
+
     /** return *true* if *this* contains the character *c* */
     contains: func ~char (c: Char) -> Bool { indexOf(c) != -1 }
-    
+
     /** return *true* if *this* contains the string *s* */
     contains: func ~string (s: This) -> Bool { indexOf(s) != -1 }
 
     /** return a copy of *this* with space characters (ASCII 32) stripped at both ends. */
     trim: func ~space -> This { return trim(' ') }
-    
+
     /** return a copy of *this* with *c* characters stripped at both ends. */
     trim: func(c: Char) -> This {
         if(length() == 0) return this
-        
+
         start := 0
         while(this[start] == c) start += 1;
-        
+
         end := length()
         if(start >= end) return ""
         while(this[end - 1] == c) end -= 1;
-        
+
         if(start != 0 || end != length()) return substring(start, end)
-        
+
         return this
     }
 
@@ -421,61 +421,61 @@ String: cover from Char* {
         }
         return -1
     }
-    
+
     /** return a substring of *this* only containing the characters
         in the range ``start..length``.  */
     substring: func ~tillEnd (start: SizeT) -> This {
         len = this length() : SizeT
-        
+
         if(start > len) {
             Exception new(This, "String.substring: out of bounds: length = %zd, start = %zd\n" format(len, start)) throw()
             return null
         }
-        
+
         diff = (len - start) : SizeT
-        sub := gc_malloc(diff + 1) as This    
+        sub := gc_malloc(diff + 1) as This
         memcpy(sub, this as Char* + start, diff)
         sub[diff] = '\0'
         return sub
     }
-    
+
     /** return a substring of *this* only containing the characters in the
         range ``start..end``. */
     substring: func (start: SizeT, end: SizeT) -> This {
         len = this length() : SizeT
-        
+
         if(start == end) return ""
-        
+
         if(start > len || start > end || end > len) {
             Exception new(This, "String.substring: out of bounds: length = %zd, start = %zd, end = %zd\n" format(len, start, end)) throw()
             return null
         }
-        
+
         diff = (end - start) : SizeT
         sub := gc_malloc(diff + 1) as This
         sub[diff] = 0
         memcpy(sub, this as Char* + start, diff)
         return sub
     }
-    
+
     /** return a reversed copy of *this*. */
     reverse: func -> This {
-    
+
         len := this length()
-    
+
         if (!len) {
             return null
         }
-        
+
         result := gc_malloc(len + 1) as This
         for (i: SizeT in 0..len) {
             result[i] = this[(len-1)-i]
         }
         result[len] = 0
-        
+
         return result
     }
-    
+
     /** print *this* to stdout without a following newline. Flush stdout. */
     print: func {
         printf("%s", this)
@@ -497,7 +497,7 @@ String: cover from Char* {
         result[length * count] = '\0';
         return result
     }
-    
+
     /** return a copy of *this*. */
     clone: func -> This {
         length := length()
@@ -505,7 +505,7 @@ String: cover from Char* {
         memcpy(copy, this, length + 1)
         return copy
     }
-    
+
     /** return a string that contains *this* followed by *other*. */
     append: func(other: This) -> This {
         length := length()
@@ -545,18 +545,18 @@ String: cover from Char* {
         while(i < length) {
             if(compare(what, i, whatLength)) {
                 count += 1
-                i += whatLength 
+                i += whatLength
             } else {
                 i += 1
             }
         }
         return count
     }
-    
+
     /** clone myself, return all occurences of *oldie* with *kiddo* and return it. */
     replace: func (oldie, kiddo: Char) -> This {
         if(!contains(oldie)) return this
-        
+
         length := length()
         copy := this clone()
         for(i in 0..length) {
@@ -568,7 +568,7 @@ String: cover from Char* {
     /** clone myself, return all occurences of *oldie* with *kiddo* and return it. */
     replace: func ~string (oldie, kiddo: This) -> This {
         if(!contains(oldie)) return this
-        
+
         length := length()
         oldieLength := oldie length()
         buffer := Buffer new(length)
@@ -581,12 +581,12 @@ String: cover from Char* {
             } else {
                 // TODO optimize: don't appepnd char by char, append chunk by chunk.
                 buffer append(this as Char* [i])
-                i += 1    
+                i += 1
             }
         }
         buffer toString()
     }
-    
+
     /** return a new string containg *other* followed by *this*. */
     prepend: func (other: String) -> This {
         other append(this)
@@ -600,7 +600,7 @@ String: cover from Char* {
         memcpy(copy + 1, this, length)
         return copy
     }
-    
+
     /** return a new string with all characters lowercased (if possible). */
     toLower: func -> This {
         copy := clone()
@@ -610,7 +610,7 @@ String: cover from Char* {
         }
         return copy
     }
-    
+
     /** return a new string with all characters uppercased (if possible). */
     toUpper: func -> This {
         copy := clone()
@@ -620,7 +620,7 @@ String: cover from Char* {
         }
         return copy
     }
-    
+
     /** return the character at position #*index* (starting at 0) */
     charAt: func(index: SizeT) -> Char {
         this as Char* [index]
@@ -648,14 +648,14 @@ String: cover from Char* {
         va_start(list, format)
         retval := vsscanf(this, format, list)
         va_end(list)
-        
+
         return retval
     }
-    
+
     iterator: func -> StringIterator<Char> {
         StringIterator<Char> new(this)
     }
-    
+
 }
 
 operator == (str1: String, str2: String) -> Bool {
@@ -673,7 +673,7 @@ operator [] (string: String, index: SizeT) -> Char {
 operator [] (string: String, range: Range) -> String {
     string substring(range min, range max)
 }
-         
+
 operator * (str: String, count: Int) -> String {
     return str times(count)
 }
@@ -726,17 +726,17 @@ operator + (left: Char, right: String) -> String {
  * integer types
  */
 LLong: cover from signed long long {
-    
+
     toString:    func -> String { "%lld" format(this) }
     toHexString: func -> String { "%llx" format(this) }
-    
+
     isOdd:  func -> Bool { this % 2 == 1 }
     isEven: func -> Bool { this % 2 == 0 }
-    
+
     in: func(range: Range) -> Bool {
         return this >= range min && this < range max
     }
-    
+
 }
 
 operator as (value: LLong) -> String {
@@ -762,11 +762,11 @@ Short: cover from signed short extends LLong
 ULLong: cover from unsigned long long extends LLong {
 
     toString:    func -> String { "%llu" format(this) }
-    
+
     in: func(range: Range) -> Bool {
         return this >= range min && this < range max
     }
-    
+
 }
 
 ULong:  cover from unsigned long  extends ULLong
@@ -807,9 +807,9 @@ SizeT: cover from size_t extends LLong
 PtrDiffT: cover from ptrdiff_t extends LLong
 
 Bool: cover from bool {
-    
+
     toString: func -> String { return this ? "true" : "false" }
-    
+
 }
 
 operator as (value: Int8) -> String {
@@ -866,17 +866,17 @@ operator as (value: Bool) -> String {
 Float: cover from float extends LDouble
 Double: cover from double extends LDouble
 LDouble: cover from long double {
-    
+
     toString: func -> String {
         str = gc_malloc(64) : String
         sprintf(str, "%.2Lf", this)
         str
     }
-    
+
     abs: func -> This {
         return this < 0 ? -this : this
     }
-    
+
 }
 
 operator as (value: Float) -> String {
@@ -906,7 +906,7 @@ LDBL_MIN: extern static const LDouble
 Range: cover {
 
     min, max: Int
-    
+
     new: static func (.min, .max) -> This {
         this : This
         this min = min
@@ -920,10 +920,10 @@ Range: cover {
  * objects
  */
 Class: abstract class {
-    
-    /// Number of octets to allocate for a new instance of this class 
+
+    /// Number of octets to allocate for a new instance of this class
     instanceSize: SizeT
-    
+
     /// Number of octets to allocate to hold an instance of this class
     /// it's different because for classes, instanceSize may greatly
     /// vary, but size will always be equal to the size of a Pointer.
@@ -932,10 +932,10 @@ Class: abstract class {
 
     /// Human readable representation of the name of this class
     name: String
-    
+
     /// Pointer to instance of super-class
     super: const Class
-    
+
     /** create a new instance of the object of type defined by this class */
     alloc: final func -> Object {
         object := gc_malloc(instanceSize) as Object
@@ -944,27 +944,27 @@ Class: abstract class {
         }
         return object
     }
-    
+
     /** return true if `this` is a subclass of *T* . */
     inheritsFrom: final func (T: Class) -> Bool {
         if(this == T) return true
         return (super ? super as This inheritsFrom(T) : false)
     }
-    
+
     // workaround needed to avoid C circular dependency with _ObjectClass
     __defaults__: static Func (Class)
     __destroy__: static Func (Class)
     __load__: static Func
-    
+
 }
 
 Object: abstract class {
 
     class: Class
-        
+
     /// Instance initializer: set default values for a new instance of this class
     __defaults__: func {}
-    
+
     /// Finalizer: cleans up any objects belonging to this instance
     __destroy__: func {}
 
@@ -973,7 +973,7 @@ Object: abstract class {
         if(!this) return false
         class inheritsFrom(T)
     }
-    
+
 }
 
 /**
@@ -983,12 +983,12 @@ Iterator: abstract class <T> {
 
     hasNext: abstract func -> Bool
     next: abstract func -> T
-    
+
     hasPrev: abstract func -> Bool
     prev: abstract func -> T
-    
+
     remove: abstract func -> Bool
-    
+
 }
 
 Iterable: abstract class <T> {
@@ -1016,14 +1016,14 @@ Exception: class {
 
     init: func ~origin(=origin, =msg) {}
     init: func ~noOrigin (=msg) {}
-    
+
     crash: func {
         fflush(stdout)
         x := 0
         x = 1 / x
         printf("%d", x)
     }
-    
+
     getMessage: func -> String {
         max := const 1024
         buffer := gc_malloc(max) as String
@@ -1031,11 +1031,11 @@ Exception: class {
         else snprintf(buffer, max, "[%s]: %s\n", class name, msg)
         return buffer
     }
-    
+
     print: func {
         fprintf(stderr, "%s", getMessage())
     }
-    
+
     throw: func {
         print()
         crash()
@@ -1049,33 +1049,33 @@ Exception: class {
  */
 
 StringIterator: class <T> extends Iterator<T> {
-    
+
     i := 0
     str: String
-    
+
     init: func (=str) {}
-    
+
     hasNext: func -> Bool {
         i < str length()
     }
-    
+
     next: func -> T {
         c := str[i]
         i += 1
         return c
     }
-    
+
     hasPrev: func -> Bool {
         i > 0
     }
-    
+
     prev: func -> T {
         i -= 1
         return str[i]
     }
-    
+
     remove: func -> Bool { false } // this could be implemented!
-    
+
 }
 
 None: class {init: func {}}
@@ -1085,4 +1085,3 @@ Cell: class <T> {
     val: T
     init: func(=val) {}
 }
-
