@@ -8,60 +8,50 @@ SEEK_CUR: extern func
 SEEK_SET: extern func
 SEEK_END: extern func
 ftell: extern func(stream: FILE*) -> Long
- 
+
 FileReader: class extends Reader {
 
     file: FILE*
-    
+
     init: func ~withFile (fileObject: File) {
         init (fileObject getPath())
     }
-    
+
     init: func ~withName (fileName: String) {
         file = fopen(fileName, "r")
-        if (!file) 
+        if (!file)
             Exception new(This, "File not found: " + fileName) throw()
     }
 
     read: func(chars: String, offset: Int, count: Int) -> SizeT {
         fread(chars as Char* + offset, 1, count, file)
     }
-    
+
     read: func ~char -> Char {
         value: Char
         fread(value&, 1, 1, file)
         return value
     }
-    
-    readLine: func -> String {
-        sb := Buffer new(40) // let's be optimistic
-        while(hasNext()) {
-            c := read()
-            if(c == '\n') break
-            sb append(c)
-        }
-        return sb toString()
-    }
-    
+
     hasNext: func -> Bool {
         return !feof(file)
     }
-    
+
     rewind: func(offset: Int) {
         fseek(file, -offset, SEEK_CUR)
     }
-    
-    mark: func -> Long { 
+
+    mark: func -> Long {
         marker = ftell(file)
         return marker
     }
-    
+
     reset: func(marker: Long) {
         fseek(file, marker, SEEK_SET)
     }
-    
+
     close: func {
         fclose(file)
     }
-    
+
 }
