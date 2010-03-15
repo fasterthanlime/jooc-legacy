@@ -7,6 +7,7 @@ import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.VariableDecl.VariableDeclAtom;
 import org.ooc.frontend.model.interfaces.Versioned;
 import org.ooc.frontend.model.tokens.Token;
+import org.ooc.middle.hobgoblins.Resolver;
 
 
 public abstract class TypeDecl extends Declaration implements Scope, Generic, Versioned {
@@ -214,19 +215,44 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic, Ve
 		typeParams.put(genType.getName(), genType);
 		genType.getArgument().setTypeDecl(this);
 		instanceType.getTypeParams().add(new VariableAccess(genType.getName(), genType.startToken));
+		variables.add(0, genType.getArgument());
+	}
+	
+	@Override
+	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
+		stack.push(this);
 		
-		boolean has = false;
-		for(Access acc: superType.getTypeParams()) {
-			VariableAccess varAcc = (VariableAccess) acc;
-			if(varAcc.getName().equals(genType.getName())) {
-				has = true;
-				break;
-			}
-		}
+		// remove ghost type arguments
+        if(superType != null) {
+            Response response = superType.resolve(stack, res, fatal);
+            if(response != Response.OK) {
+                stack.pop(this);
+                return response;
+            }
+            
+            Type sType = this.superType;
+            while(sType != null) {
+                TypeDecl sTypeRef = (TypeDecl) sType.getRef();
+                if(sTypeRef == null) {
+                	// Need super type ref
+                	stack.pop(this);
+                	return Response.LOOP;
+                }
+                for(TypeParam typeArg: typeParams.values()) {
+                    for(TypeParam candidate: sTypeRef.getTypeParams().values()) {
+                        if(typeArg.getName().equals(candidate.getName())) {
+                        	System.out.println("[KALAMAZOO] Removing duplicate typeArg "+typeArg.getName()+" between "+this+" and "+sTypeRef);
+                            variables.remove(getVariable(typeArg.getName()));
+                        }
+                    }
+                }
+                sType = sTypeRef.superType;
+            }
+        }
+        
+        stack.pop(this);
 		
-		if(!has) {
-			variables.add(0, genType.getArgument());
-		}
+		return super.resolve(stack, res, fatal);
 	}
 	
 	@Override
@@ -238,7 +264,8 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic, Ve
 			sB.append('<');
 			boolean isFirst = true;
 			for(String typeParam: typeParams.keySet()) {
-				if(!isFirst) sB.append(", ");
+				if(isFirst) isFirst = false;
+				else        sB.append(", ");
 				sB.append(typeParam);
 			}
 			sB.append('>');

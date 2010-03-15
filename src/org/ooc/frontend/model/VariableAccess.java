@@ -169,11 +169,13 @@ public class VariableAccess extends Access implements MustBeResolved {
 			}
 		}
 		
+		/*
 		TypeParam genType = getTypeParam(stack, name);
 		if(genType != null) {
 			ref = genType.getArgument();
 			return Response.OK;
 		}
+	`	*/
 		
 		ref = getType(name, stack);
 		if(ref != null) return Response.OK;

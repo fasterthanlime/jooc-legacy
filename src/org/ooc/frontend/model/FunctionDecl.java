@@ -153,7 +153,7 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 	}
 	
 	public boolean hasThis() {
-		return !isStatic() && isMember();
+		return !isStatic() && isMember() && !isFromPointer();
 	}
 	
 	public NodeList<Line> getBody() {
