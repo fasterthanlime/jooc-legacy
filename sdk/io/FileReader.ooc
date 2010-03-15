@@ -2,6 +2,7 @@ import io/Reader, io/File, text/Buffer
 
 fopen: extern func(filename: Char*, mode: Char*) -> FILE*
 fread: extern func(ptr: Pointer, size: SizeT, count: SizeT, stream: FILE*) -> SizeT
+ferror: extern func(stream: FILE*) -> Int
 feof: extern func(stream: FILE*) -> Int
 fseek: extern func(stream: FILE*, offset: Long, origin: Int) -> Int
 SEEK_CUR: extern func
@@ -29,7 +30,9 @@ FileReader: class extends Reader {
 
     read: func ~char -> Char {
         value: Char
-        fread(value&, 1, 1, file)
+        if(fread(value&, 1, 1, file) != 1 && ferror(file)) {
+            Exception new(This, "Error reading char from file") throw()
+        }
         return value
     }
 

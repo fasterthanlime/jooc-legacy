@@ -253,7 +253,9 @@ File: abstract class {
      */
     getCwd: static func -> String {
         ret := String new(File MAX_PATH_LENGTH + 1)
-        _getcwd(ret, File MAX_PATH_LENGTH)
+        if(!_getcwd(ret, File MAX_PATH_LENGTH)) {
+            Exception new("Failed to get current directory!") throw()
+        }
         return ret
     }
 
