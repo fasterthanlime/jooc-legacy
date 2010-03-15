@@ -34,7 +34,10 @@ public class Resolver implements Hobgoblin {
 		this.params = params;
 		
 		// FIXME this is a hack to allow early removal of ghost type-arguments
-		// in TypeDecls. see their resolve() method 
+		// in TypeDecls. see their resolve() method. This is non-optimal, and due
+		// to the fact that in j/ooc, things are resolved depth-first. It's not
+		// the same in rock, where each node is responsible of resolving their
+		// children nodes.
 		{
 			NodeList<Node> stack = new NodeList<Node>(Token.defaultToken);
 			stack.push(module);
