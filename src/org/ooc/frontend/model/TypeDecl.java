@@ -1,6 +1,7 @@
 package org.ooc.frontend.model;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 
 import org.ooc.frontend.Visitor;
@@ -156,6 +157,12 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic, Ve
 	}
 	
 	public VariableDecl getVariable(String name) {
+		String realTypeParam = translateTypeParam(name);
+		if(realTypeParam != null) {
+			System.out.println("KALAMAZOO, "+name+" => "+realTypeParam+" in type "+this);
+			return getVariable(realTypeParam);
+		}
+		
 		for(VariableDecl decl: variables) {
 			if(decl.hasAtom(name)) return decl;
 		}
@@ -163,6 +170,34 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic, Ve
 		return null;
 	}
 	
+	private String translateTypeParam(String name) {
+		
+		// Iterator: class <T>
+		// HashMap: class <K, V> extends Iterator<V>
+		// V needs to be written at T
+		// If needle is contained in our typeParams, we need to figure out where it's used
+		if(typeParams.containsKey(name)) {
+			String result = null;
+			
+			Iterator<Access> iter1 = getSuperType().getTypeParams().iterator();
+			Iterator<String> iter2 = getSuperRef().getTypeParams().keySet().iterator();
+			while(iter1.hasNext()) {
+				Access a = iter1.next();
+				String candidate = iter2.next();
+				if(a instanceof VariableAccess) {
+					VariableAccess va = (VariableAccess) a;
+					if(va.getName().equals(name) && !name.equals(candidate)) {
+						result = candidate;
+						break;
+					}
+				}
+			}
+			
+			return result;
+		}
+		return null;
+	}
+
 	public FunctionDecl getNoargFunction(String name) {
 		for(FunctionDecl decl: functions) {
 			if(name.matches(decl.getName()) && decl.getArguments().size() == 1) return decl;
@@ -241,7 +276,7 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic, Ve
                 for(TypeParam typeArg: typeParams.values()) {
                     for(TypeParam candidate: sTypeRef.getTypeParams().values()) {
                         if(typeArg.getName().equals(candidate.getName())) {
-                        	System.out.println("[KALAMAZOO] Removing duplicate typeArg "+typeArg.getName()+" between "+this+" and "+sTypeRef);
+                        	//System.out.println("[KALAMAZOO] Removing duplicate typeArg "+typeArg.getName()+" between "+this+" and "+sTypeRef);
                             variables.remove(getVariable(typeArg.getName()));
                         }
                     }
