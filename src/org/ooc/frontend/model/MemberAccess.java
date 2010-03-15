@@ -184,6 +184,7 @@ public class MemberAccess extends VariableAccess {
 	private boolean tryResolve(NodeList<Node> stack, Type exprType, Resolver res) {
 		
 		if(dead) return true;
+		if(exprType == null) return false;
 		
 		Declaration decl = exprType.getRef();
 		if(decl == null) {
