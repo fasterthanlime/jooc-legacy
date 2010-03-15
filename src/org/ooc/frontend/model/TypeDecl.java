@@ -156,17 +156,18 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic, Ve
 		if(getSuperRef() != null) getSuperRef().getFunctionsRecursive(functions);
 	}
 	
-	public VariableDecl getVariable(String name) {
+	public VariableDecl getVariable(String name, VariableAccess victim) {
 		String realTypeParam = translateTypeParam(name);
 		if(realTypeParam != null) {
 			System.out.println("KALAMAZOO, "+name+" => "+realTypeParam+" in type "+this);
-			return getVariable(realTypeParam);
+			victim.setName(realTypeParam);
+			return getVariable(realTypeParam, victim);
 		}
 		
 		for(VariableDecl decl: variables) {
 			if(decl.hasAtom(name)) return decl;
 		}
-		if(getSuperRef() != null) return getSuperRef().getVariable(name);
+		if(getSuperRef() != null) return getSuperRef().getVariable(name, victim);
 		return null;
 	}
 	
@@ -277,7 +278,7 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic, Ve
                     for(TypeParam candidate: sTypeRef.getTypeParams().values()) {
                         if(typeArg.getName().equals(candidate.getName())) {
                         	//System.out.println("[KALAMAZOO] Removing duplicate typeArg "+typeArg.getName()+" between "+this+" and "+sTypeRef);
-                            variables.remove(getVariable(typeArg.getName()));
+                            variables.remove(getVariable(typeArg.getName(), null));
                         }
                     }
                 }

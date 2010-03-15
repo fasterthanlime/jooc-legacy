@@ -15,7 +15,7 @@ public abstract class ControlStatement extends Statement implements Scope {
 		return body;
 	}
 	
-	public VariableDecl getVariable(String name) {
+	public VariableDecl getVariable(String name, VariableAccess victim) {
 		if(body.size() > 0) for(Line line: body) {
 			Node node = line.getStatement();
 			if(node instanceof VariableDecl) {

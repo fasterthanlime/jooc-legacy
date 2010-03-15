@@ -70,7 +70,7 @@ public class MemberAccess extends VariableAccess {
 			int typeIndex = stack.find(TypeDecl.class);
 			if(typeIndex != -1) {
 				TypeDecl typeDecl = (TypeDecl) stack.get(typeIndex);
-				VariableDecl var = typeDecl.getVariable(getName());
+				VariableDecl var = typeDecl.getVariable(getName(), null);
 				if(var != null && var.isStatic()) {
 					ref = var;
 					if(expression instanceof VariableAccess) {
@@ -197,7 +197,7 @@ public class MemberAccess extends VariableAccess {
 		
 		TypeDecl typeDecl = (TypeDecl) decl;
 		if(ref == null) {
-			ref = typeDecl.getVariable(getName());
+			ref = typeDecl.getVariable(getName(), this);
 		}
 		
 		if(ref == null && getName().equals("size") && exprType.getPointerLevel() > 0) {

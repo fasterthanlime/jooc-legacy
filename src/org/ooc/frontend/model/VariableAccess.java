@@ -30,6 +30,10 @@ public class VariableAccess extends Access implements MustBeResolved {
 		ref = varDecl;
 	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -105,7 +109,7 @@ public class VariableAccess extends Access implements MustBeResolved {
 		}
 		
 		{
-			VariableDecl varDecl = getVariable(name, stack);
+			VariableDecl varDecl = getVariable(name, stack, this);
 			if(varDecl != null) {
 				if(varDecl.isMember()) {
 					VariableAccess thisAccess = new VariableAccess("this", startToken);
@@ -155,7 +159,7 @@ public class VariableAccess extends Access implements MustBeResolved {
 				ref = typeDecl;
 				//return Response.RESTART;
 			}
-			VariableDecl varDecl = typeDecl.getVariable(name);
+			VariableDecl varDecl = typeDecl.getVariable(name, null);
 			if(varDecl != null) {
 				VariableAccess thisAccess = new VariableAccess("this", startToken);
 				thisAccess.setRef(varDecl);

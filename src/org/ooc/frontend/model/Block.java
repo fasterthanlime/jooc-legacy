@@ -42,7 +42,7 @@ public class Block extends Statement implements Scope {
 
 	public void getFunctions(NodeList<FunctionDecl> functions) {}
 
-	public VariableDecl getVariable(String name) {
+	public VariableDecl getVariable(String name, VariableAccess victim) {
 		return getVariable(body, name);
 	}
 
