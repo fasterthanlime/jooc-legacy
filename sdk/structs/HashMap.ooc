@@ -12,6 +12,18 @@ HashEntry: class <K, V> {
 
 }
 
+stringKeyEquals: func <K> (k1, k2: K) -> Bool {
+    // FIXME those casts shouldn't be needed,
+    // and this method doesn't belong here
+    k1 as String equals(k2 as String)
+}
+
+/** used when we don't have a custom comparing function for the key type */
+genericKeyEquals: func <K> (k1, k2: K) -> Bool {
+    // FIXME rock should turn == between generic vars into a memcmp itself
+    memcmp(k1, k2, K size) == 0
+}
+
 /**
  * Simple hash table implementation
  */
@@ -19,7 +31,7 @@ HashEntry: class <K, V> {
 HashMap: class <K, V> extends Iterable<V> {
 
     size, capacity: UInt
-    keyEquals: Func (K, K) -> Bool
+    keyEquals: Func <K> (K, K) -> Bool
 
     buckets: ArrayList<V>*
     keys: ArrayList<K>
@@ -52,22 +64,10 @@ HashMap: class <K, V> extends Iterable<V> {
         
         // choose comparing function for key type
         if(K == String) {
-            keyEquals = This stringKeyEquals
+            keyEquals = stringKeyEquals
         } else {
-            keyEquals = This genericKeyEquals
+            keyEquals = genericKeyEquals
         }
-    }
-    
-    stringKeyEquals: func (k1, k2: K) -> Bool {
-        // FIXME those casts shouldn't be needed,
-        // and this method doesn't belong here
-        k1 as String equals(k2 as String)
-    }
-    
-    /** used when we don't have a custom comparing function for the key type */
-    genericKeyEquals: func (k1, k2: K) -> Bool {
-        // FIXME rock should turn == between generic vars into a memcmp itself
-        memcmp(k1, k2, K size) == 0
     }
 
     /**

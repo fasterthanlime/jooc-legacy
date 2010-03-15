@@ -79,7 +79,7 @@ public class TypeParser {
 		}
 		
 		if(name.equals("Func")) {
-			FuncType funcType = new FuncType(startToken);
+			FuncType funcType = new FuncType(startToken, typeParams);
 			ArgumentParser.fill(module, sReader, reader, true, funcType.getDecl().getArguments());
 			if(reader.peek().type == TokenType.ARROW) {
 				reader.read();

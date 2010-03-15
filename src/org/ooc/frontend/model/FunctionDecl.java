@@ -5,19 +5,19 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.ooc.frontend.BuildParams;
 import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.IntLiteral.Format;
 import org.ooc.frontend.model.NodeList.AddListener;
 import org.ooc.frontend.model.interfaces.MustBeUnwrapped;
 import org.ooc.frontend.model.interfaces.Versioned;
 import org.ooc.frontend.model.tokens.Token;
-import org.ooc.frontend.BuildParams;
 import org.ooc.middle.OocCompilationError;
 import org.ooc.middle.hobgoblins.Resolver;
 
 public class FunctionDecl extends Declaration implements Scope, Generic, MustBeUnwrapped, PotentiallyStatic, Versioned {
 
-	public static Type type = new FuncType(Token.defaultToken);
+	public Type type;
 	
 	protected OocDocComment comment;
 	
@@ -66,6 +66,7 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 			}
 		});
 		this.typeParams = new LinkedHashMap<String, TypeParam>();
+		this.type = new FuncType(Token.defaultToken, this);
 	}
 
 	public LinkedHashMap<String, TypeParam> getTypeParams() {
