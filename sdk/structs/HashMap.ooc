@@ -64,8 +64,10 @@ HashMap: class <K, V> extends Iterable<V> {
         
         // choose comparing function for key type
         if(K == String) {
+            println("Chosen stringKeyEquals!")
             keyEquals = stringKeyEquals
         } else {
+            println("Chosen genericKeyEquals!")
             keyEquals = genericKeyEquals
         }
     }
