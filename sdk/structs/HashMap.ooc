@@ -25,6 +25,83 @@ genericKeyEquals: func <K> (k1, k2: K) -> Bool {
 }
 
 /**
+ * Port of Austin Appleby's Murmur Hash implementation
+ * http://murmurhash.googlepages.com/
+ * TODO: Use this to hash not just strings, but any type of object
+ * @param key The key to hash
+ * @param seed The seed value
+ */
+murmurHash: func <K> (keyTagazok: K) -> UInt {
+    
+    seed: UInt = 1 // TODO: figure out what makes a good seed value?
+    
+    len := K size
+    m = 0x5bd1e995 : const UInt
+    r = 24 : const Int
+    l := len
+
+    h : UInt = seed ^ len
+    data := (keyTagazok&) as Octet*
+    
+    while (len >= 4) {
+        k := (data as UInt*)@
+
+        k *= m
+        k ^= k >> r
+        k *= m
+
+        h *= m
+        h ^= k
+
+        data += 4
+        len -= 4
+    }
+
+    t := 0
+
+    /*
+    match(len) {
+        case 3 => h ^= data[2] << 16
+        case 2 => h ^= data[1] << 8
+        case 1 => h ^= data[0]
+    }
+    */
+    
+    if(len == 3) h ^= data[2] << 16
+    if(len == 2) h ^= data[1] << 8
+    if(len == 1) h ^= data[0]
+    
+    t *= m; t ^= t >> r; t *= m; h *= m; h ^= t;
+    l *= m; l ^= l >> r; l *= m; h *= m; h ^= l;
+    
+    h ^= h >> 13
+    h *= m
+    h ^= h >> 15
+
+    return h
+}
+
+/**
+ * khash's ac_X31_hash_string
+ * http://attractivechaos.awardspace.com/khash.h.html
+ * @access private
+ * @param s The string to hash
+ * @return UInt
+ */
+ac_X31_hash: func <K> (key: K) -> UInt {
+    s := key as Char*
+    h = s@ : UInt
+    if (h) {
+        s += 1
+        while (s@) {
+            h = (h << 5) - h + s@
+            s += 1
+        }
+    }
+    return h
+}
+
+/**
  * Simple hash table implementation
  */
 
@@ -32,6 +109,7 @@ HashMap: class <K, V> extends Iterable<V> {
 
     size, capacity: UInt
     keyEquals: Func <K> (K, K) -> Bool
+    hashKey: Func <K> (K) -> UInt
 
     buckets: ArrayList<V>*
     keys: ArrayList<K>
@@ -64,88 +142,12 @@ HashMap: class <K, V> extends Iterable<V> {
         
         // choose comparing function for key type
         if(K == String) {
-            println("Chosen stringKeyEquals!")
             keyEquals = stringKeyEquals
+            hashKey = ac_X31_hash
         } else {
-            println("Chosen genericKeyEquals!")
             keyEquals = genericKeyEquals
+            hashKey = murmurHash
         }
-    }
-
-    /**
-     * Port of Austin Appleby's Murmur Hash implementation
-     * http://murmurhash.googlepages.com/
-     * TODO: Use this to hash not just strings, but any type of object
-     * @param key The key to hash
-     * @param seed The seed value
-     */
-    murmurHash: func (keyTagazok: K) -> UInt {
-        
-        seed: UInt = 1 // TODO: figure out what makes a good seed value?
-        
-        len := K size
-        m = 0x5bd1e995 : const UInt
-        r = 24 : const Int
-        l := len
-
-        h : UInt = seed ^ len
-        data := (keyTagazok&) as Octet*
-
-        while (len >= 4) {
-            k := (data as UInt*)@
-
-            k *= m
-            k ^= k >> r
-            k *= m
-
-            h *= m
-            h ^= k
-
-            data += 4
-            len -= 4
-        }
-
-        t := 0
-
-        /*
-        match(len) {
-            case 3 => h ^= data[2] << 16
-            case 2 => h ^= data[1] << 8
-            case 1 => h ^= data[0]
-        }
-        */
-        
-        if(len == 3) h ^= data[2] << 16
-        if(len == 2) h ^= data[1] << 8
-        if(len == 1) h ^= data[0]
-        
-        t *= m; t ^= t >> r; t *= m; h *= m; h ^= t;
-        l *= m; l ^= l >> r; l *= m; h *= m; h ^= l;
-        
-        h ^= h >> 13
-        h *= m
-        h ^= h >> 15
-
-        return h
-    }
-
-    /**
-     * khash's ac_X31_hash_string
-     * http://attractivechaos.awardspace.com/khash.h.html
-     * @access private
-     * @param s The string to hash
-     * @return UInt
-     */
-    ac_X31_hash: func (s: Char*) -> UInt {
-        h = s@ : UInt
-        if (h) {
-            s += 1
-            while (s@) {
-                h = (h << 5) - h + s@
-                s += 1
-            }
-        }
-        return h
     }
 
     /**
@@ -156,8 +158,7 @@ HashMap: class <K, V> extends Iterable<V> {
      */
     getEntry: func (key: K) -> HashEntry<K, V> {
         entry = null : HashEntry<K, V>
-        //hash : UInt = ac_X31_hash(key) % capacity
-        hash : UInt = murmurHash(key) % capacity
+        hash : UInt = hashKey(key) % capacity
         iter := buckets[hash] iterator()
         while (iter hasNext()) {
             entry = iter next()
@@ -184,8 +185,7 @@ HashMap: class <K, V> extends Iterable<V> {
         }
         else {
             keys add(key)
-            //hash = ac_X31_hash(key) % capacity
-            hash = murmurHash(key) % capacity
+            hash = hashKey(key) % capacity
             entry = HashEntry<K, V> new(key, value)
             buckets[hash] add(entry)
             size += 1
