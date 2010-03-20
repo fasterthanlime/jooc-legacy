@@ -247,11 +247,13 @@ public class FunctionCall extends Access implements MustBeResolved {
 				return Response.LOOP;
 			}
 			if(retType.isGenericRecursive()) {
+				if(debugCondition()) System.out.println("[KALAMAZOO] Realtypizing retType "+retType);
 				Type candidate = realTypize(retType, res, stack);
 				if(candidate == null) {
 					if(fatal) throw new OocCompilationError(this, stack, "RealType still null, can't resolve generic type "+retType);
 					return Response.LOOP;
 				}
+				if(debugCondition()) System.out.println("[KALAMAZOO] Got candidate "+candidate);
 				realType = candidate;
 			} else {
 				realType = retType;
@@ -466,7 +468,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 
 	// used to determine if debug messages should be printed (usually comparing a name)
 	private boolean debugCondition() {
-		return false;
+		return name.equals("iterator");
 	}
 
 	protected void autocast() {

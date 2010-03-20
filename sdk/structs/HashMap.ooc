@@ -120,7 +120,7 @@ HashMap: class <K, V> extends Iterable<V> {
      */
     
     init: func {
-        init(100)
+        init(10)
     }
 
     /**

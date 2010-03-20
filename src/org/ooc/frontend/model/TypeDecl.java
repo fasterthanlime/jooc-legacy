@@ -158,19 +158,32 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic, Ve
 	
 	public VariableDecl getVariable(String name, VariableAccess victim) {
 		String realTypeParam = translateTypeParam(name);
+		if(debugCondition()) {
+			System.out.println("Looking for variable '"+name+"' in "+this);
+		}
+		
 		if(realTypeParam != null) {
 			System.out.println("KALAMAZOO, "+name+" => "+realTypeParam+" in type "+this);
-			victim.setName(realTypeParam);
+			if(victim != null) {
+				victim.setName(realTypeParam);
+			}
 			return getVariable(realTypeParam, victim);
 		}
 		
 		for(VariableDecl decl: variables) {
-			if(decl.hasAtom(name)) return decl;
+			if(decl.hasAtom(name)) {
+				System.out.println("Found decl "+decl);
+				return decl;
+			}
 		}
 		if(getSuperRef() != null) return getSuperRef().getVariable(name, victim);
 		return null;
 	}
 	
+	private boolean debugCondition() {
+		return this.name.equals("HashMap");
+	}
+
 	private String translateTypeParam(String name) {
 		
 		// Iterator: class <T>
