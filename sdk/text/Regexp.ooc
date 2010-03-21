@@ -10,6 +10,28 @@ Pcre: cover from pcre* {
     getStringNumber: extern(pcre_get_stringnumber) func(...) -> Int
 }
 
+RegexpOption: cover {
+    ANCHORED: extern(PCRE_ANCHORED) static Int
+    AUTO_CALLOUT: extern(PCRE_AUTO_CALLOUT) static Int
+    CASELESS: extern(PCRE_CASELESS) static Int
+    DOLLAR_ENDONLY: extern(PCRE_DOLLAR_ENDONLY) static Int
+    DOTALL: extern(PCRE_DOTALL) static Int
+    DUPNAMES: extern(PCRE_DUPNAMES) static Int
+    EXTENDED: extern(PCRE_EXTENDED) static Int
+    EXTRA: extern(PCRE_EXTRA) static Int
+    FIRSTLINE: extern(PCRE_FIRSTLINE) static Int
+    MULTILINE: extern(PCRE_MULTILINE) static Int
+    NEWLINE_ANY: extern(PCRE_NEWLINE_ANY) static Int
+    NEWLINE_CR: extern(PCRE_NEWLINE_CR) static Int
+    NEWLINE_CRLF: extern(PCRE_NEWLINE_CRLF) static Int
+    NEWLINE_LF: extern(PCRE_NEWLINE_LF) static Int
+    NEWLINE_CAPTURE: extern(PCRE_NEWLINE_CAPTURE) static Int
+    NO_AUTO_CAPTURE: extern(PCRE_NO_AUTO_CAPTURE) static Int
+    UNGREEDY: extern(PCRE_UNGREEDY) static Int
+    UTF8: extern(PCRE_UTF8) static Int
+    NO_UTF8_CHECK: extern(PCRE_NO_UTF8_CHECK) static Int
+}
+
 /**
     Regular expression object
 */
