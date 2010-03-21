@@ -122,7 +122,6 @@ public class ClassDecl extends TypeDecl {
 			retType.getTypeParams().add(e);
 			
 			MemberAccess membAcc = new MemberAccess(genType.getName(), startToken);
-			membAcc.isMarked = true;
 			constructor.getBody().add(new Line(new Assignment(
 					membAcc, e, constructor.startToken))
 			);

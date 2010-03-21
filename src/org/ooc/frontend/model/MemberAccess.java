@@ -12,7 +12,6 @@ import org.ooc.middle.hobgoblins.Resolver;
 public class MemberAccess extends VariableAccess {
 
 	protected Expression expression;
-	public boolean isMarked;
 
 	public MemberAccess(String variable, Token startToken) {
 		this(new VariableAccess("this", startToken), variable, startToken);
@@ -72,7 +71,6 @@ public class MemberAccess extends VariableAccess {
 				TypeDecl typeDecl = (TypeDecl) stack.get(typeIndex);
 				VariableDecl var = typeDecl.getVariable(getName());
 				if(var != null && var.isStatic()) {
-					if(isMarked) System.out.println("[KALAMAZOO] "+this+" got expr from typeIndex typeDecl getVariable");
 					ref = var;
 					if(expression instanceof VariableAccess) {
 						VariableAccess varAcc = (VariableAccess) expression;
@@ -197,9 +195,6 @@ public class MemberAccess extends VariableAccess {
 		TypeDecl typeDecl = (TypeDecl) decl;
 		if(ref == null) {
 			ref = typeDecl.getVariable(getName());
-			if(ref != null && isMarked) {
-				System.out.println("[KALAMAZOO] "+this+" got ref "+ref+" of type "+ref.getClass().getSimpleName()+" from tryResolve() getVariable on type "+typeDecl);
-			}
 		}
 		
 		if(ref == null && getName().equals("size") && exprType.getPointerLevel() > 0) {

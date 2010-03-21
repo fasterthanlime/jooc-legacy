@@ -164,7 +164,6 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic, Ve
 		
 		for(VariableDecl decl: variables) {
 			if(decl.getName().equals(name)) {
-				System.out.println("In "+this+", found decl "+decl+" for variable "+name+" (variables = "+variables);
 				return decl;
 			}
 		}
