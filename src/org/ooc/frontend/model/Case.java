@@ -74,7 +74,7 @@ public class Case extends Node implements Scope {
 
 	public void getFunctions(NodeList<FunctionDecl> functions) {}
 
-	public VariableDecl getVariable(String name, VariableAccess victim) {
+	public VariableDecl getVariable(String name) {
 		return getVariable(body, name);
 	}
 

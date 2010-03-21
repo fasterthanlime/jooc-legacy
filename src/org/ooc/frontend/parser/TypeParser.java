@@ -165,8 +165,12 @@ public class TypeParser {
 				innerType = AccessParser.parse(module, sReader, reader);
 			}
 			if(innerType == null) {
-				typeParams = null;
-				break;
+				if(reader.peek().type == TokenType.QUEST) {
+					reader.skip();
+				} else {
+					typeParams = null;
+					break;
+				}
 			}
 			
 			if(typeParams == null) typeParams = new NodeList<Access>(); 

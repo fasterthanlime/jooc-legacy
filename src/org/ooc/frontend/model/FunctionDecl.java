@@ -295,7 +295,7 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 		return name.equals(params.entryPoint);
 	}
 
-	public VariableDecl getVariable(String name, VariableAccess victim) {
+	public VariableDecl getVariable(String name) {
 		if(arguments.size() > 0) for(Argument argument: arguments) {
 			if(argument.getName().equals(name)) return argument;
 		}

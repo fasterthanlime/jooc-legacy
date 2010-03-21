@@ -165,7 +165,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 		}
 	
 		if(impl != null) {
-			autocast();
+			autocast(stack, res);
 			Response response = handleGenerics(stack, res, fatal);
 			if(response != Response.OK) return response;
 		}
@@ -246,7 +246,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 				return Response.LOOP;
 			}
 			if(retType.isGenericRecursive()) {
-				if(debugCondition()) System.out.println("[KALAMAZOO] Realtypizing retType "+retType);
+				if(debugCondition()) System.out.println("[KALAMAZOO] Realtypizing retType "+retType+" for impl "+impl);
 				Type candidate = realTypize(retType, res, stack);
 				if(candidate == null) {
 					if(fatal) throw new OocCompilationError(this, stack, "RealType still null, can't resolve generic type "+retType);
@@ -469,7 +469,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 		return name.equals("iterator");
 	}
 
-	protected void autocast() {
+	protected void autocast(NodeList<Node> stack, Resolver res) {
 		if(impl == null) return;
 
 		Iterator<Expression> callArgs = arguments.iterator();
@@ -483,7 +483,15 @@ public class FunctionCall extends Access implements MustBeResolved {
 			if(implArg.getType().isSuperOf(callArg.getType())
 					&& implArg.getType().getRef() != null
 					&& callArg.getType().getRef() != null) {
-				arguments.replace(callArg, new Cast(callArg, implArg.getType(), callArg.startToken));
+				
+				Type targetType = implArg.getType();
+				if(!callArg.getType().getTypeParams().isEmpty()) {
+					targetType = targetType.clone();
+					targetType.getTypeParams().clear();
+					targetType.getTypeParams().addAll(callArg.getType().getTypeParams());
+				}
+				
+				arguments.replace(callArg, new Cast(callArg, targetType, callArg.startToken));
 			}
 		}
 	}

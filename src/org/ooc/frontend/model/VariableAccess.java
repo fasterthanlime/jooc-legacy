@@ -157,7 +157,7 @@ public class VariableAccess extends Access implements MustBeResolved {
 				ref = typeDecl;
 				//return Response.RESTART;
 			}
-			VariableDecl varDecl = typeDecl.getVariable(name, null);
+			VariableDecl varDecl = typeDecl.getVariable(name);
 			if(varDecl != null) {
 				VariableAccess thisAccess = new VariableAccess("this", startToken);
 				thisAccess.setRef(varDecl);

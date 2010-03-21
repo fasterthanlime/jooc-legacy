@@ -58,7 +58,7 @@ public class MemberArgument extends Argument {
 				//}
 			} //else {
 				TypeDecl typeDecl = (TypeDecl) stack.get(typeDeclIndex);
-				ref = typeDecl.getVariable(getName(), null);
+				ref = typeDecl.getVariable(getName());
 			//}
 		}
 		

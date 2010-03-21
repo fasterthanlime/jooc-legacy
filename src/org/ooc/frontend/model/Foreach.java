@@ -69,7 +69,7 @@ public class Foreach extends ControlStatement implements MustBeResolved {
 	}
 	
 	@Override
-	public VariableDecl getVariable(String name, VariableAccess victim) {
+	public VariableDecl getVariable(String name) {
 		if(variable instanceof VariableDecl) {
 			VariableDecl varDecl = (VariableDecl) variable;
 			if(varDecl.getName().equals(name)) return varDecl;
@@ -77,7 +77,7 @@ public class Foreach extends ControlStatement implements MustBeResolved {
 			VariableAccess varAcc = (VariableAccess) variable;
 			if(varAcc.getName().equals(name)) return (VariableDecl) varAcc.getRef();
 		}
-		return super.getVariable(name, victim);
+		return super.getVariable(name);
 	}
 	
 	@Override

@@ -35,7 +35,7 @@ public abstract class Node implements Visitable {
 	public VariableDecl getVariable(String name, NodeList<Node> stack, VariableAccess victim, int index) {
 		if(index == -1) return null;
 		
-		VariableDecl varDecl = ((Scope) stack.get(index)).getVariable(name, victim);
+		VariableDecl varDecl = ((Scope) stack.get(index)).getVariable(name);
 		
 		if(varDecl != null) return varDecl;
 		

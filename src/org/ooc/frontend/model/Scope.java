@@ -11,7 +11,7 @@ package org.ooc.frontend.model;
  */
 public interface Scope {
 
-	public VariableDecl getVariable(String name, VariableAccess victim);
+	public VariableDecl getVariable(String name);
 	public void getVariables(NodeList<VariableDecl> variables);
 	public FunctionDecl getFunction(String name, String suffix, FunctionCall call);
 	public void getFunctions(NodeList<FunctionDecl> functions);

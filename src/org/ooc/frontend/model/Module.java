@@ -203,7 +203,7 @@ public class Module extends Node implements Scope {
 		return reader;
 	}
 
-	public VariableDecl getVariable(String name, VariableAccess victim) {
+	public VariableDecl getVariable(String name) {
 		VariableDecl varDecl = getVariableInBody(name, body);
 		if (varDecl != null) return varDecl;
 		for(Import imp: globalImports) {
