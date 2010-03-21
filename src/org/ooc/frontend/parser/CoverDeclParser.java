@@ -4,6 +4,8 @@ import org.ooc.frontend.model.CoverDecl;
 import org.ooc.frontend.model.FunctionDecl;
 import org.ooc.frontend.model.Import;
 import org.ooc.frontend.model.Module;
+import org.ooc.frontend.model.Node;
+import org.ooc.frontend.model.NodeList;
 import org.ooc.frontend.model.OocDocComment;
 import org.ooc.frontend.model.Type;
 import org.ooc.frontend.model.TypeDecl;
@@ -16,6 +18,7 @@ import org.ubi.SourceReader;
 
 public class CoverDeclParser {
 
+	@SuppressWarnings("unchecked")
 	public static CoverDecl parse(Module module, SourceReader sReader, TokenReader reader) {
 		int mark = reader.mark();
 		
@@ -124,18 +127,34 @@ public class CoverDeclParser {
 					reader.skip(); continue;
 				}
 				
-				VariableDecl varDecl = VariableDeclParser.parse(module, sReader, reader);
-				if(varDecl != null) {
-					if(reader.read().type != TokenType.LINESEP) {
-						throw new CompilationFailedError(sReader.getLocation(reader.prev()),
-							"Expected newline after variable declaration in cover declaration, but got "+reader.prev());
+				Node candidate = VariableDeclParser.parseMulti(module, sReader, reader);
+				if(candidate != null) {
+					if(candidate instanceof NodeList<?>) {
+						NodeList<VariableDecl> vDecls = (NodeList<VariableDecl>) candidate;
+						for(VariableDecl vDecl : vDecls) {
+							if(fromType != null && !vDecl.isExtern()) {
+								throw new CompilationFailedError(sReader.getLocation(reader.prev()),
+									"You can't add non-extern member variables to a Cover which already has a base type (in this case, "
+										+fromType.getName()+")");
+							}
+							coverDecl.addVariable(vDecl);
+						}
+					} else {
+						VariableDecl vDecl = ((VariableDecl) candidate);
+						if(fromType != null && !vDecl.isExtern()) {
+							throw new CompilationFailedError(sReader.getLocation(reader.prev()),
+								"You can't add non-extern member variables to a Cover which already has a base type (in this case, "
+									+fromType.getName()+")");
+						}
+						coverDecl.addVariable(vDecl);
 					}
-					if(fromType != null && !varDecl.isExtern()) {
+					
+					Token tok = reader.read();
+					if(tok.type != TokenType.LINESEP && tok.type != TokenType.OOCDOC) {
 						throw new CompilationFailedError(sReader.getLocation(reader.prev()),
-							"You can't add non-extern member variables to a Cover which already has a base type (in this case, "
-								+fromType.getName()+")");
+							"Expected semi-colon after variable declaration in class declaration");
 					}
-					coverDecl.addVariable(varDecl);
+					
 					continue;
 				}
 				

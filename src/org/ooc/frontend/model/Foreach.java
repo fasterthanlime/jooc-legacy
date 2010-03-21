@@ -3,7 +3,6 @@ package org.ooc.frontend.model;
 import java.io.IOException;
 
 import org.ooc.frontend.Visitor;
-import org.ooc.frontend.model.VariableDecl.VariableDeclAtom;
 import org.ooc.frontend.model.interfaces.MustBeResolved;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.middle.OocCompilationError;
@@ -73,7 +72,7 @@ public class Foreach extends ControlStatement implements MustBeResolved {
 	public VariableDecl getVariable(String name, VariableAccess victim) {
 		if(variable instanceof VariableDecl) {
 			VariableDecl varDecl = (VariableDecl) variable;
-			if(varDecl.hasAtom(name)) return varDecl;
+			if(varDecl.getName().equals(name)) return varDecl;
 		} else if(variable instanceof VariableAccess) {
 			VariableAccess varAcc = (VariableAccess) variable;
 			if(varAcc.getName().equals(name)) return (VariableDecl) varAcc.getRef();
@@ -144,12 +143,8 @@ public class Foreach extends ControlStatement implements MustBeResolved {
 		
 		Block block = new Block(startToken);
 		
-		VariableDecl vdfe = new VariableDecl(iterCall.getType(), false, startToken, null);
-		vdfe.setType(iterType);
-		vdfe.getAtoms().add(new VariableDeclAtom(generateTempName("iter", stack),
-				iterCall, startToken));
-
-		VariableAccess iterAcc = new VariableAccess(vdfe.getName(), startToken);
+		VariableDecl vdfe = new VariableDecl(iterType, generateTempName("iter", stack), iterCall, startToken, null);
+		VariableAccess iterAcc = new VariableAccess(vdfe, startToken);
 		iterAcc.setRef(vdfe);
 		
 		MemberCall hasNextCall = new MemberCall(iterAcc, "hasNext", "", startToken);
@@ -163,8 +158,7 @@ public class Foreach extends ControlStatement implements MustBeResolved {
 			VariableAccess varAcc = (VariableAccess) variable;
 			if(varAcc.getRef() == null) {
 				Type innerType = iterCall.getType().getTypeParams().getFirst().getType();
-				VariableDecl varDecl = new VariableDecl(innerType, false, varAcc.startToken, null);
-				varDecl.getAtoms().add(new VariableDeclAtom(varAcc.getName(), null, varAcc.startToken));
+				VariableDecl varDecl = new VariableDecl(innerType, varAcc.getName(), varAcc.startToken, null);
 				block.getBody().add(0, new Line(varDecl));
 			}
 		}

@@ -6,6 +6,8 @@ import java.util.List;
 import org.ooc.frontend.model.ClassDecl;
 import org.ooc.frontend.model.FunctionDecl;
 import org.ooc.frontend.model.Module;
+import org.ooc.frontend.model.Node;
+import org.ooc.frontend.model.NodeList;
 import org.ooc.frontend.model.OocDocComment;
 import org.ooc.frontend.model.Type;
 import org.ooc.frontend.model.TypeParam;
@@ -18,6 +20,7 @@ import org.ubi.SourceReader;
 
 public class ClassDeclParser {
 
+	@SuppressWarnings("unchecked")
 	public static ClassDecl parse(Module module, SourceReader sReader, TokenReader reader) {
 		int mark = reader.mark();
 		
@@ -86,14 +89,23 @@ public class ClassDeclParser {
 			
 				if(reader.skipWhitespace()) continue;
 				
-				VariableDecl varDecl = VariableDeclParser.parse(module, sReader, reader);
-				if(varDecl != null) {
+				Node candidate = VariableDeclParser.parseMulti(module, sReader, reader);
+				if(candidate != null) {
+					if(candidate instanceof NodeList<?>) {
+						NodeList<VariableDecl> vDecls = (NodeList<VariableDecl>) candidate;
+						for(VariableDecl vDecl : vDecls) {
+							classDecl.addVariable(vDecl);
+						}
+					} else {
+						VariableDecl vDecl = ((VariableDecl) candidate);
+						classDecl.addVariable(vDecl);
+					}
 					Token tok = reader.read();
 					if(tok.type != TokenType.LINESEP && tok.type != TokenType.OOCDOC) {
 						throw new CompilationFailedError(sReader.getLocation(reader.prev()),
 							"Expected semi-colon after variable declaration in class declaration");
 					}
-					classDecl.addVariable(varDecl);
+					
 					continue;
 				}
 				

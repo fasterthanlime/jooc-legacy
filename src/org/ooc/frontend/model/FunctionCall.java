@@ -5,7 +5,6 @@ import java.util.Iterator;
 
 import org.ooc.frontend.Levenshtein;
 import org.ooc.frontend.Visitor;
-import org.ooc.frontend.model.VariableDecl.VariableDeclAtom;
 import org.ooc.frontend.model.interfaces.MustBeResolved;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.middle.OocCompilationError;
@@ -300,8 +299,7 @@ public class FunctionCall extends Access implements MustBeResolved {
         }
         
 		if(impl.getReturnType().isGeneric() && !isFriendlyHost(parent)) {
-			VariableDecl vDecl = new VariableDecl(getType(), false, startToken, stack.getModule());
-            vDecl.getAtoms().add(new VariableDeclAtom(generateTempName("genCall", stack), null, startToken));
+			VariableDecl vDecl = new VariableDecl(getType(), generateTempName("genCall", stack), startToken, stack.getModule());
             stack.addBeforeLine(stack, vDecl);
             VariableAccess varAcc = new VariableAccess(vDecl, startToken);
             setReturnArg(varAcc);
@@ -330,7 +328,7 @@ public class FunctionCall extends Access implements MustBeResolved {
     private boolean isFriendlyHost (Node node) {
     	return  (node instanceof Line) ||
 				(node instanceof CommaSequence) ||
-				(node instanceof VariableDeclAtom) ||
+				(node instanceof VariableDecl) ||
 				(node instanceof Assignment);
     }
 

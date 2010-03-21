@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import org.ooc.frontend.Levenshtein;
 import org.ooc.frontend.Visitor;
-import org.ooc.frontend.model.VariableDecl.VariableDeclAtom;
 import org.ooc.frontend.model.interfaces.MustBeResolved;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.middle.OocCompilationError;
@@ -128,7 +127,7 @@ public class MemberAccess extends VariableAccess {
 				if(varAcc.getRef() instanceof TypeDecl && !(varAcc.getRef() instanceof TypeParam)) {
 					if(ref instanceof VariableDecl) {
 						VariableDecl varDecl = (VariableDecl) ref;
-						if(!varDecl.isStatic() && !varDecl.hasAtom("class")) {
+						if(!varDecl.isStatic() && !varDecl.getName().equals("class")) {
 							throw new OocCompilationError(this, stack, 
 									"Trying to access member variable "+exprType
 									+"."+getName()+" as if it were static. But it's not.");
@@ -167,12 +166,10 @@ public class MemberAccess extends VariableAccess {
 		String bestMatch = null;
 		
 		for(VariableDecl decl: typeDeclaration.getVariables()) {
-			for(VariableDeclAtom atom: decl.atoms) {
-				int distance = Levenshtein.distance(getName(), atom.getName());
-				if(distance < bestDistance) {
-					bestDistance = distance;
-					bestMatch = atom.getName();
-				}
+			int distance = Levenshtein.distance(getName(), decl.getName());
+			if(distance < bestDistance) {
+				bestDistance = distance;
+				bestMatch = decl.getName();
 			}
 		}
 		

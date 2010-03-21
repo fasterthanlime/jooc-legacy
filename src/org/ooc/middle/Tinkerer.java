@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.ooc.frontend.model.Module;
 import org.ooc.frontend.BuildParams;
+import org.ooc.frontend.model.Module;
 import org.ooc.middle.hobgoblins.Checker;
 import org.ooc.middle.hobgoblins.Resolver;
 import org.ooc.middle.hobgoblins.Unwrapper;

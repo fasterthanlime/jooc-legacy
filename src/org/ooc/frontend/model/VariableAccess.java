@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import org.ooc.frontend.Levenshtein;
 import org.ooc.frontend.Visitor;
-import org.ooc.frontend.model.VariableDecl.VariableDeclAtom;
 import org.ooc.frontend.model.interfaces.MustBeResolved;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.middle.OocCompilationError;
@@ -25,9 +24,8 @@ public class VariableAccess extends Access implements MustBeResolved {
 
 	public VariableAccess(VariableDecl varDecl, Token startToken) {
 		super(startToken);
-		assert(varDecl.atoms.size() == 1);
 		this.name = varDecl.getName();
-		ref = varDecl;
+		this.ref = varDecl;
 	}
 
 	public void setName(String name) {
@@ -212,12 +210,10 @@ public class VariableAccess extends Access implements MustBeResolved {
 		scope.getVariables(variables);
 		
 		for(VariableDecl decl: variables) {
-			for(VariableDeclAtom atom: decl.getAtoms()) {
-				int distance = Levenshtein.distance(name, atom.getName());
-				if(distance < bestDistance) {
-					bestDistance = distance;
-					bestMatch = atom.getName();
-				}
+			int distance = Levenshtein.distance(name, decl.getName());
+			if(distance < bestDistance) {
+				bestDistance = distance;
+				bestMatch = decl.getName();
 			}
 		}
 		

@@ -4,6 +4,7 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.util.HashSet;
 
+import org.ooc.frontend.BuildParams;
 import org.ooc.frontend.model.Import;
 import org.ooc.frontend.model.Module;
 import org.ooc.frontend.model.NamespaceDecl;
@@ -12,7 +13,6 @@ import org.ooc.frontend.model.NodeList;
 import org.ooc.frontend.model.Type;
 import org.ooc.frontend.model.TypeDecl;
 import org.ooc.frontend.model.interfaces.MustBeUnwrapped;
-import org.ooc.frontend.BuildParams;
 import org.ooc.middle.Hobgoblin;
 import org.ooc.middle.OocCompilationError;
 import org.ooc.middle.walkers.Opportunist;

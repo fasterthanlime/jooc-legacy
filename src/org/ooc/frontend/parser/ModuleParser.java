@@ -10,8 +10,9 @@ import org.ooc.frontend.model.ClassDecl;
 import org.ooc.frontend.model.CoverDecl;
 import org.ooc.frontend.model.Declaration;
 import org.ooc.frontend.model.Import;
-import org.ooc.frontend.model.Line;
 import org.ooc.frontend.model.Module;
+import org.ooc.frontend.model.Node;
+import org.ooc.frontend.model.NodeList;
 import org.ooc.frontend.model.OpDecl;
 import org.ooc.frontend.model.VariableDecl;
 import org.ooc.frontend.model.tokens.Token;
@@ -27,6 +28,7 @@ public class ModuleParser {
 	// path -> module
 	public final static Map<String, Module> cache = new HashMap<String, Module>();
 	
+	@SuppressWarnings("unchecked")
 	public static void parse(final Module module, final String fullName, final File file, final SourceReader sReader,
 			final TokenReader reader, final Parser parser) {
 		
@@ -66,14 +68,25 @@ public class ModuleParser {
 					}
 				}
 				
+				Node candidate = VariableDeclParser.parseMulti(module, sReader, reader);
+				if(candidate != null) {
+					if(candidate instanceof NodeList<?>) {
+						NodeList<VariableDecl> vDecls = (NodeList<VariableDecl>) candidate;
+						for(VariableDecl vDecl : vDecls) {
+							vDecl.addToModule(module);
+							vDecl.setGlobal(true);
+						}
+					} else {
+						VariableDecl vDecl = ((VariableDecl) candidate);
+						vDecl.addToModule(module);
+						vDecl.setGlobal(true);
+					}
+					continue;
+				}
+				
 				Declaration declaration = DeclarationParser.parse(module, sReader, reader);
 				if(declaration != null) {
-					if(declaration instanceof VariableDecl) {
-						module.getBody().add(new Line(declaration));
-						((VariableDecl)declaration).setGlobal(true);
-					} else {
-						module.getBody().add(declaration);
-					}
+					module.getBody().add(declaration);
 					continue;
 				}
 				

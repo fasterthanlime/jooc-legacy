@@ -2,7 +2,11 @@ package org.ooc.backend.cdirty;
 
 import java.io.IOException;
 
-import org.ooc.frontend.model.*;
+import org.ooc.frontend.model.CoverDecl;
+import org.ooc.frontend.model.FuncType;
+import org.ooc.frontend.model.FunctionDecl;
+import org.ooc.frontend.model.Type;
+import org.ooc.frontend.model.VariableDecl;
 
 public class CoverDeclWriter {
 

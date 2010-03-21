@@ -114,7 +114,7 @@ public class ClassDecl extends TypeDecl {
 		VariableAccess classAccess = new MemberAccess(thisTypeAccess, "class", decl.startToken);
 		MemberCall allocCall = new MemberCall(classAccess, "alloc", "", decl.startToken);
 		Cast cast = new Cast(allocCall, getType(), decl.startToken);
-		VariableDeclFromExpr vdfe = new VariableDeclFromExpr("this", cast, decl.startToken, module);
+		VariableDecl vdfe = new VariableDecl(null, "this", cast, decl.startToken, module);
 		constructor.getBody().add(new Line(vdfe));
 		
 		for(TypeParam genType: typeParams.values()) {

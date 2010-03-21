@@ -9,7 +9,6 @@ import org.ooc.frontend.model.ClassDecl;
 import org.ooc.frontend.model.FunctionDecl;
 import org.ooc.frontend.model.Type;
 import org.ooc.frontend.model.VariableDecl;
-import org.ooc.frontend.model.VariableDecl.VariableDeclAtom;
 
 public class ClassDeclWriter {
 	
@@ -92,12 +91,10 @@ public class ClassDeclWriter {
                 }
             	for(VariableDecl vDecl: cDecl.getVariables()) {
             		if(!vDecl.isStatic()) continue;
-            		for(VariableDeclAtom atom: vDecl.getAtoms()) {
-            			if(atom.getExpression() == null) continue;
-            			cgen.current.nl().app("((").app(cDecl.getUnderName()).app("Class*) ").app(cDecl.getUnderName()).app("_class())->").app(atom.getName()).app(" = ");
-            			atom.getExpression().accept(cgen);
-            			cgen.current.app(';');
-            		}
+        			if(vDecl.getExpression() == null) continue;
+    				cgen.current.nl().app("((").app(cDecl.getUnderName()).app("Class*) ").app(cDecl.getUnderName()).app("_class())->").app(vDecl.getName()).app(" = ");
+    				vDecl.getExpression().accept(cgen);
+    				cgen.current.app(';');
 				}
             }
 			
@@ -160,12 +157,10 @@ public class ClassDeclWriter {
 				}
 				for(VariableDecl vDecl: classDecl.getVariables()) {
 					if(vDecl.isStatic()) continue;
-					for(VariableDeclAtom atom: vDecl.getAtoms()) {
-						if(atom.getExpression() == null) continue;
-						cgen.current.nl().app("this->").app(atom.getName()).app(" = ");
-						atom.getExpression().accept(cgen);
-						cgen.current.app(';');
-					}
+					if(vDecl.getExpression() == null) continue;
+					cgen.current.nl().app("this->").app(vDecl.getName()).app(" = ");
+					vDecl.getExpression().accept(cgen);
+					cgen.current.app(';');
 				}
 			}
 			

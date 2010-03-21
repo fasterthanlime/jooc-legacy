@@ -2,6 +2,7 @@ package org.ooc.middle.hobgoblins;
 
 import java.io.IOException;
 
+import org.ooc.frontend.BuildParams;
 import org.ooc.frontend.model.Module;
 import org.ooc.frontend.model.Node;
 import org.ooc.frontend.model.NodeList;
@@ -9,7 +10,6 @@ import org.ooc.frontend.model.TypeDecl;
 import org.ooc.frontend.model.interfaces.MustBeResolved;
 import org.ooc.frontend.model.interfaces.MustBeResolved.Response;
 import org.ooc.frontend.model.tokens.Token;
-import org.ooc.frontend.BuildParams;
 import org.ooc.middle.Hobgoblin;
 import org.ooc.middle.OocCompilationError;
 import org.ooc.middle.walkers.Opportunist;

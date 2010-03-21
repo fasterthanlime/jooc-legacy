@@ -120,7 +120,7 @@ public abstract class Node implements Visitable {
 			Node node = line.getStatement();
 			if(node instanceof VariableDecl) {
 				VariableDecl varDecl = (VariableDecl) node;
-				if(varDecl.hasAtom(name)) return varDecl;
+				if(varDecl.getName().equals(name)) return varDecl;
 			}
 		}			
 		return null;

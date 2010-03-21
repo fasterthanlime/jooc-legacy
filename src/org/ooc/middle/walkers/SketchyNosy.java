@@ -63,7 +63,6 @@ import org.ooc.frontend.model.VariableAccess;
 import org.ooc.frontend.model.VariableDecl;
 import org.ooc.frontend.model.VersionBlock;
 import org.ooc.frontend.model.While;
-import org.ooc.frontend.model.VariableDecl.VariableDeclAtom;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.frontend.parser.TypeArgument;
 import org.ooc.middle.structs.MultiMap;
@@ -238,11 +237,6 @@ public class SketchyNosy implements Visitor {
 	}
 
 	public void visit(VariableDecl node) throws IOException {
-		if(node.hasChildren()) visitAll(node);
-		else if(!oppo.take(node, stack)) running = false;
-	}
-
-	public void visit(VariableDeclAtom node) throws IOException {
 		if(node.hasChildren()) visitAll(node);
 		else if(!oppo.take(node, stack)) running = false;
 	}

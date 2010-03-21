@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 
 import org.ooc.frontend.Visitor;
-import org.ooc.frontend.model.VariableDecl.VariableDeclAtom;
 import org.ooc.frontend.model.interfaces.Versioned;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.middle.hobgoblins.Resolver;
@@ -33,8 +32,7 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic, Ve
 		this.instanceType = new Type(name, startToken);
 		instanceType.setRef(this);
 		this.typeParams = new LinkedHashMap<String, TypeParam>();
-		this.thisDecl = new VariableDecl(instanceType, false, startToken, module);
-		this.thisDecl.getAtoms().add(new VariableDeclAtom("this", null, startToken));
+		this.thisDecl = new VariableDecl(instanceType, "this", startToken, module);
 	}
 	
 	public VariableDecl getThisDecl() {
@@ -171,8 +169,7 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic, Ve
 		}
 		
 		for(VariableDecl decl: variables) {
-			if(decl.hasAtom(name)) {
-				System.out.println("Found decl "+decl);
+			if(decl.getName().equals(name)) {
 				return decl;
 			}
 		}

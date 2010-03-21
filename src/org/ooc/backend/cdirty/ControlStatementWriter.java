@@ -2,7 +2,15 @@ package org.ooc.backend.cdirty;
 
 import java.io.IOException;
 
-import org.ooc.frontend.model.*;
+import org.ooc.frontend.model.Else;
+import org.ooc.frontend.model.For;
+import org.ooc.frontend.model.Foreach;
+import org.ooc.frontend.model.If;
+import org.ooc.frontend.model.Line;
+import org.ooc.frontend.model.NodeList;
+import org.ooc.frontend.model.RangeLiteral;
+import org.ooc.frontend.model.VariableAccess;
+import org.ooc.frontend.model.While;
 import org.ooc.middle.OocCompilationError;
 
 public class ControlStatementWriter {

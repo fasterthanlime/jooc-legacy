@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.ooc.frontend.PathList;
 import org.ooc.frontend.compilers.AbstractCompiler;
 import org.ooc.libs.DistLocator;
 import org.ooc.libs.SdkLocator;

@@ -3,8 +3,8 @@ package org.ooc.backend;
 import java.io.File;
 import java.io.IOException;
 
-import org.ooc.frontend.model.Module;
 import org.ooc.frontend.BuildParams;
+import org.ooc.frontend.model.Module;
 
 public abstract class Generator {
 

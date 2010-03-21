@@ -3,7 +3,6 @@ package org.ooc.frontend.model;
 import java.io.IOException;
 
 import org.ooc.frontend.Visitor;
-import org.ooc.frontend.model.VariableDecl.VariableDeclAtom;
 import org.ooc.frontend.model.interfaces.MustBeResolved;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.middle.OocCompilationError;
@@ -78,7 +77,7 @@ public class Match extends Expression implements MustBeResolved {
 		
 		if(parent instanceof Line) {
 			// alright =)
-		} else if(parent instanceof VariableDeclAtom) {
+		} else if(parent instanceof VariableDecl) {
 			VariableDecl vDecl = (VariableDecl) stack.get(stack.find(VariableDecl.class));
 			vDecl.setType(vDecl.getType()); // fixate the type
 			addAfterLine(stack, this);
@@ -89,8 +88,7 @@ public class Match extends Expression implements MustBeResolved {
 			// it's alright =)
 		} else {
 			// we're being USED! as an expression somewhere, let's unwrap to a varDecl.
-			VariableDecl varDecl = new VariableDecl(getType(), false, startToken, null);
-			varDecl.getAtoms().add(new VariableDeclAtom(generateTempName("match", stack), null, startToken));
+			VariableDecl varDecl = new VariableDecl(getType(), generateTempName("match", stack), startToken, null);
 			addBeforeLine(stack, varDecl);
 			addBeforeLine(stack, this);
 			VariableAccess varAcc = new VariableAccess(varDecl, startToken);

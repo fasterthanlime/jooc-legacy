@@ -6,6 +6,7 @@ import java.util.Iterator;
 
 import org.ooc.backend.CachedFileWriter;
 import org.ooc.backend.Generator;
+import org.ooc.frontend.BuildParams;
 import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.Add;
 import org.ooc.frontend.model.AddressOf;
@@ -72,8 +73,6 @@ import org.ooc.frontend.model.VariableAccess;
 import org.ooc.frontend.model.VariableDecl;
 import org.ooc.frontend.model.VersionBlock;
 import org.ooc.frontend.model.While;
-import org.ooc.frontend.model.VariableDecl.VariableDeclAtom;
-import org.ooc.frontend.BuildParams;
 import org.ooc.frontend.parser.TypeArgument;
 import org.ooc.middle.OocCompilationError;
 import org.ooc.middle.structs.MultiMap;
@@ -350,8 +349,6 @@ public class CGenerator extends Generator implements Visitor {
 
 	public void visit(BuiltinType builtinType) throws IOException {}
 
-	public void visit(VariableDeclAtom variableDeclAtom) throws IOException {}
-	
 	public void visit(Cast cast) throws IOException {
 		CastWriter.write(cast, this);
 	}

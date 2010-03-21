@@ -240,9 +240,10 @@ public class Cast extends Expression implements MustBeResolved {
 			
 			if(inner instanceof VariableAccess) {
 				inner = ((VariableAccess) inner).getRef();
-				if(inner instanceof VariableDeclFromExpr) {
-					VariableDeclFromExpr vdfe = (VariableDeclFromExpr) inner;
-					inner = vdfe.getAtoms().getFirst().getExpression();
+				if(inner instanceof VariableDecl) {
+					// TODO: this code looks suspicious.
+					VariableDecl vdfe = (VariableDecl) inner;
+					inner = vdfe.getExpression();
 				}
 			}
 			

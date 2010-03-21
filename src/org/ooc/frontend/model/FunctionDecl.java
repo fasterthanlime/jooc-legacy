@@ -297,7 +297,7 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 
 	public VariableDecl getVariable(String name, VariableAccess victim) {
 		if(arguments.size() > 0) for(Argument argument: arguments) {
-			if(argument.hasAtom(name)) return argument;
+			if(argument.getName().equals(name)) return argument;
 		}
 		return getVariable(body, name);
 	}
@@ -348,7 +348,7 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 				constructCall.getArguments().add(new VariableAccess(argv, startToken));
 				constructCall.getArguments().add(new VariableAccess(argc, startToken));
 				
-				VariableDeclFromExpr vdfe = new VariableDeclFromExpr(arg.getName(), 
+				VariableDecl vdfe = new VariableDecl(null, arg.getName(), 
 						constructCall, arg.startToken, module);
 				
 				body.add(0, new Line(vdfe));

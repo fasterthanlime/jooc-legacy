@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 
 import org.ooc.frontend.Visitor;
-import org.ooc.frontend.model.AddressOf;
 import org.ooc.frontend.model.OpDecl.OpType;
 import org.ooc.frontend.model.interfaces.MustBeResolved;
 import org.ooc.frontend.model.interfaces.MustBeUnwrapped;
@@ -83,6 +82,7 @@ public abstract class BinaryOperation extends Expression implements MustBeUnwrap
 				((MustBeResolved) left).resolve(stack, res, fatal);
 			}
 			if(fatal) {
+				System.out.println("stack = "+stack.toString(true));
 				throw new OocCompilationError(this, stack, "Can't resolve type of left "+
 						left+" operand. Wtf?");
 			}

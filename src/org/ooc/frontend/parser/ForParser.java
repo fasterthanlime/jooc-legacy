@@ -9,7 +9,6 @@ import org.ooc.frontend.model.RangeLiteral;
 import org.ooc.frontend.model.Statement;
 import org.ooc.frontend.model.VariableAccess;
 import org.ooc.frontend.model.VariableDecl;
-import org.ooc.frontend.model.VariableDecl.VariableDeclAtom;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.frontend.model.tokens.TokenReader;
 import org.ooc.frontend.model.tokens.Token.TokenType;
@@ -29,7 +28,7 @@ public class ForParser {
 					"Expected opening parenthesis after for");
 			}
 			
-			Expression variable = VariableDeclParser.parse(module, sReader, reader);
+			Expression variable = VariableDeclParser.parseSingle(module, sReader, reader);
 			if(variable == null) {
 				variable = AccessParser.parse(module, sReader, reader);
 				if(variable == null) {
@@ -51,9 +50,7 @@ public class ForParser {
 			if(variable instanceof VariableAccess && collection instanceof RangeLiteral) {
 				// FIXME not flexible enough
 				VariableAccess varAcc = ((VariableAccess) variable);
-				VariableDecl vDecl = new VariableDecl(IntLiteral.type, false, startToken, module);
-				vDecl.getAtoms().add(new VariableDeclAtom(varAcc.getName(), null, startToken));
-				variable = vDecl;
+				variable = new VariableDecl(IntLiteral.type, varAcc.getName(), startToken, module);
 			}
 			
 			if(reader.read().type != TokenType.CLOS_PAREN) {
