@@ -246,13 +246,11 @@ public class FunctionCall extends Access implements MustBeResolved {
 				return Response.LOOP;
 			}
 			if(retType.isGenericRecursive()) {
-				if(debugCondition()) System.out.println("[KALAMAZOO] Realtypizing retType "+retType+" for impl "+impl);
 				Type candidate = realTypize(retType, res, stack);
 				if(candidate == null) {
 					if(fatal) throw new OocCompilationError(this, stack, "RealType still null, can't resolve generic type "+retType);
 					return Response.LOOP;
 				}
-				if(debugCondition()) System.out.println("[KALAMAZOO] Got candidate "+candidate);
 				realType = candidate;
 			} else {
 				realType = retType;
@@ -353,8 +351,6 @@ public class FunctionCall extends Access implements MustBeResolved {
 		
 		Expression result = null;
 		
-		if(debugCondition()) System.out.println("[getRealExpr] Should getRealExpr of "+typeParam);
-		
 		int i = -1;
 		boolean isFirst = true;
 		for(Argument arg: impl.getArguments()) {
@@ -415,8 +411,6 @@ public class FunctionCall extends Access implements MustBeResolved {
 	private Expression searchTypeParam(String needle, Type haystack,
 			NodeList<Node> stack, Resolver res, boolean fatal) {
 		
-		if(debugCondition()) System.out.println("[searchTypeParam] Looking for typeParam "+needle+" in type "+haystack);
-		
 		Declaration ref = haystack.getRef();
 		if(ref instanceof TypeDecl) {
 			TypeDecl typeDecl = (TypeDecl) ref;
@@ -426,7 +420,6 @@ public class FunctionCall extends Access implements MustBeResolved {
 				i++;
 				String key = keys.next();
 				if(key.equals(needle)) {
-					if(debugCondition()) System.out.println("[searchTypeParam] Found the needle "+needle+" in type "+haystack+", in typeDecl "+typeDecl);
 					Type realType = getRealType(haystack, stack, res, fatal);
 					if(realType != null && i < realType.getTypeParams().size()) {
 						return realType.getTypeParams().get(i);
@@ -466,7 +459,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 
 	// used to determine if debug messages should be printed (usually comparing a name)
 	private boolean debugCondition() {
-		return name.equals("iterator");
+		return false;
 	}
 
 	protected void autocast(NodeList<Node> stack, Resolver res) {

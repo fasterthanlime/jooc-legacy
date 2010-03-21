@@ -121,8 +121,10 @@ public class ClassDecl extends TypeDecl {
 			VariableAccess e = new VariableAccess(genType.getName(), constructor.startToken);
 			retType.getTypeParams().add(e);
 			
+			MemberAccess membAcc = new MemberAccess(genType.getName(), startToken);
+			membAcc.isMarked = true;
 			constructor.getBody().add(new Line(new Assignment(
-					new MemberAccess(genType.getName(), startToken), e, constructor.startToken))
+					membAcc, e, constructor.startToken))
 			);
 		}
 		constructor.setReturnType(retType);

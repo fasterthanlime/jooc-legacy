@@ -28,6 +28,8 @@ public class Resolver implements Hobgoblin {
 	public BuildParams params;
 	public Module module;
 	
+	private int ghostingCount = 1;
+	
 	public boolean process(Module module, final BuildParams params) throws IOException {
 		
 		this.module = module;
@@ -38,12 +40,14 @@ public class Resolver implements Hobgoblin {
 		// to the fact that in j/ooc, things are resolved depth-first. It's not
 		// the same in rock, where each node is responsible of resolving their
 		// children nodes.
-		{
+		
+		if(ghostingCount-- > 0) {
 			NodeList<Node> stack = new NodeList<Node>(Token.defaultToken);
 			stack.push(module);
 			for(TypeDecl typeDecl: module.getTypes().values()) {
 				typeDecl.resolve(stack, this, false);
 			}
+			return true;
 		}
 		
 		SketchyNosy nosy = SketchyNosy.get(new Opportunist<Node>() {

@@ -156,17 +156,15 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic, Ve
 	
 	public VariableDecl getVariable(String name) {
 		String realTypeParam = translateTypeParam(name);
-		if(debugCondition()) {
-			System.out.println("Looking for variable '"+name+"' in "+this);
-		}
 		
 		if(realTypeParam != null) {
-			System.out.println("KALAMAZOO, "+name+" => "+realTypeParam+" in type "+this);
+			//System.out.println("[KALAMAZOO]  "+name+" => "+realTypeParam+" in type "+this);
 			return getVariable(realTypeParam);
 		}
 		
 		for(VariableDecl decl: variables) {
 			if(decl.getName().equals(name)) {
+				System.out.println("In "+this+", found decl "+decl+" for variable "+name+" (variables = "+variables);
 				return decl;
 			}
 		}
@@ -174,10 +172,6 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic, Ve
 		return null;
 	}
 	
-	private boolean debugCondition() {
-		return this.name.equals("HashMap");
-	}
-
 	private String translateTypeParam(String name) {
 		
 		// Iterator: class <T>
@@ -284,8 +278,9 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic, Ve
                 for(TypeParam typeArg: typeParams.values()) {
                     for(TypeParam candidate: sTypeRef.getTypeParams().values()) {
                         if(typeArg.getName().equals(candidate.getName())) {
-                        	//System.out.println("[KALAMAZOO] Removing duplicate typeArg "+typeArg.getName()+" between "+this+" and "+sTypeRef);
-                            variables.remove(getVariable(typeArg.getName()));
+                            if(variables.remove(getVariable(typeArg.getName()))) {
+                            	System.out.println("[KALAMAZOO] Removing duplicate typeArg "+typeArg.getName()+" in "+this+" cause it's in "+sTypeRef);
+                            }
                         }
                     }
                 }
