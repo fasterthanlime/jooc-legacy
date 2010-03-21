@@ -84,7 +84,10 @@ Regexp: class {
     matches: func(subject: String) -> Match { matches(subject, 0, subject length()) }
 }
 
-Match: class {
+/**
+    Regular expression match object.
+*/
+Match: class extends Iterable<String> {
     regexp: Regexp
     substringCount: Int
     subject: String
@@ -92,7 +95,10 @@ Match: class {
 
     init: func(=regexp, =substringCount, =subject, =ovector) {}
 
-    substring: func ~byIndex(index: Int) -> String {
+    /**
+        Returns a subgroup of the matched string by index.
+    */
+    group: func ~byIndex(index: Int) -> String {
         if(index >= substringCount) {
             Exception new("Invalid substring index: %d" format(index)) throw()
         }
@@ -101,9 +107,39 @@ Match: class {
         return subject substring((ovector + offset)@, (ovector + offset + 1)@)
     }
 
-    substring: func ~byName(name: String) -> String {
+    /**
+        Returns a subgroup of the matched string by name.
+    */
+    group: func ~byName(name: String) -> String {
         number := regexp pcre getStringNumber(name)
         if(number < -1) Exception new("Invalid substring name: %s" format(name)) throw()
-        return substring(number)
+        return group(number)
     }
+
+    iterator: func -> Iterator<String> { MatchGroupIterator new(this) }
+}
+
+MatchGroupIterator: class <T> extends Iterator<T> {
+    matchObject: Match
+    index: Int
+
+    init: func(=matchObject) {
+        T = String
+        index = 0
+    }
+
+    hasNext: func -> Bool { index < matchObject substringCount }
+    next: func -> T {
+        s := matchObject group(index)
+        index += 1
+        return s
+    }
+
+    hasPrev: func -> Bool { index > 0 }
+    prev: func -> T {
+        index -= 1
+        return matchObject group(index)
+    }
+
+    remove: func -> Bool { false }
 }
