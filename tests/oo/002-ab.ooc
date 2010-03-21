@@ -1,3 +1,0 @@
-Abedeen: class {}
-Babou: class {}
-

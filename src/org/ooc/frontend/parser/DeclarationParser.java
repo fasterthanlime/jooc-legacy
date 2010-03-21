@@ -15,7 +15,7 @@ public class DeclarationParser {
 	public static Declaration parse(Module module, SourceReader sReader, TokenReader reader) {
 		int mark = reader.mark();
 		
-		VariableDecl varDecl = VariableDeclParser.parse(module, sReader, reader);
+		VariableDecl varDecl = VariableDeclParser.parseSingle(module, sReader, reader);
 		if(varDecl != null) return varDecl;
 		
 		OpDecl opDecl = OpDeclParser.parse(module, sReader, reader);

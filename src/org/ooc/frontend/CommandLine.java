@@ -21,7 +21,6 @@ import org.ooc.frontend.drivers.Driver;
 import org.ooc.frontend.drivers.SequenceDriver;
 import org.ooc.frontend.model.Import;
 import org.ooc.frontend.model.Module;
-import org.ooc.frontend.BuildParams;
 import org.ooc.frontend.parser.ModuleParser;
 import org.ooc.frontend.parser.Parser;
 import org.ooc.middle.Tinkerer;

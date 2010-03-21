@@ -191,8 +191,8 @@ public class ArrayLiteral extends Literal implements MustBeUnwrapped {
 		// if stack.size() - varDeclIndex > 3, we're nested in another varDecl
 		//, thus we need to unwrap
 		if(varDeclIndex == -1 || (stack.size() - varDeclIndex) > 3) {
-			stack.peek().replace(this, new VariableDeclFromExpr(
-					generateTempName("array", stack), this, startToken, null));
+			stack.peek().replace(this, new VariableDecl(
+					null, generateTempName("array", stack), this, startToken, stack.getModule()));
 			return true;
 		}
 		
@@ -212,6 +212,11 @@ public class ArrayLiteral extends Literal implements MustBeUnwrapped {
 		}
 		sb.append(']');
 		return sb.toString();
+	}
+	
+	@Override
+	public boolean isConstant() {
+		return false;
 	}
 
 }

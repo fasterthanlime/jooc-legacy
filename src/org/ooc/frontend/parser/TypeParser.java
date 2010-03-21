@@ -79,7 +79,7 @@ public class TypeParser {
 		}
 		
 		if(name.equals("Func")) {
-			FuncType funcType = new FuncType(startToken);
+			FuncType funcType = new FuncType(startToken, typeParams);
 			ArgumentParser.fill(module, sReader, reader, true, funcType.getDecl().getArguments());
 			if(reader.peek().type == TokenType.ARROW) {
 				reader.read();
@@ -165,12 +165,19 @@ public class TypeParser {
 				innerType = AccessParser.parse(module, sReader, reader);
 			}
 			if(innerType == null) {
-				typeParams = null;
-				break;
+				if(reader.peek().type == TokenType.QUEST) {
+					reader.skip();
+				} else {
+					typeParams = null;
+					break;
+				}
 			}
+			
 			if(typeParams == null) typeParams = new NodeList<Access>(); 
 			typeParams.add(innerType);
+			
 			if(reader.peek().type != TokenType.COMMA) break;
+			reader.read();
 		}
 		if(reader.read().type != TokenType.GREATERTHAN) {
 			typeParams = null;

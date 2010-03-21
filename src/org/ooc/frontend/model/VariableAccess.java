@@ -1,10 +1,11 @@
 package org.ooc.frontend.model;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 import org.ooc.frontend.Levenshtein;
 import org.ooc.frontend.Visitor;
-import org.ooc.frontend.model.VariableDecl.VariableDeclAtom;
 import org.ooc.frontend.model.interfaces.MustBeResolved;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.middle.OocCompilationError;
@@ -17,19 +18,27 @@ public class VariableAccess extends Access implements MustBeResolved {
 	
 	private String name;
 	protected Declaration ref;
+	public String origin;
 	
 	public VariableAccess(String variable, Token startToken) {
 		super(startToken);
 		this.name = variable;
+		
+		StringWriter sw = new StringWriter();
+		new Error().printStackTrace(new PrintWriter(sw));
+		this.origin = sw.toString();
 	}
 
 	public VariableAccess(VariableDecl varDecl, Token startToken) {
 		super(startToken);
-		assert(varDecl.atoms.size() == 1);
 		this.name = varDecl.getName();
-		ref = varDecl;
+		this.ref = varDecl;
 	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -105,7 +114,7 @@ public class VariableAccess extends Access implements MustBeResolved {
 		}
 		
 		{
-			VariableDecl varDecl = getVariable(name, stack);
+			VariableDecl varDecl = getVariable(name, stack, this);
 			if(varDecl != null) {
 				if(varDecl.isMember()) {
 					VariableAccess thisAccess = new VariableAccess("this", startToken);
@@ -169,11 +178,13 @@ public class VariableAccess extends Access implements MustBeResolved {
 			}
 		}
 		
+		/*
 		TypeParam genType = getTypeParam(stack, name);
 		if(genType != null) {
 			ref = genType.getArgument();
 			return Response.OK;
 		}
+	`	*/
 		
 		ref = getType(name, stack);
 		if(ref != null) return Response.OK;
@@ -188,6 +199,7 @@ public class VariableAccess extends Access implements MustBeResolved {
 				Thread.dumpStack();
 				throw new OocCompilationError(this, stack, message+", btw, stack = "+stack.toString(true));
 			}
+			System.out.println("It was created at "+origin);
 			throw new OocCompilationError(this, stack, message);
 		}
 		
@@ -206,12 +218,10 @@ public class VariableAccess extends Access implements MustBeResolved {
 		scope.getVariables(variables);
 		
 		for(VariableDecl decl: variables) {
-			for(VariableDeclAtom atom: decl.getAtoms()) {
-				int distance = Levenshtein.distance(name, atom.getName());
-				if(distance < bestDistance) {
-					bestDistance = distance;
-					bestMatch = atom.getName();
-				}
+			int distance = Levenshtein.distance(name, decl.getName());
+			if(distance < bestDistance) {
+				bestDistance = distance;
+				bestMatch = decl.getName();
 			}
 		}
 		

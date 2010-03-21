@@ -3,9 +3,9 @@ package org.ooc.frontend.model;
 import java.io.IOException;
 
 import org.ooc.frontend.Visitor;
+import org.ooc.frontend.model.tokens.Token;
 import org.ooc.middle.OocCompilationError;
 import org.ooc.middle.hobgoblins.Resolver;
-import org.ooc.frontend.model.tokens.Token;
 
 public class TypeAccess extends VariableAccess {
 
@@ -49,7 +49,7 @@ public class TypeAccess extends VariableAccess {
 		type.resolve(stack, res, fatal);
 		
 		if(type.isFlat() && type.getTypeParams().isEmpty()) {
-			VariableDecl var = getVariable(type.getName(), stack);
+			VariableDecl var = getVariable(type.getName(), stack, null);
 			if(var != null && var.getType() != null && var.getType().getName().equals("Class")) {
 				type.setRef(var);
 			}

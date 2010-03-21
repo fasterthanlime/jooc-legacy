@@ -48,18 +48,18 @@ public class MemberArgument extends Argument {
 			int typeDeclIndex = stack.find(TypeDecl.class);
 			if(typeDeclIndex == -1) {
 				// maybe it's in the scope after all?
-				ref = getVariable(getName(), stack, this);
-				if(ref == null) {
+				//ref = getVariable(getName(), stack, this);
+				//if(ref == null) {
 					if(fatal) {
 						throw new OocCompilationError(this, stack, "Couldn't resolve "+getClass().getSimpleName()+" "+name
 								+" (not even in a TypeDecl! who d'you think you're kidding?)");
 					}
 					return Response.LOOP;
-				}
-			} else {
+				//}
+			} //else {
 				TypeDecl typeDecl = (TypeDecl) stack.get(typeDeclIndex);
 				ref = typeDecl.getVariable(getName());
-			}
+			//}
 		}
 		
 		if(ref == null && fatal) {

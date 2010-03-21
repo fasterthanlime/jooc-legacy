@@ -10,11 +10,11 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.ooc.frontend.BuildParams;
 import org.ooc.frontend.Target;
 import org.ooc.frontend.compilers.AbstractCompiler;
 import org.ooc.frontend.model.Import;
 import org.ooc.frontend.model.Module;
-import org.ooc.frontend.BuildParams;
 import org.ooc.utils.ProcessUtils;
 
 public class SequenceDriver extends Driver {

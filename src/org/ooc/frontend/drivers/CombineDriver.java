@@ -5,9 +5,9 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
 
+import org.ooc.frontend.BuildParams;
 import org.ooc.frontend.Target;
 import org.ooc.frontend.model.Module;
-import org.ooc.frontend.BuildParams;
 
 public class CombineDriver extends Driver {
 

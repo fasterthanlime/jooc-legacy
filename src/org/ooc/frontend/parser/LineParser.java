@@ -7,11 +7,11 @@ import org.ooc.frontend.model.FunctionCall;
 import org.ooc.frontend.model.Line;
 import org.ooc.frontend.model.MemberCall;
 import org.ooc.frontend.model.Module;
+import org.ooc.frontend.model.Node;
 import org.ooc.frontend.model.NodeList;
 import org.ooc.frontend.model.Statement;
 import org.ooc.frontend.model.VariableAccess;
 import org.ooc.frontend.model.VariableDecl;
-import org.ooc.frontend.model.VariableDeclFromExpr;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.frontend.model.tokens.TokenReader;
 import org.ooc.frontend.model.tokens.Token.TokenType;
@@ -22,6 +22,7 @@ public class LineParser {
 	
 	static int seedNumber = 1;
 
+	@SuppressWarnings({ "unchecked", "null" })
 	public static boolean fill(Module module, SourceReader sReader, TokenReader reader, NodeList<Line> body) {
 		
 		int mark = reader.mark();
@@ -33,13 +34,34 @@ public class LineParser {
 			return false;
 		}
 		
-		Statement statement = StatementParser.parse(module, sReader, reader);
-		if(statement == null) {
-			reader.reset(mark);
-			return false;
+		int mark2 = reader.mark();
+		Node node = VariableDeclParser.parseMulti(module, sReader, reader);
+		Statement statement = null;
+		Line line = null;
+		
+		if(node != null) {
+			if(node instanceof NodeList<?>) {
+				for(VariableDecl vDecl : (NodeList<VariableDecl>) node) {
+					statement = vDecl;
+					line = new Line(vDecl);
+					body.add(line);
+				}
+			} else {
+				statement = (Statement) node;
+				VariableDecl vDecl = (VariableDecl) node;
+				line = new Line(vDecl);
+				body.add(line);				
+			}
+		} else {
+			reader.reset(mark2);
+			statement = StatementParser.parse(module, sReader, reader);
+			if(statement == null) {
+				reader.reset(mark);
+				return false;
+			}
+			line = new Line(statement);
+			body.add(line);
 		}
-		Line line = new Line(statement);
-		body.add(line);
 		
 		while(reader.hasNext() && reader.peek().type == TokenType.DOT) {
 			Expression expr = null;
@@ -47,8 +69,7 @@ public class LineParser {
 				MemberCall memberCall = (MemberCall) statement;
 				expr = memberCall.getExpression();
 				if(expr instanceof FunctionCall || expr instanceof BinaryOperation) {
-					VariableDeclFromExpr vdfe = new VariableDeclFromExpr(
-							"callroot" + (seedNumber++), expr, statement.startToken, null);
+					VariableDecl vdfe = new VariableDecl(null, "callroot" + (seedNumber++), expr, statement.startToken, null);
 					body.addBefore(line, new Line(vdfe));
 					expr = new VariableAccess(vdfe, expr.startToken);
 					memberCall.setExpression(expr);

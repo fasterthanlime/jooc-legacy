@@ -5,7 +5,6 @@ import java.util.Iterator;
 
 import org.ooc.frontend.Levenshtein;
 import org.ooc.frontend.Visitor;
-import org.ooc.frontend.model.VariableDecl.VariableDeclAtom;
 import org.ooc.frontend.model.interfaces.MustBeResolved;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.middle.OocCompilationError;
@@ -166,7 +165,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 		}
 	
 		if(impl != null) {
-			autocast();
+			autocast(stack, res);
 			Response response = handleGenerics(stack, res, fatal);
 			if(response != Response.OK) return response;
 		}
@@ -298,8 +297,7 @@ public class FunctionCall extends Access implements MustBeResolved {
         }
         
 		if(impl.getReturnType().isGeneric() && !isFriendlyHost(parent)) {
-			VariableDecl vDecl = new VariableDecl(getType(), false, startToken, stack.getModule());
-            vDecl.getAtoms().add(new VariableDeclAtom(generateTempName("genCall", stack), null, startToken));
+			VariableDecl vDecl = new VariableDecl(getType(), generateTempName("genCall", stack), startToken, stack.getModule());
             stack.addBeforeLine(stack, vDecl);
             VariableAccess varAcc = new VariableAccess(vDecl, startToken);
             setReturnArg(varAcc);
@@ -328,7 +326,7 @@ public class FunctionCall extends Access implements MustBeResolved {
     private boolean isFriendlyHost (Node node) {
     	return  (node instanceof Line) ||
 				(node instanceof CommaSequence) ||
-				(node instanceof VariableDeclAtom) ||
+				(node instanceof VariableDecl) ||
 				(node instanceof Assignment);
     }
 
@@ -352,8 +350,6 @@ public class FunctionCall extends Access implements MustBeResolved {
 		if(impl == null) return null;
 		
 		Expression result = null;
-		
-		if(debugCondition()) System.out.println("[getRealExpr] Should getRealExpr of "+typeParam);
 		
 		int i = -1;
 		boolean isFirst = true;
@@ -415,8 +411,6 @@ public class FunctionCall extends Access implements MustBeResolved {
 	private Expression searchTypeParam(String needle, Type haystack,
 			NodeList<Node> stack, Resolver res, boolean fatal) {
 		
-		if(debugCondition()) System.out.println("[searchTypeParam] Looking for typeParam "+needle+" in type "+haystack);
-		
 		Declaration ref = haystack.getRef();
 		if(ref instanceof TypeDecl) {
 			TypeDecl typeDecl = (TypeDecl) ref;
@@ -426,7 +420,6 @@ public class FunctionCall extends Access implements MustBeResolved {
 				i++;
 				String key = keys.next();
 				if(key.equals(needle)) {
-					if(debugCondition()) System.out.println("[searchTypeParam] Found the needle "+needle+" in type "+haystack+", in typeDecl "+typeDecl);
 					Type realType = getRealType(haystack, stack, res, fatal);
 					if(realType != null && i < realType.getTypeParams().size()) {
 						return realType.getTypeParams().get(i);
@@ -450,7 +443,9 @@ public class FunctionCall extends Access implements MustBeResolved {
 				result = (Access) callArg;
 				if(debugCondition()) System.out.println("[getExprParam] callArg type name is 'Class'");
 			} else if(callArg.getType().isGeneric()) {
-				result = new VariableAccess(typeParam, callArg.startToken);
+				VariableAccess varAcc = new VariableAccess(typeParam, callArg.startToken);
+				varAcc.origin = "for function call " + this + "\n" + varAcc.origin;
+				result = varAcc;
 				if(debugCondition()) System.out.println("[getExprParam] callArg type is generic");
 			} else {
 				result = (Access) callArg;
@@ -469,7 +464,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 		return false;
 	}
 
-	protected void autocast() {
+	protected void autocast(NodeList<Node> stack, Resolver res) {
 		if(impl == null) return;
 
 		Iterator<Expression> callArgs = arguments.iterator();
@@ -483,7 +478,15 @@ public class FunctionCall extends Access implements MustBeResolved {
 			if(implArg.getType().isSuperOf(callArg.getType())
 					&& implArg.getType().getRef() != null
 					&& callArg.getType().getRef() != null) {
-				arguments.replace(callArg, new Cast(callArg, implArg.getType(), callArg.startToken));
+				
+				Type targetType = implArg.getType();
+				if(!callArg.getType().getTypeParams().isEmpty()) {
+					targetType = targetType.clone();
+					targetType.getTypeParams().clear();
+					targetType.getTypeParams().addAll(callArg.getType().getTypeParams());
+				}
+				
+				arguments.replace(callArg, new Cast(callArg, targetType, callArg.startToken));
 			}
 		}
 	}
@@ -592,7 +595,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 		}
 		
 		if(impl == null) {
-			VariableDecl varDecl = getVariable(name, stack);
+			VariableDecl varDecl = getVariable(name, stack, null);
 			if(varDecl != null) {
 				if(varDecl.getName().equals(name)) {
 					if(varDecl.getType() instanceof FuncType) {

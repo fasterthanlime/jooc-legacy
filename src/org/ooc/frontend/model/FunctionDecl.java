@@ -5,19 +5,19 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.ooc.frontend.BuildParams;
 import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.IntLiteral.Format;
 import org.ooc.frontend.model.NodeList.AddListener;
 import org.ooc.frontend.model.interfaces.MustBeUnwrapped;
 import org.ooc.frontend.model.interfaces.Versioned;
 import org.ooc.frontend.model.tokens.Token;
-import org.ooc.frontend.BuildParams;
 import org.ooc.middle.OocCompilationError;
 import org.ooc.middle.hobgoblins.Resolver;
 
 public class FunctionDecl extends Declaration implements Scope, Generic, MustBeUnwrapped, PotentiallyStatic, Versioned {
 
-	public static Type type = new FuncType(Token.defaultToken);
+	public Type type;
 	
 	protected OocDocComment comment;
 	
@@ -66,6 +66,7 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 			}
 		});
 		this.typeParams = new LinkedHashMap<String, TypeParam>();
+		this.type = new FuncType(Token.defaultToken, this);
 	}
 
 	public LinkedHashMap<String, TypeParam> getTypeParams() {
@@ -153,7 +154,7 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 	}
 	
 	public boolean hasThis() {
-		return !isStatic() && isMember();
+		return !isStatic() && isMember() && !isFromPointer();
 	}
 	
 	public NodeList<Line> getBody() {
@@ -296,7 +297,7 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 
 	public VariableDecl getVariable(String name) {
 		if(arguments.size() > 0) for(Argument argument: arguments) {
-			if(argument.hasAtom(name)) return argument;
+			if(argument.getName().equals(name)) return argument;
 		}
 		return getVariable(body, name);
 	}
@@ -347,7 +348,7 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 				constructCall.getArguments().add(new VariableAccess(argv, startToken));
 				constructCall.getArguments().add(new VariableAccess(argc, startToken));
 				
-				VariableDeclFromExpr vdfe = new VariableDeclFromExpr(arg.getName(), 
+				VariableDecl vdfe = new VariableDecl(null, arg.getName(), 
 						constructCall, arg.startToken, module);
 				
 				body.add(0, new Line(vdfe));

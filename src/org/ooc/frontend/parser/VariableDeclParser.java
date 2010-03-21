@@ -2,11 +2,10 @@ package org.ooc.frontend.parser;
 
 import org.ooc.frontend.model.Expression;
 import org.ooc.frontend.model.Module;
+import org.ooc.frontend.model.Node;
 import org.ooc.frontend.model.NodeList;
 import org.ooc.frontend.model.Type;
 import org.ooc.frontend.model.VariableDecl;
-import org.ooc.frontend.model.VariableDeclFromExpr;
-import org.ooc.frontend.model.VariableDecl.VariableDeclAtom;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.frontend.model.tokens.TokenReader;
 import org.ooc.frontend.model.tokens.Token.TokenType;
@@ -15,7 +14,7 @@ import org.ubi.SourceReader;
 
 public class VariableDeclParser {
 
-	public static VariableDecl parse(Module module, SourceReader sReader, TokenReader reader) {
+	public static Node parseMulti(Module module, SourceReader sReader, TokenReader reader) {
 		int mark = reader.mark();
 		
 		Token tName = reader.peek();
@@ -25,7 +24,7 @@ public class VariableDeclParser {
 		}
 		
 		Token declStartToken = reader.peek();
-		NodeList<VariableDeclAtom> atoms = new NodeList<VariableDeclAtom>(declStartToken);
+		NodeList<VariableDecl> decls = new NodeList<VariableDecl>(declStartToken);
 		Token atomStartToken;
 		while((atomStartToken = reader.peek()).isNameToken()) {
 			String name = reader.read().get(sReader);
@@ -57,19 +56,20 @@ public class VariableDeclParser {
 					throw new CompilationFailedError(sReader.getLocation(reader.prev()),
 							"Expected expression as an initializer to a variable declaration.");
 				}
-				VariableDeclFromExpr vdfe = new VariableDeclFromExpr(name, expr, isStatic, atomStartToken, module);
+				VariableDecl vdfe = new VariableDecl(null, name, expr, atomStartToken, module);
 				vdfe.setConst(isConst);
+				vdfe.setStatic(isStatic);
 				return vdfe;
 			}
-			VariableDeclAtom vda = new VariableDeclAtom(name, expr, atomStartToken);
-			atoms.add(vda);
+			VariableDecl vd = new VariableDecl(null, name, expr, atomStartToken, module);
+			decls.add(vd);
 			if(reader.peek().type != TokenType.COMMA) break;
 			reader.skip();
 			reader.skipWhitespace();
 		}
 		
 		if(reader.read().type != TokenType.COLON) {
-			reader.reset();
+			reader.reset(mark);
 			return null;
 		}
 		
@@ -100,7 +100,7 @@ public class VariableDeclParser {
 			reader.reset(mark);
 			return null;
 		}
-		if(atoms.size() == 1 && atoms.get(0).getExpression() == null) {
+		if(decls.size() == 1 && decls.getFirst().getExpression() == null) {
 			if(reader.peek().type == TokenType.ASSIGN) {
 				reader.skip();
 				Expression expr = ExpressionParser.parse(module, sReader, reader);
@@ -108,17 +108,36 @@ public class VariableDeclParser {
 					throw new CompilationFailedError(sReader.getLocation(reader.prev()),
 							"Expected expression as an initializer to a variable declaration.");
 				}
-				atoms.get(0).setExpression(expr);
+				decls.getFirst().setExpression(expr);
 			}
 		}
 		
-		VariableDecl decl = new VariableDecl(type, isStatic, declStartToken.cloneEnclosing(reader.prev()), module);
-		decl.setProto(isProto);
-		decl.setExternName(externName);
-		decl.setUnmangledName(unmangledName);
-		decl.getAtoms().addAll(atoms);
+		for(VariableDecl decl : decls) {
+			decl.setType(type);
+			decl.setStatic(isStatic);
+			decl.setProto(isProto);
+			decl.setExternName(externName);
+			decl.setUnmangledName(unmangledName);
+		}
 		
-		return decl;
+		if(decls.size() == 1) {
+			return decls.getFirst();
+		}
+		return decls;
+	}
+
+	public static VariableDecl parseSingle(Module module, SourceReader sReader,
+			TokenReader reader) {
+		
+		int mark = reader.mark();
+		
+		Node node = parseMulti(module, sReader, reader);
+		if(node == null || !(node instanceof VariableDecl)) {
+			reader.reset(mark);
+			return null;
+		}
+		return (VariableDecl) node;
+		
 	}
 
 }

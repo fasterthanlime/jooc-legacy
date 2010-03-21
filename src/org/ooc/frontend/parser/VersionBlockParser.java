@@ -1,10 +1,12 @@
 package org.ooc.frontend.parser;
 
+import org.ooc.frontend.model.FunctionDecl;
 import org.ooc.frontend.model.Include;
 import org.ooc.frontend.model.Line;
 import org.ooc.frontend.model.Module;
 import org.ooc.frontend.model.NodeList;
 import org.ooc.frontend.model.Statement;
+import org.ooc.frontend.model.TypeDecl;
 import org.ooc.frontend.model.VersionBlock;
 import org.ooc.frontend.model.VersionNodes.VersionAnd;
 import org.ooc.frontend.model.VersionNodes.VersionName;
@@ -87,9 +89,11 @@ public class VersionBlockParser {
 				Versioned vs = (Versioned) stmt;
 				vs.setVersion(block);
 				//System.out.println("Just versioned "+ vs + " to " + block.getVersion());
-				stmt.addToModule(module);
-				body.remove(i);
-				i--;
+				if(stmt instanceof FunctionDecl || stmt instanceof TypeDecl) {
+					stmt.addToModule(module);
+					body.remove(i);
+					i--;
+				}
 			}
 		}
 		

@@ -8,8 +8,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 
-import org.ooc.frontend.model.tokens.Token;
 import org.ooc.frontend.BuildParams;
+import org.ooc.frontend.model.tokens.Token;
 import org.ooc.middle.UseDef;
 import org.ooc.middle.UseDef.Requirement;
 import org.ubi.CompilationFailedError;

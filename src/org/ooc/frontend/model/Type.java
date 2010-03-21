@@ -206,20 +206,6 @@ public class Type extends Node implements MustBeResolved {
 	
 	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
 		
-		if(name.equals("Func")) {
-			FuncType newType = new FuncType(startToken);
-			newType.setPointerLevel(pointerLevel);
-			newType.setReferenceLevel(referenceLevel);
-			newType.setArray(isArray);
-			newType.setArraySize(arraySize);
-			if(!stack.peek().replace(this, newType)) {
-				Thread.dumpStack();
-				throw new OocCompilationError(this, stack, "Couldn't replace "
-						+this+" with "+newType+" in "+stack.peek());
-			}
-			return Response.OK;
-		}
-		
 		if(ref != null) return Response.OK;
 		
 		if(namespace == null) {

@@ -1,7 +1,6 @@
 package org.ooc.backend.cdirty;
 
 import java.io.IOException;
-import java.util.Iterator;
 
 import org.ooc.frontend.model.ArrayLiteral;
 import org.ooc.frontend.model.Expression;
@@ -9,7 +8,6 @@ import org.ooc.frontend.model.FunctionDecl;
 import org.ooc.frontend.model.Type;
 import org.ooc.frontend.model.TypeDecl;
 import org.ooc.frontend.model.VariableDecl;
-import org.ooc.frontend.model.VariableDecl.VariableDeclAtom;
 
 public class VariableDeclWriter {
 
@@ -59,14 +57,12 @@ public class VariableDeclWriter {
 		if(type.getName().equals("Func")) {
 			
 			FunctionDecl funcDecl = (FunctionDecl) type.getRef();
-			Iterator<VariableDeclAtom> iter = variableDecl.getAtoms().iterator();
-			while(iter.hasNext()) {
-				VariableDeclAtom atom = iter.next();
-				TypeWriter.writeSpaced(funcDecl.getReturnType(), cgen);
-				cgen.current.app("(*").app(variableDecl.getFullName(atom)).app(")");
-				FunctionDeclWriter.writeFuncArgs(funcDecl, cgen);
-				writeInitAndComma(cgen, type, iter.hasNext(), atom, writeInitializer);
-			}
+			TypeWriter.writeSpaced(funcDecl.getReturnType(), cgen);
+			cgen.current.app("(*");
+			variableDecl.writeFullName(cgen.current);
+			cgen.current.app(")");
+			FunctionDeclWriter.writeFuncArgs(funcDecl, cgen);
+			writeInitAndComma(cgen, type, variableDecl, writeInitializer);
 			
 		} else {
 			
@@ -81,7 +77,7 @@ public class VariableDeclWriter {
 				type.setConst(isConst);
 			} else {
 				Type ground = type.getGroundType().clone();
-				Expression firstExpr = variableDecl.getAtoms().getFirst().getExpression();
+				Expression firstExpr = variableDecl.getExpression();
 				if(firstExpr instanceof ArrayLiteral) {
 					ArrayLiteral lit = (ArrayLiteral) firstExpr;
 					ground.setPointerLevel(ground.getPointerLevel() - lit.getDepth());
@@ -94,39 +90,27 @@ public class VariableDeclWriter {
 				cgen.current.app(' ');
 			}
 			
-			Iterator<VariableDeclAtom> iter = variableDecl.getAtoms().iterator();
-			while(iter.hasNext()) {
-				VariableDeclAtom atom = iter.next();
-				if(type.isArray()) {
-					TypeWriter.writePreFinale(type, cgen);
-				}
-				cgen.current.app(variableDecl.getFullName(atom));
-				if(type.isArray()) {
-					if(atom.getExpression() instanceof ArrayLiteral) {
-						TypeWriter.writePostFinale(type, cgen, (ArrayLiteral) atom.getExpression());
-					} else {
-						TypeWriter.writePostFinale(type, cgen);
-					}
-				}
-				writeInitAndComma(cgen, type, iter.hasNext(), atom, writeInitializer);
+			if(type.isArray()) {
+				TypeWriter.writePreFinale(type, cgen);
 			}
-			
+			variableDecl.writeFullName(cgen.current);
+			if(type.isArray()) {
+				if(variableDecl.getExpression() instanceof ArrayLiteral) {
+					TypeWriter.writePostFinale(type, cgen, (ArrayLiteral) variableDecl.getExpression());
+				} else {
+					TypeWriter.writePostFinale(type, cgen);
+				}
+			}
+			writeInitAndComma(cgen, type, variableDecl, writeInitializer);
 		}
 	}
 
-	private static void writeInitAndComma(CGenerator cgen, Type type,
-			boolean writeComma, VariableDeclAtom atom, boolean writeInitializer)
+	private static void writeInitAndComma(CGenerator cgen, Type type, VariableDecl vDecl, boolean writeInitializer)
 			throws IOException {
 		if(writeInitializer) {
-			if(atom.getExpression() != null) {
+			if(vDecl.getExpression() != null) {
 				cgen.current.app(" = ");
-				atom.getExpression().accept(cgen);
-			}
-		}
-		if(writeComma) {
-			cgen.current.app(", ");
-			if(!type.isArray()) {
-				TypeWriter.writeFinale(type.getGroundType(), cgen);
+				vDecl.getExpression().accept(cgen);
 			}
 		}
 	}

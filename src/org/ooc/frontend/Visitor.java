@@ -62,7 +62,6 @@ import org.ooc.frontend.model.VariableAccess;
 import org.ooc.frontend.model.VariableDecl;
 import org.ooc.frontend.model.VersionBlock;
 import org.ooc.frontend.model.While;
-import org.ooc.frontend.model.VariableDecl.VariableDeclAtom;
 import org.ooc.frontend.parser.TypeArgument;
 import org.ooc.middle.structs.MultiMap;
 import org.ooc.middle.structs.NodeMap;
@@ -115,7 +114,6 @@ public interface Visitor {
 	public void visit(ArrayAccess arrayAccess) throws IOException;
 
 	public void visit(VariableDecl variableDecl) throws IOException;
-	public void visit(VariableDeclAtom variableDeclAtom) throws IOException;
 	public void visit(FunctionDecl functionDecl) throws IOException;
 	
 	public void visit(ClassDecl classDecl) throws IOException;

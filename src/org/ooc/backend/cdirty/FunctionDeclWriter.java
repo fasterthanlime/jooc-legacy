@@ -6,10 +6,10 @@ import java.util.Iterator;
 import org.ooc.frontend.model.Argument;
 import org.ooc.frontend.model.FuncType;
 import org.ooc.frontend.model.FunctionDecl;
-import org.ooc.frontend.model.TypeParam;
 import org.ooc.frontend.model.Line;
 import org.ooc.frontend.model.Type;
 import org.ooc.frontend.model.TypeDecl;
+import org.ooc.frontend.model.TypeParam;
 import org.ooc.frontend.model.VarArg;
 
 public class FunctionDeclWriter {

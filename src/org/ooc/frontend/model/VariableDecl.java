@@ -1,7 +1,6 @@
 package org.ooc.frontend.model;
 
 import java.io.IOException;
-import java.util.Iterator;
 
 import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.interfaces.MustBeUnwrapped;
@@ -13,63 +12,8 @@ import org.ooc.middle.hobgoblins.Resolver;
 public class VariableDecl extends Declaration implements MustBeUnwrapped, PotentiallyStatic, Versioned {
 
 	private VersionBlock version = null;
-	
-	public static class VariableDeclAtom extends Node {
-		String name;
-		Expression expression;
-		Assignment assign;
-		
-		public VariableDeclAtom(String name, Expression expression, Token startToken) {
-			super(startToken);
-			this.name = name;
-			this.expression = expression;
-		}
 
-		@Override
-		public boolean replace(Node oldie, Node kiddo) {
-			if(oldie == expression) {
-				expression = (Expression) kiddo;
-				return true;
-			}
-			return false;
-		}
-
-		public void accept(Visitor visitor) throws IOException {
-			visitor.visit(this);
-		}
-
-		public void acceptChildren(Visitor visitor) throws IOException {
-			if(expression != null) expression.accept(visitor);
-		}
-
-		public boolean hasChildren() {
-			return expression != null;
-		}
-		
-		public String getName() {
-			return name;
-		}
-		
-		public void setName(String name) {
-			this.name = name;
-		}
-		
-		public Expression getExpression() {
-			return expression;
-		}
-		
-		public void setExpression(Expression expression) {
-			this.expression = expression;
-		}
-		
-		@Override
-		public String toString() {
-			if(expression != null) return getClass().getSimpleName()+": "+name+"="+expression;
-			return getClass().getSimpleName()+": "+name;
-		}
-
-	}
-
+	protected boolean isConst;
 	protected boolean isStatic;
 	protected boolean isProto;
 	protected boolean isGlobal;
@@ -77,38 +21,34 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 	protected Type type;
 	protected TypeDecl typeDecl;
 	
-	protected NodeList<VariableDeclAtom> atoms;
+	protected Expression expression;
+	protected Assignment assign;
 
-	public VariableDecl(Type type, boolean isStatic, Token startToken, Module module) {
-		super(null, startToken, module);
+	public VariableDecl(Type type, String name, Token startToken, Module module) {
+		this(type, name, null, startToken, module);
+	}
+	
+	public VariableDecl(Type type, String name, Expression expression, Token startToken, Module module) {
+		super(name, startToken, module);
 		this.type = type;
-		this.isStatic = isStatic;
-		this.atoms = new NodeList<VariableDeclAtom>(startToken);
+		this.expression = expression;
+	}
+	
+	public String getFullName() {
+		StringBuilder sB = new StringBuilder();
+		try {
+			writeFullName(sB);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return sB.toString();
 	}
 	
 	public boolean isArg() {
 		return false;
 	}
-	
-	@Override
-	public String getName() {
-		if(atoms.size() == 1) return atoms.get(0).name;
-		throw new UnsupportedOperationException("Can't getName on a VariableDeclaration with multiple variables "+atoms);
-	}
-	
-	public String getFullName(VariableDeclAtom atom) {
-		
-		StringBuilder sB = new StringBuilder();
-		try {
-			writeFullName(sB, atom);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return sB.toString();
-		
-	}
 
-	public void writeFullName(Appendable dst, VariableDeclAtom atom) throws IOException {
+	public void writeFullName(Appendable dst) throws IOException {
 		
 		/*
 		if(externName != null && externName.length() > 0) {
@@ -121,45 +61,19 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 			if(isExternWithName()) {
 				dst.append(getExternName());
 			} else {
-				dst.append(atom.getName());
+				dst.append(getName());
 			}
 		} else if(isGlobal()) {
 			if(module != null) {
 				dst.append(module.getMemberPrefix());
 			}
-			dst.append(atom.getName());
+			dst.append(getName());
 		} else {
-			dst.append(atom.getName());
+			dst.append(getName());
 		}
 		//}
 	}
 
-	public boolean hasAtom(String name) {
-		for(VariableDeclAtom atom: atoms) {
-			if(atom.name.equals(name)) return true;
-		}
-		return false;
-	}
-	
-	public VariableDeclAtom getAtom(String name) {
-		for(VariableDeclAtom atom: atoms) {
-			if(atom.name.equals(name)) return atom;
-		}
-		return null;
-	}
-	
-	public NodeList<VariableDeclAtom> getAtoms() {
-		return atoms;
-	}
-	
-	@Override
-	public void setName(String name) {
-		throw new UnsupportedOperationException(
-				"Can't setName on a VariableDeclaration, because it has" +
-				" several atoms, so we don't know which one to adjust," +
-				" e.g. it doesn't make sense.");
-	}
-	
 	public Type getType() {
 		return type;
 	}
@@ -183,6 +97,14 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 	
 	public boolean isMember() {
 		return typeDecl != null;
+	}
+	
+	public boolean isConst() {
+		return isConst;
+	}
+	
+	public void setConst(boolean isConst) {
+		this.isConst = isConst;
 	}
 	
 	public boolean isStatic() {
@@ -219,7 +141,7 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 	
 	public void acceptChildren(Visitor visitor) throws IOException {
 		if(getType() != null) getType().accept(visitor);
-		atoms.accept(visitor);
+		if(expression != null) expression.accept(visitor);
 	}
 
 	public boolean unwrap(NodeList<Node> stack) {
@@ -240,11 +162,7 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 			return false;
 		}
 		
-		if(atoms.size() != 1) {
-			throw new OocCompilationError(this, stack, "Multi-var decls used an expression.. wtf?");
-		}
-		VariableDeclAtom atom = atoms.get(0);
-		VariableAccess varAcc = new VariableAccess(atom.name, atom.startToken);
+		VariableAccess varAcc = new VariableAccess(name, startToken);
 		varAcc.setRef(this);
 		if(!parent.replace(this, varAcc)) {
 			Thread.dumpStack();
@@ -257,7 +175,7 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 			for(Node node: list) {
 				if(node instanceof VariableAccess) {
 					VariableAccess brother = (VariableAccess) node;
-					if(brother.getName().equals(atom.name)) {
+					if(brother.getName().equals(name)) {
 						brother.setRef(this);
 					}
 				}
@@ -291,6 +209,10 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 
 	@Override
 	public boolean replace(Node oldie, Node kiddo) {
+		if(oldie == expression) {
+			expression = (Expression) kiddo;
+			return true;
+		}
 		if(oldie == type) {
 			type = (Type) kiddo;
 			return true;
@@ -300,20 +222,29 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 	
 	@Override
 	public String toString() {
-		String repr = "";
-		//if(isConst) repr = "const " + repr;
-		if(isStatic) repr = "static " + repr;
-		Iterator<VariableDeclAtom> iter = atoms.iterator();
-		while(iter.hasNext()) {
-			repr += iter.next().getName();
-			if(iter.hasNext()) repr += ", ";
+		StringBuilder sb = new StringBuilder(); 
+		
+		//if(isConst) sb.append("const ");
+		if(isStatic) sb.append("static ");
+		sb.append(name);
+		if(expression != null) {
+			sb.append(" = ").append(expression);
 		}
-		repr += ":"+type;
-		return getClass().getSimpleName()+"|"+repr;
+		sb.append(" : ");
+		sb.append(type);
+		return sb.toString();
 	}
 
 	public boolean shouldBeLowerCase() {
 		return (externName == null || externName.length() > 0) && type != null && !(type.getName().equals("Class"));
+	}
+	
+	public void setExpression(Expression expression) {
+		this.expression = expression;
+	}
+	
+	public Expression getExpression() {
+		return expression;
 	}
 
 	@Override
@@ -327,75 +258,99 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 		Response response = super.resolve(stack, res, fatal);
 		if(response != Response.OK) return response;
 		
-		for(VariableDeclAtom atom: atoms) {
-			Expression expr = atom.getExpression();
-			if(expr != null && expr.getType() != null && expr.getType().isGeneric()) {
-				atom.setExpression(new Cast(expr, getType(), expr.startToken));
+		if(type == null) {
+			if(expression != null) {
+				type = expression.getType();
 			}
-			String name = atom.name;
-			for(int i = 0; i < RESERVED_NAMES.length; i++) {
-				if(RESERVED_NAMES[i].equals(name)) {
-				 throw new OocCompilationError(atom, stack, "'"+name
-					+"' is a reserved keyword in C99, you can't declare something with that name.");
-				}
+			if(type == null && fatal) {
+				throw new OocCompilationError(this, stack, "Couldn't infer type of variable "+getName());
 			}
 		}
 		
-		for(VariableDeclAtom atom : atoms) {
-			Expression expr = atom.getExpression();
-			if(expr != null) {
-	            Expression realExpr = expr;
-	            Cast cast = null;
-	            while(realExpr instanceof Cast) {
-	            	cast = (Cast) realExpr;
-	                realExpr = cast.inner;
-	            }
-	            if(realExpr instanceof FunctionCall) {
-	                FunctionCall fCall = (FunctionCall) realExpr;
-	                FunctionDecl fDecl = fCall.getImpl();
-	                if(fDecl == null || !fDecl.getReturnType().isResolved()) {
-	                    // fCall isn't resolved
-	                    return Response.LOOP;
-	                }
-	
-	                if(fDecl.getReturnType().isGeneric()) {
-	                	if(getType() == null) {
-	                		return Response.LOOP;
-	                	}
-	                	setType(getType()); // fixate the type
-	                	
-	                    Assignment ass = new Assignment(new VariableAccess(this, startToken), cast != null ? cast : realExpr, startToken);
-	                    stack.addAfterLine(stack, ass);
-                        // token throwError("Couldn't add a " + ass toString() + " after a " + toString() + ", trail = " + trail toString())
-	                    atom.setExpression(null);
-	                }
-	            }
-	        }
+		if(!isArg() && expression != null && expression.getType() != null && expression.getType().isGeneric()) {
+			setExpression(new Cast(expression, getType(), expression.startToken));
+		}
+		for(int i = 0; i < RESERVED_NAMES.length; i++) {
+			if(RESERVED_NAMES[i].equals(name)) {
+			 throw new OocCompilationError(this, stack, "'"+name
+				+"' is a reserved keyword in C99, you can't declare something with that name.");
+			}
 		}
 		
-		if(!isArg() && type != null && type.isGeneric() && type.getPointerLevel() == 0) {
-			for(VariableDeclAtom atom : atoms) {
-				Expression expr = atom.getExpression();
-	            if(expr != null) {
-	                if((expr instanceof FunctionCall) && ((FunctionCall) expr).getName().equals("gc_malloc")) {
-	                	return Response.OK;
-	                }
-	                
-	                Assignment ass = new Assignment(new VariableAccess(this, startToken), expr, startToken);
-	                stack.addAfter(this, ass);
-	                expr = null;
-	            }
-	            FunctionCall fCall = new FunctionCall("gc_malloc", startToken);
-	            VariableAccess tAccess = new VariableAccess(type.getName(), startToken);
-	            MemberAccess sizeAccess = new MemberAccess(tAccess, "size", startToken);
-	            fCall.getArguments().add(sizeAccess);
-	            atom.setExpression(fCall);
-	            // just set expr to gc_malloc cause generic!
-	            return Response.LOOP;
-			}
+		if(expression != null) {
+            Expression realExpr = expression;
+            Cast cast = null;
+            while(realExpr instanceof Cast) {
+            	cast = (Cast) realExpr;
+                realExpr = cast.inner;
+            }
+            if(realExpr instanceof FunctionCall) {
+                FunctionCall fCall = (FunctionCall) realExpr;
+                FunctionDecl fDecl = fCall.getImpl();
+                if(fDecl == null || !fDecl.getReturnType().isResolved()) {
+                    // fCall isn't resolved
+                    return Response.LOOP;
+                }
+
+                if(fDecl.getReturnType().isGeneric()) {
+                	if(getType() == null) {
+                		return Response.LOOP;
+                	}
+                	setType(getType()); // fixate the type
+                	
+                    Assignment ass = new Assignment(new VariableAccess(this, startToken), cast != null ? cast : realExpr, startToken);
+                    stack.addAfterLine(stack, ass);
+                    // token throwError("Couldn't add a " + ass toString() + " after a " + toString() + ", trail = " + trail toString())
+                    setExpression(null);
+                }
+            }
         }
 		
+		if(type != null && type.isGeneric() && type.getPointerLevel() == 0) {
+            if(expression != null) {
+                if((expression instanceof FunctionCall) && ((FunctionCall) expression).getName().equals("gc_malloc")) {
+                	return Response.OK;
+                }
+                
+                Assignment ass = new Assignment(new VariableAccess(this, startToken), expression, startToken);
+                addAfterLine(stack, ass);
+                
+                this.expression = null;
+            }
+            FunctionCall fCall = new FunctionCall("gc_malloc", startToken);
+            VariableAccess tAccess = new VariableAccess(type.getName(), startToken);
+            MemberAccess sizeAccess = new MemberAccess(tAccess, "size", startToken);
+            fCall.getArguments().add(sizeAccess);
+            setExpression(fCall);
+            // just set expr to gc_malloc cause generic!
+            return Response.LOOP;
+        }
+		
+		if(type != null) {
+			if(stack.find(VersionBlock.class) != -1 && (stack.size() - stack.find(VersionBlock.class)) == 3) {
+				if(getExpression() != null) {
+					addAfterLine(stack, newAssignment());
+					setExpression(null);
+				}
+				addToModule(stack.getModule());
+				int lineIdx = stack.find(Line.class);
+				Line line = (Line) stack.get(lineIdx);
+				((NodeList<?>) stack.get(lineIdx - 1)).remove(line);
+				return Response.LOOP;
+			}
+			if(getExpression() != null && !getExpression().isConstant() && stack.peek(3) instanceof Module) {
+				System.out.println(this + " is non-constant at root-level!");
+				// FIXME: this is wrong. The order may differ, and other niceties like that.
+				stack.getModule().getLoadFunc().getBody().add(0, new Line(newAssignment()));
+				setExpression(null);
+			}
+		}	
+		
 		return Response.OK;
+	}
+
+	private Assignment newAssignment() {
+		return new Assignment(new VariableAccess(this, startToken), getExpression(), startToken);
 	}
 	
 	public void setVersion(VersionBlock version) {

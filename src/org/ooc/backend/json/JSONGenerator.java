@@ -3,11 +3,12 @@ package org.ooc.backend.json;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.json.JSONException;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.ooc.backend.Generator;
+import org.ooc.frontend.BuildParams;
 import org.ooc.frontend.Visitor;
 import org.ooc.frontend.model.Add;
 import org.ooc.frontend.model.AddressOf;
@@ -73,8 +74,6 @@ import org.ooc.frontend.model.VariableAccess;
 import org.ooc.frontend.model.VariableDecl;
 import org.ooc.frontend.model.VersionBlock;
 import org.ooc.frontend.model.While;
-import org.ooc.frontend.model.VariableDecl.VariableDeclAtom;
-import org.ooc.frontend.BuildParams;
 import org.ooc.frontend.parser.TypeArgument;
 import org.ooc.middle.structs.MultiMap;
 import org.ooc.middle.structs.NodeMap;
@@ -181,15 +180,12 @@ public class JSONGenerator extends Generator implements Visitor {
 
 	public void visit(VariableDecl variableDecl) throws IOException {
 		try {
-			for(VariableDeclAtom atom: variableDecl.getAtoms())
-				addObject(buildVariableDeclAtom(variableDecl, atom, null));
+			addObject(buildVariableDecl(variableDecl, null));
 		} catch (JSONException e) {
 			throw new IOException("fail!");
 		}
 	}
 	
-	public void visit(VariableDeclAtom variableDeclAtom) throws IOException {}
-
 	String resolveType(Type type) {
 		if(type instanceof FuncType) {
 			return "Func";
@@ -304,14 +300,14 @@ public class JSONGenerator extends Generator implements Visitor {
 		return obj;
 	}
 
-	JSONObject buildVariableDeclAtom(VariableDecl decl, VariableDeclAtom node, ClassDecl cls) throws JSONException {
+	JSONObject buildVariableDecl(VariableDecl decl, ClassDecl cls) throws JSONException {
 		JSONObject obj = new JSONObject();
-		obj.put("name", node.getName());
+		obj.put("name", decl.getName());
 		if(cls != null) {
-			obj.put("tag", "field(" + cls.getName() + ", " + node.getName() + ")");
+			obj.put("tag", "field(" + cls.getName() + ", " + decl.getName() + ")");
 			obj.put("type", "field");
 		} else {
-			obj.put("tag", node.getName());
+			obj.put("tag", decl.getName());
 			obj.put("type", "globalVariable");
 		}
 		JSONArray modifiers = new JSONArray();
@@ -339,11 +335,11 @@ public class JSONGenerator extends Generator implements Visitor {
 			} else {
 				obj.put("unmangled", false);
 			}
-			obj.put("fullName", decl.getFullName(node));
+			obj.put("fullName", decl.getFullName());
 		}
 		obj.put("varType", resolveType(decl.getType()));
-		if(node.getExpression() != null) /* TODO: make this work for `:=` */
-			obj.put("value", node.getExpression().toString());
+		if(decl.getExpression() != null) /* TODO: make this work for `:=` */
+			obj.put("value", decl.getExpression().toString());
 		else
 			obj.put("value", JSONObject.NULL);
 		return obj;
@@ -392,12 +388,10 @@ public class JSONGenerator extends Generator implements Visitor {
 				}
 			}
 			for(VariableDecl decl: node.getVariables()) {
-				for(VariableDeclAtom atom: decl.getAtoms()) {
-					JSONArray member = new JSONArray();
-					member.put(atom.getName());
-					member.put(buildVariableDeclAtom(decl, atom, node));
-					members.put(member);
-				}
+				JSONArray member = new JSONArray();
+				member.put(decl.getName());
+				member.put(buildVariableDecl(decl, node));
+				members.put(member);
 			}
 			obj.put("members", members);
 			addObject(obj);

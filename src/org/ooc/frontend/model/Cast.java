@@ -76,20 +76,6 @@ public class Cast extends Expression implements MustBeResolved {
 
 	public void setType(Type newType) {
 		this.type = newType;
-		if(type.isGenericRecursive() && inner.getType() != null && inner.getType().isGenericRecursive()) {
-			type = type.clone();
-			TypeDecl dstDecl = (TypeDecl) newType.getRef();
-			Type src = inner.getType();
-			if(dstDecl != null && dstDecl.getTypeParams() != null
-				&& src != null && src.getTypeParams() != null
-				&& dstDecl.getTypeParams().size() != src.getTypeParams().size()) {
-				throw new Error("Invalid cast between types "+dstDecl.getType()+" and "+src);
-			}
-			if(src != null) {
-				type.getTypeParams().clear();
-				type.getTypeParams().addAll(src.getTypeParams());
-			}
-		}
 	}
 	
 	@Override
@@ -237,9 +223,10 @@ public class Cast extends Expression implements MustBeResolved {
 			
 			if(inner instanceof VariableAccess) {
 				inner = ((VariableAccess) inner).getRef();
-				if(inner instanceof VariableDeclFromExpr) {
-					VariableDeclFromExpr vdfe = (VariableDeclFromExpr) inner;
-					inner = vdfe.getAtoms().getFirst().getExpression();
+				if(inner instanceof VariableDecl) {
+					// TODO: this code looks suspicious.
+					VariableDecl vdfe = (VariableDecl) inner;
+					inner = vdfe.getExpression();
 				}
 			}
 			

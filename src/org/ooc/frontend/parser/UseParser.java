@@ -2,12 +2,12 @@ package org.ooc.frontend.parser;
 
 import java.io.IOException;
 
+import org.ooc.frontend.BuildParams;
 import org.ooc.frontend.model.NodeList;
 import org.ooc.frontend.model.Use;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.frontend.model.tokens.TokenReader;
 import org.ooc.frontend.model.tokens.Token.TokenType;
-import org.ooc.frontend.BuildParams;
 import org.ooc.middle.UseDef;
 import org.ubi.CompilationFailedError;
 import org.ubi.SourceReader;

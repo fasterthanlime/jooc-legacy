@@ -182,7 +182,7 @@ public class NodeList<T extends Node> extends Node implements Iterable<T>, Colle
 
 	public void acceptChildren(Visitor visitor) throws IOException {
 		for(int i = 0; i < size; i++) {
-			nodes[i].accept(visitor);
+			if(nodes[i] != null) nodes[i].accept(visitor);
 		}
 	}
 
@@ -352,8 +352,9 @@ public class NodeList<T extends Node> extends Node implements Iterable<T>, Colle
 		return result;
 	}
 
+	@SuppressWarnings("unchecked")
 	public boolean remove(Object o) {
-		return remove(o);
+		return remove((T) o);
 	}
 
 	public boolean removeAll(Collection<?> c) {

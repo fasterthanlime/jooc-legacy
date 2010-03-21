@@ -8,12 +8,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.ooc.frontend.BuildParams;
 import org.ooc.frontend.model.Import;
 import org.ooc.frontend.model.Include;
 import org.ooc.frontend.model.Module;
 import org.ooc.frontend.model.Use;
 import org.ooc.frontend.model.Include.Mode;
-import org.ooc.frontend.BuildParams;
 import org.ooc.frontend.pkgconfig.PkgConfigFrontend;
 import org.ooc.frontend.pkgconfig.PkgInfo;
 import org.ooc.middle.UseDef;

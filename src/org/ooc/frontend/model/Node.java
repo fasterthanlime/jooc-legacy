@@ -21,30 +21,25 @@ public abstract class Node implements Visitable {
 		String nameSeed = nameSeedParam.toLowerCase(); // in case we get things like Tparam
 		int seedNumber = 0;
 		String tmpName = nameSeed;
-		while((getVariable(tmpName, stack) != null) || (getFunction(tmpName, "", null, stack) != null)) {
+		while((getVariable(tmpName, stack, null) != null) || (getFunction(tmpName, "", null, stack) != null)) {
 			seedNumber++;
 			tmpName = nameSeed + seedNumber;
 		}
 		return tmpName;
 	}
 
-	public VariableDecl getVariable(String name, NodeList<Node> stack) {
-		return getVariable(name, stack, stack.find(Scope.class), null);
+	public VariableDecl getVariable(String name, NodeList<Node> stack, VariableAccess victim) {
+		return getVariable(name, stack, victim, stack.find(Scope.class));
 	}
 	
-	public VariableDecl getVariable(String name, NodeList<Node> stack, Node exclude) {
-		return getVariable(name, stack, stack.find(Scope.class), exclude);
-	}
-
-	public VariableDecl getVariable(String name, NodeList<Node> stack, int index, Node exclude) {
+	public VariableDecl getVariable(String name, NodeList<Node> stack, VariableAccess victim, int index) {
 		if(index == -1) return null;
 		
 		VariableDecl varDecl = ((Scope) stack.get(index)).getVariable(name);
 		
-		if(varDecl != null && (exclude == null || varDecl != exclude))
-			return varDecl;
+		if(varDecl != null) return varDecl;
 		
-		return getVariable(name, stack, stack.find(Scope.class, index - 1), exclude);
+		return getVariable(name, stack, victim, stack.find(Scope.class, index - 1));
 	}
 
 	public TypeDecl getType(String name, NodeList<Node> stack) {
@@ -125,7 +120,7 @@ public abstract class Node implements Visitable {
 			Node node = line.getStatement();
 			if(node instanceof VariableDecl) {
 				VariableDecl varDecl = (VariableDecl) node;
-				if(varDecl.hasAtom(name)) return varDecl;
+				if(varDecl.getName().equals(name)) return varDecl;
 			}
 		}			
 		return null;

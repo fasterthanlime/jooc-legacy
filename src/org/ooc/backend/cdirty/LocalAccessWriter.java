@@ -3,9 +3,9 @@ package org.ooc.backend.cdirty;
 import java.io.IOException;
 
 import org.ooc.frontend.model.CoverDecl;
+import org.ooc.frontend.model.FunctionDecl;
 import org.ooc.frontend.model.TypeDecl;
 import org.ooc.frontend.model.TypeParam;
-import org.ooc.frontend.model.FunctionDecl;
 import org.ooc.frontend.model.VariableAccess;
 import org.ooc.frontend.model.VariableDecl;
 
@@ -38,7 +38,7 @@ public class LocalAccessWriter {
 		}
 		if(variableAccess.getRef() instanceof VariableDecl) {
 			VariableDecl ref = (VariableDecl)variableAccess.getRef();
-			cgen.current.app(ref.getFullName(ref.getAtom(variableAccess.getName())));
+			cgen.current.app(ref.getFullName());
 		} else if(variableAccess.getRef() instanceof FunctionDecl) {
 			// closure, man!
 			cgen.current.app(((FunctionDecl)variableAccess.getRef()).getFullName());
