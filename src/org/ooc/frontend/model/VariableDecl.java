@@ -326,7 +326,31 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
             return Response.LOOP;
         }
 		
+		if(type != null) {
+			if(stack.find(VersionBlock.class) != -1 && (stack.size() - stack.find(VersionBlock.class)) == 3) {
+				if(getExpression() != null) {
+					addAfterLine(stack, newAssignment());
+					setExpression(null);
+				}
+				addToModule(stack.getModule());
+				int lineIdx = stack.find(Line.class);
+				Line line = (Line) stack.get(lineIdx);
+				((NodeList<?>) stack.get(lineIdx - 1)).remove(line);
+				return Response.LOOP;
+			}
+			if(getExpression() != null && !getExpression().isConstant() && stack.peek(3) instanceof Module) {
+				System.out.println(this + " is non-constant at root-level!");
+				// FIXME: this is wrong. The order may differ, and other niceties like that.
+				stack.getModule().getLoadFunc().getBody().add(0, new Line(newAssignment()));
+				setExpression(null);
+			}
+		}	
+		
 		return Response.OK;
+	}
+
+	private Assignment newAssignment() {
+		return new Assignment(new VariableAccess(this, startToken), getExpression(), startToken);
 	}
 	
 	public void setVersion(VersionBlock version) {

@@ -443,7 +443,9 @@ public class FunctionCall extends Access implements MustBeResolved {
 				result = (Access) callArg;
 				if(debugCondition()) System.out.println("[getExprParam] callArg type name is 'Class'");
 			} else if(callArg.getType().isGeneric()) {
-				result = new VariableAccess(typeParam, callArg.startToken);
+				VariableAccess varAcc = new VariableAccess(typeParam, callArg.startToken);
+				varAcc.origin = "for function call " + this + "\n" + varAcc.origin;
+				result = varAcc;
 				if(debugCondition()) System.out.println("[getExprParam] callArg type is generic");
 			} else {
 				result = (Access) callArg;

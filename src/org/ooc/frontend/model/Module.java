@@ -206,6 +206,7 @@ public class Module extends Node implements Scope {
 	public VariableDecl getVariable(String name) {
 		VariableDecl varDecl = getVariableInBody(name, body);
 		if (varDecl != null) return varDecl;
+		
 		for(Import imp: globalImports) {
 			varDecl = getVariableInBody(name, imp.getModule().body);
 			if (varDecl != null) return varDecl;
@@ -213,7 +214,7 @@ public class Module extends Node implements Scope {
 		return null;
 	}
 
-	private VariableDecl getVariableInBody(String name, NodeList<Node> list) {
+	private VariableDecl getVariableInBody(String name, NodeList<?> list) {
 		for(Node node: list) {
 			if(node instanceof Line) {
 				node = ((Line) node).getStatement();

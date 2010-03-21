@@ -22,7 +22,7 @@ public class LineParser {
 	
 	static int seedNumber = 1;
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "null" })
 	public static boolean fill(Module module, SourceReader sReader, TokenReader reader, NodeList<Line> body) {
 		
 		int mark = reader.mark();

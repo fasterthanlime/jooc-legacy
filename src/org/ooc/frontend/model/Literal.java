@@ -21,5 +21,10 @@ public abstract class Literal extends Expression implements MustBeResolved {
 		
 		return isResolved() ? Response.OK : Response.LOOP; 
 	}
+	
+	@Override
+	public boolean isConstant() {
+		return true;
+	}
 
 }

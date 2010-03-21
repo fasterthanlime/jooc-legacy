@@ -213,5 +213,10 @@ public class ArrayLiteral extends Literal implements MustBeUnwrapped {
 		sb.append(']');
 		return sb.toString();
 	}
+	
+	@Override
+	public boolean isConstant() {
+		return false;
+	}
 
 }

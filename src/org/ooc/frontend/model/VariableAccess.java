@@ -1,6 +1,8 @@
 package org.ooc.frontend.model;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 import org.ooc.frontend.Levenshtein;
 import org.ooc.frontend.Visitor;
@@ -16,10 +18,15 @@ public class VariableAccess extends Access implements MustBeResolved {
 	
 	private String name;
 	protected Declaration ref;
+	public String origin;
 	
 	public VariableAccess(String variable, Token startToken) {
 		super(startToken);
 		this.name = variable;
+		
+		StringWriter sw = new StringWriter();
+		new Error().printStackTrace(new PrintWriter(sw));
+		this.origin = sw.toString();
 	}
 
 	public VariableAccess(VariableDecl varDecl, Token startToken) {
@@ -192,6 +199,7 @@ public class VariableAccess extends Access implements MustBeResolved {
 				Thread.dumpStack();
 				throw new OocCompilationError(this, stack, message+", btw, stack = "+stack.toString(true));
 			}
+			System.out.println("It was created at "+origin);
 			throw new OocCompilationError(this, stack, message);
 		}
 		

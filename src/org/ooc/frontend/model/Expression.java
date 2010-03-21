@@ -15,5 +15,9 @@ public abstract class Expression extends Statement implements Typed {
 	public Expression getGenericOperand() {
 		return getType().isGeneric() ? this : new AddressOf(this, startToken);
 	}
+	
+	public boolean isConstant() {
+		return false;
+	}
 
 }
