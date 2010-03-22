@@ -1,3 +1,6 @@
 [submodule "tests"]
 	path = tests
 	url = git://github.com/nddrylliog/bootcamp.git
+[submodule "sdk"]
+	path = sdk
+	url = git://github.com/ooc/llamacore.git
