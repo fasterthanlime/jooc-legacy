@@ -91,7 +91,7 @@ public class VersionBlockParser {
 				//System.out.println("Just versioned "+ vs + " to " + block.getVersion());
 				if(stmt instanceof FunctionDecl || stmt instanceof TypeDecl) {
 					stmt.addToModule(module);
-					body.remove(i);
+					body.removeAt(i);
 					i--;
 				}
 			}

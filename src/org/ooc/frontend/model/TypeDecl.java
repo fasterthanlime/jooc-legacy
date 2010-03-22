@@ -24,6 +24,8 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic, Ve
 	
 	protected VariableDecl thisDecl;
 	
+	private boolean finishedGhosting = false;
+	
 	public TypeDecl(String name, Type superType, Module module, Token startToken) {
 		super(name, startToken, module);
 		this.superType = superType;
@@ -155,6 +157,11 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic, Ve
 	}
 	
 	public VariableDecl getVariable(String name) {
+		if(!finishedGhosting) {
+			System.out.println("[KOOLAIDMAYDAY] Haven't finished ghosting yet, refusing to resolve " + name);
+			return null;
+		}
+		
 		String realTypeParam = translateTypeParam(name);
 		
 		if(realTypeParam != null) {
@@ -257,6 +264,14 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic, Ve
 	@Override
 	public Response resolve(NodeList<Node> stack, Resolver res, boolean fatal) {
 		stack.push(this);
+		ghostTypeParams(stack, res, fatal);
+        stack.pop(this);
+		
+		return super.resolve(stack, res, fatal);
+	}
+
+	private Response ghostTypeParams(NodeList<Node> stack, Resolver res, boolean fatal) {
+		if(finishedGhosting) return Response.OK;
 		
 		// remove ghost type arguments
         if(superType != null) {
@@ -277,9 +292,13 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic, Ve
                 for(TypeParam typeArg: typeParams.values()) {
                     for(TypeParam candidate: sTypeRef.getTypeParams().values()) {
                         if(typeArg.getName().equals(candidate.getName())) {
-                            if(variables.remove(getVariable(typeArg.getName()))) {
-                            	System.out.println("[KALAMAZOO] Removing duplicate typeArg "+typeArg.getName()+" in "+this+" cause it's in "+sTypeRef);
-                            }
+                        	for(int i = 0; i < variables.size(); i++) {
+                        		if(variables.get(i).getName().equals(typeArg.getName())) {
+                        			variables.removeAt(i);
+                        			System.out.println("[KALAMAZOO] Removing duplicate typeArg "+typeArg.getName()+" in "+this+" cause it's in "+sTypeRef);
+                        			break;
+                        		}
+                        	}
                         }
                     }
                 }
@@ -287,9 +306,9 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic, Ve
             }
         }
         
-        stack.pop(this);
-		
-		return super.resolve(stack, res, fatal);
+        finishedGhosting = true;
+        return Response.OK;
+        
 	}
 	
 	@Override

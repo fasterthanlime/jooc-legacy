@@ -80,7 +80,7 @@ public class NodeList<T extends Node> extends Node implements Iterable<T>, Colle
 		return false;
 	}
 	
-	public T remove(int index) {
+	public T removeAt(int index) {
 		T o = nodes[index];
         fastRemove(index);
         return o;
@@ -170,7 +170,7 @@ public class NodeList<T extends Node> extends Node implements Iterable<T>, Colle
 			}
 
 			public void remove() {
-				NodeList.this.remove(index);
+				NodeList.this.removeAt(index);
 			}
 			
 		};

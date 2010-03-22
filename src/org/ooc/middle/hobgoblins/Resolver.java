@@ -27,7 +27,6 @@ public class Resolver implements Hobgoblin {
 	
 	public BuildParams params;
 	public Module module;
-	
 	private int ghostingCount = 1;
 	
 	public boolean process(Module module, final BuildParams params) throws IOException {
