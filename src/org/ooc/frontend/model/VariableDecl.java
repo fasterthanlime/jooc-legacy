@@ -339,7 +339,6 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 				return Response.LOOP;
 			}
 			if(getExpression() != null && !getExpression().isConstant() && stack.peek(3) instanceof Module) {
-				System.out.println(this + " is non-constant at root-level!");
 				// FIXME: this is wrong. The order may differ, and other niceties like that.
 				stack.getModule().getLoadFunc().getBody().add(0, new Line(newAssignment()));
 				setExpression(null);

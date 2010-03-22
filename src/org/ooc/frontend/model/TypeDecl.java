@@ -158,14 +158,12 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic, Ve
 	
 	public VariableDecl getVariable(String name) {
 		if(!finishedGhosting) {
-			System.out.println("[KOOLAIDMAYDAY] Haven't finished ghosting yet, refusing to resolve " + name);
 			return null;
 		}
 		
 		String realTypeParam = translateTypeParam(name);
 		
 		if(realTypeParam != null) {
-			//System.out.println("[KALAMAZOO]  "+name+" => "+realTypeParam+" in type "+this);
 			return getVariable(realTypeParam);
 		}
 		
@@ -295,7 +293,6 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic, Ve
                         	for(int i = 0; i < variables.size(); i++) {
                         		if(variables.get(i).getName().equals(typeArg.getName())) {
                         			variables.removeAt(i);
-                        			System.out.println("[KALAMAZOO] Removing duplicate typeArg "+typeArg.getName()+" in "+this+" cause it's in "+sTypeRef);
                         			break;
                         		}
                         	}
