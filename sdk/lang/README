@@ -1,6 +1,0 @@
-lang package rules:
-  - All modules in lang/ are imported by default in every other module
-
-Note: defining covers twice (or more!) is never a problem for the ooc compiler.
-The second, third, etc. definitions aren't allowed to add members / change the
-from-type, but may be used to add functions.
