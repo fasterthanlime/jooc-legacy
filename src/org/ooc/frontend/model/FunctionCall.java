@@ -36,6 +36,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 		this.impl = null;
 		this.returnArg = null;
 		this.realType = null;
+		if(name.equals("super")) setSuperCall(true);
 	}
 	
 	public FunctionCall(FunctionDecl func, Token startToken) {
@@ -154,13 +155,21 @@ public class FunctionCall extends Access implements MustBeResolved {
 		if(dead) return Response.OK;
 		
 		if(impl == null) {
+			Response response;
 			if (name.equals("this")) {
-				resolveConstructorCall(stack, false);
+				response = resolveConstructorCall(stack, res, false);
 			} else if (name.equals("super")) {
-				resolveConstructorCall(stack, true);
+				response = resolveConstructorCall(stack, res, true);
 			}  else {
-				Response response = resolveRegular(stack, res, fatal);
-				if(response != Response.OK) return response;
+				response = resolveRegular(stack, res, fatal);
+			}
+			if(response != Response.OK) return response;
+		}
+		
+		if(impl != null) {
+			if(impl.isMember()) {
+				turnIntoMemberCall(stack, res);
+				return Response.LOOP;
 			}
 		}
 	
@@ -530,7 +539,7 @@ public class FunctionCall extends Access implements MustBeResolved {
 		
 	}
 
-	protected void resolveConstructorCall(final NodeList<Node> mainStack, final boolean isSuper) throws OocCompilationError {
+	protected Response resolveConstructorCall(final NodeList<Node> mainStack, Resolver res, final boolean isSuper) throws OocCompilationError {
 		
 		int typeIndex = mainStack.find(TypeDecl.class);
 		if(typeIndex == -1) {
@@ -551,14 +560,20 @@ public class FunctionCall extends Access implements MustBeResolved {
 			typeDecl = classDecl.getSuperRef();
 		}
 		
-		for(FunctionDecl decl: typeDecl.getFunctions()) {
-			if(decl.getName().equals("init") && (suffix == null || decl.getSuffix().equals(suffix))) {
-				if(matchesArgs(decl)) {
-					impl = decl;
-					return;
-				}
-			}
+		int funcIndex = mainStack.find(FunctionDecl.class);
+		if(funcIndex == -1) {
+			throw new OocCompilationError(this, mainStack, (isSuper ? "super" : "this")
+					+getArgsRepr()+" call outside a function declaration, doesn't make sense.");
 		}
+		
+		FunctionDecl outDecl = (FunctionDecl) mainStack.get(funcIndex);
+		impl = typeDecl.getFunction(outDecl.getName(), null, this);
+		if(impl != null) {
+			setName(impl.getName());
+			turnIntoMemberCall(mainStack, res);
+			return Response.LOOP;
+		}
+		return Response.OK;
 		
 	}
 	
@@ -614,14 +629,6 @@ public class FunctionCall extends Access implements MustBeResolved {
 				}
 			}
 		}
-
-		if(impl != null) {
-			if(impl.isMember()) {
-				turnIntoMemberCall(stack, res);
-				//return Response.RESTART;
-				return Response.LOOP;
-			}
-		}
 		
 		return Response.OK;
 		
@@ -637,7 +644,10 @@ public class FunctionCall extends Access implements MustBeResolved {
 			memberCall = new MemberCall(thisAccess, this, startToken);
 		}
 		memberCall.setImpl(impl);
-		memberCall.setSuperCall(superCall);
+		memberCall.setSuperCall(isSuperCall());
+		if(name.equals("super")) {
+			System.out.println("KALAMAZOO just replaced " + this + " memberCall " + memberCall + ", isSuper = "+memberCall.isSuperCall());
+		}
 		stack.peek().replace(this, memberCall);
 		this.dead = true;
 	}

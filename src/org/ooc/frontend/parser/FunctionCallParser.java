@@ -5,6 +5,7 @@ import org.ooc.frontend.model.Module;
 import org.ooc.frontend.model.tokens.Token;
 import org.ooc.frontend.model.tokens.TokenReader;
 import org.ooc.frontend.model.tokens.Token.TokenType;
+import org.ooc.middle.OocCompilationError;
 import org.ubi.CompilationFailedError;
 import org.ubi.SourceReader;
 
@@ -41,7 +42,10 @@ public class FunctionCallParser {
 		}
 
 		FunctionCall call = new FunctionCall(name, suffix, tName);
-		if(superCall) call.setSuperCall(true);
+		if(superCall) {
+			throw new OocCompilationError(call, module, "Use of deprecated super-function call syntax.");
+			//call.setSuperCall(true);
+		}
 		
 		if(!ExpressionListFiller.fill(module, sReader, reader, call.getArguments())) {
 			reader.reset(mark);

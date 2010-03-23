@@ -26,9 +26,9 @@ public class CallWriter {
 	public static FunctionCall bypassPrelude = null;
 	
 	public static void write(FunctionCall functionCall, CGenerator cgen) throws IOException {
-
+		
 		if(functionCall.isSuperCall()) {
-			System.out.println(functionCall+" is super-call");
+			System.out.println("Function call "+functionCall+" is super-call");
 		}
 		
 		FunctionDecl impl = functionCall.getImpl();
@@ -189,6 +189,10 @@ public class CallWriter {
 	}
 
 	public static void writeMember(MemberCall memberCall, CGenerator cgen) throws IOException {
+		
+		if(memberCall.isSuperCall()) {
+			System.out.println("Member call "+memberCall+" is super-call");
+		}
 		
 		FunctionDecl impl = memberCall.getImpl();
 		writePrelude(cgen, impl, memberCall);
