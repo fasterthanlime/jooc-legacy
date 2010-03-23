@@ -110,6 +110,7 @@ public class MemberCall extends FunctionCall {
 			}
 			return Response.LOOP;
 		}
+		
 		Declaration decl = exprType.getRef();
 		if(!(decl instanceof TypeDecl)) {
 			throw new OocCompilationError(this, stack, 
@@ -118,7 +119,10 @@ public class MemberCall extends FunctionCall {
 		}
 
 		TypeDecl typeDeclaration = (TypeDecl) decl;
-		impl = typeDeclaration.getFunction(this);
+		
+		if(impl == null) {
+			impl = typeDeclaration.getFunction(this);
+		}
 		
 		if(impl == null) {
 			for(VariableDecl varDecl: typeDeclaration.getVariables()) {

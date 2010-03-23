@@ -26,11 +26,7 @@ public class CallWriter {
 	public static FunctionCall bypassPrelude = null;
 	
 	public static void write(FunctionCall functionCall, CGenerator cgen) throws IOException {
-		
-		if(functionCall.isSuperCall()) {
-			System.out.println("Function call "+functionCall+" is super-call");
-		}
-		
+
 		FunctionDecl impl = functionCall.getImpl();
 		writePrelude(cgen, impl, functionCall);
 		
@@ -189,9 +185,9 @@ public class CallWriter {
 	}
 
 	public static void writeMember(MemberCall memberCall, CGenerator cgen) throws IOException {
-		
+
 		if(memberCall.isSuperCall()) {
-			System.out.println("Member call "+memberCall+" is super-call");
+			System.out.println("[KALAMAZOO] member call "+memberCall+", is super call, impl = "+memberCall.getImpl());
 		}
 		
 		FunctionDecl impl = memberCall.getImpl();
@@ -215,7 +211,7 @@ public class CallWriter {
 			cgen.current.app(memberCall.getName());
 		} else {
 			if(memberCall.isSuperCall()) {
-				cgen.current.append(impl.getTypeDecl().getSuperRef().getUnderName());
+				cgen.current.append(impl.getTypeDecl().getUnderName());
 				cgen.current.append("_");
 				cgen.current.app(memberCall.getName());
 				cgen.current.append("_impl");
