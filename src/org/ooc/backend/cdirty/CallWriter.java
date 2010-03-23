@@ -187,7 +187,7 @@ public class CallWriter {
 	public static void writeMember(MemberCall memberCall, CGenerator cgen) throws IOException {
 
 		if(memberCall.isSuperCall()) {
-			System.out.println("[KALAMAZOO] member call "+memberCall+", is super call, impl = "+memberCall.getImpl());
+			System.out.println("[KALAMAZOO] member call "+memberCall.getExpression().getType()+"->"+memberCall+", is super call, impl = "+memberCall.getImpl());
 		}
 		
 		FunctionDecl impl = memberCall.getImpl();
@@ -213,7 +213,7 @@ public class CallWriter {
 			if(memberCall.isSuperCall()) {
 				cgen.current.append(impl.getTypeDecl().getUnderName());
 				cgen.current.append("_");
-				cgen.current.app(memberCall.getName());
+				cgen.current.app(memberCall.getImpl().getSuffixedName());
 				cgen.current.append("_impl");
 			} else {
 				impl.writeFullName(cgen.current);
