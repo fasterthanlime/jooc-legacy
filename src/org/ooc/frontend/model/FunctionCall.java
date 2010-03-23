@@ -569,7 +569,6 @@ public class FunctionCall extends Access implements MustBeResolved {
 		FunctionDecl outDecl = (FunctionDecl) mainStack.get(funcIndex);
 		impl = typeDecl.getFunction(outDecl.getName(), getSuffix(), this);
 		if(impl != null) {
-			System.out.println("[KALAMAZOO] Found impl "+impl+" in typeDecl "+typeDecl+", outDecl = "+outDecl+", suffix = "+suffix);
 			setName(impl.getName());
 			turnIntoMemberCall(mainStack, res);
 			return Response.LOOP;

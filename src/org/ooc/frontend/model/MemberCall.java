@@ -120,7 +120,8 @@ public class MemberCall extends FunctionCall {
 
 		TypeDecl typeDeclaration = (TypeDecl) decl;
 		
-		if(impl == null) {
+		if(!isSuperCall()) {
+			// try to get a better match if we're not super (super means we already got a good impl we don't wanna touch)
 			impl = typeDeclaration.getFunction(this);
 		}
 		
