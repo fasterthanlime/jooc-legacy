@@ -115,13 +115,15 @@ public class VariableAccess extends Access implements MustBeResolved {
 			VariableDecl varDecl = getVariable(name, stack, this);
 			if(varDecl != null) {
 				if(varDecl.isMember()) {
+					if(varDecl.isStatic()) {
+						throw new OocCompilationError(this, stack, "KABOOM. Unqualified static variable access is forbidden now. Clear code, we said.");
+					}
 					VariableAccess thisAccess = new VariableAccess("this", startToken);
 					MemberAccess membAcc =  new MemberAccess(thisAccess, name, startToken);
 					membAcc.resolve(stack, res, fatal);
 					if(!stack.peek().replace(VariableAccess.this, membAcc)) {
 						throw new Error("Couldn't replace a VariableAccess with a MemberAccess! stack = "+stack.toString(true));
 					}
-					//return Response.RESTART;
 					return Response.LOOP;
 				}
 				ref = varDecl;
@@ -175,14 +177,6 @@ public class VariableAccess extends Access implements MustBeResolved {
 				//return Response.RESTART;
 			}
 		}
-		
-		/*
-		TypeParam genType = getTypeParam(stack, name);
-		if(genType != null) {
-			ref = genType.getArgument();
-			return Response.OK;
-		}
-	`	*/
 		
 		ref = getType(name, stack);
 		if(ref != null) return Response.OK;
