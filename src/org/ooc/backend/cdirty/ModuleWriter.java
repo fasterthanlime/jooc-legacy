@@ -80,10 +80,12 @@ public class ModuleWriter {
 			}
 		}
 		
+        // write all includes
 		for(Include include: module.getIncludes()) {
 			IncludeWriter.write(include, cgen);
 		}
 		
+        // write all type forward-declarations
 		for(TypeDecl node: module.getTypes().values()) {
 			if(node instanceof ClassDecl) {
 				ClassDecl classDecl = (ClassDecl) node;
@@ -98,7 +100,7 @@ public class ModuleWriter {
 		
 		cgen.current = cgen.fw;
 		
-		// foward-include .c-level imports (which doesn't contain types we extend)
+		// forward-include .c-level imports (which doesn't contain types we extend)
 		for(Import imp: looseImports) {
 			String include = imp.getModule().getOutPath('/');
 			cgen.current.nl().app("#include <").app(include).app("-fwd.h>");

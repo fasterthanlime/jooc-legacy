@@ -223,6 +223,9 @@ public class MemberCall extends FunctionCall {
 					for(TypeParam candidate: typeParams.values()) {
 						i++;
 						if(candidate.getName().equals(needle)) {
+							if(i >= type.getTypeParams().size()) {
+								throw new OocCompilationError(type, stack, "Missing type parameters for type "+type+", must match "+ref);
+							}
 							Access result = type.getTypeParams().get(i);
 							if(result != null && result.getType() != null) {
 								return result;
