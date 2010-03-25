@@ -20,7 +20,6 @@ import org.ooc.utils.ProcessUtils;
 public class SequenceDriver extends Driver {
 
 	int finalCode;
-	int count;
 	
 	public SequenceDriver(BuildParams params) {
 		super(params);
