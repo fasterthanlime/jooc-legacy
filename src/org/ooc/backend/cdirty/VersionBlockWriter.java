@@ -36,9 +36,9 @@ public class VersionBlockWriter {
 			
 			public void visit(VersionNegation versionNegation) throws IOException {
 				cgen.current.app("(");
-				cgen.current.app('!');
+				cgen.current.app("!(");
 				versionNegation.getInner().accept(this);
-				cgen.current.app(")");
+				cgen.current.app("))");
 			}
 			
 			public void visit(VersionName versionName) throws IOException {
