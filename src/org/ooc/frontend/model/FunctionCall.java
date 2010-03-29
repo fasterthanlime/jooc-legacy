@@ -157,7 +157,9 @@ public class FunctionCall extends Access implements MustBeResolved {
 		if(impl == null) {
 			Response response;
 			if (name.equals("this")) {
-				response = resolveConstructorCall(stack, res, false);
+				int fDeclIndex = stack.find(FunctionDecl.class);
+				FunctionDecl fDecl = (FunctionDecl) stack.get(fDeclIndex);
+				throw new OocCompilationError(this, stack, "this calls are deprecated now. Just use "+fDecl.getName());
 			} else if (name.equals("super")) {
 				response = resolveConstructorCall(stack, res, true);
 			}  else {

@@ -111,7 +111,12 @@ public class VariableDeclWriter {
 			if(vDecl.getExpression() != null) {
 				cgen.current.app(" = ");
 				vDecl.getExpression().accept(cgen);
-			}
+			}/* else if(vDecl.getType().getClassification() == Type.Classification.NUMBER && vDecl.getType().isFlat()) {
+				cgen.current.app(" = 0");
+			} else if(vDecl.getType().getClassification() == Type.Classification.POINTER && !vDecl.getType().isArray()) {
+				cgen.current.app(" = NULL");
+			}*/
+			// FIXME: currently breaks os/Time, but is interesting nonetheless..
 		}
 	}
 	
