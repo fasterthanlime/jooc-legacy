@@ -19,7 +19,7 @@ public class ExternParser {
 				Token nameToken = reader.read();
 				externName = nameToken.get(sReader);
 				if(reader.read().type != TokenType.CLOS_PAREN) {
-					throw new CompilationFailedError(null,
+					throw new CompilationFailedError(sReader.getLocation(reader.prev()),
 							"Expected closing parenthesis after extern specification, but got "+reader.peek());
 				}
 			} else {
