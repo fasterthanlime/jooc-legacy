@@ -270,10 +270,12 @@ public class VariableDecl extends Declaration implements MustBeUnwrapped, Potent
 		if(!isArg() && expression != null && expression.getType() != null && expression.getType().isGeneric()) {
 			setExpression(new Cast(expression, getType(), expression.startToken));
 		}
-		for(int i = 0; i < RESERVED_NAMES.length; i++) {
-			if(RESERVED_NAMES[i].equals(name)) {
-			 throw new OocCompilationError(this, stack, "'"+name
-				+"' is a reserved keyword in C99, you can't declare something with that name.");
+		if(!isExternWithName()) {
+			for(int i = 0; i < RESERVED_NAMES.length; i++) {
+				if(RESERVED_NAMES[i].equals(name)) {
+					throw new OocCompilationError(this, stack, "'"+name
+							+"' is a reserved keyword in C99, you can't declare something with that name.");
+				}
 			}
 		}
 		
