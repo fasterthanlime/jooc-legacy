@@ -292,7 +292,7 @@ public final class Token implements Locatable {
 	}
 
 	public boolean isNameToken() {
-		return type == TokenType.NAME || type == TokenType.CLASS_KW || type == TokenType.IN_KW;
+		return type == TokenType.NAME || type == TokenType.CLASS_KW || type == TokenType.IN_KW || type == TokenType.STRUCT;
 	}
 	
 }
