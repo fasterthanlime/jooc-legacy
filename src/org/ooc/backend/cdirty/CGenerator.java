@@ -403,9 +403,11 @@ public class CGenerator extends Generator implements Visitor {
 	
 	public void visit(ArrayLiteral arrayLiteral) throws IOException {
 		current.app("(");
-		if(arrayLiteral.getType().getName().equals("String")) {
-			// FIXME that's an awful workaround. j/ooc's handling of types is broken anyway.
-			current.app("char*[]");
+		
+		Type groundType = arrayLiteral.getType().getGroundType();
+		if(groundType.getPointerLevel() == 2) {
+			// awful workaround for array of pointers (e.g. string arrays) - j/ooc's handling of types is broken anyway.
+			current.app(groundType.getName()).app("*[]");
 		} else {
 			arrayLiteral.getType().accept(this);
 		}

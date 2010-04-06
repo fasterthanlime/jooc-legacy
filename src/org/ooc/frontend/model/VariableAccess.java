@@ -237,5 +237,10 @@ public class VariableAccess extends Access implements MustBeResolved {
 	public boolean canBeReferenced() {
 		return true;
 	}
+	
+	@Override
+	public boolean isConstant() {
+		return true;
+	}
 
 }

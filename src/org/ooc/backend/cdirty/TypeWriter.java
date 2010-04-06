@@ -95,7 +95,7 @@ public class TypeWriter {
 		}
 		// no-VLA workaround.
 		if(type.isArray() && type.getArraySize() != null
-				&& !(type.getArraySize() instanceof Literal)  && (cgen.params.compiler == null || !cgen.params.compiler.supportsVLAs())) {
+				&& !(type.getArraySize().isConstant())  && (cgen.params.compiler == null || !cgen.params.compiler.supportsVLAs())) {
 			cgen.current.app("*");
 		}
 	}
@@ -122,12 +122,12 @@ public class TypeWriter {
 						cgen.current.app(")");
 					}
 				} else {
-					cgen.current.app("[");
+					cgen.current.app('[');
 					if(arrLit != null) {
 						cgen.current.app(String.valueOf(arrLit.getElements().size()));
 						if(i + 1 < level) arrLit = (ArrayLiteral) arrLit.getElements().getFirst();
 					}
-					cgen.current.app("]");
+					cgen.current.app(']');
 				}
 			} else {
 				cgen.current.app("*");

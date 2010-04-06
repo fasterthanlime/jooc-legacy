@@ -216,7 +216,14 @@ public class ArrayLiteral extends Literal implements MustBeUnwrapped {
 	
 	@Override
 	public boolean isConstant() {
-		return false;
+		boolean isConstant = true;
+		for(Expression element : elements) {
+			if(!element.isConstant()) {
+				isConstant = false;
+				break;
+			}
+		}
+		return isConstant;
 	}
 
 }

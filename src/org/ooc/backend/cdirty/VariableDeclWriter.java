@@ -70,24 +70,30 @@ public class VariableDeclWriter {
 			TypeDecl typeDecl = variableDecl.getTypeDecl();
 			if(isStatic && (typeDecl == null)) cgen.current.append("static ");
 			
-			if(!type.isArray()) {
-				boolean isConst = type.isConst();
-				type.setConst(false);
-				TypeWriter.writeSpaced(type, cgen);
-				type.setConst(isConst);
-			} else {
+			Expression varExpr = variableDecl.getExpression();
+			if(type.isArray() || variableDecl.getExpression() instanceof ArrayLiteral) {
+				
+				if(varExpr instanceof ArrayLiteral) {
+					type = type.clone();
+					type.setArray(false);
+					type.setPointerLevel(type.getPointerLevel() + 1);
+				}
+				
 				Type ground = type.getGroundType().clone();
-				Expression firstExpr = variableDecl.getExpression();
-				if(firstExpr instanceof ArrayLiteral) {
-					ArrayLiteral lit = (ArrayLiteral) firstExpr;
+				if(varExpr instanceof ArrayLiteral) {
+					ArrayLiteral lit = (ArrayLiteral) varExpr;
 					ground.setPointerLevel(ground.getPointerLevel() - lit.getDepth());
-					//System.out.println("depointerized of "+lit.getDepth());
 				} else {
 					ground.setPointerLevel(ground.getPointerLevel() - 1);
 				}
 				TypeWriter.write(ground, cgen, true, false);
 				TypeWriter.writeFinale(ground, cgen);
 				cgen.current.app(' ');
+			} else {
+				boolean isConst = type.isConst();
+				type.setConst(false);
+				TypeWriter.writeSpaced(type, cgen);
+				type.setConst(isConst);
 			}
 			
 			if(type.isArray()) {

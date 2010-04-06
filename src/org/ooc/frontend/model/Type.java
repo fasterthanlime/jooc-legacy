@@ -422,6 +422,7 @@ public class Type extends Node implements MustBeResolved {
 		Type clone = new Type(name, pointerLevel, referenceLevel, startToken);
 		clone.ref = ref;
 		clone.isArray = isArray;
+		clone.arraySize = arraySize;
 		clone.isConst = isConst;
 		clone.typeParams.addAll(typeParams);
 		return clone;
