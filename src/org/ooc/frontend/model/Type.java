@@ -1,8 +1,6 @@
 package org.ooc.frontend.model;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.Iterator;
 
 import org.ooc.frontend.Visitor;
@@ -32,8 +30,6 @@ public class Type extends Node implements MustBeResolved {
 	protected NodeList<Access> typeParams;
 	private boolean isConst = false;
 	//private String origin;
-
-	private String origin;
 	
 	private static Type voidType = null;
 	
@@ -60,9 +56,9 @@ public class Type extends Node implements MustBeResolved {
 		this.typeParams = new NodeList<Access>(startToken);
 		this.namespace = null;
 		
-		StringWriter sw = new StringWriter();
-		new Exception().printStackTrace(new PrintWriter(sw));
-		this.origin = sw.toString();
+		//StringWriter sw = new StringWriter();
+		//new Exception().printStackTrace(new PrintWriter(sw));
+		//this.origin = sw.toString();
 	}
 
 	public String getNamespace() {
@@ -248,7 +244,6 @@ public class Type extends Node implements MustBeResolved {
 		}
 		
 		if(ref == null && fatal) {
-			System.out.println(origin);
 			if(res.params.veryVerbose) {
 				Thread.dumpStack();
 				throw new OocCompilationError(this, stack, "Couldn't resolve type "
