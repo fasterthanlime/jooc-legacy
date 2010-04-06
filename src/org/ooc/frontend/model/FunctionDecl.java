@@ -292,7 +292,7 @@ public class FunctionDecl extends Declaration implements Scope, Generic, MustBeU
 	}
 
 	public boolean isEntryPoint(BuildParams params) {
-		return name.equals(params.entryPoint);
+		return !isMember() && name.equals(params.entryPoint);
 	}
 
 	public VariableDecl getVariable(String name) {
