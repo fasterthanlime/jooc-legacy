@@ -145,7 +145,7 @@ public class ArrayLiteral extends Literal implements MustBeUnwrapped {
 				}
 			}
 
-			this.type = new Type(innerType.name, innerType.pointerLevel + 1, startToken);
+			this.type = new Type(innerType.name.equals("Func") ? "Pointer" : innerType.name, innerType.pointerLevel + 1, startToken);
 			type.getTypeParams().addAll(innerType.getTypeParams());
 			type.setArray(true);
 			stack.push(this);
