@@ -110,7 +110,9 @@ public abstract class Driver {
 		
 		if(usesDone.contains(useDef)) return;
 		usesDone.add(useDef);
-		compileNasms(useDef.getLibs(), flagsDone);
+		if(doLinking) {
+			compileNasms(useDef.getLibs(), flagsDone);
+		}
 		
 		for(String pkg: useDef.getPkgs()) {
 			PkgInfo info = PkgConfigFrontend.getInfo(pkg);
