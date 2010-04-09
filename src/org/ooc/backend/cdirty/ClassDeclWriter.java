@@ -71,7 +71,7 @@ public class ClassDeclWriter {
 		for (FunctionDecl decl : cDecl.getFunctions()) {
             cgen.current = cgen.cw;
 
-			if (!decl.isStatic() || (decl.isExternWithName())) {
+			if (!decl.isStatic() || (decl.isExternWithName()) || decl.isExtern()) {
 				if(decl.isExternWithName()) {
 					FunctionDeclWriter.write(decl, cgen);
 				}
