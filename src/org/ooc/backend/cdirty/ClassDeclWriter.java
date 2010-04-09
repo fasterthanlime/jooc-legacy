@@ -71,8 +71,8 @@ public class ClassDeclWriter {
 		for (FunctionDecl decl : cDecl.getFunctions()) {
             cgen.current = cgen.cw;
 
-			if (!decl.isStatic() || (decl.isExternWithName()) || decl.isExtern()) {
-				if(decl.isExternWithName()) {
+			if (!decl.isStatic() || decl.isExtern()) {
+				if(decl.isExtern()) {
 					FunctionDeclWriter.write(decl, cgen);
 				}
 				continue;
@@ -248,8 +248,8 @@ public class ClassDeclWriter {
 
 		cgen.current.nl().app(CLASS_NAME).app(" *").app(classDecl.getUnderName()).app("_class();").nl();
 		for (FunctionDecl decl : classDecl.getFunctions()) {
-			
-			if(decl.isExternWithName()) {
+
+			if(decl.isExtern()) {
 				continue;
 			}
 			
