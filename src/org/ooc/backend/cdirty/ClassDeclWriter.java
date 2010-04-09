@@ -69,6 +69,7 @@ public class ClassDeclWriter {
 	public static void writeStaticFuncs(ClassDecl cDecl, CGenerator cgen) throws IOException {
 
 		for (FunctionDecl decl : cDecl.getFunctions()) {
+            cgen.current = cgen.cw;
 
 			if (!decl.isStatic() || (decl.isExternWithName())) {
 				if(decl.isExternWithName()) {
