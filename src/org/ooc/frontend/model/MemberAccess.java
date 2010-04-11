@@ -222,8 +222,8 @@ public class MemberAccess extends VariableAccess {
 
 		if(expression instanceof VariableAccess
 				&& ((VariableAccess) expression).getRef() instanceof TypeDecl
-				&& (getName().equals("size") || getName().equals("super")
-						 || getName().equals("name"))) {
+				&& (getName().equals("size") || getName().equals("instanceSize")
+				 || getName().equals("super") || getName().equals("name"))) {
 			if(!exprType.getName().equals("Class")) {
 				MemberAccess membAcc = new MemberAccess(expression, "class", startToken);
 				this.expression = membAcc;

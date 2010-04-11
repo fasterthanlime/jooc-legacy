@@ -204,14 +204,6 @@ public abstract class TypeDecl extends Declaration implements Scope, Generic, Ve
 		return null;
 	}
 
-	public FunctionDecl getNoargFunction(String name) {
-		for(FunctionDecl decl: functions) {
-			if(name.matches(decl.getName()) && decl.getArguments().size() == 1) return decl;
-		}
-		
-		return null;
-	}
-	
 	public void acceptChildren(Visitor visitor) throws IOException {
 		if(superType != null) superType.accept(visitor);
 		for(TypeParam genType: typeParams.values()) {
