@@ -203,7 +203,7 @@ public class ClassDecl extends TypeDecl {
 				args.add(destroyAccess); // call the finalizer
 				
 				NullLiteral nil = new NullLiteral(finalizer.startToken);
-				args.add(nil); // cd (no argument to apss)
+				args.add(nil); // cd (no argument to pass)
 				args.add(nil); // ofn (we don't care)
 				args.add(nil); // ocd (we don't care)
 				
